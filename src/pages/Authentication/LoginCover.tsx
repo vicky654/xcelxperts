@@ -30,9 +30,57 @@ const LoginCover = () => {
         }
     };
     const [flag, setFlag] = useState(themeConfig.locale);
+    const baseUrl = import.meta.env.REACT_APP_BASE_URL;
 
-    const submitForm = () => {
-        navigate('/');
+    const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        const emailInput = event.currentTarget.elements.namedItem('Email') as HTMLInputElement | null;
+        const passwordInput = event.currentTarget.elements.namedItem('Password') as HTMLInputElement | null;
+        const subscribeNewsletter = (event.currentTarget.elements.namedItem('Newsletter') as HTMLInputElement)?.checked; // Check if newsletter checkbox is checked
+
+        const requestBody = {
+            email: emailInput?.value, // Get email from form input
+            password: passwordInput?.value, // Get password from form input
+            subscribeNewsletter: subscribeNewsletter,
+        };
+
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody), // Send request body as JSON
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data) {
+                // Handle successful response
+                localStorage.setItem('token', data?.data?.access_token);
+                localStorage.setItem('superiorId', data?.data?.superiorId);
+                localStorage.setItem('superiorRole', data?.data?.superiorRole);
+                localStorage.setItem('role', data?.data?.role);
+                localStorage.setItem('auto_logout', data?.data?.auto_logout);
+                localStorage.setItem('authToken', data?.data?.token);
+
+                if (data?.data?.is_verified === true) {
+                    navigate(data?.data?.route);
+                } else if (data?.data?.is_verified === false) {
+                    navigate('/validateOtp');
+                }
+
+                // localStorage.setItem('justLoggedIn', true);
+            } else {
+                // Handle error response
+                console.error('Error:', data?.message);
+            }
+        } catch (error) {
+            // Handle fetch error
+            console.error('Fetch Error:', error);
+        }
     };
 
     return (
