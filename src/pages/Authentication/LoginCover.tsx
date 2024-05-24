@@ -30,7 +30,7 @@ const LoginCover = () => {
         }
     };
     const [flag, setFlag] = useState(themeConfig.locale);
-    const baseUrl = import.meta.env.REACT_APP_BASE_URL;
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission behavior
@@ -47,7 +47,7 @@ const LoginCover = () => {
 
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
+            const response = await fetch(`${baseUrl}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +67,8 @@ const LoginCover = () => {
                 localStorage.setItem('authToken', data?.data?.token);
 
                 if (data?.data?.is_verified === true) {
-                    navigate(data?.data?.route);
+                    // navigate(data?.data?.route);
+                    navigate("/");
                 } else if (data?.data?.is_verified === false) {
                     navigate('/validateOtp');
                 }

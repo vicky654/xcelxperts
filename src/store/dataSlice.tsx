@@ -27,8 +27,7 @@ const initialState: DataState = {
 // };
 
 // Create an asynchronous thunk to fetch the API data
-// const baseUrl = process.env.REACT_APP_BASE_URL;
-const baseUrl = import.meta.env.REACT_APP_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 export const fetchData = createAsyncThunk(
     "data/fetchData",
     async (_, thunkAPI) => {

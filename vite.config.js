@@ -1,4 +1,9 @@
-export default {
-    base: import.meta.env.BASE_URL,
-    plugins: [],
-};
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [react()],
+    define: {
+        'process.env': process.env
+    }
+});
