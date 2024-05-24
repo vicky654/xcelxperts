@@ -10,7 +10,9 @@ const finalRoutes = routes.map((route) => {
         ...route,
         element: route.layout === 'blank'
             ? <BlankLayout>{route.element}</BlankLayout>
-            : <PrivateRouter><DefaultLayout>{route.element}</DefaultLayout></PrivateRouter>,
+            : <PrivateRouter><DefaultLayout>{route.element}
+                {/* withApiHandler({route.element}) */}
+            </DefaultLayout></PrivateRouter>,
     };
 });
 

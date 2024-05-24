@@ -20,16 +20,51 @@ import IconBolt from '../components/Icon/IconBolt';
 import IconCaretDown from '../components/Icon/IconCaretDown';
 import IconPlus from '../components/Icon/IconPlus';
 import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRight';
+import withApiHandler from '../utils/withApiHandler';
+import { handleError, showMessage } from '../utils/errorHandler';
+import { AxiosError } from 'axios';
+import { string } from 'yup/lib/locale';
 
-const Index = () => {
+
+interface IndexProps {
+    isLoading: boolean; // Define the type of the loading prop
+    fetchedData: any; // Define the type of the fetchedData prop
+    getData: (url: string, id?: string, params?: any) => Promise<any>;
+}
+
+
+const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
+
+
+    useEffect(() => {
+        FetchDropDownData();
+    }, []); // Empty dependency array ensures this useEffect runs only once, on component mount
+
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
     const [loading] = useState(false);
+
+
+    const FetchDropDownData = async () => {
+        try {
+            const response = await getData(`/common-data`);
+
+            if (response && response.data && response.data.data) {
+                // setDashboardWidgetsData(response?.data?.data);
+            } else {
+                throw new Error("No data available in the response");
+            }
+        } catch (error) {
+            console.error("API error:", error);
+        }
+    };
+
+
 
     //Revenue Chart
     const revenueChart: any = {
@@ -1095,4 +1130,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default withApiHandler(Index);

@@ -32,8 +32,17 @@ import IconMenuDatatables from '../Icon/Menu/IconMenuDatatables';
 import IconMenuForms from '../Icon/Menu/IconMenuForms';
 import IconMenuPages from '../Icon/Menu/IconMenuPages';
 import IconMenuMore from '../Icon/Menu/IconMenuMore';
+import { showMessage } from '../../utils/errorHandler';
+import withApiHandler from '../../utils/withApiHandler';
 
-const Header = () => {
+interface HeaderProps {
+    isLoading: boolean; // Define the type of the loading prop
+    fetchedData: any; // Define the type of the fetchedData prop
+    getData: (url: string, id?: string, params?: any) => Promise<any>;
+}
+
+
+const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     const location = useLocation();
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
@@ -138,6 +147,32 @@ const Header = () => {
 
     const { t } = useTranslation();
 
+    console.log(isLoading, "isLoading");
+
+
+
+    const logout = async () => {
+
+        try {
+            const response = await getData("/logout");
+
+            if (response.data.api_response === "success") {
+                showMessage(response.data.message);
+
+                setTimeout(() => {
+                    localStorage.clear();
+                    window.location.replace("/");
+                }, 500);
+            } else {
+                throw new Error("No data available in the response");
+            }
+        } catch (error) {
+            localStorage.clear();
+            window.location.replace("/");
+            console.error("API error:", error);
+        }
+    };
+
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
@@ -208,10 +243,9 @@ const Header = () => {
                         <div>
                             {themeConfig.theme === 'light' ? (
                                 <button
-                                    className={`${
-                                        themeConfig.theme === 'light' &&
+                                    className={`${themeConfig.theme === 'light' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
-                                    }`}
+                                        }`}
                                     onClick={() => {
                                         dispatch(toggleTheme('dark'));
                                     }}
@@ -223,10 +257,9 @@ const Header = () => {
                             )}
                             {themeConfig.theme === 'dark' && (
                                 <button
-                                    className={`${
-                                        themeConfig.theme === 'dark' &&
+                                    className={`${themeConfig.theme === 'dark' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
-                                    }`}
+                                        }`}
                                     onClick={() => {
                                         dispatch(toggleTheme('system'));
                                     }}
@@ -236,10 +269,9 @@ const Header = () => {
                             )}
                             {themeConfig.theme === 'system' && (
                                 <button
-                                    className={`${
-                                        themeConfig.theme === 'system' &&
+                                    className={`${themeConfig.theme === 'system' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
-                                    }`}
+                                        }`}
                                     onClick={() => {
                                         dispatch(toggleTheme('light'));
                                     }}
@@ -455,7 +487,11 @@ const Header = () => {
                                         </Link>
                                     </li>
                                     <li className="border-t border-white-light dark:border-white-light/10">
-                                        <Link to="/auth/boxed-signin" className="text-danger !py-3">
+                                        <Link
+                                            onClick={logout}
+                                            to="#" // Placeholder value
+                                            // to="/auth/boxed-signin"
+                                            className="text-danger !py-3">
                                             <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
                                             Sign Out
                                         </Link>
@@ -989,4 +1025,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default withApiHandler(Header);
