@@ -158,7 +158,7 @@ const ComingSoonBoxed = () => {
                                     </li>
                                 </ul>
                             </div>
-                            <p className="dark:text-white">© {new Date().getFullYear()}. VRISTO All Rights Reserved.</p>
+                            <p className="dark:text-white">© {new Date().getFullYear()}. XcelXperts All Rights Reserved.</p>
                         </div>
                     </div>
                 </div>
