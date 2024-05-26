@@ -23,19 +23,23 @@ export const showMessage = (msg = '', type = 'success') => {
 
 // Handle error function
 export const handleError = (error: AxiosError) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
+
+    showMessage("yes error caught at tpop");
 
     if (error.response && error.response.status === 401) {
-        navigate('/auth/cover-login');
+        // navigate('/auth/cover-login');
         showMessage('Invalid access token');
         localStorage.clear();
     } else if (error.response && error.response.data) {
         const responseData: { status_code?: string, message?: string | string[] } = error.response.data;
 
         if (responseData.status_code === '404') {
-            navigate('/pages/error404');
-        } else if (responseData.status_code === '500') {
-            navigate('/pages/error500');
+            showMessage("yes error caught");
+            // navigate('/pages/error404');
+        }
+        else if (responseData.status_code === '500') {
+            // navigate('/pages/error500');
         } else if (responseData.message) {
             const errorMessage = Array.isArray(responseData.message)
                 ? responseData.message.join(' ')

@@ -21,9 +21,9 @@ import IconCaretDown from '../components/Icon/IconCaretDown';
 import IconPlus from '../components/Icon/IconPlus';
 import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRight';
 import withApiHandler from '../utils/withApiHandler';
-import { handleError, showMessage } from '../utils/errorHandler';
 import { AxiosError } from 'axios';
 import { string } from 'yup/lib/locale';
+import useHandleError from '../hooks/useHandleError';
 
 
 interface IndexProps {
@@ -34,6 +34,7 @@ interface IndexProps {
 
 
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
+    const handleError = useHandleError();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
@@ -60,6 +61,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 throw new Error("No data available in the response");
             }
         } catch (error) {
+            handleError(error as AxiosError);
             console.error("API error:", error);
         }
     };
