@@ -24,6 +24,7 @@ import withApiHandler from '../utils/withApiHandler';
 import { AxiosError } from 'axios';
 import { string } from 'yup/lib/locale';
 import useHandleError from '../hooks/useHandleError';
+import { fetchStoreData } from '../store/dataSlice';
 
 
 interface IndexProps {
@@ -35,10 +36,18 @@ interface IndexProps {
 
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const handleError = useHandleError();
+
+    // Using useSelector to extract the data from the Redux store
+    const { data, error } = useSelector((state: IRootState) => state.data);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
+
+
+    console.log(data, " dataaaaaaaaaaaa");
+
 
 
     useEffect(() => {
@@ -53,7 +62,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     const FetchDropDownData = async () => {
         try {
-            const response = await getData(`/common-data`);
+            const response = await getData(`/common/client-list`);
 
             if (response && response.data && response.data.data) {
                 // setDashboardWidgetsData(response?.data?.data);
