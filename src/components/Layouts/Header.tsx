@@ -193,7 +193,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </button>
                     </div>
 
-                    <div className="ltr:mr-2 rtl:ml-2 hidden sm:block">
+                    {/* <div className="ltr:mr-2 rtl:ml-2 hidden sm:block">
                         <ul className="flex items-center space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
                             <li>
                                 <Link to="/apps/calendar" className="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60">
@@ -211,7 +211,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                 </Link>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                     <div className="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
                         <div className="sm:ltr:mr-auto sm:rtl:ml-auto">
                             <form
@@ -241,7 +241,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                             </button>
                         </div>
                         <div>
-                            {themeConfig.theme === 'light' ? (
+                            {/* {themeConfig.theme === 'light' ? (
                                 <button
                                     className={`${themeConfig.theme === 'light' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
@@ -254,8 +254,8 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                 </button>
                             ) : (
                                 ''
-                            )}
-                            {themeConfig.theme === 'dark' && (
+                            )} */}
+                            {/* {themeConfig.theme === 'dark' && (
                                 <button
                                     className={`${themeConfig.theme === 'dark' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
@@ -266,8 +266,8 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                 >
                                     <IconMoon />
                                 </button>
-                            )}
-                            {themeConfig.theme === 'system' && (
+                            )} */}
+                            {/* {themeConfig.theme === 'system' && (
                                 <button
                                     className={`${themeConfig.theme === 'system' &&
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
@@ -278,9 +278,9 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                 >
                                     <IconLaptop />
                                 </button>
-                            )}
+                            )} */}
                         </div>
-                        <div className="dropdown shrink-0">
+                        {/* <div className="dropdown shrink-0">
                             <Dropdown
                                 offset={[0, 8]}
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
@@ -308,8 +308,8 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                     })}
                                 </ul>
                             </Dropdown>
-                        </div>
-                        <div className="dropdown shrink-0">
+                        </div> */}
+                        {/* <div className="dropdown shrink-0">
                             <Dropdown
                                 offset={[0, 8]}
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
@@ -371,7 +371,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                     )}
                                 </ul>
                             </Dropdown>
-                        </div>
+                        </div> */}
                         <div className="dropdown shrink-0">
                             <Dropdown
                                 offset={[0, 8]}
