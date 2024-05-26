@@ -130,7 +130,7 @@ import axios from "axios";
 
 // Define the initial state
 interface DataState {
-    data: any[]; // Define a proper type based on the data structure you expect
+    data: any; // Define a proper type based on the data structure you expect
     loading: boolean;
     error: string | null;
 }
@@ -139,6 +139,7 @@ const initialState: DataState = {
     data: [],
     loading: false,
     error: null,
+
 };
 
 // Create an asynchronous thunk to fetch the API data

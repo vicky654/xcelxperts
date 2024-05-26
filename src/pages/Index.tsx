@@ -25,6 +25,7 @@ import { AxiosError } from 'axios';
 import { string } from 'yup/lib/locale';
 import useHandleError from '../hooks/useHandleError';
 import { fetchStoreData } from '../store/dataSlice';
+import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 
 
 interface IndexProps {
@@ -38,7 +39,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const handleError = useHandleError();
 
     // Using useSelector to extract the data from the Redux store
-    const { data, error } = useSelector((state: IRootState) => state.data);
+    const { data, error } = useSelector((state: IRootState) => state?.data);
+    const [modalOpen, setModalOpen] = useState(false);
+
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -459,6 +462,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     <span>Sales</span>
                 </li>
             </ul>
+
+            <div>
+                <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
+                    Open Modal
+                </button>
+                <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+            </div>
 
             <div className="pt-5">
                 <div className="grid xl:grid-cols-3 gap-6 mb-6">
