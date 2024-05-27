@@ -1,12 +1,9 @@
-// src/hooks/useHandleError.ts
-
-import { AxiosError } from 'axios';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-// Show message function
-const showMessage = (msg = '', type = 'success') => {
+const showMessage = (msg: string = '', type: string = 'error') => {
     const toast: any = Swal.mixin({
         toast: true,
         position: 'top',
@@ -15,54 +12,42 @@ const showMessage = (msg = '', type = 'success') => {
         customClass: { container: 'toast' },
     });
     toast.fire({
-        icon: type,
+        icon: type === 'error' ? 'error' : 'success',
         title: msg,
         padding: '10px 20px',
     });
 };
 
-const useHandleError = () => {
+const useApiErrorHandler = () => {
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const handleError = (error: AxiosError) => {
-        console.log(error.response, "axios error");
-        if (error.response && error.response.status === "401") {
-            navigate('/auth/cover-login');
-            showMessage('Invalid access token');
-            localStorage.clear();
-        } else if (error.response && error.response.status === "422") {
-            const responseData = error.response.data as { message?: string };
-
-            if (responseData && responseData.message) {
-                showMessage(responseData.message);
+    const handleApiError = useCallback((error: any) => {
+        if (error.response) {
+            const status = error.response.status;
+            if (status === "401") {
+                navigate('/auth/cover-login');
             } else {
-                showMessage('An error occurred.');
+                const message = error.response.data.message;
+                showMessage(message, 'error');
+                setErrorMessage(message);
             }
-        } else if (error.response && error.response.status) {
-            const responseData = error.response.data as { status_code?: string, message?: string | string[] };
-
-            if (responseData.status_code === '404') {
-                navigate('/pages/error404');
-            } else if (responseData.status_code === '500') {
-                navigate('/pages/error500');
-            } else if (responseData.message) {
-                const errorMessage = Array.isArray(responseData.message)
-                    ? responseData.message.join(' ')
-                    : responseData.message;
-
-                if (errorMessage) {
-                    showMessage(errorMessage);
-                }
-            } else {
-                showMessage('An error occurred.');
-            }
+        } else if (error.request) {
+            showMessage('Network Error. Please try again.', 'error');
+            setErrorMessage('Network Error. Please try again.');
         } else {
-            showMessage('An error occurred.');
+            showMessage('An unexpected error occurred. Please try again later.', 'error');
+            setErrorMessage('An unexpected error occurred. Please try again later.');
         }
-    };
+    }, [navigate]);
 
-    return handleError;
+    useEffect(() => {
+        return () => {
+            setErrorMessage(null);
+        };
+    }, []);
+
+    return handleApiError;
 };
 
-
-export default useHandleError;
+export default useApiErrorHandler;

@@ -44,6 +44,15 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     const location = useLocation();
+
+    // Using useSelector to extract the data from the Redux store
+    const { data, error } = useSelector((state: IRootState) => state?.data);
+
+    const isProfileUpdatePermissionAvailable = data?.permissions?.includes(
+        "profile-update-profile"
+    );
+
+
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
         if (selector) {
@@ -468,12 +477,15 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <Link to="/users/profile" className="dark:hover:text-white">
-                                            <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                            Profile
-                                        </Link>
-                                    </li>
+                                    {isProfileUpdatePermissionAvailable && (<>
+                                        <li>
+                                            <Link to="/users/user-account-settings" className="dark:hover:text-white">
+                                                <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                Profile
+                                            </Link>
+                                        </li>
+                                    </>)}
+
                                     <li>
                                         <Link to="/apps/mailbox" className="dark:hover:text-white">
                                             <IconMail className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
