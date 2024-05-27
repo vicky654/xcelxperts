@@ -59,7 +59,7 @@
 //             return data.data;
 //         } catch (error) {
 //             setTimeout(() => {
-//                 window.location.replace("/login");
+//                 window.location.replace("/auth/cover-login");
 //             }, 3000);
 
 //             if (axios.isAxiosError(error)) {
@@ -67,7 +67,7 @@
 //                 if (response) {
 //                     if (response.status === 401) {
 //                         setTimeout(function () {
-//                             window.location.replace("/login");
+//                             window.location.replace("/auth/cover-login");
 //                             // ErrorToast("Invalid access token");
 //                             localStorage.clear();
 //                         }, 2000);
@@ -175,7 +175,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
             return data.data;
         } catch (error) {
             setTimeout(() => {
-                window.location.replace("/login");
+                window.location.replace("/auth/cover-login");
             }, 3000);
 
             if (axios.isAxiosError(error)) {
@@ -183,7 +183,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
                 if (response) {
                     if (response.status === 401) {
                         setTimeout(() => {
-                            window.location.replace("/login");
+                            window.location.replace("/auth/cover-login");
                             localStorage.clear();
                         }, 2000);
                     } else if (response.status === 403) {
