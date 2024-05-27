@@ -1,5 +1,7 @@
 /* Animate css */
 @import './assets/css/animate.css';
+/* Custom css */
+@import './assets/css/custom.css';
 
 /* tippy css */
 @import './assets/css/tippy.css';

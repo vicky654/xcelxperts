@@ -1,7 +1,6 @@
 // src/utils/errorHandler.ts
 
 import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -23,9 +22,7 @@ export const showMessage = (msg = '', type = 'success') => {
 
 // Handle error function
 export const handleError = (error: AxiosError) => {
-    // const navigate = useNavigate();
-
-    showMessage("yes error caught at tpop");
+    showMessage("yes error caught at Top");
 
     if (error.response && error.response.status === 401) {
         // navigate('/auth/cover-login');
