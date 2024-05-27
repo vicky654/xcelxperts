@@ -18,6 +18,7 @@ import useHandleError from '../../hooks/useHandleError';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../utils/errorHandler';
 import LoaderImg from '../../utils/Loader';
+import useApiErrorHandler from '../../hooks/useHandleError';
 
 
 
@@ -36,6 +37,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const handleError = useHandleError();
 
+    const handleApiError = useApiErrorHandler(); // Use the hook here
 
     useEffect(() => {
         dispatch(setPageTitle('Account Setting'));
@@ -203,9 +205,9 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
                 }
             } catch (error) {
-
+                handleApiError(error);
                 console.log(error, "errorerror");
-                useHandleError()
+                // useHandleError()
             }
         },
     });
@@ -243,13 +245,13 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                     className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'home' ? '!border-primary text-primary' : ''}`}
                                 >
                                     <IconHome />
-                                    Home
+                                    General Information
                                 </button>
                             </li>
                             <li className="inline-block">
                                 <button
-                                    onClick={() => toggleTabs('payment-details')}
-                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'payment-details' ? '!border-primary text-primary' : ''}`}
+                                    onClick={() => toggleTabs('update-password')}
+                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'update-password' ? '!border-primary text-primary' : ''}`}
                                 >
                                     <IconUser className="w-5 h-5" />
                                     Update Password
@@ -264,15 +266,16 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                     Mobile App Authentication
                                 </button>
                             </li>
-                            {/* <li className="inline-block">
-                            <button
-                                onClick={() => toggleTabs('payment-details')}
-                                className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'payment-details' ? '!border-primary text-primary' : ''}`}
-                            >
-                                <IconDollarSignCircle />
-                                Payment Details
-                            </button>
-                        </li>
+                            <li className="inline-block">
+                                <button
+                                    onClick={() => toggleTabs('Settings')}
+                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'Settings' ? '!border-primary text-primary' : ''}`}
+                                >
+                                    <IconDollarSignCircle />
+                                    Settings
+                                </button>
+                            </li>
+                            {/*
                         <li className="inline-block">
                             <button
                                 onClick={() => toggleTabs('preferences')}
@@ -368,7 +371,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     ) : (
                         ''
                     )}
-                    {tabs === 'payment-details' ? (
+                    {tabs === 'update-password' ? (
                         <div>
                             <form onSubmit={formik2.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                 <h6 className="text-lg font-bold mb-5">Update Password</h6>
@@ -439,99 +442,73 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     ) : (
                         ''
                     )}
-                    {tabs === 'preferences' ? (
-                        <div className="switch">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Choose Theme</h5>
-                                    <div className="flex justify-around">
-                                        <div className="flex">
-                                            <label className="inline-flex cursor-pointer">
-                                                <input className="form-radio ltr:mr-4 rtl:ml-4 cursor-pointer" type="radio" name="flexRadioDefault" defaultChecked />
-                                                <span>
-                                                    <img className="ms-3" width="100" height="68" alt="settings-dark" src="/assets/images/settings-light.svg" />
-                                                </span>
-                                            </label>
+                    {tabs === 'Settings' ? (
+                        <div>
+                            <form onSubmit={formik2.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
+                                <h6 className="text-lg font-bold mb-5">Update Settings</h6>
+                                <div className="flex flex-col sm:flex-row">
+                                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                        <div className={formik2.submitCount ? (formik2.errors.old_password ? 'has-error' : 'has-success') : ''}>
+                                            <label htmlFor="old_password">Current Password </label>
+                                            <input
+                                                name="old_password" type="password" id="old_password" placeholder="Enter Current Password"
+                                                className="form-input"
+                                                onChange={formik2.handleChange}
+                                                onBlur={formik2.handleBlur}
+                                                value={formik2.values.old_password}
+                                            />
+                                            {formik2.submitCount ? (
+                                                formik2.errors.old_password ? (
+                                                    <div className="text-danger mt-1">{formik2.errors.old_password}</div>
+                                                ) : (
+                                                    ""
+                                                )
+                                            ) : null}
                                         </div>
 
-                                        <label className="inline-flex cursor-pointer">
-                                            <input className="form-radio ltr:mr-4 rtl:ml-4 cursor-pointer" type="radio" name="flexRadioDefault" />
-                                            <span>
-                                                <img className="ms-3" width="100" height="68" alt="settings-light" src="/assets/images/settings-dark.svg" />
-                                            </span>
-                                        </label>
+                                        <div className={formik2.submitCount ? (formik2.errors.password ? 'has-error' : 'has-success') : ''}>
+                                            <label htmlFor="password">New Password </label>
+                                            <input
+                                                name="password"
+                                                type="password"
+                                                id="password"
+                                                placeholder="Enter New Password"
+                                                className="form-input"
+                                                onChange={formik2.handleChange}
+                                                onBlur={formik2.handleBlur}
+                                                value={formik2.values.password}
+                                            />
+                                            {formik2.submitCount ? formik2.errors.password ? <div className="text-danger mt-1">{formik2.errors.password}</div> : "" : null}
+                                        </div>
+                                        <div className={formik2.submitCount ? (formik2.errors.password_confirmation ? 'has-error' : 'has-success') : ''}>
+                                            <label htmlFor="password_confirmation">Confirm Password </label>
+                                            <input
+                                                name="password_confirmation"
+                                                type="password"
+                                                id="password_confirmation"
+                                                placeholder="Enter Confirm Password"
+                                                className="form-input"
+                                                onChange={formik2.handleChange}
+                                                onBlur={formik2.handleBlur}
+                                                value={formik2.values.password_confirmation}
+                                            />
+                                            {formik2.submitCount ? formik2.errors.password_confirmation ? <div className="text-danger mt-1">{formik2.errors.password_confirmation}</div> : "" : null}
+                                        </div>
+
+                                        <div className="sm:col-span-2 mt-3">
+                                            <button type="submit" className="btn btn-primary"
+                                            // onClick={() => {
+                                            //     if (Object.keys(formik2.touched).length !== 0 && Object.keys(formik2.errors).length === 0) {
+                                            //         formik2.handleSubmit();
+                                            //     }
+                                            // }}
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Activity data</h5>
-                                    <p>Download your Summary, Task and Payment History Data</p>
-                                    <button type="button" className="btn btn-primary">
-                                        Download Data
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Public Profile</h5>
-                                    <p>
-                                        Your <span className="text-primary">Profile</span> will be visible to anyone on the network.
-                                    </p>
-                                    <label className="w-12 h-6 relative">
-                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
-                                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                                    </label>
-                                </div>
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Show my email</h5>
-                                    <p>
-                                        Your <span className="text-primary">Email</span> will be visible to anyone on the network.
-                                    </p>
-                                    <label className="w-12 h-6 relative">
-                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox2" />
-                                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white  dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                                    </label>
-                                </div>
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Enable keyboard shortcuts</h5>
-                                    <p>
-                                        When enabled, press <span className="text-primary">ctrl</span> for help
-                                    </p>
-                                    <label className="w-12 h-6 relative">
-                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox3" />
-                                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white  dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                                    </label>
-                                </div>
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Hide left navigation</h5>
-                                    <p>
-                                        Sidebar will be <span className="text-primary">hidden</span> by default
-                                    </p>
-                                    <label className="w-12 h-6 relative">
-                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox4" />
-                                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white  dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                                    </label>
-                                </div>
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Advertisements</h5>
-                                    <p>
-                                        Display <span className="text-primary">Ads</span> on your dashboard
-                                    </p>
-                                    <label className="w-12 h-6 relative">
-                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox5" />
-                                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white  dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                                    </label>
-                                </div>
-                                <div className="panel space-y-5">
-                                    <h5 className="font-semibold text-lg mb-4">Social Profile</h5>
-                                    <p>
-                                        Enable your <span className="text-primary">social</span> profiles on this network
-                                    </p>
-                                    <label className="w-12 h-6 relative">
-                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox6" />
-                                        <span className="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white  dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300"></span>
-                                    </label>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     ) : (
                         ''

@@ -45,6 +45,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
 
+    useEffect(() => {
+        dispatch(fetchStoreData() as any);
+    }, [])
+
 
     const dispatch = useDispatch();
     useEffect(() => {

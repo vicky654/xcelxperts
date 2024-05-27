@@ -481,7 +481,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                         <li>
                                             <Link to="/users/user-account-settings" className="dark:hover:text-white">
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                                Profile
+                                                Edit Profile
                                             </Link>
                                         </li>
                                     </>)}

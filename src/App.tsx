@@ -9,9 +9,7 @@ function App({ children }: PropsWithChildren) {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchStoreData() as any);
-    }, [])
+
 
 
     useEffect(() => {
