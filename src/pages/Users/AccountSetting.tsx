@@ -30,11 +30,33 @@ interface AccountSettingProps {
 }
 
 
+interface FormValues3 {
+    date_format: string;
+    pagination: string;
+    auto_logout: string;
+}
+
+interface FormValues2 {
+    old_password: string;
+    password: string;
+    password_confirmation: string;
+}
+
+interface FormValues {
+    first_name: string,
+    last_name: string,
+    email: string,
+}
+
+
 
 
 const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLoading }) => {
     const dispatch = useDispatch();
     const { data, error } = useSelector((state: IRootState) => state?.data);
+    const isProfileUpdatePermissionAvailable = data?.permissions?.includes("profile-update-profile");
+    const isUpdatePasswordPermissionAvailable = data?.permissions?.includes("profile-update-password");
+    const isSettingsPermissionAvailable = data?.permissions?.includes("config-setting");
     const handleError = useHandleError();
 
     const handleApiError = useApiErrorHandler(); // Use the hook here
@@ -49,23 +71,32 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
         formik.setFieldValue("email", data?.email)
     }, [data])
 
+
+    useEffect(() => {
+        if (isSettingsPermissionAvailable) {
+            FetchConfigSetting()
+        }
+    }, [isSettingsPermissionAvailable])
+
     const [tabs, setTabs] = useState<string>('home');
     const toggleTabs = (name: string) => {
         setTabs(name);
     };
 
+    const FetchConfigSetting = async () => {
+        try {
+            const response = await getData(`/config-setting`);
 
-    interface FormValues2 {
-        old_password: string;
-        password: string;
-        password_confirmation: string;
-    }
-
-    interface FormValues {
-        first_name: string,
-        last_name: string,
-        email: string,
-    }
+            if (response && response.data && response.data.data) {
+                formik3.setValues(response.data.data)
+            } else {
+                throw new Error("No data available in the response");
+            }
+        } catch (error) {
+            handleApiError(error); // Use the hook here to handle the error
+            console.error("API error:", error);
+        }
+    };
 
 
     const formik = useFormik<FormValues>({
@@ -212,12 +243,66 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
         },
     });
 
-    console.log(data, "dataaa");
-    console.log(formik?.values, "formik values");
+    const validationSchema = Yup.object({
+        date_format: Yup.string().required('Date format is required'),
+        pagination: Yup.string().required('Pagination is required'),
+        auto_logout: Yup.string().required('Auto logout time is required'),
+    });
+    const formik3 = useFormik<FormValues3>({
+        initialValues: {
+            pagination: '',
+            date_format: '',
+            auto_logout: '',
+        },
+        validationSchema,
+        onSubmit: async (values) => {
+            const formData = new FormData();
+            try {
+
+                if (typeof values === "object") {
+                    const keys = Object.keys(values);
+                    const valuesArray = Object.values(values);
+
+                    for (let i = 0; i < keys.length; i++) {
+                        const key = keys[i];
+                        const value = valuesArray[i];
+                        const encodedKey = `key[${i}]`;
+                        const encodedValue = `value[${i}]`;
+
+                        formData.append(encodedKey, key);
+                        formData.append(encodedValue, value);
+                    }
+                    const response = await postData(`/config-setting/update`, formData,)
+
+
+                    if (response.ok) {
+                        // SuccessAlert(Array.isArray(data.message) ? data.message.join(" ") : data.message);
+                        // useNavigate()("/dashboard");
+                        // setSubmitting(false);
+                    } else {
+                        const errorMessage = Array.isArray(data.message)
+                            ? data.message.join(" ")
+                            : data.message;
+                        // ErrorAlert(errorMessage);
+                    }
+                }
+
+
+
+            } catch (error) {
+                // handleError(error)
+                useHandleError()
+                // ErrorAlert("An error occurred while updating the profile.");
+            } finally {
+                // setLoading(false);
+                // setSubmitting(false);
+            }
+        },
+    });
+
 
 
     return (
-
 
         <>
 
@@ -239,24 +324,49 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     </div>
                     <div>
                         <ul className="sm:flex font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 whitespace-nowrap overflow-y-auto">
-                            <li className="inline-block">
-                                <button
-                                    onClick={() => toggleTabs('home')}
-                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'home' ? '!border-primary text-primary' : ''}`}
-                                >
-                                    <IconHome />
-                                    General Information
-                                </button>
-                            </li>
-                            <li className="inline-block">
-                                <button
-                                    onClick={() => toggleTabs('update-password')}
-                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'update-password' ? '!border-primary text-primary' : ''}`}
-                                >
-                                    <IconUser className="w-5 h-5" />
-                                    Update Password
-                                </button>
-                            </li>
+
+                            {isProfileUpdatePermissionAvailable && (<>
+                                <li className="inline-block">
+                                    <button
+                                        onClick={() => toggleTabs('home')}
+                                        className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'home' ? '!border-primary text-primary' : ''}`}
+                                    >
+                                        <IconHome />
+                                        General Information
+                                    </button>
+                                </li>
+                            </>)}
+
+                            {isUpdatePasswordPermissionAvailable && (<>
+
+                                <li className="inline-block">
+                                    <button
+                                        onClick={() => toggleTabs('update-password')}
+                                        className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'update-password' ? '!border-primary text-primary' : ''}`}
+                                    >
+                                        <IconUser className="w-5 h-5" />
+                                        Update Password
+                                    </button>
+                                </li>
+                            </>)}
+
+                            {isSettingsPermissionAvailable && (<>
+                                <li className="inline-block">
+                                    <button
+                                        onClick={() => toggleTabs('Settings')}
+                                        className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'Settings' ? '!border-primary text-primary' : ''}`}
+                                    >
+                                        <IconDollarSignCircle />
+                                        Settings
+                                    </button>
+                                </li>
+                            </>)}
+
+
+
+
+                            {/*
+
                             <li className="inline-block">
                                 <button
                                     onClick={() => toggleTabs('danger-zone')}
@@ -266,16 +376,6 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                     Mobile App Authentication
                                 </button>
                             </li>
-                            <li className="inline-block">
-                                <button
-                                    onClick={() => toggleTabs('Settings')}
-                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'Settings' ? '!border-primary text-primary' : ''}`}
-                                >
-                                    <IconDollarSignCircle />
-                                    Settings
-                                </button>
-                            </li>
-                            {/*
                         <li className="inline-block">
                             <button
                                 onClick={() => toggleTabs('preferences')}
@@ -444,56 +544,61 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     )}
                     {tabs === 'Settings' ? (
                         <div>
-                            <form onSubmit={formik2.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
+                            <form onSubmit={formik3.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                 <h6 className="text-lg font-bold mb-5">Update Settings</h6>
                                 <div className="flex flex-col sm:flex-row">
                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-5">
-                                        <div className={formik2.submitCount ? (formik2.errors.old_password ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="old_password">Current Password </label>
-                                            <input
-                                                name="old_password" type="password" id="old_password" placeholder="Enter Current Password"
-                                                className="form-input"
-                                                onChange={formik2.handleChange}
-                                                onBlur={formik2.handleBlur}
-                                                value={formik2.values.old_password}
-                                            />
-                                            {formik2.submitCount ? (
-                                                formik2.errors.old_password ? (
-                                                    <div className="text-danger mt-1">{formik2.errors.old_password}</div>
-                                                ) : (
-                                                    ""
-                                                )
-                                            ) : null}
+
+
+                                        <div className={formik3.submitCount ? (formik3.errors.date_format ? 'has-error' : 'has-success') : ''}>
+                                            <label htmlFor="date_format">Date Format</label>
+                                            <select
+                                                id="date_format"
+                                                name="date_format"
+                                                onChange={formik3.handleChange}
+                                                value={formik3.values.date_format}
+                                                className="form-select text-white-dark">
+                                                <option value="">Select a date format</option>
+                                                <option value="Y-m-d">YYYY-MM-DD</option>
+                                                <option value="m-d-Y">MM-DD-YYYY</option>
+                                                <option value="d-m-Y">DD-MM-YYYY</option>
+                                            </select>
+                                            {formik3.submitCount ? formik3.errors.date_format ? <div className="text-danger mt-1">{formik3.errors.date_format}</div> : "" : null}
                                         </div>
 
-                                        <div className={formik2.submitCount ? (formik2.errors.password ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="password">New Password </label>
+                                        <div className={formik3.submitCount ? (formik3.errors.pagination ? 'has-error' : 'has-success') : ''}>
+                                            <label htmlFor="pagination">Pagination </label>
                                             <input
-                                                name="password"
-                                                type="password"
-                                                id="password"
-                                                placeholder="Enter New Password"
+                                                name="pagination"
+                                                type="number"
+                                                id="pagination"
+                                                placeholder="Enter Pagination"
                                                 className="form-input"
-                                                onChange={formik2.handleChange}
-                                                onBlur={formik2.handleBlur}
-                                                value={formik2.values.password}
+                                                onChange={formik3.handleChange}
+                                                onBlur={formik3.handleBlur}
+                                                value={formik3.values.pagination}
                                             />
-                                            {formik2.submitCount ? formik2.errors.password ? <div className="text-danger mt-1">{formik2.errors.password}</div> : "" : null}
+                                            {formik3.submitCount ? formik3.errors.pagination ? <div className="text-danger mt-1">{formik3.errors.pagination}</div> : "" : null}
                                         </div>
-                                        <div className={formik2.submitCount ? (formik2.errors.password_confirmation ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="password_confirmation">Confirm Password </label>
-                                            <input
-                                                name="password_confirmation"
-                                                type="password"
-                                                id="password_confirmation"
-                                                placeholder="Enter Confirm Password"
-                                                className="form-input"
-                                                onChange={formik2.handleChange}
-                                                onBlur={formik2.handleBlur}
-                                                value={formik2.values.password_confirmation}
-                                            />
-                                            {formik2.submitCount ? formik2.errors.password_confirmation ? <div className="text-danger mt-1">{formik2.errors.password_confirmation}</div> : "" : null}
+
+                                        <div className={formik3.submitCount ? (formik3.errors.auto_logout ? 'has-error' : 'has-success') : ''}>
+                                            <label htmlFor="auto_logout">Auto Logout</label>
+                                            <select
+                                                id="auto_logout"
+                                                onChange={formik3.handleChange}
+                                                value={formik3.values.auto_logout}
+                                                className="form-select text-white-dark">
+                                                <option value="">Select an Auto Logout Time</option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                            </select>
+                                            {formik3.submitCount ? formik3.errors.auto_logout ? <div className="text-danger mt-1">{formik3.errors.auto_logout}</div> : "" : null}
                                         </div>
+
+
 
                                         <div className="sm:col-span-2 mt-3">
                                             <button type="submit" className="btn btn-primary"

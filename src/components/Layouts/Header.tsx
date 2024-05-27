@@ -51,6 +51,9 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     const isProfileUpdatePermissionAvailable = data?.permissions?.includes(
         "profile-update-profile"
     );
+    const isSettingsPermissionAvailable = data?.permissions?.includes(
+        "config-setting"
+    );
 
 
     useEffect(() => {
@@ -485,8 +488,16 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                             </Link>
                                         </li>
                                     </>)}
+                                    {isSettingsPermissionAvailable && (<>
+                                        <li>
+                                            <Link to="/users/user-account-settings" className="dark:hover:text-white">
+                                                <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                Setting
+                                            </Link>
+                                        </li>
+                                    </>)}
 
-                                    <li>
+                                    {/* <li>
                                         <Link to="/apps/mailbox" className="dark:hover:text-white">
                                             <IconMail className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                             Inbox
@@ -497,7 +508,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                             <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                             Lock Screen
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li className="border-t border-white-light dark:border-white-light/10">
                                         <Link
                                             onClick={logout}
