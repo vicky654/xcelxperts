@@ -69,7 +69,7 @@ const LoginCover = () => {
                     localStorage.setItem('authToken', data?.data?.token);
 
                     if (data?.data?.is_verified === true) {
-                        // navigate(data?.data?.route);
+                        showMessage(data?.message, 'success');
                         navigate('/');
                     } else if (data?.data?.is_verified === false) {
                         navigate('/validateOtp');
@@ -78,12 +78,13 @@ const LoginCover = () => {
                     // localStorage.setItem('justLoggedIn', true);
                 } else {
                     setLoading(false)
+                    showMessage(data?.message, 'error');
                     // Handle error response
                     console.error('Error:', data?.message);
                 }
             } catch (error) {
                 setLoading(false)
-                // Handle fetch error
+                showMessage('An error occurred during login', 'error');
                 console.error('Fetch Error:', error);
             }
             setLoading(false)
