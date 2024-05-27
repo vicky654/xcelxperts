@@ -7,13 +7,17 @@ import { IRootState } from '../../store';
 import i18next from 'i18next';
 import IconCaretDown from '../../components/Icon/IconCaretDown';
 import IconMail from '../../components/Icon/IconMail';
-
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import showMessage from '../../hooks/showMessage';
+interface FormValues {
+    email: string;
+}
 const RecoverIdCover = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Recover Id Box'));
     });
-    const navigate = useNavigate();
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const setLocale = (flag: string) => {
@@ -25,16 +29,62 @@ const RecoverIdCover = () => {
         }
     };
     const [flag, setFlag] = useState(themeConfig.locale);
+    const formik = useFormik<FormValues>({
+        initialValues: {
+            email: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+        }),
+        onSubmit: async (values) => {
+            await submitForm(values);
+        },
+    });
+    const baseUrl = import.meta.env.VITE_API_URL;
 
-    const submitForm = () => {
-        navigate('/');
+    const submitForm = async (values: FormValues) => {
+        const { email } = values;
+
+        const requestBody = {
+            email,
+        };
+
+        try {
+            const response = await fetch(`${baseUrl}/forgot/password`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestBody),
+            });
+      
+            const data = await response.json();
+      
+            if (response.ok && data) {
+              showMessage('Password reset email sent successfully!', 'success');
+            } else {
+              const errorMessage = data?.message || 'Failed to reset password. Please try again.';
+              showMessage(errorMessage, 'error');
+              console.error('Error:', errorMessage);
+            }
+          } catch (error) {
+            showMessage('An unexpected error occurred. Please try again later.', 'error');
+            console.error('Fetch Error:', error);
+          }
+    };
+    const handleSuccess = () => {
+        showMessage('Successfully recovered password!', 'success');
     };
 
+    const handleError = () => {
+        showMessage('Failed to recover password. Please try again.', 'error');
+    };
     return (
         <div>
             <div className="absolute inset-0">
                 <img src="/assets/images/auth/bg-gradient.png" alt="image" className="h-full w-full object-cover" />
             </div>
+
             <div className="relative flex min-h-screen items-center justify-center bg-[url(/assets/images/auth/map.png)] bg-cover bg-center bg-no-repeat px-6 py-10 dark:bg-[#060818] sm:px-16">
                 <img src="/assets/images/auth/coming-soon-object1.png" alt="image" className="absolute left-0 top-1/2 h-full max-h-[893px] -translate-y-1/2" />
                 <img src="/assets/images/auth/coming-soon-object2.png" alt="image" className="absolute left-24 top-0 h-40 md:left-[30%]" />
@@ -99,22 +149,39 @@ const RecoverIdCover = () => {
                         </div>
                         <div className="w-full max-w-[440px] lg:mt-16">
                             <div className="mb-7">
-                                <h1 className="mb-3 text-2xl font-bold !leading-snug dark:text-white">Password Reset</h1>
-                                <p>Enter your email to recover your ID</p>
+                            
+                                <h1 className="mb-3 text-2xl font-bold !leading-snug dark:text-white"> Reset Password </h1>
+                                <p>Enter your email to recover your Account</p>
                             </div>
-                            <form className="space-y-5" onSubmit={submitForm}>
+                            <form className="space-y-5" onSubmit={formik.handleSubmit}>
                                 <div>
-                                    <label htmlFor="Email">Email</label>
+                                    <label htmlFor="email">Email</label>
                                     <div className="relative text-white-dark">
-                                        <input id="Email" type="email" placeholder="Enter Email" className="form-input pl-10 placeholder:text-white-dark" />
+                                        <input
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Enter Email"
+                                            className={`form-input pl-10 placeholder:text-white-dark ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''}`}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.email}
+                                        />
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2">
                                             <IconMail fill={true} />
                                         </span>
                                     </div>
+                                    {formik.touched.email && formik.errors.email ? <div className="text-red-500">{formik.errors.email}</div> : null}
                                 </div>
                                 <button type="submit" className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                                     RECOVER
                                 </button>
+                                <div className="text-center dark:text-white">
+                                    &nbsp;
+                                    <Link to="/auth/cover-login" className="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
+                                        Back To Login ?
+                                    </Link>
+                                </div>
                             </form>
                         </div>
                         <p className="absolute bottom-6 w-full text-center dark:text-white">© {new Date().getFullYear()}.XcelXperts All Rights Reserved.</p>
