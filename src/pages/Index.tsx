@@ -465,7 +465,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
             <div>
                 <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
-                 Apply Filter
+                    Apply Filter
                 </button>
                 <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
             </div>

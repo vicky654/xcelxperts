@@ -63,7 +63,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                 setIsLoading(true);
                 const modifiedUrl = id ? `${url}/${id}` : url;
                 const response = await axiosInstance.get(modifiedUrl, { params });
-                
+
                 if (response && response.data) {
                     const data = response.data;
                     setFetchedData(data);
@@ -97,6 +97,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                     throw new Error('Invalid response');
                 }
             } catch (error) {
+                handleError(error as AxiosError)
                 setApiError(error as AxiosError);
                 setIsLoading(false);
             }

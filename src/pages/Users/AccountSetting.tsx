@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import IconHome from '../../components/Icon/IconHome';
 import IconDollarSignCircle from '../../components/Icon/IconDollarSignCircle';
 import IconUser from '../../components/Icon/IconUser';
@@ -10,16 +10,208 @@ import IconLinkedin from '../../components/Icon/IconLinkedin';
 import IconTwitter from '../../components/Icon/IconTwitter';
 import IconFacebook from '../../components/Icon/IconFacebook';
 import IconGithub from '../../components/Icon/IconGithub';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { IRootState } from '../../store';
+import withApiHandler from '../../utils/withApiHandler';
+import useHandleError from '../../hooks/useHandleError';
+import { AxiosError } from 'axios';
+import { showMessage } from '../../utils/errorHandler';
 
-const AccountSetting = () => {
+
+
+interface AccountSettingProps {
+    isLoading: boolean; // Define the type of the loading prop
+    fetchedData: any; // Define the type of the fetchedData prop
+    getData: (url: string, id?: string, params?: any) => Promise<any>;
+    postData: (url: string, body: any, navigatePath?: string) => Promise<any>;
+}
+
+
+
+
+const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData }) => {
     const dispatch = useDispatch();
+    const { data, error } = useSelector((state: IRootState) => state?.data);
+    const handleError = useHandleError();
+
+
     useEffect(() => {
         dispatch(setPageTitle('Account Setting'));
     });
+
+    useEffect(() => {
+        formik.setFieldValue("first_name", data?.first_name)
+        formik.setFieldValue("last_name", data?.last_name)
+        formik.setFieldValue("email", data?.email)
+    }, [data])
+
     const [tabs, setTabs] = useState<string>('home');
     const toggleTabs = (name: string) => {
         setTabs(name);
     };
+
+
+    interface FormValues2 {
+        old_password: string;
+        password: string;
+        password_confirmation: string;
+    }
+
+    interface FormValues {
+        first_name: string,
+        last_name: string,
+        email: string,
+    }
+
+
+    const formik = useFormik<FormValues>({
+        initialValues: {
+            first_name: '',
+            last_name: '',
+            email: '',
+        },
+        validationSchema: Yup.object({
+            first_name: Yup.string()
+                .min(3, 'First name must be at least 3 characters')
+                .required('Required'),
+            last_name: Yup.string()
+                .min(3, 'Last name must be at least 3 characters')
+                .required('Required'),
+            email: Yup.string()
+                .email('Invalid email address')
+                .required('Required'),
+        }),
+        onSubmit: async (values) => {
+            console.log(values);
+            const formData = new FormData();
+            formData.append("first_name", values.first_name);
+            formData.append("last_name", values.last_name);
+            try {
+
+                const response = await postData(`/update-profile`, formData,)
+
+                // const data: ResponseData = await response.json();
+
+                if (response.ok) {
+                    // SuccessAlert(Array.isArray(data.message) ? data.message.join(" ") : data.message);
+                    useNavigate()("/dashboard");
+                    // setSubmitting(false);
+                } else {
+                    const errorMessage = Array.isArray(data.message)
+                        ? data.message.join(" ")
+                        : data.message;
+                    // ErrorAlert(errorMessage);
+                }
+            } catch (error) {
+                handleError(error as AxiosError)
+                // ErrorAlert("An error occurred while updating the profile.");
+            } finally {
+                // setLoading(false);
+                // setSubmitting(false);
+            }
+        },
+    });
+
+    const handleSubmit1 = async (
+        values: FormValues,
+        // setSubmitting: FormikHelpers<FormValues>['setSubmitting'],
+        // setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+        SuccessAlert: (message: string) => void,
+        ErrorAlert: (message: string) => void
+    ) => {
+        // setLoading(true);
+        const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("first_name", values.first_name);
+        formData.append("last_name", values.last_name);
+
+        try {
+
+            const response = await postData(`/update-profile`, formData,)
+
+            // const data: ResponseData = await response.json();
+
+            if (response.ok) {
+                SuccessAlert(Array.isArray(data.message) ? data.message.join(" ") : data.message);
+                useNavigate()("/dashboard");
+                // setSubmitting(false);
+            } else {
+                const errorMessage = Array.isArray(data.message)
+                    ? data.message.join(" ")
+                    : data.message;
+
+                ErrorAlert(errorMessage);
+            }
+        } catch (error) {
+            ErrorAlert("An error occurred while updating the profile.");
+        } finally {
+            // setLoading(false);
+            // setSubmitting(false);
+        }
+    };
+
+    const formik2 = useFormik<FormValues2>({
+        initialValues: {
+            old_password: '',
+            password: '',
+            password_confirmation: '',
+        },
+        validationSchema: Yup.object({
+            old_password: Yup.string()
+                .min(8, 'Old password must be at least 8 characters')
+                .required('Required'),
+            password: Yup.string()
+                .min(8, 'Password must be at least 8 characters')
+                .required('Required'),
+            password_confirmation: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                .required('Required'),
+        }),
+
+
+        onSubmit: async (values) => {
+            console.log(values);
+            try {
+                const formData = new FormData();
+                formData.append("old_password", values.old_password);
+                formData.append("password", values.password);
+                formData.append("password_confirmation", values.password_confirmation);
+
+                const response = await postData(`/update/password`, formData,)
+
+                const data = await response.json();
+
+
+                console.log(data, "datadata");
+
+
+                // if (response.ok) {
+                //     localStorage.clear();
+                //     setTimeout(() => {
+                //         window.location.replace("/");
+                //     }, 500);
+                //     // SuccessAlert(data.message);
+                //     // setLoading(false);
+                // } else {
+                //     const errorMessage = Array.isArray(data.message)
+                //         ? data.message.join(" ")
+                //         : data.message;
+
+                // }
+            } catch (error) {
+
+                console.log(error, "errorerror");
+
+                handleError(error as AxiosError);
+            }
+        },
+    });
+
+    console.log(data, "dataaa");
+    console.log(formik?.values, "formik values");
+
 
     return (
         <div>
@@ -53,6 +245,24 @@ const AccountSetting = () => {
                                 onClick={() => toggleTabs('payment-details')}
                                 className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'payment-details' ? '!border-primary text-primary' : ''}`}
                             >
+                                <IconUser className="w-5 h-5" />
+                                Update Password
+                            </button>
+                        </li>
+                        <li className="inline-block">
+                            <button
+                                onClick={() => toggleTabs('danger-zone')}
+                                className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'danger-zone' ? '!border-primary text-primary' : ''}`}
+                            >
+                                <IconPhone />
+                                Mobile App Authentication
+                            </button>
+                        </li>
+                        <li className="inline-block">
+                            <button
+                                onClick={() => toggleTabs('payment-details')}
+                                className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'payment-details' ? '!border-primary text-primary' : ''}`}
+                            >
                                 <IconDollarSignCircle />
                                 Payment Details
                             </button>
@@ -79,94 +289,72 @@ const AccountSetting = () => {
                 </div>
                 {tabs === 'home' ? (
                     <div>
-                        <form className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
+                        <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                             <h6 className="text-lg font-bold mb-5">General Information</h6>
                             <div className="flex flex-col sm:flex-row">
                                 <div className="ltr:sm:mr-4 rtl:sm:ml-4 w-full sm:w-2/12 mb-5">
                                     <img src="/assets//images/profile-34.jpeg" alt="img" className="w-20 h-20 md:w-32 md:h-32 rounded-full object-cover mx-auto" />
                                 </div>
                                 <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div>
-                                        <label htmlFor="name">Full Name</label>
-                                        <input id="name" type="text" placeholder="Jimmy Turner" className="form-input" />
+                                    <div className={formik.submitCount ? (formik.errors.first_name ? 'has-error' : 'has-success') : ''}>
+                                        <label htmlFor="first_name">First Name </label>
+                                        <input
+                                            name="first_name" type="text" id="first_name" placeholder="Enter First Name"
+                                            className="form-input"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.first_name}
+                                        />
+                                        {formik.submitCount ? (
+                                            formik.errors.first_name ? (
+                                                <div className="text-danger mt-1">{formik.errors.first_name}</div>
+                                            ) : (
+                                                ""
+                                            )
+                                        ) : null}
                                     </div>
-                                    <div>
-                                        <label htmlFor="profession">Profession</label>
-                                        <input id="profession" type="text" placeholder="Web Developer" className="form-input" />
+
+                                    <div className={formik.submitCount ? (formik.errors.last_name ? 'has-error' : 'has-success') : ''}>
+                                        <label htmlFor="last_name">Last Name </label>
+                                        <input
+                                            name="last_name"
+                                            type="text"
+                                            id="last_name"
+                                            placeholder="Enter Last Name"
+                                            className="form-input"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.last_name}
+                                        />
+                                        {formik.submitCount ? formik.errors.last_name ? <div className="text-danger mt-1">{formik.errors.last_name}</div> : "" : null}
                                     </div>
-                                    <div>
-                                        <label htmlFor="country">Country</label>
-                                        <select defaultValue="United States" id="country" className="form-select text-white-dark">
-                                            <option value="All Countries">All Countries</option>
-                                            <option value="United States">United States</option>
-                                            <option value="India">India</option>
-                                            <option value="Japan">Japan</option>
-                                            <option value="China">China</option>
-                                            <option value="Brazil">Brazil</option>
-                                            <option value="Norway">Norway</option>
-                                            <option value="Canada">Canada</option>
-                                        </select>
+                                    <div className={formik.submitCount ? (formik.errors.email ? 'has-error' : 'has-success') : ''}>
+                                        <label htmlFor="email">Email </label>
+                                        <input
+                                            name="email"
+                                            type="email"
+                                            id="email"
+                                            placeholder="Enter Email "
+                                            readOnly
+                                            className="form-input readonly_input "
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.email}
+                                        />
+                                        {formik.submitCount ? formik.errors.email ? <div className="text-danger mt-1">{formik.errors.email}</div> : "" : null}
                                     </div>
-                                    <div>
-                                        <label htmlFor="address">Address</label>
-                                        <input id="address" type="text" placeholder="New York" className="form-input" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="location">Location</label>
-                                        <input id="location" type="text" placeholder="Location" className="form-input" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="phone">Phone</label>
-                                        <input id="phone" type="text" placeholder="+1 (530) 555-12121" className="form-input" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="email">Email</label>
-                                        <input id="email" type="email" placeholder="Jimmy@gmail.com" className="form-input" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="web">Website</label>
-                                        <input id="web" type="text" placeholder="Enter URL" className="form-input" />
-                                    </div>
-                                    <div>
-                                        <label className="inline-flex cursor-pointer">
-                                            <input type="checkbox" className="form-checkbox" />
-                                            <span className="text-white-dark relative checked:bg-none">Make this my default address</span>
-                                        </label>
-                                    </div>
+
                                     <div className="sm:col-span-2 mt-3">
-                                        <button type="button" className="btn btn-primary">
+                                        <button type="submit" className="btn btn-primary"
+                                        // onClick={() => {
+                                        //     if (Object.keys(formik.touched).length !== 0 && Object.keys(formik.errors).length === 0) {
+                                        //         formik.handleSubmit();
+                                        //     }
+                                        // }}
+                                        >
                                             Save
                                         </button>
                                     </div>
-                                </div>
-                            </div>
-                        </form>
-                        <form className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 bg-white dark:bg-black">
-                            <h6 className="text-lg font-bold mb-5">Social</h6>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                <div className="flex">
-                                    <div className="bg-[#eee] flex justify-center items-center rounded px-3 font-semibold dark:bg-[#1b2e4b] ltr:mr-2 rtl:ml-2">
-                                        <IconLinkedin className="w-5 h-5" />
-                                    </div>
-                                    <input type="text" placeholder="jimmy_turner" className="form-input" />
-                                </div>
-                                <div className="flex">
-                                    <div className="bg-[#eee] flex justify-center items-center rounded px-3 font-semibold dark:bg-[#1b2e4b] ltr:mr-2 rtl:ml-2">
-                                        <IconTwitter className="w-5 h-5" />
-                                    </div>
-                                    <input type="text" placeholder="jimmy_turner" className="form-input" />
-                                </div>
-                                <div className="flex">
-                                    <div className="bg-[#eee] flex justify-center items-center rounded px-3 font-semibold dark:bg-[#1b2e4b] ltr:mr-2 rtl:ml-2">
-                                        <IconFacebook className="w-5 h-5" />
-                                    </div>
-                                    <input type="text" placeholder="jimmy_turner" className="form-input" />
-                                </div>
-                                <div className="flex">
-                                    <div className="bg-[#eee] flex justify-center items-center rounded px-3 font-semibold dark:bg-[#1b2e4b] ltr:mr-2 rtl:ml-2">
-                                        <IconGithub />
-                                    </div>
-                                    <input type="text" placeholder="jimmy_turner" className="form-input" />
                                 </div>
                             </div>
                         </form>
@@ -176,202 +364,71 @@ const AccountSetting = () => {
                 )}
                 {tabs === 'payment-details' ? (
                     <div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-                            <div className="panel">
-                                <div className="mb-5">
-                                    <h5 className="font-semibold text-lg mb-4">Billing Address</h5>
-                                    <p>
-                                        Changes to your <span className="text-primary">Billing</span> information will take effect starting with scheduled payment and will be refelected on your next
-                                        invoice.
-                                    </p>
-                                </div>
-                                <div className="mb-5">
-                                    <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                                        <div className="flex items-start justify-between py-3">
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Address #1
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">2249 Caynor Circle, New Brunswick, New Jersey</span>
-                                            </h6>
-                                            <div className="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                                <button className="btn btn-dark">Edit</button>
-                                            </div>
-                                        </div>
+                        <form onSubmit={formik2.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
+                            <h6 className="text-lg font-bold mb-5">Update Password</h6>
+                            <div className="flex flex-col sm:flex-row">
+                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                    <div className={formik2.submitCount ? (formik2.errors.old_password ? 'has-error' : 'has-success') : ''}>
+                                        <label htmlFor="old_password">Current Password </label>
+                                        <input
+                                            name="old_password" type="password" id="old_password" placeholder="Enter First Name"
+                                            className="form-input"
+                                            onChange={formik2.handleChange}
+                                            onBlur={formik2.handleBlur}
+                                            value={formik2.values.old_password}
+                                        />
+                                        {formik2.submitCount ? (
+                                            formik2.errors.old_password ? (
+                                                <div className="text-danger mt-1">{formik2.errors.old_password}</div>
+                                            ) : (
+                                                ""
+                                            )
+                                        ) : null}
                                     </div>
-                                    <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                                        <div className="flex items-start justify-between py-3">
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Address #2
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">4262 Leverton Cove Road, Springfield, Massachusetts</span>
-                                            </h6>
-                                            <div className="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                                <button className="btn btn-dark">Edit</button>
-                                            </div>
-                                        </div>
+
+                                    <div className={formik2.submitCount ? (formik2.errors.password ? 'has-error' : 'has-success') : ''}>
+                                        <label htmlFor="password">New Password </label>
+                                        <input
+                                            name="password"
+                                            type="password"
+                                            id="password"
+                                            placeholder="Enter Last Name"
+                                            className="form-input"
+                                            onChange={formik2.handleChange}
+                                            onBlur={formik2.handleBlur}
+                                            value={formik2.values.password}
+                                        />
+                                        {formik2.submitCount ? formik2.errors.password ? <div className="text-danger mt-1">{formik2.errors.password}</div> : "" : null}
                                     </div>
-                                    <div>
-                                        <div className="flex items-start justify-between py-3">
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Address #3
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">2692 Berkshire Circle, Knoxville, Tennessee</span>
-                                            </h6>
-                                            <div className="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                                <button className="btn btn-dark">Edit</button>
-                                            </div>
-                                        </div>
+                                    <div className={formik2.submitCount ? (formik2.errors.password_confirmation ? 'has-error' : 'has-success') : ''}>
+                                        <label htmlFor="password_confirmation">Confirm Password </label>
+                                        <input
+                                            name="password_confirmation"
+                                            type="password"
+                                            id="password_confirmation"
+                                            placeholder="Enter Email "
+                                            className="form-input"
+                                            onChange={formik2.handleChange}
+                                            onBlur={formik2.handleBlur}
+                                            value={formik2.values.password_confirmation}
+                                        />
+                                        {formik2.submitCount ? formik2.errors.password_confirmation ? <div className="text-danger mt-1">{formik2.errors.password_confirmation}</div> : "" : null}
                                     </div>
-                                </div>
-                                <button className="btn btn-primary">Add Address</button>
-                            </div>
-                            <div className="panel">
-                                <div className="mb-5">
-                                    <h5 className="font-semibold text-lg mb-4">Payment History</h5>
-                                    <p>
-                                        Changes to your <span className="text-primary">Payment Method</span> information will take effect starting with scheduled payment and will be refelected on your
-                                        next invoice.
-                                    </p>
-                                </div>
-                                <div className="mb-5">
-                                    <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                                        <div className="flex items-start justify-between py-3">
-                                            <div className="flex-none ltr:mr-4 rtl:ml-4">
-                                                <img src="/assets/images/card-americanexpress.svg" alt="img" />
-                                            </div>
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Mastercard
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">XXXX XXXX XXXX 9704</span>
-                                            </h6>
-                                            <div className="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                                <button className="btn btn-dark">Edit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                                        <div className="flex items-start justify-between py-3">
-                                            <div className="flex-none ltr:mr-4 rtl:ml-4">
-                                                <img src="/assets/images/card-mastercard.svg" alt="img" />
-                                            </div>
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                American Express
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">XXXX XXXX XXXX 310</span>
-                                            </h6>
-                                            <div className="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                                <button className="btn btn-dark">Edit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="flex items-start justify-between py-3">
-                                            <div className="flex-none ltr:mr-4 rtl:ml-4">
-                                                <img src="/assets/images/card-visa.svg" alt="img" />
-                                            </div>
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Visa
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">XXXX XXXX XXXX 5264</span>
-                                            </h6>
-                                            <div className="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                                <button className="btn btn-dark">Edit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button className="btn btn-primary">Add Payment Method</button>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            <div className="panel">
-                                <div className="mb-5">
-                                    <h5 className="font-semibold text-lg mb-4">Add Billing Address</h5>
-                                    <p>
-                                        Changes your New <span className="text-primary">Billing</span> Information.
-                                    </p>
-                                </div>
-                                <div className="mb-5">
-                                    <form>
-                                        <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div>
-                                                <label htmlFor="billingName">Name</label>
-                                                <input id="billingName" type="text" placeholder="Enter Name" className="form-input" />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="billingEmail">Email</label>
-                                                <input id="billingEmail" type="email" placeholder="Enter Email" className="form-input" />
-                                            </div>
-                                        </div>
-                                        <div className="mb-5">
-                                            <label htmlFor="billingAddress">Address</label>
-                                            <input id="billingAddress" type="text" placeholder="Enter Address" className="form-input" />
-                                        </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
-                                            <div className="md:col-span-2">
-                                                <label htmlFor="billingCity">City</label>
-                                                <input id="billingCity" type="text" placeholder="Enter City" className="form-input" />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="billingState">State</label>
-                                                <select id="billingState" className="form-select text-white-dark">
-                                                    <option>Choose...</option>
-                                                    <option>...</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label htmlFor="billingZip">Zip</label>
-                                                <input id="billingZip" type="text" placeholder="Enter Zip" className="form-input" />
-                                            </div>
-                                        </div>
-                                        <button type="button" className="btn btn-primary">
-                                            Add
+
+                                    <div className="sm:col-span-2 mt-3">
+                                        <button type="submit" className="btn btn-primary"
+                                        // onClick={() => {
+                                        //     if (Object.keys(formik2.touched).length !== 0 && Object.keys(formik2.errors).length === 0) {
+                                        //         formik2.handleSubmit();
+                                        //     }
+                                        // }}
+                                        >
+                                            Save
                                         </button>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="panel">
-                                <div className="mb-5">
-                                    <h5 className="font-semibold text-lg mb-4">Add Payment Method</h5>
-                                    <p>
-                                        Changes your New <span className="text-primary">Payment Method </span>
-                                        Information.
-                                    </p>
-                                </div>
-                                <div className="mb-5">
-                                    <form>
-                                        <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div>
-                                                <label htmlFor="payBrand">Card Brand</label>
-                                                <select id="payBrand" className="form-select text-white-dark">
-                                                    <option value="Mastercard">Mastercard</option>
-                                                    <option value="American Express">American Express</option>
-                                                    <option value="Visa">Visa</option>
-                                                    <option value="Discover">Discover</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label htmlFor="payNumber">Card Number</label>
-                                                <input id="payNumber" type="text" placeholder="Card Number" className="form-input" />
-                                            </div>
-                                        </div>
-                                        <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div>
-                                                <label htmlFor="payHolder">Holder Name</label>
-                                                <input id="payHolder" type="text" placeholder="Holder Name" className="form-input" />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="payCvv">CVV/CVV2</label>
-                                                <input id="payCvv" type="text" placeholder="CVV" className="form-input" />
-                                            </div>
-                                        </div>
-                                        <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div>
-                                                <label htmlFor="payExp">Card Expiry</label>
-                                                <input id="payExp" type="text" placeholder="Card Expiry" className="form-input" />
-                                            </div>
-                                        </div>
-                                        <button type="button" className="btn btn-primary">
-                                            Add
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 ) : (
                     ''
@@ -504,4 +561,4 @@ const AccountSetting = () => {
     );
 };
 
-export default AccountSetting;
+export default withApiHandler(AccountSetting);

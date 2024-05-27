@@ -25,17 +25,25 @@ const useHandleError = () => {
     const navigate = useNavigate();
 
     const handleError = (error: AxiosError) => {
-        if (error.response && error.response.status === 401) {
+        console.log(error.response, "axios error");
+        if (error.response && error.response.status === "401") {
             navigate('/auth/cover-login');
             showMessage('Invalid access token');
             localStorage.clear();
-        } else if (error.response && error.response.data) {
-            const responseData: { status_code?: string, message?: string | string[] } = error.response.data;
+        } else if (error.response && error.response.status === "422") {
+            const responseData = error.response.data as { message?: string };
+
+            if (responseData && responseData.message) {
+                showMessage(responseData.message);
+            } else {
+                showMessage('An error occurred.');
+            }
+        } else if (error.response && error.response.status) {
+            const responseData = error.response.data as { status_code?: string, message?: string | string[] };
 
             if (responseData.status_code === '404') {
                 navigate('/pages/error404');
-            }
-            else if (responseData.status_code === '500') {
+            } else if (responseData.status_code === '500') {
                 navigate('/pages/error500');
             } else if (responseData.message) {
                 const errorMessage = Array.isArray(responseData.message)
@@ -55,5 +63,6 @@ const useHandleError = () => {
 
     return handleError;
 };
+
 
 export default useHandleError;
