@@ -50,19 +50,10 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
     const [CompanyList, setCompanyList] = useState<Company[]>([]);
     const [SiteList, setSiteList] = useState<Site[]>([]);
 
-    console.log(ClientList, "ClientListClientList");
 
 
 
 
-    const token: string | null = localStorage.getItem("token");
-
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
 
 
 
