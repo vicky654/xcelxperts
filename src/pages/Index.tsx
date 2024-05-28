@@ -29,6 +29,11 @@ import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import useApiErrorHandler from '../hooks/useHandleError';
 import LoaderImg from '../utils/Loader';
 
+interface FilterValues {
+    client_id: string;
+    company_id: string;
+    site_id: string;
+}
 
 interface IndexProps {
     isLoading: boolean; // Define the type of the loading prop
@@ -40,6 +45,31 @@ interface IndexProps {
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const handleError = useHandleError();
     const handleApiError = useApiErrorHandler(); // Use the hook here
+    const [filters, setFilters] = useState({
+        client_id: localStorage.getItem('client_id') || '',
+        company_id: localStorage.getItem('company_id') || '',
+        site_id: localStorage.getItem('site_id') || ''
+    });
+    const [filterData, setFilterData] = useState(null);
+
+    const fetchData = async (filters: FilterValues) => {
+        try {
+            const { client_id, company_id, site_id } = filters;
+            const queryParams = new URLSearchParams();
+
+            if (client_id) queryParams.append('client_id', client_id);
+            if (company_id) queryParams.append('company_id', company_id);
+            if (site_id) queryParams.append('site_id', site_id);
+
+            const queryString = queryParams.toString();
+            const response = await getData(`dashboard/stats?${queryString}`);
+            // setData(response.data);
+        } catch (error) {
+            console.error('Failed to fetch data', error);
+        } finally {
+        }
+    };
+
 
     // Using useSelector to extract the data from the Redux store
     const { data, error } = useSelector((state: IRootState) => state?.data);
@@ -83,6 +113,22 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             handleApiError(error); // Use the hook here to handle the error
             console.error("API error:", error);
         }
+    };
+
+    useEffect(() => {
+        fetchData(filters);
+    }, [filters]);
+
+    const handleApplyFilters = (values: FilterValues) => {
+        setFilters({
+            client_id: values.client_id,
+            company_id: values.company_id,
+            site_id: values.site_id
+        });
+        localStorage.setItem('client_id', values.client_id);
+        localStorage.setItem('company_id', values.company_id);
+        localStorage.setItem('site_id', values.site_id);
+        setModalOpen(false);
     };
 
 
@@ -461,22 +507,26 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         <>
             {isLoading ? <LoaderImg /> : ""}
             <div>
-                <ul className="flex space-x-2 rtl:space-x-reverse">
-                    <li>
-                        <Link to="/" className="text-primary hover:underline">
-                            Dashboard
-                        </Link>
-                    </li>
-                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Sales</span>
-                    </li>
-                </ul>
+                <div className='flex justify-between items-center'>
+                    <ul className="flex space-x-2 rtl:space-x-reverse">
+                        <li>
+                            <Link to="/" className="text-primary hover:underline">
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                            <span>Sales</span>
+                        </li>
+                    </ul>
 
-                <div>
-                    <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
-                        Apply Filter
-                    </button>
-                    <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+                    <div>
+                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
+                            Apply Filter
+                        </button>
+                        <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
+                            onApplyFilters={handleApplyFilters} // Pass the handler to the modal
+                        />
+                    </div>
                 </div>
 
                 <div className="pt-5">

@@ -1,20 +1,30 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import IconX from '../../components/Icon/IconX';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-import { useNavigate } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
 import useHandleError from '../../hooks/useHandleError';
 import withApiHandler from '../../utils/withApiHandler';
+import LoaderImg from '../../utils/Loader';
+import { useNavigate } from 'react-router-dom';
+import useApiErrorHandler from '../../hooks/useHandleError';
+
+
+interface FilterValues {
+    client_id: string;
+    company_id: string;
+    site_id: string;
+}
 
 interface ModalProps {
     isOpen: boolean;
+    isLoading: boolean;
     onClose: () => void;
     isRtl?: boolean; // If needed
     getData: (url: string, id?: string, params?: any) => Promise<any>;
+    onApplyFilters: (values: FilterValues) => void;
 }
 
 interface Client {
@@ -33,318 +43,259 @@ interface Site {
     site_name: string;
 }
 
-const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = false, getData }) => {
-    const { data, error } = useSelector((state: IRootState) => state.data);
-
+const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = false, getData, isLoading, onApplyFilters }) => {
+    const { data } = useSelector((state: IRootState) => state.data);
     const handleError = useHandleError();
-
-    const [selectedCompanyList, setSelectedCompanyList] = useState<Company[]>([]);
-    const [myclientID, setMyClientID] = useState<string | null>(localStorage.getItem("superiorId"));
-    const [myClientRole, setMyClientRole] = useState<string | null>(localStorage.getItem("superiorRole"));
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();
-    const [selectedClientId, setSelectedClientId] = useState<string>("");
-    const [selectedCompanyId, setSelectedCompanyId] = useState<string>("");
-    const [selectedSiteId, setSelectedSiteId] = useState<string>("");
-    const [ClientList, setClientList] = useState<Client[]>([]);
-    const [CompanyList, setCompanyList] = useState<Company[]>([]);
-    const [SiteList, setSiteList] = useState<Site[]>([]);
+    const handleApiError = useApiErrorHandler(); // Use the hook here
 
-
-
-
-
-
-
-
-
-
-    const fetchCommonListData = async () => {
-        setIsLoading(true);
-        try {
-            const response = await getData(`/common/client-list`);
-            // const response = await axiosInstance.get<Client[]>("/common/client-list");
-            setIsLoading(true);
-            const { data } = response;
-            if (data && data.data) {
-                setClientList(response.data?.data);
-                const clientId = localStorage.getItem("superiorId");
-                if (clientId) {
-                    setSelectedClientId(clientId);
-                    setSelectedCompanyList([]);
-                    if (response?.data) {
-                        const selectedClient = response?.data?.find((client: Client) => client.id === clientId);
-                        if (selectedClient) {
-                            setSelectedCompanyList(selectedClient.companies);
-                        }
-                    }
-                }
-            }
-            setIsLoading(false);
-        } catch (error) {
-            console.error("API error:", error);
-            setIsLoading(false);
-        }
-    };
-
-    const GetCompanyList = async (values: string) => {
-        setIsLoading(true);
-        try {
-            const response = await getData(`common/company-list?client_id=${values}`);
-            setIsLoading(true);
-            if (response) {
-                setCompanyList(response?.data?.data);
-            }
-            setIsLoading(false);
-        } catch (error) {
-            handleError(error as AxiosError);
-            console.error("API error:", error);
-            setIsLoading(false);
-        }
-    };
-
-    const GetSiteList = async (values: string) => {
-        setIsLoading(true);
-        try {
-            const response = await getData(`common/site-list?company_id=${values}`);
-            setIsLoading(true);
-            if (response) {
-                setSiteList(response?.data?.data);
-            } else {
-                throw new Error("No data available in the response");
-            }
-            setIsLoading(false);
-        } catch (error) {
-            handleError(error as AxiosError);
-            console.error("API error:", error);
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        const clientId = localStorage.getItem("superiorId");
-
-        if (myClientRole !== "Client") {
-            fetchCommonListData();
-        } else {
-            setTimeout(() => {
-                GetCompanyList(myclientID || "");
-                setSelectedClientId(myclientID || "");
-            }, 500);
-        }
-        console.clear();
-    }, [myclientID, myClientRole]);
 
     const formik = useFormik({
         initialValues: {
-            client_id: "",
+            client_id: localStorage.getItem("superiorId") || "",
             client_name: "",
             company_id: "",
             company_name: "",
             site_id: "",
             site_name: "",
+            clients: [] as Client[],
+            companies: [] as Company[],
+            sites: [] as Site[],
         },
         validationSchema: Yup.object({
             company_id: Yup.string().required("Company is required"),
         }),
         onSubmit: (values) => {
+            onApplyFilters(values as FilterValues); // Type assertion to FilterValues
+            console.log(values, "myvaluess");
             // handlesubmitvalues(values);
         },
     });
 
+    const fetchClientList = async () => {
+        try {
+            const response = await getData('/common/client-list');
+            const clients = response.data.data;
+            formik.setFieldValue('clients', clients);
+            const clientId = localStorage.getItem("superiorId");
+            if (clientId) {
+                formik.setFieldValue('client_id', clientId);
+                const selectedClient = clients.find((client: Client) => client.id === clientId);
+                if (selectedClient) {
+                    formik.setFieldValue('companies', selectedClient.companies);
+                }
+            }
+        } catch (error) {
+            handleApiError(error)
+        }
+    };
+
+    const fetchCompanyList = async (clientId: string) => {
+        try {
+            const response = await getData(`common/company-list?client_id=${clientId}`);
+            formik.setFieldValue('companies', response.data.data);
+        } catch (error) {
+            handleApiError(error)
+        }
+    };
+
+    const fetchSiteList = async (companyId: string) => {
+        try {
+            const response = await getData(`common/site-list?company_id=${companyId}`);
+            formik.setFieldValue('sites', response.data.data);
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+    useEffect(() => {
+        if (localStorage.getItem("superiorRole") !== "Client") {
+            fetchClientList();
+        } else {
+            fetchCompanyList(localStorage.getItem("superiorId") || "");
+        }
+    }, []);
+
+    const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const clientId = e.target.value;
+        formik.setFieldValue('client_id', clientId);
+        if (clientId) {
+            fetchCompanyList(clientId);
+            const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
+            formik.setFieldValue('client_name', selectedClient?.client_name || "");
+            formik.setFieldValue('companies', selectedClient?.companies || []);
+            formik.setFieldValue('sites', []);
+            formik.setFieldValue('company_id', "");
+            formik.setFieldValue('site_id', "");
+        } else {
+            formik.setFieldValue('company_id', "");
+            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('client_name', "");
+            formik.setFieldValue('companies', []);
+            formik.setFieldValue('sites', []);
+            formik.setFieldValue('company_name', "");
+            formik.setFieldValue('site_name', "");
+        }
+    };
+
+    const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const companyId = e.target.value;
+        formik.setFieldValue('company_id', companyId);
+        if (companyId) {
+            fetchSiteList(companyId);
+            const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
+            formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+            formik.setFieldValue('sites', []);
+        } else {
+            formik.setFieldValue('company_name', "");
+            formik.setFieldValue('sites', []);
+            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('site_name', "");
+        }
+    };
+
+    const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedSiteId = e.target.value;
+        formik.setFieldValue("site_id", selectedSiteId);
+        const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
+        if (selectedSiteData) {
+            formik.setFieldValue("site_name", selectedSiteData.site_name);
+        } else {
+            formik.setFieldValue("site_name", "");
+        }
+    };
+
+    console.log(formik?.values, "formik value");
+
 
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" open={isOpen} onClose={onClose}>
-                <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <div className="fixed inset-0" />
-                </Transition.Child>
-                <div id="fadein_right_modal" className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
-                    <div className="flex min-h-screen items-start justify-center px-4">
-                        <Dialog.Panel
-                            className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${isRtl ? 'animate__fadeInLeft' : 'animate__fadeInRight'
-                                }`}
-                        >
-                            <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                <h5 className="text-lg font-bold">
-                                    Hii {data?.first_name}, Apply Filter
-                                </h5>
-                                <button onClick={onClose} type="button" className="text-white-dark hover:text-dark">
-                                    <IconX />
-                                </button>
-                            </div>
+        <>
+            {isLoading && <LoaderImg />}
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog as="div" open={isOpen} onClose={onClose}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0" />
+                    </Transition.Child>
+                    <div id="fadein_right_modal" className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
+                        <div className="flex min-h-screen items-start justify-center px-4">
+                            <Dialog.Panel
+                                className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${isRtl ? 'animate__fadeInLeft' : 'animate__fadeInRight'
+                                    }`}
+                            >
+                                <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
+                                    <h5 className="text-lg font-bold">
+                                        Hii {data?.first_name}, Apply Filter
+                                    </h5>
+                                    <button onClick={onClose} type="button" className="text-white-dark hover:text-dark">
+                                        <IconX />
+                                    </button>
+                                </div>
 
-                            <div className="p-5">
-                                <div className="flex flex-wrap">
+                                <div className="p-5">
 
-                                    {localStorage.getItem("superiorRole") !== "Client" && (
-                                        <div className="w-full lg:w-1/2 md:w-1/2 px-4">
-                                            <div className="form-group mt-4">
-                                                <label htmlFor="client_id" className="form-label">
-                                                    Client
-                                                </label>
-                                                <select
-                                                    className={`input101 ${formik.errors.client_id && formik.touched.client_id ? "is-invalid" : ""}`}
-                                                    id="client_id"
-                                                    name="client_id"
-                                                    value={formik.values.client_id}
-                                                    onChange={(e) => {
-                                                        const selectedType = e.target.value;
-                                                        if (selectedType) {
-                                                            GetCompanyList(selectedType);
-                                                            formik.setFieldValue("client_id", selectedType);
-                                                            setSelectedClientId(selectedType);
-                                                            setSiteList([]);
-                                                            formik.setFieldValue("company_id", "");
-                                                            formik.setFieldValue("site_id", "");
-                                                            const selectedClient = ClientList?.find((client) => client.id === selectedType);
-                                                            if (selectedClient) {
-                                                                formik.setFieldValue("client_name", selectedClient?.client_name);
-                                                            }
-                                                        } else {
-                                                            formik.setFieldValue("client_id", "");
-                                                            formik.setFieldValue("company_id", "");
-                                                            formik.setFieldValue("site_id", "");
-                                                            setSiteList([]);
-                                                            setCompanyList([]);
-                                                        }
-                                                    }}
-                                                >
-                                                    <option value="">Select a Client</option>
-                                                    {ClientList && ClientList.length > 0 ? (
-                                                        ClientList.map((item) => (
-                                                            <option key={item.id} value={item.id}>
-                                                                {item.client_name}
-                                                            </option>
-                                                        ))
-                                                    ) : (
-                                                        <option disabled>No Client</option>
-                                                    )}
-                                                </select>
-                                                {formik.errors.client_id && formik.touched.client_id && (
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.client_id}
-                                                    </div>
+                                    <form onSubmit={formik.handleSubmit} >
+                                        <div className="flex flex-col sm:flex-row">
+                                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                                {localStorage.getItem("superiorRole") !== "Client" && (
+                                                    <>
+                                                        <div className={formik.submitCount ? (formik.errors.client_id ? 'has-error' : 'has-success') : ''}>
+                                                            <label htmlFor="client_id">Client</label>
+                                                            <select
+                                                                id="client_id"
+                                                                onChange={handleClientChange}
+                                                                value={formik.values.client_id}
+                                                                className="form-select text-white-dark">
+                                                                <option value="">Select a Client</option>
+                                                                {formik.values.clients.length > 0 ? (
+                                                                    formik.values.clients.map((item) => (
+                                                                        <option key={item.id} value={item.id}>
+                                                                            {item.client_name}
+                                                                        </option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option disabled>No Client</option>
+                                                                )}
+                                                            </select>
+                                                            {formik.submitCount ? formik.errors.client_id ? <div className="text-danger mt-1">{formik.errors.client_id}</div> : "" : null}
+                                                        </div>
+                                                    </>
                                                 )}
+
+                                                <div className={formik.submitCount ? (formik.errors.company_id ? 'has-error' : 'has-success') : ''}>
+                                                    <label htmlFor="company_id">Company</label>
+                                                    <select
+                                                        id="company_id"
+                                                        onChange={handleCompanyChange}
+                                                        value={formik.values.company_id}
+                                                        className="form-select text-white-dark">
+                                                        <option value="">Select a Company</option>
+                                                        {formik.values.companies.length > 0 ? (
+                                                            formik.values.companies.map((company) => (
+                                                                <option key={company.id} value={company.id}>
+                                                                    {company.company_name}
+                                                                </option>
+                                                            ))
+                                                        ) : (
+                                                            <option disabled>No Company</option>
+                                                        )}
+                                                    </select>
+                                                    {formik.submitCount ? formik.errors.company_id ? <div className="text-danger mt-1">{formik.errors.company_id}</div> : "" : null}
+                                                </div>
+
+
+
+                                                <div className={formik.submitCount ? (formik.errors.site_id ? 'has-error' : 'has-success') : ''}>
+                                                    <label htmlFor="site_id">Site Name</label>
+                                                    <select
+                                                        id="site_id"
+                                                        onChange={(e) => {
+                                                            const selectedSiteId = e.target.value;
+                                                            formik.setFieldValue("site_id", selectedSiteId);
+                                                            const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
+                                                            if (selectedSiteData) {
+                                                                formik.setFieldValue("site_name", selectedSiteData.site_name);
+                                                            }
+                                                        }}
+                                                        value={formik.values.site_id}
+                                                        className="form-select text-white-dark">
+                                                        <option value="">Select a Site Name</option>
+                                                        {formik.values.sites.length > 0 ? (
+                                                            formik.values.sites.map((site) => (
+                                                                <option key={site.id} value={site.id}>
+                                                                    {site.site_name}
+                                                                </option>
+                                                            ))
+                                                        ) : (
+                                                            <option disabled>No Site</option>
+                                                        )}
+                                                    </select>
+                                                    {formik.submitCount ? formik.errors.site_id ? <div className="text-danger mt-1">{formik.errors.site_id}</div> : "" : null}
+                                                </div>
+
+                                                <div className="sm:col-span-2 mt-3">
+                                                    <button type="submit" className="btn btn-primary"
+                                                    >
+                                                        Apply
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    )}
-
-                                    <div className="w-full lg:w-1/2 md:w-1/2 px-4">
-                                        <div className="form-group mt-4">
-                                            <label htmlFor="company_id" className="form-label">
-                                                Company
-                                                <span className="text-danger">*</span>
-                                            </label>
-                                            <select
-                                                className={`input101 ${formik.errors.company_id && formik.touched.company_id ? "is-invalid" : ""}`}
-                                                id="company_id"
-                                                name="company_id"
-                                                value={formik.values.company_id}
-                                                onChange={(e) => {
-                                                    const selectcompany = e.target.value;
-                                                    if (selectcompany) {
-                                                        GetSiteList(selectcompany);
-                                                        formik.setFieldValue("site_id", "");
-                                                        formik.setFieldValue("company_id", selectcompany);
-                                                        setSelectedCompanyId(selectcompany);
-                                                        const selectedCompanyData = CompanyList?.find((company) => company?.id === selectcompany);
-                                                        if (selectedCompanyData) {
-                                                            formik.setFieldValue("company_name", selectedCompanyData?.company_name);
-                                                            formik.setFieldValue("company_id", selectedCompanyData?.id);
-                                                        }
-                                                    } else {
-                                                        formik.setFieldValue("company_id", "");
-                                                        formik.setFieldValue("site_id", "");
-                                                        setSiteList([]);
-                                                    }
-                                                }}
-                                            >
-                                                <option value="">Select a Company</option>
-                                                {selectedClientId && CompanyList.length > 0 ? (
-                                                    <>
-                                                        setSelectedCompanyId([])
-                                                        {CompanyList.map((company) => (
-                                                            <option key={company.id} value={company.id}>
-                                                                {company.company_name}
-                                                            </option>
-                                                        ))}
-                                                    </>
-                                                ) : (
-                                                    <option disabled>No Company</option>
-                                                )}
-                                            </select>
-                                            {formik.errors.company_id && formik.touched.company_id && (
-                                                <div className="invalid-feedback">
-                                                    {formik.errors.company_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="w-full lg:w-1/2 md:w-1/2 px-4">
-                                        <div className="form-group mt-4">
-                                            <label htmlFor="site_id" className="form-label">
-                                                Site Name
-                                            </label>
-                                            <select
-                                                className={`input101 ${formik.errors.site_id && formik.touched.site_id ? "is-invalid" : ""}`}
-                                                id="site_id"
-                                                name="site_id"
-                                                value={formik.values.site_id}
-                                                onChange={(e) => {
-                                                    const selectedsite_id = e.target.value;
-                                                    formik.setFieldValue("site_id", selectedsite_id);
-                                                    setSelectedSiteId(selectedsite_id);
-                                                    const selectedSiteData = SiteList.find((site) => site.id === selectedsite_id);
-                                                    if (selectedSiteData) {
-                                                        formik.setFieldValue("site_name", selectedSiteData.site_name);
-                                                    }
-                                                }}
-                                            >
-                                                <option value="">Select a Site</option>
-                                                {CompanyList && SiteList.length > 0 ? (
-                                                    SiteList.map((site) => (
-                                                        <option key={site.id} value={site.id}>
-                                                            {site.site_name}
-                                                        </option>
-                                                    ))
-                                                ) : (
-                                                    <option disabled>No Site</option>
-                                                )}
-                                            </select>
-                                            {formik.errors.site_id && formik.touched.site_id && (
-                                                <div className="invalid-feedback">
-                                                    {formik.errors.site_id}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
+                                    </form>
                                 </div>
-
-                                <div className="mt-8 flex items-center justify-end">
-                                    <button onClick={onClose} type="button" className="btn btn-outline-danger">
-                                        Discard
-                                    </button>
-                                    <button onClick={onClose} type="button" className="btn btn-primary ltr:ml-4 rtl:mr-4">
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-                        </Dialog.Panel>
+                            </Dialog.Panel>
+                        </div>
                     </div>
-                </div>
-            </Dialog>
-        </Transition>
+                </Dialog>
+            </Transition>
+        </>
     );
 };
 
