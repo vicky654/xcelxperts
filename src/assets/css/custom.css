@@ -81,3 +81,6 @@
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
+.text-danger {
+  color: #f82649 !important;
+}

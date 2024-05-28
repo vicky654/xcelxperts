@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../Dropdown';
 import IconMenu from '../Icon/IconMenu';
 import IconSearch from '../Icon/IconSearch';
-import IconXCircle from '../Icon/IconXCircle';
 import IconBellBing from '../Icon/IconBellBing';
 import IconUser from '../Icon/IconUser';
 import IconLockDots from '../Icon/IconLockDots';
@@ -96,8 +95,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
             console.error('API error:', error);
         }
     };
- 
-    
+
   
 
  
@@ -136,6 +134,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                             >
                                 <IconSearch className="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
                             </button>
+
                         </div>
                       
                        

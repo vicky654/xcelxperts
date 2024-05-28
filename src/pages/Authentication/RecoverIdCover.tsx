@@ -165,7 +165,7 @@ const RecoverIdCover = () => {
                                 </div>
                                 <form className="space-y-5" onSubmit={formik.handleSubmit}>
                                     <div>
-                                        <label htmlFor="email">Email</label>
+                                        <label htmlFor="email">Email<span className="text-danger">*</span></label>
                                         <div className="relative text-white-dark">
                                             <input
                                                 id="email"

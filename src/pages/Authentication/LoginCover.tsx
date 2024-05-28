@@ -46,7 +46,7 @@ const LoginCover = () => {
         }),
         onSubmit: async (values) => {
             const { email, password } = values;
-            setLoading(true)
+            setLoading(true);
 
             try {
                 const response = await fetch(`${baseUrl}/login`, {
@@ -74,27 +74,25 @@ const LoginCover = () => {
                     } else if (data?.data?.is_verified === false) {
                         navigate('/validateOtp');
                     }
-                    setLoading(false)
+                    setLoading(false);
                     // localStorage.setItem('justLoggedIn', true);
                 } else {
-                    setLoading(false)
+                    setLoading(false);
                     showMessage(data?.message, 'error');
                     // Handle error response
                     console.error('Error:', data?.message);
                 }
             } catch (error) {
-                setLoading(false)
+                setLoading(false);
                 showMessage('An error occurred during login', 'error');
                 console.error('Fetch Error:', error);
             }
-            setLoading(false)
+            setLoading(false);
         },
     });
 
     return (
-
         <>
-
             {loading ? <LoaderImg /> : null}
             <div>
                 <div className="absolute inset-0">
@@ -122,7 +120,6 @@ const LoginCover = () => {
                                 <Link to="/" className="w-8 block lg:hidden">
                                     <img src="/assets/images/logo.svg" alt="Logo" className="mx-auto w-10" />
                                 </Link>
-                            
                             </div>
                             <div className="w-full max-w-[440px] lg:mt-16">
                                 <div className="mb-10">
@@ -131,7 +128,9 @@ const LoginCover = () => {
                                 </div>
                                 <form className="space-y-5 dark:text-white" onSubmit={formik.handleSubmit}>
                                     <div>
-                                        <label htmlFor="Email">Email</label>
+                                        <label htmlFor="Email">
+                                            Email <span className="text-danger">*</span>
+                                        </label>
                                         <div className="relative text-white-dark">
                                             <input
                                                 id="Email"
@@ -150,7 +149,9 @@ const LoginCover = () => {
                                         {formik.touched.email && formik.errors.email ? <div className="text-red-500">{formik.errors.email}</div> : null}
                                     </div>
                                     <div>
-                                        <label htmlFor="Password">Password</label>
+                                        <label htmlFor="Password">
+                                            Password <span className="text-danger">*</span>
+                                        </label>
                                         <div className="relative text-white-dark">
                                             <input
                                                 id="Password"

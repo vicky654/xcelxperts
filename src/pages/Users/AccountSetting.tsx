@@ -5,18 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import IconHome from '../../components/Icon/IconHome';
 import IconDollarSignCircle from '../../components/Icon/IconDollarSignCircle';
 import IconUser from '../../components/Icon/IconUser';
-import IconPhone from '../../components/Icon/IconPhone';
-import IconLinkedin from '../../components/Icon/IconLinkedin';
-import IconTwitter from '../../components/Icon/IconTwitter';
-import IconFacebook from '../../components/Icon/IconFacebook';
-import IconGithub from '../../components/Icon/IconGithub';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { IRootState } from '../../store';
 import withApiHandler from '../../utils/withApiHandler';
 import useHandleError from '../../hooks/useHandleError';
-import { AxiosError } from 'axios';
-import { showMessage } from '../../utils/errorHandler';
 import LoaderImg from '../../utils/Loader';
 import useApiErrorHandler from '../../hooks/useHandleError';
 
@@ -373,38 +366,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                 </li>
                             </>)}
 
-
-
-
-                            {/*
-
-                            <li className="inline-block">
-                                <button
-                                    onClick={() => toggleTabs('danger-zone')}
-                                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'danger-zone' ? '!border-primary text-primary' : ''}`}
-                                >
-                                    <IconPhone />
-                                    Mobile App Authentication
-                                </button>
-                            </li>
-                        <li className="inline-block">
-                            <button
-                                onClick={() => toggleTabs('preferences')}
-                                className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'preferences' ? '!border-primary text-primary' : ''}`}
-                            >
-                                <IconUser className="w-5 h-5" />
-                                Preferences
-                            </button>
-                        </li>
-                        <li className="inline-block">
-                            <button
-                                onClick={() => toggleTabs('danger-zone')}
-                                className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'danger-zone' ? '!border-primary text-primary' : ''}`}
-                            >
-                                <IconPhone />
-                                Danger Zone
-                            </button>
-                        </li> */}
+                    
                         </ul>
                     </div>
                     {tabs === 'home' ? (
@@ -417,7 +379,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                     </div>
                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                         <div className={formik.submitCount ? (formik.errors.first_name ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="first_name">First Name </label>
+                                            <label htmlFor="first_name">First Name<span className="text-danger">*</span> </label>
                                             <input
                                                 name="first_name" type="text" id="first_name" placeholder="Enter First Name"
                                                 className="form-input"
@@ -435,7 +397,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         </div>
 
                                         <div className={formik.submitCount ? (formik.errors.last_name ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="last_name">Last Name </label>
+                                            <label htmlFor="last_name">Last Name<span className="text-danger">*</span> </label>
                                             <input
                                                 name="last_name"
                                                 type="text"
@@ -449,7 +411,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                             {formik.submitCount ? formik.errors.last_name ? <div className="text-danger mt-1">{formik.errors.last_name}</div> : "" : null}
                                         </div>
                                         <div className={formik.submitCount ? (formik.errors.email ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="email">Email </label>
+                                            <label htmlFor="email">Email<span className="text-danger">*</span> </label>
                                             <input
                                                 name="email"
                                                 type="email"
@@ -485,11 +447,11 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     {tabs === 'update-password' ? (
                         <div>
                             <form onSubmit={formik2.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
-                                <h6 className="text-lg font-bold mb-5">Update Password</h6>
+                                <h6 className="text-lg font-bold mb-5">Update Password<span className="text-danger">*</span></h6>
                                 <div className="flex flex-col sm:flex-row">
                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-5">
                                         <div className={formik2.submitCount ? (formik2.errors.old_password ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="old_password">Current Password </label>
+                                            <label htmlFor="old_password">Current Password<span className="text-danger">*</span> </label>
                                             <input
                                                 name="old_password" type="password" id="old_password" placeholder="Enter Current Password"
                                                 className="form-input"
@@ -507,7 +469,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         </div>
 
                                         <div className={formik2.submitCount ? (formik2.errors.password ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="password">New Password </label>
+                                            <label htmlFor="password">New Password<span className="text-danger">*</span> </label>
                                             <input
                                                 name="password"
                                                 type="password"
@@ -521,7 +483,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                             {formik2.submitCount ? formik2.errors.password ? <div className="text-danger mt-1">{formik2.errors.password}</div> : "" : null}
                                         </div>
                                         <div className={formik2.submitCount ? (formik2.errors.password_confirmation ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="password_confirmation">Confirm Password </label>
+                                            <label htmlFor="password_confirmation">Confirm Password<span className="text-danger">*</span> </label>
                                             <input
                                                 name="password_confirmation"
                                                 type="password"
@@ -562,7 +524,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
 
                                         <div className={formik3.submitCount ? (formik3.errors.date_format ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="date_format">Date Format</label>
+                                            <label htmlFor="date_format">Date Format<span className="text-danger">*</span></label>
                                             <select
                                                 id="date_format"
                                                 name="date_format"
@@ -578,7 +540,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         </div>
 
                                         <div className={formik3.submitCount ? (formik3.errors.pagination ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="pagination">Pagination </label>
+                                            <label htmlFor="pagination">Pagination<span className="text-danger">*</span> </label>
                                             <input
                                                 name="pagination"
                                                 type="number"
@@ -593,7 +555,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         </div>
 
                                         <div className={formik3.submitCount ? (formik3.errors.auto_logout ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="auto_logout">Auto Logout</label>
+                                            <label htmlFor="auto_logout">Auto Logout<span className="text-danger">*</span></label>
                                             <select
                                                 id="auto_logout"
                                                 onChange={formik3.handleChange}

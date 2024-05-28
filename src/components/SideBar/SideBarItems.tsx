@@ -37,7 +37,7 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'user-list', // Permission associated with the apps menu
         subMenu: [
-            { title: 'Users', link: '/apps/chat', permission: 'user-list', visibility: false },
+            { title: 'Users', link: '/manage-users/user', permission: 'user-list', visibility: false },
             { title: 'Add User', link: '/apps/chat', permission: 'user-create', visibility: false },
         ],
     },

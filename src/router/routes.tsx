@@ -101,6 +101,11 @@ const DateRangePicker = lazy(() => import('../pages/Forms/DateRangePicker'));
 const Clipboard = lazy(() => import('../pages/Forms/Clipboard'));
 
 
+//permissions Routings
+
+const ManageUser = lazy(() => import('../components/SideBarComponents/ManageUser/ManageUser'));
+
+
 
 
 const routes = [
@@ -108,6 +113,44 @@ const routes = [
     path: '/',
     element: <Index />,
   },
+//permissions Routings
+
+{
+  path: '/manage-users/user',
+  element: <ManageUser />,
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   {
     path: '/analytics',
