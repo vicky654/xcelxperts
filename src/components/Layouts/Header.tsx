@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { IRootState } from '../../store';
 import { toggleRTL, toggleTheme, toggleSidebar } from '../../store/themeConfigSlice';
 import { useTranslation } from 'react-i18next';
@@ -35,6 +35,8 @@ import IconMenuMore from '../Icon/Menu/IconMenuMore';
 import { showMessage } from '../../utils/errorHandler';
 import withApiHandler from '../../utils/withApiHandler';
 import menuItems, { MenuItem } from './menuItems';
+import MenuPerComponent, { PerMenuItem } from './MenuPerComponent'; // Assuming this is where your MenuPerComponent is located
+import { permissionItems } from './permissionItems';
 
 interface HeaderProps {
     isLoading: boolean; // Define the type of the loading prop
@@ -42,20 +44,15 @@ interface HeaderProps {
     getData: (url: string, id?: string, params?: any) => Promise<any>;
 }
 
-
 const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     // Using useSelector to extract the data from the Redux store
     const { data, error } = useSelector((state: IRootState) => state?.data);
 
-    const isProfileUpdatePermissionAvailable = data?.permissions?.includes(
-        "profile-update-profile"
-    );
-    const isSettingsPermissionAvailable = data?.permissions?.includes(
-        "config-setting"
-    );
-
+    const isProfileUpdatePermissionAvailable = data?.permissions?.includes('profile-update-profile');
+    const isSettingsPermissionAvailable = data?.permissions?.includes('config-setting');
 
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
@@ -86,102 +83,39 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     function createMarkup(messages: any) {
         return { __html: messages };
     }
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            image: '<span className="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-            title: 'Congratulations!',
-            message: 'Your OS has been updated.',
-            time: '1hr',
-        },
-        {
-            id: 2,
-            image: '<span className="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg g xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
-            title: 'Did you know?',
-            message: 'You can switch between artboards.',
-            time: '2hr',
-        },
-        {
-            id: 3,
-            image: '<span className="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"> <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
-            title: 'Something went wrong!',
-            message: 'Send Reposrt',
-            time: '2days',
-        },
-        {
-            id: 4,
-            image: '<span className="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
-            title: 'Warning',
-            message: 'Your password strength is low.',
-            time: '5days',
-        },
-    ]);
-
-    const removeMessage = (value: number) => {
-        setMessages(messages.filter((user) => user.id !== value));
-    };
-
-    const [notifications, setNotifications] = useState([
-        {
-            id: 1,
-            profile: 'user-profile.jpeg',
-            message: '<strong className="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
-            time: '45 min ago',
-        },
-        {
-            id: 2,
-            profile: 'profile-34.jpeg',
-            message: '<strong className="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
-            time: '9h Ago',
-        },
-        {
-            id: 3,
-            profile: 'profile-16.jpeg',
-            message: '<strong className="text-sm mr-1">Anna Morgan</strong>Upload a file',
-            time: '9h Ago',
-        },
-    ]);
-
-    const removeNotification = (value: number) => {
-        setNotifications(notifications.filter((user) => user.id !== value));
-    };
 
     const [search, setSearch] = useState(false);
 
- 
     const [flag, setFlag] = useState(themeConfig.locale);
 
     const { t } = useTranslation();
 
-    console.log(isLoading, "isLoading");
-
-
+    console.log(isLoading, 'isLoading');
 
     const logout = async () => {
-
         try {
-            const response = await getData("/logout");
+            const response = await getData('/logout');
 
-            if (response.data.api_response === "success") {
+            if (response.data.api_response === 'success') {
                 showMessage(response.data.message);
 
                 setTimeout(() => {
                     localStorage.clear();
-                    window.location.replace("/");
+                    window.location.replace('/');
                 }, 500);
             } else {
-                throw new Error("No data available in the response");
+                throw new Error('No data available in the response');
             }
         } catch (error) {
             localStorage.clear();
-            window.location.replace("/");
-            console.error("API error:", error);
+            window.location.replace('/');
+            console.error('API error:', error);
         }
     };
 
     const MenuItemComponent: React.FC<MenuItem> = ({ key, title, icon: Icon, link, subMenu }) => {
         const hasSubMenu = subMenu && subMenu.length > 0;
-    
+
         return (
             <li className="menu nav-item relative" key={key}>
                 {hasSubMenu ? (
@@ -218,7 +152,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
                     </div>
                 )}
-    
+
                 {hasSubMenu && (
                     <ul className="sub-menu">
                         {subMenu.map((item, index) => (
@@ -236,6 +170,14 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                 )}
             </li>
         );
+    };
+
+    const isPermissionAvailable = (permission: string) => {
+        return data?.permissions.includes(permission);
+    };
+    const handleNavigation = (key: string, path: string) => {
+        localStorage.setItem('activeUserSetting', key);
+        navigate(path);
     };
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
@@ -450,65 +392,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                         </span>
                                     </span>
                                 }
-                            >
-                                <ul className="!py-0 text-dark dark:text-white-dark w-[300px] sm:w-[350px] divide-y dark:divide-white/10">
-                                    <li onClick={(e) => e.stopPropagation()}>
-                                        <div className="flex items-center px-4 py-2 justify-between font-semibold">
-                                            <h4 className="text-lg">Notification</h4>
-                                            {notifications.length ? <span className="badge bg-primary/80">{notifications.length}New</span> : ''}
-                                        </div>
-                                    </li>
-                                    {notifications.length > 0 ? (
-                                        <>
-                                            {notifications.map((notification) => {
-                                                return (
-                                                    <li key={notification.id} className="dark:text-white-light/90" onClick={(e) => e.stopPropagation()}>
-                                                        <div className="group flex items-center px-4 py-2">
-                                                            <div className="grid place-content-center rounded">
-                                                                <div className="w-12 h-12 relative">
-                                                                    <img className="w-12 h-12 rounded-full object-cover" alt="profile" src={`/assets/images/${notification.profile}`} />
-                                                                    <span className="bg-success w-2 h-2 rounded-full block absolute right-[6px] bottom-0"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="ltr:pl-3 rtl:pr-3 flex flex-auto">
-                                                                <div className="ltr:pr-3 rtl:pl-3">
-                                                                    <h6
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html: notification.message,
-                                                                        }}
-                                                                    ></h6>
-                                                                    <span className="text-xs block font-normal dark:text-gray-500">{notification.time}</span>
-                                                                </div>
-                                                                <button
-                                                                    type="button"
-                                                                    className="ltr:ml-auto rtl:mr-auto text-neutral-300 hover:text-danger opacity-0 group-hover:opacity-100"
-                                                                    onClick={() => removeNotification(notification.id)}
-                                                                >
-                                                                    <IconXCircle />
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                );
-                                            })}
-                                            <li>
-                                                <div className="p-4">
-                                                    <button className="btn btn-primary block w-full btn-small">Read All Notifications</button>
-                                                </div>
-                                            </li>
-                                        </>
-                                    ) : (
-                                        <li onClick={(e) => e.stopPropagation()}>
-                                            <button type="button" className="!grid place-content-center hover:!bg-transparent text-lg min-h-[200px]">
-                                                <div className="mx-auto ring-4 ring-primary/30 rounded-full mb-4 text-primary">
-                                                    <IconInfoCircle fill={true} className="w-10 h-10" />
-                                                </div>
-                                                No data available.
-                                            </button>
-                                        </li>
-                                    )}
-                                </ul>
-                            </Dropdown>
+                            ></Dropdown>
                         </div>
                         <div className="dropdown shrink-0 flex">
                             <Dropdown
@@ -532,22 +416,28 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                             </div>
                                         </div>
                                     </li>
-                                    {isProfileUpdatePermissionAvailable && (<>
+                                    {isProfileUpdatePermissionAvailable && (
                                         <li>
-                                            <Link to="/users/user-account-settings" className="dark:hover:text-white">
+                                            <button
+                                                onClick={() => handleNavigation('home', '/users/user-account-settings')}
+                                                className="dark:hover:text-white flex items-center"
+                                            >
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                                 Edit Profile
-                                            </Link>
+                                            </button>
                                         </li>
-                                    </>)}
-                                    {isSettingsPermissionAvailable && (<>
+                                    )}
+                                    {isSettingsPermissionAvailable && (
                                         <li>
-                                            <Link to="/users/user-account-settings" className="dark:hover:text-white">
+                                            <button
+                                                onClick={() => handleNavigation('Settings', '/users/user-account-settings')}
+                                                className="dark:hover:text-white flex items-center"
+                                            >
                                                 <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                                 Setting
-                                            </Link>
+                                            </button>
                                         </li>
-                                    </>)}
+                                    )}
 
                                     {/* <li>
                                         <Link to="/apps/mailbox" className="dark:hover:text-white">
@@ -566,7 +456,8 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                             onClick={logout}
                                             to="#" // Placeholder value
                                             // to="/auth/boxed-signin"
-                                            className="text-danger !py-3">
+                                            className="text-danger !py-3"
+                                        >
                                             <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
                                             Sign Out
                                         </Link>
@@ -576,11 +467,15 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
                     </div>
                 </div>
+                <ul className="menu-list">
+                    {permissionItems.map((menuItem: PerMenuItem) => (
+                        <MenuPerComponent key={menuItem.key} menuItem={menuItem} isPermissionAvailable={isPermissionAvailable} />
+                    ))}
+                </ul>
                 <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
                     {menuItems.map((menuItem) => (
                         <MenuItemComponent {...menuItem} key={menuItem.key} />
                     ))}
-     
                 </ul>
                 {/* horizontal menu */}
                 <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
