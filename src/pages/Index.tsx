@@ -28,6 +28,7 @@ import { fetchStoreData } from '../store/dataSlice';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import useApiErrorHandler from '../hooks/useHandleError';
 import LoaderImg from '../utils/Loader';
+import IconEye from '../components/Icon/IconEye';
 
 interface FilterValues {
     client_id: string;
@@ -530,6 +531,134 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 </div>
 
                 <div className="pt-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                        <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Users Visit</div>
+                                <div className="dropdown">
+                                    <Dropdown
+                                        offset={[0, 5]}
+                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
+                                        btnClassName="hover:opacity-80"
+                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
+                                    >
+                                        <ul className="text-black dark:text-white-dark">
+                                            <li>
+                                                <button type="button">View Report</button>
+                                            </li>
+                                            <li>
+                                                <button type="button">Edit Report</button>
+                                            </li>
+                                        </ul>
+                                    </Dropdown>
+                                </div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> $170.46 </div>
+                                <div className="badge bg-white/30">+ 2.35% </div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                Last Week 44,700
+                            </div>
+                        </div>
+
+                        {/* Sessions */}
+                        <div className="panel bg-gradient-to-r from-violet-500 to-violet-400">
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Sessions</div>
+                                <div className="dropdown">
+                                    <Dropdown
+                                        offset={[0, 5]}
+                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
+                                        btnClassName="hover:opacity-80"
+                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
+                                    >
+                                        <ul className="text-black dark:text-white-dark">
+                                            <li>
+                                                <button type="button">View Report</button>
+                                            </li>
+                                            <li>
+                                                <button type="button">Edit Report</button>
+                                            </li>
+                                        </ul>
+                                    </Dropdown>
+                                </div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 74,137 </div>
+                                <div className="badge bg-white/30">- 2.35% </div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                Last Week 84,709
+                            </div>
+                        </div>
+
+                        {/*  Time On-Site */}
+                        <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Time On-Site</div>
+                                <div className="dropdown">
+                                    <Dropdown
+                                        offset={[0, 5]}
+                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
+                                        btnClassName="hover:opacity-80"
+                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
+                                    >
+                                        <ul className="text-black dark:text-white-dark">
+                                            <li>
+                                                <button type="button">View Report</button>
+                                            </li>
+                                            <li>
+                                                <button type="button">Edit Report</button>
+                                            </li>
+                                        </ul>
+                                    </Dropdown>
+                                </div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 38,085 </div>
+                                <div className="badge bg-white/30">+ 1.35% </div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                Last Week 37,894
+                            </div>
+                        </div>
+
+                        {/* Bounce Rate */}
+                        <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Bounce Rate</div>
+                                <div className="dropdown">
+                                    <Dropdown
+                                        offset={[0, 5]}
+                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
+                                        btnClassName="hover:opacity-80"
+                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
+                                    >
+                                        <ul className="text-black dark:text-white-dark">
+                                            <li>
+                                                <button type="button">View Report</button>
+                                            </li>
+                                            <li>
+                                                <button type="button">Edit Report</button>
+                                            </li>
+                                        </ul>
+                                    </Dropdown>
+                                </div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 49.10% </div>
+                                <div className="badge bg-white/30">- 0.35% </div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                Last Week 50.01%
+                            </div>
+                        </div>
+                    </div>
                     <div className="grid xl:grid-cols-3 gap-6 mb-6">
                         <div className="panel h-full xl:col-span-2">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
