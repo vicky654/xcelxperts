@@ -99,6 +99,8 @@ const QuillEditor = lazy(() => import('../pages/Forms/QuillEditor'));
 const MarkDownEditor = lazy(() => import('../pages/Forms/MarkDownEditor'));
 const DateRangePicker = lazy(() => import('../pages/Forms/DateRangePicker'));
 const Clipboard = lazy(() => import('../pages/Forms/Clipboard'));
+const DashboardOverview = lazy(() => import('../pages/Dashboard/DashboardSecondPage/DashboardOverview'));
+const DashboardStationPage = lazy(() => import('../pages/Dashboard/DashboardThirdPage/DashboardStationPage'));
 
 
 //permissions Routings
@@ -113,12 +115,20 @@ const routes = [
     path: '/',
     element: <Index />,
   },
-//permissions Routings
+  {
+    path: '/dashboard/overview',
+    element: <DashboardOverview />,
+  },
+  {
+    path: '/dashboard/station/:id',
+    element: <DashboardStationPage />,
+  },
+  //permissions Routings
 
-{
-  path: '/manage-users/user',
-  element: <ManageUser />,
-},
+  {
+    path: '/manage-users/user',
+    element: <ManageUser />,
+  },
 
 
 

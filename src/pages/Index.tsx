@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import ReactApexChart from 'react-apexcharts';
@@ -29,6 +29,9 @@ import LoaderImg from '../utils/Loader';
 import IconEye from '../components/Icon/IconEye';
 import IconRefresh from '../components/Icon/IconRefresh';
 import { Badge } from 'react-bootstrap';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+
 
 interface FilterValues {
     client_id: string;
@@ -45,6 +48,7 @@ interface IndexProps {
 
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const handleError = useHandleError();
+    const navigate = useNavigate();
     const handleApiError = useApiErrorHandler(); // Use the hook here
     const [filters, setFilters] = useState({
         client_id: localStorage.getItem('client_id') || '',
@@ -112,31 +116,11 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     }, [data?.applyFilter, data?.superiorId,]);
 
 
-
-    useEffect(() => {
-        FetchDropDownData();
-    }, []); // Empty dependency array ensures this useEffect runs only once, on component mount
-
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
     const [loading] = useState(false);
 
-
-    const FetchDropDownData = async () => {
-        try {
-            const response = await getData(`/common/client-list`);
-
-            if (response && response.data && response.data.data) {
-                // setDashboardWidgetsData(response?.data?.data);
-            } else {
-                throw new Error("No data available in the response");
-            }
-        } catch (error) {
-            handleApiError(error); // Use the hook here to handle the error
-            console.error("API error:", error);
-        }
-    };
 
     useEffect(() => {
         // Check if client_id and company_id are present in local storage
@@ -156,6 +140,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             company_id: '',
             site_id: ''
         });
+        setFilterData(null);
         // Remove items from local storage
         localStorage.removeItem('client_id');
         localStorage.removeItem('company_id');
@@ -194,12 +179,16 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const revenueChart: any = {
         series: [
             {
-                name: 'Income',
-                data: [16800, 16800, 15500, 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000],
+                name: 'Fuel Volume',
+                data: [12000, 13000, 12500, 14000, 13500, 14500, 15000, 15500, 16000, 16500, 17000, 17500], // Dummy data
             },
             {
-                name: 'Expenses',
-                data: [16500, 17500, 16200, 17300, 16000, 19500, 16000, 17000, 16000, 19000, 18000, 19000],
+                name: 'Gross Margin',
+                data: [8000, 8500, 8200, 8700, 8300, 8900, 9000, 9200, 9500, 9800, 10000, 10200], // Dummy data
+            },
+            {
+                name: 'Shop Sale',
+                data: [5000, 5500, 5200, 5700, 5300, 5900, 6000, 6200, 6500, 6800, 7000, 7200], // Dummy data
             },
         ],
         options: {
@@ -214,7 +203,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     show: false,
                 },
             },
-
             dataLabels: {
                 enabled: false,
             },
@@ -231,7 +219,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 left: -7,
                 top: 22,
             },
-            colors: isDark ? ['#2196F3', '#E7515A'] : ['#1B55E2', '#E7515A'],
+            colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
             markers: {
                 discrete: [
                     {
@@ -331,7 +319,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 type: 'gradient',
                 gradient: {
                     shadeIntensity: 1,
-                    inverseColors: !1,
+                    inverseColors: false,
                     opacityFrom: isDark ? 0.19 : 0.28,
                     opacityTo: 0.05,
                     stops: isDark ? [100, 100] : [45, 100],
@@ -339,6 +327,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             },
         },
     };
+
 
     //Sales By Category
     const salesByCategory: any = {
@@ -560,24 +549,16 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         },
     };
 
-    const renderBadges = () => {
-        return Object.keys(filters).map((key) => {
-            const value = filters[key as keyof FilterValues];
-            if (value) {
-                return (
-                    <>
-                        <span className="badge bg-info flex gap-2">{value}</span>
-                    </>
-                    // <Badge
-                    //     key={key}
-                    //     label={key.replace('_', ' ')}
-                    //     value={value}
-                    // />
-                );
-            }
-            return null;
-        });
+    const handleClickToOverView = () => {
+
+        console.log("yessssssssss");
+
+        if (filterData) {
+            navigate("/dashboard/overview")
+        }
     };
+
+
 
     return (
         <>
@@ -590,9 +571,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 Dashboard
                             </Link>
                         </li>
-                        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                            <span>Sales</span>
-                        </li>
                     </ul>
 
                     <div className=' flex gap-4'>
@@ -600,13 +578,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         <div className="badges-container flex items-center gap-2">
 
                             {filters?.client_id && <>
-                                <span className="badge bg-info flex gap-2"> Client Name -{filters?.client_id}</span>
+                                <span className="badge bg-info flex gap-2"> Client Name - {filters?.client_id}</span>
                             </>}
                             {filters?.company_id && <>
-                                <span className="badge bg-info flex gap-2"> Entity Name -{filters?.company_id}</span>
+                                <span className="badge bg-info flex gap-2"> Entity Name - {filters?.company_id}</span>
                             </>}
                             {filters?.site_id && <>
-                                <span className="badge bg-info flex gap-2"> Station Name -{filters?.site_id}</span>
+                                <span className="badge bg-info flex gap-2"> Station Name - {filters?.site_id}</span>
                             </>}
 
                         </div>
@@ -615,11 +593,19 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             Apply Filter
                         </button>
 
-                        <button onClick={handleResetFilters}>
-                            <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
-                                <IconRefresh className="w-6 h-6" />
-                            </div>
-                        </button>
+                        {filters?.client_id || filters?.company_id || filters?.site_id ? <>
+                            <button onClick={handleResetFilters}>
+                                <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                    <Tippy content="Reset Filter">
+                                        <span className="btn bg-primary btn-primary">
+                                            <IconRefresh className="w-6 h-6" />
+                                        </span>
+                                    </Tippy>
+                                </div>
+                            </button>
+                        </> : ""}
+
+
                         {modalOpen && (<>
                             <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
                                 onApplyFilters={handleApplyFilters} // Pass the handler to the modal
@@ -630,7 +616,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                 <div className="pt-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
+                        <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400" onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
@@ -645,7 +631,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Sessions */}
-                        <div className="panel bg-gradient-to-r from-violet-500 to-violet-400">
+                        <div className="panel bg-gradient-to-r from-violet-500 to-violet-400" onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
 
@@ -661,7 +647,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
+                        <div className="panel bg-gradient-to-r from-blue-500 to-blue-400" onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
@@ -676,34 +662,17 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
+                        <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400" onClick={handleClickToOverView}>
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Bounce Rate</div>
-                                <div className="dropdown">
-                                    <Dropdown
-                                        offset={[0, 5]}
-                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                        btnClassName="hover:opacity-80"
-                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                    >
-                                        <ul className="text-black dark:text-white-dark">
-                                            <li>
-                                                <button type="button">View Report</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Edit Report</button>
-                                            </li>
-                                        </ul>
-                                    </Dropdown>
-                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 49.10% </div>
-                                <div className="badge bg-white/30">- 0.35% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">  ℓ{filterData?.shop_sales?.shop_sales}  </div>
+                                <div className="badge bg-white/30">{filterData?.shop_sales?.status === "up" ? "+" : "-"} {filterData?.shop_sales?.percentage}% </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Week 50.01%
+                                PPL  ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
                         </div>
                     </div>
@@ -765,7 +734,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+                    {/* <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
                         <div className="panel h-full sm:col-span-2 xl:col-span-1">
                             <div className="flex items-center mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">
@@ -877,7 +846,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </h5>
                             </div>
                             <div className="bg-transparent rounded-lg overflow-hidden">
-                                {/* loader */}
                                 {loading ? (
                                     <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
                                         <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  rounded-full w-5 h-5 inline-flex"></span>
@@ -1381,9 +1349,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
-            </div>
+            </div >
         </>
     );
 };
