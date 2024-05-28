@@ -34,6 +34,7 @@ import IconMenuPages from '../Icon/Menu/IconMenuPages';
 import IconMenuMore from '../Icon/Menu/IconMenuMore';
 import { showMessage } from '../../utils/errorHandler';
 import withApiHandler from '../../utils/withApiHandler';
+import menuItems, { MenuItem } from './menuItems';
 
 interface HeaderProps {
     isLoading: boolean; // Define the type of the loading prop
@@ -147,14 +148,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
 
     const [search, setSearch] = useState(false);
 
-    const setLocale = (flag: string) => {
-        setFlag(flag);
-        if (flag.toLowerCase() === 'ae') {
-            dispatch(toggleRTL('rtl'));
-        } else {
-            dispatch(toggleRTL('ltr'));
-        }
-    };
+ 
     const [flag, setFlag] = useState(themeConfig.locale);
 
     const { t } = useTranslation();
@@ -185,6 +179,64 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
         }
     };
 
+    const MenuItemComponent: React.FC<MenuItem> = ({ key, title, icon: Icon, link, subMenu }) => {
+        const hasSubMenu = subMenu && subMenu.length > 0;
+    
+        return (
+            <li className="menu nav-item relative" key={key}>
+                {hasSubMenu ? (
+                    <button type="button" className="nav-link">
+                        <div className="flex items-center">
+                            <Icon className="shrink-0" />
+                            <span className="px-1">{title}</span>
+                        </div>
+                        <div className="right_arrow">
+                            <IconCaretDown />
+                        </div>
+                    </button>
+                ) : link ? (
+                    link.startsWith('http') ? (
+                        <a href={link} className="nav-link" target="_blank" rel="noopener noreferrer">
+                            <div className="flex items-center">
+                                <Icon className="shrink-0" />
+                                <span className="px-1">{title}</span>
+                            </div>
+                        </a>
+                    ) : (
+                        <NavLink to={link} className="nav-link">
+                            <div className="flex items-center">
+                                <Icon className="shrink-0" />
+                                <span className="px-1">{title}</span>
+                            </div>
+                        </NavLink>
+                    )
+                ) : (
+                    <div className="nav-link">
+                        <div className="flex items-center">
+                            <Icon className="shrink-0" />
+                            <span className="px-1">{title}</span>
+                        </div>
+                    </div>
+                )}
+    
+                {hasSubMenu && (
+                    <ul className="sub-menu">
+                        {subMenu.map((item, index) => (
+                            <li key={index}>
+                                {item.target ? (
+                                    <a href={item.link} target={item.target} rel="noopener noreferrer">
+                                        {item.title}
+                                    </a>
+                                ) : (
+                                    <NavLink to={item.link}>{item.title}</NavLink>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </li>
+        );
+    };
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
@@ -524,7 +576,12 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
                     </div>
                 </div>
-
+                <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
+                    {menuItems.map((menuItem) => (
+                        <MenuItemComponent {...menuItem} key={menuItem.key} />
+                    ))}
+     
+                </ul>
                 {/* horizontal menu */}
                 <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
                     <li className="menu nav-item relative">
