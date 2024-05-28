@@ -1,44 +1,26 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+// import { MenuItem, SubMenuItem } from '../Layouts/menuItems';
 import IconCaretDown from '../Icon/IconCaretDown';
-// Assuming you have this icon
+import { useSelector } from 'react-redux';
+import { IRootState } from '../../store';
+import { MenuItem, SubMenuItem } from './SideBarItems';
 
-export interface SubPerMenuItem {
-    title: string;
-    link: string;
-    target?: string;
-    permission?: string; // Permission associated with the submenu item
-    visibility?: boolean; // Optional visibility of the submenu item
+interface Props extends MenuItem {
+    subMenu?: SubMenuItem[];
 }
 
-export interface PerMenuItem {
-    key: string;
-    permission: string;
-    title: string;
-    icon: React.ElementType;
-    link?: string;
-    subMenu?: SubPerMenuItem[];
-    visibility?: boolean; // Optional visibility of the main menu item
-}
-
-interface MenuPerComponentProps {
-    menuItem: PerMenuItem;
-    isPermissionAvailable: (permission: string) => boolean;
-}
-
-const MenuPerComponent: React.FC<MenuPerComponentProps> = ({ menuItem, isPermissionAvailable }) => {
-    const { key, title, icon: Icon, link, subMenu } = menuItem;
+const MenuItemComponent: React.FC<Props> = ({ key, title, icon: Icon, link, subMenu, permission }) => {
+    const { data } = useSelector((state: IRootState) => state?.data);
+    const hasSubMenuPermission = subMenu?.some(item => data?.permissions?.includes(item.permission));
+    const isVisible = permission ? data?.permissions?.includes(permission) || hasSubMenuPermission : true;
     const hasSubMenu = subMenu && subMenu.length > 0;
 
-    // Check if the current menu item or any of its sub-items should be visible based on permissions
-    const isVisible = (permission?: string, visibility?: boolean) => {
-        if (!permission) {
-            return true; // If no permission is defined, always show the item
-        }
-        return isPermissionAvailable(permission) && (visibility !== false);
-    };
+    if (!isVisible) {
+        return null; // Hide the menu item if permission is not found
+    }
 
-    return isVisible(menuItem.permission, menuItem.visibility) ? (
+    return (
         <li className="menu nav-item relative" key={key}>
             {hasSubMenu ? (
                 <button type="button" className="nav-link">
@@ -77,8 +59,14 @@ const MenuPerComponent: React.FC<MenuPerComponentProps> = ({ menuItem, isPermiss
 
             {hasSubMenu && (
                 <ul className="sub-menu">
-                    {subMenu!.map((item, index) => (
-                        isVisible(item.permission, item.visibility) && (
+                    {subMenu?.map((item, index) => {
+                        const isVisibleSubMenu = data?.permissions?.includes(item.permission || '');
+
+                        if (!isVisibleSubMenu) {
+                            return null; // Hide the sub-menu item if permission is not found
+                        }
+
+                        return (
                             <li key={index}>
                                 {item.target ? (
                                     <a href={item.link} target={item.target} rel="noopener noreferrer">
@@ -88,12 +76,12 @@ const MenuPerComponent: React.FC<MenuPerComponentProps> = ({ menuItem, isPermiss
                                     <NavLink to={item.link}>{item.title}</NavLink>
                                 )}
                             </li>
-                        )
-                    ))}
+                        );
+                    })}
                 </ul>
             )}
         </li>
-    ) : null;
+    );
 };
 
-export default MenuPerComponent;
+export default MenuItemComponent;

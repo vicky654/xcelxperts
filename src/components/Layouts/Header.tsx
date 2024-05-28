@@ -2,25 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { IRootState } from '../../store';
-import { toggleRTL, toggleTheme, toggleSidebar } from '../../store/themeConfigSlice';
+import { toggleSidebar } from '../../store/themeConfigSlice';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 import Dropdown from '../Dropdown';
 import IconMenu from '../Icon/IconMenu';
-import IconCalendar from '../Icon/IconCalendar';
-import IconEdit from '../Icon/IconEdit';
-import IconChatNotification from '../Icon/IconChatNotification';
 import IconSearch from '../Icon/IconSearch';
 import IconXCircle from '../Icon/IconXCircle';
-import IconSun from '../Icon/IconSun';
-import IconMoon from '../Icon/IconMoon';
-import IconLaptop from '../Icon/IconLaptop';
-import IconMailDot from '../Icon/IconMailDot';
-import IconArrowLeft from '../Icon/IconArrowLeft';
-import IconInfoCircle from '../Icon/IconInfoCircle';
 import IconBellBing from '../Icon/IconBellBing';
 import IconUser from '../Icon/IconUser';
-import IconMail from '../Icon/IconMail';
 import IconLockDots from '../Icon/IconLockDots';
 import IconLogout from '../Icon/IconLogout';
 import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';
@@ -34,9 +23,8 @@ import IconMenuPages from '../Icon/Menu/IconMenuPages';
 import IconMenuMore from '../Icon/Menu/IconMenuMore';
 import { showMessage } from '../../utils/errorHandler';
 import withApiHandler from '../../utils/withApiHandler';
-import menuItems, { MenuItem } from './menuItems';
-import MenuPerComponent, { PerMenuItem } from './MenuPerComponent'; // Assuming this is where your MenuPerComponent is located
-import { permissionItems } from './permissionItems';
+import menuItems from '../SideBar/SideBarItems';
+import MenuItemComponent from '../SideBar/SideBarListing';
 
 interface HeaderProps {
     isLoading: boolean; // Define the type of the loading prop
@@ -80,9 +68,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const dispatch = useDispatch();
 
-    function createMarkup(messages: any) {
-        return { __html: messages };
-    }
+ 
 
     const [search, setSearch] = useState(false);
 
@@ -90,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
 
     const { t } = useTranslation();
 
-    console.log(isLoading, 'isLoading');
+
 
     const logout = async () => {
         try {
@@ -112,69 +98,11 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
             console.error('API error:', error);
         }
     };
+ 
+    
+  
 
-    const MenuItemComponent: React.FC<MenuItem> = ({ key, title, icon: Icon, link, subMenu }) => {
-        const hasSubMenu = subMenu && subMenu.length > 0;
-
-        return (
-            <li className="menu nav-item relative" key={key}>
-                {hasSubMenu ? (
-                    <button type="button" className="nav-link">
-                        <div className="flex items-center">
-                            <Icon className="shrink-0" />
-                            <span className="px-1">{title}</span>
-                        </div>
-                        <div className="right_arrow">
-                            <IconCaretDown />
-                        </div>
-                    </button>
-                ) : link ? (
-                    link.startsWith('http') ? (
-                        <a href={link} className="nav-link" target="_blank" rel="noopener noreferrer">
-                            <div className="flex items-center">
-                                <Icon className="shrink-0" />
-                                <span className="px-1">{title}</span>
-                            </div>
-                        </a>
-                    ) : (
-                        <NavLink to={link} className="nav-link">
-                            <div className="flex items-center">
-                                <Icon className="shrink-0" />
-                                <span className="px-1">{title}</span>
-                            </div>
-                        </NavLink>
-                    )
-                ) : (
-                    <div className="nav-link">
-                        <div className="flex items-center">
-                            <Icon className="shrink-0" />
-                            <span className="px-1">{title}</span>
-                        </div>
-                    </div>
-                )}
-
-                {hasSubMenu && (
-                    <ul className="sub-menu">
-                        {subMenu.map((item, index) => (
-                            <li key={index}>
-                                {item.target ? (
-                                    <a href={item.link} target={item.target} rel="noopener noreferrer">
-                                        {item.title}
-                                    </a>
-                                ) : (
-                                    <NavLink to={item.link}>{item.title}</NavLink>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </li>
-        );
-    };
-
-    const isPermissionAvailable = (permission: string) => {
-        return data?.permissions.includes(permission);
-    };
+ 
     const handleNavigation = (key: string, path: string) => {
         localStorage.setItem('activeUserSetting', key);
         navigate(path);
@@ -467,11 +395,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
                     </div>
                 </div>
-                <ul className="menu-list">
-                    {permissionItems.map((menuItem: PerMenuItem) => (
-                        <MenuPerComponent key={menuItem.key} menuItem={menuItem} isPermissionAvailable={isPermissionAvailable} />
-                    ))}
-                </ul>
+             
                 <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
                     {menuItems.map((menuItem) => (
                         <MenuItemComponent {...menuItem} key={menuItem.key} />
