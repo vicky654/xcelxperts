@@ -113,7 +113,7 @@ const RecoverIdCover = () => {
                             </div>
                         </div>
                         <div className="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
-                            <div className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
+                            {/* <div className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
                                 <Link to="/" className="w-8 block lg:hidden">
                                     <img src="/assets/images/logo.svg" alt="Logo" className="mx-auto w-10" />
                                 </Link>
@@ -156,12 +156,12 @@ const RecoverIdCover = () => {
                                         </ul>
                                     </Dropdown>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="w-full max-w-[440px] lg:mt-16">
                                 <div className="mb-7">
 
                                     <h1 className="mb-3 text-2xl font-bold !leading-snug dark:text-white"> Reset Password </h1>
-                                    <p>Enter your email to recover your Account</p>
+                                    <p>Enter your email to Reset Password</p>
                                 </div>
                                 <form className="space-y-5" onSubmit={formik.handleSubmit}>
                                     <div>
@@ -184,7 +184,7 @@ const RecoverIdCover = () => {
                                         {formik.touched.email && formik.errors.email ? <div className="text-red-500">{formik.errors.email}</div> : null}
                                     </div>
                                     <button type="submit" className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                        RECOVER
+                                    Reset Password
                                     </button>
                                     <div className="text-center dark:text-white">
                                         &nbsp;
