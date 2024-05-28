@@ -58,6 +58,17 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
     const isUpdatePasswordPermissionAvailable = data?.permissions?.includes("profile-update-password");
     const isSettingsPermissionAvailable = data?.permissions?.includes("config-setting");
     const handleError = useHandleError();
+    const [tabs, setTabs] = useState<string>('home');
+    const toggleTabs = (name: string) => {
+        setTabs(name);
+    };
+
+    let storedTab = localStorage.getItem('activeUserSetting');
+    useEffect(() => {
+        if (storedTab) {
+            setTabs(storedTab);
+        }
+    }, [storedTab]);
 
     const handleApiError = useApiErrorHandler(); // Use the hook here
 
@@ -78,10 +89,10 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
         }
     }, [isSettingsPermissionAvailable])
 
-    const [tabs, setTabs] = useState<string>('home');
-    const toggleTabs = (name: string) => {
-        setTabs(name);
-    };
+
+
+
+    console.log(tabs, "tabs");
 
     const FetchConfigSetting = async () => {
         try {
@@ -311,17 +322,17 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="#" className="text-primary hover:underline">
-                            Users
+                            Dashboard
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Account Settings</span>
+                        <span>User Settings</span>
                     </li>
                 </ul>
                 <div className="pt-5">
-                    <div className="flex items-center justify-between mb-5">
+                    {/* <div className="flex items-center justify-between mb-5">
                         <h5 className="font-semibold text-lg dark:text-white-light">Settings</h5>
-                    </div>
+                    </div> */}
                     <div>
                         <ul className="sm:flex font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 whitespace-nowrap overflow-y-auto">
 
@@ -332,7 +343,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'home' ? '!border-primary text-primary' : ''}`}
                                     >
                                         <IconHome />
-                                        General Information
+                                        Edit Profile
                                     </button>
                                 </li>
                             </>)}
@@ -399,7 +410,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     {tabs === 'home' ? (
                         <div>
                             <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
-                                <h6 className="text-lg font-bold mb-5">General Information</h6>
+                                <h6 className="text-lg font-bold mb-5">Edit Profile</h6>
                                 <div className="flex flex-col sm:flex-row">
                                     <div className="ltr:sm:mr-4 rtl:sm:ml-4 w-full sm:w-2/12 mb-5">
                                         <img src="/assets//images/profile-34.jpeg" alt="img" className="w-20 h-20 md:w-32 md:h-32 rounded-full object-cover mx-auto" />
@@ -445,7 +456,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                                 id="email"
                                                 placeholder="Enter Email "
                                                 readOnly
-                                                className="form-input readonly_input "
+                                                className="form-input  readonly"
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.email}

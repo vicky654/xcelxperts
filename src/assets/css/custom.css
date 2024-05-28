@@ -11,6 +11,11 @@
   z-index: 11111111;
 }
 
+.readonly {
+  background: #ddd !important;
+  /* border: 1px #ddd; */
+}
+
 .dimmer {
   position: relative;
 }
