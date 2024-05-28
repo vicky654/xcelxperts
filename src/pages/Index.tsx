@@ -21,14 +21,14 @@ import IconCaretDown from '../components/Icon/IconCaretDown';
 import IconPlus from '../components/Icon/IconPlus';
 import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRight';
 import withApiHandler from '../utils/withApiHandler';
-import { AxiosError } from 'axios';
-import { string } from 'yup/lib/locale';
 import useHandleError from '../hooks/useHandleError';
 import { fetchStoreData } from '../store/dataSlice';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import useApiErrorHandler from '../hooks/useHandleError';
 import LoaderImg from '../utils/Loader';
 import IconEye from '../components/Icon/IconEye';
+import IconRefresh from '../components/Icon/IconRefresh';
+import { Badge } from 'react-bootstrap';
 
 interface FilterValues {
     client_id: string;
@@ -51,9 +51,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         company_id: localStorage.getItem('company_id') || '',
         site_id: localStorage.getItem('site_id') || ''
     });
-    const [filterData, setFilterData] = useState(null);
+    const [filterData, setFilterData] = useState<any>(null);
 
-    const fetchData = async (filters: FilterValues) => {
+    const callFetchFilterData = async (filters: FilterValues) => {
         try {
             const { client_id, company_id, site_id } = filters;
             const queryParams = new URLSearchParams();
@@ -64,12 +64,19 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
+            if (response && response.data && response.data.data) {
+                setFilterData(response.data.data)
+            }
             // setData(response.data);
         } catch (error) {
             console.error('Failed to fetch data', error);
         } finally {
         }
     };
+
+
+
+
 
 
     // Using useSelector to extract the data from the Redux store
@@ -86,8 +93,23 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         dispatch(setPageTitle('Sales Admin'));
     });
 
+    useEffect(() => {
 
+        // Check if client_id and company_id are present in local storage
+        const clientId = localStorage.getItem('client_id');
+        const companyId = localStorage.getItem('company_id');
 
+        console.log("Apply Filter:", data?.applyFilter);
+        if (data?.applyFilter === false && !clientId && !companyId) {
+            const initialFilters = {
+                client_id: data?.superiorId || '',
+                company_id: data?.company_id || filters.company_id || '',
+                site_id: filters.site_id || '',
+            };
+            setFilters(initialFilters);
+            callFetchFilterData(initialFilters);
+        }
+    }, [data?.applyFilter, data?.superiorId,]);
 
 
 
@@ -117,20 +139,54 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     };
 
     useEffect(() => {
-        fetchData(filters);
+        // Check if client_id and company_id are present in local storage
+        const clientId = localStorage.getItem('client_id');
+        const companyId = localStorage.getItem('company_id');
+
+        if (clientId && companyId) {
+            // Fetch data only if both client_id and company_id are present
+            callFetchFilterData(filters);
+        }
     }, [filters]);
 
-    const handleApplyFilters = (values: FilterValues) => {
+    const handleResetFilters = () => {
+        // Clear filters state
         setFilters({
+            client_id: '',
+            company_id: '',
+            site_id: ''
+        });
+        // Remove items from local storage
+        localStorage.removeItem('client_id');
+        localStorage.removeItem('company_id');
+        localStorage.removeItem('site_id');
+        // Dispatch action to set applyFilter to false
+    };
+
+
+    console.log(filterData, "filterData");
+
+
+
+
+    const handleApplyFilters = (values: FilterValues) => {
+        const updatedFilters = {
             client_id: values.client_id,
             company_id: values.company_id,
             site_id: values.site_id
-        });
+        };
+        // Set the filters state with the updated values
+        setFilters(updatedFilters);
+        // Call callFetchFilterData with the updated filters
+        callFetchFilterData(updatedFilters);
+        // Update local storage
         localStorage.setItem('client_id', values.client_id);
         localStorage.setItem('company_id', values.company_id);
         localStorage.setItem('site_id', values.site_id);
+        // Close the modal
         setModalOpen(false);
     };
+
 
 
 
@@ -504,6 +560,25 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         },
     };
 
+    const renderBadges = () => {
+        return Object.keys(filters).map((key) => {
+            const value = filters[key as keyof FilterValues];
+            if (value) {
+                return (
+                    <>
+                        <span className="badge bg-info flex gap-2">{value}</span>
+                    </>
+                    // <Badge
+                    //     key={key}
+                    //     label={key.replace('_', ' ')}
+                    //     value={value}
+                    // />
+                );
+            }
+            return null;
+        });
+    };
+
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -520,13 +595,36 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </li>
                     </ul>
 
-                    <div>
+                    <div className=' flex gap-4'>
+
+                        <div className="badges-container flex items-center gap-2">
+
+                            {filters?.client_id && <>
+                                <span className="badge bg-info flex gap-2"> Client Name -{filters?.client_id}</span>
+                            </>}
+                            {filters?.company_id && <>
+                                <span className="badge bg-info flex gap-2"> Entity Name -{filters?.company_id}</span>
+                            </>}
+                            {filters?.site_id && <>
+                                <span className="badge bg-info flex gap-2"> Station Name -{filters?.site_id}</span>
+                            </>}
+
+                        </div>
+
                         <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
                             Apply Filter
                         </button>
-                        <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
-                            onApplyFilters={handleApplyFilters} // Pass the handler to the modal
-                        />
+
+                        <button onClick={handleResetFilters}>
+                            <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                <IconRefresh className="w-6 h-6" />
+                            </div>
+                        </button>
+                        {modalOpen && (<>
+                            <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
+                                onApplyFilters={handleApplyFilters} // Pass the handler to the modal
+                            />
+                        </>)}
                     </div>
                 </div>
 
@@ -534,96 +632,46 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                         <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Users Visit</div>
-                                <div className="dropdown">
-                                    <Dropdown
-                                        offset={[0, 5]}
-                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                        btnClassName="hover:opacity-80"
-                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                    >
-                                        <ul className="text-black dark:text-white-dark">
-                                            <li>
-                                                <button type="button">View Report</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Edit Report</button>
-                                            </li>
-                                        </ul>
-                                    </Dropdown>
-                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> $170.46 </div>
-                                <div className="badge bg-white/30">+ 2.35% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
+                                <div className="badge bg-white/30">{filterData?.gross_volume?.status === "up" ? "+" : "-"} {filterData?.gross_volume?.percentage}% </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Week 44,700
+                                Last Month  ℓ{filterData?.gross_volume?.gross_volume}
                             </div>
                         </div>
 
                         {/* Sessions */}
                         <div className="panel bg-gradient-to-r from-violet-500 to-violet-400">
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Sessions</div>
-                                <div className="dropdown">
-                                    <Dropdown
-                                        offset={[0, 5]}
-                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                        btnClassName="hover:opacity-80"
-                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                    >
-                                        <ul className="text-black dark:text-white-dark">
-                                            <li>
-                                                <button type="button">View Report</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Edit Report</button>
-                                            </li>
-                                        </ul>
-                                    </Dropdown>
-                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
+
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 74,137 </div>
-                                <div className="badge bg-white/30">- 2.35% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.gross_profit?.gross_profit} </div>
+                                <div className="badge bg-white/30"> {filterData?.gross_profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Week 84,709
+                                Gross    Margin  {filterData?.gross_profit?.status === "up" ? "+" : "-"}  {filterData?.gross_profit?.gross_margin}
                             </div>
                         </div>
 
                         {/*  Time On-Site */}
                         <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Time On-Site</div>
-                                <div className="dropdown">
-                                    <Dropdown
-                                        offset={[0, 5]}
-                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                        btnClassName="hover:opacity-80"
-                                        button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                    >
-                                        <ul className="text-black dark:text-white-dark">
-                                            <li>
-                                                <button type="button">View Report</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Edit Report</button>
-                                            </li>
-                                        </ul>
-                                    </Dropdown>
-                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 38,085 </div>
-                                <div className="badge bg-white/30">+ 1.35% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">  ℓ{filterData?.gross_margin_?.gross_margin} </div>
+                                <div className="badge bg-white/30">{filterData?.gross_margin_?.status === "up" ? "+" : "-"} {filterData?.gross_margin_?.percentage}% </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Week 37,894
+                                PPL  ℓ{filterData?.gross_margin_?.is_ppl}
                             </div>
                         </div>
 
