@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -33,12 +33,19 @@ import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import IconCircleCheck from '../../../components/Icon/IconCircleCheck';
+import moment from 'moment';
 
 
 interface FilterValues {
     client_id: string;
     company_id: string;
     site_id: string;
+}
+
+interface lastfueldeliverystats {
+    date: string;
+    fuel: string;
+    value: string;
 }
 
 interface DashboardStationPageProps {
@@ -62,6 +69,12 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     });
     const [filterData, setFilterData] = useState<any>(null);
     const [detailsData, setDetailsData] = useState<any>([]);
+    const [fuelLastDeliveryData, setFuelLastDeliveryData] = useState<any>([]);
+    const [shopSaleData, setShopSaleData] = useState<any>([]);
+    const { id } = useParams();
+
+
+
 
     const callFetchFilterData = async (filters: FilterValues) => {
         try {
@@ -70,14 +83,13 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
             if (client_id) queryParams.append('client_id', client_id);
             if (company_id) queryParams.append('company_id', company_id);
-            if (site_id) queryParams.append('site_id', site_id);
+            if (id) queryParams.append('site_id', id);
 
             const queryString = queryParams.toString();
-            const response = await getData(`dashboard/stats?${queryString}`);
+            const response = await getData(`dashboard/get-site-details?${queryString}`);
             if (response && response.data && response.data.data) {
-                setFilterData(response.data.data)
+                setFuelLastDeliveryData(response.data.data)
             }
-            // setData(response.data);
         } catch (error) {
             console.error('Failed to fetch data', error);
         } finally {
@@ -90,10 +102,10 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
             if (client_id) queryParams.append('client_id', client_id);
             if (company_id) queryParams.append('company_id', company_id);
-            if (site_id) queryParams.append('site_id', site_id);
+            if (id) queryParams.append('site_id', id);
 
             const queryString = queryParams.toString();
-            const response = await getData(`dashboard/get-details?${queryString}`);
+            const response = await getData(`dashboard/get-site-stats?${queryString}`);
             if (response && response.data && response.data.data) {
                 setDetailsData(response.data.data?.sites)
             }
@@ -103,9 +115,49 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
         } finally {
         }
     };
+    const callFetchDetailsDataa = async (filters: FilterValues) => {
+        try {
+            const { client_id, company_id, site_id } = filters;
+            const queryParams = new URLSearchParams();
+
+            if (client_id) queryParams.append('client_id', client_id);
+            if (company_id) queryParams.append('company_id', company_id);
+            if (id) queryParams.append('site_id', id);
+
+            const queryString = queryParams.toString();
+            const response = await getData(`dashboard/get-site-shop-details?${queryString}`);
+            if (response && response.data && response.data.data) {
+                setShopSaleData(response.data.data?.shop_sales)
+            }
+        } catch (error) {
+            console.error('Failed to fetch data', error);
+        } finally {
+        }
+    };
+    const callFetchDetailsDataaa = async (filters: FilterValues) => {
+        try {
+            const { client_id, company_id, site_id } = filters;
+            const queryParams = new URLSearchParams();
+
+            // if (client_id) queryParams.append('client_id', client_id);
+            // if (company_id) queryParams.append('company_id', company_id);
+            if (id) queryParams.append('site_id', id);
+
+            const queryString = queryParams.toString();
+            const response = await getData(`dashboard/get-site-fuel-performance?${queryString}`);
+            if (response && response.data && response.data.data) {
 
 
-    console.log(detailsData, "detailsData");
+            }
+            // setData(response.data);
+        } catch (error) {
+            console.error('Failed to fetch data', error);
+        } finally {
+        }
+    };
+
+
+    console.log(fuelLastDeliveryData, "fuelLastDeliveryData");
 
 
 
@@ -144,6 +196,8 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             // Fetch data only if both client_id and company_id are present
             callFetchFilterData(filters);
             callFetchDetailsData(filters);
+            callFetchDetailsDataa(filters);
+            callFetchDetailsDataaa(filters);
         }
     }, [filters]);
 
@@ -573,48 +627,145 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
         }
     }
 
+    // '#5c1ac3', '#ffbb44', '#00ab55'
+    const dataaa = [
+        {
+            label: "Fuel Volume (ℓ)",
+            data: [
+                "9099.34",
+                "9822.27",
+                "10266.13",
+                "8581.31",
+                "6871.31",
+                "10085.63",
+                "10390.68"
+            ],
+            borderColor: "rgba(255, 99, 132, 1)",
+            backgroundColor: "#5c1ac3",
+            type: "bar",
+            yAxisID: "y1"
+        },
+        {
+            label: "Gross Margin (ppl)",
+            data: [
+                14.89,
+                15.31,
+                16.61,
+                14.99,
+                18.3,
+                14.63,
+                14.73
+            ],
+            borderColor: "rgba(154, 62, 251, 1)",
+            backgroundColor: "#ffbb44",
+            type: "line",
+            yAxisID: "y"
+        },
+        {
+            label: "Shop Sales (£)",
+            data: [
+                "2098.76",
+                "2162.56",
+                "2785.84",
+                "2253.1",
+                "2384.85",
+                "2835.73",
+                "2825.12"
+            ],
+            borderColor: "rgba(54, 162, 235, 1)",
+            backgroundColor: "#00ab55",
+            type: "bar",
+            yAxisID: "y1"
+        }
+    ];
+
+
     // uniqueVisitorSeriesOptions
     const uniqueVisitorSeries: any = {
-        series: [
-            {
-                name: 'Direct',
-                type: 'bar',
-                data: [58, 44, 55, 57, 56, 61, 58, 63, 60, 66, 56, 63],
-            },
-            {
-                name: 'Organic',
-                type: 'bar',
-                data: [91, 76, 85, 101, 98, 87, 105, 91, 114, 94, 66, 70],
-            },
-            {
-                name: 'Sales',
-                type: 'line',
-                data: [28, 40, 36, 52, 38, 60, 38, 52, 36, 40, 30, 50],
-            },
-        ],
+        // series: [
+        //     {
+        //         name: 'Direct',
+        //         type: 'bar',
+        //         data: [58, 44, 55, 57, 56, 61, 58, 63, 60, 66, 56, 63],
+        //     },
+        //     {
+        //         name: 'Organic',
+        //         type: 'bar',
+        //         data: [91, 76, 85, 101, 98, 87, 105, 91, 114, 94, 66, 70],
+        //     },
+        //     {
+        //         name: 'Sales',
+        //         type: 'line',
+        //         data: [28, 40, 36, 52, 38, 60, 38, 52, 36, 40, 30, 50],
+        //     },
+        // ],
+        // series: fuelLastDeliveryData?.performance_reporting?.datasets?.map((dataset: any) => ({
+        series: dataaa?.map((dataset: any) => ({
+            name: dataset?.label || 'Direct', // Adjust based on the actual property of your dataset
+            // type: dataset?.type == "line" ? "bar" : "line",
+            type: dataset?.type,
+            // type: "line",
+            // type: "bar",
+            data: dataset?.data || [58, 44, 55, 57, 56, 61, 58, 63, 60, 66, 56, 63], // Adjust based on the actual property of your dataset
+        })),
+
+
+
+
         options: {
             chart: {
                 height: 360,
-                type: 'line',
-                fontFamily: 'Nunito, sans-serif',
-                toolbar: {
-                    show: false,
-                },
-            },
-            dataLabels: {
-                enabled: false, // Disable data labels
+                type: 'line', // General type as 'line' to enable line features
             },
             stroke: {
-                width: [0, 0, 2],
+                width: [0, 2, 0], // Width of each series: [bar, line, bar]
                 curve: 'smooth',
             },
-            colors: ['#5c1ac3', '#ffbb44', '#00ab55'],
+            dataLabels: {
+                enabled: false,
+            },
+            colors: dataaa.map(item => item.borderColor),
             plotOptions: {
                 bar: {
                     horizontal: false,
                     columnWidth: '55%',
                     borderRadius: 8,
-                    borderRadiusApplication: 'end',
+                },
+            },
+            xaxis: {
+                categories: fuelLastDeliveryData?.performance_reporting?.labels,
+            },
+            yaxis: [
+                {
+                    title: {
+                        text: 'Gross Margin (ppl)',
+                    },
+                    opposite: true, // Line chart values on the right side
+                },
+                {
+                    title: {
+                        text: 'Fuel Volume (ℓ) & Shop Sales (£)',
+                    },
+                    opposite: false, // Bar chart values on the left side
+                },
+            ],
+            tooltip: {
+                shared: true,
+                intersect: false,
+                y: {
+                    formatter: function (y: any) {
+                        if (typeof y !== "undefined") {
+                            return y.toFixed(2);
+                        }
+                        return y;
+                    }
+                }
+            },
+            grid: {
+                borderColor: '#e0e6ed',
+                padding: {
+                    left: 20,
+                    right: 20,
                 },
             },
             legend: {
@@ -626,59 +777,97 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                     vertical: 8,
                 },
             },
-            grid: {
-                borderColor: isDark ? '#191e3a' : '#e0e6ed',
-                padding: {
-                    left: 20,
-                    right: 20,
-                },
-                xaxis: {
-                    lines: {
-                        show: false,
-                    },
-                },
-            },
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                axisBorder: {
-                    show: true,
-                    color: isDark ? '#3b3f5c' : '#e0e6ed',
-                },
-            },
-            yaxis: {
-                tickAmount: 6,
-                opposite: isRtl ? true : false,
-                labels: {
-                    offsetX: isRtl ? -10 : 0,
-                },
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: isDark ? 'dark' : 'light',
-                    type: 'vertical',
-                    shadeIntensity: 0.3,
-                    inverseColors: false,
-                    opacityFrom: 1,
-                    opacityTo: 0.8,
-                    stops: [0, 100],
-                },
-            },
-            tooltip: {
-                shared: true, // Share the tooltip for all series
-                intersect: false, // Show tooltip when hovering between points
-                x: {
-                    show: true,
-                    format: 'MMM', // Show month in tooltip
-                },
-                y: {
-                    formatter: (val: number) => `${val}`, // Format the value in tooltip
-                },
-                marker: {
-                    show: true,
-                },
-            },
         },
+
+
+        // options: {
+        //     chart: {
+        //         height: 360,
+        //         type: 'line',
+        //         fontFamily: 'Nunito, sans-serif',
+        //         toolbar: {
+        //             show: false,
+        //         },
+        //     },
+        //     dataLabels: {
+        //         enabled: false, // Disable data labels
+        //     },
+        //     stroke: {
+        //         width: [0, 0, 2],
+        //         curve: 'smooth',
+        //     },
+        //     colors: ['#5c1ac3', '#ffbb44', '#00ab55'],
+        //     plotOptions: {
+        //         bar: {
+        //             horizontal: false,
+        //             columnWidth: '55%',
+        //             borderRadius: 8,
+        //             borderRadiusApplication: 'end',
+        //         },
+        //     },
+        //     legend: {
+        //         position: 'bottom',
+        //         horizontalAlign: 'center',
+        //         fontSize: '14px',
+        //         itemMargin: {
+        //             horizontal: 8,
+        //             vertical: 8,
+        //         },
+        //     },
+        //     grid: {
+        //         borderColor: isDark ? '#191e3a' : '#e0e6ed',
+        //         padding: {
+        //             left: 20,
+        //             right: 20,
+        //         },
+        //         xaxis: {
+        //             lines: {
+        //                 show: false,
+        //             },
+        //         },
+        //     },
+        //     xaxis: {
+        //         // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        //         categories: fuelLastDeliveryData?.performance_reporting?.labels,
+        //         axisBorder: {
+        //             show: true,
+        //             color: isDark ? '#3b3f5c' : '#e0e6ed',
+        //         },
+        //     },
+        //     yaxis: {
+        //         tickAmount: 6,
+        //         opposite: isRtl ? true : false,
+        //         labels: {
+        //             offsetX: isRtl ? -10 : 0,
+        //         },
+        //     },
+        //     fill: {
+        //         type: 'gradient',
+        //         gradient: {
+        //             shade: isDark ? 'dark' : 'light',
+        //             type: 'vertical',
+        //             shadeIntensity: 0.3,
+        //             inverseColors: false,
+        //             opacityFrom: 1,
+        //             opacityTo: 0.8,
+        //             stops: [0, 100],
+        //         },
+        //     },
+        //     tooltip: {
+        //         shared: true, // Share the tooltip for all series
+        //         intersect: false, // Show tooltip when hovering between points
+        //         x: {
+        //             show: true,
+        //             format: 'MMM', // Show month in tooltip
+        //         },
+        //         y: {
+        //             formatter: (val: number) => `${val}`, // Format the value in tooltip
+        //         },
+        //         marker: {
+        //             show: true,
+        //         },
+        //     },
+        // },
     };
 
 
@@ -697,7 +886,10 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                             </Link>
                         </li>
                         <li>
-                            <Link to="/" className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+                            <Link to="/"
+                                className="before:content-['/'] before:px-1.5 text-primary hover:underline"
+                            // className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline"
+                            >
                                 Overview
                             </Link>
                         </li>
@@ -710,13 +902,21 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-1 gap-6 mt-6" >
-                    <div className="grid gap-6 xl:grid-flow-row">
+                    <div
+                        // className="grid gap-6 xl:grid-flow-row"
+                        className="panel h-full p-0 lg:col-span-2"
+                    >
                         {/*  Previous Statement  */}
                         <div className="panel overflow-hidden">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <div className="text-lg font-bold">Previous Statement</div>
-                                    <div className="text-success"> Paid on June 27, 2022 </div>
+                                    <div className="text-lg font-bold">Fuel Last Delivery Statement</div>
+                                    <div className="text-success">
+                                        Delivered on {fuelLastDeliveryData?.last_fuel_delivery_stats?.last_day && moment(fuelLastDeliveryData.last_fuel_delivery_stats.last_day).isValid() && (
+                                            moment(fuelLastDeliveryData.last_fuel_delivery_stats.last_day).format("MMMM DD, YYYY")
+                                        )}
+                                    </div>
+
                                 </div>
                             </div>
                             <div className="relative mt-10">
@@ -724,34 +924,20 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                     <IconCircleCheck className="text-success opacity-20 w-full h-full" />
                                 </div>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                                    <div>
-                                        <div className="text-primary">Card Limit</div>
-                                        <div className="mt-2 font-semibold text-2xl">$50,000.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Spent</div>
-                                        <div className="mt-2 font-semibold text-2xl">$15,000.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Minimum</div>
-                                        <div className="mt-2 font-semibold text-2xl">$2,500.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Minimum</div>
-                                        <div className="mt-2 font-semibold text-2xl">$2,500.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Minimum</div>
-                                        <div className="mt-2 font-semibold text-2xl">$2,500.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Minimum</div>
-                                        <div className="mt-2 font-semibold text-2xl">$2,500.00</div>
-                                    </div>
+
+                                    {fuelLastDeliveryData?.last_fuel_delivery_stats?.data?.map((fuel: lastfueldeliverystats) => (
+                                        <>
+                                            <div>
+                                                <div className="text-primary">{fuel?.fuel}</div>
+                                                <div className="mt-2 font-semibold text-2xl">{fuel?.value}</div>
+                                            </div>
+                                        </>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
 
                     <div className="panel h-full p-0 lg:col-span-2">
@@ -778,187 +964,45 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                 </Dropdown>
                             </div>
                         </div>
-
-                        <ReactApexChart options={uniqueVisitorSeries.options} series={uniqueVisitorSeries.series} type="bar" height={360} className="overflow-hidden" />
+                        {fuelLastDeliveryData?.performance_reporting && (<>
+                            <ReactApexChart options={uniqueVisitorSeries.options} series={uniqueVisitorSeries.series} type="bar" height={360} className="overflow-hidden" />
+                        </>)}
                     </div>
 
-                    {/* Shop Sales */}
-                    <div className="panel h-full w-full">
-                        <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Shop Sales</h5>
+
+                    {/*  Shop Sales  */}
+                    <div className="panel h-full lg:col-span-2 cshop-sale-height">
+                        <div className="mb-5 text-lg font-bold">
+                            <div className="flex items-center justify-between mb-5">
+
+                                <h5 className="font-semibold text-lg dark:text-white-light">Shop Sales</h5>
+                            </div>
+
                         </div>
                         <div className="table-responsive">
                             <table>
                                 <thead>
                                     <tr>
                                         <th className="ltr:rounded-l-md rtl:rounded-r-md">Name</th>
-                                        <th>GROSS SALES</th>
-                                        <th>NET SALES</th>
-                                        <th>PROFIT</th>
-                                        <th>TRANSACTION </th>
-                                        <th className="ltr:rounded-r-md rtl:rounded-l-md">DETAILS</th>
+                                        <th >Gross Sales</th>
+                                        <th >Net Sales</th>
+                                        <th className="text-center">Total Transaction</th>
+                                        <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">Profit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
-                                        <td className="min-w-[150px] text-black dark:text-white">
-                                            <div className="flex items-center">
-                                                <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src="/assets/images/profile-6.jpeg" alt="avatar" />
-                                                <span className="whitespace-nowrap">Luke Ivory</span>
-                                            </div>
-                                        </td>
-                                        <td className="text-primary">Headphone</td>
-                                        <td>
-                                            <Link to="/apps/invoice/preview">#46894</Link>
-                                        </td>
-                                        <td>$56.07</td>
-                                        <td>$56.07</td>
-                                        <td>
-                                            <span className="badge bg-success shadow-md dark:group-hover:bg-transparent">Paid</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
-                                        <td className="text-black dark:text-white">
-                                            <div className="flex items-center">
-                                                <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src="/assets/images/profile-7.jpeg" alt="avatar" />
-                                                <span className="whitespace-nowrap">Andy King</span>
-                                            </div>
-                                        </td>
-                                        <td className="text-info">Nike Sport</td>
-                                        <td>
-                                            <Link to="/apps/invoice/preview">#76894</Link>
-                                        </td>
-                                        <td>$126.04</td>
-                                        <td>$126.04</td>
-                                        <td>
-                                            <span className="badge bg-secondary shadow-md dark:group-hover:bg-transparent">Shipped</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
-                                        <td className="text-black dark:text-white">
-                                            <div className="flex items-center">
-                                                <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src="/assets/images/profile-8.jpeg" alt="avatar" />
-                                                <span className="whitespace-nowrap">Laurie Fox</span>
-                                            </div>
-                                        </td>
-                                        <td className="text-warning">Sunglasses</td>
-                                        <td>
-                                            <Link to="/apps/invoice/preview">#66894</Link>
-                                        </td>
-                                        <td>$56.07</td>
-                                        <td>$56.07</td>
-                                        <td>
-                                            <span className="badge bg-success shadow-md dark:group-hover:bg-transparent">Paid</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
-                                        <td className="text-black dark:text-white">
-                                            <div className="flex items-center">
-                                                <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src="/assets/images/profile-9.jpeg" alt="avatar" />
-                                                <span className="whitespace-nowrap">Ryan Collins</span>
-                                            </div>
-                                        </td>
-                                        <td className="text-danger">Sport</td>
-                                        <td>
-                                            <Link to="/apps/invoice/preview">#75844</Link>
-                                        </td>
-                                        <td>$110.00</td>
-                                        <td>$110.00</td>
-                                        <td>
-                                            <span className="badge bg-secondary shadow-md dark:group-hover:bg-transparent">Shipped</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
-                                        <td className="text-black dark:text-white">
-                                            <div className="flex items-center">
-                                                <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src="/assets/images/profile-10.jpeg" alt="avatar" />
-                                                <span className="whitespace-nowrap">Irene Collins</span>
-                                            </div>
-                                        </td>
-                                        <td className="text-secondary">Speakers</td>
-                                        <td>
-                                            <Link to="/apps/invoice/preview">#46894</Link>
-                                        </td>
-                                        <td>$56.07</td>
-                                        <td>$56.07</td>
-                                        <td>
-                                            <span className="badge bg-success shadow-md dark:group-hover:bg-transparent">Paid</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
 
-                    {/*  Recent Transactions  */}
-                    <div className="panel">
-                        <div className="mb-5 text-lg font-bold">Recent Transactions</div>
-                        <div className="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th className="ltr:rounded-l-md rtl:rounded-r-md">ID</th>
-                                        <th>DATE</th>
-                                        <th>NAME</th>
-                                        <th>AMOUNT</th>
-                                        <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">STATUS</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="font-semibold">#01</td>
-                                        <td className="whitespace-nowrap">Oct 08, 2021</td>
-                                        <td className="whitespace-nowrap">Eric Page</td>
-                                        <td>$1,358.75</td>
-                                        <td className="text-center">
-                                            <span className="badge bg-success/20 text-success rounded-full hover:top-0">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">#02</td>
-                                        <td className="whitespace-nowrap">Dec 18, 2021</td>
-                                        <td className="whitespace-nowrap">Nita Parr</td>
-                                        <td>-$1,042.82</td>
-                                        <td className="text-center">
-                                            <span className="badge bg-info/20 text-info rounded-full hover:top-0">In Process</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">#03</td>
-                                        <td className="whitespace-nowrap">Dec 25, 2021</td>
-                                        <td className="whitespace-nowrap">Carl Bell</td>
-                                        <td>$1,828.16</td>
-                                        <td className="text-center">
-                                            <span className="badge bg-danger/20 text-danger rounded-full hover:top-0">Pending</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">#04</td>
-                                        <td className="whitespace-nowrap">Nov 29, 2021</td>
-                                        <td className="whitespace-nowrap">Dan Hart</td>
-                                        <td>$1,647.55</td>
-                                        <td className="text-center">
-                                            <span className="badge bg-success/20 text-success rounded-full hover:top-0">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">#05</td>
-                                        <td className="whitespace-nowrap">Nov 24, 2021</td>
-                                        <td className="whitespace-nowrap">Jake Ross</td>
-                                        <td>$927.43</td>
-                                        <td className="text-center">
-                                            <span className="badge bg-success/20 text-success rounded-full hover:top-0">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold">#06</td>
-                                        <td className="whitespace-nowrap">Jan 26, 2022</td>
-                                        <td className="whitespace-nowrap">Anna Bell</td>
-                                        <td>$250.00</td>
-                                        <td className="text-center">
-                                            <span className="badge bg-info/20 text-info rounded-full hover:top-0">In Process</span>
-                                        </td>
-                                    </tr>
+                                    {shopSaleData?.map((shop: any) => (
+                                        <tr key={shop.id}>
+                                            <td className="whitespace-nowrap">{shop?.name}</td>
+                                            <td className="whitespace-nowrap">{shop?.gross_sales}</td>
+                                            <td className="whitespace-nowrap">{shop?.nett_sales}</td>
+                                            <td className="text-center">{shop?.total_transactions}</td>
+                                            <td className="text-center">
+                                                <span className="badge bg-success/20 text-success rounded-full hover:top-0">{shop?.profit}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -1048,7 +1092,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {detailsData?.map((item: any) => (
+                                        {shopSaleData?.map((item: any) => (
                                             <tr key={item?.id} className={`text-white-dark hover:text-black dark:hover:text-white-light/90 group ${isSitePermissionAvailable ? "cursor-pointer" : ""}`}>
                                                 <td className="min-w-[150px] text-black dark:text-white">
                                                     {isSitePermissionAvailable ? (<>

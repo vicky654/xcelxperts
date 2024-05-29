@@ -699,7 +699,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     <h5 className="ml-4 font-semibold">{item?.name}</h5>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4 my-3">
+                                <div className="grid grid-cols-2 gap-4 my-">
                                     <div>
                                         <h6 className="font-semibold">Gross Volume</h6>
                                         <p className="text-lg">
