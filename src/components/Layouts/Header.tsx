@@ -230,7 +230,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
              
                 <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
                     {menuItems.map((menuItem) => (
-                        <MenuItemComponent {...menuItem} key={menuItem.key} />
+                        <MenuItemComponent {...menuItem}   itemKey={menuItem.key} />
                     ))}
                 </ul>
                 {/* horizontal menu */}

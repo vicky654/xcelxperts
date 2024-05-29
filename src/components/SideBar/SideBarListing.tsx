@@ -1,16 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import { MenuItem, SubMenuItem } from '../Layouts/menuItems';
 import IconCaretDown from '../Icon/IconCaretDown';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import { MenuItem, SubMenuItem } from './SideBarItems';
 
 interface Props extends MenuItem {
+    itemKey: string;
     subMenu?: SubMenuItem[];
 }
 
-const MenuItemComponent: React.FC<Props> = ({ key, title, icon: Icon, link, subMenu, permission }) => {
+const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, subMenu, permission }) => {
     const { data } = useSelector((state: IRootState) => state?.data);
     const hasSubMenuPermission = subMenu?.some(item => data?.permissions?.includes(item.permission));
     const isVisible = permission ? data?.permissions?.includes(permission) || hasSubMenuPermission : true;
@@ -21,7 +21,7 @@ const MenuItemComponent: React.FC<Props> = ({ key, title, icon: Icon, link, subM
     }
 
     return (
-        <li className="menu nav-item relative" key={key}>
+        <li className="menu nav-item relative" key={itemKey}>
             {hasSubMenu ? (
                 <button type="button" className="nav-link">
                     <div className="flex items-center">
