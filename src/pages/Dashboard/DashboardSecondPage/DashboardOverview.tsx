@@ -61,6 +61,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     });
     const [filterData, setFilterData] = useState<any>(null);
     const [detailsData, setDetailsData] = useState<any>([]);
+    const [search, setSearch] = useState<string>('');
 
     const callFetchFilterData = async (filters: FilterValues) => {
         try {
@@ -565,8 +566,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
     const handleNavigateToNextPage = (item: any) => {
-        console.log(item);
-
         if (isSitePermissionAvailable) {
             navigate(`/dashboard/station/${item?.id}`)
         }
@@ -681,8 +680,12 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
                     </div>
 
-
+                    <div className="flex items-center justify-between mb-5">
+                        <h5 className="font-semibold text-lg dark:text-white-light">Stations Overview</h5>
+                        <input type="text" className="form-input w-auto" placeholder="Search Station..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
                         {detailsData?.map((item: any) => (
                             <div
                                 key={item?.id}
