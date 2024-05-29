@@ -47,6 +47,7 @@ interface lastfueldeliverystats {
     date: string;
     fuel: string;
     value: string;
+    id: string;
 }
 
 interface DashboardStationPageProps {
@@ -72,6 +73,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     const [detailsData, setDetailsData] = useState<any>([]);
     const [fuelLastDeliveryData, setFuelLastDeliveryData] = useState<any>([]);
     const [shopSaleData, setShopSaleData] = useState<any>([]);
+    const [gradesData, setGradesData] = useState<any>(null);
     const { id } = useParams();
 
 
@@ -147,7 +149,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-site-fuel-performance?${queryString}`);
             if (response && response.data && response.data.data) {
-
+                setGradesData(response.data.data)
 
             }
             // setData(response.data);
@@ -158,7 +160,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     };
 
 
-    console.log(fuelLastDeliveryData, "fuelLastDeliveryData");
+    console.log(gradesData, "gradesData");
 
 
 
@@ -991,7 +993,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
                                     {fuelLastDeliveryData?.last_fuel_delivery_stats?.data?.map((fuel: lastfueldeliverystats) => (
                                         <>
-                                            <div>
+                                            <div key={fuel?.id}>
                                                 <div className="text-primary">{fuel?.fuel}</div>
                                                 <div className="mt-2 font-semibold text-2xl">{fuel?.value}</div>
                                             </div>
@@ -1003,6 +1005,85 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                     </div>
 
                     <div className="mb-5 flex flex-col sm:flex-row">
+                        <Tab.Group>
+                            <div className="mx-10 mb-5 sm:mb-0">
+                                <Tab.List className="m-auto w-24 text-center font-semibold">
+                                    {gradesData?.map((fuelData: any, index: number) => (
+                                        <Tab as={Fragment} key={index}>
+                                            {({ selected }) => (
+                                                <button
+                                                    className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
+                                            before:inline-block relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
+                                                    style={{
+                                                        width: '100%',
+                                                        display: 'flex',
+                                                        textAlign: 'center',
+                                                        justifyContent: 'center',
+                                                    }}
+                                                >
+                                                    {fuelData?.fuel}
+                                                </button>
+                                            )}
+                                        </Tab>
+                                    ))}
+                                </Tab.List>
+                            </div>
+                            <Tab.Panels>
+                                {gradesData?.map((fuelData: any, index: number) => (
+                                    <Tab.Panel key={index}>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800">
+                                                <h4 className="mb-4 text-2xl font-semibold">{fuelData?.fuel}</h4>
+                                                <div className="grid grid-cols-2 gap-4 mb-4">
+                                                    <div>
+                                                        <h6 className="font-semibold">Fuel Volume</h6>
+                                                        <p>{fuelData?.fuel_volume}</p>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="font-semibold">Fuel Value</h6>
+                                                        <p>{fuelData?.fuel_value}</p>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="font-semibold">Gross Profit</h6>
+                                                        <p>{fuelData?.gross_profit}</p>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="font-semibold">Gross Margin</h6>
+                                                        <p>{fuelData?.gross_margin}</p>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="font-semibold">Total Transactions</h6>
+                                                        <p>{fuelData?.total_transaction}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800">
+                                                <h4 className="mb-4 text-2xl font-semibold">Card Details</h4>
+                                                {fuelData?.cards?.map((card: any, cardIndex: number) => (
+                                                    <div key={cardIndex} className="flex items-center mb-4">
+                                                        <img
+                                                            src={card?.image}
+                                                            alt={card?.card_name}
+                                                            className="w-12 h-12 rounded-full object-cover mr-4"
+                                                        />
+                                                        <div>
+                                                            <h6 className="font-semibold">{card?.card_name}</h6>
+                                                            <p>Total Transactions: {card?.total_transactions}</p>
+                                                            <p>Total Fuel Sale Value: {card?.total_fuel_sale_value}</p>
+                                                            <p>Total Fuel Sale Volume: {card?.total_fuel_sale_volume}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </Tab.Panel>
+                                ))}
+                            </Tab.Panels>
+                        </Tab.Group>
+                    </div>
+
+                    {/* <div className="mb-5 flex flex-col sm:flex-row">
                         <Tab.Group>
                             <div className="mx-10 mb-5 sm:mb-0">
                                 <Tab.List className="m-auto w-24 text-center font-semibold">
@@ -1119,7 +1200,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                 </Tab.Panel>
                             </Tab.Panels>
                         </Tab.Group>
-                    </div>
+                    </div> */}
 
 
 

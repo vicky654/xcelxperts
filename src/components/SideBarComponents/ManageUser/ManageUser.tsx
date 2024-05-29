@@ -15,6 +15,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
+import CustomPagination from '../../../utils/CustomPagination';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -42,6 +43,8 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const [isEditMode, setIsEditMode] = useState(false);
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(10);
     console.log(userId, 'userId');
     const navigate = useNavigate();
     useEffect(() => {
@@ -51,6 +54,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleSuccess = () => {
         fetchData();
     };
+
+    console.log(currentPage, "currentPage");
+
+
+    const handlePageChange = (newPage: any) => {
+        setCurrentPage(newPage);
+        // You may perform other operations here like fetching data for the new page
+    };
+
     const fetchData = async () => {
         try {
             const response = await getData(`/user/list`);
@@ -157,15 +169,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Action',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  {/* <div className="dropdown">
+                name: 'Action',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                {/* <div className="dropdown">
                                       <Dropdown
                                           btnClassName="btn btn-success dropdown-toggle"
                                           button={
@@ -190,24 +202,24 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                       </Dropdown>
                                   </div> */}
 
-                                  <Tippy content="Edit">
-                                      <>
-                                          {console.log(row, 'RowData')}
-                                          <button type="button" onClick={() => openModal(row?.id)}>
-                                              <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                          </button>
-                                      </>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                                <Tippy content="Edit">
+                                    <>
+                                        {console.log(row, 'RowData')}
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                        </button>
+                                    </>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <IconTrashLines />
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
     // user/detail?id=${selectedRowId}
@@ -226,7 +238,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             console.error('Error fetching user details:', error);
         }
     };
-    
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -276,8 +288,8 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     Add User
                 </button>
             </div>
-            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}  />
-  
+            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
@@ -294,14 +306,21 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         defaultSortAsc={false}
                         striped={true}
                         persistTableHead
-                        pagination
-                        paginationPerPage={20}
+                        // pagination
+                        // paginationPerPage={20}
                         highlightOnHover
                         // searchable={true}
                         responsive={true}
                     />
                 </div>
             </div>
+            {/* {data?.length > 0 && lastPage > 1 && ( */}
+            <CustomPagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                handlePageChange={handlePageChange}
+            />
+            {/* )} */}
         </>
     );
 };
