@@ -702,10 +702,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
         // series: fuelLastDeliveryData?.performance_reporting?.datasets?.map((dataset: any) => ({
         series: dataaa?.map((dataset: any) => ({
             name: dataset?.label || 'Direct', // Adjust based on the actual property of your dataset
-            // type: dataset?.type == "line" ? "bar" : "line",
             type: dataset?.type,
-            // type: "line",
-            // type: "bar",
             data: dataset?.data || [58, 44, 55, 57, 56, 61, 58, 63, 60, 66, 56, 63], // Adjust based on the actual property of your dataset
         })),
 
@@ -738,15 +735,15 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             yaxis: [
                 {
                     title: {
-                        text: 'Gross Margin (ppl)',
+                        text: 'Fuel Volume (ℓ) & Shop Sales (£)',
                     },
-                    opposite: true, // Line chart values on the right side
+                    opposite: false, // Line chart values on the right side
                 },
                 {
                     title: {
-                        text: 'Fuel Volume (ℓ) & Shop Sales (£)',
+                        text: 'Gross Margin (ppl)',
                     },
-                    opposite: false, // Bar chart values on the left side
+                    opposite: true, // Bar chart values on the left side
                 },
             ],
             tooltip: {
@@ -885,10 +882,11 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                 Dashboard
                             </Link>
                         </li>
+                        <li className="before:content-['/']  rtl:before:ml-2">
+                        </li>
                         <li>
-                            <Link to="/"
-                                className="before:content-['/'] before:px-1.5 text-primary hover:underline"
-                            // className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline"
+                            <Link to="/dashboard/overview"
+                                className=" text-primary hover:underline"
                             >
                                 Overview
                             </Link>
@@ -897,116 +895,6 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                             <span>Station</span>
                         </li>
                     </ul>
-
-
-                </div>
-
-                <div className="grid grid-cols-1 xl:grid-cols-1 gap-6 mt-6" >
-                    <div
-                        // className="grid gap-6 xl:grid-flow-row"
-                        className="panel h-full p-0 lg:col-span-2"
-                    >
-                        {/*  Previous Statement  */}
-                        <div className="panel overflow-hidden">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <div className="text-lg font-bold">Fuel Last Delivery Statement</div>
-                                    <div className="text-success">
-                                        Delivered on {fuelLastDeliveryData?.last_fuel_delivery_stats?.last_day && moment(fuelLastDeliveryData.last_fuel_delivery_stats.last_day).isValid() && (
-                                            moment(fuelLastDeliveryData.last_fuel_delivery_stats.last_day).format("MMMM DD, YYYY")
-                                        )}
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="relative mt-10">
-                                <div className="absolute -bottom-12 ltr:-right-12 rtl:-left-12 w-24 h-24">
-                                    <IconCircleCheck className="text-success opacity-20 w-full h-full" />
-                                </div>
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-
-                                    {fuelLastDeliveryData?.last_fuel_delivery_stats?.data?.map((fuel: lastfueldeliverystats) => (
-                                        <>
-                                            <div>
-                                                <div className="text-primary">{fuel?.fuel}</div>
-                                                <div className="mt-2 font-semibold text-2xl">{fuel?.value}</div>
-                                            </div>
-                                        </>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div className="panel h-full p-0 lg:col-span-2">
-                        <div className="flex items-start justify-between dark:text-white-light mb-5 p-5 border-b  border-white-light dark:border-[#1b2e4b]">
-                            <h5 className="font-semibold text-lg ">Unique Visitors</h5>
-                            <div className="dropdown">
-                                <Dropdown
-                                    offset={[0, 5]}
-                                    placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                    btnClassName="hover:text-primary"
-                                    button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}
-                                >
-                                    <ul>
-                                        <li>
-                                            <button type="button">View</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Update</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Delete</button>
-                                        </li>
-                                    </ul>
-                                </Dropdown>
-                            </div>
-                        </div>
-                        {fuelLastDeliveryData?.performance_reporting && (<>
-                            <ReactApexChart options={uniqueVisitorSeries.options} series={uniqueVisitorSeries.series} type="bar" height={360} className="overflow-hidden" />
-                        </>)}
-                    </div>
-
-
-                    {/*  Shop Sales  */}
-                    <div className="panel h-full lg:col-span-2 cshop-sale-height">
-                        <div className="mb-5 text-lg font-bold">
-                            <div className="flex items-center justify-between mb-5">
-
-                                <h5 className="font-semibold text-lg dark:text-white-light">Shop Sales</h5>
-                            </div>
-
-                        </div>
-                        <div className="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th className="ltr:rounded-l-md rtl:rounded-r-md">Name</th>
-                                        <th >Gross Sales</th>
-                                        <th >Net Sales</th>
-                                        <th className="text-center">Total Transaction</th>
-                                        <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">Profit</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    {shopSaleData?.map((shop: any) => (
-                                        <tr key={shop.id}>
-                                            <td className="whitespace-nowrap">{shop?.name}</td>
-                                            <td className="whitespace-nowrap">{shop?.gross_sales}</td>
-                                            <td className="whitespace-nowrap">{shop?.nett_sales}</td>
-                                            <td className="text-center">{shop?.total_transactions}</td>
-                                            <td className="text-center">
-                                                <span className="badge bg-success/20 text-success rounded-full hover:top-0">{shop?.profit}</span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
 
                 <div className="pt-5">
@@ -1073,270 +961,98 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                     </div>
 
 
-                    <div className="grid lg:grid-cols-1 grid-cols-1 gap-6">
-                        <div className="panel h-full w-full">
-                            <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
+
+                </div>
+
+                <div className="grid grid-cols-1 xl:grid-cols-1 gap-6 mt-6" >
+                    <div
+                        // className="grid gap-6 xl:grid-flow-row"
+                        className="panel h-full p-0 lg:col-span-2"
+                    >
+                        {/*  Previous Statement  */}
+                        <div className="panel overflow-hidden">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <div className="text-lg font-bold">Fuel Last Delivery Statement</div>
+                                    <div className="text-success">
+                                        Delivered on {fuelLastDeliveryData?.last_fuel_delivery_stats?.last_day && moment(fuelLastDeliveryData.last_fuel_delivery_stats.last_day).isValid() && (
+                                            moment(fuelLastDeliveryData.last_fuel_delivery_stats.last_day).format("MMMM DD, YYYY")
+                                        )}
+                                    </div>
+
+                                </div>
                             </div>
-                            <div className="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Stations</th>
-                                            <th>Gross Volume</th>
-                                            <th>Fuel Sales</th>
-                                            <th>Gross Profit</th>
-                                            <th>Gross Margin</th>
-                                            <th>Shop Sales</th>
-                                            <th className="ltr:rounded-r-md rtl:rounded-l-md">Shop Profit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {shopSaleData?.map((item: any) => (
-                                            <tr key={item?.id} className={`text-white-dark hover:text-black dark:hover:text-white-light/90 group ${isSitePermissionAvailable ? "cursor-pointer" : ""}`}>
-                                                <td className="min-w-[150px] text-black dark:text-white">
-                                                    {isSitePermissionAvailable ? (<>
-                                                        <div
-                                                            onClick={() => handleNavigateToNextPage(item)}
-                                                            className="flex items-center">
-                                                            <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src={item?.image} alt={item?.name} />
-                                                            <span className="whitespace-nowrap">{item?.name}</span>
-                                                        </div>
-                                                    </>) : (<>
-                                                        <div className="flex items-center">
-                                                            <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src={item?.image} alt={item?.name} />
-                                                            <span className="whitespace-nowrap">{item?.name}</span>
-                                                        </div>
-                                                    </>)}
-                                                </td>
-                                                <td className="dashboard-child-tdata">
-                                                    <div className="d-flex align-items-center h-100 ">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold ">
-                                                                ℓ{item.fuel_volume?.gross_volume}
-                                                            </h6>
+                            <div className="relative mt-10">
+                                <div className="absolute -bottom-12 ltr:-right-12 rtl:-left-12 w-24 h-24">
+                                    <IconCircleCheck className="text-success opacity-20 w-full h-full" />
+                                </div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
-                                                            <p
-                                                                className={`me-1 ${item.fuel_volume?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.fuel_volume?.percentage}%`}
-                                                            >
-                                                                {item?.fuel_volume?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.fuel_volume?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.fuel_volume?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £{item?.fuel_sales?.gross_value}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.fuel_sales?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.fuel_sales?.percentage}%`}
-                                                            >
-                                                                {item?.fuel_sales?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.fuel_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.fuel_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £{item?.gross_profit?.gross_profit}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.gross_profit?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.gross_profit?.percentage}%`}
-                                                            >
-                                                                {item?.gross_profit?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.gross_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.gross_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                {item?.gross_margin?.gross_margin} ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
-
-                                                                    <Tippy content={`${item?.gross_margin?.ppl_msg}%`} >
-                                                                        <button type="button" className=' relative top-3'>
-                                                                            <IconInfoCircle fill={true} className="w-4 h-4" />
-                                                                        </button>
-                                                                    </Tippy>
-
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.gross_margin?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.gross_margin?.percentage}%`}
-                                                            >
-                                                                {item?.gross_margin?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.gross_margin?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.gross_margin?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £
-                                                                {/* {item?.shop_sales?.shop_sales} */}
-
-                                                                {item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.shop_sales?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.shop_sales?.percentage}%`}
-                                                            >
-                                                                {item?.shop_sales?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.shop_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.shop_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £
-                                                                {item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
-                                                                {/* {item?.shop_profit?.shop_profit || "0.00"} */}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.shop_profit?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.shop_profit?.percentage}%`}
-                                                            >
-                                                                {item?.shop_profit?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.shop_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.shop_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-
-                                </table>
+                                    {fuelLastDeliveryData?.last_fuel_delivery_stats?.data?.map((fuel: lastfueldeliverystats) => (
+                                        <>
+                                            <div>
+                                                <div className="text-primary">{fuel?.fuel}</div>
+                                                <div className="mt-2 font-semibold text-2xl">{fuel?.value}</div>
+                                            </div>
+                                        </>
+                                    ))}
+                                </div>
                             </div>
                         </div>
+                    </div>
 
 
+
+                    <div className="panel h-full p-0 lg:col-span-2">
+                        <div className="flex items-start justify-between dark:text-white-light mb-5 p-5 border-b  border-white-light dark:border-[#1b2e4b]">
+                            <h5 className="font-semibold text-lg ">Unique Visitors</h5>
+                        </div>
+                        {fuelLastDeliveryData?.performance_reporting && (<>
+                            <ReactApexChart options={uniqueVisitorSeries.options} series={uniqueVisitorSeries.series} type="bar" height={360} className="overflow-hidden" />
+                        </>)}
+                    </div>
+
+
+                    {/*  Shop Sales  */}
+                    <div className="panel h-full lg:col-span-2 cshop-sale-height">
+                        <div className="mb-5 text-lg font-bold">
+                            <div className="flex items-center justify-between mb-5">
+
+                                <h5 className="font-semibold text-lg dark:text-white-light">Shop Sales</h5>
+                            </div>
+
+                        </div>
+                        <div className="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th className="ltr:rounded-l-md rtl:rounded-r-md">Name</th>
+                                        <th >Gross Sales</th>
+                                        <th >Net Sales</th>
+                                        <th className="text-center">Total Transaction</th>
+                                        <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">Profit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {shopSaleData?.map((shop: any) => (
+                                        <tr key={shop.id}>
+                                            <td className="whitespace-nowrap">{shop?.name}</td>
+                                            <td className="whitespace-nowrap">{shop?.gross_sales}</td>
+                                            <td className="whitespace-nowrap">{shop?.nett_sales}</td>
+                                            <td className="text-center">{shop?.total_transactions}</td>
+                                            <td className="text-center">
+                                                <span className="badge bg-success/20 text-success rounded-full hover:top-0">{shop?.profit}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
+
             </div >
         </>
     );
