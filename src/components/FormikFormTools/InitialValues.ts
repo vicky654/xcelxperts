@@ -5,7 +5,6 @@ const initialValues = {
     email: '',
     password: '',
     phone_number: '',
-    date_format: '',
 };
 
 export default initialValues;

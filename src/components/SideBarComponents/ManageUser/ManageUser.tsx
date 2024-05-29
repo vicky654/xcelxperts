@@ -9,8 +9,6 @@ import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
 import AddUserModals from './AddUserModals';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
-import Dropdown from '../../../components/Dropdown';
-import IconCaretDown from '../../Icon/IconCaretDown';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
@@ -26,7 +24,7 @@ interface ManageUserProps {
 }
 
 interface RowData {
-    id: number;
+    id: string; // Change type from number to string
     full_name: string;
     role: string;
     addons: string;
@@ -34,18 +32,23 @@ interface RowData {
     status: number;
 }
 
+
 const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
 
     const dispatch = useDispatch();
     const handleApiError = useApiErrorHandler();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
+    const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
+    console.log(userId, 'userId');
     const navigate = useNavigate();
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch]);
     const handleSuccess = () => {
-        // Refresh the data or perform any success handling here
         fetchData();
     };
     const fetchData = async () => {
@@ -186,16 +189,20 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                           </ul>
                                       </Dropdown>
                                   </div> */}
+
                                   <Tippy content="Edit">
-                                                <button type="button">
-                                                    <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                                </button>
-                                            </Tippy>
-                                            <Tippy  content="Delete">
-                                                <button onClick={() => handleDelete(row.id)} type="button">
-                                                    <IconTrashLines />
-                                                </button>
-                                            </Tippy>
+                                      <>
+                                          {console.log(row, 'RowData')}
+                                          <button type="button" onClick={() => openModal(row?.id)}>
+                                              <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                          </button>
+                                      </>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
                               </div>
                           </div>
                       </span>
@@ -203,17 +210,31 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
               }
             : null,
     ];
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const openModal = () => {
-        setIsModalOpen(true);
+    // user/detail?id=${selectedRowId}
+    const openModal = async (id: string) => {
+        try {
+            setIsModalOpen(true);
+            setIsEditMode(true);
+            setUserId(id)
+            // const response = await getData(`/user/detail?id=${id}`)`);
+            // const response = await getData(`/user/detail?id=${id}`);
+            // if (response && response.data) {
+            //     setUserId(id)
+            //     setEditUserData(response.data);
+            // }
+        } catch (error) {
+            console.error('Error fetching user details:', error);
+        }
     };
+    
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setIsEditMode(false);
+        setEditUserData(null);
     };
-    const handleFormSubmit = async (values: any, formik: any) => {
+
+    const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
             formData.append('first_name', values.first_name);
@@ -223,21 +244,17 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             formData.append('password', values.password);
             formData.append('phone_number', values.phone_number);
 
-            const response = await postData(`/user/add`, formData);
+            const url = isEditMode && editUserData ? `/user/edit/${editUserData.id}` : `/user/add`;
+            const response = await postData(url, formData);
 
-            if (response.status_code == '200') {
+            if (response && response.status === 200) {
                 handleSuccess();
-                formik.resetForm();
                 closeModal();
-                // navigate("/dashboard");
             } else {
-                // Handle error scenario
                 console.error('Form submission failed:', response.statusText);
-                // Optionally, show error alert or handle other logic
             }
         } catch (error) {
             console.error('Form submission error:', error);
-            // Handle error appropriately
         }
     };
 
@@ -255,11 +272,12 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         <span>Manage User</span>
                     </li>
                 </ol>
-                <button type="button" className="btn btn-dark" onClick={openModal}>
+                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
                     Add User
                 </button>
             </div>
-            <AddUserModals isOpen={isModalOpen} onClose={closeModal} getData={getData} onSubmit={handleFormSubmit} />
+            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}  />
+  
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
