@@ -682,269 +682,169 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                     </div>
 
 
-                    <div className="grid lg:grid-cols-1 grid-cols-1 gap-6">
-                        <div className="panel h-full w-full">
-                            <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {detailsData?.map((item: any) => (
+                            <div
+                                key={item?.id}
+                                className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
+                                    }`}
+                                onClick={() => isSitePermissionAvailable && handleNavigateToNextPage(item)}
+                            >
+                                <div className="flex items-center mb-4">
+                                    <img
+                                        className="w-10 h-10 rounded-full object-cover"
+                                        src={item?.image}
+                                        alt={item?.name}
+                                    />
+                                    <h5 className="ml-4 font-semibold">{item?.name}</h5>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4 my-3">
+                                    <div>
+                                        <h6 className="font-semibold">Gross Volume</h6>
+                                        <p className="text-lg">
+                                            ℓ{item.fuel_volume?.gross_volume}
+                                            <span
+                                                className={`ml-2 ${item.fuel_volume?.status === "up" ? "text-green-500" : "text-red-500"
+                                                    }`}
+                                            >
+                                                {item?.fuel_volume?.status === "up" ? (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-up"></i> {item?.fuel_volume?.percentage}%
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-down"></i> {item?.fuel_volume?.percentage}%
+                                                    </>
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h6 className="font-semibold">Fuel Sales</h6>
+                                        <p className="text-lg">
+                                            ₹{item?.fuel_sales?.gross_value}
+                                            <span
+                                                className={`ml-2 ${item?.fuel_sales?.status === "up" ? "text-green-500" : "text-red-500"
+                                                    }`}
+                                            >
+                                                {item?.fuel_sales?.status === "up" ? (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-up"></i> {item?.fuel_sales?.percentage}%
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-down"></i> {item?.fuel_sales?.percentage}%
+                                                    </>
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div className="grid grid-cols-2 gap-4 my-3">
+                                    <div>
+                                        <h6 className="font-semibold">Gross Profit</h6>
+                                        <p className="text-lg">
+                                            ₹{item?.gross_profit?.gross_profit}
+                                            <span
+                                                className={`ml-2 ${item?.gross_profit?.status === "up" ? "text-green-500" : "text-red-500"
+                                                    }`}
+                                            >
+                                                {item?.gross_profit?.status === "up" ? (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-up"></i> {item?.gross_profit?.percentage}%
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-down"></i> {item?.gross_profit?.percentage}%
+                                                    </>
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h6 className="font-semibold">Gross Margin</h6>
+                                        <p className="text-lg">
+                                            {item?.gross_margin?.gross_margin} ppl
+                                            {item?.gross_margin?.is_ppl == 1 && (
+                                                <Tippy content={`${item?.gross_margin?.ppl_msg}%`}>
+                                                    <button type="button" className="ml-2">
+                                                        <IconInfoCircle fill={true} className="w-4 h-4" />
+                                                    </button>
+                                                </Tippy>
+                                            )}
+                                            <span
+                                                className={`ml-2 ${item?.gross_margin?.status === "up" ? "text-green-500" : "text-red-500"
+                                                    }`}
+                                            >
+                                                {item?.gross_margin?.status === "up" ? (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-up"></i> {item?.gross_margin?.percentage}%
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-down"></i> {item?.gross_margin?.percentage}%
+                                                    </>
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div className="grid grid-cols-2 gap-4 my-3">
+                                    <div>
+                                        <h6 className="font-semibold">Shop Sales</h6>
+                                        <p className="text-lg">
+                                            ₹{item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
+                                            <span
+                                                className={`ml-2 ${item?.shop_sales?.status === "up" ? "text-green-500" : "text-red-500"
+                                                    }`}
+                                            >
+                                                {item?.shop_sales?.status === "up" ? (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-up"></i> {item?.shop_sales?.percentage}%
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-down"></i> {item?.shop_sales?.percentage}%
+                                                    </>
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h6 className="font-semibold">Shop Profit</h6>
+                                        <p className="text-lg">
+                                            ₹{item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
+                                            <span
+                                                className={`ml-2 ${item?.shop_profit?.status === "up" ? "text-green-500" : "text-red-500"
+                                                    }`}
+                                            >
+                                                {item?.shop_profit?.status === "up" ? (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-up"></i> {item?.shop_profit?.percentage}%
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa fa-chevron-circle-down"></i> {item?.shop_profit?.percentage}%
+                                                    </>
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Stations</th>
-                                            <th>Gross Volume</th>
-                                            <th>Fuel Sales</th>
-                                            <th>Gross Profit</th>
-                                            <th>Gross Margin</th>
-                                            <th>Shop Sales</th>
-                                            <th className="ltr:rounded-r-md rtl:rounded-l-md">Shop Profit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {detailsData?.map((item: any) => (
-                                            <tr key={item?.id} className={`text-white-dark hover:text-black dark:hover:text-white-light/90 group ${isSitePermissionAvailable ? "cursor-pointer" : ""}`}>
-                                                <td className="min-w-[150px] text-black dark:text-white">
-                                                    {isSitePermissionAvailable ? (<>
-                                                        <div
-                                                            onClick={() => handleNavigateToNextPage(item)}
-                                                            className="flex items-center">
-                                                            <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src={item?.image} alt={item?.name} />
-                                                            <span className="whitespace-nowrap">{item?.name}</span>
-                                                        </div>
-                                                    </>) : (<>
-                                                        <div className="flex items-center">
-                                                            <img className="w-8 h-8 rounded-md ltr:mr-3 rtl:ml-3 object-cover" src={item?.image} alt={item?.name} />
-                                                            <span className="whitespace-nowrap">{item?.name}</span>
-                                                        </div>
-                                                    </>)}
-                                                </td>
-                                                <td className="dashboard-child-tdata">
-                                                    <div className="d-flex align-items-center h-100 ">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold ">
-                                                                ℓ{item.fuel_volume?.gross_volume}
-                                                            </h6>
-
-                                                            <p
-                                                                className={`me-1 ${item.fuel_volume?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.fuel_volume?.percentage}%`}
-                                                            >
-                                                                {item?.fuel_volume?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.fuel_volume?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.fuel_volume?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £{item?.fuel_sales?.gross_value}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.fuel_sales?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.fuel_sales?.percentage}%`}
-                                                            >
-                                                                {item?.fuel_sales?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.fuel_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.fuel_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £{item?.gross_profit?.gross_profit}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.gross_profit?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.gross_profit?.percentage}%`}
-                                                            >
-                                                                {item?.gross_profit?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.gross_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.gross_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                {item?.gross_margin?.gross_margin} ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
-
-                                                                    <Tippy content={`${item?.gross_margin?.ppl_msg}%`} >
-                                                                        <button type="button" className=' relative top-3'>
-                                                                            <IconInfoCircle fill={true} className="w-4 h-4" />
-                                                                        </button>
-                                                                    </Tippy>
-
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.gross_margin?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.gross_margin?.percentage}%`}
-                                                            >
-                                                                {item?.gross_margin?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.gross_margin?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.gross_margin?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £
-                                                                {/* {item?.shop_sales?.shop_sales} */}
-
-                                                                {item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.shop_sales?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.shop_sales?.percentage}%`}
-                                                            >
-                                                                {item?.shop_sales?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.shop_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.shop_sales?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="dashboard-child-tdata">
-
-                                                    <div className="d-flex">
-                                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                                            <h6 className="mb-0 fs-14 fw-semibold">
-                                                                £
-                                                                {item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
-                                                                {/* {item?.shop_profit?.shop_profit || "0.00"} */}
-                                                            </h6>
-                                                            <p
-                                                                className={`me-1 ${item?.shop_profit?.status === "up"
-                                                                    ? "text-success"
-                                                                    : "text-danger"
-                                                                    }`}
-                                                                data-tip={`${item?.shop_profit?.percentage}%`}
-                                                            >
-                                                                {item?.shop_profit?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                                        <span className="text-success">
-                                                                            {item?.shop_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                                        <span className="text-danger">
-                                                                            {item?.shop_profit?.percentage}%
-                                                                        </span>
-                                                                    </>
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-
-
+                        ))}
                     </div>
+
                 </div>
             </div >
         </>

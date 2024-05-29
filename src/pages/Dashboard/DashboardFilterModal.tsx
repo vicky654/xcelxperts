@@ -230,13 +230,13 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                 )}
 
                                                 <div className={formik.submitCount ? (formik.errors.company_id ? 'has-error' : 'has-success') : ''}>
-                                                    <label htmlFor="company_id">Station</label>
+                                                    <label htmlFor="company_id">Entity<span className="text-danger">*</span></label>
                                                     <select
                                                         id="company_id"
                                                         onChange={handleCompanyChange}
                                                         value={formik.values.company_id}
                                                         className="form-select text-white-dark">
-                                                        <option value="">Select a Station</option>
+                                                        <option value="">Select a Entity</option>
                                                         {formik.values.companies.length > 0 ? (
                                                             formik.values.companies.map((company) => (
                                                                 <option key={company.id} value={company.id}>
@@ -244,7 +244,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                                 </option>
                                                             ))
                                                         ) : (
-                                                            <option disabled>No Station</option>
+                                                            <option disabled>No Entity</option>
                                                         )}
                                                     </select>
                                                     {formik.submitCount ? formik.errors.company_id ? <div className="text-danger mt-1">{formik.errors.company_id}</div> : "" : null}
@@ -253,7 +253,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
 
                                                 <div className={formik.submitCount ? (formik.errors.site_id ? 'has-error' : 'has-success') : ''}>
-                                                    <label htmlFor="site_id">Entity Name</label>
+                                                    <label htmlFor="site_id">Station </label>
                                                     <select
                                                         id="site_id"
                                                         onChange={(e) => {
@@ -266,7 +266,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                         }}
                                                         value={formik.values.site_id}
                                                         className="form-select text-white-dark">
-                                                        <option value="">Select a Entity Name</option>
+                                                        <option value="">Select a Station Name</option>
                                                         {formik.values.sites.length > 0 ? (
                                                             formik.values.sites.map((site) => (
                                                                 <option key={site.id} value={site.id}>
@@ -274,7 +274,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                                 </option>
                                                             ))
                                                         ) : (
-                                                            <option disabled>No Entity</option>
+                                                            <option disabled>No Station</option>
                                                         )}
                                                     </select>
                                                     {formik.submitCount ? formik.errors.site_id ? <div className="text-danger mt-1">{formik.errors.site_id}</div> : "" : null}

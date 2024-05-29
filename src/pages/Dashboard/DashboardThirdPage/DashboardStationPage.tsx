@@ -574,103 +574,6 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     }
 
     // uniqueVisitorSeriesOptions
-    // const uniqueVisitorSeries: any = {
-    //     series: [
-    //         {
-    //             name: 'Direct',
-    //             data: [58, 44, 55, 57, 56, 61, 58, 63, 60, 66, 56, 63],
-    //         },
-    //         {
-    //             name: 'Organic',
-    //             data: [91, 76, 85, 101, 98, 87, 105, 91, 114, 94, 66, 70],
-    //         },
-    //     ],
-    //     options: {
-    //         chart: {
-    //             height: 360,
-    //             type: 'bar',
-    //             fontFamily: 'Nunito, sans-serif',
-    //             toolbar: {
-    //                 show: false,
-    //             },
-    //         },
-    //         dataLabels: {
-    //             enabled: false,
-    //         },
-    //         stroke: {
-    //             width: 2,
-    //             colors: ['transparent'],
-    //         },
-    //         colors: ['#5c1ac3', '#ffbb44'],
-    //         dropShadow: {
-    //             enabled: true,
-    //             blur: 3,
-    //             color: '#515365',
-    //             opacity: 0.4,
-    //         },
-    //         plotOptions: {
-    //             bar: {
-    //                 horizontal: false,
-    //                 columnWidth: '55%',
-    //                 borderRadius: 8,
-    //                 borderRadiusApplication: 'end',
-    //             },
-    //         },
-    //         legend: {
-    //             position: 'bottom',
-    //             horizontalAlign: 'center',
-    //             fontSize: '14px',
-    //             itemMargin: {
-    //                 horizontal: 8,
-    //                 vertical: 8,
-    //             },
-    //         },
-    //         grid: {
-    //             borderColor: isDark ? '#191e3a' : '#e0e6ed',
-    //             padding: {
-    //                 left: 20,
-    //                 right: 20,
-    //             },
-    //             xaxis: {
-    //                 lines: {
-    //                     show: false,
-    //                 },
-    //             },
-    //         },
-    //         xaxis: {
-    //             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    //             axisBorder: {
-    //                 show: true,
-    //                 color: isDark ? '#3b3f5c' : '#e0e6ed',
-    //             },
-    //         },
-    //         yaxis: {
-    //             tickAmount: 6,
-    //             opposite: isRtl ? true : false,
-    //             labels: {
-    //                 offsetX: isRtl ? -10 : 0,
-    //             },
-    //         },
-    //         fill: {
-    //             type: 'gradient',
-    //             gradient: {
-    //                 shade: isDark ? 'dark' : 'light',
-    //                 type: 'vertical',
-    //                 shadeIntensity: 0.3,
-    //                 inverseColors: false,
-    //                 opacityFrom: 1,
-    //                 opacityTo: 0.8,
-    //                 stops: [0, 100],
-    //             },
-    //         },
-    //         tooltip: {
-    //             marker: {
-    //                 show: true,
-    //             },
-    //         },
-    //     },
-    // };
-
     const uniqueVisitorSeries: any = {
         series: [
             {
@@ -699,7 +602,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 },
             },
             dataLabels: {
-                enabled: false,
+                enabled: false, // Disable data labels
             },
             stroke: {
                 width: [0, 0, 2],
@@ -762,12 +665,23 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 },
             },
             tooltip: {
+                shared: true, // Share the tooltip for all series
+                intersect: false, // Show tooltip when hovering between points
+                x: {
+                    show: true,
+                    format: 'MMM', // Show month in tooltip
+                },
+                y: {
+                    formatter: (val: number) => `${val}`, // Format the value in tooltip
+                },
                 marker: {
                     show: true,
                 },
             },
         },
     };
+
+
 
 
 
@@ -795,7 +709,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-1 gap-6 mt-6">
+                <div className="grid grid-cols-1 xl:grid-cols-1 gap-6 mt-6" >
                     <div className="grid gap-6 xl:grid-flow-row">
                         {/*  Previous Statement  */}
                         <div className="panel overflow-hidden">
@@ -833,47 +747,6 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                     <div>
                                         <div className="text-primary">Minimum</div>
                                         <div className="mt-2 font-semibold text-2xl">$2,500.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/*  Current Statement */}
-                        <div className="panel overflow-hidden">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <div className="text-lg font-bold">Current Statement</div>
-                                    <div className="text-danger"> Must be paid before July 27, 2022 </div>
-                                </div>
-                                <div className="dropdown">
-                                    <Dropdown offset={[0, 5]} placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`} button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}>
-                                        <ul>
-                                            <li>
-                                                <button type="button">View Report</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Edit Report</button>
-                                            </li>
-                                        </ul>
-                                    </Dropdown>
-                                </div>
-                            </div>
-                            <div className="relative mt-10">
-                                <div className="absolute -bottom-12 ltr:-right-12 rtl:-left-12 w-24 h-24">
-                                    <IconInfoCircle className="text-danger opacity-20 w-24 h-full" />
-                                </div>
-
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                                    <div>
-                                        <div className="text-primary">Card Limit</div>
-                                        <div className="mt-2 font-semibold text-2xl">$50,000.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Spent</div>
-                                        <div className="mt-2 font-semibold text-2xl">$30,500.00</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-primary">Minimum</div>
-                                        <div className="mt-2 font-semibold text-2xl">$8,000.00</div>
                                     </div>
                                 </div>
                             </div>
