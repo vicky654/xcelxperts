@@ -33,7 +33,6 @@ interface RowData {
     status: number;
 }
 
-
 const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
 
@@ -54,19 +53,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         fetchData();
     };
 
-    console.log(currentPage, "currentPage");
-
-
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
-        // You may perform other operations here like fetching data for the new page
     };
 
     const fetchData = async () => {
         try {
             const response = await getData(`/user/list`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data);
+                setData(response.data.data?.users);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -168,15 +163,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '20%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-                                {/* <div className="dropdown">
+                  name: 'Action',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '20%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  {/* <div className="dropdown">
                                       <Dropdown
                                           btnClassName="btn btn-success dropdown-toggle"
                                           button={
@@ -201,24 +196,23 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                       </Dropdown>
                                   </div> */}
 
-                                <Tippy content="Edit">
-                                    <>
-                                        {console.log(row, 'RowData')}
-                                        <button type="button" onClick={() => openModal(row?.id)}>
-                                            <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                        </button>
-                                    </>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                                  <Tippy content="Edit">
+                                      <>
+                                          <button type="button" onClick={() => openModal(row?.id)}>
+                                              <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                          </button>
+                                      </>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
     // user/detail?id=${selectedRowId}
@@ -226,7 +220,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
-            setUserId(id)
+            setUserId(id);
             // const response = await getData(`/user/detail?id=${id}`)`);
             // const response = await getData(`/user/detail?id=${id}`);
             // if (response && response.data) {
@@ -238,7 +232,6 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         }
     };
 
-
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
@@ -248,17 +241,28 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
+            console.log(values, 'values');
             formData.append('first_name', values.first_name);
             formData.append('last_name', values.last_name);
             formData.append('role_id', values.role);
             formData.append('email', values.email);
+             formData.append('phone_number', values.phone_number);
+            if (values.phone_number) {
+               
             formData.append('password', values.password);
-            formData.append('phone_number', values.phone_number);
+            }
+            if (userId) {
+                formData.append('id', userId);
+            }
+            // formData.append('id', values.user_id);
 
-            const url = isEditMode && editUserData ? `/user/edit/${editUserData.id}` : `/user/add`;
+            const url = isEditMode && userId ? `/user/update` : `/user/add`;
             const response = await postData(url, formData);
 
-            if (response && response.status === 200) {
+            if (response && response.status_code == 200) {
+                console.log(response, 'status_code');
+                console.log(response.status_code == 200, 'status_code');
+                // fetchData()
                 handleSuccess();
                 closeModal();
             } else {
@@ -314,11 +318,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 </div>
             </div>
             {/* {data?.length > 0 && lastPage > 1 && ( */}
-            <CustomPagination
-                currentPage={currentPage}
-                lastPage={lastPage}
-                handlePageChange={handlePageChange}
-            />
+            <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
             {/* )} */}
         </>
     );

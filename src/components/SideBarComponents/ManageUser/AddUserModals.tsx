@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import { validationSchema } from '../../FormikFormTools/ValidationSchema';
+import getValidationSchema from '../../FormikFormTools/ValidationSchema';
 import initialValues from '../../FormikFormTools/InitialValues';
 import FormikInput from '../../FormikFormTools/FormikInput';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
@@ -10,16 +10,29 @@ interface RowData {
     last_name: string;
     email: string;
     phone_number: string;
-    role: string;
+    role: any;
 }
+interface UserData {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+    role: string;
+    role_id: string;
+    status: number;
+    work_flow: number;
+    clients: any[];
+}
+
 interface AddUserModalProps {
     isOpen: boolean;
     onClose: () => void;
     getData: (url: string) => Promise<any>;
     onSubmit: (values: any, formik: any) => Promise<void>;
     isEditMode: boolean;
-    userId?: string  | null;
-    editUserData?: Partial<RowData> | null; 
+    userId?: string | null;
+    editUserData?: Partial<RowData> | null;
 }
 
 interface RoleItem {
@@ -36,22 +49,15 @@ interface UserData {
     password: string;
 }
 
-const AddUserModal: React.FC<AddUserModalProps> = ({
-    isOpen,
-    onClose,
-    getData,
-    onSubmit,
-    isEditMode,
-    userId,
-}) => {
+const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
-console.log(userId, "userId");
+
     useEffect(() => {
         if (isOpen) {
             FetchRoleList();
             if (isEditMode) {
-                fetchUserDetails(userId?userId:"");
+                fetchUserDetails(userId ? userId : '');
             }
         }
     }, [isOpen, isEditMode, userId]);
@@ -79,30 +85,29 @@ console.log(userId, "userId");
             console.error('API error:', error);
         }
     };
-// console.log(editUserData, "editUserData");
-    const fetchUserDetails = async (id: string ) => {
+    const fetchUserDetails = async (id: string) => {
         try {
             const response = await getData(`/user/detail?id=${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                console.log(userData, "userData");
+                console.log(userData, 'userData');
                 formik.setValues({
                     first_name: userData.first_name || '',
                     last_name: userData.last_name || '',
                     email: userData.email || '',
                     phone_number: userData.phone_number || '',
-                    role: userData.role || '',
+                    role: userData.role_id || '',
                     password: '', // Password field should remain empty for security reasons
                 });
+                
             }
         } catch (error) {
             console.error('API error:', error);
         }
     };
-
     const formik = useFormik({
         initialValues,
-        validationSchema,
+        validationSchema: getValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
