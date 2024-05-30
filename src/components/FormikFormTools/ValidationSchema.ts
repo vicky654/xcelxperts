@@ -19,6 +19,7 @@ export const getValidationSchema = (isEditMode: boolean) => {
         otherwise: Yup.string().notRequired(),
       }),
     phone_number: Yup.string()
+    .min(10, 'Phone Number must be at least 10 characters')
       .required('Phone Number Is Required'),
     role: Yup.string()
       .required('Role Is Required'),
