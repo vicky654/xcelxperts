@@ -50,7 +50,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                     <li>
                         <button
                             type="button"
-                            className="flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
+                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark   dark:text-white-light dark:bg-[#191e3a]  ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
                             onClick={() => handlePageChange(1)}
                             disabled={currentPage === 1}
                         >
@@ -60,7 +60,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                     <li>
                         <button
                             type="button"
-                            className="flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
+                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark dark:text-white-light dark:bg-[#191e3a]  ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
@@ -93,21 +93,23 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                     <li>
                         <button
                             type="button"
-                            className="flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
+
+                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark  dark:text-white-light dark:bg-[#191e3a] ${currentPage === lastPage ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === lastPage}
                         >
                             <IconCaretDown className="w-5 h-5 -rotate-90 rtl:rotate-90" />
                         </button>
                     </li>
+
                     <li>
                         <button
                             type="button"
-                            className="flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
+                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark hover:text-white dark:text-white-light dark:bg-[#191e3a] ${currentPage === lastPage ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary"}`}
                             onClick={() => handlePageChange(lastPage)}
                             disabled={currentPage === lastPage}
                         >
-                            <IconCaretsDown className="-rotate-90 rtl:rotate-90" />
+                            <IconCaretsDown className={`-rotate-90 rtl:rotate-90 ${currentPage === lastPage ? "text-gray-400" : ""}`} />
                         </button>
                     </li>
                 </ul>
