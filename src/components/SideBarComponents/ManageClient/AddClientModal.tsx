@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import getValidationSchema from '../../FormikFormTools/ValidationSchema';
-import initialValues from '../../FormikFormTools/InitialValues';
+import getValidationSchema, { getClientValidationSchema } from '../../FormikFormTools/ValidationSchema';
 import FormikInput from '../../FormikFormTools/FormikInput';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
+import { clientInitialValues } from '../../FormikFormTools/InitialValues';
+import { monthOptions } from '../../../pages/constants';
+
+
+// first_name: '',
+// last_name: '',
+// email: '',
+// password: '',
+// client_code: '',
+// financial_start_month: '',
+// financial_end_month: '',
 interface RowData {
     first_name: string;
     last_name: string;
     email: string;
     phone_number: string;
-    role: any;
+    password: string;
+    client_code: string;
+
+  
 }
 interface UserData {
     id: string;
@@ -18,14 +31,12 @@ interface UserData {
     last_name: string;
     email: string;
     phone_number: string;
-    role: string;
-    role_id: string;
-    status: number;
-    work_flow: number;
-    clients: any[];
+    password: string;
+    client_code: string;
+    address: string;
 }
 
-interface AddClientModalProps {
+interface AddUserModalProps {
     isOpen: boolean;
     onClose: () => void;
     getData: (url: string) => Promise<any>;
@@ -45,49 +56,24 @@ interface UserData {
     last_name: string;
     email: string;
     phone_number: string;
-    role: string;
     password: string;
+    client_code: string;
+
 }
 
-const AddClientModal: React.FC<AddClientModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
-    const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
+const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+
 
     useEffect(() => {
-        if (isOpen) {
-            FetchRoleList();
-            if (isEditMode) {
-                fetchUserDetails(userId ? userId : '');
-            }
+        if (isEditMode) {
+            fetchUserDetails(userId ? userId : '');
         }
     }, [isOpen, isEditMode, userId]);
 
-    const FetchClientList = async () => {
-        try {
-            const response = await getData('/common/client-list');
-            if (response && response.data && response.data.data) {
-                setClientList(response.data.data);
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
 
-    const FetchRoleList = async () => {
-        try {
-            const response = await getData('/roles');
-            if (response && response.data && response.data.data) {
-                setRoleList(response.data.data);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/user/detail?id=${id}`);
+            const response = await getData(`/client/detail?id=${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
                 console.log(userData, 'userData');
@@ -95,8 +81,9 @@ const AddClientModal: React.FC<AddClientModalProps> = ({ isOpen, onClose, getDat
                     first_name: userData.first_name || '',
                     last_name: userData.last_name || '',
                     email: userData.email || '',
-                    phone_number: userData.phone_number || '',
-                    role: userData.role_id || '',
+                    client_code: userData.client_code || '',
+                 
+                    address: userData.address || '',
                     password: '', // Password field should remain empty for security reasons
                 });
                 
@@ -106,8 +93,8 @@ const AddClientModal: React.FC<AddClientModalProps> = ({ isOpen, onClose, getDat
         }
     };
     const formik = useFormik({
-        initialValues,
-        validationSchema: getValidationSchema(isEditMode),
+        initialValues: clientInitialValues,
+        validationSchema: getClientValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
@@ -128,24 +115,41 @@ const AddClientModal: React.FC<AddClientModalProps> = ({ isOpen, onClose, getDat
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit User' : 'Add User'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Client' : 'Add Client'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                            <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
+                                                {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
+                                               
                                                 <FormikInput formik={formik} type="text" name="first_name" label="First Name" placeholder="First Name" />
                                                 <FormikInput formik={formik} type="text" name="last_name" label="Last Name" placeholder="Last Name" />
-                                                <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
-                                                {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
-                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" />
+                                                <FormikInput formik={formik} type="text" name="client_code" label="Client Code" placeholder="Client Code" />
+                                               <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" />
+                                               <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
 
+                                                {/* <FormikSelect
+                                                    formik={formik}
+                                                    name="financial_start_month"
+                                                    label="Financial Start Month"
+                                                    options={monthOptions.map((item) => ({ id: item.id, name: item.name }))}
+                                                    className="form-select text-white-dark"
+                                                />
                                                 <FormikSelect
+                                                    formik={formik}
+                                                    name="financial_end_month"
+                                                    label="Financial End Month"
+                                                    options={monthOptions.map((item) => ({ id: item.id, name: item.name }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                     <FormikSelect
                                                     formik={formik}
                                                     name="role"
                                                     label="Role"
                                                     options={RoleList.map((item) => ({ id: item.id, name: item.role_name }))}
                                                     className="form-select text-white-dark"
-                                                />
+                                                /> */}
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
                                                         {isEditMode ? 'Update' : 'Save'}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import getValidationSchema from '../../FormikFormTools/ValidationSchema';
-import initialValues from '../../FormikFormTools/InitialValues';
 import FormikInput from '../../FormikFormTools/FormikInput';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
+import { userInitialValues } from '../../FormikFormTools/InitialValues';
+import { getUserValidationSchema } from '../../FormikFormTools/ValidationSchema';
 interface RowData {
     first_name: string;
     last_name: string;
@@ -106,8 +106,8 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
         }
     };
     const formik = useFormik({
-        initialValues,
-        validationSchema: getValidationSchema(isEditMode),
+        initialValues: userInitialValues,
+        validationSchema: getUserValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);

@@ -17,7 +17,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
 
-interface ManageClientProps {
+interface ManageUserProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -25,15 +25,20 @@ interface ManageClientProps {
 }
 
 interface RowData {
-    id: string; // Change type from number to string
+    id: string;
     full_name: string;
-    role: string;
-    addons: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+    password: string;
+    client_code: string;
+
     created_date: string;
     status: number;
 }
 
-const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoading }) => {
+const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -58,9 +63,9 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/user/list?page=${currentPage}`);
+            const response = await getData(`/client/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.users);
+                setData(response.data.data?.clients);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -76,14 +81,14 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
         const formData = new FormData();
         formData.append('id', row.id.toString());
         formData.append('status', (row.status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/user/update-status', formData, handleSuccess);
+        toggleStatus(postData, '/client/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'user/delete', formData, handleSuccess);
+        customDelete(postData, 'client/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -93,41 +98,29 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
+        // Other columns
         {
-            name: 'Full Name',
+            name: 'Client Name',
             selector: (row: RowData) => row.full_name,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.full_name}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Role',
-            selector: (row: RowData) => row.role,
+            name: 'Email',
+            selector: (row: RowData) => row.email,
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: 'Addons',
-            selector: (row: RowData) => row.addons,
-            sortable: false,
-            width: '15%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.email}`}</h6>
                     </div>
                 </div>
             ),
@@ -138,9 +131,9 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
-                <div className="d-flex" style={{ cursor: 'default' }}>
+                <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.created_date}`}</h6>
                     </div>
                 </div>
             ),
@@ -152,14 +145,14 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
             width: '15%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                {row.status === 1 || row.status === 0 ? (
-                    <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                ) : (
-                    <div className="pointer" onClick={() => toggleActive(row)}>
-                        Unknown
-                    </div>
-                )}
-            </Tippy>
+                    {row.status === 1 || row.status === 0 ? (
+                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                    ) : (
+                        <div className="pointer" onClick={() => toggleActive(row)}>
+                            Unknown
+                        </div>
+                    )}
+                </Tippy>
             ),
         },
         anyPermissionAvailable
@@ -172,31 +165,6 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
                       <span className="text-center">
                           <div className="flex items-center justify-center">
                               <div className="inline-flex">
-                                  {/* <div className="dropdown">
-                                      <Dropdown
-                                          btnClassName="btn btn-success dropdown-toggle"
-                                          button={
-                                              <>
-                                                  Action
-                                                  <span>
-                                                      <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
-                                                  </span>
-                                              </>
-                                          }
-                                      >
-                                          <ul className="!min-w-[170px]">
-                                              <li>
-                                                  <button type="button">Edit</button>
-                                              </li>
-                                              <li>
-                                                  <button type="button" onClick={() => handleDelete(row.id)}>
-                                                      Delete
-                                                  </button>
-                                              </li>
-                                          </ul>
-                                      </Dropdown>
-                                  </div> */}
-
                                   <Tippy content="Edit">
                                       <button type="button" onClick={() => openModal(row?.id)}>
                                           <IconPencil className="ltr:mr-2 rtl:ml-2" />
@@ -214,20 +182,21 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
               }
             : null,
     ];
-    // user/detail?id=${selectedRowId}
+
+    // client/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-            // const response = await getData(`/user/detail?id=${id}`)`);
-            // const response = await getData(`/user/detail?id=${id}`);
+            // const response = await getData(`/client/detail?id=${id}`)`);
+            // const response = await getData(`/client/detail?id=${id}`);
             // if (response && response.data) {
             //     setUserId(id)
             //     setEditUserData(response.data);
             // }
         } catch (error) {
-            console.error('Error fetching user details:', error);
+            console.error('Error fetching client details:', error);
         }
     };
 
@@ -240,21 +209,22 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
+
             formData.append('first_name', values.first_name);
             formData.append('last_name', values.last_name);
-            formData.append('role_id', values.role);
+            formData.append('client_code', values.client_code);
             formData.append('email', values.email);
+
             formData.append('phone_number', values.phone_number);
-            if (values.phone_number) {
+            formData.append('address', values.address);
+            if (values.password) {
                 formData.append('password', values.password);
             }
             if (userId) {
                 formData.append('id', userId);
             }
-            // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/user/update` : `/user/add`;
+            const url = isEditMode && userId ? `/client/update` : `/client/add`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -293,20 +263,13 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage Client</h5>
-                 
+                    <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
+                    <div className="ltr:ml-auto rtl:mr-auto">
+                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+                    </div>
                 </div>
                 <div className="datatables">
-                    <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        responsive={true}
-                    />
+                    <DataTable columns={columns} data={data} noHeader defaultSortAsc={false} striped={true} persistTableHead highlightOnHover responsive={true} />
                 </div>
             </div>
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
@@ -314,4 +277,4 @@ const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoadin
     );
 };
 
-export default withApiHandler(ManageClient);
+export default withApiHandler(ManageUser);
