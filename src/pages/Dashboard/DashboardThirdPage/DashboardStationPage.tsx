@@ -1004,204 +1004,114 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                         </div>
                     </div>
 
-                    <div className="mb-5 flex flex-col sm:flex-row">
+                    <div className=" h-full p-0 lg:col-span-2 flex flex-row">
                         <Tab.Group>
-                            <div className="mx-10 mb-5 sm:mb-0">
-                                <Tab.List className="m-auto w-24 text-center font-semibold">
-                                    {gradesData?.map((fuelData: any, index: number) => (
-                                        <Tab as={Fragment} key={index}>
-                                            {({ selected }) => (
-                                                <button
-                                                    className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
-                                            before:inline-block relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
-                                                    style={{
-                                                        width: '100%',
-                                                        display: 'flex',
-                                                        textAlign: 'center',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {fuelData?.fuel}
-                                                </button>
-                                            )}
-                                        </Tab>
-                                    ))}
-                                </Tab.List>
-                            </div>
-                            <Tab.Panels>
-                                {gradesData?.map((fuelData: any, index: number) => (
-                                    <Tab.Panel key={index}>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                            <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800">
-                                                <h4 className="mb-4 text-2xl font-semibold">{fuelData?.fuel}</h4>
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div>
-                                                        <h6 className="font-semibold">Fuel Volume</h6>
-                                                        <p>{fuelData?.fuel_volume}</p>
-                                                    </div>
-                                                    <div>
-                                                        <h6 className="font-semibold">Fuel Value</h6>
-                                                        <p>{fuelData?.fuel_value}</p>
-                                                    </div>
-                                                    <div>
-                                                        <h6 className="font-semibold">Gross Profit</h6>
-                                                        <p>{fuelData?.gross_profit}</p>
-                                                    </div>
-                                                    <div>
-                                                        <h6 className="font-semibold">Gross Margin</h6>
-                                                        <p>{fuelData?.gross_margin}</p>
-                                                    </div>
-                                                    <div>
-                                                        <h6 className="font-semibold">Total Transactions</h6>
-                                                        <p>{fuelData?.total_transaction}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800">
-                                                <h4 className="mb-4 text-2xl font-semibold">Card Details</h4>
-                                                {fuelData?.cards?.map((card: any, cardIndex: number) => (
-                                                    <div key={cardIndex} className="flex items-center mb-4">
-                                                        <img
-                                                            src={card?.image}
-                                                            alt={card?.card_name}
-                                                            className="w-12 h-12 rounded-full object-cover mr-4"
-                                                        />
-                                                        <div>
-                                                            <h6 className="font-semibold">{card?.card_name}</h6>
-                                                            <p>Total Transactions: {card?.total_transactions}</p>
-                                                            <p>Total Fuel Sale Value: {card?.total_fuel_sale_value}</p>
-                                                            <p>Total Fuel Sale Volume: {card?.total_fuel_sale_volume}</p>
+                            <div className="flex flex-row w-full gap-6 ">
+                                <div className="flex-shrink-0 w-40 bg-gray-100 dark:bg-gray-900 border rounded-lg py-6 ">
+                                    <Tab.List className="text-center font-semibold">
+                                        {gradesData?.map((fuelData: any, index: number) => (
+                                            <Tab as={Fragment} key={index}>
+                                                {({ selected }) => (
+                                                    <button
+                                                        className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
+                                                before:inline-block relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
+                                                        style={{
+                                                            width: '100%',
+                                                            display: 'flex',
+                                                            textAlign: 'center',
+                                                            justifyContent: 'center',
+                                                        }}
+                                                    >
+                                                        {fuelData?.fuel}
+                                                    </button>
+                                                )}
+                                            </Tab>
+                                        ))}
+                                    </Tab.List>
+                                </div>
+                                <div className="flex-grow">
+                                    <Tab.Panels>
+                                        {gradesData?.map((fuelData: any, index: number) => (
+                                            <Tab.Panel key={index}>
+                                                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                                                    <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800">
+                                                        <h4 className="mb-4 text-2xl font-semibold">{fuelData?.fuel}</h4>
+                                                        <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-4 mb-4">
+                                                            <div>
+                                                                <h6 className="font-semibold">Fuel Volume</h6>
+                                                                <p className='text-lg'> {fuelData?.fuel_volume}</p>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="font-semibold">Fuel Value</h6>
+                                                                <p className='text-lg'>{fuelData?.fuel_value}</p>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="font-semibold">Gross Profit</h6>
+                                                                <p className='text-lg'>{fuelData?.gross_profit}</p>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="font-semibold">Gross Margin</h6>
+                                                                <p className='text-lg'> {fuelData?.gross_margin}</p>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="font-semibold">Total Transactions</h6>
+                                                                <p className='text-lg'> {fuelData?.total_transaction}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </Tab.Panel>
-                                ))}
-                            </Tab.Panels>
+
+                                                    <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800 col-span-3 c-grades-height">
+                                                        <h4 className="mb-4 text-2xl font-semibold">Card Details</h4>
+
+                                                        <div className='grid  gap-4 mb-4 lg:grid-cols-2 md:grid-cols-1'>
+                                                            {fuelData?.cards?.map((card: any, cardIndex: number) => (
+                                                                <div key={cardIndex}
+                                                                >
+                                                                    <div>
+                                                                        <div className="flex items-center mb-4">
+                                                                            <img
+                                                                                className="w-10 h-10 rounded-full object-cover"
+                                                                                src={card?.image}
+                                                                                alt={card?.name}
+                                                                            />
+                                                                            <h5 className="ml-4 font-semibold text-lg">{card?.card_name}</h5>
+                                                                        </div>
+
+
+                                                                        <div>
+                                                                            <p>Transactions:
+                                                                                <span className='ml-2 text-lg'>
+                                                                                    {card?.total_transactions}
+                                                                                </span>
+                                                                            </p>
+                                                                            <p>Fuel Sale Value:
+                                                                                <span className='ml-2 text-lg'>
+                                                                                    {card?.total_fuel_sale_value}
+                                                                                </span>
+                                                                            </p>
+                                                                            <p>Fuel Sale Volume:
+                                                                                <span className='ml-2 text-lg'>
+                                                                                    {card?.total_fuel_sale_volume}
+                                                                                </span>
+                                                                            </p>
+                                                                        </div>
+
+                                                                        <hr className=' mt-4' />
+                                                                    </div>
+
+                                                                </div>
+                                                            ))}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </Tab.Panel>
+                                        ))}
+                                    </Tab.Panels>
+                                </div>
+                            </div>
                         </Tab.Group>
                     </div>
-
-                    {/* <div className="mb-5 flex flex-col sm:flex-row">
-                        <Tab.Group>
-                            <div className="mx-10 mb-5 sm:mb-0">
-                                <Tab.List className="m-auto w-24 text-center font-semibold">
-                                    <Tab as={Fragment}>
-                                        {({ selected }) => (
-                                            <button
-                                                className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
-                                                    before:inline-block' relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
-                                                style={{
-                                                    width: '100%',
-                                                    display: 'flex',
-                                                    textAlign: 'center',
-                                                    justifyContent: 'center',
-                                                }}
-                                            >
-                                                Home
-                                            </button>
-                                        )}
-                                    </Tab>
-                                    <Tab as={Fragment}>
-                                        {({ selected }) => (
-                                            <button
-                                                className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
-                                                    before:inline-block' relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
-                                                style={{
-                                                    width: '100%',
-                                                    display: 'flex',
-                                                    textAlign: 'center',
-                                                    justifyContent: 'center',
-                                                }}
-                                            >
-                                                Profile
-                                            </button>
-                                        )}
-                                    </Tab>
-                                    <Tab as={Fragment}>
-                                        {({ selected }) => (
-                                            <button
-                                                className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
-                                                    before:inline-block' relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
-                                                style={{
-                                                    width: '100%',
-                                                    display: 'flex',
-                                                    textAlign: 'center',
-                                                    justifyContent: 'center',
-                                                }}
-                                            >
-                                                Messages
-                                            </button>
-                                        )}
-                                    </Tab>
-                                    <Tab as={Fragment}>
-                                        {({ selected }) => (
-                                            <button
-                                                className={`${selected ? 'text-secondary !outline-none before:!h-[80%]' : ''}
-                                                    before:inline-block' relative -mb-[1px] block border-white-light p-3.5 py-4 before:absolute before:bottom-0 before:top-0 before:m-auto before:h-0 before:w-[1px] before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:h-[80%] ltr:border-r ltr:before:-right-[1px] rtl:border-l rtl:before:-left-[1px] dark:border-[#191e3a]`}
-                                                style={{
-                                                    width: '100%',
-                                                    display: 'flex',
-                                                    textAlign: 'center',
-                                                    justifyContent: 'center',
-                                                }}
-                                            >
-                                                Settings
-                                            </button>
-                                        )}
-                                    </Tab>
-                                </Tab.List>
-                            </div>
-                            <Tab.Panels>
-                                <Tab.Panel>
-                                    <div className="active">
-                                        <h4 className="mb-4 text-2xl font-semibold">We move your world!</h4>
-                                        <p className="mb-4">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                </Tab.Panel>
-                                <Tab.Panel>
-                                    <div className="flex items-start">
-                                        <div className="h-20 w-20 flex-none ltr:mr-4 rtl:ml-4">
-                                            <img src="/assets/images/profile-34.jpeg" alt="img" className="m-0 h-20 w-20 rounded-full object-cover ring-2 ring-[#ebedf2] dark:ring-white-dark" />
-                                        </div>
-                                        <div className="flex-auto">
-                                            <h5 className="mb-4 text-xl font-medium">Media heading</h5>
-                                            <p className="text-white-dark">
-                                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-                                                viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Tab.Panel>
-                                <Tab.Panel>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                                        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                </Tab.Panel>
-                                <Tab.Panel>
-                                    <div className="rounded-tr-md rounded-br-md border border-l-2 border-white-light !border-l-primary bg-white p-5 text-black shadow-md ltr:pl-3.5 rtl:pr-3.5 dark:border-[#060818] dark:bg-[#060818]">
-                                        <div className="flex items-start">
-                                            <p className="m-0 text-sm not-italic text-[#515365] dark:text-white-dark">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Tab.Panel>
-                            </Tab.Panels>
-                        </Tab.Group>
-                    </div> */}
-
 
 
                     <div className="panel h-full p-0 lg:col-span-2">
