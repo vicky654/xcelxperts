@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import ManageSite from '../components/SideBarComponents/ManageSite/ManageSite';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -133,6 +134,10 @@ const routes = [
   {
     path: '/manage-clients/client',
     element: <ManageClient />,
+  },
+  {
+    path: '/manage-sites/site',
+    element: <ManageSite />,
   },
 
 
