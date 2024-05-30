@@ -1,32 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactApexChart from 'react-apexcharts';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import Dropdown from '../../../components/Dropdown';
 import { setPageTitle } from '../../../store/themeConfigSlice';
-import IconHorizontalDots from '../../../components/Icon/IconHorizontalDots';
-import IconDollarSign from '../../../components/Icon/IconDollarSign';
-import IconInbox from '../../../components/Icon/IconInbox';
-import IconTag from '../../../components/Icon/IconTag';
-import IconCreditCard from '../../../components/Icon/IconCreditCard';
-import IconShoppingCart from '../../../components/Icon/IconShoppingCart';
-import IconArrowLeft from '../../../components/Icon/IconArrowLeft';
-import IconCashBanknotes from '../../../components/Icon/IconCashBanknotes';
-import IconUser from '../../../components/Icon/IconUser';
-import IconNetflix from '../../../components/Icon/IconNetflix';
-import IconBolt from '../../../components/Icon/IconBolt';
-import IconCaretDown from '../../../components/Icon/IconCaretDown';
-import IconPlus from '../../../components/Icon/IconPlus';
-import IconMultipleForwardRight from '../../../components/Icon/IconMultipleForwardRight';
 import withApiHandler from '../../../utils/withApiHandler';
 import useHandleError from '../../../hooks/useHandleError';
 import { fetchStoreData } from '../../../store/dataSlice';
 import useApiErrorHandler from '../../../hooks/useHandleError';
 import LoaderImg from '../../../utils/Loader';
 import IconEye from '../../../components/Icon/IconEye';
-import IconRefresh from '../../../components/Icon/IconRefresh';
-import { Badge } from 'react-bootstrap';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { IRootState } from '../../../store';
@@ -46,7 +27,7 @@ interface DashboardOverviewProps {
     getData: (url: string, id?: string, params?: any) => Promise<any>;
     detailsData: any[];
     isSitePermissionAvailable: boolean;
-    handleNavigateToNextPage: (item: any) => void;
+    // handleNavigateToNextPage: (item: any) => void;
 }
 
 

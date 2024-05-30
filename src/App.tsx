@@ -9,7 +9,11 @@ function App({ children }: PropsWithChildren) {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const dispatch = useDispatch();
 
-
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            dispatch(fetchStoreData() as any);
+        }
+    }, [])
 
 
     useEffect(() => {

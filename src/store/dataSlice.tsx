@@ -175,6 +175,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
             return data.data;
         } catch (error) {
             setTimeout(() => {
+                localStorage.clear();
                 window.location.replace("/auth/cover-login");
             }, 3000);
 
