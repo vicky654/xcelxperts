@@ -45,6 +45,14 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    {
+        key: 'Sites',
+        title: 'Sites',
+        icon: IconMenuDashboard,
+        link: '/manage-sites/site', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
 
 ];
 

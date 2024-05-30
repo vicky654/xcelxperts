@@ -1,4 +1,16 @@
+// FormikClientSelect.tsx
 import React from 'react';
+
+interface FormikClientSelectProps {
+    formik: any; // Replace 'any' with the actual Formik type
+    clients: Client[];
+    name: string;
+    label: string;
+    options: { id: any; name: string }[];
+    className?: string;
+    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Add onChange prop
+}
+
 
 interface FormikSelectProps {
     formik: any; // Replace 'any' with the actual Formik type
@@ -9,22 +21,13 @@ interface FormikSelectProps {
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Add onChange prop
 }
 
-const FormikSelect: React.FC<FormikSelectProps> = ({
-    formik,
-    name,
-    label,
-    options,
-    className = 'form-select',
-    onChange,
-}) => {
+export interface Client {
+    id: string;
+    name: string;
+    // Add more properties if needed
+}
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        formik.handleChange(e); // Call default handleChange
-        if (onChange) {
-            onChange(e); // Call custom onChange if provided
-        }
-    };
-
+const FormikClientSelect: React.FC<FormikClientSelectProps> = ({ formik, clients, name, label }) => {
     return (
         <div className={formik.submitCount && formik.errors[name] ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
             <label htmlFor={name}>
@@ -34,24 +37,22 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
             <select
                 id={name}
                 name={name}
-                // onChange={formik.handleChange}
-                onChange={handleChange} // Use handleChange function
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values[name]}
-                className={className}
+                className="form-select"
             >
-                <option value="">Select {label}</option>
-                {options.map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.name}
-                    </option>
+                <option value="">Select a Client</option>
+                {clients.map((client) => (
+                    <option key={client.id} value={client.id}>{client.name}</option>
                 ))}
             </select>
             {formik.submitCount > 0 && formik.errors[name] && (
                 <div className="text-danger mt-1">{formik.errors[name]}</div>
             )}
+
         </div>
     );
 };
 
-export default FormikSelect;
+export default FormikClientSelect;

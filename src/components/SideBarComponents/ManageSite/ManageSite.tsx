@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import AddUserModals from './AddUserModals';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
@@ -16,10 +14,9 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import AddEditStationModal from './AddEditStationModal';
 
-
-interface ManageUserProps {
+interface ManageSiteProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -35,7 +32,7 @@ interface RowData {
     status: number;
 }
 
-const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
+const ManageSite: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -60,10 +57,9 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/user/list?page=${currentPage}`);
+            const response = await getData(`/station/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                // setData(response.data.data?.users);
-                setData(response.data.data);
+                setData(response.data.data?.stations);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -79,7 +75,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         const formData = new FormData();
         formData.append('id', row.id.toString());
         formData.append('status', (row.status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/user/update-status', formData, handleSuccess);
+        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
@@ -175,7 +171,30 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-
+                                {/* <div className="dropdown">
+                                      <Dropdown
+                                          btnClassName="btn btn-success dropdown-toggle"
+                                          button={
+                                              <>
+                                                  Action
+                                                  <span>
+                                                      <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
+                                                  </span>
+                                              </>
+                                          }
+                                      >
+                                          <ul className="!min-w-[170px]">
+                                              <li>
+                                                  <button type="button">Edit</button>
+                                              </li>
+                                              <li>
+                                                  <button type="button" onClick={() => handleDelete(row.id)}>
+                                                      Delete
+                                                  </button>
+                                              </li>
+                                          </ul>
+                                      </Dropdown>
+                                  </div> */}
 
                                 <Tippy content="Edit">
                                     <button type="button" onClick={() => openModal(row?.id)}>
@@ -200,8 +219,8 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-            // const response = await getData(`/user/detail?id=${id}`)`);
-            // const response = await getData(`/user/detail?id=${id}`);
+            // const response = await getData(`/station/detail?id=${id}`)`);
+            // const response = await getData(`/station/detail?id=${id}`);
             // if (response && response.data) {
             //     setUserId(id)
             //     setEditUserData(response.data);
@@ -234,7 +253,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             }
             // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/user/update` : `/user/add`;
+            const url = isEditMode && userId ? `/station/update` : `/station/add`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -262,52 +281,38 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         </Link>
                     </li>
                     <li className="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                        <span>Manage User</span>
+                        <span>Manage Stations</span>
                     </li>
                 </ol>
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add User
+                    Add Station
                 </button>
             </div>
-            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Manage Stations</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
                 </div>
-
-                {data?.length > 0 ? (
-                    <>
-                        <div className="datatables">
-                            <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
-                                columns={columns}
-                                data={data}
-                                noHeader
-                                defaultSortAsc={false}
-                                striped={true}
-                                persistTableHead
-                                highlightOnHover
-                                responsive={true}
-                            />
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <img
-                            src={noDataImage} // Use the imported image directly as the source
-                            alt="no data found"
-                            className="all-center-flex nodata-image"
-                        />
-                    </>
-                )}
+                <div className="datatables">
+                    <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                        responsive={true}
+                    />
+                </div>
             </div>
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };
 
-export default withApiHandler(ManageUser);
+export default withApiHandler(ManageSite);
