@@ -25,14 +25,7 @@ const LoginCover = () => {
     const navigate = useNavigate();
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
-    const setLocale = (flag: string) => {
-        setFlag(flag);
-        if (flag.toLowerCase() === 'ae') {
-            dispatch(toggleRTL('rtl'));
-        } else {
-            dispatch(toggleRTL('ltr'));
-        }
-    };
+  
     const [flag, setFlag] = useState(themeConfig.locale);
     const baseUrl = import.meta.env.VITE_API_URL;
     const formik = useFormik<FormValues>({

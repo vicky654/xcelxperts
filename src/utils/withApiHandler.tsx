@@ -2,8 +2,8 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleError } from './errorHandler';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import useErrorHandler from '../hooks/useHandleError';
 
 interface WithApiHandlerProps {
     fetchedData?: any;
@@ -22,8 +22,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
         const [apiError, setApiError] = useState<AxiosError | null>(null);
 
         const navigate = useNavigate();
-
-
+        const handleApiError = useErrorHandler(); // Use the error handler hook
 
         const showMessage = (msg = '', type = 'success') => {
             const toast = Swal.mixin({
@@ -73,7 +72,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                     throw new Error('Invalid response');
                 }
             } catch (error) {
-                handleError(error as AxiosError);
+                handleApiError(error);
                 setApiError(error as AxiosError);
                 setIsLoading(false);
                 throw error;
@@ -97,7 +96,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                     throw new Error('Invalid response');
                 }
             } catch (error) {
-                handleError(error as AxiosError)
+                handleApiError(error);
                 setApiError(error as AxiosError);
                 setIsLoading(false);
             }

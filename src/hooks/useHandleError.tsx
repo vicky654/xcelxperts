@@ -3,7 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-const showMessage = (msg: string = '', type: string = 'error') => {
+/**
+ * Show a toast message using SweetAlert2.
+ * @param msg The message to display.
+ * @param type The type of the message (error or success).
+ */
+const showToast = (msg: string = '', type: 'error' | 'success' = 'error') => {
     const toast: any = Swal.mixin({
         toast: true,
         position: 'top',
@@ -18,29 +23,39 @@ const showMessage = (msg: string = '', type: string = 'error') => {
     });
 };
 
-const useApiErrorHandler = () => {
+/**
+ * Custom hook to handle API errors and display appropriate messages.
+ * @returns A function to handle API errors.
+ */
+const useErrorHandler = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
+    /**
+     * Handle API error responses.
+     * @param error The error object.
+     */
     const handleApiError = useCallback((error: any) => {
-        if (error.response) {
-            const status = error.response.status;
-            if (status === "401") {
+        if (error.response && error.response.data) {
+            const { status_code, message, data } = error.response.data;
+
+            if (status_code === 401) {
                 navigate('/auth/cover-login');
+                showToast('Invalid access token', 'error');
+                localStorage.clear();
+            } else if (status_code === 403) {
+                navigate('/errorpage403');
             } else {
-                const message = error.response.data.message;
-                showMessage(message, 'error');
-                setErrorMessage(message);
+                const errorMessage = message || 'An unexpected error occurred.';
+                
+                showToast(errorMessage, 'error');
             }
-        } else if (error.request) {
-            showMessage('Network Error. Please try again.', 'error');
-            setErrorMessage('Network Error. Please try again.');
-        } else {
-            showMessage('An unexpected error occurred. Please try again later.', 'error');
-            setErrorMessage('An unexpected error occurred. Please try again later.');
-        }
+        } 
     }, [navigate]);
 
+    /**
+     * Clear error message on unmount.
+     */
     useEffect(() => {
         return () => {
             setErrorMessage(null);
@@ -50,4 +65,4 @@ const useApiErrorHandler = () => {
     return handleApiError;
 };
 
-export default useApiErrorHandler;
+export default useErrorHandler;

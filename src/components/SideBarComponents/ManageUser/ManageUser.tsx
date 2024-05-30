@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
-import useApiErrorHandler from '../../../hooks/useHandleError';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
 import AddUserModals from './AddUserModals';
@@ -16,6 +15,7 @@ import 'tippy.js/dist/tippy.css';
 import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
+import ErrorHandler from '../../../hooks/useHandleError';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -35,9 +35,8 @@ interface RowData {
 
 const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
-
     const dispatch = useDispatch();
-    const handleApiError = useApiErrorHandler();
+    const handleApiError = ErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
@@ -62,14 +61,14 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             const response = await getData(`/user/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.users);
-                setCurrentPage(response.data.data?.currentPage || 1)
-                setLastPage(response.data.data?.lastPage || 1)
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
         } catch (error) {
             handleApiError(error);
-            console.error('API error:', error);
+            // console.error('API error:', error);
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -152,28 +151,28 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
-                <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
-                    )}
-                </OverlayTrigger>
+                <Tippy content={<div>Status</div>} placement="top">
+                {row.status === 1 || row.status === 0 ? (
+                    <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                ) : (
+                    <div className="pointer" onClick={() => toggleActive(row)}>
+                        Unknown
+                    </div>
+                )}
+            </Tippy>
             ),
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '20%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-                                {/* <div className="dropdown">
+                  name: 'Action',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '20%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  {/* <div className="dropdown">
                                       <Dropdown
                                           btnClassName="btn btn-success dropdown-toggle"
                                           button={
@@ -198,23 +197,21 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                       </Dropdown>
                                   </div> */}
 
-                                <Tippy content="Edit">
-                                    <>
-                                        <button type="button" onClick={() => openModal(row?.id)}>
-                                            <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                        </button>
-                                    </>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                                  <Tippy content="Edit">
+                                      <button type="button" onClick={() => openModal(row?.id)}>
+                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
     // user/detail?id=${selectedRowId}
@@ -250,7 +247,6 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             formData.append('email', values.email);
             formData.append('phone_number', values.phone_number);
             if (values.phone_number) {
-
                 formData.append('password', values.password);
             }
             if (userId) {
@@ -271,7 +267,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 console.error('Form submission failed:', response.statusText);
             }
         } catch (error) {
-            console.error('Form submission error:', error);
+            handleApiError(error);
         }
     };
 
@@ -307,21 +303,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         columns={columns}
                         data={data}
                         noHeader
-                        // defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
                         persistTableHead
-                        // pagination
-                        // paginationPerPage={20}
                         highlightOnHover
-                        // searchable={true}
                         responsive={true}
                     />
                 </div>
             </div>
-            {data?.length > 0 && lastPage > 1 && (
-                <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
-            )}
+            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };
