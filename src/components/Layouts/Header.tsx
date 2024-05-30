@@ -67,13 +67,9 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const dispatch = useDispatch();
 
- 
-
     const [search, setSearch] = useState(false);
 
     const { t } = useTranslation();
-
-
 
     const logout = async () => {
         try {
@@ -96,9 +92,6 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
         }
     };
 
-  
-
- 
     const handleNavigation = (key: string, path: string) => {
         localStorage.setItem('activeUserSetting', key);
         navigate(path);
@@ -123,10 +116,8 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </button>
                     </div>
 
-             
                     <div className="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
                         <div className="sm:ltr:mr-auto sm:rtl:ml-auto">
-                           
                             <button
                                 type="button"
                                 onClick={() => setSearch(!search)}
@@ -134,10 +125,8 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                             >
                                 <IconSearch className="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
                             </button>
-
                         </div>
-                      
-                       
+
                         <div className="dropdown shrink-0">
                             <Dropdown
                                 offset={[0, 8]}
@@ -178,10 +167,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                     </li>
                                     {isProfileUpdatePermissionAvailable && (
                                         <li>
-                                            <button
-                                                onClick={() => handleNavigation('home', '/users/user-account-settings')}
-                                                className="dark:hover:text-white flex items-center"
-                                            >
+                                            <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                                 Edit Profile
                                             </button>
@@ -189,10 +175,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                     )}
                                     {isSettingsPermissionAvailable && (
                                         <li>
-                                            <button
-                                                onClick={() => handleNavigation('Settings', '/users/user-account-settings')}
-                                                className="dark:hover:text-white flex items-center"
-                                            >
+                                            <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
                                                 <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                                 Setting
                                             </button>
@@ -227,10 +210,10 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
                     </div>
                 </div>
-             
+
                 <ul className="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-black text-black dark:text-white-dark">
                     {menuItems.map((menuItem) => (
-                        <MenuItemComponent {...menuItem}   itemKey={menuItem.key} />
+                        <MenuItemComponent {...menuItem} itemKey={menuItem.key} />
                     ))}
                 </ul>
                 {/* horizontal menu */}

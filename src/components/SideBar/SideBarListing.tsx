@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import IconCaretDown from '../Icon/IconCaretDown';
 import { useSelector } from 'react-redux';
+import IconCaretDown from '../Icon/IconCaretDown';
 import { IRootState } from '../../store';
 import { MenuItem, SubMenuItem } from './SideBarItems';
 
@@ -17,7 +17,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
     const hasSubMenu = subMenu && subMenu.length > 0;
 
     if (!isVisible) {
-        return null; // Hide the menu item if permission is not found
+        return null;
     }
 
     return (
@@ -41,7 +41,10 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                         </div>
                     </a>
                 ) : (
-                    <NavLink to={link} className="nav-link">
+                    <NavLink
+                        to={link}
+                        className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+                    >
                         <div className="flex items-center">
                             <Icon className="shrink-0" />
                             <span className="px-1">{title}</span>
@@ -63,7 +66,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                         const isVisibleSubMenu = data?.permissions?.includes(item.permission || '');
 
                         if (!isVisibleSubMenu) {
-                            return null; // Hide the sub-menu item if permission is not found
+                            return null;
                         }
 
                         return (
@@ -73,7 +76,12 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                                         {item.title}
                                     </a>
                                 ) : (
-                                    <NavLink to={item.link}>{item.title}</NavLink>
+                                    <NavLink
+                                        to={item.link}
+                                        className={({ isActive }) => (isActive ? 'active' : '')}
+                                    >
+                                        {item.title}
+                                    </NavLink>
                                 )}
                             </li>
                         );

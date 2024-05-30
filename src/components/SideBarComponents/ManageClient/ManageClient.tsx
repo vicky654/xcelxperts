@@ -6,7 +6,6 @@ import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import AddUserModals from './AddUserModals';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
@@ -16,8 +15,9 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
+import AddClientModal from './AddClientModal';
 
-interface ManageUserProps {
+interface ManageClientProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -33,7 +33,7 @@ interface RowData {
     status: number;
 }
 
-const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
+const ManageClient: React.FC<ManageClientProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -282,21 +282,19 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         </Link>
                     </li>
                     <li className="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                        <span>Manage User</span>
+                        <span>Manage Client</span>
                     </li>
                 </ol>
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add User
+                    Add Client
                 </button>
             </div>
-            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddClientModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Manage Client</h5>
+                 
                 </div>
                 <div className="datatables">
                     <DataTable
@@ -316,4 +314,4 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     );
 };
 
-export default withApiHandler(ManageUser);
+export default withApiHandler(ManageClient);

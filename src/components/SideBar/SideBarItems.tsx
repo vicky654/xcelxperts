@@ -29,29 +29,23 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
-
     {
         key: 'users',
         title: 'Users',
-        icon: IconMenuDashboard, // Update with the correct icon
+        icon: IconMenuDashboard,
+        link: '/manage-users/user', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'user-list', // Permission associated with the apps menu
-        subMenu: [
-            { title: 'Users', link: '/manage-users/user', permission: 'user-list', visibility: false },
-            { title: 'Add User', link: '/apps/chat', permission: 'user-create', visibility: false },
-        ],
+        permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
-        key: 'clients',
-        title: 'Manage Clients',
-        icon: IconMenuForms,
+        key: 'client',
+        title: 'Client',
+        icon: IconMenuDashboard,
+        link: '/manage-clients/client', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'client-list', // Permission associated with the forms menu
-        subMenu: [
-            { title: 'Manage Clients', link: '/forms/basic', permission: 'client-lists', visibility: false },
-            { title: 'Add Clients', link: '/forms/input-group', permission: 'client-create', visibility: false },
-        ],
+        permission: 'dashboard-view', // Permission associated with the dashboard
     },
+
 ];
 
 export default menuItems;

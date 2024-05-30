@@ -106,6 +106,7 @@ const DashboardStationPage = lazy(() => import('../pages/Dashboard/DashboardThir
 //permissions Routings
 
 const ManageUser = lazy(() => import('../components/SideBarComponents/ManageUser/ManageUser'));
+const ManageClient = lazy(() => import('../components/SideBarComponents/ManageClient/ManageClient'));
 
 
 
@@ -128,6 +129,10 @@ const routes = [
   {
     path: '/manage-users/user',
     element: <ManageUser />,
+  },
+  {
+    path: '/manage-clients/client',
+    element: <ManageClient />,
   },
 
 
