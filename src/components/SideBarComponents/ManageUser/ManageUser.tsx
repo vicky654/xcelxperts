@@ -43,12 +43,12 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
-    const [lastPage, setLastPage] = useState(10);
+    const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch]);
+    }, [dispatch, currentPage]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -59,9 +59,11 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/user/list`);
+            const response = await getData(`/user/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.users);
+                setCurrentPage(response.data.data?.currentPage || 1)
+                setLastPage(response.data.data?.lastPage || 1)
             } else {
                 throw new Error('No data available in the response');
             }
@@ -163,15 +165,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Action',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  {/* <div className="dropdown">
+                name: 'Action',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                {/* <div className="dropdown">
                                       <Dropdown
                                           btnClassName="btn btn-success dropdown-toggle"
                                           button={
@@ -196,23 +198,23 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                       </Dropdown>
                                   </div> */}
 
-                                  <Tippy content="Edit">
-                                      <>
-                                          <button type="button" onClick={() => openModal(row?.id)}>
-                                              <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                          </button>
-                                      </>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                                <Tippy content="Edit">
+                                    <>
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                        </button>
+                                    </>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <IconTrashLines />
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
     // user/detail?id=${selectedRowId}
@@ -246,10 +248,10 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             formData.append('last_name', values.last_name);
             formData.append('role_id', values.role);
             formData.append('email', values.email);
-             formData.append('phone_number', values.phone_number);
+            formData.append('phone_number', values.phone_number);
             if (values.phone_number) {
-               
-            formData.append('password', values.password);
+
+                formData.append('password', values.password);
             }
             if (userId) {
                 formData.append('id', userId);
@@ -317,9 +319,9 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     />
                 </div>
             </div>
-            {/* {data?.length > 0 && lastPage > 1 && ( */}
-            <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
-            {/* )} */}
+            {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
+            )}
         </>
     );
 };
