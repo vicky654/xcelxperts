@@ -89,8 +89,64 @@ export const getStationValidationSchema = (isEditMode: boolean) => {
     // .required('Financial Start Month Is Required'),
   });
 };
+export const getEntitiesValidationSchema = (isEditMode: boolean) => {
+  return Yup.object().shape({
+
+
+//     client_id
+// OUNrS016Ym93czZsVzlMOHNkSE9hZz09
+
+// entity_name
+// Essar Ramsey
+
+// entity_code
+// 1220
+
+// address
+// mohali
+
+// website
+// https://testcomp.com
+
+// entity_details
+// company detail
+
+// start_month
+// 1
+
+// end_month
+// entity_code: "",
+// entity_name: "",
+// address: "",
+// start_month: "",
+// end_month: "",
+// website: "",
+// client_id: "",
+// entity_details: "",
+entity_name: Yup.string()
+      .min(3, 'First Name must be at least 3 characters') // Corrected to 3 characters
+      .required('First Name Is Required'),
+      entity_code: Yup.string()
+      .min(3, 'Last Name must be at least 3 characters') // Corrected to 3 characters
+      .required('Last Name Is Required'),
+      website: Yup.string()// Added email format validation
+      .required('Email Is Required'),
+      entity_details: Yup.string()
+      .required('Email Is Required'),
+      start_month: Yup.string()
+      .required('Email Is Required'),
+      end_month: Yup.string()
+      .required('Email Is Required'),
+      client_id: Yup.string()
+      .required('Client Code Is Required'),
+      address: Yup.string()
+      .required('Address Is Required'),
+ 
+  });
+};
 export default {
   getUserValidationSchema,
   getClientValidationSchema,
   getStationValidationSchema,
+  getEntitiesValidationSchema,
 };

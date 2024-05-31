@@ -46,6 +46,14 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
+        key: 'entity',
+        title: 'Entity',
+        icon: IconMenuDashboard,
+        link: '/manage-entity/entity', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
+    {
         key: 'Sites',
         title: 'Sites',
         icon: IconMenuDashboard,

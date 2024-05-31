@@ -108,6 +108,7 @@ const DashboardStationPage = lazy(() => import('../pages/Dashboard/DashboardThir
 
 const ManageUser = lazy(() => import('../components/SideBarComponents/ManageUser/ManageUser'));
 const ManageClient = lazy(() => import('../components/SideBarComponents/ManageClient/ManageClient'));
+const ManageEntity = lazy(() => import('../components/SideBarComponents/ManageEntity/ManageEntity'));
 
 
 
@@ -136,9 +137,13 @@ const routes = [
     element: <ManageClient />,
   },
   {
-    path: '/manage-sites/site',
-    element: <ManageSite />,
+    path: '/manage-entity/entity',
+    element: <ManageEntity />,
   },
+  // {
+  //   path: '/manage-sites/site',
+  //   element: <ManageSite />,
+  // },
 
 
 
