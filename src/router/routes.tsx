@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-import ManageSite from '../components/SideBarComponents/ManageSite/ManageSite';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -109,6 +108,7 @@ const DashboardStationPage = lazy(() => import('../pages/Dashboard/DashboardThir
 const ManageUser = lazy(() => import('../components/SideBarComponents/ManageUser/ManageUser'));
 const ManageClient = lazy(() => import('../components/SideBarComponents/ManageClient/ManageClient'));
 const ManageEntity = lazy(() => import('../components/SideBarComponents/ManageEntity/ManageEntity'));
+const ManageStation = lazy(() => import('../components/SideBarComponents/ManageStation/ManageStation'));
 
 
 
@@ -137,12 +137,12 @@ const routes = [
     element: <ManageClient />,
   },
   {
-    path: '/manage-entity/entity',
+    path: '/manage-entities/entity',
     element: <ManageEntity />,
   },
   {
-    path: '/manage-sites/site',
-    element: <ManageSite />,
+    path: 'manage-stations/station',
+    element: <ManageStation />,
   },
 
 

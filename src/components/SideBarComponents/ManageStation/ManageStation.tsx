@@ -15,6 +15,7 @@ import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddEditStationModal from './AddEditStationModal';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -32,7 +33,7 @@ interface RowData {
     status: number;
 }
 
-const ManageSite: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -274,16 +275,17 @@ const ManageSite: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         <>
             {isLoading && <LoaderImg />}
             <div className="flex justify-between items-center">
-                <ol className="flex space-x-2 rtl:space-x-reverse">
+                <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="/" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
-                    <li className="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                        <span>Manage Stations</span>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Stations</span>
                     </li>
-                </ol>
+                </ul>
+
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
                     Add Station
                 </button>
@@ -292,27 +294,40 @@ const ManageSite: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage Stations</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Stations</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
                 </div>
-                <div className="datatables">
-                    <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        responsive={true}
-                    />
-                </div>
+                {data?.length > 0 ? (
+                    <>
+                        <div className="datatables">
+                            <DataTable
+                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                columns={columns}
+                                data={data}
+                                noHeader
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                responsive={true}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+                    </>
+                )}
             </div>
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };
 
-export default withApiHandler(ManageSite);
+export default withApiHandler(ManageStation);

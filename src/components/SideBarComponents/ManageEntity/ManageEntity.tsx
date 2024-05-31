@@ -16,6 +16,7 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -41,6 +42,9 @@ interface RowData {
 }
 
 const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
+    useEffect(() => {
+        dispatch(setPageTitle('Entities'));
+    });
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -53,7 +57,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const navigate = useNavigate();
     useEffect(() => {
         fetchData();
-        dispatch(setPageTitle('Alternative Pagination Table'));
+        // dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
         fetchData();
@@ -126,7 +130,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 </div>
             ),
         },
- 
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -147,27 +151,27 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             width: '15%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                {row.status === 1 || row.status === 0 ? (
-                    <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                ) : (
-                    <div className="pointer" onClick={() => toggleActive(row)}>
-                        Unknown
-                    </div>
-                )}
-            </Tippy>
+                    {row.status === 1 || row.status === 0 ? (
+                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                    ) : (
+                        <div className="pointer" onClick={() => toggleActive(row)}>
+                            Unknown
+                        </div>
+                    )}
+                </Tippy>
             ),
         },
         anyPermissionAvailable
             ? {
-                  name: 'Action',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  {/* <div className="dropdown">
+                name: 'Action',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                {/* <div className="dropdown">
                                       <Dropdown
                                           btnClassName="btn btn-success dropdown-toggle"
                                           button={
@@ -192,21 +196,21 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                       </Dropdown>
                                   </div> */}
 
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <IconTrashLines />
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
     // user/detail?id=${selectedRowId}
@@ -215,7 +219,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-        
+
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
@@ -265,16 +269,16 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         <>
             {isLoading && <LoaderImg />}
             <div className="flex justify-between items-center">
-                <ol className="flex space-x-2 rtl:space-x-reverse">
+                <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="/" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
-                    <li className="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                        <span>Manage Entity</span>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Entities</span>
                     </li>
-                </ol>
+                </ul>
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
                     Add Entity
                 </button>
@@ -283,23 +287,36 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage Entity</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Entities</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
                 </div>
-                <div className="datatables">
-                    <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        responsive={true}
-                    />
-                </div>
+                {data?.length > 0 ? (
+                    <>
+                        <div className="datatables">
+                            <DataTable
+                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                columns={columns}
+                                data={data}
+                                noHeader
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                responsive={true}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+                    </>
+                )}
             </div>
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>

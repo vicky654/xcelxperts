@@ -99,7 +99,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
                     role: userData.role_id || '',
                     password: '', // Password field should remain empty for security reasons
                 });
-                
+
             }
         } catch (error) {
             console.error('API error:', error);

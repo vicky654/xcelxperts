@@ -39,7 +39,7 @@ const menuItems: MenuItem[] = [
     },
     {
         key: 'client',
-        title: 'Client',
+        title: 'Clients',
         icon: IconMenuDashboard,
         link: '/manage-clients/client', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
@@ -47,17 +47,17 @@ const menuItems: MenuItem[] = [
     },
     {
         key: 'entity',
-        title: 'Entity',
+        title: 'Entities',
         icon: IconMenuDashboard,
-        link: '/manage-entity/entity', // Single link for the dashboard
+        link: '/manage-entities/entity', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
-        key: 'Sites',
-        title: 'Sites',
+        key: 'Stations',
+        title: 'Stations',
         icon: IconMenuDashboard,
-        link: '/manage-sites/site', // Single link for the dashboard
+        link: '/manage-stations/station', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },

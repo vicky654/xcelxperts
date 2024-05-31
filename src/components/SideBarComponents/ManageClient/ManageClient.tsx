@@ -16,6 +16,7 @@ import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -157,29 +158,29 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Action',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Action',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <IconTrashLines />
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
 
@@ -245,16 +246,16 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         <>
             {isLoading && <LoaderImg />}
             <div className="flex justify-between items-center">
-                <ol className="flex space-x-2 rtl:space-x-reverse">
+                <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="/" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
-                    <li className="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                        <span>Manage Client</span>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Clients</span>
                     </li>
-                </ol>
+                </ul>
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
                     Add Client
                 </button>
@@ -263,14 +264,37 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Clients</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
                 </div>
-                <div className="datatables">
-                    <DataTable columns={columns} data={data} noHeader defaultSortAsc={false} striped={true} persistTableHead highlightOnHover responsive={true} />
-                </div>
+
+                {data?.length > 0 ? (
+                    <>
+                        <div className="datatables">
+                            <DataTable
+                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                columns={columns}
+                                data={data}
+                                noHeader
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                responsive={true}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+                    </>
+                )}
             </div>
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
