@@ -46,7 +46,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
 
         axiosInstance.interceptors.request.use(
             (config) => {
-                const token = localStorage.getItem('tokens');
+                const token = localStorage.getItem('token');
                 if (token && config.headers) {
                     config.headers.Authorization = `Bearer ${token}`;
                 }
