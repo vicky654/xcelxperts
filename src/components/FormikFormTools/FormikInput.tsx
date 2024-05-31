@@ -7,6 +7,7 @@ interface FormikInputProps {
     type?: string;
     placeholder?: string;
     className?: string;
+    isRequired?: boolean;
 }
 
 const FormikInput: React.FC<FormikInputProps> = ({
@@ -16,12 +17,13 @@ const FormikInput: React.FC<FormikInputProps> = ({
     type,
     placeholder = '',
     className = 'form-input',
+    isRequired = true, // Default to true if not provided
 }) => {
     return (
         <div className={formik.submitCount && formik.errors[name] ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
             <label htmlFor={name}>
                 {label}
-                <span className="text-danger">*</span>{' '}
+                {isRequired && <span className="text-danger">*</span>}{' '}
             </label>
             <input
                 name={name}

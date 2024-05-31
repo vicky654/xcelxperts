@@ -99,7 +99,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
                     role: userData.role_id || '',
                     password: '', // Password field should remain empty for security reasons
                 });
-
             }
         } catch (error) {
             console.error('API error:', error);
@@ -137,7 +136,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
                                                 <FormikInput formik={formik} type="text" name="last_name" label="Last Name" placeholder="Last Name" />
                                                 <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
                                                 {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
-                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" />
+                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" isRequired={false} placeholder="Phone Number" />
 
                                                 <FormikSelect
                                                     formik={formik}

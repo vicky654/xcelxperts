@@ -32,18 +32,18 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
-        key: 'client',
-        title: 'Clients',
-        icon: IconUser,
-        link: '/manage-clients/client', // Single link for the dashboard
-        visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
-    },
-    {
         key: 'users',
         title: 'Users',
         icon: IconMenuUsers,
         link: '/manage-users/user', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
+    {
+        key: 'client',
+        title: 'Clients',
+        icon: IconUser,
+        link: '/manage-clients/client', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
@@ -57,7 +57,6 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
-
         key: 'Stations',
         title: 'Stations',
         icon: IconMenuDatatables,
@@ -65,7 +64,6 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
-
 ];
 
 export default menuItems;

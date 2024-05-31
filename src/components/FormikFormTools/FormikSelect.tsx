@@ -7,6 +7,7 @@ interface FormikSelectProps {
     options: { id: any; name: string }[];
     className?: string;
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Add onChange prop
+    isRequired?: boolean;
 }
 
 const FormikSelect: React.FC<FormikSelectProps> = ({
@@ -16,6 +17,8 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
     options,
     className = 'form-select',
     onChange,
+    
+    isRequired = true, // Default to true if not provided
 }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -28,8 +31,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
     return (
         <div className={formik.submitCount && formik.errors[name] ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
             <label htmlFor={name}>
-                {label}
-                <span className="text-danger">*</span>{' '}
+                {label} {isRequired && <span className="text-danger">*</span>}{' '}
             </label>
             <select
                 id={name}

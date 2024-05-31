@@ -5,16 +5,7 @@ import getValidationSchema, { getClientValidationSchema } from '../../FormikForm
 import FormikInput from '../../FormikFormTools/FormikInput';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import { clientInitialValues } from '../../FormikFormTools/InitialValues';
-import { monthOptions } from '../../../pages/constants';
 
-
-// first_name: '',
-// last_name: '',
-// email: '',
-// password: '',
-// client_code: '',
-// financial_start_month: '',
-// financial_end_month: '',
 interface RowData {
     first_name: string;
     last_name: string;
@@ -22,8 +13,6 @@ interface RowData {
     phone_number: string;
     password: string;
     client_code: string;
-
-  
 }
 interface UserData {
     id: string;
@@ -58,18 +47,14 @@ interface UserData {
     phone_number: string;
     password: string;
     client_code: string;
-
 }
 
 const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
-
-
     useEffect(() => {
         if (isEditMode) {
             fetchUserDetails(userId ? userId : '');
         }
     }, [isOpen, isEditMode, userId]);
-
 
     const fetchUserDetails = async (id: string) => {
         try {
@@ -82,11 +67,10 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
                     last_name: userData.last_name || '',
                     email: userData.email || '',
                     client_code: userData.client_code || '',
-                 
+
                     address: userData.address || '',
                     password: '', // Password field should remain empty for security reasons
                 });
-                
             }
         } catch (error) {
             console.error('API error:', error);
@@ -120,14 +104,14 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                            <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
+                                                <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
                                                 {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
-                                               
+
                                                 <FormikInput formik={formik} type="text" name="first_name" label="First Name" placeholder="First Name" />
                                                 <FormikInput formik={formik} type="text" name="last_name" label="Last Name" placeholder="Last Name" />
                                                 <FormikInput formik={formik} type="text" name="client_code" label="Client Code" placeholder="Client Code" />
-                                               <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" />
-                                               <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
+                                                <FormikInput formik={formik} type="number" name="phone_number" isRequired={false} label="Phone Number" placeholder="Phone Number" />
+                                                <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
 
                                                 {/* <FormikSelect
                                                     formik={formik}
