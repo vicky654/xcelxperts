@@ -2,6 +2,9 @@ import IconMenuForms from '../Icon/Menu/IconMenuForms';
 import IconMenuDatatables from '../Icon/Menu/IconMenuDatatables';
 
 import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';
+import IconMenuUsers from '../Icon/Menu/IconMenuUsers';
+import IconUser from '../Icon/IconUser';
+import IconMenuApps from '../Icon/Menu/IconMenuApps';
 export interface SubMenuItem {
     title: string;
     link: string;
@@ -24,7 +27,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'dashboard',
         title: 'Dashboard',
-        icon: IconMenuDashboard,
+        icon: IconMenuApps,
         link: '/', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
@@ -32,7 +35,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'client',
         title: 'Clients',
-        icon: IconMenuDashboard,
+        icon: IconUser,
         link: '/manage-clients/client', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
@@ -40,7 +43,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'users',
         title: 'Users',
-        icon: IconMenuDashboard,
+        icon: IconMenuUsers,
         link: '/manage-users/user', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
@@ -55,9 +58,10 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
+
         key: 'Stations',
         title: 'Stations',
-        icon: IconMenuDashboard,
+        icon: IconMenuDatatables,
         link: '/manage-stations/station', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard

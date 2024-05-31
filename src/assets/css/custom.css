@@ -131,3 +131,8 @@
 .text-lg {
   font-size: 13px !important;
 }
+.swal2-icon .swal2-icon-content {
+  display: flex;
+  align-items: center;
+  font-size: 3.75em !important;
+}
