@@ -17,8 +17,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { Tooltip } from 'react-bootstrap';
 import IconUser from '../components/Icon/IconUser';
-
-
+import Tube from './Dashboard/FuelFilling/Tube';
 
 interface FilterValues {
     client_id: string;
@@ -32,8 +31,6 @@ interface IndexProps {
     getData: (url: string, id?: string, params?: any) => Promise<any>;
 }
 
-
-
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
@@ -44,7 +41,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const [filters, setFilters] = useState({
         client_id: localStorage.getItem('client_id') || '',
         company_id: localStorage.getItem('company_id') || '',
-        site_id: localStorage.getItem('site_id') || ''
+        site_id: localStorage.getItem('site_id') || '',
     });
     const [filterData, setFilterData] = useState<any>(null);
 
@@ -60,7 +57,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
             if (response && response.data && response.data.data) {
-                setFilterData(response.data.data)
+                setFilterData(response.data.data);
             }
             // setData(response.data);
         } catch (error) {
@@ -68,11 +65,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         } finally {
         }
     };
-
-
-
-
-
 
     // Using useSelector to extract the data from the Redux store
     const { data, error } = useSelector((state: IRootState) => state?.data);
@@ -82,19 +74,17 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     //     dispatch(fetchStoreData() as any);
     // }, [])
 
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
 
     useEffect(() => {
-
         // Check if client_id and company_id are present in local storage
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
 
-        console.log("Apply Filter:", data?.applyFilter);
+        console.log('Apply Filter:', data?.applyFilter);
         if (data?.applyFilter === false && !clientId && !companyId) {
             const initialFilters = {
                 client_id: data?.superiorId || '',
@@ -104,14 +94,12 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             setFilters(initialFilters);
             callFetchFilterData(initialFilters);
         }
-    }, [data?.applyFilter, data?.superiorId,]);
-
+    }, [data?.applyFilter, data?.superiorId]);
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
     const [loading] = useState(false);
-
 
     useEffect(() => {
         // Check if client_id and company_id are present in local storage
@@ -129,7 +117,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         setFilters({
             client_id: '',
             company_id: '',
-            site_id: ''
+            site_id: '',
         });
         setFilterData(null);
         // Remove items from local storage
@@ -139,17 +127,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         // Dispatch action to set applyFilter to false
     };
 
-
-    console.log(filterData, "filterData");
-
-
-
+    console.log(filterData, 'filterData');
 
     const handleApplyFilters = (values: FilterValues) => {
         const updatedFilters = {
             client_id: values.client_id,
             company_id: values.company_id,
-            site_id: values.site_id
+            site_id: values.site_id,
         };
         // Set the filters state with the updated values
         setFilters(updatedFilters);
@@ -162,9 +146,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         // Close the modal
         setModalOpen(false);
     };
-
-
-
 
     //Revenue Chart
     const revenueChart: any = {
@@ -318,7 +299,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             },
         },
     };
-
 
     //Sales By Category
     const salesByCategory: any = {
@@ -542,13 +522,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     const handleClickToOverView = () => {
         if (filterData) {
-            navigate("/dashboard/overview")
+            navigate('/dashboard/overview');
         }
     };
-
-
-
-
 
     // const Badgeee = ({ label, value, color, Icon }) => (
     //     <div className={`badge ${color} flex items-center gap-2 px-2 py-1 rounded shadow hover:shadow-md transition-shadow duration-200`} data-tip={label}>
@@ -559,13 +535,11 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     //     </div>
     // );
 
-
-
     return (
         <>
-            {isLoading ? <LoaderImg /> : ""}
+            {isLoading ? <LoaderImg /> : ''}
             <div>
-                <div className='flex justify-between items-center'>
+                <div className="flex justify-between items-center">
                     <ul className="flex space-x-2 rtl:space-x-reverse">
                         <li>
                             <Link to="/" className="text-primary hover:underline">
@@ -574,8 +548,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </li>
                     </ul>
 
-                    <div className=' flex gap-4'>
-
+                    <div className=" flex gap-4">
                         {/* {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <div className="badges-container flex flex-wrap items-center gap-2 px-4 py-1 bg-info rounded-lg text-white shadow-md">
                                 {filters?.client_id && (
@@ -592,79 +565,102 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         ) : null} */}
 
-                        {filters?.client_id || filters?.company_id || filters?.site_id ? <>
-                            <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
+                        {filters?.client_id || filters?.company_id || filters?.site_id ? (
+                            <>
+                                <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
+                                    {filters?.client_id && (
+                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
+                                            <span className="font-semibold">Client Name:</span> {filters.client_id}
+                                        </div>
+                                    )}
 
-                                {filters?.client_id && (
-                                    <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
-                                        <span className="font-semibold">Client Name:</span> {filters.client_id}
-                                    </div>
-                                )}
+                                    {filters?.company_id && (
+                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 rounded">
+                                            <span className="font-semibold">Entity Name:</span> {filters.company_id}
+                                        </div>
+                                    )}
 
-                                {filters?.company_id && (
-                                    <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 rounded">
-                                        <span className="font-semibold">Entity Name:</span> {filters.company_id}
-                                    </div>
-                                )}
-
-                                {filters?.site_id && (
-                                    <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 rounded">
-                                        <span className="font-semibold">Station Name:</span> {filters.site_id}
-                                    </div>
-                                )}
-
-                            </div>
-                        </> : ""}
-
-
-
+                                    {filters?.site_id && (
+                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 rounded">
+                                            <span className="font-semibold">Station Name:</span> {filters.site_id}
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            ''
+                        )}
 
                         <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
                             Apply Filter
                         </button>
 
-                        {filters?.client_id || filters?.company_id || filters?.site_id ? <>
-                            <button onClick={handleResetFilters}>
-                                <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
-                                    <Tippy content="Reset Filter">
-                                        <span className="btn bg-primary btn-primary">
-                                            <IconRefresh className="w-6 h-6" />
-                                        </span>
-                                    </Tippy>
-                                </div>
-                            </button>
-                        </> : ""}
+                        {filters?.client_id || filters?.company_id || filters?.site_id ? (
+                            <>
+                                <button onClick={handleResetFilters}>
+                                    <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                        <Tippy content="Reset Filter">
+                                            <span className="btn bg-primary btn-primary">
+                                                <IconRefresh className="w-6 h-6" />
+                                            </span>
+                                        </Tippy>
+                                    </div>
+                                </button>
+                            </>
+                        ) : (
+                            ''
+                        )}
 
-
-                        {modalOpen && (<>
-                            <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
-                                onApplyFilters={handleApplyFilters} // Pass the handler to the modal
-                            />
-                        </>)}
+                        {modalOpen && (
+                            <>
+                                <DashboardFilterModal
+                                    isOpen={modalOpen}
+                                    onClose={() => setModalOpen(false)}
+                                    onApplyFilters={handleApplyFilters} // Pass the handler to the modal
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
 
-                <div className="pt-5">
+                <div className="pt-5 ">
+                    <div className="flex">
+                        {Array.from({ length: 100 }, (_, i) => (
+                            <div key={i + 1} className="circle-container">
+                                <Tube value={i + 1} />
+                                <div className="desc">
+                                    <h2>Today</h2>
+                                    <p>
+                                        <b>
+                                            {i + 1}
+                                            <span>%</span>
+                                        </b>
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className={`panel bg-gradient-to-r from-cyan-500 to-cyan-400 ${filterData ? "cursor-pointer" : ""}`} onClick={handleClickToOverView}>
+                        <div className={`panel bg-gradient-to-r from-cyan-500 to-cyan-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
-                                <div className="badge bg-white/30">{filterData?.gross_volume?.status === "up" ? "+" : "-"} {filterData?.gross_volume?.percentage}% </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.gross_volume?.status === 'up' ? '+' : '-'} {filterData?.gross_volume?.percentage}%{' '}
+                                </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Month  ℓ{filterData?.gross_volume?.gross_volume}
+                                Last Month ℓ{filterData?.gross_volume?.gross_volume}
                             </div>
                         </div>
 
                         {/* Sessions */}
-                        <div className={`panel bg-gradient-to-r from-violet-500 to-violet-400 ${filterData ? "cursor-pointer" : ""}`} onClick={handleClickToOverView}>
+                        <div className={`panel bg-gradient-to-r from-violet-500 to-violet-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
-
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.gross_profit?.gross_profit} </div>
@@ -672,37 +668,41 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Gross    Margin  {filterData?.gross_profit?.status === "up" ? "+" : "-"}  {filterData?.gross_profit?.gross_margin}
+                                Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : '-'} {filterData?.gross_profit?.gross_margin}
                             </div>
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className={`panel bg-gradient-to-r from-blue-500 to-blue-400 ${filterData ? "cursor-pointer" : ""}`} onClick={handleClickToOverView}>
+                        <div className={`panel bg-gradient-to-r from-blue-500 to-blue-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">  ℓ{filterData?.gross_margin_?.gross_margin} </div>
-                                <div className="badge bg-white/30">{filterData?.gross_margin_?.status === "up" ? "+" : "-"} {filterData?.gross_margin_?.percentage}% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_margin_?.gross_margin} </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.gross_margin_?.status === 'up' ? '+' : '-'} {filterData?.gross_margin_?.percentage}%{' '}
+                                </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL  ℓ{filterData?.gross_margin_?.is_ppl}
+                                PPL ℓ{filterData?.gross_margin_?.is_ppl}
                             </div>
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className={`panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400 ${filterData ? "cursor-pointer" : ""}`} onClick={handleClickToOverView}>
+                        <div className={`panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">  ℓ{filterData?.shop_sales?.shop_sales}  </div>
-                                <div className="badge bg-white/30">{filterData?.shop_sales?.status === "up" ? "+" : "-"} {filterData?.shop_sales?.percentage}% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.shop_sales?.status === 'up' ? '+' : '-'} {filterData?.shop_sales?.percentage}%{' '}
+                                </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL  ℓ{filterData?.shop_sales?.shop_margin}
+                                PPL ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
                         </div>
                     </div>
@@ -763,9 +763,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div >
+            </div>
         </>
     );
 };
