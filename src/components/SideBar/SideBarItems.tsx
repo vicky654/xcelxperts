@@ -1,4 +1,3 @@
-import IconMenuForms from '../Icon/Menu/IconMenuForms';
 import IconMenuDatatables from '../Icon/Menu/IconMenuDatatables';
 
 import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';

@@ -15,9 +15,6 @@ import IconEye from '../components/Icon/IconEye';
 import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import { Tooltip } from 'react-bootstrap';
-import IconUser from '../components/Icon/IconUser';
-import Tube from './Dashboard/FuelFilling/Tube';
 
 interface FilterValues {
     client_id: string;
@@ -35,9 +32,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
-    const handleError = useHandleError();
     const navigate = useNavigate();
-    const handleApiError = useApiErrorHandler(); // Use the hook here
     const [filters, setFilters] = useState({
         client_id: localStorage.getItem('client_id') || '',
         company_id: localStorage.getItem('company_id') || '',
@@ -65,14 +60,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         } finally {
         }
     };
-
-    // Using useSelector to extract the data from the Redux store
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
 
-    // useEffect(() => {
-    //     dispatch(fetchStoreData() as any);
-    // }, [])
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -80,10 +70,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     });
 
     useEffect(() => {
-        // Check if client_id and company_id are present in local storage
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-
         console.log('Apply Filter:', data?.applyFilter);
         if (data?.applyFilter === false && !clientId && !companyId) {
             const initialFilters = {
@@ -126,8 +114,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         localStorage.removeItem('site_id');
         // Dispatch action to set applyFilter to false
     };
-
-    console.log(filterData, 'filterData');
 
     const handleApplyFilters = (values: FilterValues) => {
         const updatedFilters = {
@@ -624,22 +610,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 </div>
 
                 <div className="pt-5 ">
-                    <div className="flex">
-                        {Array.from({ length: 100 }, (_, i) => (
-                            <div key={i + 1} className="circle-container">
-                                <Tube value={i + 1} />
-                                <div className="desc">
-                                    <h2>Today</h2>
-                                    <p>
-                                        <b>
-                                            {i + 1}
-                                            <span>%</span>
-                                        </b>
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                 
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                         <div className={`panel bg-gradient-to-r from-cyan-500 to-cyan-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">

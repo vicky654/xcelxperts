@@ -14,12 +14,12 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
     const { data } = useSelector((state: IRootState) => state?.data);
     const hasSubMenuPermission = subMenu?.some(item => data?.permissions?.includes(item.permission));
     const isVisible = permission ? data?.permissions?.includes(permission) || hasSubMenuPermission : true;
+    const isActive = permission ? data?.permissions?.includes(permission) || hasSubMenuPermission : true;
     const hasSubMenu = subMenu && subMenu.length > 0;
 
     if (!isVisible) {
         return null;
     }
-
     return (
         <li className="menu nav-item relative" key={itemKey}>
             {hasSubMenu ? (

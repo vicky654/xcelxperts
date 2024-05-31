@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { setPageTitle, toggleRTL } from '../../store/themeConfigSlice';
-import Dropdown from '../../components/Dropdown';
-import { IRootState } from '../../store';
-import i18next from 'i18next';
-import IconCaretDown from '../../components/Icon/IconCaretDown';
+import { setPageTitle } from '../../store/themeConfigSlice';
 import IconMail from '../../components/Icon/IconMail';
 import IconLockDots from '../../components/Icon/IconLockDots';
 import showMessage from '../../hooks/showMessage';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import LoaderImg from '../../utils/Loader';
+
 interface FormValues {
     email: string;
     password: string;
@@ -23,10 +20,6 @@ const LoginCover = () => {
         dispatch(setPageTitle('Login Cover'));
     });
     const navigate = useNavigate();
-    const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
-    const themeConfig = useSelector((state: IRootState) => state.themeConfig);
-  
-    const [flag, setFlag] = useState(themeConfig.locale);
     const baseUrl = import.meta.env.VITE_API_URL;
     const formik = useFormik<FormValues>({
         initialValues: {
@@ -38,7 +31,6 @@ const LoginCover = () => {
             password: Yup.string().required('Password is required'),
         }),
         onSubmit: async (values) => {
-            const { email, password } = values;
             setLoading(true);
 
             try {
@@ -53,7 +45,6 @@ const LoginCover = () => {
                 const data = await response.json();
 
                 if (response.ok && data) {
-                    // Handle successful response
                     localStorage.setItem('token', data?.data?.access_token);
                     localStorage.setItem('superiorId', data?.data?.superiorId);
                     localStorage.setItem('superiorRole', data?.data?.superiorRole);
@@ -72,7 +63,7 @@ const LoginCover = () => {
                 } else {
                     setLoading(false);
                     showMessage(data?.message, 'error');
-                    // Handle error response
+                 
                     console.error('Error:', data?.message);
                 }
             } catch (error) {

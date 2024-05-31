@@ -24,24 +24,18 @@ import { showMessage } from '../../utils/errorHandler';
 import withApiHandler from '../../utils/withApiHandler';
 import menuItems from '../SideBar/SideBarItems';
 import MenuItemComponent from '../SideBar/SideBarListing';
-
+import { clearAuthData } from '../../store/authSlice';
 interface HeaderProps {
-    isLoading: boolean; // Define the type of the loading prop
-    fetchedData: any; // Define the type of the fetchedData prop
+    isLoading: boolean;
+    fetchedData: any;
     getData: (url: string, id?: string, params?: any) => Promise<any>;
 }
-
-const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
+const Header: React.FC<HeaderProps> = ({ getData }) => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    // Using useSelector to extract the data from the Redux store
-    const { data, error } = useSelector((state: IRootState) => state?.data);
-
+    const { data } = useSelector((state: IRootState) => state?.data);
     const isProfileUpdatePermissionAvailable = data?.permissions?.includes('profile-update-profile');
     const isSettingsPermissionAvailable = data?.permissions?.includes('config-setting');
-
-
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
         if (selector) {
@@ -62,24 +56,33 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
             }
         }
     }, [location]);
-
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
-
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const dispatch = useDispatch();
-
     const [search, setSearch] = useState(false);
-
     const { t } = useTranslation();
+    const auth = useSelector((state: IRootState) => state.auth);
 
+    const handleLogout = () => {
+        dispatch(clearAuthData());
+        localStorage.clear();
+        // Redirect to login or any other appropriate action
+        window.location.replace('/auth/cover-login');
+    };
+    console.log(auth, 'auth');
+    {auth.isClient ? (
+        console.log("User is a Client")
+     
+    ) : (
+        console.log("User is not a Client")
+    )}
     const logout = async () => {
         try {
             const response = await getData('/logout');
-
             if (response.data.api_response === 'success') {
                 showMessage(response.data.message);
-
                 setTimeout(() => {
+                    handleLogout()
                     localStorage.clear();
                     window.location.replace('/');
                 }, 500);
@@ -92,11 +95,13 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
             console.error('API error:', error);
         }
     };
-
     const handleNavigation = (key: string, path: string) => {
         localStorage.setItem('activeUserSetting', key);
         navigate(path);
     };
+
+
+
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
@@ -152,7 +157,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                 button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/assets/images/user-profile.jpeg" alt="userProfile" />}
                             >
                                 <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
-                                    <li className='px-4 py-4'>
+                                    <li className="px-4 py-4">
                                         <div className="flex items-center ">
                                             <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
                                             <div className="ltr:pl-4 rtl:pr-4 truncate">
@@ -163,12 +168,7 @@ const Header: React.FC<HeaderProps> = ({ isLoading, fetchedData, getData }) => {
                                                 </h4>
                                             </div>
                                         </div>
-                                        <span
-                                            className=" hover:rounded-sm whitespace-normal text-black/60hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0 "
-                                        >
-                                            {data?.email}
-                                        </span>
-
+                                        <span className=" hover:rounded-sm whitespace-normal text-black/60hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0 ">{data?.email}</span>
                                     </li>
                                     {isProfileUpdatePermissionAvailable && (
                                         <li>
