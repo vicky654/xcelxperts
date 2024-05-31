@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@emotion/react": "^11.10.6",
+        "@flaticon/flaticon-uicons": "^3.2.1",
         "@fullcalendar/core": "^6.1.4",
         "@fullcalendar/daygrid": "^6.1.4",
         "@fullcalendar/interaction": "^6.0.0",

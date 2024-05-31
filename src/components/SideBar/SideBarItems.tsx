@@ -30,14 +30,6 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
-        key: 'users',
-        title: 'Users',
-        icon: IconMenuDashboard,
-        link: '/manage-users/user', // Single link for the dashboard
-        visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
-    },
-    {
         key: 'client',
         title: 'Clients',
         icon: IconMenuDashboard,
@@ -45,6 +37,15 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    {
+        key: 'users',
+        title: 'Users',
+        icon: IconMenuDashboard,
+        link: '/manage-users/user', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
+
     {
         key: 'entity',
         title: 'Entities',

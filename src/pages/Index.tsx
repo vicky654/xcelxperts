@@ -3,34 +3,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import ReactApexChart from 'react-apexcharts';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import Dropdown from '../components/Dropdown';
 import { setPageTitle } from '../store/themeConfigSlice';
 import IconHorizontalDots from '../components/Icon/IconHorizontalDots';
-import IconDollarSign from '../components/Icon/IconDollarSign';
-import IconInbox from '../components/Icon/IconInbox';
-import IconTag from '../components/Icon/IconTag';
-import IconCreditCard from '../components/Icon/IconCreditCard';
-import IconShoppingCart from '../components/Icon/IconShoppingCart';
-import IconArrowLeft from '../components/Icon/IconArrowLeft';
-import IconCashBanknotes from '../components/Icon/IconCashBanknotes';
-import IconUser from '../components/Icon/IconUser';
-import IconNetflix from '../components/Icon/IconNetflix';
-import IconBolt from '../components/Icon/IconBolt';
-import IconCaretDown from '../components/Icon/IconCaretDown';
-import IconPlus from '../components/Icon/IconPlus';
-import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRight';
 import withApiHandler from '../utils/withApiHandler';
 import useHandleError from '../hooks/useHandleError';
-import { fetchStoreData } from '../store/dataSlice';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import useApiErrorHandler from '../hooks/useHandleError';
 import LoaderImg from '../utils/Loader';
 import IconEye from '../components/Icon/IconEye';
 import IconRefresh from '../components/Icon/IconRefresh';
-import { Badge } from 'react-bootstrap';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import { Tooltip } from 'react-bootstrap';
+import IconUser from '../components/Icon/IconUser';
+
 
 
 interface FilterValues {
@@ -46,7 +33,11 @@ interface IndexProps {
 }
 
 
+
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
+    useEffect(() => {
+        dispatch(setPageTitle('Sales Admin'));
+    });
     const handleError = useHandleError();
     const navigate = useNavigate();
     const handleApiError = useApiErrorHandler(); // Use the hook here
@@ -559,6 +550,17 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
+    // const Badgeee = ({ label, value, color, Icon }) => (
+    //     <div className={`badge ${color} flex items-center gap-2 px-2 py-1 rounded shadow hover:shadow-md transition-shadow duration-200`} data-tip={label}>
+    //         {/* <Icon className="text-lg" /> */}
+    //         {/* <IconUser /> */}
+    //         <span className="font-semibold">{label}:</span> {value}
+
+    //     </div>
+    // );
+
+
+
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -574,19 +576,48 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                     <div className=' flex gap-4'>
 
-                        <div className="badges-container flex items-center gap-2">
+                        {/* {filters?.client_id || filters?.company_id || filters?.site_id ? (
+                            <div className="badges-container flex flex-wrap items-center gap-2 px-4 py-1 bg-info rounded-lg text-white shadow-md">
+                                {filters?.client_id && (
+                                    <Badgeee label="Client Name" value={filters?.client_id} color="bg-blue-600"
+                                    // Icon={<i className="fa fa-user" aria-hidden="true"></i>}
+                                    />
+                                )}
+                                {filters?.company_id && (
+                                    <Badgeee label="Entity Name" value={filters.company_id} color="bg-green-600" Icon={<i className="fa fa-building" aria-hidden="true"></i>} />
+                                )}
+                                {filters?.site_id && (
+                                    <Badgeee label="Station Name" value={filters.site_id} color="bg-red-600" Icon={<i className="fas fa-map-marker-alt    "></i>} />
+                                )}
+                            </div>
+                        ) : null} */}
 
-                            {filters?.client_id && <>
-                                <span className="badge bg-info flex gap-2"> Client Name - {filters?.client_id}</span>
-                            </>}
-                            {filters?.company_id && <>
-                                <span className="badge bg-info flex gap-2"> Entity Name - {filters?.company_id}</span>
-                            </>}
-                            {filters?.site_id && <>
-                                <span className="badge bg-info flex gap-2"> Station Name - {filters?.site_id}</span>
-                            </>}
+                        {filters?.client_id || filters?.company_id || filters?.site_id ? <>
+                            <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
 
-                        </div>
+                                {filters?.client_id && (
+                                    <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <span className="font-semibold">Client Name:</span> {filters.client_id}
+                                    </div>
+                                )}
+
+                                {filters?.company_id && (
+                                    <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <span className="font-semibold">Entity Name:</span> {filters.company_id}
+                                    </div>
+                                )}
+
+                                {filters?.site_id && (
+                                    <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <span className="font-semibold">Station Name:</span> {filters.site_id}
+                                    </div>
+                                )}
+
+                            </div>
+                        </> : ""}
+
+
+
 
                         <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
                             Apply Filter

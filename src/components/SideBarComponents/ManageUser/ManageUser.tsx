@@ -97,7 +97,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
     const columns: any = [
         {
-            name: 'Full Name',
+            name: 'User Name',
             selector: (row: RowData) => row.full_name,
             sortable: false,
             width: '20%',
@@ -113,7 +113,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Role',
             selector: (row: RowData) => row.role,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -126,7 +126,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Addons',
             selector: (row: RowData) => row.addons,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -170,7 +170,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 name: 'Action',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '10%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">

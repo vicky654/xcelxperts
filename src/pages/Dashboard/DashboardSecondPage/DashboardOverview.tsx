@@ -27,9 +27,16 @@ interface DashboardOverviewProps {
     isLoading: boolean; // Define the type of the loading prop
     fetchedData: any; // Define the type of the fetchedData prop
     getData: (url: string, id?: string, params?: any) => Promise<any>;
-    detailsData: any[];
-    isSitePermissionAvailable: boolean;
+    detailsData: any;
+    isSitePermissionAvailable: string;
     // handleNavigateToNextPage: (item: any) => void;
+}
+
+interface detailsData {
+    // Define the structure of fetchedData here
+    // For example:
+    name: string;
+    value: number;
 }
 
 
@@ -574,19 +581,29 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                     <div className=' flex gap-4'>
 
-                        <div className="badges-container flex items-center gap-2">
+                        {filters?.client_id || filters?.company_id || filters?.site_id ? <>
+                            <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
 
-                            {filters?.client_id && <>
-                                <span className="badge bg-info flex gap-2"> Client Name - {filters?.client_id}</span>
-                            </>}
-                            {filters?.company_id && <>
-                                <span className="badge bg-info flex gap-2"> Entity Name - {filters?.company_id}</span>
-                            </>}
-                            {filters?.site_id && <>
-                                <span className="badge bg-info flex gap-2"> Station Name - {filters?.site_id}</span>
-                            </>}
+                                {filters?.client_id && (
+                                    <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <span className="font-semibold">Client Name:</span> {filters.client_id}
+                                    </div>
+                                )}
 
-                        </div>
+                                {filters?.company_id && (
+                                    <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <span className="font-semibold">Entity Name:</span> {filters.company_id}
+                                    </div>
+                                )}
+
+                                {filters?.site_id && (
+                                    <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <span className="font-semibold">Station Name:</span> {filters.site_id}
+                                    </div>
+                                )}
+
+                            </div>
+                        </> : ""}
 
                         <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
                             Apply Filter
@@ -664,10 +681,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                     </div>
 
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-                        {detailsData?.length > 0 ? (
-                            <>
+                    {detailsData?.length > 0 ? (
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {detailsData?.map((item: any) => (
                                     <div
                                         key={item?.id}
@@ -828,19 +844,25 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         </div>
                                     </div>
                                 ))}
-                            </>
-                        ) : (
-                            <>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className=' panel'>
+                                <div className="flex items-center mb-5">
+                                    <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
+                                </div>
                                 <img
                                     src={noDataImage} // Use the imported image directly as the source
                                     alt="no data found"
                                     className="all-center-flex nodata-image"
                                 />
-                            </>
-                        )}
+                            </div>
+
+                        </>
+                    )}
 
 
-                    </div>
 
                 </div>
             </div >

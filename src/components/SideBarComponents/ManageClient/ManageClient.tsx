@@ -104,7 +104,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Client Name',
             selector: (row: RowData) => row.full_name,
             sortable: false,
-            width: '15%',
+            width: '30%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -117,7 +117,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Email',
             selector: (row: RowData) => row.email,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -130,7 +130,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -143,7 +143,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Status',
             selector: (row: RowData) => row.status,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
                     {row.status === 1 || row.status === 0 ? (
@@ -161,7 +161,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 name: 'Action',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '10%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
