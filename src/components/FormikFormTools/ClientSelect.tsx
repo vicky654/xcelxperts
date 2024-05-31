@@ -1,58 +1,70 @@
-// FormikClientSelect.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useFormikContext } from 'formik';
 
-interface FormikClientSelectProps {
-    formik: any; // Replace 'any' with the actual Formik type
-    clients: Client[];
-    name: string;
-    label: string;
-    options: { id: any; name: string }[];
-    className?: string;
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Add onChange prop
-}
-
-
-interface FormikSelectProps {
-    formik: any; // Replace 'any' with the actual Formik type
-    name: string;
-    label: string;
-    options: { id: any; name: string }[];
-    className?: string;
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Add onChange prop
-}
-
-export interface Client {
+interface Client {
     id: string;
-    name: string;
-    // Add more properties if needed
+    client_name: string;
+    companies: Company[];
 }
 
-const FormikClientSelect: React.FC<FormikClientSelectProps> = ({ formik, clients, name, label }) => {
+interface Company {
+    id: string;
+    company_name: string;
+}
+
+interface ClientEntityProps {
+    getData: (url: string) => Promise<any>;
+    handleClientChange: (clientId: string, clients: Client[]) => void;
+    clients: Client[];
+    client_id: string;
+}
+
+const ClientEntity: React.FC<ClientEntityProps> = ({ getData, handleClientChange, clients, client_id }) => {
+    const formik = useFormikContext();
+
+    const fetchClientList = async () => {
+        try {
+            const response = await getData('/common/client-list');
+            const clients = response.data.data;
+            formik.setFieldValue('clients', clients);
+            const clientId = localStorage.getItem("superiorId");
+            if (clientId) {
+                formik.setFieldValue('client_id', clientId);
+                handleClientChange(clientId, clients);
+            }
+        } catch (error) {
+            console.error('API error:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (localStorage.getItem("superiorRole") !== "Client") {
+            fetchClientList();
+        }
+    }, []);
+
     return (
-        <div className={formik.submitCount && formik.errors[name] ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
-            <label htmlFor={name}>
-                {label}
-                <span className="text-danger">*</span>{' '}
-            </label>
+        <div>
+            <label htmlFor="client_id">Client</label>
             <select
-                id={name}
-                name={name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values[name]}
-                className="form-select"
+                id="client_id"
+                onChange={(e) => handleClientChange(e.target.value, clients)}
+                value={client_id}
+                className="form-select text-white-dark"
             >
                 <option value="">Select a Client</option>
-                {clients.map((client) => (
-                    <option key={client.id} value={client.id}>{client.name}</option>
-                ))}
+                {clients.length > 0 ? (
+                    clients.map((item) => (
+                        <option key={item.id} value={item.id}>
+                            {item.client_name}
+                        </option>
+                    ))
+                ) : (
+                    <option disabled>No Client</option>
+                )}
             </select>
-            {formik.submitCount > 0 && formik.errors[name] && (
-                <div className="text-danger mt-1">{formik.errors[name]}</div>
-            )}
-
         </div>
     );
 };
 
-export default FormikClientSelect;
+export default ClientEntity;

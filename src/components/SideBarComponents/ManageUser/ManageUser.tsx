@@ -255,16 +255,17 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         <>
             {isLoading && <LoaderImg />}
             <div className="flex justify-between items-center">
-                <ol className="flex space-x-2 rtl:space-x-reverse">
+
+                <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="/" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
-                    <li className="before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
-                        <span>Manage User</span>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Users</span>
                     </li>
-                </ol>
+                </ul>
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
                     Add User
                 </button>
@@ -273,7 +274,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Manage User</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>

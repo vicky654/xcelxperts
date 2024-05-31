@@ -13,6 +13,8 @@ import 'tippy.js/dist/tippy.css';
 import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+
 
 
 interface FilterValues {
@@ -661,172 +663,183 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Stations Overview</h5>
-                        <input type="text" className="form-input w-auto" placeholder="Search Station..." value={search} onChange={(e) => setSearch(e.target.value)} />
-                    </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-                        {detailsData?.map((item: any) => (
-                            <div
-                                key={item?.id}
-                                className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
-                                    }`}
-                                onClick={() => isSitePermissionAvailable && handleNavigateToNextPage(item)}
-                            >
-                                <div className="flex items-center mb-4">
-                                    <img
-                                        className="w-10 h-10 rounded-full object-cover"
-                                        src={item?.image}
-                                        alt={item?.name}
-                                    />
-                                    <h5 className="ml-4 font-semibold">{item?.name}</h5>
-                                </div>
+                        {detailsData?.length > 0 ? (
+                            <>
+                                {detailsData?.map((item: any) => (
+                                    <div
+                                        key={item?.id}
+                                        className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
+                                            }`}
+                                        onClick={() => isSitePermissionAvailable && handleNavigateToNextPage(item)}
+                                    >
+                                        <div className="flex items-center mb-4">
+                                            <img
+                                                className="w-10 h-10 rounded-full object-cover"
+                                                src={item?.image}
+                                                alt={item?.name}
+                                            />
+                                            <h5 className="ml-4 font-semibold">{item?.name}</h5>
+                                        </div>
 
-                                <div className="grid grid-cols-2 gap-4 my-3">
-                                    <div>
-                                        <h6 className="font-semibold">Gross Volume</h6>
-                                        <p className="text-lg">
-                                            ℓ{item.fuel_volume?.gross_volume}
-                                            <span
-                                                className={`ml-2 ${item.fuel_volume?.status === "up" ? "text-green-500" : "text-red-500"
-                                                    }`}
-                                            >
-                                                {item?.fuel_volume?.status === "up" ? (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-up"></i> {item?.fuel_volume?.percentage}%
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-down"></i> {item?.fuel_volume?.percentage}%
-                                                    </>
-                                                )}
-                                            </span>
-                                        </p>
+                                        <div className="grid grid-cols-2 gap-4 my-3">
+                                            <div>
+                                                <h6 className="font-semibold">Gross Volume</h6>
+                                                <p className="text-lg">
+                                                    ℓ{item.fuel_volume?.gross_volume}
+                                                    <span
+                                                        className={`ml-2 ${item.fuel_volume?.status === "up" ? "text-green-500" : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {item?.fuel_volume?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i> {item?.fuel_volume?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i> {item?.fuel_volume?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <h6 className="font-semibold">Fuel Sales</h6>
+                                                <p className="text-lg">
+                                                    ₹{item?.fuel_sales?.gross_value}
+                                                    <span
+                                                        className={`ml-2 ${item?.fuel_sales?.status === "up" ? "text-green-500" : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {item?.fuel_sales?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i> {item?.fuel_sales?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i> {item?.fuel_sales?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                        <div className="grid grid-cols-2 gap-4 my-3">
+                                            <div>
+                                                <h6 className="font-semibold">Gross Profit</h6>
+                                                <p className="text-lg">
+                                                    ₹{item?.gross_profit?.gross_profit}
+                                                    <span
+                                                        className={`ml-2 ${item?.gross_profit?.status === "up" ? "text-green-500" : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {item?.gross_profit?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i> {item?.gross_profit?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i> {item?.gross_profit?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <h6 className="font-semibold">Gross Margin</h6>
+                                                <p className="text-lg">
+                                                    {item?.gross_margin?.gross_margin} ppl
+                                                    {item?.gross_margin?.is_ppl == 1 && (
+                                                        <Tippy content={`${item?.gross_margin?.ppl_msg}%`}>
+                                                            <button type="button" className="ml-2">
+                                                                <IconInfoCircle fill={true} className="w-4 h-4" />
+                                                            </button>
+                                                        </Tippy>
+                                                    )}
+                                                    <span
+                                                        className={`ml-2 ${item?.gross_margin?.status === "up" ? "text-green-500" : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {item?.gross_margin?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i> {item?.gross_margin?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i> {item?.gross_margin?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                        <div className="grid grid-cols-2 gap-4 my-3">
+                                            <div>
+                                                <h6 className="font-semibold">Shop Sales</h6>
+                                                <p className="text-lg">
+                                                    ₹{item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
+                                                    <span
+                                                        className={`ml-2 ${item?.shop_sales?.status === "up" ? "text-green-500" : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {item?.shop_sales?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i> {item?.shop_sales?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i> {item?.shop_sales?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <h6 className="font-semibold">Shop Profit</h6>
+                                                <p className="text-lg">
+                                                    ₹{item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
+                                                    <span
+                                                        className={`ml-2 ${item?.shop_profit?.status === "up" ? "text-green-500" : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {item?.shop_profit?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i> {item?.shop_profit?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i> {item?.shop_profit?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="no data found"
+                                    className="all-center-flex nodata-image"
+                                />
+                            </>
+                        )}
 
-                                    <div>
-                                        <h6 className="font-semibold">Fuel Sales</h6>
-                                        <p className="text-lg">
-                                            ₹{item?.fuel_sales?.gross_value}
-                                            <span
-                                                className={`ml-2 ${item?.fuel_sales?.status === "up" ? "text-green-500" : "text-red-500"
-                                                    }`}
-                                            >
-                                                {item?.fuel_sales?.status === "up" ? (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-up"></i> {item?.fuel_sales?.percentage}%
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-down"></i> {item?.fuel_sales?.percentage}%
-                                                    </>
-                                                )}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
 
-                                <hr />
-
-                                <div className="grid grid-cols-2 gap-4 my-3">
-                                    <div>
-                                        <h6 className="font-semibold">Gross Profit</h6>
-                                        <p className="text-lg">
-                                            ₹{item?.gross_profit?.gross_profit}
-                                            <span
-                                                className={`ml-2 ${item?.gross_profit?.status === "up" ? "text-green-500" : "text-red-500"
-                                                    }`}
-                                            >
-                                                {item?.gross_profit?.status === "up" ? (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-up"></i> {item?.gross_profit?.percentage}%
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-down"></i> {item?.gross_profit?.percentage}%
-                                                    </>
-                                                )}
-                                            </span>
-                                        </p>
-                                    </div>
-
-                                    <div>
-                                        <h6 className="font-semibold">Gross Margin</h6>
-                                        <p className="text-lg">
-                                            {item?.gross_margin?.gross_margin} ppl
-                                            {item?.gross_margin?.is_ppl == 1 && (
-                                                <Tippy content={`${item?.gross_margin?.ppl_msg}%`}>
-                                                    <button type="button" className="ml-2">
-                                                        <IconInfoCircle fill={true} className="w-4 h-4" />
-                                                    </button>
-                                                </Tippy>
-                                            )}
-                                            <span
-                                                className={`ml-2 ${item?.gross_margin?.status === "up" ? "text-green-500" : "text-red-500"
-                                                    }`}
-                                            >
-                                                {item?.gross_margin?.status === "up" ? (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-up"></i> {item?.gross_margin?.percentage}%
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-down"></i> {item?.gross_margin?.percentage}%
-                                                    </>
-                                                )}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <hr />
-
-                                <div className="grid grid-cols-2 gap-4 my-3">
-                                    <div>
-                                        <h6 className="font-semibold">Shop Sales</h6>
-                                        <p className="text-lg">
-                                            ₹{item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
-                                            <span
-                                                className={`ml-2 ${item?.shop_sales?.status === "up" ? "text-green-500" : "text-red-500"
-                                                    }`}
-                                            >
-                                                {item?.shop_sales?.status === "up" ? (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-up"></i> {item?.shop_sales?.percentage}%
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-down"></i> {item?.shop_sales?.percentage}%
-                                                    </>
-                                                )}
-                                            </span>
-                                        </p>
-                                    </div>
-
-                                    <div>
-                                        <h6 className="font-semibold">Shop Profit</h6>
-                                        <p className="text-lg">
-                                            ₹{item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
-                                            <span
-                                                className={`ml-2 ${item?.shop_profit?.status === "up" ? "text-green-500" : "text-red-500"
-                                                    }`}
-                                            >
-                                                {item?.shop_profit?.status === "up" ? (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-up"></i> {item?.shop_profit?.percentage}%
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <i className="fa fa-chevron-circle-down"></i> {item?.shop_profit?.percentage}%
-                                                    </>
-                                                )}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
                     </div>
 
                 </div>

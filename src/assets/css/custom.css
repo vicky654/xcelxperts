@@ -106,6 +106,7 @@
 .c-grades-height {
   max-height: 400px;
   overflow: auto;
+  background-color: #f0f2f7 !important;
 }
 
 .nodata-image {
@@ -117,10 +118,14 @@
 .rdt_TableHeadRow {
   font-size: 1.125rem;
   line-height: 1.75rem;
-  background-color: #f6f8fa;
+  background-color: #f6f8fa !important;
 }
 
 .rdt_TableBody {
   overflow: auto;
   height: 300px;
+}
+
+.text-lg {
+  font-size: 13px !important;
 }
