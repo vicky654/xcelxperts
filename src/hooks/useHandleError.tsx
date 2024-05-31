@@ -38,12 +38,12 @@ const useErrorHandler = () => {
     const handleApiError = useCallback((error: any) => {
         if (error.response && error.response.data) {
             const { status_code, message, data } = error.response.data;
-
-            if (status_code === 401) {
+            if (status_code == 401) {
                 navigate('/auth/cover-login');
+
                 showToast('Invalid access token', 'error');
                 localStorage.clear();
-            } else if (status_code === 403) {
+            } else if (status_code == 403) {
                 navigate('/errorpage403');
             } else {
                 const errorMessage = message || 'An unexpected error occurred.';

@@ -140,10 +140,10 @@ const routes = [
     path: '/manage-entity/entity',
     element: <ManageEntity />,
   },
-  // {
-  //   path: '/manage-sites/site',
-  //   element: <ManageSite />,
-  // },
+  {
+    path: '/manage-sites/site',
+    element: <ManageSite />,
+  },
 
 
 
