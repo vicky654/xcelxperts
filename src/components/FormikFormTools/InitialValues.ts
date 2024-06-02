@@ -1,4 +1,21 @@
 
+interface Client {
+  id: string;
+  client_name: string;
+  full_name: string;
+  companies: Company[];
+}
+interface Company {
+  id: string;
+  company_name: string;
+}
+
+interface Site {
+  id: string;
+  site_name: string;
+}
+
+
 export const userInitialValues = {
   first_name: '',
   last_name: '',
@@ -43,11 +60,17 @@ export const companyInitialValues = {
 
 export const stationInitialValues = {
   first_name: '',
+  data_import_types: '',
+  client_id: '',
+  company_id: '',
   last_name: '',
   role: '',
   email: '',
   password: '',
   phone_number: '',
+  clients: [] as Client[],
+  companies: [] as Company[],
+  sites: [] as Site[],
 };
 
 export default {

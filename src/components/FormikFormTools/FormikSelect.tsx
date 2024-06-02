@@ -17,8 +17,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
     options,
     className = 'form-select',
     onChange,
-    
-    isRequired = true, // Default to true if not provided
+    isRequired, // Default to true if not provided
 }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -43,9 +42,9 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
                 className={className}
             >
                 <option value="">Select {label}</option>
-                {options.map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.name}
+                {options?.map((option) => (
+                    <option key={option?.id} value={option?.id}>
+                        {option?.name}
                     </option>
                 ))}
             </select>

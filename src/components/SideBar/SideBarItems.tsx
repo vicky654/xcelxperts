@@ -64,6 +64,14 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    // {
+    //     key: 'Manage Workflow',
+    //     title: 'Manage Workflow',
+    //     icon: IconMenuDatatables,
+    //     link: '/manage-stations/station', // Single link for the dashboard
+    //     visibility: false, // Example of setting visibility to false
+    //     permission: 'dashboard-view', // Permission associated with the dashboard
+    // },
 ];
 
 export default menuItems;
