@@ -14,6 +14,7 @@ import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import logoImage from '../../../assets/logo/logo.jpeg'; // Import the image
 
 
 
@@ -618,26 +619,28 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 </div>
 
                 <div className="pt-5">
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400" >
+                        <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
-                                <div className="badge bg-white/30">{filterData?.gross_volume?.status === "up" ? "+" : "-"} {filterData?.gross_volume?.percentage}% </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.gross_volume?.status === 'up' ? '+' : '-'} {filterData?.gross_volume?.percentage}%{' '}
+                                </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Month  ℓ{filterData?.gross_volume?.gross_volume}
+                                Last Month ℓ{filterData?.gross_volume?.gross_volume}
                             </div>
                         </div>
 
                         {/* Sessions */}
-                        <div className="panel bg-gradient-to-r from-violet-500 to-violet-400">
+                        <div className={`panel gradient-secondary-to-secondary ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
-
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.gross_profit?.gross_profit} </div>
@@ -645,37 +648,41 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Gross    Margin  {filterData?.gross_profit?.status === "up" ? "+" : "-"}  {filterData?.gross_profit?.gross_margin}
+                                Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : '-'} {filterData?.gross_profit?.gross_margin}
                             </div>
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
+                        <div className={`panel gradient-third-to-third ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">  ℓ{filterData?.gross_margin_?.gross_margin} </div>
-                                <div className="badge bg-white/30">{filterData?.gross_margin_?.status === "up" ? "+" : "-"} {filterData?.gross_margin_?.percentage}% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_margin_?.gross_margin} </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.gross_margin_?.status === 'up' ? '+' : '-'} {filterData?.gross_margin_?.percentage}%{' '}
+                                </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL  ℓ{filterData?.gross_margin_?.is_ppl}
+                                PPL ℓ{filterData?.gross_margin_?.is_ppl}
                             </div>
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
+                        <div className={`panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400 ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">  ℓ{filterData?.shop_sales?.shop_sales}  </div>
-                                <div className="badge bg-white/30">{filterData?.shop_sales?.status === "up" ? "+" : "-"} {filterData?.shop_sales?.percentage}% </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.shop_sales?.status === 'up' ? '+' : '-'} {filterData?.shop_sales?.percentage}%{' '}
+                                </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL  ℓ{filterData?.shop_sales?.shop_margin}
+                                PPL ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
                         </div>
                     </div>
@@ -843,6 +850,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                             </div>
                                         </div>
                                     </div>
+
                                 ))}
                             </div>
                         </>

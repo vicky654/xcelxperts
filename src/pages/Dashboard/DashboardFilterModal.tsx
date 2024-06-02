@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import IconX from '../../components/Icon/IconX';
 import { useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import useHandleError from '../../hooks/useHandleError';
 import withApiHandler from '../../utils/withApiHandler';
 import LoaderImg from '../../utils/Loader';
 import { useNavigate } from 'react-router-dom';
-import useApiErrorHandler from '../../hooks/useHandleError';
+import useErrorHandler from '../../hooks/useHandleError';
 
 
 interface FilterValues {
@@ -45,10 +45,22 @@ interface Site {
 
 const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = false, getData, isLoading, onApplyFilters }) => {
     const { data } = useSelector((state: IRootState) => state.data);
-    const handleError = useHandleError();
-    const navigate = useNavigate();
-    const handleApiError = useApiErrorHandler(); // Use the hook here
+    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
 
+    console.log(isNotClient, "isNotClient");
+
+
+    const handleApiError = useErrorHandler();
+    const navigate = useNavigate();
+
+
+
+    const validationSchema = Yup.object({
+        company_id: Yup.string().required("Station is required"),
+        client_id: isNotClient
+            ? Yup.string().required("Client is required")
+            : Yup.mixed().notRequired(),
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -62,16 +74,25 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
             companies: [] as Company[],
             sites: [] as Site[],
         },
-        validationSchema: Yup.object({
-            company_id: Yup.string().required("Station is required"),
-        }),
+        // validationSchema: Yup.object({
+        //     company_id: Yup.string().required("Station is required"),
+        // }),
+        validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values as FilterValues); // Type assertion to FilterValues
             console.log(values, "myvaluess");
+
+            // Store the form values in local storage
+            localStorage.setItem("testing", JSON.stringify(values));
+
             // handlesubmitvalues(values);
         },
+        validateOnChange: true,  // Validate on field change
+        validateOnBlur: true,    // Validate on field blur
     });
 
+
+    console.log(formik?.values, "formik?.values");
     const fetchClientList = async () => {
         try {
             const response = await getData('/common/client-list');
@@ -108,11 +129,29 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
         }
     };
 
+    // Retrieve data from local storage
+    const storedData = localStorage.getItem("testing");
+    // console.log(JSON.parse(storedData), "JSON.parse(storedData)");
+
+
     useEffect(() => {
-        if (localStorage.getItem("superiorRole") !== "Client") {
-            fetchClientList();
-        } else {
-            fetchCompanyList(localStorage.getItem("superiorId") || "");
+        if (!storedData) {
+            if (localStorage.getItem("superiorRole") !== "Client") {
+                fetchClientList();
+                // formik.setValues(JSON.parse(localStorage.getItem("testing")))
+            } else {
+                fetchCompanyList(localStorage.getItem("superiorId") || "");
+            }
+        }
+
+
+        // Check if there is any stored data
+        if (storedData) {
+            // Parse the stored data into an object
+            const parsedData = JSON.parse(storedData);
+
+            // Set the parsed data into Formik
+            formik.setValues(parsedData);
         }
     }, []);
 
@@ -165,8 +204,6 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
         }
     };
 
-    console.log(formik?.values, "formik value");
-
 
     return (
         <>
@@ -207,7 +244,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                 {localStorage.getItem("superiorRole") !== "Client" && (
                                                     <>
                                                         <div className={formik.submitCount ? (formik.errors.client_id ? 'has-error' : 'has-success') : ''}>
-                                                            <label htmlFor="client_id">Client</label>
+                                                            <label htmlFor="client_id">Client <span className="text-danger">*</span></label>
                                                             <select
                                                                 id="client_id"
                                                                 onChange={handleClientChange}
@@ -266,7 +303,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                         }}
                                                         value={formik.values.site_id}
                                                         className="form-select text-white-dark">
-                                                        <option value="">Select a Station Name</option>
+                                                        <option value="">Select a Station </option>
                                                         {formik.values.sites.length > 0 ? (
                                                             formik.values.sites.map((site) => (
                                                                 <option key={site.id} value={site.id}>

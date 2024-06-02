@@ -112,6 +112,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         localStorage.removeItem('client_id');
         localStorage.removeItem('company_id');
         localStorage.removeItem('site_id');
+        localStorage.removeItem('testing');
         // Dispatch action to set applyFilter to false
     };
 
@@ -610,9 +611,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 </div>
 
                 <div className="pt-5 ">
-                 
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className={`panel bg-gradient-to-r from-cyan-500 to-cyan-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
@@ -629,7 +630,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Sessions */}
-                        <div className={`panel bg-gradient-to-r from-violet-500 to-violet-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel gradient-secondary-to-secondary ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
                             </div>
@@ -644,7 +645,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className={`panel bg-gradient-to-r from-blue-500 to-blue-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel gradient-third-to-third ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
