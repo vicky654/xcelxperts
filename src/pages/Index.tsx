@@ -11,7 +11,7 @@ import useHandleError from '../hooks/useHandleError';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import useApiErrorHandler from '../hooks/useHandleError';
 import LoaderImg from '../utils/Loader';
-import IconEye from '../components/Icon/IconEye';
+import IconTrendingUp from '../components/Icon/IconTrendingUp';
 import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -624,7 +624,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 Last Month ℓ{filterData?.gross_volume?.gross_volume}
                             </div>
                         </div>
@@ -639,7 +639,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="badge bg-white/30"> {filterData?.gross_profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : '-'} {filterData?.gross_profit?.gross_margin}
                             </div>
                         </div>
@@ -656,7 +656,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 PPL ℓ{filterData?.gross_margin_?.is_ppl}
                             </div>
                         </div>
@@ -673,7 +673,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 PPL ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
                         </div>

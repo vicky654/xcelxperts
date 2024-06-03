@@ -7,7 +7,6 @@ import useHandleError from '../../../hooks/useHandleError';
 import { fetchStoreData } from '../../../store/dataSlice';
 import useApiErrorHandler from '../../../hooks/useHandleError';
 import LoaderImg from '../../../utils/Loader';
-import IconEye from '../../../components/Icon/IconEye';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { IRootState } from '../../../store';
@@ -15,6 +14,7 @@ import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 import logoImage from '../../../assets/logo/logo.jpeg'; // Import the image
+import IconTrendingUp from '../../../components/Icon/IconTrendingUp';
 
 
 
@@ -632,7 +632,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 Last Month ℓ{filterData?.gross_volume?.gross_volume}
                             </div>
                         </div>
@@ -647,7 +647,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="badge bg-white/30"> {filterData?.gross_profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : '-'} {filterData?.gross_profit?.gross_margin}
                             </div>
                         </div>
@@ -664,7 +664,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 PPL ℓ{filterData?.gross_margin_?.is_ppl}
                             </div>
                         </div>
@@ -681,7 +681,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 PPL ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
                         </div>
