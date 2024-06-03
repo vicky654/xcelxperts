@@ -38,6 +38,9 @@ interface CustomInputProps {
     layoutClasses: any;
 }
 
+
+
+
 const CustomInput: React.FC<CustomInputProps> = ({
     getData,
     isLoading,
@@ -255,4 +258,4 @@ const CustomInput: React.FC<CustomInputProps> = ({
     );
 }
 
-export default withApiHandler(CustomInput);
+export default CustomInput;

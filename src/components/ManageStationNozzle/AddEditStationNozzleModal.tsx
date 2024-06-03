@@ -8,6 +8,7 @@ import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
 import { stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
 import { getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import withApiHandler from '../../utils/withApiHandler';
 
 
 interface Client {
@@ -27,7 +28,6 @@ interface Site {
     site_name: string;
 }
 
-
 interface RowData {
     first_name: string;
     last_name: string;
@@ -35,6 +35,30 @@ interface RowData {
     phone_number: string;
     role: any;
 }
+
+interface Fuel {
+    id: string;
+    fuel_name: string;
+}
+
+interface TankList {
+    fuels: Fuel[];
+}
+
+interface FormValues {
+    client_id: string;
+    entity_id: string;
+    station_id: string;
+    tank_name: string;
+    tank_code: string;
+    fuel_id: string;
+    status: string;
+    clients: Client[];
+    entities: Entity[];
+    // sites: Station[];
+    tankList: TankList; // Add tankList here
+}
+
 interface UserData {
     id: string;
     client_id: string;
@@ -47,18 +71,17 @@ interface UserData {
     status: number;
     work_flow: number;
     clients: any[];
-    tankList: tankList;
 }
 
-interface AddEditStationTankModalProps {
+interface AddEditStationNozzleModalProps {
     isOpen: boolean;
     onClose: () => void;
+    // getData: (url: string) => Promise<any>;
     getData: (url: string) => Promise<any>;
     onSubmit: (values: any, formik: any) => Promise<void>;
     isEditMode: boolean;
     userId?: string | null;
     editUserData?: Partial<RowData> | null;
-    tankList?: tankList;
 }
 
 interface RoleItem {
@@ -83,7 +106,7 @@ type tankList = {
     pumps: [];
 };
 
-const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
     const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
@@ -307,7 +330,15 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="fuel_id"
-                                                    label="Fuel Name"
+                                                    label="Nozzle Fuel Name"
+                                                    options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
+                                                    className="form-select text-white-dark"
+                                                // onChange={handleSiteChange}
+                                                />
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="fuel_id"
+                                                    label="Pump  Name"
                                                     options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
@@ -315,14 +346,14 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
 
 
-                                                <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" placeholder="Station Name" />
+                                                <FormikInput formik={formik} type="text" name="tank_name" label="Nozzle Name" placeholder="Nozzle Name" />
 
-                                                <FormikInput formik={formik} type="text" name="tank_code" label="Tank Code" placeholder="Tank Code" />
+                                                <FormikInput formik={formik} type="text" name="tank_code" label="Nozzle Code" placeholder="Nozzle Code" />
 
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="status"
-                                                    label="Tank Status"
+                                                    label="Nozzle Status"
                                                     options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                     isRequired={true}
@@ -346,4 +377,4 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     );
 };
 
-export default AddEditStationTankModal;
+export default AddEditStationNozzleModal;

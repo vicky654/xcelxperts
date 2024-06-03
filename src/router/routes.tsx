@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-import ManageStationTank from '../components/ManageStationTank/ManageStationTank';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -115,8 +114,8 @@ const ManageDeduction = lazy(() => import('../components/SideBarComponents/Manag
 const Managesupplier = lazy(() => import('../components/SideBarComponents/Managesupplier/Managesupplier'));
 const EmailLogs = lazy(() => import('../components/SideBarComponents/Events/EmailEvents'));
 const ActivityLogs = lazy(() => import('../components/SideBarComponents/Events/ActivityEvents'));
-
-
+const ManageStationTank = lazy(() => import('../components/ManageStationTank/ManageStationTank'));
+const ManageStationNozzle = lazy(() => import('../components/ManageStationNozzle/ManageStationNozzle'));
 
 const routes = [
   {
@@ -160,6 +159,10 @@ const routes = [
   {
     path: 'manage-stations/tank',
     element: <ManageStationTank />,
+  },
+  {
+    path: 'manage-stations/nozzle',
+    element: <ManageStationNozzle />,
   },
 
 

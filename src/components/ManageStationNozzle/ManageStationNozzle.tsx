@@ -16,16 +16,17 @@ import LoaderImg from '../../utils/Loader';
 import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStationModal';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
-import AddEditStationTankModal from './AddEditStationTankModal';
-import CustomInput from './CustomInput';
 import * as Yup from 'yup';
+import AddEditStationNozzleModal from './AddEditStationNozzleModal';
+import CustomInput from '../ManageStationTank/CustomInput';
 
-interface ManageSiteProps {
+interface ManageStationNozzleProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
     // onSubmit: (values: any, formik: any) => Promise<void>;
 }
+
 
 interface RowData {
     id: string; // Change type from number to string
@@ -38,9 +39,10 @@ interface RowData {
     station_name: string;
     station_code: string;
     station_address: string;
+    getData: any;
 }
 
-const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
@@ -297,15 +299,15 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Tank</span>
+                        <span>Stations Nozzle</span>
                     </li>
                 </ul>
 
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station
+                    Add Station Nozzle
                 </button>
             </div>
-            <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationNozzleModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
                 <div className="grid xl:grid-cols-4 gap-6 mb-6">
@@ -317,8 +319,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
                             FilterValues={filterValues}
-                            showClientInput={true} // or false
-                            showEntityInput={true} // or false
+                            showClientInput={true}  // or false
+                            showEntityInput={true}  // or false
                             showStationInput={true} // or false
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1"
@@ -326,13 +328,14 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             onClose={function (): void {
                                 throw new Error('Function not implemented.');
                             }}
+
                         />
 
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Tank</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>
@@ -372,4 +375,4 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     );
 };
 
-export default withApiHandler(ManageStationTank);
+export default withApiHandler(ManageStationNozzle);

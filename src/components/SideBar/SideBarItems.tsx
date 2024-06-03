@@ -65,6 +65,7 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
         subMenu: [
             { title: 'Tank', link: '/manage-stations/tank', permission: 'user-list', visibility: false },
+            { title: 'Nozzle', link: '/manage-stations/nozzle', permission: 'user-list', visibility: false },
         ],
     },
     {

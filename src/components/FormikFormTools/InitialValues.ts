@@ -13,6 +13,7 @@ interface Entity {
 interface Station {
   id: string;
   site_name: string;
+
 }
 
 
@@ -92,6 +93,7 @@ export const stationTankInitialValues = {
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],
+  tankList: {} as any,
 };
 
 export default {
