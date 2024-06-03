@@ -36,31 +36,20 @@ export const clientInitialValues = {
 
 };
 export const companyInitialValues = {
-
-  // company_code: "",
-  // company_name: "",
-  // address: "",
-  // start_month: "",
-  // end_month: "",
-  // website: "",
-  // client_id: "",
-  // company_details: "",
-
-
-  company_name: '',
-  company_code: '',
-  website: '',
-  company_details: '',
-  address: '',
   client_id: '',
-  start_month: '',
-  end_month: '',
+      entity_name: '',
+      entity_code: '',
+      website: '',
+      entity_details: '',
+      start_month: '',
+      end_month: '', // If editUserData is passed, it will override corresponding initialValues
+      address: '',
 };
 
 
 export const stationInitialValues = {
   first_name: '',
-  data_import_types: '',
+  data_import_type_id: '',
   client_id: '',
   company_id: '',
   last_name: '',

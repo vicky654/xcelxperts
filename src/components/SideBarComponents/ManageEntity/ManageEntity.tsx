@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import AddUserModals from './AddEditManageEntityModals';
+import AddUserModals from './AddEditEntityModals';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
@@ -17,28 +16,21 @@ import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import AddEditEntityModals from './AddEditEntityModals';
 
 interface ManageUserProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
-    // onSubmit: (values: any, formik: any) => Promise<void>;
 }
-// end_month
-// entity_code: "",
-// entity_name: "",
-// address: "",
-// start_month: "",
-// end_month: "",
-// website: "",
-// client_id: "",
-// entity_details: "",
 interface RowData {
-    id: string; // Change type from number to string
+    id: string;
     entity_name: string;
-    role: string;
+    entity_code: string;
+    entity_details: string;
     created_date: string;
     status: number;
+    client_id: string;
 }
 
 const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
@@ -52,6 +44,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const [isEditMode, setIsEditMode] = useState(false);
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
+    const [clientId, setclientId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
@@ -87,14 +80,14 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         const formData = new FormData();
         formData.append('id', row.id.toString());
         formData.append('status', (row.status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/comapny/update-status', formData, handleSuccess);
+        toggleStatus(postData, '/entity/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'user/delete', formData, handleSuccess);
+        customDelete(postData, 'entity/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -105,7 +98,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
     const columns: any = [
         {
-            name: 'Full Name',
+            name: 'Entity Name',
             selector: (row: RowData) => row.entity_name,
             sortable: false,
             width: '20%',
@@ -118,14 +111,27 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             ),
         },
         {
-            name: 'Role',
-            selector: (row: RowData) => row.role,
+            name: 'Entity Code',
+            selector: (row: RowData) => row.entity_code,
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.entity_code}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: 'Entity Details',
+            selector: (row: RowData) => row.entity_details,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.entity_details}</h6>
                     </div>
                 </div>
             ),
@@ -197,7 +203,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                   </div> */}
 
                                 <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                    <button type="button" onClick={() => openModal(row.id, row.client_id)}>
                                         <IconPencil className="ltr:mr-2 rtl:ml-2" />
                                     </button>
                                 </Tippy>
@@ -214,11 +220,12 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             : null,
     ];
     // user/detail?id=${selectedRowId}
-    const openModal = async (id: string) => {
+    const openModal = async (id: string,EditclientId: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
+            setclientId(EditclientId)
 
         } catch (error) {
             console.error('Error fetching user details:', error);
@@ -234,27 +241,25 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
-            formData.append('first_name', values.first_name);
-            formData.append('last_name', values.last_name);
-            formData.append('role_id', values.role);
-            formData.append('email', values.email);
-            formData.append('phone_number', values.phone_number);
-            if (values.phone_number) {
-                formData.append('password', values.password);
-            }
+   
+            formData.append('client_id', values.client_id);
+            formData.append('entity_name', values.entity_name);
+            formData.append('entity_code', values.entity_code);
+            formData.append('address', values.address);
+            formData.append('website', values.website);
+            formData.append('entity_details', values.entity_details);
+            formData.append('start_month', values.start_month);
+            formData.append('end_month', values.end_month);
+         
             if (userId) {
-                formData.append('id', userId);
+                formData.append('entity_id', userId);
             }
             // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/entity/update` : `/entity/add`;
+            const url = isEditMode && userId ? `/entity/update` : `/entity/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-                console.log(response, 'status_code');
-                console.log(response.status_code == 200, 'status_code');
-                // fetchData()
                 handleSuccess();
                 closeModal();
             } else {
@@ -283,7 +288,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     Add Entity
                 </button>
             </div>
-            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditEntityModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} clientId={clientId} />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
