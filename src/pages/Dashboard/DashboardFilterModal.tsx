@@ -46,12 +46,16 @@ interface Site {
 const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = false, getData, isLoading, onApplyFilters }) => {
     const { data } = useSelector((state: IRootState) => state.data);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    const auth = useSelector((state: IRootState) => state.auth);
 
     console.log(isNotClient, "isNotClient");
 
 
     const handleApiError = useErrorHandler();
     const navigate = useNavigate();
+
+    console.log(auth, "auth");
+
 
 
 
@@ -64,7 +68,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const formik = useFormik({
         initialValues: {
-            client_id: localStorage.getItem("superiorId") || "",
+            client_id: "",
             client_name: "",
             company_id: "",
             company_name: "",
@@ -98,14 +102,14 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
             const response = await getData('/common/client-list');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
-            const clientId = localStorage.getItem("superiorId");
-            if (clientId) {
-                formik.setFieldValue('client_id', clientId);
-                const selectedClient = clients.find((client: Client) => client.id === clientId);
-                if (selectedClient) {
-                    formik.setFieldValue('companies', selectedClient.companies);
-                }
-            }
+            // const clientId = localStorage.getItem("superiorId");
+            // if (clientId) {
+            //     formik.setFieldValue('client_id', clientId);
+            //     const selectedClient = clients.find((client: Client) => client.id === clientId);
+            //     if (selectedClient) {
+            //         formik.setFieldValue('companies', selectedClient.companies);
+            //     }
+            // }
         } catch (error) {
             handleApiError(error)
         }

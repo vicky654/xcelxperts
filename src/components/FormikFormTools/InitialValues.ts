@@ -3,11 +3,11 @@ interface Client {
   id: string;
   client_name: string;
   full_name: string;
-  companies: Company[];
+  entities: Entity[];
 }
-interface Company {
+interface Entity {
   id: string;
-  company_name: string;
+  entity_name: string;
 }
 
 interface Site {
@@ -36,20 +36,33 @@ export const clientInitialValues = {
 
 };
 export const companyInitialValues = {
+  company_name: '',
+  company_code: '',
+  website: '',
+  company_details: '',
+  address: '',
   client_id: '',
-      entity_name: '',
-      entity_code: '',
-      website: '',
-      entity_details: '',
-      start_month: '',
-      end_month: '', // If editUserData is passed, it will override corresponding initialValues
-      address: '',
+  start_month: '',
+  end_month: '',
+};
+
+
+export const chargesInitialValues = {
+  charge_name: '',
+  charge_code: '',
+
+};
+export const deductionsInitialValues = {
+  deduction_code: '',
+  deduction_name: '', // Add deduction_name here
+
 };
 
 
 export const stationInitialValues = {
   first_name: '',
-  data_import_type_id: '',
+  data_import_types: '',
+  drs_upload_status: '',
   client_id: '',
   company_id: '',
   last_name: '',
@@ -58,7 +71,7 @@ export const stationInitialValues = {
   password: '',
   phone_number: '',
   clients: [] as Client[],
-  companies: [] as Company[],
+  entities: [] as Entity[],
   sites: [] as Site[],
 };
 
@@ -66,4 +79,6 @@ export default {
   userInitialValues,
   clientInitialValues,
   stationInitialValues,
+  chargesInitialValues,
+  deductionsInitialValues,
 };

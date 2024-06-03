@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import getValidationSchema, { getStationValidationSchema } from '../../FormikFormTools/ValidationSchema';
-import initialValues, { stationInitialValues } from '../../FormikFormTools/InitialValues';
+import { getStationValidationSchema } from '../../FormikFormTools/ValidationSchema';
+import { stationInitialValues } from '../../FormikFormTools/InitialValues';
 import FormikInput from '../../FormikFormTools/FormikInput';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import useErrorHandler from '../../../hooks/useHandleError';
+import FormikTextArea from '../../FormikFormTools/FormikTextArea';
+import { activeInactiveOption } from '../../../pages/constants';
 
 
 interface Client {
     id: string;
     client_name: string;
-    companies: Company[];
+    full_name: string;
+    entities: Entity[];
 }
 
-interface Company {
+interface Entity {
     id: string;
-    company_name: string;
+    entity_name: string;
 }
 
 interface Site {
@@ -33,6 +36,7 @@ interface RowData {
 }
 interface UserData {
     id: string;
+    client_id: string;
     first_name: string;
     last_name: string;
     email: string;
@@ -59,14 +63,14 @@ interface RoleItem {
     role_name: string;
 }
 
-interface UserData {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    role: string;
-    password: string;
-}
+// interface UserData {
+//     first_name: string;
+//     last_name: string;
+//     email: string;
+//     phone_number: string;
+//     role: string;
+//     password: string;
+// }
 type StationStatusOption = {
     id: string;
     name: string;
@@ -84,6 +88,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
+                // FetchClientList();
             }
         }
     }, [isOpen, isEditMode, userId]);
@@ -100,7 +105,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
     // };
     const FetchCommonDataList = async () => {
         try {
-            const response = await getData('/site/common-data-list');
+            const response = await getData('/station/common-data-list');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
             }
@@ -114,87 +119,67 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             const response = await getData('/common/client-list');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
-            const clientId = localStorage.getItem("superiorId");
-            if (clientId) {
-                formik.setFieldValue('client_id', clientId);
-                const selectedClient = clients.find((client: Client) => client.id === clientId);
-                if (selectedClient) {
-                    formik.setFieldValue('companies', selectedClient.companies);
-                }
-            }
+            // const clientId = localStorage.getItem("superiorId");
+            // if (localStorage.getItem("superiorRole") !== "Client" && clientId) {
+            //     formik.setFieldValue('client_id', clientId);
+            //     const selectedClient = clients.find((client: Client) => client.id === clientId);
+            //     if (selectedClient) {
+            //         formik.setFieldValue('entities', selectedClient.entities);
+            //     }
+            // }
         } catch (error) {
             handleApiError(error)
         }
     };
 
-    const FetchRoleList = async () => {
-        try {
-            const response = await getData('/roles');
-            if (response && response.data && response.data.data) {
-                setRoleList(response.data.data);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
+
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/user/detail?id=${id}`);
+            const response = await getData(`/station/detail?id=${id}`);
             if (response && response.data) {
-                const userData: UserData = response.data?.data;
+                const userData: any = response.data?.data;
                 console.log(userData, 'userData');
-                // formik.setValues({
-                //     first_name: userData.first_name || '',
-                //     last_name: userData.last_name || '',
-                //     email: userData.email || '',
-                //     phone_number: userData.phone_number || '',
-                //     role: userData.role_id || '',
-                //     password: '', // Password field should remain empty for security reasons
-                // });
-
+                formik.setValues(userData)
+                FetchClientList()
+                fetchEntityList(userData?.client_id)
             }
         } catch (error) {
             console.error('API error:', error);
         }
     };
-    // const handleClientChange = async (e: any) => {
-    //     console.log(e.target.value, "updated outside id");
-    // };
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
-            fetchCompanyList(clientId);
+            fetchEntityList(clientId);
             const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
-            formik.setFieldValue('companies', selectedClient?.companies || []);
+            formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('company_id', "");
+            formik.setFieldValue('entity_id', "");
             formik.setFieldValue('site_id', "");
         } else {
-            formik.setFieldValue('company_id', "");
+            formik.setFieldValue('entity_id', "");
             formik.setFieldValue('site_id', "");
             formik.setFieldValue('client_name', "");
-            formik.setFieldValue('companies', []);
+            formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('company_name', "");
+            formik.setFieldValue('entity_name', "");
             formik.setFieldValue('site_name', "");
         }
     };
 
-    const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const companyId = e.target.value;
-        formik.setFieldValue('company_id', companyId);
-        if (companyId) {
-            // fetchSiteList(companyId);
-            const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
-            formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+    const handleEntityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const entityId = e.target.value;
+        formik.setFieldValue('entity_id', entityId);
+        if (entityId) {
+            // fetchSiteList(entityId);
+            const selectedEntity = formik.values.entities.find((entity: Entity) => entity.id === entityId);
+            formik.setFieldValue('entity_name', selectedEntity?.entity_name || "");
             formik.setFieldValue('sites', []);
         } else {
-            formik.setFieldValue('company_name', "");
+            formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
             formik.setFieldValue('site_id', "");
             formik.setFieldValue('site_name', "");
@@ -202,10 +187,10 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
     };
 
 
-    const fetchCompanyList = async (clientId: string) => {
+    const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
-            formik.setFieldValue('companies', response.data.data);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
+            formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)
         }
@@ -225,19 +210,9 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         },
     });
 
-    const stationStatusOption: StationStatusOption[] = [
-        {
-            "id": "0",
-            "name": "Deactive",
-        },
-        {
-            "id": "1",
-            "name": "Active",
-        },
-    ]
+
 
     console.log(formik?.values, "formik station values");
-    console.log(commonDataList, "commonDataList");
 
 
     return (
@@ -254,6 +229,8 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="client_id"
@@ -261,17 +238,15 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleClientChange}
-                                                    isRequired={true}
                                                 />
 
                                                 <FormikSelect
                                                     formik={formik}
-                                                    name="company_id"
-                                                    label="Company"
-                                                    options={formik.values.companies?.map((item) => ({ id: item.id, name: item.company_name }))}
+                                                    name="entity_id"
+                                                    label="Entity"
+                                                    options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
                                                     className="form-select text-white-dark"
-                                                    onChange={handleCompanyChange}
-                                                    isRequired={true}
+                                                    onChange={handleEntityChange}
                                                 />
                                                 <FormikSelect
                                                     formik={formik}
@@ -281,40 +256,44 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     className="form-select text-white-dark"
                                                 />
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="data_import_types"
-                                                    label="Data Import Types"
-                                                    options={commonDataList?.data_import_types?.map((item: any) => ({ id: item?.id, name: item?.import_type_name }))}
-                                                    className="form-select text-white-dark"
-                                                />
-
+                                                <FormikInput formik={formik} type="text" name="station_code" label="Station Code" placeholder="Station Code" />
 
                                                 <FormikInput formik={formik} type="text" name="station_name" label="Station Name" placeholder="Station Name" />
-                                                <FormikInput formik={formik} type="text" name="station_code" label="Station Code" placeholder="Station Code" />
                                                 <FormikInput formik={formik} type="text" name="station_display_name" label="Station Display Name" placeholder="Station Display Name" />
-                                                <FormikInput formik={formik} type="text" name="station_address" label="Station Address" placeholder="Station Address" />
-                                                <FormikInput formik={formik} type="text" name="security_amount" label="Security Amount" placeholder="Security Amount" />
-                                                {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
-                                                <FormikInput formik={formik} type="date" name="start_date" label="Start Date" placeholder="Start Date" />
-
-
 
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="station_status"
                                                     label="Station Status"
-                                                    options={stationStatusOption.map((item) => ({ id: item.id, name: item.name }))}
+                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                     isRequired={true}
                                                 />
-                                                <FormikSelect
+
+
+                                                <FormikInput formik={formik} type="date" name="start_date" label="Start Date" placeholder="Start Date" />
+
+                                                {/* <FormikSelect
                                                     formik={formik}
                                                     name="drs_upload_status"
                                                     label="DRS Upload Status"
-                                                    options={stationStatusOption.map((item) => ({ id: item.id, name: item.name }))}
+                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
+                                                    className="form-select text-white-dark"
+                                                /> */}
+
+
+
+                                                <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="data_import_type_id"
+                                                    label="Data Import Types"
+                                                    options={commonDataList?.data_import_types?.map((item: any) => ({ id: item?.id, name: item?.import_type_name }))}
                                                     className="form-select text-white-dark"
                                                 />
+
+                                                <FormikInput formik={formik} type="number" name="security_amount" label="Security Amount" placeholder="Security Amount" />
+
 
 
 

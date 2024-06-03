@@ -17,7 +17,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
     options,
     className = 'form-select',
     onChange,
-    isRequired, // Default to true if not provided
+    isRequired = true, // Default to true if not provided
 }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

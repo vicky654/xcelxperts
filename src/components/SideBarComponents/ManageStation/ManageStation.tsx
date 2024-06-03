@@ -31,6 +31,10 @@ interface RowData {
     addons: string;
     created_date: string;
     status: number;
+    station_status: number;
+    station_name: string;
+    station_code: string;
+    station_address: string;
 }
 
 const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
@@ -75,7 +79,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('status', (row.status === 1 ? 0 : 1).toString());
+        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
         toggleStatus(postData, '/station/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
@@ -83,7 +87,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'user/delete', formData, handleSuccess);
+        customDelete(postData, 'station/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -94,40 +98,40 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     const columns: any = [
         {
-            name: 'Full Name',
-            selector: (row: RowData) => row.full_name,
+            name: 'Station Name',
+            selector: (row: RowData) => row.station_name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Role',
-            selector: (row: RowData) => row.role,
+            name: 'Station Code',
+            selector: (row: RowData) => row.station_code,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Addons',
-            selector: (row: RowData) => row.addons,
+            name: 'Station Address',
+            selector: (row: RowData) => row.station_address,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
                     </div>
                 </div>
             ),
@@ -136,7 +140,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -147,13 +151,13 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.status,
+            selector: (row: RowData) => row.station_status,
             sortable: false,
-            width: '15%',
+            width: '10%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                    {row.station_status === 1 || row.station_status === 0 ? (
+                        <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
                     ) : (
                         <div className="pointer" onClick={() => toggleActive(row)}>
                             Unknown
@@ -167,7 +171,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 name: 'Action',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '10%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
@@ -214,7 +218,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             }
             : null,
     ];
-    // user/detail?id=${selectedRowId}
+    // station/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
@@ -241,24 +245,29 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         try {
             const formData = new FormData();
             console.log(values, 'values');
-            formData.append('first_name', values.first_name);
-            formData.append('last_name', values.last_name);
-            formData.append('role_id', values.role);
-            formData.append('email', values.email);
-            formData.append('phone_number', values.phone_number);
-            if (values.phone_number) {
-                formData.append('password', values.password);
-            }
+            formData.append('client_id', values.client_id);
+            formData.append('entity_id', values.entity_id);
+            formData.append('data_import_type_id', values.data_import_type_id);
+            formData.append('drs_upload_status', values.drs_upload_status);
+            formData.append('security_amount', values.security_amount);
+            formData.append('start_date', values.start_date);
+            formData.append('station_address', values.station_address);
+            formData.append('station_code', values.station_code);
+            formData.append('station_display_name', values.station_display_name);
+            formData.append('station_name', values.station_name);
+            formData.append('station_status', values.station_status);
+            formData.append('supplier_id', values.supplier_id);
             if (userId) {
                 formData.append('id', userId);
             }
-            // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/station/update` : `/station/add`;
+            const url = isEditMode && userId ? `/station/update` : `/station/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-              
+                console.log(response, 'status_code');
+                console.log(response.status_code == 200, 'status_code');
+                // fetchData()
                 handleSuccess();
                 closeModal();
             } else {
