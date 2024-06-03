@@ -139,8 +139,6 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     };
 
 
-    console.log(gradesData, "gradesData");
-
 
 
 
@@ -198,8 +196,6 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
         // Dispatch action to set applyFilter to false
     };
 
-
-    console.log(filterData, "filterData");
 
 
 
@@ -602,7 +598,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
 
     const handleNavigateToNextPage = (item: any) => {
-        console.log(item);
+   
 
         if (isSitePermissionAvailable) {
             navigate(`/dashboard/station/${item?.id}`)

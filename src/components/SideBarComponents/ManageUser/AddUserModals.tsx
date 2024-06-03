@@ -90,7 +90,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
             const response = await getData(`/user/detail?id=${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                console.log(userData, 'userData');
+                
                 formik.setValues({
                     first_name: userData.first_name || '',
                     last_name: userData.last_name || '',

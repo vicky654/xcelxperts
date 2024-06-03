@@ -97,16 +97,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         }
     }, [isOpen, isEditMode, userId]);
 
-    // const FetchClientList = async () => {
-    //     try {
-    //         const response = await getData('/common/client-list');
-    //         if (response && response.data && response.data.data) {
-    //             setClientList(response.data.data);
-    //         }
-    //     } catch (error) {
-    //         console.error('API error:', error);
-    //     }
-    // };
+
     const FetchCommonDataList = async () => {
         try {
             const response = await getData('/station/common-data-list');
@@ -264,7 +255,6 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
 
 
-    console.log(formik?.values, "formik station values");
 
 
     return (

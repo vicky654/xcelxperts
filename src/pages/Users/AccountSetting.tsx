@@ -85,7 +85,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
 
 
-    console.log(tabs, "tabs");
+
 
     const FetchConfigSetting = async () => {
         try {
@@ -121,7 +121,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 .required('Email Is Required'),
         }),
         onSubmit: async (values) => {
-            console.log(values);
+       
             const formData = new FormData();
             formData.append("first_name", values.first_name);
             formData.append("last_name", values.last_name);
@@ -211,7 +211,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
 
         onSubmit: async (values) => {
-            console.log(values);
+          
             try {
                 const formData = new FormData();
                 formData.append("old_password", values.old_password);
@@ -223,7 +223,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 const data = await response.json();
 
 
-                console.log(data, "datadata");
+             
 
 
                 if (response.ok) {
@@ -241,8 +241,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 }
             } catch (error) {
                 handleApiError(error);
-                console.log(error, "errorerror");
-                // useHandleError()
+            
             }
         },
     });

@@ -48,13 +48,13 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const auth = useSelector((state: IRootState) => state.auth);
 
-    console.log(isNotClient, "isNotClient");
+    
 
 
     const handleApiError = useErrorHandler();
     const navigate = useNavigate();
 
-    console.log(auth, "auth");
+    
 
 
 
@@ -84,7 +84,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
         validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values as FilterValues); // Type assertion to FilterValues
-            console.log(values, "myvaluess");
+            
 
             // Store the form values in local storage
             localStorage.setItem("testing", JSON.stringify(values));
@@ -96,7 +96,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
     });
 
 
-    console.log(formik?.values, "formik?.values");
+  
     const fetchClientList = async () => {
         try {
             const response = await getData('/common/client-list');
@@ -132,10 +132,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
             handleApiError(error);
         }
     };
-
-    // Retrieve data from local storage
     const storedData = localStorage.getItem("testing");
-    // console.log(JSON.parse(storedData), "JSON.parse(storedData)");
 
 
     useEffect(() => {

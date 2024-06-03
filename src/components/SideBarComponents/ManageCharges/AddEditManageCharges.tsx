@@ -40,7 +40,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
             const response = await getData(`/charge/${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                console.log(userData, 'userData');
+                
                 formik.setValues({
                     charge_name: userData.charge_name || '',
                     charge_code: userData.charge_code || '',

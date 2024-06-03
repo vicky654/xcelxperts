@@ -96,7 +96,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     };
 
 
-    console.log(detailsData, "detailsData");
 
 
 
@@ -154,7 +153,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     };
 
 
-    console.log(filterData, "filterData");
 
 
 

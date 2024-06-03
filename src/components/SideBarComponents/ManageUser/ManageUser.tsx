@@ -220,7 +220,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
+            
             formData.append('first_name', values.first_name);
             formData.append('last_name', values.last_name);
             formData.append('role_id', values.role);

@@ -72,7 +72,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-        console.log('Apply Filter:', data?.applyFilter);
+       
         if (data?.applyFilter === false && !clientId && !companyId) {
             const initialFilters = {
                 client_id: data?.superiorId || '',

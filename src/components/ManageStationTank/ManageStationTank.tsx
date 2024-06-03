@@ -73,7 +73,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+           
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -225,12 +225,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-            // const response = await getData(`/station/detail?id=${id}`)`);
-            // const response = await getData(`/station/detail?id=${id}`);
-            // if (response && response.data) {
-            //     setUserId(id)
-            //     setEditUserData(response.data);
-            // }
+       
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
@@ -245,7 +240,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
+            
             formData.append('status', values.status);
             formData.append('tank_name', values.tank_name);
             formData.append('site_id', values.station_id);
@@ -260,9 +255,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-                console.log(response, 'status_code');
-                console.log(response.status_code == 200, 'status_code');
-                // fetchData()
+                
                 handleSuccess();
                 closeModal();
             } else {
