@@ -91,6 +91,18 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    {
+        key: 'Logs',
+        title: 'Logs',
+        icon: IconMenuDatatables,
+        link: '/manage-logs/logs', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+        subMenu: [
+            { title: 'Email Logs', link: '/manage-logs/emaillogs', permission: 'user-list', visibility: false },
+            { title: 'Activity Logs', link: '/manage-logs/activity_logs', permission: 'user-list', visibility: false },
+        ],
+    },
     // {
     //     key: 'Manage Workflow',
     //     title: 'Manage Workflow',
