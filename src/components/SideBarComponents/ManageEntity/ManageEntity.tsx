@@ -248,7 +248,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             }
             // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/user/update` : `/user/add`;
+            const url = isEditMode && userId ? `/entity/update` : `/entity/add`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
