@@ -17,6 +17,8 @@ import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStati
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import AddEditStationTankModal from './AddEditStationTankModal';
+import CustomInput from './CustomInput';
+import * as Yup from 'yup';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -49,6 +51,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
@@ -73,7 +76,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             }
         } catch (error) {
             handleApiError(error);
-           
+
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -225,7 +228,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-       
+
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
@@ -240,7 +243,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            
+
             formData.append('status', values.status);
             formData.append('tank_name', values.tank_name);
             formData.append('site_id', values.station_id);
@@ -255,7 +258,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-                
+
                 handleSuccess();
                 closeModal();
             } else {
@@ -265,6 +268,23 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             handleApiError(error);
         }
     };
+    const handleApplyFilters = async (values: any) => {
+        console.log(values, "handleApplyFilters");
+    };
+    const filterValues = async (values: any) => {
+        console.log(values, "filterValues");
+    };
+
+
+    const validationSchemaForCustomInput = Yup.object({
+        company_id: Yup.string().required("Entity is required"),
+        client_id: isNotClient
+            ? Yup.string().required("Client is required")
+            : Yup.mixed().notRequired(),
+        // client_id: Yup.string().required('Client is required'),
+        // company_id: Yup.string().required('Entity is required'),
+        // site_id: Yup.string().required('Station is required'),
+    });
 
     return (
         <>
@@ -292,6 +312,18 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     <div className='panel h-full '>
 
 
+                        <CustomInput
+                            getData={getData}
+                            isLoading={isLoading}
+                            onApplyFilters={handleApplyFilters}
+                            FilterValues={filterValues}
+                            showClientInput={true}  // or false
+                            showEntityInput={true}  // or false
+                            showStationInput={true} // or false
+                            validationSchema={validationSchemaForCustomInput}
+                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1"
+
+                        />
 
 
                     </div>
