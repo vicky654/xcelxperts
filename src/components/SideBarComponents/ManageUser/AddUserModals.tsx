@@ -132,11 +132,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <FormikInput formik={formik} type="text" name="first_name" label="First Name" placeholder="First Name" />
-                                                <FormikInput formik={formik} type="text" name="last_name" label="Last Name" placeholder="Last Name" />
-                                                <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
+                                                <FormikInput formik={formik} type="text" name="first_name" />
+                                                <FormikInput formik={formik} type="text" name="last_name" />
+                                                <FormikInput formik={formik} type="text" name="email"  />
                                                 {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
-                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" isRequired={false} placeholder="Phone Number" />
+                                                <FormikInput formik={formik} type="number" name="phone_number"  />
 
                                                 <FormikSelect
                                                     formik={formik}

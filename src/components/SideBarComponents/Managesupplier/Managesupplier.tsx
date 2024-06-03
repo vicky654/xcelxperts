@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import AddUserModals from './AddUserModals';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
@@ -16,10 +14,10 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
-
-
-interface ManageUserProps {
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; 
+import AddEditManageCharges from './AddEditManagesupplier';
+import AddEditManagesupplier from './AddEditManagesupplier';
+interface ManagesupplierProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -27,15 +25,14 @@ interface ManageUserProps {
 }
 
 interface RowData {
-    id: string; // Change type from number to string
-    full_name: string;
-    role: string;
-    addons: string;
+    id: string;
+    supplier_name: string;
+    supplier_code: string;
     created_date: string;
-    status: number;
+    supplier_status: number;
 }
 
-const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
+const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -60,10 +57,9 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/user/list?page=${currentPage}`);
+            const response = await getData(`/supplier/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                // setData(response.data.data?.users);
-                setData(response.data.data);
+                setData(response.data.data?.suppliers);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -78,15 +74,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('status', (row.status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/user/update-status', formData, handleSuccess);
+        formData.append('status', (row.supplier_status === 1 ? 0 : 1).toString());
+        toggleStatus(postData, '/supplier/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'user/delete', formData, handleSuccess);
+        customDelete(postData, 'supplier/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -96,67 +92,56 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
+        // Other columns
         {
-            name: 'User Name',
-            selector: (row: RowData) => row.full_name,
+            name: 'Supplier Name',
+            selector: (row: RowData) => row.supplier_name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.supplier_name}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Role',
-            selector: (row: RowData) => row.role,
+            name: 'Supplier Code',
+            selector: (row: RowData) => row.supplier_code,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.supplier_code}`}</h6>
                     </div>
                 </div>
             ),
         },
-        {
-            name: 'Addons',
-            selector: (row: RowData) => row.addons,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
-                    </div>
-                </div>
-            ),
-        },
+    
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
-                <div className="d-flex" style={{ cursor: 'default' }}>
+                <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.created_date}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.status,
+            selector: (row: RowData) => row.supplier_status,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                    {row.supplier_status === 1 || row.supplier_status === 0 ? (
+                        <CustomSwitch checked={row.supplier_status === 1} onChange={() => toggleActive(row)} />
                     ) : (
                         <div className="pointer" onClick={() => toggleActive(row)}>
                             Unknown
@@ -167,47 +152,40 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '10%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-
-
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                  name: 'Action',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '20%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  <Tippy content="Edit">
+                                      <button type="button" onClick={() => openModal(row?.id)}>
+                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
-    // user/detail?id=${selectedRowId}
+
+    // supplier/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-            // const response = await getData(`/user/detail?id=${id}`)`);
-            // const response = await getData(`/user/detail?id=${id}`);
-            // if (response && response.data) {
-            //     setUserId(id)
-            //     setEditUserData(response.data);
-            // }
         } catch (error) {
-            console.error('Error fetching user details:', error);
+            console.error('Error fetching supplier details:', error);
         }
     };
 
@@ -220,21 +198,18 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
-            formData.append('first_name', values.first_name);
-            formData.append('last_name', values.last_name);
-            formData.append('role_id', values.role);
-            formData.append('email', values.email);
-            formData.append('phone_number', values.phone_number);
-            if (values.password) {
-                formData.append('password', values.password);
+
+            formData.append('supplier_name', values.supplier_name);
+            formData.append('supplier_code', values.supplier_code);
+            formData.append('status', "1");
+            if (values.image) {
+                formData.append("logo", values.image);
             }
             if (userId) {
                 formData.append('id', userId);
             }
-            // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/user/update` : `/user/add`;
+            const url = isEditMode && userId ? `/supplier/update` : `/supplier/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -260,21 +235,18 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Users</span>
+                        <span>Suppliers</span>
                     </li>
                 </ul>
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add User
+                    Add Supplier
                 </button>
             </div>
-            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditManagesupplier getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Suppliers</h5>
                 </div>
 
                 {data?.length > 0 ? (
@@ -308,4 +280,4 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     );
 };
 
-export default withApiHandler(ManageUser);
+export default withApiHandler(Managesupplier);

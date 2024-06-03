@@ -110,7 +110,7 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
                                                 <FormikInput formik={formik} type="text" name="first_name" label="First Name" placeholder="First Name" />
                                                 <FormikInput formik={formik} type="text" name="last_name" label="Last Name" placeholder="Last Name" />
                                                 <FormikInput formik={formik} type="text" name="client_code" label="Client Code" placeholder="Client Code" />
-                                                <FormikInput formik={formik} type="number" name="phone_number" isRequired={false} label="Phone Number" placeholder="Phone Number" />
+                                                <FormikInput formik={formik} type="number" name="phone_number"  label="Phone Number" placeholder="Phone Number" />
                                                 <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
 
                                                 {/* <FormikSelect

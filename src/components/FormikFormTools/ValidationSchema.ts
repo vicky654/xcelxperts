@@ -17,6 +17,9 @@ export const getUserValidationSchema = (isEditMode: boolean) => {
             then: Yup.string().required('Password Is Required'),
             otherwise: Yup.string().notRequired(),
         }),
+        phone_number: Yup.string()
+        .min(10, 'Phone Number must be at least 10 characters')
+          .required('Phone Number Is Required'),
         role: Yup.string().required('Role Is Required'),
     });
 };
@@ -36,6 +39,9 @@ export const getClientValidationSchema = (isEditMode: boolean) => {
             then: Yup.string().required('Password Is Required'),
             otherwise: Yup.string().notRequired(),
         }),
+        phone_number: Yup.string()
+        .min(10, 'Phone Number must be at least 10 characters')
+          .required('Phone Number Is Required'),
 
         client_code: Yup.string().required('Client Code Is Required'),
         address: Yup.string().required('Address Is Required'),
@@ -110,10 +116,32 @@ export const chargestValidationSchema = (isEditMode: boolean) => {
         charge_code: Yup.string().required('Charge Code Is Required'),
     });
 };
+export const supplierValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        supplier_name: Yup.string().required('Supplier Name Is Required'),
+        supplier_code: Yup.string().required('Supplier Code Is Required'),
+        
+    });
+};
 export const deductionstValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         deduction_name: Yup.string().required('Deduction Name Is Required'),
         deduction_code: Yup.string().required('Deduction Code Is Required'),
+    });
+};
+
+
+export const getStationTankValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        client_id: Yup.string().required('Client Is Required'),
+        entity_id: Yup.string()
+            .required('Entity Is Required'),
+        station_id: Yup.string().required('Station Is Required'),
+        tank_name: Yup.string().required('Tank Name Is Required'),
+        tank_code: Yup.string().required('Tank Code Is Required'),
+        status: Yup.string().required('Status Is Required'),
+        fuel_id: Yup.string().required('Fuel Is Required'),
+        status: Yup.string().required('Station Status Is Required'),
     });
 };
 export default {
@@ -122,4 +150,6 @@ export default {
     getStationValidationSchema,
     getEntitiesValidationSchema,
     chargestValidationSchema,
+    supplierValidationSchema,
+    getStationTankValidationSchema,
 };
