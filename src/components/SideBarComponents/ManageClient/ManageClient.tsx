@@ -39,7 +39,7 @@ interface RowData {
     status: number;
 }
 
-const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
+const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -229,9 +229,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-                console.log(response, 'status_code');
-                console.log(response.status_code == 200, 'status_code');
-                // fetchData()
+              
                 handleSuccess();
                 closeModal();
             } else {
@@ -301,4 +299,4 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     );
 };
 
-export default withApiHandler(ManageUser);
+export default withApiHandler(ManageClient);

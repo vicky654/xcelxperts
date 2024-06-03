@@ -14,10 +14,10 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import AddEditStationModal from './AddEditStationModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import AddEditManageCharges from './AddEditManageDeduction'; // Import the image
 
-interface ManageSiteProps {
+interface ManageUserProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -25,15 +25,14 @@ interface ManageSiteProps {
 }
 
 interface RowData {
-    id: string; // Change type from number to string
-    full_name: string;
-    role: string;
-    addons: string;
+    id: string;
+    deduction_name: string;
+    deduction_code: string;
     created_date: string;
-    status: number;
+    deduction_status: number;
 }
 
-const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -58,9 +57,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/station/list?page=${currentPage}`);
+            const response = await getData(`/deduction/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.stations);
+                setData(response.data.data?.deductions);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -75,15 +74,15 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('status', (row.status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
+        formData.append('deduction_status', (row.deduction_status === 1 ? 0 : 1).toString());
+        toggleStatus(postData, '/charge/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'user/delete', formData, handleSuccess);
+        customDelete(postData, 'charge/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -93,67 +92,56 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
+        // Other columns
         {
-            name: 'Full Name',
-            selector: (row: RowData) => row.full_name,
+            name: 'Deduction Name',
+            selector: (row: RowData) => row.deduction_name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.deduction_name}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Role',
-            selector: (row: RowData) => row.role,
+            name: 'Deduction Code',
+            selector: (row: RowData) => row.deduction_code,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.deduction_code}`}</h6>
                     </div>
                 </div>
             ),
         },
-        {
-            name: 'Addons',
-            selector: (row: RowData) => row.addons,
-            sortable: false,
-            width: '15%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
-                    </div>
-                </div>
-            ),
-        },
+    
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
-                <div className="d-flex" style={{ cursor: 'default' }}>
+                <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.created_date}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.status,
+            selector: (row: RowData) => row.deduction_status,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                    {row.deduction_status === 1 || row.deduction_status === 0 ? (
+                        <CustomSwitch checked={row.deduction_status === 1} onChange={() => toggleActive(row)} />
                     ) : (
                         <div className="pointer" onClick={() => toggleActive(row)}>
                             Unknown
@@ -164,70 +152,40 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '20%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-                                {/* <div className="dropdown">
-                                      <Dropdown
-                                          btnClassName="btn btn-success dropdown-toggle"
-                                          button={
-                                              <>
-                                                  Action
-                                                  <span>
-                                                      <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
-                                                  </span>
-                                              </>
-                                          }
-                                      >
-                                          <ul className="!min-w-[170px]">
-                                              <li>
-                                                  <button type="button">Edit</button>
-                                              </li>
-                                              <li>
-                                                  <button type="button" onClick={() => handleDelete(row.id)}>
-                                                      Delete
-                                                  </button>
-                                              </li>
-                                          </ul>
-                                      </Dropdown>
-                                  </div> */}
-
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                  name: 'Action',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '20%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  <Tippy content="Edit">
+                                      <button type="button" onClick={() => openModal(row?.id)}>
+                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
-    // user/detail?id=${selectedRowId}
+
+    // charge/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-            // const response = await getData(`/station/detail?id=${id}`)`);
-            // const response = await getData(`/station/detail?id=${id}`);
-            // if (response && response.data) {
-            //     setUserId(id)
-            //     setEditUserData(response.data);
-            // }
         } catch (error) {
-            console.error('Error fetching user details:', error);
+            console.error('Error fetching charge details:', error);
         }
     };
 
@@ -240,21 +198,15 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
-            formData.append('first_name', values.first_name);
-            formData.append('last_name', values.last_name);
-            formData.append('role_id', values.role);
-            formData.append('email', values.email);
-            formData.append('phone_number', values.phone_number);
-            if (values.phone_number) {
-                formData.append('password', values.password);
-            }
+
+            formData.append('deduction_name', values.deduction_name);
+            formData.append('deduction_code', values.deduction_code);
+
             if (userId) {
                 formData.append('id', userId);
             }
-            // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/station/update` : `/station/add`;
+            const url = isEditMode && userId ? `/deduction/update` : `/deduction/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -280,23 +232,20 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations</span>
+                        <span>Deductions</span>
                     </li>
                 </ul>
-
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station
+                    Add Deduction
                 </button>
             </div>
-            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditManageCharges getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Stations</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Deductions</h5>
                 </div>
+
                 {data?.length > 0 ? (
                     <>
                         <div className="datatables">
@@ -328,4 +277,4 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     );
 };
 
-export default withApiHandler(ManageStation);
+export default withApiHandler(ManageCharges);

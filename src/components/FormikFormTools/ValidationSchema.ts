@@ -43,37 +43,22 @@ export const getClientValidationSchema = (isEditMode: boolean) => {
 };
 export const getStationValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: Yup.string()
-            .required('Client Is Required'),
+        client_id: Yup.string().required('Client Is Required'),
         // company_id: Yup.string()
         //     .required('Company Is Required'),
-        supplier_id: Yup.string()
-            .required('Supplier Is Required'),
-        station_code: Yup.string()
-            .required('Station Code Is Required'),
-        station_name: Yup.string()
-            .required('Station Name Is Required'),
-        station_display_name: Yup.string()
-            .required('Station Display Name Is Required'),
-        station_status: Yup.string()
-            .required('Station Status Is Required'),
-        data_import_type_id: Yup.string()
-            .required('Data Import Type Is Required'),
-        start_date: Yup.string()
-            .required('Start Date Is Required'),
+        supplier_id: Yup.string().required('Supplier Is Required'),
+        station_code: Yup.string().required('Station Code Is Required'),
+        station_name: Yup.string().required('Station Name Is Required'),
+        station_display_name: Yup.string().required('Station Display Name Is Required'),
+        station_status: Yup.string().required('Station Status Is Required'),
+        data_import_type_id: Yup.string().required('Data Import Type Is Required'),
+        start_date: Yup.string().required('Start Date Is Required'),
 
-
-
-        station_address: Yup.string()
-            .required('Station Address Is Required'),
-        security_amount: Yup.string()
-            .required('Security Amount Is Required'),
+        station_address: Yup.string().required('Station Address Is Required'),
+        security_amount: Yup.string().required('Security Amount Is Required'),
         // password: Yup.string()
         //     .required('Password Is Required'),
-        drs_upload_status: Yup.string()
-            .required('DRS Upload Status Is Required'),
-
-
+        drs_upload_status: Yup.string().required('DRS Upload Status Is Required'),
 
         // first_name: Yup.string()
         //     .min(3, 'First Name must be at least 3 characters') // Corrected to 3 characters
@@ -119,9 +104,22 @@ export const getEntitiesValidationSchema = (isEditMode: boolean) => {
         address: Yup.string().required('Address Is Required'),
     });
 };
+export const chargestValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        charge_name: Yup.string().required('Charge Name Is Required'),
+        charge_code: Yup.string().required('Charge Code Is Required'),
+    });
+};
+export const deductionstValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        deduction_name: Yup.string().required('Deduction Name Is Required'),
+        deduction_code: Yup.string().required('Deduction Code Is Required'),
+    });
+};
 export default {
     getUserValidationSchema,
     getClientValidationSchema,
     getStationValidationSchema,
     getEntitiesValidationSchema,
+    chargestValidationSchema,
 };

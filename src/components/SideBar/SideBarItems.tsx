@@ -64,6 +64,22 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    {
+        key: 'Charges',
+        title: 'Charges',
+        icon: IconMenuDatatables,
+        link: '/manage-charges/charges', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
+    {
+        key: 'deductions',
+        title: 'Deductions',
+        icon: IconMenuDatatables,
+        link: '/manage-deductions/deductions', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
     // {
     //     key: 'Manage Workflow',
     //     title: 'Manage Workflow',

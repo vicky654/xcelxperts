@@ -109,6 +109,8 @@ const ManageUser = lazy(() => import('../components/SideBarComponents/ManageUser
 const ManageClient = lazy(() => import('../components/SideBarComponents/ManageClient/ManageClient'));
 const ManageEntity = lazy(() => import('../components/SideBarComponents/ManageEntity/ManageEntity'));
 const ManageStation = lazy(() => import('../components/SideBarComponents/ManageStation/ManageStation'));
+const ManageCharges = lazy(() => import('../components/SideBarComponents/ManageCharges/ManageCharges'));
+const ManageDeduction = lazy(() => import('../components/SideBarComponents/ManageDeduction/ManageDeduction'));
 
 
 
@@ -143,6 +145,14 @@ const routes = [
   {
     path: 'manage-stations/station',
     element: <ManageStation />,
+  },
+  {
+    path: 'manage-charges/charges',
+    element: <ManageCharges />,
+  },
+  {
+    path: 'manage-deductions/deductions',
+    element: <ManageDeduction />,
   },
 
 

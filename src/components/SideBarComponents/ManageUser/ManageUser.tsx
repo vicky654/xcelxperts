@@ -238,9 +238,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-                console.log(response, 'status_code');
-                console.log(response.status_code == 200, 'status_code');
-                // fetchData()
+              
                 handleSuccess();
                 closeModal();
             } else {
