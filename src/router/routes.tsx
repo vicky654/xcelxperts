@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import ManageStationTank from '../components/ManageStationTank/ManageStationTank';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -153,6 +154,10 @@ const routes = [
   {
     path: 'manage-deductions/deductions',
     element: <ManageDeduction />,
+  },
+  {
+    path: 'manage-stations/tank',
+    element: <ManageStationTank />,
   },
 
 

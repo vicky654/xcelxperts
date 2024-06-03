@@ -63,6 +63,9 @@ const menuItems: MenuItem[] = [
         link: '/manage-stations/station', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
+        subMenu: [
+            { title: 'Tank', link: '/manage-stations/tank', permission: 'user-list', visibility: false },
+        ],
     },
     {
         key: 'Charges',
@@ -77,6 +80,14 @@ const menuItems: MenuItem[] = [
         title: 'Deductions',
         icon: IconMenuDatatables,
         link: '/manage-deductions/deductions', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
+    {
+        key: 'supplier',
+        title: 'Supplier',
+        icon: IconMenuDatatables,
+        link: '/manage-supplier/supplier', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },

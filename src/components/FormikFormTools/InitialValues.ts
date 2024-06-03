@@ -10,7 +10,7 @@ interface Entity {
   entity_name: string;
 }
 
-interface Site {
+interface Station {
   id: string;
   site_name: string;
 }
@@ -72,7 +72,26 @@ export const stationInitialValues = {
   phone_number: '',
   clients: [] as Client[],
   entities: [] as Entity[],
-  sites: [] as Site[],
+  sites: [] as Station[],
+};
+
+export const supplierInitialValues = {
+  supplier_name: '',
+  supplier_code: '', // Add deduction_name here
+
+};
+
+export const stationTankInitialValues = {
+  client_id: '',
+  entity_id: '',
+  station_id: '',
+  tank_name: '',
+  tank_code: '',
+  fuel_id: '',
+  status: '',
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
 };
 
 export default {
@@ -81,4 +100,5 @@ export default {
   stationInitialValues,
   chargesInitialValues,
   deductionsInitialValues,
+  stationTankInitialValues,
 };

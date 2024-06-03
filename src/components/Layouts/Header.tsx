@@ -69,13 +69,14 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         // Redirect to login or any other appropriate action
         window.location.replace('/auth/cover-login');
     };
-    console.log(auth, 'auth');
-    {auth.isClient ? (
-        console.log("User is a Client")
-     
-    ) : (
-        console.log("User is not a Client")
-    )}
+    {
+        auth.isClient ? (
+            console.log("User is a Client")
+
+        ) : (
+            console.log("User is not a Client")
+        )
+    }
     const logout = async () => {
         try {
             const response = await getData('/logout');
