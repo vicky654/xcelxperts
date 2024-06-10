@@ -17,10 +17,10 @@ import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStati
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
-import AddEditStationNozzleModal from './AddEditStationNozzleModal';
 import CustomInput from '../ManageStationTank/CustomInput';
+import AddEditStationFuelSellingModal from './AddEditStationFuelSellingModal';
 
-interface ManageStationNozzleProps {
+interface ManageStationFuelSellingProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -42,7 +42,7 @@ interface RowData {
     getData: any;
 }
 
-const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, getData, isLoading }) => {
+const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
@@ -66,13 +66,15 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         setCurrentPage(newPage);
     };
 
+
+
     const fetchData = async () => {
         try {
             const response = await getData(`/site/tank/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.Stations);
-                setCurrentPage(response.data.data?.currentPage || 1);
-                setLastPage(response.data.data?.lastPage || 1);
+                // setData(response.data.data?.Stations);
+                // setCurrentPage(response.data.data?.currentPage || 1);
+                // setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -272,11 +274,27 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     };
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
+
+        const apiURL = `site/fuel-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
+
+        try {
+            const response = await getData(apiURL);
+            if (response && response.data && response.data.data) {
+                setData(response.data.data);
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+
+        }
     };
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
     };
-
+    console.log(data, "data");
 
     const validationSchemaForCustomInput = Yup.object({
         company_id: Yup.string().required("Entity is required"),
@@ -299,19 +317,21 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Nozzle</span>
+                        <span>Stations Fuel Sale</span>
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station Nozzle
-                </button>
+                {/* <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
+                    Add Station Fuel Sale
+                </button> */}
             </div>
-            <AddEditStationNozzleModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            {/* <AddEditStationFuelSellingModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} /> */}
 
             <div className=" mt-6">
                 <div className="grid xl:grid-cols-4 gap-6 mb-6">
                     <div className='panel h-full '>
+
+
 
 
                         <CustomInput
@@ -322,6 +342,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
+                            showDateInput={true} // or false
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
@@ -334,13 +355,89 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                     </div>
                     <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Fuel Sale</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>
                         </div>
-                        {data?.length > 0 ? (
+                        {data?.listing?.length > 0 ? (
                             <>
+
+                                <table>
+                                    <thead>
+                                        <tr key={"header"}>
+                                            {data?.head_array?.map((shop: any) => (
+                                                <td className="text-center">{shop}</td>
+                                            ))}
+                                        </tr>
+                                        {/* <tr>
+                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Name</th>
+                                            <th >Gross Sales</th>
+                                            <th >Net Sales</th>
+                                            <th className="text-center">Total Transaction</th>
+                                            <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">Profit</th>
+                                        </tr> */}
+                                    </thead>
+                                    <tbody>
+
+                                        {data?.listing?.map((item: any) => (
+                                            <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }}>
+                                                <td className="whitespace-nowrap">
+                                                    <span
+                                                        className={
+                                                            item?.link_clickable
+                                                                ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
+                                                                : "text-muted fs-15 fw-semibold text-center"
+                                                        }
+                                                    // onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
+                                                    >
+                                                        {item?.site_name} <span className="itemcount">{item?.count}</span>
+                                                    </span>
+                                                </td>
+                                                <td className="whitespace-nowrap">
+                                                    <span className="text-muted fs-15 fw-semibold text-center">
+                                                        {item?.time}
+                                                    </span>
+                                                </td>
+
+                                                {Array.isArray(item?.fuels) &&
+                                                    item.fuels.map((fuel, index) => (
+                                                        <td key={index} className="whitespace-nowrap">
+                                                            {Array.isArray(fuel) ? (
+                                                                <input type="text" className="table-input readonly" readOnly />
+                                                            ) : (
+                                                                <input
+                                                                    type="number"
+                                                                    step="0.010"
+                                                                    className={`table-input ${fuel?.status === "UP"
+                                                                        ? "table-inputGreen"
+                                                                        : fuel?.status === "DOWN"
+                                                                            ? "table-inputRed"
+                                                                            : ""
+                                                                        } ${!fuel?.is_editable ? "readonly" : ""}`}
+                                                                    value={fuel?.price}
+                                                                    readOnly={!fuel?.is_editable}
+                                                                    id={fuel?.id}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(e.target.id, e.target.value)
+                                                                    }
+                                                                />
+                                                            )}
+                                                        </td>
+                                                    ))}
+                                            </tr>
+                                            // <tr key={shop.id}>
+                                            //     <td className="whitespace-nowrap">{shop?.name}</td>
+                                            //     <td className="whitespace-nowrap">{shop?.gross_sales}</td>
+                                            //     <td className="whitespace-nowrap">{shop?.nett_sales}</td>
+                                            //     <td className="text-center">{shop?.total_transactions}</td>
+                                            //     <td className="text-center">
+                                            //         <span className="badge bg-success/20 text-success rounded-full hover:top-0">{shop?.profit}</span>
+                                            //     </td>
+                                            // </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                                 <div className="datatables">
                                     <DataTable
                                         className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
@@ -374,4 +471,4 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     );
 };
 
-export default withApiHandler(ManageStationNozzle);
+export default withApiHandler(ManageStationFuelSelling);

@@ -17,10 +17,10 @@ import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStati
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
-import AddEditStationNozzleModal from './AddEditStationNozzleModal';
 import CustomInput from '../ManageStationTank/CustomInput';
+import AddEditStationPumpModal from './AddEditStationPumpModal';
 
-interface ManageStationNozzleProps {
+interface ManageStationPumpProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -42,7 +42,7 @@ interface RowData {
     getData: any;
 }
 
-const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, getData, isLoading }) => {
+const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
@@ -299,15 +299,15 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Nozzle</span>
+                        <span>Stations Pump</span>
                     </li>
                 </ul>
 
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station Nozzle
+                    Add Station Pump
                 </button>
             </div>
-            <AddEditStationNozzleModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationPumpModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
                 <div className="grid xl:grid-cols-4 gap-6 mb-6">
@@ -334,7 +334,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                     </div>
                     <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Pump</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>
@@ -374,4 +374,4 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     );
 };
 
-export default withApiHandler(ManageStationNozzle);
+export default withApiHandler(ManageStationPump);

@@ -116,6 +116,8 @@ const EmailLogs = lazy(() => import('../components/SideBarComponents/Events/Emai
 const ActivityLogs = lazy(() => import('../components/SideBarComponents/Events/ActivityEvents'));
 const ManageStationTank = lazy(() => import('../components/ManageStationTank/ManageStationTank'));
 const ManageStationNozzle = lazy(() => import('../components/ManageStationNozzle/ManageStationNozzle'));
+const ManageStationPump = lazy(() => import('../components/ManageStationPump/ManageStationPump'));
+const ManageStationFuelSelling = lazy(() => import('../components/ManageStationFuelSelling/ManageStationFuelSelling'));
 
 const routes = [
   {
@@ -163,6 +165,14 @@ const routes = [
   {
     path: 'manage-stations/nozzle',
     element: <ManageStationNozzle />,
+  },
+  {
+    path: 'manage-stations/pump',
+    element: <ManageStationPump />,
+  },
+  {
+    path: 'manage-stations/fuel-sale',
+    element: <ManageStationFuelSelling />,
   },
 
 

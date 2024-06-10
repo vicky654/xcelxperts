@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import useErrorHandler from '../../hooks/useHandleError';
 import { useNavigate } from 'react-router-dom';
 import withApiHandler from '../../utils/withApiHandler';
+import FormikInput from '../FormikFormTools/FormikInput';
 
 interface Client {
     id: string;
@@ -34,6 +35,7 @@ interface CustomInputProps {
     showClientInput?: boolean;
     showEntityInput?: boolean;
     showStationInput?: boolean;
+    showDateInput?: boolean;
     validationSchema: any;
     layoutClasses: any;
 }
@@ -48,8 +50,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
     showClientInput = true,
     showEntityInput = true,
     showStationInput = true,
+    showDateInput = true,
     validationSchema,
-    layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2',
+    // layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2',
+    layoutClasses = `flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5`,
 }) => {
     const { data } = useSelector((state: IRootState) => state.data);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
@@ -71,6 +75,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             client_name: "",
             company_id: "",
             company_name: "",
+            start_date: "",
             site_id: "",
             site_name: "",
             clients: [] as Client[],
@@ -170,10 +175,12 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
 
     return (
-        <div className="p-5">
+        <div className="">
+            <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col sm:flex-row">
-                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {/* <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"> */}
+                    <div className={`${layoutClasses}`}>
                         {showClientInput && localStorage.getItem("superiorRole") !== "Client" && (
                             <div className={formik.submitCount ? (formik.errors.client_id ? 'has-error' : 'has-success') : ''}>
                                 <label htmlFor="client_id">Client <span className="text-danger">*</span></label>
@@ -246,7 +253,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
                             </div>
                         )}
 
-                        <div className="sm:col-span-2 mt-3">
+                        {showDateInput && (
+                            <FormikInput formik={formik} type="date" label="Start Date" name="start_date" />
+                        )}
+
+
+                        <div
+                        // className="sm:col-span-2 mt-3"
+                        >
                             <button type="submit" className="btn btn-primary">
                                 Apply
                             </button>

@@ -64,8 +64,11 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
         subMenu: [
+            { title: 'Station', link: '/manage-stations/station', permission: 'user-list', visibility: false },
             { title: 'Tank', link: '/manage-stations/tank', permission: 'user-list', visibility: false },
             { title: 'Nozzle', link: '/manage-stations/nozzle', permission: 'user-list', visibility: false },
+            { title: 'Pump', link: '/manage-stations/pump', permission: 'user-list', visibility: false },
+            { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'user-list', visibility: false },
         ],
     },
     {
