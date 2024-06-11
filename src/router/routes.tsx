@@ -120,6 +120,8 @@ const ManageStationNozzle = lazy(() => import('../components/ManageStationNozzle
 const ManageStationPump = lazy(() => import('../components/ManageStationPump/ManageStationPump'));
 const ManageStationFuelSelling = lazy(() => import('../components/ManageStationFuelSelling/ManageStationFuelSelling'));
 const ManageStationFuelPurchase = lazy(() => import('../components/ManageStationFuelPurchase/ManageStationFuelPurchase'));
+const ManageRoles = lazy(() => import('../components/SideBarComponents/ManageRoles/ManageRoles'));
+const AddRoles = lazy(() => import('../components/SideBarComponents/ManageRoles/AddEditRoles'));
 
 const routes = [
   {
@@ -179,6 +181,18 @@ const routes = [
   {
     path: 'manage-stations/fuel-purchase',
     element: <ManageStationFuelPurchase />,
+  },
+  {
+    path: '/manage-roles/roles',
+    element: <ManageRoles />,
+  },
+  {
+    path: '/manage-roles/add-roles',
+    element: <AddRoles />,
+  },
+  {
+    path: '/manage-roles/edit-roles/:id',
+    element: <AddRoles />,
   },
   // {
   //   path: 'manage-stations/fuel-competitors',
