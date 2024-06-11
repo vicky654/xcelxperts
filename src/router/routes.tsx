@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import CompetitorFuelPrices from '../components/CompetitorFuelPrices/CompetitorFuelPrices';
+import ManageReports from '../components/ManageReports/ManageReports';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -181,6 +182,10 @@ const routes = [
   {
     path: 'manage-stations/fuel-purchase',
     element: <ManageStationFuelPurchase />,
+  },
+  {
+    path: 'manage-reports/reports',
+    element: <ManageReports />,
   },
   {
     path: '/manage-roles/roles',

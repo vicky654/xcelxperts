@@ -8,7 +8,7 @@ import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
 import { stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
 import { getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
-
+import Select from 'react-select';
 
 interface Client {
     id: string;
@@ -258,6 +258,11 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         },
     });
 
+    const options5 = [
+        { value: 'orange', label: 'Orange' },
+        { value: 'white', label: 'White' },
+        { value: 'purple', label: 'Purple' },
+    ];
 
 
 
@@ -305,6 +310,9 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />
+
+                                                <Select placeholder="Select an option" options={formik.values.sites} isMulti isSearchable={false} />
+
 
                                                 <FormikSelect
                                                     formik={formik}

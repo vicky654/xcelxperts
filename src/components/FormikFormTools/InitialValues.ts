@@ -1,3 +1,4 @@
+import { boolean } from "yup";
 
 interface Client {
   id: string;
@@ -94,6 +95,23 @@ export const stationTankInitialValues = {
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],
+  tankList: {} as any,
+};
+
+export const ReportsTankInitialValues = {
+  client_id: '',
+  entity_id: '',
+  station_id: '',
+  tank_name: '',
+  tank_code: '',
+  fuel_id: '',
+  status: '',
+  toggle: true,
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
+  reports: [] as Station[],
+  months: [] as Station[],
   tankList: {} as any,
 };
 
