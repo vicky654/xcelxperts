@@ -118,6 +118,7 @@ const ManageStationTank = lazy(() => import('../components/ManageStationTank/Man
 const ManageStationNozzle = lazy(() => import('../components/ManageStationNozzle/ManageStationNozzle'));
 const ManageStationPump = lazy(() => import('../components/ManageStationPump/ManageStationPump'));
 const ManageStationFuelSelling = lazy(() => import('../components/ManageStationFuelSelling/ManageStationFuelSelling'));
+const ManageStationFuelPurchase = lazy(() => import('../components/ManageStationFuelPurchase/ManageStationFuelPurchase'));
 
 const routes = [
   {
@@ -173,6 +174,10 @@ const routes = [
   {
     path: 'manage-stations/fuel-sale',
     element: <ManageStationFuelSelling />,
+  },
+  {
+    path: 'manage-stations/fuel-purchase',
+    element: <ManageStationFuelPurchase />,
   },
 
 

@@ -96,6 +96,32 @@ export const stationTankInitialValues = {
   tankList: {} as any,
 };
 
+export const stationFuelPurchaseInitialValues = {
+
+  client_id: "",
+  company_id: "",
+  site_id: "",
+  start_date1: "",
+  platts: "",
+  developmentfuels: "",
+  dutty: "",
+  exvat: "",
+  vat: "",
+  total: "",
+  premium: "",
+  fuel_name: "",
+  entity_id: '',
+  station_id: '',
+  tank_name: '',
+  tank_code: '',
+  fuel_id: '',
+  status: '',
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
+  tankList: {} as any,
+};
+
 export default {
   userInitialValues,
   clientInitialValues,

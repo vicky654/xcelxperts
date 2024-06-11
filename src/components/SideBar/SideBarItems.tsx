@@ -69,6 +69,7 @@ const menuItems: MenuItem[] = [
             { title: 'Nozzle', link: '/manage-stations/nozzle', permission: 'user-list', visibility: false },
             { title: 'Pump', link: '/manage-stations/pump', permission: 'user-list', visibility: false },
             { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'user-list', visibility: false },
+            { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'user-list', visibility: false },
         ],
     },
     {

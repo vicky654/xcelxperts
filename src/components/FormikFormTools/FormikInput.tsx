@@ -8,6 +8,11 @@ interface FormikInputProps {
     placeholder?: string;
     className?: string;
     isRequired?: boolean;
+    readOnly?: boolean;
+    // onBlur: any; // Add onChange prop
+    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // Change type here
+
+
 }
 
 const FormikInput: React.FC<FormikInputProps> = ({
@@ -18,7 +23,18 @@ const FormikInput: React.FC<FormikInputProps> = ({
     placeholder,
     className = 'form-input',
     isRequired = true, // Default to true if not provided
+    readOnly = false,
+    onBlur,
 }) => {
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => { // Change type here
+        formik.handleBlur(e); // Call default handleBlur
+        if (onBlur) {
+            onBlur(e); // Call custom onBlur if provided
+        }
+    };
+
+
     const dynamicLabel = label || name.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()); // Dynamic label
     const dynamicPlaceholder = placeholder || name.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()); // Dynamic placeholder
 
@@ -32,10 +48,11 @@ const FormikInput: React.FC<FormikInputProps> = ({
                 name={name}
                 type={type}
                 id={name}
+                readOnly={readOnly}
                 placeholder={dynamicPlaceholder}
-                className={className}
+                className={` ${className} ${readOnly ? 'readonly' : ''}`}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={handleBlur}
                 value={formik.values[name]}
             />
             {formik.submitCount > 0 && formik.errors[name] && formik.touched[name] && (

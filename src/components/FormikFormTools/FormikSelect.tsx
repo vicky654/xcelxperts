@@ -27,6 +27,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
         }
     };
 
+
     return (
         <div className={formik.submitCount && formik.errors[name] ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
             <label htmlFor={name}>
