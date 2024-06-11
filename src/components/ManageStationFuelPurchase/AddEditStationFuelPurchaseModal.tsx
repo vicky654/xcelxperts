@@ -132,7 +132,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/site-list?company_id=${companyId}`);
+            const response = await getData(`common/station-list?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -233,7 +233,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
 
     const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
             formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -241,7 +241,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`site/fuel/list?site_id=${siteId}`);
+            const response = await getData(`station/fuel/list?station_id=${siteId}`);
             formik.setFieldValue('tankList', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -280,7 +280,6 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
 
     const sendEventWithName1 = (event: any) => {
         const plattsValue = parseFloat(formik.values.vat_percentage_rate) || 0;
-
         const sum = (SumTotal * plattsValue) / 100 + SumTotal;
         const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
         const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
@@ -329,7 +328,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.site_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />

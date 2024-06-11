@@ -132,7 +132,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/site-list?company_id=${companyId}`);
+            const response = await getData(`common/station-list?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -216,7 +216,9 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         formik.setFieldValue("site_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-        fetchFuelNameList(selectedSiteId)
+        if (selectedSiteId) {
+            fetchFuelNameList(selectedSiteId)
+        }
         if (selectedSiteData) {
             formik.setFieldValue("site_name", selectedSiteData.site_name);
         } else {
@@ -227,7 +229,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
             formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -235,7 +237,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`site/fuel/list?site_id=${siteId}`);
+            const response = await getData(`station/fuel/list?station_id=${siteId}`);
             formik.setFieldValue('tankList', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -269,7 +271,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Station' : 'Add Station'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Station Tank' : 'Add Station Tank'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
@@ -299,7 +301,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.site_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />

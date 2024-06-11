@@ -15,11 +15,13 @@ interface Client {
 }
 
 interface Company {
+    entity_name: string;
     id: string;
     company_name: string;
 }
 
 interface Site {
+    station_name: string;
     id: string;
     site_name: string;
 }
@@ -63,7 +65,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const navigate = useNavigate();
 
     // const validationSchema = Yup.object({
-    //     company_id: showEntityInput ? Yup.string().required("Entity is required") : Yup.mixed().notRequired(),
+    //     entity_id: showEntityInput ? Yup.string().required("Entity is required") : Yup.mixed().notRequired(),
     //     client_id: isNotClient && showClientInput
     //         ? Yup.string().required("Client is required")
     //         : Yup.mixed().notRequired(),
@@ -73,10 +75,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
         initialValues: {
             client_id: "",
             client_name: "",
-            company_id: "",
+            entity_id: "",
             company_name: "",
             start_date: "",
-            site_id: "",
+            station_id: "",
             site_name: "",
             clients: [] as Client[],
             companies: [] as Company[],
@@ -107,7 +109,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const fetchCompanyList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
             formik.setFieldValue('companies', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -116,7 +118,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/site-list?company_id=${companyId}`);
+            const response = await getData(`common/station-list?entity_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -132,20 +134,20 @@ const CustomInput: React.FC<CustomInputProps> = ({
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
             formik.setFieldValue('companies', selectedClient?.companies || []);
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('company_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('entity_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('companies', []);
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('company_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('entity_id', "");
+            formik.setFieldValue('station_id', "");
         }
     };
 
     const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const companyId = e.target.value;
-        formik.setFieldValue('company_id', companyId);
+        formik.setFieldValue('entity_id', companyId);
         if (companyId) {
             if (showStationInput) {
                 fetchSiteList(companyId);
@@ -155,14 +157,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
         } else {
             formik.setFieldValue('company_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
         }
     };
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
-        formik.setFieldValue("site_id", selectedSiteId);
+        formik.setFieldValue("station_id", selectedSiteId);
         const selectedSiteData = formik.values.sites.find(site => site.id === selectedSiteId);
         if (selectedSiteData) {
             formik.setFieldValue("site_name", selectedSiteData.site_name);
@@ -206,50 +208,50 @@ const CustomInput: React.FC<CustomInputProps> = ({
                         )}
 
                         {showEntityInput && (
-                            <div className={formik.submitCount ? (formik.errors.company_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="company_id">Entity<span className="text-danger">*</span></label>
+                            <div className={formik.submitCount ? (formik.errors.entity_id ? 'has-error' : 'has-success') : ''}>
+                                <label htmlFor="entity_id">Entity<span className="text-danger">*</span></label>
                                 <select
-                                    id="company_id"
+                                    id="entity_id"
                                     onChange={handleCompanyChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.company_id}
+                                    value={formik.values.entity_id}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Entity</option>
                                     {formik.values.companies.length > 0 ? (
                                         formik.values.companies.map(company => (
                                             <option key={company.id} value={company.id}>
-                                                {company.company_name}
+                                                {company.entity_name}
                                             </option>
                                         ))
                                     ) : (
                                         <option disabled>No Entity</option>
                                     )}
                                 </select>
-                                {formik.submitCount ? formik.errors.company_id ? <div className="text-danger mt-1">{formik.errors.company_id}</div> : "" : null}
+                                {formik.submitCount ? formik.errors.entity_id ? <div className="text-danger mt-1">{formik.errors.entity_id}</div> : "" : null}
                             </div>
                         )}
 
                         {showStationInput && (
-                            <div className={formik.submitCount ? (formik.errors.site_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="site_id">Station</label>
+                            <div className={formik.submitCount ? (formik.errors.station_id ? 'has-error' : 'has-success') : ''}>
+                                <label htmlFor="station_id">Station</label>
                                 <select
-                                    id="site_id"
+                                    id="station_id"
                                     onChange={handleSiteChange}
-                                    value={formik.values.site_id}
+                                    value={formik.values.station_id}
                                     onBlur={formik.handleBlur}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Station</option>
                                     {formik.values.sites.length > 0 ? (
                                         formik.values.sites.map(site => (
                                             <option key={site.id} value={site.id}>
-                                                {site.site_name}
+                                                {site.station_name}
                                             </option>
                                         ))
                                     ) : (
                                         <option disabled>No Station</option>
                                     )}
                                 </select>
-                                {formik.submitCount ? formik.errors.site_id ? <div className="text-danger mt-1">{formik.errors.site_id}</div> : "" : null}
+                                {formik.submitCount ? formik.errors.station_id ? <div className="text-danger mt-1">{formik.errors.station_id}</div> : "" : null}
                             </div>
                         )}
 

@@ -328,6 +328,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
                             onClose={function (): void {
                                 throw new Error('Function not implemented.');
                             }}
+                            showDateInput={false}
                         />
 
 

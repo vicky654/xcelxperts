@@ -155,7 +155,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/site-list?company_id=${companyId}`);
+            const response = await getData(`common/station-list?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -250,7 +250,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
             formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -292,7 +292,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Station' : 'Add Station'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Station Nozzle' : 'Add Station Nozzle'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
@@ -322,7 +322,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.site_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />

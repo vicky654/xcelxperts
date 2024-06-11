@@ -11,6 +11,7 @@ interface Entity {
 }
 
 interface Station {
+  station_name: string;
   id: string;
   site_name: string;
 
@@ -114,8 +115,10 @@ export const stationFuelPurchaseInitialValues = {
   station_id: '',
   tank_name: '',
   tank_code: '',
+  ex_vat_price: '',
   fuel_id: '',
   status: '',
+  vat_percentage_rate: '',
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],

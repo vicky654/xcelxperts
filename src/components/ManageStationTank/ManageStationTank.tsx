@@ -65,19 +65,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     };
 
     const fetchData = async () => {
-        try {
-            const response = await getData(`/site/tank/list?page=${currentPage}`);
-            if (response && response.data && response.data.data) {
-                setData(response.data.data?.Stations);
-                setCurrentPage(response.data.data?.currentPage || 1);
-                setLastPage(response.data.data?.lastPage || 1);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            handleApiError(error);
 
-        }
     };
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
@@ -270,6 +258,19 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     };
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
+        try {
+            const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
+            if (response && response.data && response.data.data) {
+                setData(response.data.data?.Stations);
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+
+        }
     };
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
@@ -277,13 +278,13 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
 
     const validationSchemaForCustomInput = Yup.object({
-        company_id: Yup.string().required("Entity is required"),
         client_id: isNotClient
             ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
+        entity_id: Yup.string().required("Entity is required"),
         // client_id: Yup.string().required('Client is required'),
         // company_id: Yup.string().required('Entity is required'),
-        // site_id: Yup.string().required('Station is required'),
+        station_id: Yup.string().required('Station is required'),
     });
 
     return (
@@ -302,7 +303,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 </ul>
 
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station
+                    Add Station Tank
                 </button>
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
@@ -317,15 +318,16 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
                             FilterValues={filterValues}
-                            showClientInput={true} // or false
-                            showEntityInput={true} // or false
+                            showClientInput={true}  // or false
+                            showEntityInput={true}  // or false
                             showStationInput={true} // or false
                             validationSchema={validationSchemaForCustomInput}
-                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1"
+                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
                             onClose={function (): void {
                                 throw new Error('Function not implemented.');
                             }}
+                            showDateInput={false}
                         />
 
 

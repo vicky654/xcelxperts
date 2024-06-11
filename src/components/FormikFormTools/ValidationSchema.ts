@@ -52,8 +52,8 @@ export const getClientValidationSchema = (isEditMode: boolean) => {
 export const getStationValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         client_id: Yup.string().required('Client Is Required'),
-        // company_id: Yup.string()
-        //     .required('Company Is Required'),
+        entity_id: Yup.string()
+            .required('Company Is Required'),
         supplier_id: Yup.string().required('Supplier Is Required'),
         station_code: Yup.string().required('Station Code Is Required'),
         station_name: Yup.string().required('Station Name Is Required'),
@@ -66,7 +66,7 @@ export const getStationValidationSchema = (isEditMode: boolean) => {
         security_amount: Yup.string().required('Security Amount Is Required'),
         // password: Yup.string()
         //     .required('Password Is Required'),
-        drs_upload_status: Yup.string().required('DRS Upload Status Is Required'),
+        // drs_upload_status: Yup.string().required('DRS Upload Status Is Required'),
 
 
     });

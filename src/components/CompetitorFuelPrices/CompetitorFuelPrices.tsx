@@ -17,10 +17,9 @@ import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStati
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
-import AddEditStationNozzleModal from './AddEditStationNozzleModal';
 import CustomInput from '../ManageStationTank/CustomInput';
 
-interface ManageStationNozzleProps {
+interface CompetitorFuelPricesProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -42,7 +41,7 @@ interface RowData {
     getData: any;
 }
 
-const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, getData, isLoading }) => {
+const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
@@ -55,19 +54,33 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {
-        fetchData();
+        // fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
-        fetchData();
+        // fetchData();
     };
 
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
 
-    const fetchData = async () => {
 
+
+    const fetchData = async () => {
+        try {
+            const response = await getData(`/site/tank/list?page=${currentPage}`);
+            if (response && response.data && response.data.data) {
+                // setData(response.data.data?.Stations);
+                // setCurrentPage(response.data.data?.currentPage || 1);
+                // setLastPage(response.data.data?.lastPage || 1);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+
+        }
     };
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
@@ -89,6 +102,8 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const isAddonPermissionAvailable = true; // Placeholder for permission check
 
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+
+
 
     const columns: any = [
         {
@@ -231,20 +246,35 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     };
 
     const handleFormSubmit = async (values: any) => {
+
+        console.log(values, "handleFormSubmit ");
+
         try {
             const formData = new FormData();
 
-            formData.append('status', values.status);
-            formData.append('tank_name', values.tank_name);
-            formData.append('site_id', values.station_id);
-            formData.append('fuel_id', values.fuel_id);
-            formData.append('tank_code', values.tank_code);
+            formData.append("platts_price", values.platts);
+            formData.append("premium_price", values.premium);
+            formData.append("development_fuels_price", values.developmentfuels);
+            formData.append("duty_price", values.dutty);
+            formData.append("vat_percentage_rate", values.vat);
+            formData.append("ex_vat_price", values.exvat);
+            formData.append("total", values.total);
+            formData.append("date", values.start_date1);
+            formData.append("fuel_id", values.fuel_name);
+            // values.sites.forEach((site, index) => {
+            //   formData.append(`site_id[${index}]`, site.id);
+            // });
+            // const selectedSiteIds = selected?.map((site) => site.value);
+
+            // selectedSiteIds?.forEach((id, index) => {
+            //     formData.append(`site_id[${index}]`, id);
+            // });
 
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/site/tank/update` : `/site/tank/create`;
+            const url = isEditMode && userId ? `/site/fuel/purchase-price/update` : `/site/fuel/purchase-price/add`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -261,12 +291,14 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
 
+        const apiURL = `station/competitor-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
+
         try {
-            const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
+            const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.Stations);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
+                setData(response.data.data);
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -278,10 +310,10 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
     };
-
+    console.log(data, "data");
 
     const validationSchemaForCustomInput = Yup.object({
-        entity_id: Yup.string().required("Entity is required"),
+        company_id: Yup.string().required("Entity is required"),
         client_id: isNotClient
             ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
@@ -289,6 +321,9 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         // company_id: Yup.string().required('Entity is required'),
         // site_id: Yup.string().required('Station is required'),
     });
+
+    console.log(data, "data");
+
 
     return (
         <>
@@ -301,19 +336,21 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Nozzle</span>
+                        <span>Fuel Competitor Prices</span>
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station Nozzle
-                </button>
+                {/* <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
+                    Add Station Fuel Purchase
+                </button> */}
             </div>
-            <AddEditStationNozzleModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            {/* <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} /> */}
 
             <div className=" mt-6">
                 <div className="grid xl:grid-cols-4 gap-6 mb-6">
                     <div className='panel h-full '>
+
+
 
 
                         <CustomInput
@@ -324,26 +361,102 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
+                            showDateInput={true} // or false
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
                             onClose={function (): void {
                                 throw new Error('Function not implemented.');
                             }}
-                            showDateInput={false}
                         />
 
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Fuel Competitor Prices</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>
                         </div>
                         {data?.length > 0 ? (
                             <>
+
+                                {/* <table>
+                                    <thead>
+                                        <tr key={"header"}>
+                                            {data?.head_array?.map((shop: any) => (
+                                                <td className="text-center">{shop}</td>
+                                            ))}
+                                        </tr>
+                                        <tr>
+                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Name</th>
+                                            <th >Gross Purchases</th>
+                                            <th >Net Purchases</th>
+                                            <th className="text-center">Total Transaction</th>
+                                            <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">Profit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {data?.listing?.map((item: any) => (
+                                            <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }}>
+                                                <td className="whitespace-nowrap">
+                                                    <span
+                                                        className={
+                                                            item?.link_clickable
+                                                                ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
+                                                                : "text-muted fs-15 fw-semibold text-center"
+                                                        }
+                                                    // onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
+                                                    >
+                                                        {item?.site_name} <span className="itemcount">{item?.count}</span>
+                                                    </span>
+                                                </td>
+                                                <td className="whitespace-nowrap">
+                                                    <span className="text-muted fs-15 fw-semibold text-center">
+                                                        {item?.time}
+                                                    </span>
+                                                </td>
+
+                                                {Array.isArray(item?.fuels) &&
+                                                    item.fuels.map((fuel, index) => (
+                                                        <td key={index} className="whitespace-nowrap">
+                                                            {Array.isArray(fuel) ? (
+                                                                <input type="text" className="table-input readonly" readOnly />
+                                                            ) : (
+                                                                <input
+                                                                    type="number"
+                                                                    step="0.010"
+                                                                    className={`table-input ${fuel?.status === "UP"
+                                                                        ? "table-inputGreen"
+                                                                        : fuel?.status === "DOWN"
+                                                                            ? "table-inputRed"
+                                                                            : ""
+                                                                        } ${!fuel?.is_editable ? "readonly" : ""}`}
+                                                                    value={fuel?.price}
+                                                                    readOnly={!fuel?.is_editable}
+                                                                    id={fuel?.id}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(e.target.id, e.target.value)
+                                                                    }
+                                                                />
+                                                            )}
+                                                        </td>
+                                                    ))}
+                                            </tr>
+                                            // <tr key={shop.id}>
+                                            //     <td className="whitespace-nowrap">{shop?.name}</td>
+                                            //     <td className="whitespace-nowrap">{shop?.gross_Purchases}</td>
+                                            //     <td className="whitespace-nowrap">{shop?.nett_Purchases}</td>
+                                            //     <td className="text-center">{shop?.total_transactions}</td>
+                                            //     <td className="text-center">
+                                            //         <span className="badge bg-success/20 text-success rounded-full hover:top-0">{shop?.profit}</span>
+                                            //     </td>
+                                            // </tr>
+                                        ))}
+                                    </tbody>
+                                </table> */}
                                 <div className="datatables">
                                     <DataTable
                                         className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
@@ -377,4 +490,4 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     );
 };
 
-export default withApiHandler(ManageStationNozzle);
+export default withApiHandler(CompetitorFuelPrices);

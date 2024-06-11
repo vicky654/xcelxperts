@@ -244,11 +244,10 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            
+
             formData.append('client_id', values.client_id);
             formData.append('entity_id', values.entity_id);
             formData.append('data_import_type_id', values.data_import_type_id);
-            formData.append('drs_upload_status', values.drs_upload_status);
             formData.append('security_amount', values.security_amount);
             formData.append('start_date', values.start_date);
             formData.append('station_address', values.station_address);
@@ -265,7 +264,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-                
+
                 handleSuccess();
                 closeModal();
             } else {

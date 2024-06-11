@@ -138,7 +138,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             const response = await getData(`/station/detail?id=${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
-                
+
                 formik.setValues(userData)
                 FetchClientList()
                 fetchEntityList(userData?.client_id)
@@ -210,9 +210,10 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         },
     });
 
+    console.log(formik?.values, "formik valuess");
 
 
-    
+
 
 
     return (
