@@ -18,7 +18,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 import IconUser from '../../Icon/IconUser';
-
+import IconUserPlus from '../../Icon/IconUserPlus';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -88,6 +88,10 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         const formData = new FormData();
         formData.append('id', id);
         customDelete(postData, 'user/delete', formData, handleSuccess);
+    };
+    const AssignAddon = (id: any) => {
+        navigate(`/manage-users/assign-user-addons/${id}`)
+        console.log(id, 'id');
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -168,36 +172,34 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '10%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-
-
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Assign Addon">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconUser />
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                  name: 'Action',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '10%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  <Tippy content="Edit">
+                                      <button type="button" onClick={() => openModal(row?.id)}>
+                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Assign Addon">
+                                      <button onClick={() => AssignAddon(row.id)} type="button">
+                                          <IconUserPlus className="ml-2" />
+                                      </button>
+                                  </Tippy>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
     // user/detail?id=${selectedRowId}
@@ -226,7 +228,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            
+
             formData.append('first_name', values.first_name);
             formData.append('last_name', values.last_name);
             formData.append('role_id', values.role);
@@ -244,7 +246,6 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-              
                 handleSuccess();
                 closeModal();
             } else {

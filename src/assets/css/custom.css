@@ -271,3 +271,9 @@ label.form-check-label {
 .pointer {
     cursor: pointer;
 }
+
+.flexcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

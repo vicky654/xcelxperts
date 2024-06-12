@@ -25,10 +25,6 @@ interface FormData {
     selectedPermissions: string[];
 }
 
-interface RoleDetail {
-    name: string;
-    permissions: Permissions;
-}
 
 const validationSchema = Yup.object().shape({
     roleName: Yup.string().required('Role name is required'),
