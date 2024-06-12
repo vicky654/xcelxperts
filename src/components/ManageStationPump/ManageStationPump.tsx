@@ -38,7 +38,10 @@ interface RowData {
     station_status: number;
     station_name: string;
     station_code: string;
+    station: string;
     station_address: string;
+    code: string;
+    name: string;
     getData: any;
 }
 
@@ -54,12 +57,19 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    let storedKeyItems = localStorage.getItem("stationPump") || '[]';
+    let storedKeyName = "stationPump";
+
     useEffect(() => {
-        fetchData();
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            handleApplyFilters(JSON.parse(storedData));
+        }
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
-        fetchData();
+        handleApplyFilters(JSON.parse(storedKeyItems));
     };
 
     const handlePageChange = (newPage: any) => {
@@ -68,7 +78,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/site/tank/list?page=${currentPage}`);
+            const response = await getData(`/station/pump/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.Stations);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -85,15 +95,15 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
+        formData.append('status', (row.status === 1 ? 0 : 1).toString());
+        toggleStatus(postData, '/station/pump/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
+        customDelete(postData, 'station/pump/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -103,41 +113,42 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
+
         {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station_name,
+            name: ' Name',
+            selector: (row: RowData) => row.station,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Station Code',
-            selector: (row: RowData) => row.station_code,
+            name: ' Pump Name',
+            selector: (row: RowData) => row.name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Station Address',
-            selector: (row: RowData) => row.station_address,
+            name: ' Pump Code',
+            selector: (row: RowData) => row.code,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
                     </div>
                 </div>
             ),
@@ -157,15 +168,15 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.station_status,
+            selector: (row: RowData) => row.status,
             sortable: false,
             width: '10%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                    {row.station_status === 1 || row.station_status === 0 ? (
-                        <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
+                    {row.status === 1 || row.status === 0 ? (
+                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
                     ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
+                        <div className="pointer" >
                             Unknown
                         </div>
                     )}
@@ -247,16 +258,17 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             const formData = new FormData();
 
             formData.append('status', values.status);
-            formData.append('tank_name', values.tank_name);
-            formData.append('site_id', values.station_id);
-            formData.append('fuel_id', values.fuel_id);
-            formData.append('tank_code', values.tank_code);
+            formData.append('code', values.code);
+            formData.append('name', values.name);
+            formData.append('station_id', values.station_id);
+            formData.append('client_id', values.client_id);
+            formData.append('entity_id', values.entity_id);
 
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/site/tank/update` : `/site/tank/create`;
+            const url = isEditMode && userId ? `/station/pump/update` : `/station/pump/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -272,6 +284,18 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
     };
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
+
+        try {
+            const response = await getData(`/station/pump/list?station_id=${values?.station_id}`);
+            if (response && response.data && response.data.data) {
+                setData(response.data.data);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+
+        }
     };
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
@@ -279,14 +303,13 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
 
 
     const validationSchemaForCustomInput = Yup.object({
-        company_id: Yup.string().required("Entity Is Required"),
         client_id: isNotClient
             ? Yup.string().required("Client Is Required")
             : Yup.mixed().notRequired(),
-        // client_id: Yup.string().required('Client Is Required'),
-        // company_id: Yup.string().required('Entity Is Required'),
-        // site_id: Yup.string().required('Station Is Required'),
+        entity_id: Yup.string().required("Entity Is Required"),
+        station_id: Yup.string().required('Station Is Required'),
     });
+
 
     return (
         <>
@@ -322,6 +345,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
+                            showStationValidation={true} // or false
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
@@ -329,6 +353,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
                                 throw new Error('Function not implemented.');
                             }}
                             showDateInput={false}
+                            storedKeyName={storedKeyName}
                         />
 
 

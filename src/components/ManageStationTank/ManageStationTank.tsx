@@ -309,8 +309,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             ? Yup.string().required("Client Is Required")
             : Yup.mixed().notRequired(),
         entity_id: Yup.string().required("Entity Is Required"),
-        // client_id: Yup.string().required('Client Is Required'),
-        // company_id: Yup.string().required('Entity Is Required'),
         station_id: Yup.string().required('Station Is Required'),
     });
 

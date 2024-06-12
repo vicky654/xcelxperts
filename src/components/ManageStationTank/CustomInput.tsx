@@ -41,7 +41,7 @@ interface CustomInputProps {
     showDateInput?: boolean;
     validationSchema: any;
     layoutClasses: any;
-    storedKeyName: any;
+    storedKeyName?: any;
 }
 
 

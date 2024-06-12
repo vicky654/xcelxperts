@@ -6,8 +6,8 @@ import FormikInput from '../FormikFormTools/FormikInput';
 import FormikTextArea from '../FormikFormTools/FormikTextArea';
 import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
-import { stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { stationInitialValues, stationPumpInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
+import { getStationPumpValidationSchema, getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
 import withApiHandler from '../../utils/withApiHandler';
 
 
@@ -155,7 +155,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/site-list?company_id=${companyId}`);
+            const response = await getData(`common/station-list?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -165,12 +165,10 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
 
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/station/detail?id=${id}`);
+            const response = await getData(`/station/pump/${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
                 formik.setValues(userData)
-                FetchClientList()
-                fetchEntityList(userData?.client_id)
             }
         } catch (error) {
             console.error('API error:', error);
@@ -239,7 +237,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
         formik.setFieldValue("site_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-        fetchFuelNameList(selectedSiteId)
+        // fetchFuelNameList(selectedSiteId)
         if (selectedSiteData) {
             formik.setFieldValue("site_name", selectedSiteData.site_name);
         } else {
@@ -250,7 +248,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
 
     const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
             formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -266,8 +264,8 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
     };
 
     const formik = useFormik({
-        initialValues: stationTankInitialValues,
-        validationSchema: getStationTankValidationSchema(isEditMode),
+        initialValues: stationPumpInitialValues,
+        validationSchema: getStationPumpValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
@@ -279,7 +277,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
         },
     });
 
-
+    console.log(formik?.values, "formik valued in pump");
 
 
 
@@ -292,45 +290,51 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Station' : 'Add Station'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Pump Station' : 'Add Pump Station'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="client_id"
-                                                    label="Client"
-                                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleClientChange}
-                                                />
+                                                {!isEditMode &&
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="client_id"
+                                                        label="Client"
+                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-select text-white-dark"
+                                                        onChange={handleClientChange}
+                                                    />
 
-                                                <FormikSelect
+                                                }
+
+
+                                                {!isEditMode && <FormikSelect
                                                     formik={formik}
                                                     name="entity_id"
                                                     label="Entity"
                                                     options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleEntityChange}
-                                                />
+                                                />}
 
 
-                                                <FormikSelect
+                                                {!isEditMode && <FormikSelect
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.site_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />
+                                                }
 
+                                                <FormikInput formik={formik} type="text" name="name" label="Pump Name" placeholder="Pump Name" />
 
-                                                <FormikInput formik={formik} type="text" name="tank_name" label="Pump Name" placeholder="Pump Name" />
-
-                                                <FormikInput formik={formik} type="text" name="tank_code" label="Pump Code" placeholder="Pump Code" />
+                                                <FormikInput formik={formik} type="text" name="code" label="Pump Code" placeholder="Pump Code"
+                                                    readOnly={isEditMode ? true : false}
+                                                />
 
                                                 <FormikSelect
                                                     formik={formik}

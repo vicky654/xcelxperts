@@ -285,7 +285,6 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
 
 
-                                                <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="data_import_type_id"
@@ -296,6 +295,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
                                                 <FormikInput formik={formik} type="number" name="security_amount" label="Security Amount" placeholder="Security Amount" />
 
+                                                <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
 
 
 
