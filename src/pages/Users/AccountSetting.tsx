@@ -247,9 +247,9 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
     });
 
     const validationSchema = Yup.object({
-        date_format: Yup.string().required('Date format is required'),
-        pagination: Yup.string().required('Pagination is required'),
-        auto_logout: Yup.string().required('Auto logout time is required'),
+        date_format: Yup.string().required('Date format Is Required'),
+        pagination: Yup.string().required('Pagination Is Required'),
+        auto_logout: Yup.string().required('Auto logout time Is Required'),
     });
     const formik3 = useFormik<FormValues3>({
         initialValues: {

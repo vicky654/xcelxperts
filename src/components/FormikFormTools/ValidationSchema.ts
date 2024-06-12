@@ -131,17 +131,17 @@ export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
         station_id: Yup.string().required('Station Is Required'),
         // fuel_id: Yup.string().required('Fuel Is Required'),
         start_date1: Yup.date()
-            .required("Start Date is required")
+            .required("Start Date Is Required")
             .min(
                 new Date("2023-01-01"),
                 "Start Date cannot be before January 1, 2023"
             ),
-        platts: Yup.string().required("Platts is required"),
-        developmentfuels: Yup.string().required("Development Fuels is required"),
-        dutty: Yup.string().required("Dutty  is required"),
-        vat_percentage_rate: Yup.string().required("Vat % is required"),
+        platts: Yup.string().required("Platts Is Required"),
+        developmentfuels: Yup.string().required("Development Fuels Is Required"),
+        dutty: Yup.string().required("Dutty  Is Required"),
+        vat_percentage_rate: Yup.string().required("Vat % Is Required"),
 
-        premium: Yup.string().required("Premium is required"),
+        premium: Yup.string().required("Premium Is Required"),
     });
 };
 export default {

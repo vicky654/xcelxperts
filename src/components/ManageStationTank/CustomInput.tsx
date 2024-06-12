@@ -65,9 +65,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const navigate = useNavigate();
 
     // const validationSchema = Yup.object({
-    //     entity_id: showEntityInput ? Yup.string().required("Entity is required") : Yup.mixed().notRequired(),
+    //     entity_id: showEntityInput ? Yup.string().required("Entity Is Required") : Yup.mixed().notRequired(),
     //     client_id: isNotClient && showClientInput
-    //         ? Yup.string().required("Client is required")
+    //         ? Yup.string().required("Client Is Required")
     //         : Yup.mixed().notRequired(),
     // });
 

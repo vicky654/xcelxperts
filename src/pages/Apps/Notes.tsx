@@ -251,7 +251,7 @@ const Notes = () => {
 
     const saveNote = () => {
         if (!params.title) {
-            showMessage('Title is required.', 'error');
+            showMessage('Title Is Required.', 'error');
             return false;
         }
         if (params.id) {

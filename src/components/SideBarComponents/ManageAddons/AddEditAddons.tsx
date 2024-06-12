@@ -31,7 +31,7 @@ interface RoleDetail {
 }
 
 const validationSchema = Yup.object().shape({
-    roleName: Yup.string().required('Addon name is required'),
+    roleName: Yup.string().required('Addon name Is Required'),
     selectedPermissions: Yup.array().min(1, 'Select at least one permission').required('Select at least one permission'),
 });
 

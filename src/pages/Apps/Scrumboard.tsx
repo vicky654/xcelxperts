@@ -137,7 +137,7 @@ const Scrumboard = () => {
 
     const saveProject = () => {
         if (!params.title) {
-            showMessage('Title is required.', 'error');
+            showMessage('Title Is Required.', 'error');
             return false;
         }
 
@@ -195,7 +195,7 @@ const Scrumboard = () => {
 
     const saveTask = () => {
         if (!paramsTask.title) {
-            showMessage('Title is required.', 'error');
+            showMessage('Title Is Required.', 'error');
             return false;
         }
         const project: any = projectList.find((d: any) => d.id === paramsTask.projectId);

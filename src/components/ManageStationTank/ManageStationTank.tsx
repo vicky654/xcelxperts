@@ -303,12 +303,12 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const validationSchemaForCustomInput = Yup.object({
         client_id: isNotClient
-            ? Yup.string().required("Client is required")
+            ? Yup.string().required("Client Is Required")
             : Yup.mixed().notRequired(),
-        entity_id: Yup.string().required("Entity is required"),
-        // client_id: Yup.string().required('Client is required'),
-        // company_id: Yup.string().required('Entity is required'),
-        station_id: Yup.string().required('Station is required'),
+        entity_id: Yup.string().required("Entity Is Required"),
+        // client_id: Yup.string().required('Client Is Required'),
+        // company_id: Yup.string().required('Entity Is Required'),
+        station_id: Yup.string().required('Station Is Required'),
     });
 
 

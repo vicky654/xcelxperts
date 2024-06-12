@@ -1091,11 +1091,11 @@ const Mailbox = () => {
 
     const saveMail = (type: any, id: any) => {
         if (!params.to) {
-            showMessage('To email address is required.', 'error');
+            showMessage('To email address Is Required.', 'error');
             return false;
         }
         if (!params.title) {
-            showMessage('Title of email is required.', 'error');
+            showMessage('Title of email Is Required.', 'error');
             return false;
         }
 

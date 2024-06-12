@@ -27,7 +27,7 @@ interface FormData {
 
 
 const validationSchema = Yup.object().shape({
-    roleName: Yup.string().required('Role name is required'),
+    roleName: Yup.string().required('Role name Is Required'),
     selectedPermissions: Yup.array().min(1, 'Select at least one permission').required('Select at least one permission'),
 });
 
@@ -193,6 +193,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 name="roleName"
                                 type="text"
                                 className="form-input flex-1" 
+                                placeholder='Role Name'
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.roleName}

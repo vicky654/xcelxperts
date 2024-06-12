@@ -313,13 +313,13 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
     console.log(data, "data");
 
     const validationSchemaForCustomInput = Yup.object({
-        company_id: Yup.string().required("Entity is required"),
+        company_id: Yup.string().required("Entity Is Required"),
         client_id: isNotClient
-            ? Yup.string().required("Client is required")
+            ? Yup.string().required("Client Is Required")
             : Yup.mixed().notRequired(),
-        // client_id: Yup.string().required('Client is required'),
-        // company_id: Yup.string().required('Entity is required'),
-        // site_id: Yup.string().required('Station is required'),
+        // client_id: Yup.string().required('Client Is Required'),
+        // company_id: Yup.string().required('Entity Is Required'),
+        // site_id: Yup.string().required('Station Is Required'),
     });
 
     console.log(data, "data");
