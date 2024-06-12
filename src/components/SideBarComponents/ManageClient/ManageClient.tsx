@@ -17,6 +17,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import IconUserPlus from '../../Icon/IconUserPlus';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -176,6 +177,11 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                                         <IconTrashLines />
                                     </button>
                                 </Tippy>
+                                <Tippy content="Assign Client Addon">
+                                      <button onClick={() => navigate(`/manage-clients/assignaddons/${row.id}`)} type="button">
+                                          <IconUserPlus className="ml-2" />
+                                      </button>
+                                  </Tippy>
                             </div>
                         </div>
                     </span>

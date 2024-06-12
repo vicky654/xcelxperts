@@ -127,6 +127,7 @@ const AddRoles = lazy(() => import('../components/SideBarComponents/ManageRoles/
 const ManageAddons = lazy(() => import('../components/SideBarComponents/ManageAddons/ManageAddons'));
 const AddAddons = lazy(() => import('../components/SideBarComponents/ManageAddons/AddEditAddons'));
 const AssignUserAddons = lazy(() => import('../components/SideBarComponents/ManageUser/AssignUserAddon'));
+const AssignClientAddons = lazy(() => import('../components/SideBarComponents/ManageClient/AssignClientAddons'));
 
 const routes = [
   {
@@ -148,8 +149,12 @@ const routes = [
     element: <ManageUser />,
   },
   {
-    path: '/manage-users/assign-user-addons/:id',
+    path: '/manage-users/assignaddons/:id',
     element: <AssignUserAddons />,
+  },
+  {
+    path: '/manage-clients/assignaddons/:id',
+    element: <AssignClientAddons />,
   },
   {
     path: '/manage-clients/client',

@@ -90,7 +90,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         customDelete(postData, 'user/delete', formData, handleSuccess);
     };
     const AssignAddon = (id: any) => {
-        navigate(`/manage-users/assign-user-addons/${id}`)
+        navigate(`/manage-users/assignaddons/${id}`);
         console.log(id, 'id');
     };
 
@@ -191,7 +191,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                       </button>
                                   </Tippy>
                                   <Tippy content="Assign Addon">
-                                      <button onClick={() => AssignAddon(row.id)} type="button">
+                                      <button onClick={() => navigate(`/manage-users/assignaddons/${row.id}`)} type="button">
                                           <IconUserPlus className="ml-2" />
                                       </button>
                                   </Tippy>
