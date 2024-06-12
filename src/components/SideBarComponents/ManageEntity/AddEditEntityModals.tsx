@@ -54,6 +54,9 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
       if (response?.data?.data) {
         const userData: any = response.data.data;
         formik.setValues({
+          company_name: userData.company_name || '',
+          company_code: userData.company_code || '',
+          company_details: userData.company_details || '',
           client_id: userData.client_id || '',
           entity_name: userData.entity_name || '',
           entity_code: userData.entity_code || '',
@@ -68,6 +71,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
       console.error('API error:', error);
     }
   };
+
 
   const formik = useFormik({
     initialValues: companyInitialValues,

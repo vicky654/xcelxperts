@@ -19,6 +19,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import AddEditStationTankModal from './AddEditStationTankModal';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -36,8 +37,13 @@ interface RowData {
     status: number;
     station_status: number;
     station_name: string;
+    station: string;
+    tank_name: string;
+    fuel_name: string;
     station_code: string;
     station_address: string;
+    storedKeyItems?: any;
+    storedKeyName?: any;
 }
 
 const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
@@ -52,13 +58,25 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    let storedKeyItems = localStorage.getItem("stationTank") || '[]';
+    let storedKeyName = "stationTank";
+
+
+    console.log(storedKeyItems, "storedKeyItems");
+
+
+
     useEffect(() => {
-        fetchData();
+
+        if (storedKeyItems) {
+            handleApplyFilters(JSON.parse(storedKeyItems));
+        }
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
-        fetchData();
+        handleApplyFilters(JSON.parse(storedKeyItems));
     };
+
 
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
@@ -89,41 +107,42 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
+
+        {
+            name: 'Tank Name',
+            selector: (row: RowData) => row.tank_name,
+            sortable: false,
+            width: '20%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.tank_name}</h6>
+                    </div>
+                </div>
+            ),
+        },
         {
             name: 'Station Name',
-            selector: (row: RowData) => row.station_name,
+            selector: (row: RowData) => row.station,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Station Code',
-            selector: (row: RowData) => row.station_code,
+            name: 'Fuel Name',
+            selector: (row: RowData) => row.fuel_name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: 'Station Address',
-            selector: (row: RowData) => row.station_address,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
                     </div>
                 </div>
             ),
@@ -143,15 +162,15 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.station_status,
+            selector: (row: RowData) => row.status,
             sortable: false,
             width: '10%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                    {row.station_status === 1 || row.station_status === 0 ? (
-                        <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
+                    {row.status === 1 || row.status === 0 ? (
+                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
                     ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
+                        <div className="pointer" >
                             Unknown
                         </div>
                     )}
@@ -234,7 +253,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
             formData.append('status', values.status);
             formData.append('tank_name', values.tank_name);
-            formData.append('site_id', values.station_id);
+            formData.append('station_id', values.station_id);
             formData.append('fuel_id', values.fuel_id);
             formData.append('tank_code', values.tank_code);
 
@@ -242,10 +261,11 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/site/tank/update` : `/site/tank/create`;
+            const url = isEditMode && userId ? `/station/tank/update` : `/station/tank/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
+
 
                 handleSuccess();
                 closeModal();
@@ -258,12 +278,16 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     };
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
+
+
+        // Store the form values in local storage
+        // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
             const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.Stations);
-                setCurrentPage(response.data.data?.currentPage || 1);
-                setLastPage(response.data.data?.lastPage || 1);
+                setData(response.data.data);
+                // setCurrentPage(response.data.data?.currentPage || 1);
+                // setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -287,6 +311,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         station_id: Yup.string().required('Station is required'),
     });
 
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -298,12 +323,12 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Tank</span>
+                        <span>Tank Stations </span>
                     </li>
                 </ul>
 
                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-                    Add Station Tank
+                    Add Tank Station
                 </button>
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
@@ -328,13 +353,15 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                 throw new Error('Function not implemented.');
                             }}
                             showDateInput={false}
+                        // storedKeyItems={storedKeyItems}
+                        // storedKeyName={storedKeyName}
                         />
 
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Tank</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Tank Stations </h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>

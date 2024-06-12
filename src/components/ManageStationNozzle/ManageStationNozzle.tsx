@@ -53,13 +53,19 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    let storedKeyItems: any = localStorage.getItem("stationNozzle") || '[]';
+    let storedKeyName: any = "stationNozzle";
+
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {
-        fetchData();
+
+        // if (JSON.parse(storedKeyItems) {
+        //     handleApplyFilters(storedKeyItems);
+        // }
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
-        fetchData();
+        handleApplyFilters(JSON.parse(storedKeyItems));
     };
 
     const handlePageChange = (newPage: any) => {
@@ -261,6 +267,8 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
 
+
+
         try {
             const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
             if (response && response.data && response.data.data) {
@@ -331,6 +339,8 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                                 throw new Error('Function not implemented.');
                             }}
                             showDateInput={false}
+                            storedKeyItems={storedKeyItems}
+                            storedKeyName={storedKeyName}
                         />
 
 

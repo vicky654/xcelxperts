@@ -27,14 +27,14 @@ const useCustomDelete = () => {
       if (result.isConfirmed) {
         try {
           const response = await postData(apiUrl, formData);
-          if (response.api_response === "success") {
+          if (response) {
             handleSuccess();
           }
         } catch (error) {
           if (navigate) {
             handleError(error, navigate); // Pass navigate to handleError
           } else {
-            handleError(error, () => {}); // Pass a dummy function if navigate is not provided
+            handleError(error, () => { }); // Pass a dummy function if navigate is not provided
           }
         }
       }

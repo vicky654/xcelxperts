@@ -210,7 +210,6 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         },
     });
 
-    console.log(formik?.values, "formik valuess");
 
 
 

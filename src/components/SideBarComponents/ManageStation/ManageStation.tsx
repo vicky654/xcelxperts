@@ -274,8 +274,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             const url = isEditMode && userId ? `/station/update` : `/station/create`;
             const response = await postData(url, formData);
 
-            if (response && response.status_code == 200) {
-
+            if (response) {
                 handleSuccess();
                 closeModal();
             } else {

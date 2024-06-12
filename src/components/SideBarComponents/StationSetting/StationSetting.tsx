@@ -155,9 +155,13 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 });
 
                 const url = `station/update-setting`;
-                const response = await postData(url, formData);
+                const navigationpath: string = '/manage-stations/station'
+                const response = await postData(url, formData,);
 
-                if (response?.api_response === "success") {
+
+                console.log(response, "test");
+
+                if (response) {
                     navigate("/manage-stations/station")
                 }
 
@@ -189,14 +193,14 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             selector: "checked",
             sortable: false,
             center: true,
-            width: "15%",
+            width: "20%",
             cell: (row: CardRow, index: number) => (
                 <div>
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`cards[${index}].checked`}
-                        className="pointer table-checkbox-input"
+                        className="pointer form-check-input table-checkbox-input"
                         checked={
                             row?.checked ?? false
                         }
@@ -208,10 +212,10 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Card Model",
+            name: "Assign Card Model",
             selector: (row: CardRow) => row.card_name,
             sortable: false,
-            width: "85%",
+            width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -227,14 +231,14 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             selector: "checked",
             sortable: false,
             center: true,
-            width: "15%",
+            width: "20%",
             cell: (row: CardRow, index: number) => (
                 <div>
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`dataEntryCard[${index}].checked`}
-                        className="pointer table-checkbox-input"
+                        className="pointer form-check-input table-checkbox-input"
                         checked={
                             row?.checked ?? false
                         }
@@ -245,10 +249,10 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Card Model",
+            name: "Data Entry Card Model",
             selector: (row: CardRow) => row.drs_card_name,
             sortable: false,
-            width: "85%",
+            width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -264,14 +268,14 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             selector: "checked",
             sortable: false,
             center: true,
-            width: "15%",
+            width: "20%",
             cell: (row: CardRow, index: number) => (
                 <div>
                     <input
                         type="checkbox"
                         id={`fuels-${index}`}
                         name={`fuels[${index}].checked`}
-                        className="pointer table-checkbox-input"
+                        className="pointer form-check-input table-checkbox-input"
                         checked={
                             row?.checked ?? false
                         }
@@ -282,10 +286,10 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Fuels Model",
+            name: "Fuels Card Model",
             selector: (row: CardRow) => row.fuel_name,
             sortable: false,
-            width: "85%",
+            width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -301,14 +305,14 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             selector: "checked",
             sortable: false,
             center: true,
-            width: "15%",
+            width: "20%",
             cell: (row: CardRow, index: number) => (
                 <div>
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`reports[${index}].checked`}
-                        className="pointer table-checkbox-input"
+                        className="pointer form-check-input table-checkbox-input"
                         checked={
                             row?.checked ?? false
                         }
@@ -319,10 +323,10 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Reports Model",
+            name: "Reports Card Model",
             selector: (row: CardRow) => row.report_name,
             sortable: false,
-            width: "85%",
+            width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -340,14 +344,14 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             selector: "checked",
             sortable: false,
             center: true,
-            width: "15%",
+            width: "20%",
             cell: (row: CardRow, index: number) => (
                 <div>
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`charges[${index}].checked`}
-                        className="pointer table-checkbox-input"
+                        className="pointer form-check-input table-checkbox-input"
                         checked={
                             row?.checked ?? false
                         }
@@ -359,7 +363,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "CHARGE GROUPS",
+            name: "Charges Card Modal",
             width: "40%",
             selector: (row: CardRow,) => row.charge_name,
             sortable: false,
@@ -399,14 +403,14 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             selector: "checked",
             sortable: false,
             center: true,
-            width: "15%",
+            width: "20%",
             cell: (row: CardRow, index: number) => (
                 <div>
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`deductions[${index}].checked`}
-                        className="pointer table-checkbox-input"
+                        className="pointer form-check-input table-checkbox-input"
                         checked={
                             row?.checked ?? false
                         }
@@ -418,7 +422,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Deductions GROUPS",
+            name: "Deductions Card Modal",
             width: "40%",
             selector: (row: CardRow,) => row.deduction_name,
             sortable: false,
@@ -541,7 +545,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                         </div>
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Fuels</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Fuels Card</h6>
                             {formik?.values?.fuels?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -597,7 +601,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Charges</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Charges Card</h6>
                             {formik?.values?.cards?.length > 0 ? (
                                 <>
                                     <div className="module-height">

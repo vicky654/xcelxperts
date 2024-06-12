@@ -311,7 +311,6 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     onChange={handleSiteChange}
                                                 />
 
-                                                <Select placeholder="Select an option" options={formik.values.sites} isMulti isSearchable={false} />
 
 
                                                 <FormikSelect
@@ -325,14 +324,14 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
 
 
-                                                <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" placeholder="Station Name" />
+                                                <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" />
 
-                                                <FormikInput formik={formik} type="text" name="tank_code" label="Tank Code" placeholder="Tank Code" />
+                                                <FormikInput formik={formik} type="text" name="tank_code" label="Tank Code" />
 
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="status"
-                                                    label="Tank Status"
+                                                    label="Station Tank Status"
                                                     options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                     isRequired={true}
