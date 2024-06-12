@@ -37,9 +37,11 @@ interface CustomInputProps {
     showClientInput?: boolean;
     showEntityInput?: boolean;
     showStationInput?: boolean;
+    showStationValidation?: boolean;
     showDateInput?: boolean;
     validationSchema: any;
     layoutClasses: any;
+    storedKeyName: any;
 }
 
 
@@ -52,8 +54,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
     showClientInput = true,
     showEntityInput = true,
     showStationInput = true,
+    showStationValidation,
     showDateInput = true,
     validationSchema,
+    storedKeyName,
     // layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2',
     layoutClasses = `flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5`,
 }) => {
@@ -87,7 +91,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values);
-            localStorage.setItem("testing", JSON.stringify(values));
+            localStorage.setItem(storedKeyName, JSON.stringify(values));
         },
         validateOnChange: true,
         validateOnBlur: true,
@@ -96,6 +100,30 @@ const CustomInput: React.FC<CustomInputProps> = ({
     useEffect(() => {
         if (showClientInput) fetchClientList();
     }, [showClientInput]);
+
+    useEffect(() => {
+        // if (!storedKeyName) {
+        //     if (localStorage.getItem("superiorRole") !== "Client") {
+        //         fetchClientList();
+        //         // formik.setValues(JSON.parse(localStorage.getItem("testing")))
+        //     } else {
+        //         fetchCompanyList(localStorage.getItem("superiorId") || "");
+        //     }
+        // }
+
+        const storedData = localStorage.getItem(storedKeyName);
+
+
+
+        // Check if there is any stored data
+        if (storedData) {
+            // Parse the stored data into an object
+            const parsedData = JSON.parse(storedData);
+
+            // Set the parsed data into Formik
+            formik.setValues(parsedData);
+        }
+    }, []);
 
     const fetchClientList = async () => {
         try {
@@ -233,7 +261,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
                         {showStationInput && (
                             <div className={formik.submitCount ? (formik.errors.station_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="station_id">Station</label>
+                                <label htmlFor="station_id">Station{showStationValidation && <span className="text-danger">*</span>}</label>
                                 <select
                                     id="station_id"
                                     onChange={handleSiteChange}
@@ -269,8 +297,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }
 

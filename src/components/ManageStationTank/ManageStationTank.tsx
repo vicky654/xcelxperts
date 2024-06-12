@@ -67,9 +67,10 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
 
     useEffect(() => {
+        const storedData = localStorage.getItem(storedKeyName);
 
-        if (storedKeyItems) {
-            handleApplyFilters(JSON.parse(storedKeyItems));
+        if (storedData) {
+            handleApplyFilters(JSON.parse(storedData));
         }
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
@@ -346,6 +347,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
+                            showStationValidation={true} // or false
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
@@ -353,8 +355,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                 throw new Error('Function not implemented.');
                             }}
                             showDateInput={false}
-                        // storedKeyItems={storedKeyItems}
-                        // storedKeyName={storedKeyName}
+                            // storedKeyItems={storedKeyItems}
+                            storedKeyName={storedKeyName}
                         />
 
 
