@@ -62,7 +62,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     let storedKeyName = "stationTank";
 
 
-    console.log(storedKeyItems, "storedKeyItems");
+    // console.log(storedKeyItems, "storedKeyItems");
 
 
 
@@ -90,8 +90,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
+        formData.append('status', (row.status === 1 ? 0 : 1).toString());
+        toggleStatus(postData, '/station/tank/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
@@ -255,6 +255,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             formData.append('status', values.status);
             formData.append('tank_name', values.tank_name);
             formData.append('station_id', values.station_id);
+            // formData.append('entity_id', values.entity_id);
+            // formData.append('client_id', values.client_id);
             formData.append('fuel_id', values.fuel_id);
             formData.append('tank_code', values.tank_code);
 
@@ -265,7 +267,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             const url = isEditMode && userId ? `/station/tank/update` : `/station/tank/create`;
             const response = await postData(url, formData);
 
-            if (response && response.status_code == 200) {
+            if (response) {
 
 
                 handleSuccess();

@@ -112,13 +112,12 @@ export const deductionstValidationSchema = (isEditMode: boolean) => {
 
 export const getStationTankValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: Yup.string().required('Client Is Required'),
-        entity_id: Yup.string()
-            .required('Entity Is Required'),
-        station_id: Yup.string().required('Station Is Required'),
+        client_id: isEditMode ? Yup.string() : Yup.string().required('Client Is Required'),
+        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity Is Required'),
+        station_id: isEditMode ? Yup.string() : Yup.string().required('Station Is Required'),
         tank_name: Yup.string().required('Tank Name Is Required'),
         tank_code: Yup.string().required('Tank Code Is Required'),
-        fuel_id: Yup.string().required('Fuel Is Required'),
+        fuel_id: isEditMode ? Yup.string() : Yup.string().required('Fuel Is Required'),
         status: Yup.string().required('Station Tank Status Is Required'),
     });
 };

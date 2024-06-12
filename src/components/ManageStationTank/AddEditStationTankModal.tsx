@@ -142,17 +142,21 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/station/detail?id=${id}`);
+            const response = await getData(`/station/tank/${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
                 formik.setValues(userData)
-                FetchClientList()
-                fetchEntityList(userData?.client_id)
+                // FetchClientList()
+                // fetchEntityList(userData?.client_id)
+                // fetchSiteList(userData?.entity_id);
+                // fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
             console.error('API error:', error);
         }
     };
+
+
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
@@ -244,13 +248,20 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         }
     };
 
+    const editCloseCheck = () => {
+        if (isEditMode) {
+            formik.resetForm()
+        }
+        onClose();
+    }
+
     const formik = useFormik({
         initialValues: stationTankInitialValues,
         validationSchema: getStationTankValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
+                editCloseCheck();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -265,44 +276,46 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     ];
 
 
+    console.log(formik?.values, "formik value");
 
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
-                <div className={`absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={onClose}></div>
+                <div className={`absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={editCloseCheck}></div>
 
                 <section className={`absolute inset-y-0 right-0 pl-10 max-w-full flex transform transition-transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} duration-300 ease-in-out`}>
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Station Tank' : 'Add Station Tank'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Station Tank' : 'Add Station Tank'} onClose={editCloseCheck} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
+                                                {!isEditMode &&
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="client_id"
+                                                        label="Client"
+                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-select text-white-dark"
+                                                        onChange={handleClientChange}
+                                                    />
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="client_id"
-                                                    label="Client"
-                                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleClientChange}
-                                                />
+                                                }
 
-                                                <FormikSelect
+
+                                                {!isEditMode && <FormikSelect
                                                     formik={formik}
                                                     name="entity_id"
                                                     label="Entity"
                                                     options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleEntityChange}
-                                                />
-
-
-                                                <FormikSelect
+                                                />}
+                                                {!isEditMode && <FormikSelect
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
@@ -310,10 +323,8 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />
-
-
-
-                                                <FormikSelect
+                                                }
+                                                {!isEditMode && <FormikSelect
                                                     formik={formik}
                                                     name="fuel_id"
                                                     label="Fuel Name"
@@ -321,12 +332,14 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />
-
+                                                }
 
 
                                                 <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" />
 
-                                                <FormikInput formik={formik} type="text" name="tank_code" label="Tank Code" />
+                                                <FormikInput formik={formik} type="text" name="tank_code" label="Tank Code"
+                                                    readOnly={isEditMode ? true : false}
+                                                />
 
                                                 <FormikSelect
                                                     formik={formik}
