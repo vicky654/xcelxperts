@@ -257,7 +257,9 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     className="form-select text-white-dark"
                                                 />
 
-                                                <FormikInput formik={formik} type="text" name="station_code" label="Station Code" placeholder="Station Code" />
+                                                <FormikInput formik={formik} type="text" name="station_code" label="Station Code" placeholder="Station Code"
+                                                    readOnly={isEditMode ? true : false}
+                                                />
 
                                                 <FormikInput formik={formik} type="text" name="station_name" label="Station Name" placeholder="Station Name" />
                                                 <FormikInput formik={formik} type="text" name="station_display_name" label="Station Display Name" placeholder="Station Display Name" />

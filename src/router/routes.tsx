@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import CompetitorFuelPrices from '../components/CompetitorFuelPrices/CompetitorFuelPrices';
 import ManageReports from '../components/ManageReports/ManageReports';
+import StationSetting from '../components/SideBarComponents/StationSetting/StationSetting';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -212,6 +213,10 @@ const routes = [
   {
     path: '/manage-addons/edit-addon/:id',
     element: <AddAddons />,
+  },
+  {
+    path: 'manage-stations/setting/:id',
+    element: <StationSetting />,
   },
 
   // {

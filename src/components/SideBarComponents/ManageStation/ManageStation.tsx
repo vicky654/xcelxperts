@@ -16,6 +16,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddEditStationModal from './AddEditStationModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import IconSettings from '../../Icon/IconSettings';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -88,6 +89,11 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         const formData = new FormData();
         formData.append('id', id);
         customDelete(postData, 'station/delete', formData, handleSuccess);
+    };
+    const handleNavigateStationSetting = (id: any) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        navigate(`/manage-stations/setting/${id}`)
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -211,6 +217,11 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                         <IconTrashLines />
                                     </button>
                                 </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
+                                        <IconSettings />
+                                    </button>
+                                </Tippy>
                             </div>
                         </div>
                     </span>
@@ -294,7 +305,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                     Add Station
                 </button>
             </div>
-            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
+
+            />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">

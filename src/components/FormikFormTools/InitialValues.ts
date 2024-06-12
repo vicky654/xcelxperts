@@ -78,6 +78,28 @@ export const stationInitialValues = {
   sites: [] as Station[],
 };
 
+export const stationSettingInitialValues = {
+  first_name: '',
+  data_import_types: '',
+  drs_upload_status: '',
+  client_id: '',
+  company_id: '',
+  last_name: '',
+  role: '',
+  email: '',
+  password: '',
+  phone_number: '',
+  clients: [] as Client[],
+  cards: [] as Client[],
+  fuels: [] as Client[],
+  reports: [] as Client[],
+  dataEntryCard: [] as Client[],
+  charges: [] as Client[],
+  deductions: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
+};
+
 export const supplierInitialValues = {
   supplier_name: '',
   supplier_code: '', // Add deduction_name here
