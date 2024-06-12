@@ -88,7 +88,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
             name: 'Addon',
             selector: (row: RowData) => row.name,
             sortable: false,
-            width: '20%',
+            width: '40%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -97,25 +97,13 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                 </div>
             ),
         },
-        {
-            name: 'Role',
-            selector: (row: RowData) => row.role,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
-                    </div>
-                </div>
-            ),
-        },
+  
 
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '15%',
+            width: '40%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">

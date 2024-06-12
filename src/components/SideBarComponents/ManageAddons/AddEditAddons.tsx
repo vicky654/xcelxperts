@@ -191,50 +191,59 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">
                                 Addon Name
                             </label>
-                            <input id="roleName" name="roleName" type="text" className="form-input flex-1" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
+                            <input id="roleName" name="roleName" type="text" placeholder="Addon Name" className="form-input flex-1" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
                         </div>
 
-                        <div className="row">
-                            {Object.keys(permissions).map((sectionName) => (
-                                <div key={sectionName} className="col-6">
-                                    <div className="mb-4">
-                                        <div className="heading-div">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                checked={formik.values.selectedPermissions.some((permId) => permissions[sectionName].names.some((perm) => perm.name === permId))}
-                                                onChange={(e) => handleSectionSelect(sectionName, e.target.checked)}
-                                            />
-                                            <span className="checkbox-title ml-2">{sectionName}</span>
-                                        </div>
-                                        <div className="permissions-list">
-                                            {permissions[sectionName].names.map((perm) => (
-                                                <div key={perm.name} className="form-check form-check-inline mb-2 permission-item">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        id={`perm-${perm.name}`}
-                                                        name={`selectedPermissions`}
-                                                        value={perm.name}
-                                                        checked={formik.values.selectedPermissions.includes(perm.name)}
-                                                        onChange={(e) => handlePermissionSelect(perm.name, e.target.checked)}
-                                                    />
-                                                    <label className="form-check-label ml-2" htmlFor={`perm-${perm.name}`}>
-                                                        {perm.display_name}
-                                                    </label>
-                                                </div>
-                                            ))}
-                                            {formik.touched.selectedPermissions && formik.errors.selectedPermissions && (
-                                                <div className="invalid-feedback d-block">{formik.errors.selectedPermissions}</div>
-                                            )}
-                                        </div>
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                            {Object.keys(permissions).map((sectionName, index) => (
+                                <div key={sectionName} className="boxminheight">
+                                    <div className="flex items-center heading-div">
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={formik.values.selectedPermissions.some((permId) => permissions[sectionName].names.some((perm) => perm.name === permId))}
+                                            onChange={(e) => handleSectionSelect(sectionName, e.target.checked)}
+                                        />
+                                        <span
+                                            className="ml-2 font-medium cursor-pointer"
+                                            onClick={(e) =>
+                                                handleSectionSelect(
+                                                    sectionName,
+                                                    !formik.values.selectedPermissions.some((permId) => permissions[sectionName].names.some((perm) => perm.name === permId))
+                                                )
+                                            }
+                                        >
+                                            {sectionName}
+                                        </span>
                                     </div>
-                                </div>
+
+                                    <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 p-2">
+                                        {permissions[sectionName].names.map((perm) => (
+                                            <div key={perm.name} className="flex items-center">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id={`perm-${perm.name}`}
+                                                    name="selectedPermissions"
+                                                    value={perm.name}
+                                                    checked={formik.values.selectedPermissions.includes(perm.name)}
+                                                    onChange={(e) => handlePermissionSelect(perm.name, e.target.checked)}
+                                                />
+                                                <label className="ml-2" htmlFor={`perm-${perm.name}`} style={{ cursor: 'pointer' }}>
+                                                    {perm.display_name}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                               </div>
+                               
                             ))}
+                                 {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
+                                
                         </div>
 
-                        <div className="mt-4">
+                        <div className="text-end mt-4">
                             <button
                                 type="submit"
                                 className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -246,7 +255,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 className="bg-red-600 text-white px-4 py-2 ml-4 rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                 onClick={handleClearForm}
                             >
-                                Clear Selected Permissions
+                                Clear 
                             </button>
                         </div>
                     </form>
