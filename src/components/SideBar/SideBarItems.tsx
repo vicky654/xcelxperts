@@ -47,6 +47,14 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    {
+        key: 'roles',
+        title: 'Roles',
+        icon: IconUser,
+        link: '/manage-roles/roles', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
 
     {
         key: 'entity',

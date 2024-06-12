@@ -152,10 +152,49 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
               }
             : null,
     ];
+    const openModal = async (id: string) => {
+        try {
+            setIsModalOpen(true);
+            setIsEditMode(true);
+            setUserId(id);
+        } catch (error) {
+            console.error('Error fetching user details:', error);
+        }
+    };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setIsEditMode(false);
+        setEditUserData(null);
+    };
 
+    const handleFormSubmit = async (values: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('first_name', values.first_name);
+            formData.append('last_name', values.last_name);
+            formData.append('role_id', values.role);
+            formData.append('email', values.email);
+            formData.append('phone_number', values.phone_number);
+            if (values.password) {
+                formData.append('password', values.password);
+            }
+            if (userId) {
+                formData.append('id', userId);
+            }
+            const url = isEditMode && userId ? `/user/update` : `/user/add`;
+            const response = await postData(url, formData);
 
-
+            if (response && response.status_code == 200) {
+                handleSuccess();
+                closeModal();
+            } else {
+                console.error('Form submission failed:', response.statusText);
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
 
     return (
         <>
@@ -172,7 +211,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                     </li>
                 </ul>
                 <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-roles/add-roles')}>
-                    Add Role
+                    Add User
                 </button>
             </div>
 

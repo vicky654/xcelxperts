@@ -180,10 +180,12 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             </Link>
                         </li>
                         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                            <span>Roles</span>
+                            <span>Users</span>
                         </li>
                     </ul>
-                
+                    <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-roles/add-roles')}>
+                        Add User
+                    </button>
                 </div>
 
                 <div className="bg-white shadow rounded-lg p-6">
@@ -196,7 +198,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 id="roleName"
                                 name="roleName"
                                 type="text"
-                                className={`form-input}`}
+                                className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${formik.touched.roleName && formik.errors.roleName ? 'border-red-500' : ''}`}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.roleName}
@@ -204,7 +206,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
                         </div>
 
-                     
+                      
 										<div className='row'>
 											{Object.keys(permissions).map((sectionName) => (
 												<div key={sectionName} className='col-6'>
@@ -268,7 +270,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 															{formik.touched.selectedPermissions &&
 																formik.errors
 																	.selectedPermissions && (
-																	<div className='mt-2 text-sm text-red-600'>
+																	<div className='invalid-feedback d-block'>
 																		{
 																			formik.errors
 																				.selectedPermissions

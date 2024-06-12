@@ -176,3 +176,63 @@
 .text-3xl {
   font-size: 17px !important;
 }
+.form-check-input {
+	--bs-form-check-bg: #f8f9fa;
+
+	width: 1.5em;
+	height: 1.5em;
+
+	background-color: #e0e0f9;
+	background-image: var(--bs-form-check-bg-image);
+
+	border: 1px solid #dee2e6;
+}
+.checkboxtitle {
+	font-size: 18px;
+	margin-left: 10px;
+	font-weight: 500;
+}
+.heading-div {
+  background: #3b3f5c;
+  color: #fff;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+span.checkbox-title {
+	margin-left: 10px;
+	font-weight: 500;
+	line-height: 27px;
+}
+label.form-check-label {
+	margin-left: 8px;
+	line-height: 28px;
+	font-size: 14px;
+	font-weight: 500;
+}
+.offcanvas.offcanvas-end {
+	width: 700px;
+}
+.form-switch .form-check-input {
+	width: 3.5em;
+	height: 1.8em;
+}
+.form-control {
+	border: 1px solid #f8f9fa;
+	border: var(--bs-border-width) solid #d4d4eb;
+	border-radius: 1em;
+}
+.div-end {
+	display: flex;
+	justify-content: end;
+	gap: 11px;
+}
+.form-check.form-check-inline.mb-2 {
+  display: flex;
+  justify-content: start;
+}
+
+.btn-dark {
+
+  background-color: #3b3f5c !important;
+
+}
