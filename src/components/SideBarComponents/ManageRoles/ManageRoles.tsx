@@ -69,8 +69,8 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
-        formData.append('id', id);
-        customDelete(postData, 'name/delete', formData, handleSuccess);
+        formData.append('role_id', id);
+		customDelete(postData, 'role/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -85,7 +85,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
     };
     const columns: any = [
         {
-            name: 'User Name',
+            name: 'Role',
             selector: (row: RowData) => row.name,
             sortable: false,
             width: '20%',
@@ -168,7 +168,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Users</span>
+                        <span>Roles</span>
                     </li>
                 </ul>
                 <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-roles/add-roles')}>
@@ -178,7 +178,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Roles</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>

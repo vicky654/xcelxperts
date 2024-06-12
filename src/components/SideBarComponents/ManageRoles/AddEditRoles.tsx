@@ -165,7 +165,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
     };
 
     const handleSuccess = () => {
-        navigate('/manage-pages/role-list');
+        navigate('/manage-roles/roles');
     };
 
     return (
@@ -196,7 +196,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 id="roleName"
                                 name="roleName"
                                 type="text"
-                                className={`form-input}`}
+                                className="form-input flex-1" 
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.roleName}
