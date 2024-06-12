@@ -66,7 +66,7 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
 
                 const isSuccess = await postData(postDataUrl, formData);
                 if (isSuccess) {
-                    navigate("/manage-users/user");
+                    navigate("/manage-clients/client");
                 }
             }catch (error) {
                 handleApiError(error);
@@ -85,8 +85,8 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <Link to="/manage-users/user" className="text-primary hover:underline">
-                            Manage User
+                        <Link to="/manage-clients/client" className="text-primary hover:underline">
+                            Manage Client
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">

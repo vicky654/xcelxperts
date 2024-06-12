@@ -89,11 +89,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         formData.append('id', id);
         customDelete(postData, 'user/delete', formData, handleSuccess);
     };
-    const AssignAddon = (id: any) => {
-        navigate(`/manage-users/assignaddons/${id}`);
-        console.log(id, 'id');
-    };
-
+ 
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
     const isAddonPermissionAvailable = true; // Placeholder for permission check
