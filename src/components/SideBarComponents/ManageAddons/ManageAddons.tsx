@@ -126,7 +126,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
         },
         anyPermissionAvailable
             ? {
-                  name: 'Action',
+                  name: 'Actions',
                   selector: (row: RowData) => row.id,
                   sortable: false,
                   width: '10%',

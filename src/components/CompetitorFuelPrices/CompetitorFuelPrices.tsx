@@ -177,7 +177,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
+                name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
                 width: '10%',

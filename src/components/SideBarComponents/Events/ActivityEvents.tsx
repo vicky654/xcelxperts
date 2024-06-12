@@ -118,7 +118,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: 'Action',
+            name: 'Actions',
             selector: (row: RowData) => row.status,
             sortable: false,
             width: '15%',

@@ -152,7 +152,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
         },
         anyPermissionAvailable
             ? {
-                  name: 'Action',
+                  name: 'Actions',
                   selector: (row: RowData) => row.id,
                   sortable: false,
                   width: '20%',

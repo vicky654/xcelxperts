@@ -179,7 +179,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
+                name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
                 width: '10%',

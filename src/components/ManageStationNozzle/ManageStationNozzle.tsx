@@ -168,7 +168,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         },
         anyPermissionAvailable
             ? {
-                name: 'Action',
+                name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
                 width: '10%',

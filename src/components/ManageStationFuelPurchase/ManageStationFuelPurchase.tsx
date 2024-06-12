@@ -403,7 +403,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     //     },
     //     anyPermissionAvailable
     //         ? {
-    //             name: 'Action',
+    //             name: 'Actions',
     //             selector: (row: RowData) => row.id,
     //             sortable: false,
     //             width: '10%',
