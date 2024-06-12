@@ -115,7 +115,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
     const columns: any = [
 
         {
-            name: ' Name',
+            name: 'Station Name',
             selector: (row: RowData) => row.station,
             sortable: false,
             width: '20%',
