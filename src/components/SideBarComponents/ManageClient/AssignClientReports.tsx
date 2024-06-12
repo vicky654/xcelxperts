@@ -9,7 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 
-interface AssignClientAddonsProps {
+interface AssignClientReportsProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
@@ -17,11 +17,11 @@ interface AssignClientAddonsProps {
 
 interface AddonData {
     id: string;
-    name: string;
+    report_name: string;
     checked: boolean;
 }
 
-const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getData, isLoading }) => {
+const AssignClientReports: React.FC<AssignClientReportsProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<AddonData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -35,7 +35,7 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/addon/assigned?id=${id}`);
+            const response = await getData(`/client/assigned-report?client_id=${id}`);
             if (response && response.data) {
                 console.log(response.data, 'response.data');
                 setData(response.data?.data);
@@ -48,21 +48,21 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
     };
     const formik = useFormik({
         initialValues: {
-            addons: data?.map((addon) => ({ id: addon.id, name: addon.name, checked: addon.checked })),
+            addons: data?.map((addon) => ({ id: addon.id, report_name: addon.report_name, checked: addon.checked })),
         },
         enableReinitialize: true,
         onSubmit: async (values) => {
             try {
                 const formData = new FormData();
-                formData.append('id', id ?? ''); 
+                formData.append('client_id', id ?? ''); 
 
                 values.addons.forEach((addon, index) => {
                     if (addon.checked) {
-                        formData.append(`addons[${index}]`, addon.id);
+                        formData.append(`report_id[${index}]`, addon.id);
                     }
                 });
 
-                const postDataUrl = "/addon/assign";
+                const postDataUrl = "/client/assign-report";
 
                 const isSuccess = await postData(postDataUrl, formData);
                 if (isSuccess) {
@@ -90,14 +90,14 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Assign Addons</span>
+                        <span>Assign Reports</span>
                     </li>
                 </ul>
             </div>
 
             <div className="panel mt-6">
                 <div className="btn-dark p-2 mb-3">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Assign Addons</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Assign Reports</h5>
                 </div>
 
                 {data.length > 0 ? (
@@ -106,12 +106,12 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
                             <div key={addon.id} className="mb-4">
                                 <label className="labelclick">
                                     <input type="checkbox" name={`addons[${index}].checked`} checked={addon.checked} onChange={formik.handleChange} className="form-check-input" />
-                                    <span className="checkbox-title">{addon.name}</span>
+                                    <span className="checkbox-title">{addon.report_name}</span>
                                 </label>
                             </div>
                         ))}
                         <button type="submit" className="btn btn-primary">
-                            Assign
+                            Assign Reports
                         </button>
                     </form>
                 ) : (
@@ -128,4 +128,4 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
     );
 };
 
-export default withApiHandler(AssignClientAddons);
+export default withApiHandler(AssignClientReports);

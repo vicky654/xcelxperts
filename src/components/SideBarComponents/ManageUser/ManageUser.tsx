@@ -89,11 +89,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         formData.append('id', id);
         customDelete(postData, 'user/delete', formData, handleSuccess);
     };
-    const AssignAddon = (id: any) => {
-        navigate(`/manage-users/assignaddons/${id}`);
-        console.log(id, 'id');
-    };
-
+ 
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
     const isAddonPermissionAvailable = true; // Placeholder for permission check
@@ -243,13 +239,10 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             // formData.append('id', values.user_id);
 
             const url = isEditMode && userId ? `/user/update` : `/user/create`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
             }
         } catch (error) {
             handleApiError(error);
