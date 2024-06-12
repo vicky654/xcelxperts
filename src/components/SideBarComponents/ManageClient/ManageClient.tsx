@@ -225,7 +225,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/client/update` : `/client/add`;
+            const url = isEditMode && userId ? `/client/update` : `/client/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {

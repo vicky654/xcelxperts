@@ -17,6 +17,7 @@ import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import IconUser from '../../Icon/IconUser';
 
 
 interface ManageUserProps {
@@ -63,7 +64,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             const response = await getData(`/user/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 // setData(response.data.data?.users);
-                setData(response.data.data);
+                setData(response.data.data?.users);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -187,6 +188,11 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                         <IconTrashLines />
                                     </button>
                                 </Tippy>
+                                <Tippy content="Assign Addon">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <IconUser />
+                                    </button>
+                                </Tippy>
                             </div>
                         </div>
                     </span>
@@ -234,7 +240,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             }
             // formData.append('id', values.user_id);
 
-            const url = isEditMode && userId ? `/user/update` : `/user/add`;
+            const url = isEditMode && userId ? `/user/update` : `/user/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {

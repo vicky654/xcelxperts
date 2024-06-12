@@ -62,16 +62,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
         }
     }, [isOpen, isEditMode, userId]);
 
-    const FetchClientList = async () => {
-        try {
-            const response = await getData('/common/client-list');
-            if (response && response.data && response.data.data) {
-                setClientList(response.data.data);
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
+  
 
     const FetchRoleList = async () => {
         try {
