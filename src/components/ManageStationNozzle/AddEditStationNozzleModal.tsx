@@ -6,8 +6,8 @@ import FormikInput from '../FormikFormTools/FormikInput';
 import FormikTextArea from '../FormikFormTools/FormikTextArea';
 import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
-import { stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { stationInitialValues, stationNozzleInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
+import { getStationNozzleValidationSchema, getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
 import withApiHandler from '../../utils/withApiHandler';
 
 
@@ -258,7 +258,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`site/fuel/list?site_id=${siteId}`);
+            const response = await getData(`station/fuel/list?station_id=${siteId}`);
             formik.setFieldValue('tankList', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -266,8 +266,8 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
     };
 
     const formik = useFormik({
-        initialValues: stationTankInitialValues,
-        validationSchema: getStationTankValidationSchema(isEditMode),
+        initialValues: stationNozzleInitialValues,
+        validationSchema: getStationNozzleValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
@@ -330,25 +330,11 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="fuel_id"
-                                                    label="Nozzle Fuel Name"
+                                                    label=" Station Fuel"
                                                     options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="fuel_id"
-                                                    label="Pump  Name"
-                                                    options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
-                                                    className="form-select text-white-dark"
-                                                // onChange={handleSiteChange}
-                                                />
-
-
-
-                                                <FormikInput formik={formik} type="text" name="tank_name" label="Nozzle Name" placeholder="Nozzle Name" />
-
-                                                <FormikInput formik={formik} type="text" name="tank_code" label="Nozzle Code" placeholder="Nozzle Code" />
 
                                                 <FormikSelect
                                                     formik={formik}
@@ -358,6 +344,23 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                     className="form-select text-white-dark"
                                                     isRequired={true}
                                                 />
+
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="station_pump_id"
+                                                    label="Station Pump  Name"
+                                                    options={formik.values.tankList?.pumps?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
+                                                    className="form-select text-white-dark"
+                                                // onChange={handleSiteChange}
+                                                />
+
+
+                                                <FormikInput formik={formik} type="text" name="code" label="Nozzle Code" placeholder="Nozzle Code" />
+
+                                                <FormikInput formik={formik} type="text" name="name" label="Nozzle Name" placeholder="Nozzle Name" />
+
+
+
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

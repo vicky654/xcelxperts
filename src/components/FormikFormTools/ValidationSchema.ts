@@ -121,6 +121,18 @@ export const getStationTankValidationSchema = (isEditMode: boolean) => {
         status: Yup.string().required('Station Tank Status Is Required'),
     });
 };
+export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        client_id: isEditMode ? Yup.string() : Yup.string().required('Client Is Required'),
+        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity Is Required'),
+        station_id: isEditMode ? Yup.string() : Yup.string().required('Station Is Required'),
+        fuel_id: isEditMode ? Yup.string() : Yup.string().required('Station Fuel Is Required'),
+        status: Yup.string().required(' Nozzle Status Is Required'),
+        station_pump_id: Yup.string().required('Station Pump  Name Is Required'),
+        name: Yup.string().required('Nozzle Name Is Required'),
+        code: Yup.string().required('Nozzle Code Is Required'),
+    });
+};
 
 export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({

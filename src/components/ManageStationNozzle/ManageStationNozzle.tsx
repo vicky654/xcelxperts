@@ -58,10 +58,11 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {
+        const storedData = localStorage.getItem(storedKeyName);
 
-        // if (JSON.parse(storedKeyItems) {
-        //     handleApplyFilters(storedKeyItems);
-        // }
+        if (storedData) {
+            handleApplyFilters(JSON.parse(storedData));
+        }
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
@@ -240,17 +241,20 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         try {
             const formData = new FormData();
 
+            formData.append('code', values.code);
+            formData.append('name', values.name);
             formData.append('status', values.status);
-            formData.append('tank_name', values.tank_name);
-            formData.append('site_id', values.station_id);
+            formData.append('station_id', values.station_id);
+            formData.append('client_id', values.client_id);
+            formData.append('entity_id', values.entity_id);
+            formData.append('station_pump_id', values.station_pump_id);
             formData.append('fuel_id', values.fuel_id);
-            formData.append('tank_code', values.tank_code);
 
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/site/tank/update` : `/site/tank/create`;
+            const url = isEditMode && userId ? `/station/nozzle/update` : `/station/nozzle/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -339,7 +343,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                                 throw new Error('Function not implemented.');
                             }}
                             showDateInput={false}
-                            storedKeyItems={storedKeyItems}
+                            // storedKeyItems={storedKeyItems}
                             storedKeyName={storedKeyName}
                         />
 
