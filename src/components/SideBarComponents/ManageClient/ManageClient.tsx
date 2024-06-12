@@ -18,6 +18,7 @@ import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 import IconUserPlus from '../../Icon/IconUserPlus';
+import IconPlus from '../../Icon/IconPlus';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -182,6 +183,11 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                                           <IconUserPlus className="ml-2" />
                                       </button>
                                   </Tippy>
+                                <Tippy content="Assign Client Reports">
+                                      <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
+                                          <IconPlus className="ml-2" />
+                                      </button>
+                                  </Tippy>
                             </div>
                         </div>
                     </span>
@@ -232,15 +238,13 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             }
 
             const url = isEditMode && userId ? `/client/update` : `/client/create`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-              
+        
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
             }
+       
         } catch (error) {
             handleApiError(error);
         }
