@@ -78,20 +78,19 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                 throw error;
             }
         };
-
-        const postData = async (url: string, body: any, navigatePath: string): Promise<any> => {
+        const postData = async (url: string, body: any, navigatePath?: string): Promise<boolean> => {
             try {
                 setIsLoading(true);
                 const response = await axiosInstance.post(url, body);
-
+        
                 if (response && response.data) {
                     const data = response.data;
                     showMessage(data.message);
                     setPostedData(data);
                     setFetchedData(data);
                     setIsLoading(false);
-                    navigate(navigatePath);
-                    return data;
+                    if (navigatePath) navigate(navigatePath);
+                    return true; // Indicate success
                 } else {
                     throw new Error('Invalid response');
                 }
@@ -99,8 +98,11 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                 handleApiError(error);
                 setApiError(error as AxiosError);
                 setIsLoading(false);
+                return false; // Indicate failure
             }
         };
+        
+        
 
         return (
             <WrappedComponent

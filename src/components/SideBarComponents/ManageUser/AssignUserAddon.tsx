@@ -53,9 +53,22 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         enableReinitialize: true,
         onSubmit: async (values) => {
             try {
-                await postData(`/addon/assign`, { id, addons: values.addons });
-                fetchData();
-            } catch (error) {
+                const formData = new FormData();
+                formData.append('id', id ?? ''); 
+
+                values.addons.forEach((addon, index) => {
+                    if (addon.checked) {
+                        formData.append(`addons[${index}]`, addon.id);
+                    }
+                });
+
+                const postDataUrl = "/addon/assign";
+
+                const isSuccess = await postData(postDataUrl, formData);
+                if (isSuccess) {
+                    navigate("/manage-users/user");
+                }
+            }catch (error) {
                 handleApiError(error);
             }
         },
@@ -72,7 +85,9 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Users</span>
+                        <Link to="/manage-users/user" className="text-primary hover:underline">
+                            Manage User
+                        </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                         <span>Assign Addons</span>
@@ -81,23 +96,22 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             </div>
 
             <div className="panel mt-6">
-                <div className="btn-dark p-2 mb-3" >
+                <div className="btn-dark p-2 mb-3">
                     <h5 className="font-semibold text-lg dark:text-white-light">Assign Addons</h5>
-                  
                 </div>
 
                 {data.length > 0 ? (
                     <form onSubmit={formik.handleSubmit}>
                         {formik.values.addons.map((addon, index) => (
                             <div key={addon.id} className="mb-4">
-                                <div >
-                                    <input type="checkbox" name={`addons[${index}].checked`} checked={addon.checked} onChange={formik.handleChange}     className="form-check-input" />
-                                    {" "} <span className="checkbox-title" > {addon.name}</span>
-                                </div>
+                                <label className="labelclick">
+                                    <input type="checkbox" name={`addons[${index}].checked`} checked={addon.checked} onChange={formik.handleChange} className="form-check-input" />
+                                    <span className="checkbox-title">{addon.name}</span>
+                                </label>
                             </div>
                         ))}
                         <button type="submit" className="btn btn-primary">
-                            Submit
+                            Assign
                         </button>
                     </form>
                 ) : (

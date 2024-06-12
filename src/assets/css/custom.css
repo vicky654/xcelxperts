@@ -277,3 +277,14 @@ label.form-check-label {
     justify-content: center;
     align-items: center;
 }
+.labelclick {
+
+        cursor: pointer;
+        background: #ddd;
+        padding: 10px;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        cursor:"pointer"
+    
+}
