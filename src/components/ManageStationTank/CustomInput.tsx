@@ -38,6 +38,7 @@ interface CustomInputProps {
     showEntityInput?: boolean;
     showStationInput?: boolean;
     showStationValidation?: boolean;
+    showDateValidation?: boolean;
     showDateInput?: boolean;
     validationSchema: any;
     layoutClasses: any;

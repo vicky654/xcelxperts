@@ -19,6 +19,8 @@ import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import AddEditStationFuelPurchaseModal from './AddEditStationFuelPurchaseModal';
+import { useFormik } from 'formik';
+import { stationSettingInitialValues } from '../FormikFormTools/InitialValues';
 
 interface ManageStationFuelPurchaseProps {
     isLoading: boolean;
@@ -42,6 +44,13 @@ interface RowData {
     getData: any;
 }
 
+interface ColData {
+    id: string; // Change type from number to string
+    fuel_name: string; // Change type from number to string
+    platts_price: string; // Change type from number to string
+
+}
+
 const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
@@ -54,7 +63,16 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    let storedKeyItems = localStorage.getItem("stationPurchase") || '[]';
+    let storedKeyName = "stationPurchase";
+
+
     useEffect(() => {
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            handleApplyFilters(JSON.parse(storedData));
+        }
         // fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
@@ -65,6 +83,74 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
+
+    const formik = useFormik<FormValues>({
+        // initialValues: stationSettingInitialValues,
+        initialValues: {},
+        // validationSchema: getStationValidationSchema(isEditMode),
+        onSubmit: async (values, { resetForm }) => {
+            try {
+
+                console.log(values, "values");
+
+
+                // const formData = new FormData();
+
+                // formData.append(`id`, station_id);
+
+                // formik?.values?.cards?.forEach((card, index) => {
+                //     if (card.checked) {
+                //         formData.append(`cards[${index}]`, card.id);
+                //     }
+                // });
+                // formik?.values?.dataEntryCard?.forEach((card, index) => {
+                //     if (card.checked) {
+                //         formData.append(`data_entry_card_id[${index}]`, card.id);
+                //     }
+                // });
+
+                // formik?.values?.fuels?.forEach((card, index) => {
+                //     if (card.checked) {
+                //         formData.append(`fuels[${index}]`, card.id);
+                //     }
+                // });
+                // formik?.values?.reports?.forEach((card, index) => {
+                //     if (card.checked) {
+                //         formData.append(`reports[${index}]`, card.id);
+                //     }
+                // });
+
+
+                // formik?.values?.charges?.forEach((card: any, index) => {
+                //     if (card.checked) {
+                //         formData.append(`charges[${index}]`, card.id);
+                //         formData.append(`charge_amount[${card.id}]`, card.charge_value);
+                //     }
+                // });
+                // formik?.values?.deductions?.forEach((card: any, index) => {
+                //     if (card.checked) {
+                //         formData.append(`deductions[${index}]`, card.id);
+                //         formData.append(`deduction_amount[${card.id}]`, card.deduction_value);
+                //     }
+                // });
+
+                // const url = `station/update-setting`;
+                // const navigationpath: string = '/manage-stations/station'
+                // const response = await postData(url, formData,);
+
+
+                // console.log(response, "test");
+
+                // if (response) {
+                //     navigate("/manage-stations/station")
+                // }
+
+            } catch (error) {
+                console.error('Submit error:', error);
+                throw error; // Rethrow the error to be handled by the caller
+            }
+        },
+    });
 
 
 
@@ -107,11 +193,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const columns = [
         {
             name: "FUEL NAME",
-            selector: (row) => row.fuel_name,
+            selector: (row: ColData) => row.fuel_name,
             sortable: false,
             width: "12.5%",
             center: true,
-            cell: (row) => (
+            cell: (row: ColData) => (
                 <span className="text-muted fs-15 fw-semibold text-center">
                     {row.fuel_name !== undefined ? `${row.fuel_name}` : ""}
                 </span>
@@ -119,18 +205,18 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         },
         {
             name: "PLATTS",
-            selector: (row) => row.platts_price,
+            selector: (row: ColData) => row.platts_price,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) => (
+            cell: (row: ColData, index: number) => (
                 <div>
                     <input
                         type="number"
                         id={`platts_price-${index}`}
                         name={`data[${index}].platts_price`}
-                        className="table-input"
+                        className="table-input form-input"
                         step="0.01"
                         value={
                             formik?.values?.data && formik.values.data[index]?.platts_price
@@ -162,7 +248,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             step="0.01"
                             id={`premium_price-${index}`}
                             name={`data[${index}].premium_price`}
-                            className="table-input"
+                            className="table-input form-input"
                             value={
                                 formik?.values?.data && formik.values.data[index]?.premium_price
                             }
@@ -193,7 +279,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             step="0.01"
                             id={`development_fuels_price-${index}`}
                             name={`data[${index}].development_fuels_price`}
-                            className="table-input"
+                            className="table-input form-input"
                             value={
                                 formik?.values?.data &&
                                 formik.values.data[index]?.development_fuels_price
@@ -225,7 +311,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             step="0.01"
                             id={`duty_price-${index}`}
                             name={`data[${index}].duty_price`}
-                            className="table-input"
+                            className="table-input form-input"
                             value={
                                 formik?.values?.data && formik.values.data[index]?.duty_price
                             }
@@ -257,7 +343,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             step="0.01"
                             id={`ex_vat_price-${index}`}
                             name={`data[${index}].ex_vat_price`}
-                            className="table-input readonly"
+                            className="table-input readonly form-input"
                             value={
                                 formik?.values?.data && formik.values.data[index]?.ex_vat_price
                             }
@@ -286,7 +372,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             step="0.01"
                             id={`vat_percentage_rate-${index}`}
                             name={`data[${index}].vat_percentage_rate`}
-                            className="table-input"
+                            className="table-input form-input"
                             value={
                                 formik?.values?.data &&
                                 formik.values.data[index]?.vat_percentage_rate
@@ -317,7 +403,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             type="number"
                             id={`total-${index}`}
                             name={`data[${index}].total`}
-                            className="table-input readonly"
+                            className="table-input readonly form-input"
                             value={formik?.values?.data && formik.values.data[index]?.total}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -331,129 +417,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         // ... remaining columns
     ];
 
-    // const columns: any = [
-    //     {
-    //         name: 'Station Name',
-    //         selector: (row: RowData) => row.station_name,
-    //         sortable: false,
-    //         width: '20%',
-    //         cell: (row: RowData) => (
-    //             <div className="d-flex">
-    //                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //                     <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
-    //                 </div>
-    //             </div>
-    //         ),
-    //     },
-    //     {
-    //         name: 'Station Code',
-    //         selector: (row: RowData) => row.station_code,
-    //         sortable: false,
-    //         width: '20%',
-    //         cell: (row: RowData) => (
-    //             <div className="d-flex">
-    //                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //                     <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
-    //                 </div>
-    //             </div>
-    //         ),
-    //     },
-    //     {
-    //         name: 'Station Address',
-    //         selector: (row: RowData) => row.station_address,
-    //         sortable: false,
-    //         width: '20%',
-    //         cell: (row: RowData) => (
-    //             <div className="d-flex">
-    //                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //                     <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
-    //                 </div>
-    //             </div>
-    //         ),
-    //     },
-    //     {
-    //         name: 'Created Date',
-    //         selector: (row: RowData) => row.created_date,
-    //         sortable: false,
-    //         width: '20%',
-    //         cell: (row: RowData) => (
-    //             <div className="d-flex" style={{ cursor: 'default' }}>
-    //                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //                     <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
-    //                 </div>
-    //             </div>
-    //         ),
-    //     },
-    //     {
-    //         name: 'Status',
-    //         selector: (row: RowData) => row.station_status,
-    //         sortable: false,
-    //         width: '10%',
-    //         cell: (row: RowData) => (
-    //             <Tippy content={<div>Status</div>} placement="top">
-    //                 {row.station_status === 1 || row.station_status === 0 ? (
-    //                     <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
-    //                 ) : (
-    //                     <div className="pointer" onClick={() => toggleActive(row)}>
-    //                         Unknown
-    //                     </div>
-    //                 )}
-    //             </Tippy>
-    //         ),
-    //     },
-    //     anyPermissionAvailable
-    //         ? {
-    //             name: 'Actions',
-    //             selector: (row: RowData) => row.id,
-    //             sortable: false,
-    //             width: '10%',
-    //             cell: (row: RowData) => (
-    //                 <span className="text-center">
-    //                     <div className="flex items-center justify-center">
-    //                         <div className="inline-flex">
-    //                             {/* <div className="dropdown">
-    //                                   <Dropdown
-    //                                       btnClassName="btn btn-success dropdown-toggle"
-    //                                       button={
-    //                                           <>
-    //                                               Action
-    //                                               <span>
-    //                                                   <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
-    //                                               </span>
-    //                                           </>
-    //                                       }
-    //                                   >
-    //                                       <ul className="!min-w-[170px]">
-    //                                           <li>
-    //                                               <button type="button">Edit</button>
-    //                                           </li>
-    //                                           <li>
-    //                                               <button type="button" onClick={() => handleDelete(row.id)}>
-    //                                                   Delete
-    //                                               </button>
-    //                                           </li>
-    //                                       </ul>
-    //                                   </Dropdown>
-    //                               </div> */}
-
-    //                             <Tippy content="Edit">
-    //                                 <button type="button" onClick={() => openModal(row?.id)}>
-    //                                     <IconPencil className="ltr:mr-2 rtl:ml-2" />
-    //                                 </button>
-    //                             </Tippy>
-    //                             <Tippy content="Delete">
-    //                                 <button onClick={() => handleDelete(row.id)} type="button">
-    //                                     <IconTrashLines />
-    //                                 </button>
-    //                             </Tippy>
-    //                         </div>
-    //                     </div>
-    //                 </span>
-    //             ),
-    //         }
-    //         : null,
-    // ];
-    // station/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
@@ -488,12 +451,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             formData.append("date", values.start_date1);
             formData.append("fuel_id", values.fuel_name);
             // values.sites.forEach((site, index) => {
-            //   formData.append(`site_id[${index}]`, site.id);
+            //   formData.append(`station_id[${index}]`, site.id);
             // });
             // const selectedSiteIds = selected?.map((site) => site.value);
 
             // selectedSiteIds?.forEach((id, index) => {
-            //     formData.append(`site_id[${index}]`, id);
+            //     formData.append(`station_id[${index}]`, id);
             // });
 
             if (userId) {
@@ -517,14 +480,32 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const handleApplyFilters = async (values: any) => {
         console.log(values, "handleApplyFilters");
 
-        const apiURL = `site/fuel/purchase-price?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values?.site_id}&date=${values.start_date}`
+        const apiURL = `station/fuel/purchase-price?client_id=${values.client_id}&entity_id=${values.entity_id}&station_id=${values?.station_id}&date=${values.start_date}`
 
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
+                formik.setValues(response.data.data)
                 setData(response.data.data);
-                setCurrentPage(response.data.data?.currentPage || 1);
-                setLastPage(response.data.data?.lastPage || 1);
+                const { data } = response;
+                if (data) {
+                    setData(data?.data);
+                    const formValues = data?.data.map((item) => {
+                        return {
+                            id: item.id,
+                            fuel_name: item.fuel_name,
+                            platts_price: item.platts_price,
+                            premium_price: item.premium_price,
+                            development_fuels_price: item.development_fuels_price,
+                            duty_price: item.duty_price,
+                            vat_percentage_rate: item.vat_percentage_rate,
+                            ex_vat_price: item.ex_vat_price,
+                            total: item.total,
+                        };
+                    });
+
+                    formik.setFieldValue("data", formValues);
+                }
             } else {
                 throw new Error('No data available in the response');
             }
@@ -537,15 +518,15 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         console.log(values, "filterValues");
     };
     console.log(data, "data");
+    console.log(formik?.values, "data formik in purchase");
 
     const validationSchemaForCustomInput = Yup.object({
-        company_id: Yup.string().required("Entity Is Required"),
         client_id: isNotClient
             ? Yup.string().required("Client Is Required")
             : Yup.mixed().notRequired(),
-        // client_id: Yup.string().required('Client Is Required'),
-        // company_id: Yup.string().required('Entity Is Required'),
-        // site_id: Yup.string().required('Station Is Required'),
+        entity_id: Yup.string().required("Entity Is Required"),
+        station_id: Yup.string().required('Station Is Required'),
+        start_date: Yup.string().required('Start Date Is Required'),
     });
 
     console.log(data, "data");
@@ -578,8 +559,27 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
 
 
-
                         <CustomInput
+                            getData={getData}
+                            isLoading={isLoading}
+                            onApplyFilters={handleApplyFilters}
+                            FilterValues={filterValues}
+                            showClientInput={true}  // or false
+                            showEntityInput={true}  // or false
+                            showStationInput={true} // or false
+                            showStationValidation={true} // or false
+                            showDateValidation={true} // or false
+                            validationSchema={validationSchemaForCustomInput}
+                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+                            isOpen={false}
+                            onClose={function (): void {
+                                throw new Error('Function not implemented.');
+                            }}
+                            showDateInput={true}
+                            // storedKeyItems={storedKeyItems}
+                            storedKeyName={storedKeyName}
+                        />
+                        {/* <CustomInput
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
@@ -594,7 +594,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             onClose={function (): void {
                                 throw new Error('Function not implemented.');
                             }}
-                        />
+                        /> */}
 
 
                     </div>
@@ -608,81 +608,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                         {data?.length > 0 ? (
                             <>
 
-                                {/* <table>
-                                    <thead>
-                                        <tr key={"header"}>
-                                            {data?.head_array?.map((shop: any) => (
-                                                <td className="text-center">{shop}</td>
-                                            ))}
-                                        </tr>
-                                        <tr>
-                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Name</th>
-                                            <th >Gross Purchases</th>
-                                            <th >Net Purchases</th>
-                                            <th className="text-center">Total Transaction</th>
-                                            <th className="text-center ltr:rounded-r-md rtl:rounded-l-md">Profit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
 
-                                        {data?.listing?.map((item: any) => (
-                                            <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }}>
-                                                <td className="whitespace-nowrap">
-                                                    <span
-                                                        className={
-                                                            item?.link_clickable
-                                                                ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
-                                                                : "text-muted fs-15 fw-semibold text-center"
-                                                        }
-                                                    // onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
-                                                    >
-                                                        {item?.site_name} <span className="itemcount">{item?.count}</span>
-                                                    </span>
-                                                </td>
-                                                <td className="whitespace-nowrap">
-                                                    <span className="text-muted fs-15 fw-semibold text-center">
-                                                        {item?.time}
-                                                    </span>
-                                                </td>
-
-                                                {Array.isArray(item?.fuels) &&
-                                                    item.fuels.map((fuel, index) => (
-                                                        <td key={index} className="whitespace-nowrap">
-                                                            {Array.isArray(fuel) ? (
-                                                                <input type="text" className="table-input readonly" readOnly />
-                                                            ) : (
-                                                                <input
-                                                                    type="number"
-                                                                    step="0.010"
-                                                                    className={`table-input ${fuel?.status === "UP"
-                                                                        ? "table-inputGreen"
-                                                                        : fuel?.status === "DOWN"
-                                                                            ? "table-inputRed"
-                                                                            : ""
-                                                                        } ${!fuel?.is_editable ? "readonly" : ""}`}
-                                                                    value={fuel?.price}
-                                                                    readOnly={!fuel?.is_editable}
-                                                                    id={fuel?.id}
-                                                                    onChange={(e) =>
-                                                                        handleInputChange(e.target.id, e.target.value)
-                                                                    }
-                                                                />
-                                                            )}
-                                                        </td>
-                                                    ))}
-                                            </tr>
-                                            // <tr key={shop.id}>
-                                            //     <td className="whitespace-nowrap">{shop?.name}</td>
-                                            //     <td className="whitespace-nowrap">{shop?.gross_Purchases}</td>
-                                            //     <td className="whitespace-nowrap">{shop?.nett_Purchases}</td>
-                                            //     <td className="text-center">{shop?.total_transactions}</td>
-                                            //     <td className="text-center">
-                                            //         <span className="badge bg-success/20 text-success rounded-full hover:top-0">{shop?.profit}</span>
-                                            //     </td>
-                                            // </tr>
-                                        ))}
-                                    </tbody>
-                                </table> */}
                                 <div className="datatables">
                                     <DataTable
                                         className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
