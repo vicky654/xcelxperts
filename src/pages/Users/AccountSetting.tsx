@@ -121,7 +121,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 .required('Email Is Required'),
         }),
         onSubmit: async (values) => {
-       
+
             const formData = new FormData();
             formData.append("first_name", values.first_name);
             formData.append("last_name", values.last_name);
@@ -211,7 +211,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
 
         onSubmit: async (values) => {
-          
+
             try {
                 const formData = new FormData();
                 formData.append("old_password", values.old_password);
@@ -223,7 +223,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 const data = await response.json();
 
 
-             
+
 
 
                 if (response.ok) {
@@ -241,7 +241,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 }
             } catch (error) {
                 handleApiError(error);
-            
+
             }
         },
     });
@@ -365,7 +365,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                 </li>
                             </>)}
 
-                    
+
                         </ul>
                     </div>
                     {tabs === 'home' ? (
@@ -561,11 +561,11 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                                 value={formik3.values.auto_logout}
                                                 className="form-select text-white-dark">
                                                 <option value="">Select an Auto Logout Time</option>
-                                                <option value="5">5</option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="30">30</option>
+                                                <option value="5">5 minutes</option>
+                                                <option value="10">10 minutes</option>
+                                                <option value="15">15 minutes</option>
+                                                <option value="20">20 minutes</option>
+                                                <option value="30">30 minutes</option>
                                             </select>
                                             {formik3.submitCount ? formik3.errors.auto_logout ? <div className="text-danger mt-1">{formik3.errors.auto_logout}</div> : "" : null}
                                         </div>

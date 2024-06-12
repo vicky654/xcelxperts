@@ -5,22 +5,11 @@ import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import CustomSwitch from '../../FormikFormTools/CustomSwitch';
-import useToggleStatus from '../../../utils/ToggleStatus';
-import useCustomDelete from '../../../utils/customDelete';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
-import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
-import IconSettings from '../../Icon/IconSettings';
-import { Formik, useFormik } from 'formik';
-import { getStationValidationSchema } from '../../FormikFormTools/ValidationSchema';
-// import { stationInitialValues, stationSettingInitialValues } from '../../FormikFormTools/InitialValues';
-import { Card, Col, Row } from 'react-bootstrap';
-import { string } from 'yup';
+import { useFormik } from 'formik';
+import { Card } from 'react-bootstrap';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -37,7 +26,7 @@ interface row {
 
 
 interface RouteParams {
-    id: string;
+    id: string; // Adjust the type according to your route configuration
 }
 
 interface RowData {
@@ -77,6 +66,7 @@ interface Card {
 
 interface FormValues {
     id: string;
+    station_name: string;
     cards: Card[];
     dataEntryCard: Card[];
     fuels: Card[];
@@ -91,6 +81,7 @@ interface FormValues {
 // Assuming stationSettingInitialValues has this structure
 const stationSettingInitialValues: FormValues = {
     id: '', // You can assign an initial value if needed
+    station_name: '', // You can assign an initial value if needed
     cards: [], // Assuming cards is an array of Card objects
     dataEntryCard: [],
     fuels: [],
@@ -104,47 +95,28 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
-    const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
-    const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
-    const [lastPage, setLastPage] = useState(1);
+    const { id } = useParams();
     const navigate = useNavigate();
-    const { id } = useParams<any>();
 
-
-
+    // Define the type of id
+    let station_id: any = id; // Assuming id is a string
 
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
-    const handleSuccess = () => {
-        fetchData();
-    };
 
-    const handlePageChange = (newPage: any) => {
-        setCurrentPage(newPage);
-    };
 
     const formik = useFormik<FormValues>({
         initialValues: stationSettingInitialValues,
         // validationSchema: getStationValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
-                console.log(values, "submitted");
 
                 const formData = new FormData();
 
-                // Ensure id is a string
-                const stationID: string = id;
-
-                console.log(typeof (stationID), "stationID");
-
-
-
-                formData.append(`id`, id: string);
+                formData.append(`id`, station_id);
 
                 formik?.values?.cards?.forEach((card, index) => {
                     if (card.checked) {
@@ -185,9 +157,10 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 const url = `station/update-setting`;
                 const response = await postData(url, formData);
 
+                if (response?.api_response === "success") {
+                    navigate("/manage-stations/station")
+                }
 
-                // await onSubmit(values, formik);
-                // onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -207,92 +180,6 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
         } catch (error) {
             handleApiError(error);
             // console.error('API error:', error);
-        }
-    };
-    const { toggleStatus } = useToggleStatus();
-    const toggleActive = (row: RowData) => {
-        const formData = new FormData();
-        formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
-    };
-    const { customDelete } = useCustomDelete();
-
-    const handleDelete = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
-    };
-    const handleNavigateStationSetting = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        navigate(`/manage-stations/setting/${id}`)
-    };
-
-
-
-
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
-
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
-
-
-    // station/detail?id=${selectedRowId}
-    const openModal = async (id: string) => {
-        try {
-            setIsModalOpen(true);
-            setIsEditMode(true);
-            setUserId(id);
-            // const response = await getData(`/station/detail?id=${id}`)`);
-            // const response = await getData(`/station/detail?id=${id}`);
-            // if (response && response.data) {
-            //     setUserId(id)
-            //     setEditUserData(response.data);
-            // }
-        } catch (error) {
-            console.error('Error fetching user details:', error);
-        }
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setIsEditMode(false);
-        setEditUserData(null);
-    };
-
-    const handleFormSubmit = async (values: any) => {
-        try {
-            const formData = new FormData();
-
-            formData.append('client_id', values.client_id);
-            formData.append('entity_id', values.entity_id);
-            formData.append('data_import_type_id', values.data_import_type_id);
-            formData.append('security_amount', values.security_amount);
-            formData.append('start_date', values.start_date);
-            formData.append('station_address', values.station_address);
-            formData.append('station_code', values.station_code);
-            formData.append('station_display_name', values.station_display_name);
-            formData.append('station_name', values.station_name);
-            formData.append('station_status', values.station_status);
-            formData.append('supplier_id', values.supplier_id);
-            if (userId) {
-                formData.append('id', userId);
-            }
-
-            const url = isEditMode && userId ? `/station/update` : `/station/create`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-
-                handleSuccess();
-                closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
-        } catch (error) {
-            handleApiError(error);
         }
     };
 
@@ -566,7 +453,6 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
         },
     ];
 
-    console.log(formik?.values, "formik values in setting");
 
     return (
         <>
@@ -588,7 +474,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Stations</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> {formik?.values?.station_name} Station</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
@@ -779,7 +665,6 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 </form>
 
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };
