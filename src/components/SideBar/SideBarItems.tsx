@@ -90,21 +90,34 @@ const menuItems: MenuItem[] = [
         ],
     },
     {
-        key: 'Charges',
-        title: 'Charges',
+        key: 'PaidOuts',
+        title: 'PaidOuts',
         icon: IconMenuDatatables,
         link: '/manage-charges/charges', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
+        subMenu: [
+            { title: 'Charges', link: '/manage-charges/charges', permission: 'user-list', visibility: false },
+            { title: 'Deductions', link: '/manage-deductions/deductions', permission: 'user-list', visibility: false },
+         // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
+        ],
     },
-    {
-        key: 'deductions',
-        title: 'Deductions',
-        icon: IconMenuDatatables,
-        link: '/manage-deductions/deductions', // Single link for the dashboard
-        visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
-    },
+    // {
+    //     key: 'Charges',
+    //     title: 'Charges',
+    //     icon: IconMenuDatatables,
+    //     link: '/manage-charges/charges', // Single link for the dashboard
+    //     visibility: false, // Example of setting visibility to false
+    //     permission: 'dashboard-view', // Permission associated with the dashboard
+    // },
+    // {
+    //     key: 'deductions',
+    //     title: 'Deductions',
+    //     icon: IconMenuDatatables,
+    //     link: '/manage-deductions/deductions', // Single link for the dashboard
+    //     visibility: false, // Example of setting visibility to false
+    //     permission: 'dashboard-view', // Permission associated with the dashboard
+    // },
     {
         key: 'supplier',
         title: 'Supplier',
