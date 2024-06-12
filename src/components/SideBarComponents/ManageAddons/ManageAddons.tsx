@@ -52,9 +52,9 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/role/list?page=${currentPage}`);
+            const response = await getData(`/addon/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.roles);
+                setData(response.data.data?.addons);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -70,7 +70,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'name/delete', formData, handleSuccess);
+        customDelete(postData, 'addons/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -81,11 +81,11 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
 
 
     const openEditRolePage = (id: string) => {
-      navigate(`/manage-roles/edit-roles/${id}`);
+      navigate(`/manage-addons/edit-addon/${id}`);
     };
     const columns: any = [
         {
-            name: 'User Name',
+            name: 'Addon',
             selector: (row: RowData) => row.name,
             sortable: false,
             width: '20%',
@@ -152,49 +152,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
               }
             : null,
     ];
-    const openModal = async (id: string) => {
-        try {
-            setIsModalOpen(true);
-            setIsEditMode(true);
-            setUserId(id);
-        } catch (error) {
-            console.error('Error fetching user details:', error);
-        }
-    };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setIsEditMode(false);
-        setEditUserData(null);
-    };
-
-    const handleFormSubmit = async (values: any) => {
-        try {
-            const formData = new FormData();
-            formData.append('first_name', values.first_name);
-            formData.append('last_name', values.last_name);
-            formData.append('role_id', values.role);
-            formData.append('email', values.email);
-            formData.append('phone_number', values.phone_number);
-            if (values.password) {
-                formData.append('password', values.password);
-            }
-            if (userId) {
-                formData.append('id', userId);
-            }
-            const url = isEditMode && userId ? `/user/update` : `/user/add`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-                handleSuccess();
-                closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
 
     return (
         <>
@@ -207,17 +165,17 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Users</span>
+                        <span>Addons</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-roles/add-roles')}>
-                    Add User
+                <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-addons/add-addon')}>
+                    Add Addon
                 </button>
             </div>
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Addons</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>

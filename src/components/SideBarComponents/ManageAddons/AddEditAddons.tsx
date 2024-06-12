@@ -31,7 +31,7 @@ interface RoleDetail {
 }
 
 const validationSchema = Yup.object().shape({
-    roleName: Yup.string().required('Role name is required'),
+    roleName: Yup.string().required('Addon name is required'),
     selectedPermissions: Yup.array().min(1, 'Select at least one permission').required('Select at least one permission'),
 });
 
@@ -61,7 +61,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 
     const fetchRoleDetail = async (id: any) => {
         try {
-            const response = await getData(`/role/detail/${id}`);
+            const response = await getData(`/addon/detail/${id}`);
             if (response && response.data) {
                 const roleDetail = response.data?.data;
                 formik.setFieldValue('roleName', roleDetail.name);
@@ -104,7 +104,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                 permissions: values.selectedPermissions,
             };
 
-            const postDataUrl = id ? `/role/update` : '/role/create';
+            const postDataUrl = id ? `/addon/update` : '/addon/create';
 
             if (id) {
                 formData.role_id = id;
@@ -165,7 +165,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
     };
 
     const handleSuccess = () => {
-        navigate('/manage-roles/roles');
+        navigate('/manage-addons/addons');
     };
 
     return (
@@ -180,115 +180,66 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             </Link>
                         </li>
                         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                            <span>Users</span>
+                            <span>Addon</span>
                         </li>
                     </ul>
-                    <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-roles/add-roles')}>
-                        Add User
-                    </button>
                 </div>
 
                 <div className="bg-white shadow rounded-lg p-6">
                     <form onSubmit={formik.handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">
-                                Role Name
+                                Addon Name
                             </label>
-                            <input
-                                id="roleName"
-                                name="roleName"
-                                type="text"
-                                className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${formik.touched.roleName && formik.errors.roleName ? 'border-red-500' : ''}`}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.roleName}
-                            />
+                            <input id="roleName" name="roleName" type="text" className="form-input flex-1" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
                         </div>
 
-                      
-										<div className='row'>
-											{Object.keys(permissions).map((sectionName) => (
-												<div key={sectionName} className='col-6'>
-													<div className='mb-4'>
-														<div className='heading-div'>
-															<input
-																className='form-check-input'
-																type='checkbox'
-																checked={formik.values.selectedPermissions.some(
-																	(permId) =>
-																		permissions[
-																			sectionName
-																		].names.some(
-																			(perm) =>
-																				perm.name ===
-																				permId,
-																		),
-																)}
-																onChange={(e) =>
-																	handleSectionSelect(
-																		sectionName,
-																		e.target.checked,
-																	)
-																}
-															/>
-															<span className='checkbox-title ml-2'>
-																{sectionName}
-															</span>
-														</div>
-														<div className='pl-4'>
-															{permissions[sectionName].names.map(
-																(perm) => (
-																	<div
-																		key={perm.name}
-																		className='form-check form-check-inline mb-2'>
-																		<input
-																			className='form-check-input'
-																			type='checkbox'
-																			id={`perm-${perm.name}`}
-																			name={`selectedPermissions`}
-																			value={perm.name}
-																			checked={formik.values.selectedPermissions.includes(
-																				perm.name,
-																			)}
-																			onChange={(e) =>
-																				handlePermissionSelect(
-																					perm.name,
-																					e.target
-																						.checked,
-																				)
-																			}
-																		/>
-																		<label
-																			className='form-check-label ml-2'
-																			htmlFor={`perm-${perm.name}`}>
-																			{perm.display_name}
-																		</label>
-																	</div>
-																),
-															)}
-															{formik.touched.selectedPermissions &&
-																formik.errors
-																	.selectedPermissions && (
-																	<div className='invalid-feedback d-block'>
-																		{
-																			formik.errors
-																				.selectedPermissions
-																		}
-																	</div>
-																)}
-														</div>
-													</div>
-												</div>
-											))}
-										</div>
+                        <div className="row">
+                            {Object.keys(permissions).map((sectionName) => (
+                                <div key={sectionName} className="col-6">
+                                    <div className="mb-4">
+                                        <div className="heading-div">
+                                            <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                checked={formik.values.selectedPermissions.some((permId) => permissions[sectionName].names.some((perm) => perm.name === permId))}
+                                                onChange={(e) => handleSectionSelect(sectionName, e.target.checked)}
+                                            />
+                                            <span className="checkbox-title ml-2">{sectionName}</span>
+                                        </div>
+                                        <div className="permissions-list">
+                                            {permissions[sectionName].names.map((perm) => (
+                                                <div key={perm.name} className="form-check form-check-inline mb-2 permission-item">
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        id={`perm-${perm.name}`}
+                                                        name={`selectedPermissions`}
+                                                        value={perm.name}
+                                                        checked={formik.values.selectedPermissions.includes(perm.name)}
+                                                        onChange={(e) => handlePermissionSelect(perm.name, e.target.checked)}
+                                                    />
+                                                    <label className="form-check-label ml-2" htmlFor={`perm-${perm.name}`}>
+                                                        {perm.display_name}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                            {formik.touched.selectedPermissions && formik.errors.selectedPermissions && (
+                                                <div className="invalid-feedback d-block">{formik.errors.selectedPermissions}</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
                         <div className="mt-4">
                             <button
                                 type="submit"
                                 className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
-                                {id ? 'Update Role' : 'Add Role'}
+                                {id ? 'Update Addon' : 'Add Addon'}
                             </button>
                             <button
                                 type="button"

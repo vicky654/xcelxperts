@@ -236,3 +236,18 @@ label.form-check-label {
   border-color: none;
 
 }
+.permissions-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+  }
+  
+  .permissions-list .permission-item {
+    flex: 1 0 25%; /* Each item takes up 25% of the container's width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+  
+  /* Optional: Add some padding or margin to items for better spacing */
+  .permissions-list .permission-item {
+    padding: 10px;
+  }
+  

@@ -55,6 +55,14 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    {
+        key: 'ManageAddons',
+        title: 'Addons',
+        icon: IconUser,
+        link: '/manage-addons/addons', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'dashboard-view', // Permission associated with the dashboard
+    },
 
     {
         key: 'entity',
