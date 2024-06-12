@@ -1,12 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin');
+
+// Define the rotateX plugin
 const rotateX = plugin(function ({ addUtilities }) {
     addUtilities({
-        '.rotate-y-180': {
-            transform: 'rotateY(180deg)',
+        '.rotate-x-180': {
+            transform: 'rotateX(180deg)',
+        },
+        '.rotate-x-90': {
+            transform: 'rotateX(90deg)',
+        },
+        '.rotate-x-45': {
+            transform: 'rotateX(45deg)',
+        },
+        '.rotate-x-30': {
+            transform: 'rotateX(30deg)',
         },
     });
 });
+
 module.exports = {
     content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
     darkMode: 'class',

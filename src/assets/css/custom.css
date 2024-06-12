@@ -288,3 +288,13 @@ label.form-check-label {
         cursor:"pointer"
     
 }
+.horizontal-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Adjust the value as needed */
+}
+
+.horizontal-menu li {
+    margin: 1px; /* Adjust the value as needed */
+    list-style: none; /* Remove default list styles if necessary */
+}
