@@ -271,7 +271,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             const url = isEditMode && userId ? `/station/pump/update` : `/station/pump/create`;
             const response = await postData(url, formData);
 
-            if (response && response.status_code == 200) {
+            if (response) {
 
                 handleSuccess();
                 closeModal();
