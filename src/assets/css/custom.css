@@ -190,8 +190,6 @@
     font-weight: 500;
 }
 
-
-
 span.checkbox-title {
     margin-left: 10px;
     font-weight: 500;
@@ -225,7 +223,7 @@ label.form-check-label {
     justify-content: start;
 }
 
-.btn-dark  {
+.btn-dark {
     background-color: #3b3f5c !important;
 }
 
@@ -269,15 +267,13 @@ border-color: none;
     align-items: center;
 }
 .labelclick {
-
-        cursor: pointer;
-        background: #ddd;
-        padding: 10px;
-        display: flex;
-        justify-content: start;
-        align-items: center;
-        cursor:"pointer"
-    
+    cursor: pointer;
+    background: #ddd;
+    padding: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    cursor: 'pointer';
 }
 .horizontal-menu {
     display: flex;
@@ -314,28 +310,24 @@ border-color: none;
 li.menu.nav-item.relative {
     margin-left: 6px !important;
 }
-.panel{
+.panel {
     border-radius: 0px !important;
 }
 
 .btn {
-
     border-radius: 0px !important;
-
 }
 .horizontal-menu .nav-link {
-  
     border-radius: 0px !important;
- 
 }
-.btn-gradient{
-    background: linear-gradient(18deg, rgba(8,70,154,1) 0%, rgba(54,116,200,1) 62%, rgba(121,178,255,1) 100%) !important;
+.btn-gradient {
+    background: linear-gradient(18deg, rgba(8, 70, 154, 1) 0%, rgba(54, 116, 200, 1) 62%, rgba(121, 178, 255, 1) 100%) !important;
     color: white;
     /* Add other styles as needed */
 }
 
 .btn-gradient:hover {
-    background: linear-gradient(18deg, rgba(54,116,200,1) 0%, rgba(8,70,154,1) 100%) !important;
+    background: linear-gradient(18deg, rgba(54, 116, 200, 1) 0%, rgba(8, 70, 154, 1) 100%) !important;
     /* Define hover effect if needed */
 }
 .bg-indigo-600 {
@@ -347,9 +339,79 @@ li.menu.nav-item.relative {
     border-radius: 0px !important;
 }
 .rounded-md {
-    border-radius: 0px  !important;
+    border-radius: 0px !important;
 }
 .form-input {
     /* border: 1px Solid #ddd !important; */
     border-radius: 0px !important;
+}
+/* Ensure this CSS is included in your project */
+
+body.swal2-toast-shown .swal2-container.swal2-top {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100% !important;
+}
+.swal2-container.swal2-top > .swal2-popup {
+    grid-column: 2;
+    align-self: start;
+    justify-self: auto !important;
+}
+
+/* styles.css or your preferred stylesheet */
+
+.error-toast {
+    background-color: #f44336; /* Red background for error messages */
+    color: white; /* White text color */
+    border-color: #d32f2f; /* Darker red border color */
+}
+
+.success-toast {
+    background-color: #4caf50; /* Green background for success messages */
+    color: white; /* White text color */
+    border-color: #388e3c; /* Darker green border color */
+}
+
+.toast-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.toast-message {
+    font-size: 14px;
+}
+body.swal2-toast-shown .swal2-container.swal2-top {
+    width: 100% !important;
+    padding: 0px !important;
+    border-radius: 0px !important;
+}
+.swal2-container .swal2-popup.swal2-toast {
+    --tw-bg-opacity: 1;
+    background-color: green;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+.swal2-container .swal2-popup.swal2-toast {
+    --tw-bg-opacity: 1;
+    background-color: green !important;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.swal2-popup.swal2-toast.error-toast.swal2-icon-error.swal2-show {
+    background: red !important;
+    border-radius: 0px;
+}
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #fff !important;
+}
+.swal2-container.swal2-top > .swal2-popup {
+    border-radius: 0px;
 }

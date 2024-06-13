@@ -15,6 +15,7 @@ import IconTrendingUp from '../components/Icon/IconTrendingUp';
 import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import showMessage from '../hooks/showMessage';
 
 interface FilterValues {
     client_id: string;
@@ -387,10 +388,21 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     //     </div>
     // );
+    const handleSuccessClick = () => {
+        showMessage('Operation was successful!', 'success');
+      };
+    
+      const handleErrorClick = () => {
+        showMessage('Error: Something went wrong.', 'error');
+      };
 
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
+            <div>
+      <button onClick={handleSuccessClick}>Show Success Alert</button>
+      <button onClick={handleErrorClick}>Show Error Alert</button>
+    </div>
             <div>
                 <div className="flex justify-between items-center">
                     <ul className="flex space-x-2 rtl:space-x-reverse">
