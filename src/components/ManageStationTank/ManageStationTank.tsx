@@ -116,7 +116,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.tank_name}</h6>
                     </div>
                 </div>
@@ -129,7 +129,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
                     </div>
                 </div>
@@ -155,7 +155,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
                     </div>
                 </div>

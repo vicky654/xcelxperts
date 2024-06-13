@@ -218,7 +218,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.card_name}</h6>
                     </div>
                 </div>
@@ -255,7 +255,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.drs_card_name}</h6>
                     </div>
                 </div>
@@ -292,7 +292,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
                     </div>
                 </div>
@@ -329,7 +329,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             width: "80%",
             cell: (row: CardRow) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.report_name}</h6>
                     </div>
                 </div>
@@ -369,7 +369,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             sortable: false,
             cell: (row: CardRow, index: number) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
                     </div>
                 </div>
@@ -428,7 +428,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             sortable: false,
             cell: (row: CardRow, index: number) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
                     </div>
                 </div>

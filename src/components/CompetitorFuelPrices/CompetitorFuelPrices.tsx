@@ -108,7 +108,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
                     </div>
                 </div>
@@ -147,7 +147,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
                     </div>
                 </div>

@@ -104,7 +104,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+               <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.entity_name}</h6>
                     </div>
                 </div>
@@ -117,7 +117,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+               <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.entity_code}</h6>
                     </div>
                 </div>
@@ -130,7 +130,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+               <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.entity_details}</h6>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+               <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
                     </div>
                 </div>

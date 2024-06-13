@@ -109,7 +109,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             width: '30%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{`${row.full_name}`}</h6>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{`${row.email}`}</h6>
                     </div>
                 </div>
@@ -135,7 +135,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{`${row.created_date}`}</h6>
                     </div>
                 </div>
