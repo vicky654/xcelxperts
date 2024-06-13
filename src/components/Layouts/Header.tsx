@@ -127,85 +127,65 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                             </button>
                         </div>
 
-                        <div className="dropdown shrink-0">
-                            <Dropdown
-                                offset={[0, 8]}
-                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                btnClassName="relative block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                                button={
-                                    <span>
-                                        <IconBellBing />
-                                        <span className="flex absolute w-3 h-3 ltr:right-0 rtl:left-0 top-0">
-                                            <span className="animate-ping absolute ltr:-left-[3px] rtl:-right-[3px] -top-[3px] inline-flex h-full w-full rounded-full bg-success/50 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full w-[6px] h-[6px] bg-success"></span>
-                                        </span>
-                                    </span>
-                                }
-                            ></Dropdown>
-                        </div>
+             
                         <div className="dropdown shrink-0 flex">
-                            <Dropdown
-                                offset={[0, 8]}
-                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                btnClassName="relative group block"
-                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/assets/images/user-profile.jpeg" alt="userProfile" />}
-                            >
-                                <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
-                                    <li className="px-4 py-4">
-                                        <div className="flex items-center ">
-                                            <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
-                                            <div className="ltr:pl-4 rtl:pr-4 truncate">
-                                                <h4 className="text-base">
-                                                    <span className="block whitespace-normal">
-                                                        {data?.first_name} {data?.last_name}
-                                                    </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <span className=" hover:rounded-sm whitespace-normal text-black/60hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0 ">{data?.email}</span>
-                                    </li>
-                                    {isProfileUpdatePermissionAvailable && (
-                                        <li>
-                                            <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                                                <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                                Edit Profile
-                                            </button>
-                                        </li>
-                                    )}
-                                    {isSettingsPermissionAvailable && (
-                                        <li>
-                                            <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                                                <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                                Setting
-                                            </button>
-                                        </li>
-                                    )}
-
-                                    {/* <li>
-                                        <Link to="/apps/mailbox" className="dark:hover:text-white">
-                                            <IconMail className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                            Inbox
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/auth/boxed-lockscreen" className="dark:hover:text-white">
-                                            <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                            Lock Screen
-                                        </Link>
-                                    </li> */}
-                                    <li className="border-t border-white-light dark:border-white-light/10">
-                                        <Link
-                                            onClick={logout}
-                                            to="#" // Placeholder value
-                                            // to="/auth/boxed-signin"
-                                            className="text-danger !py-3"
-                                        >
-                                            <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
-                                            Sign Out
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </Dropdown>
+                        <Dropdown
+            offset={[0, 8]}
+            placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
+            btnClassName="relative group block"
+            button={
+                <div className="flex items-center" style={{background:"#3b3f5c",borderRadius:"10px",padding:"5px 10px",fontWeight:"700",color:"#fff"}}>
+                    
+                    <img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/assets/images/user-profile.jpeg" alt="userProfile" />
+                    <span className="ml-2">{data?.first_name}</span>
+                </div>
+            }
+        >
+            <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
+                <li className="px-4 py-4">
+                    <div className="flex items-center">
+                        <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
+                        <div className="ltr:pl-4 rtl:pr-4 truncate">
+                            <h4 className="text-base">
+                                <span className="block whitespace-normal">
+                                    {data?.full_name}
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+                    <span className="hover:rounded-sm whitespace-normal text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0">
+                        {data?.email}
+                    </span>
+                </li>
+                {isProfileUpdatePermissionAvailable && (
+                    <li>
+                        <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
+                            <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                            Edit Profile
+                        </button>
+                    </li>
+                )}
+                {isSettingsPermissionAvailable && (
+                    <li>
+                        <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
+                            <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                            Setting
+                        </button>
+                    </li>
+                )}
+                <li className="border-t border-white-light dark:border-white-light/10">
+                    <Link
+                        onClick={logout}
+                        to="#" // Placeholder value
+                        // to="/auth/boxed-signin"
+                        className="text-danger !py-3"
+                    >
+                        <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
+                        Sign Out
+                    </Link>
+                </li>
+            </ul>
+        </Dropdown>
                         </div>
                     </div>
                 </div>

@@ -160,12 +160,12 @@
     font-size: 3.75em !important;
 }
 
-.form-input:focus,
+/* .form-input:focus,
 .form-textarea:focus,
 .form-select:focus,
 .form-multiselect:focus {
     color: #0e1726 !important;
-}
+} */
 
 .text-white-dark {
     color: #0e1726 !important;
@@ -177,13 +177,10 @@
 
 .form-check-input {
     --bs-form-check-bg: #f8f9fa;
-
     width: 1.5em;
     height: 1.5em;
-
     background-color: #e0e0f9;
     background-image: var(--bs-form-check-bg-image);
-
     border: 1px solid #dee2e6;
 }
 
@@ -236,14 +233,13 @@ label.form-check-label {
     background-color: #4361ee !important;
 }
 
-.form-input,
+/* .form-input,
 .form-textarea,
 .form-select,
 .form-multiselect {
+border-color: none;
 
-    border-color: none;
-
-}
+} */
 
 .permissions-list {
     display: flex;
@@ -305,4 +301,8 @@ label.form-check-label {
     color: #fff;
     margin-bottom: 10px;
     padding: 10px !important;
+}
+.form-input {
+    border: 1px Solid #ddd !important;
+    border-radius: 7px !important;
 }

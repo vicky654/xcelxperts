@@ -554,7 +554,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <>
-                                <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
+                                <div className="badges-container flex flex-wrap items-center gap-2 px-4  rounded-lg text-white" style={{background:"#ddd"}}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
                                             <span className="font-semibold">Client Name:</span> {filters.client_id}
