@@ -280,7 +280,7 @@ const PricingTable = () => {
                                             <li>1 TB Premium Bandwidth</li>
                                         </ul>
                                     </div>
-                                    <button type="button" className="btn btn-dark w-full">
+                                    <button type="button" className="btn btn-dark gradient-blue-to-blue w-full">
                                         Buy Now
                                     </button>
                                 </div>
@@ -317,7 +317,7 @@ const PricingTable = () => {
                                             <li>5 TB Premium Bandwidth</li>
                                         </ul>
                                     </div>
-                                    <button type="button" className="btn btn-dark w-full">
+                                    <button type="button" className="btn btn-dark gradient-blue-to-blue w-full">
                                         Buy Now
                                     </button>
                                 </div>
@@ -361,7 +361,7 @@ const PricingTable = () => {
                         <li>1 TB Premium Bandwidth</li>
                     </ul>
                 </div>
-                <button type="button" className="btn btn-dark w-full">
+                <button type="button" className="btn btn-dark gradient-blue-to-blue w-full">
                     Buy Now
                 </button>
             </div>
@@ -398,7 +398,7 @@ const PricingTable = () => {
                         <li>5 TB Premium Bandwidth</li>
                     </ul>
                 </div>
-                <button type="button" className="btn btn-dark w-full">
+                <button type="button" className="btn btn-dark gradient-blue-to-blue w-full">
                     Buy Now
                 </button>
             </div>

@@ -371,141 +371,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         },
     };
 
-    //Daily Sales
-    const dailySales: any = {
-        series: [
-            {
-                name: 'Sales',
-                data: [44, 55, 41, 67, 22, 43, 21],
-            },
-            {
-                name: 'Last Week',
-                data: [13, 23, 20, 8, 13, 27, 33],
-            },
-        ],
-        options: {
-            chart: {
-                height: 160,
-                type: 'bar',
-                fontFamily: 'Nunito, sans-serif',
-                toolbar: {
-                    show: false,
-                },
-                stacked: true,
-                stackType: '100%',
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                show: true,
-                width: 1,
-            },
-            colors: ['#e2a03f', '#e0e6ed'],
-            responsive: [
-                {
-                    breakpoint: 480,
-                    options: {
-                        legend: {
-                            position: 'bottom',
-                            offsetX: -10,
-                            offsetY: 0,
-                        },
-                    },
-                },
-            ],
-            xaxis: {
-                labels: {
-                    show: false,
-                },
-                categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-            },
-            yaxis: {
-                show: false,
-            },
-            fill: {
-                opacity: 1,
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '25%',
-                },
-            },
-            legend: {
-                show: false,
-            },
-            grid: {
-                show: false,
-                xaxis: {
-                    lines: {
-                        show: false,
-                    },
-                },
-                padding: {
-                    top: 10,
-                    right: -20,
-                    bottom: -20,
-                    left: -20,
-                },
-            },
-        },
-    };
 
-    //Total Orders
-    const totalOrders: any = {
-        series: [
-            {
-                name: 'Sales',
-                data: [28, 40, 36, 52, 38, 60, 38, 52, 36, 40],
-            },
-        ],
-        options: {
-            chart: {
-                height: 290,
-                type: 'area',
-                fontFamily: 'Nunito, sans-serif',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 2,
-            },
-            colors: isDark ? ['#00ab55'] : ['#00ab55'],
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            yaxis: {
-                min: 0,
-                show: false,
-            },
-            grid: {
-                padding: {
-                    top: 125,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            fill: {
-                opacity: 1,
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical',
-                    shadeIntensity: 1,
-                    inverseColors: !1,
-                    opacityFrom: 0.3,
-                    opacityTo: 0.05,
-                    stops: [100, 100],
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-            },
-        },
-    };
 
     const handleClickToOverView = () => {
         if (filterData) {
@@ -529,9 +395,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 <div className="flex justify-between items-center">
                     <ul className="flex space-x-2 rtl:space-x-reverse">
                         <li>
-                            <Link to="/" className="text-primary hover:underline">
-                                Dashboard
-                            </Link>
+                       
                         </li>
                     </ul>
 
@@ -578,7 +442,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             ''
                         )}
 
-                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
+                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
                             Apply Filter
                         </button>
 
@@ -662,7 +526,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className={`panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400 ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>

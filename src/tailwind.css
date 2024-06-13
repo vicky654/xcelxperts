@@ -321,7 +321,7 @@ hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark
         @apply border-info text-info shadow-none hover:bg-info hover:text-white;
     }
 
-    .btn-dark {
+    .btn-dark  {
         @apply border-dark bg-dark text-white shadow-dark/60;
     }
 

@@ -328,7 +328,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
                     Add Tank Station
                 </button>
             </div>

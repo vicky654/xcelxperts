@@ -282,7 +282,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         <span>Entities</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
                     Add Entity
                 </button>
             </div>

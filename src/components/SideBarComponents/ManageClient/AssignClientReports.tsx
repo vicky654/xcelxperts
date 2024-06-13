@@ -96,7 +96,7 @@ const AssignClientReports: React.FC<AssignClientReportsProps> = ({ postData, get
             </div>
 
             <div className="panel mt-6">
-                <div className="btn-dark p-2 mb-3">
+                <div className="btn-dark gradient-blue-to-blue p-2 mb-3">
                     <h5 className="font-semibold text-lg dark:text-white-light">Assign Reports</h5>
                 </div>
 

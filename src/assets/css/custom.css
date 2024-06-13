@@ -225,12 +225,12 @@ label.form-check-label {
     justify-content: start;
 }
 
-.btn-dark {
+.btn-dark  {
     background-color: #3b3f5c !important;
 }
 
 .btn-primary {
-    background-color: #4361ee !important;
+    background: linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to));
 }
 
 /* .form-input,
@@ -313,4 +313,36 @@ border-color: none;
 }
 li.menu.nav-item.relative {
     margin-left: 6px !important;
+}
+.panel{
+    border-radius: 0px !important;
+}
+
+.btn {
+
+    border-radius: 0px !important;
+
+}
+.horizontal-menu .nav-link {
+  
+    border-radius: 0px !important;
+ 
+}
+.btn-gradient{
+    background: linear-gradient(18deg, rgba(8,70,154,1) 0%, rgba(54,116,200,1) 62%, rgba(121,178,255,1) 100%) !important;
+    color: white;
+    /* Add other styles as needed */
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(18deg, rgba(54,116,200,1) 0%, rgba(8,70,154,1) 100%) !important;
+    /* Define hover effect if needed */
+}
+.bg-indigo-600 {
+    border-radius: 0px !important;
+    background: linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to));
+}
+.bg-red-600 {
+    background: linear-gradient(90deg, var(--secondary-color-from), var(--secondary-color-to));
+    border-radius: 0px !important;
 }

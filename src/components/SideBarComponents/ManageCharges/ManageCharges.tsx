@@ -236,7 +236,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         <span>Charges</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
                     Add Charge
                 </button>
             </div>

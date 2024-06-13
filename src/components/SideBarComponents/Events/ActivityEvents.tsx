@@ -134,7 +134,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
                         ) : row.action === '2' ? (
                             <button className="btn btn-danger btn-sm">Delete</button>
                         ) : row.action === '3' ? (
-                            <button className="btn btn-dark btn-sm">Assign</button>
+                            <button className="btn btn-dark gradient-blue-to-blue btn-sm">Assign</button>
                         ) : (
                             <button className="badge">Unknown</button>
                         )}

@@ -157,7 +157,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                         <span>Roles</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark" onClick={() => navigate('/manage-roles/add-roles')}>
+                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => navigate('/manage-roles/add-roles')}>
                     Add Role
                 </button>
             </div>

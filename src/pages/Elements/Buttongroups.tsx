@@ -55,13 +55,13 @@ const Buttongroups = () => {
                     </div>
                     <div className="mb-5 text-center">
                         <div className="relative inline-flex align-middle">
-                            <button type="button" className="btn btn-dark ltr:rounded-r-none rtl:rounded-l-none">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-r-none rtl:rounded-l-none">
                                 Left
                             </button>
-                            <button type="button" className="btn btn-dark rounded-none">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none">
                                 Middle
                             </button>
-                            <button type="button" className="btn btn-dark ltr:rounded-l-none rtl:rounded-r-none">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-l-none rtl:rounded-r-none">
                                 Right
                             </button>
                         </div>
@@ -69,13 +69,13 @@ const Buttongroups = () => {
                     {codeArr.includes('code1') && (
                         <CodeHighlight>
                             <pre>{`<div className="relative inline-flex align-middle">
-    <button type="button" className="btn btn-dark ltr:rounded-r-none rtl:rounded-l-none">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-r-none rtl:rounded-l-none">
         Left
     </button>
-    <button type="button" className="btn btn-dark rounded-none">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none">
         Middle
     </button>
-    <button type="button" className="btn btn-dark ltr:rounded-l-none rtl:rounded-r-none">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-l-none rtl:rounded-r-none">
         Right
     </button>
 </div>`}</pre>
@@ -101,16 +101,16 @@ const Buttongroups = () => {
                     <div className="mb-5">
                         <div className="flex flex-wrap justify-center sm:justify-between items-center gap-2 w-full">
                             <div className="relative inline-flex align-middle">
-                                <button type="button" className="btn btn-dark ltr:rounded-r-none rtl:rounded-l-none">
+                                <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-r-none rtl:rounded-l-none">
                                     1
                                 </button>
-                                <button type="button" className="btn btn-dark rounded-none">
+                                <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none">
                                     2
                                 </button>
-                                <button type="button" className="btn btn-dark rounded-none">
+                                <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none">
                                     3
                                 </button>
-                                <button type="button" className="btn btn-dark ltr:rounded-l-none rtl:rounded-r-none">
+                                <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-l-none rtl:rounded-r-none">
                                     4
                                 </button>
                             </div>
@@ -128,16 +128,16 @@ const Buttongroups = () => {
                         <CodeHighlight>
                             <pre>{`<div className="flex flex-wrap justify-center sm:justify-between items-center gap-2 w-full">
     <div className="relative inline-flex align-middle">
-        <button type="button" className="btn btn-dark ltr:rounded-r-none rtl:rounded-l-none">
+        <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-r-none rtl:rounded-l-none">
             1
         </button>
-        <button type="button" className="btn btn-dark rounded-none">
+        <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none">
             2
         </button>
-        <button type="button" className="btn btn-dark rounded-none">
+        <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none">
             3
         </button>
-        <button type="button" className="btn btn-dark ltr:rounded-l-none rtl:rounded-r-none">
+        <button type="button" className="btn btn-dark gradient-blue-to-blue ltr:rounded-l-none rtl:rounded-r-none">
             4
         </button>
     </div>
@@ -172,7 +172,7 @@ const Buttongroups = () => {
                     </div>
                     <div className="mb-5 text-center">
                         <div className="relative inline-flex align-middle flex-col items-start justify-center">
-                            <button type="button" className="btn btn-dark rounded-b-none w-full">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-b-none w-full">
                                 Button
                             </button>
                             <div className="relative">
@@ -180,7 +180,7 @@ const Buttongroups = () => {
                                     <Dropdown
                                         offset={[0, 5]}
                                         placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                        btnClassName="btn dropdown-toggle btn-dark rounded-none"
+                                        btnClassName="btn dropdown-toggle btn-dark gradient-blue-to-blue rounded-none"
                                         button={
                                             <>
                                                 Dropdown
@@ -201,10 +201,10 @@ const Buttongroups = () => {
                                     </Dropdown>
                                 </div>
                             </div>
-                            <button type="button" className="btn btn-dark rounded-none w-full">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none w-full">
                                 Button
                             </button>
-                            <button type="button" className="btn btn-dark rounded-none w-full">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none w-full">
                                 Button
                             </button>
                             <div className="relative">
@@ -212,7 +212,7 @@ const Buttongroups = () => {
                                     <Dropdown
                                         offset={[0, 5]}
                                         placement={`${isRtl ? 'top-start' : 'top-end'}`}
-                                        btnClassName="btn dropdown-toggle btn-dark rounded-t-none"
+                                        btnClassName="btn dropdown-toggle btn-dark gradient-blue-to-blue rounded-t-none"
                                         button={
                                             <>
                                                 Dropdown
@@ -240,7 +240,7 @@ const Buttongroups = () => {
                             <pre>{`import Dropdown from '../../components/Dropdown';
 
 <div className="relative inline-flex align-middle flex-col items-start justify-center">
-    <button type="button" className="btn btn-dark rounded-b-none w-full">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-b-none w-full">
         Button
     </button>
     <div className="relative">
@@ -248,7 +248,7 @@ const Buttongroups = () => {
             <Dropdown
                 offset={[0, 5]}
                 placement={\`${isRtl ? 'bottom-start' : 'bottom-end'}\`}
-                btnClassName="btn dropdown-toggle btn-dark rounded-none"
+                btnClassName="btn dropdown-toggle btn-dark gradient-blue-to-blue rounded-none"
                 button={
                     <>
                         Dropdown
@@ -269,10 +269,10 @@ const Buttongroups = () => {
             </Dropdown>
         </div>
     </div>
-    <button type="button" className="btn btn-dark rounded-none w-full">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none w-full">
         Button
     </button>
-    <button type="button" className="btn btn-dark rounded-none w-full">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue rounded-none w-full">
         Button
     </button>
     <div className="relative">
@@ -280,7 +280,7 @@ const Buttongroups = () => {
             <Dropdown
                 offset={[0, 5]}
                 placement={\`${isRtl ? 'top-start' : 'top-end'}\`}
-                btnClassName="btn dropdown-toggle btn-dark rounded-t-none"
+                btnClassName="btn dropdown-toggle btn-dark gradient-blue-to-blue rounded-t-none"
                 button={
                     <>
                         Dropdown

@@ -151,12 +151,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         localStorage.removeItem('site_id');
         // Dispatch action to set applyFilter to false
     };
-
-
-
-
-
-
     const handleApplyFilters = (values: FilterValues) => {
         const updatedFilters = {
             client_id: values.client_id,
@@ -604,7 +598,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                         </> : ""}
 
-                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark">
+                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
                             Apply Filter
                         </button>
 

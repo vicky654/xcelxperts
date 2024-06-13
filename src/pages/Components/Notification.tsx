@@ -257,7 +257,7 @@ const showMessage = () => {
                             </div>
                             <h6 className="font-semibold text-base dark:text-white-light mb-3 text-center">Bottom Position</h6>
                             <div className="flex items-center justify-center gap-2">
-                                <button type="button" className="btn btn-dark" onClick={showMessage4}>
+                                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={showMessage4}>
                                     Bottom Left
                                 </button>
                                 <button type="button" className="btn btn-primary" onClick={showMessage5}>
@@ -356,7 +356,7 @@ const MySwal = withReactContent(Swal);
     </div>
     <h6 className="font-semibold text-base dark:text-white-light mb-3 text-center">Bottom Position</h6>
     <div className="flex items-center justify-center gap-2">
-        <button type="button" className="btn btn-dark" onClick={showMessage4}>
+        <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={showMessage4}>
             Bottom Left
         </button>
         <button type="button" className="btn btn-primary" onClick={showMessage5}>
@@ -488,7 +488,7 @@ const clickCallable = () => {
                         </div>
                         <div className="mb-5">
                             <div className="flex items-center justify-center">
-                                <button type="button" className="btn btn-dark" onClick={showMessage8}>
+                                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={showMessage8}>
                                     Duration
                                 </button>
                             </div>
@@ -514,7 +514,7 @@ const showMessage8 = () => {
 
 <div className="mb-5">
     <div className="flex items-center justify-center">
-        <button type="button" className="btn btn-dark" onClick={showMessage8}>
+        <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={showMessage8}>
             Duration
         </button>
     </div>

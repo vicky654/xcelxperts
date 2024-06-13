@@ -69,14 +69,14 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         // Redirect to login or any other appropriate action
         window.location.replace('/auth/cover-login');
     };
- 
+
     const logout = async () => {
         try {
             const response = await getData('/logout');
             if (response.data.api_response === 'success') {
                 showMessage(response.data.message);
                 setTimeout(() => {
-                    handleLogout()
+                    handleLogout();
                     localStorage.clear();
                     window.location.replace('/');
                 }, 500);
@@ -94,16 +94,14 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         navigate(path);
     };
 
-
-
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
                 <div className="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-black">
                     <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2">
                         <Link to="/" className="main-logo flex items-center shrink-0">
-                            <img className="w-8 ltr:-ml-1 rtl:-mr-1 inline" src="/assets/images/logo.svg" alt="logo" />
-                            <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle hidden md:inline dark:text-white-light transition-all duration-300">XcelXperts</span>
+                            <img style={{height:"50px",width:"100%"}} className="w-8 ltr:-ml-1 rtl:-mr-1 inline" src="/../../src/assets/logo/logo.jpeg" alt="logo" />
+                            {/* <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle hidden md:inline dark:text-white-light transition-all duration-300">XcelXperts</span> */}
                         </Link>
                         <button
                             type="button"
@@ -127,65 +125,61 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                             </button>
                         </div>
 
-             
                         <div className="dropdown shrink-0 flex">
-                        <Dropdown
-            offset={[0, 8]}
-            placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-            btnClassName="relative group block"
-            button={
-                <div className="flex items-center" style={{background:"#3b3f5c",borderRadius:"10px",padding:"5px 10px",fontWeight:"700",color:"#fff"}}>
-                    
-                    <img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/assets/images/user-profile.jpeg" alt="userProfile" />
-                    <span className="ml-2">{data?.first_name}</span>
-                </div>
-            }
-        >
-            <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
-                <li className="px-4 py-4">
-                    <div className="flex items-center">
-                        <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
-                        <div className="ltr:pl-4 rtl:pr-4 truncate">
-                            <h4 className="text-base">
-                                <span className="block whitespace-normal">
-                                    {data?.full_name}
-                                </span>
-                            </h4>
-                        </div>
-                    </div>
-                    <span className="hover:rounded-sm whitespace-normal text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0">
-                        {data?.email}
-                    </span>
-                </li>
-                {isProfileUpdatePermissionAvailable && (
-                    <li>
-                        <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                            <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                            Edit Profile
-                        </button>
-                    </li>
-                )}
-                {isSettingsPermissionAvailable && (
-                    <li>
-                        <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                            <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                            Setting
-                        </button>
-                    </li>
-                )}
-                <li className="border-t border-white-light dark:border-white-light/10">
-                    <Link
-                        onClick={logout}
-                        to="#" // Placeholder value
-                        // to="/auth/boxed-signin"
-                        className="text-danger !py-3"
-                    >
-                        <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
-                        Sign Out
-                    </Link>
-                </li>
-            </ul>
-        </Dropdown>
+                            <Dropdown
+                                offset={[0, 8]}
+                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
+                                btnClassName="relative group block"
+                                button={
+                                    <div style={{background:"linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to))"}} className="flex items-center bg-[#3b3f5c] p-2.5 font-bold text-white whitespace-nowrap">
+                                    <span className="ml-2">
+                                        Welcome, {data?.first_name} <IconCaretDown className="w-6 h-6 inline" />
+                                    </span>
+                                </div>
+                                
+                                }
+                            >
+                                <ul className="text-dark   dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
+                                    <li className="px-4 py-4">
+                                        <div className="flex items-center">
+                                            <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
+                                            <div className="ltr:pl-4 rtl:pr-4 truncate">
+                                                <h4 className="text-base">
+                                                    <span className="block whitespace-normal">{data?.full_name}</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <span className="hover:rounded-sm whitespace-normal text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0">{data?.email}</span>
+                                    </li>
+                                    {isProfileUpdatePermissionAvailable && (
+                                        <li>
+                                            <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
+                                                <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                Edit Profile
+                                            </button>
+                                        </li>
+                                    )}
+                                    {isSettingsPermissionAvailable && (
+                                        <li>
+                                            <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
+                                                <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                Setting
+                                            </button>
+                                        </li>
+                                    )}
+                                    <li className="border-t border-white-light dark:border-white-light/10">
+                                        <Link
+                                            onClick={logout}
+                                            to="#" // Placeholder value
+                                            // to="/auth/boxed-signin"
+                                            className="text-danger !py-3"
+                                        >
+                                            <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
+                                            Sign Out
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </Dropdown>
                         </div>
                     </div>
                 </div>

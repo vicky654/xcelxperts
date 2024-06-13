@@ -153,7 +153,7 @@ const Buttons = () => {
                             <button type="button" className="btn btn-secondary">
                                 Secondary
                             </button>
-                            <button type="button" className="btn btn-dark">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue">
                                 Dark
                             </button>
                         </div>
@@ -174,7 +174,7 @@ const Buttons = () => {
 
 <button type="button" className="btn btn-secondary">Secondary</button>
 
-<button type="button" className="btn btn-dark">Dark</button>`}</pre>
+<button type="button" className="btn btn-dark gradient-blue-to-blue">Dark</button>`}</pre>
                         </CodeHighlight>
                     )}
                 </div>
@@ -314,7 +314,7 @@ const Buttons = () => {
                             <button type="button" className="btn btn-danger">
                                 <IconDownload />
                             </button>
-                            <button type="button" className="btn btn-dark w-10 h-10 p-0 rounded-full">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue w-10 h-10 p-0 rounded-full">
                                 <IconSun />
                             </button>
                         </div>
@@ -329,7 +329,7 @@ const Buttons = () => {
 
 <button type="button" className="btn btn-danger"><svg> ... </svg></button>
 
-<button type="button" className="btn btn-dark w-10 h-10 p-0 rounded-full"><svg> ... </svg></button>`}</pre>
+<button type="button" className="btn btn-dark gradient-blue-to-blue w-10 h-10 p-0 rounded-full"><svg> ... </svg></button>`}</pre>
                         </CodeHighlight>
                     )}
                 </div>

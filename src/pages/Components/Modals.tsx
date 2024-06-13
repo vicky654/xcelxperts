@@ -1447,7 +1447,7 @@ const [modal8, setModal8] = useState(false);
                                 </div>
                                 {/* FadeIn Right */}
                                 <div>
-                                    <button onClick={() => setModal15(true)} type="button" className="btn btn-dark">
+                                    <button onClick={() => setModal15(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
                                         FadeIn Right
                                     </button>
                                     <Transition appear show={modal15} as={Fragment}>
@@ -1852,7 +1852,7 @@ const [modal16, setModal16] = useState(false);
             </Transition>
         </div>
         <div>
-            <button onClick={() => setModal15(true)} type="button" className="btn btn-dark">
+            <button onClick={() => setModal15(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
                 FadeIn Right
             </button>
             <Transition appear show={modal15} as={Fragment}>
@@ -2221,7 +2221,7 @@ const [modal16, setModal16] = useState(false);
                                                                     </p>
                                                                 </div>
                                                                 <div className="flex justify-center gap-4 p-5">
-                                                                    <button type="button" className="btn dark:btn-dark bg-white text-black">
+                                                                    <button type="button" className="btn dark:btn-dark gradient-blue-to-blue bg-white text-black">
                                                                         View
                                                                     </button>
                                                                 </div>
@@ -2745,7 +2745,7 @@ import { Navigation, Pagination } from 'swiper';
                                             </p>
                                         </div>
                                         <div className="flex justify-center gap-4 p-5">
-                                            <button type="button" className="btn bg-white text-black dark:btn-dark">
+                                            <button type="button" className="btn bg-white text-black dark:btn-dark gradient-blue-to-blue">
                                                 View
                                             </button>
                                         </div>

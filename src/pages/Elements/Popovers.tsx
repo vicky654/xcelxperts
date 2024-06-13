@@ -184,7 +184,7 @@ import 'tippy.js/dist/tippy.css';
                         <div className="mb-5">
                             <div className="flex justify-center gap-4 w-full">
                                 <Tippy trigger="click" content="Popover on left" placement="left">
-                                    <button type="button" data-dismissable="true" className="btn btn-dark">
+                                    <button type="button" data-dismissable="true" className="btn btn-dark gradient-blue-to-blue">
                                         Popover on left
                                     </button>
                                 </Tippy>
@@ -196,7 +196,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/tippy.css';
 
 <Tippy trigger="click" content="Popover on left" placement="left">
-    <button type="button" data-dismissable="true" className="btn btn-dark">
+    <button type="button" data-dismissable="true" className="btn btn-dark gradient-blue-to-blue">
         Popover on left
     </button>
 </Tippy>`}</pre>
@@ -237,7 +237,7 @@ import 'tippy.js/dist/tippy.css';
                                     </button>
                                 </Tippy>
                                 <Tippy trigger="click" content="Disabled Animation">
-                                    <button type="button" data-animation="false" className="btn btn-dark">
+                                    <button type="button" data-animation="false" className="btn btn-dark gradient-blue-to-blue">
                                         Disabled Animation
                                     </button>
                                 </Tippy>
@@ -267,7 +267,7 @@ import 'tippy.js/dist/tippy.css';
 </Tippy>
 
 <Tippy trigger="click" content="Disabled Animation">
-    <button type="button" data-animation="false" className="btn btn-dark">
+    <button type="button" data-animation="false" className="btn btn-dark gradient-blue-to-blue">
         Disabled Animation
     </button>
 </Tippy>`}</pre>
@@ -323,7 +323,7 @@ import 'tippy.js/dist/tippy.css';
                                     </button>
                                 </Tippy>
                                 <Tippy trigger="click" content="dark" theme="dark">
-                                    <button type="button" className="btn btn-dark">
+                                    <button type="button" className="btn btn-dark gradient-blue-to-blue">
                                         Dark
                                     </button>
                                 </Tippy>
@@ -371,7 +371,7 @@ import 'tippy.js/dist/tippy.css';
 </Tippy>
 
 <Tippy trigger="click" content="dark" theme="dark">
-    <button type="button" className="btn btn-dark">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue">
         Dark
     </button>
 </Tippy>`}</pre>

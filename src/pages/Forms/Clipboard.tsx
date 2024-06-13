@@ -105,7 +105,7 @@ const Clipboard = () => {
                                                 }
                                             }}
                                         >
-                                            <button type="button" className="btn btn-dark" value={message1} onClick={() => setMessage1('')}>
+                                            <button type="button" className="btn btn-dark gradient-blue-to-blue" value={message1} onClick={() => setMessage1('')}>
                                                 <IconPencil className="ltr:mr-2 rtl:ml-2" />
                                                 Cut from Input
                                             </button>
@@ -144,7 +144,7 @@ const [message1, setMessage1] = useState<any>('http://www.admin-dashboard.com');
                 }
             }}
         >
-            <button type="button" className="btn btn-dark" value={message1} onClick={() => setMessage1('')}>
+            <button type="button" className="btn btn-dark gradient-blue-to-blue" value={message1} onClick={() => setMessage1('')}>
                 <svg>...</svg>
                 Cut from Input
             </button>
@@ -192,7 +192,7 @@ const [message1, setMessage1] = useState<any>('http://www.admin-dashboard.com');
                                                 }
                                             }}
                                         >
-                                            <button type="button" className="btn btn-dark " onClick={() => setMessage2('')}>
+                                            <button type="button" className="btn btn-dark gradient-blue-to-blue " onClick={() => setMessage2('')}>
                                                 <IconPencil className="ltr:mr-2 rtl:ml-2" />
                                                 Cut from Input
                                             </button>
@@ -231,7 +231,7 @@ const [message2, setMessage2] = useState<any>('Lorem ipsum dolor sit amet, conse
                 }
             }}
         >
-            <button type="button" className="btn btn-dark " onClick={() => setMessage2('')}>
+            <button type="button" className="btn btn-dark gradient-blue-to-blue " onClick={() => setMessage2('')}>
                 <svg>...</svg>
                 Cut from Input
             </button>
@@ -360,7 +360,7 @@ const message3 = '22991';
                                                 }
                                             }}
                                         >
-                                            <button type="button" className="btn btn-dark ">
+                                            <button type="button" className="btn btn-dark gradient-blue-to-blue ">
                                                 <IconCopy className="ltr:mr-2 rtl:ml-2" />
                                                 Copy Hidden Code
                                             </button>
@@ -405,7 +405,7 @@ const message4 = 'http://www.admin-dashboard.com/code';
                 }
             }}
         >
-            <button type="button" className="btn btn-dark ">
+            <button type="button" className="btn btn-dark gradient-blue-to-blue ">
                 <svg>...</svg>
                 Copy Hidden Code
             </button>

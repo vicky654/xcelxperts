@@ -184,7 +184,7 @@ import 'tippy.js/dist/tippy.css';
                         <div className="mb-5">
                             <div className="flex justify-center gap-4 w-full">
                                 <Tippy content={<strong>Bolded content</strong>}>
-                                    <button type="button" data-dismissable="true" className="btn btn-dark">
+                                    <button type="button" data-dismissable="true" className="btn btn-dark gradient-blue-to-blue">
                                         Tooltip on HTML
                                     </button>
                                 </Tippy>
@@ -196,7 +196,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/tippy.css';
 
 <Tippy content="Bolded content">
-    <button type="button" data-dismissable="true" className="btn btn-dark">
+    <button type="button" data-dismissable="true" className="btn btn-dark gradient-blue-to-blue">
         Tooltip on HTML
     </button>
 </Tippy>`}</pre>
@@ -237,7 +237,7 @@ import 'tippy.js/dist/tippy.css';
                                     </button>
                                 </Tippy>
                                 <Tippy content="Disabled Animation">
-                                    <button type="button" data-animation="false" className="btn btn-dark">
+                                    <button type="button" data-animation="false" className="btn btn-dark gradient-blue-to-blue">
                                         Disabled Animation
                                     </button>
                                 </Tippy>
@@ -267,7 +267,7 @@ import 'tippy.js/dist/tippy.css';
 </Tippy>
 
 <Tippy content="Disabled Animation">
-    <button type="button" data-animation="false" className="btn btn-dark">
+    <button type="button" data-animation="false" className="btn btn-dark gradient-blue-to-blue">
         Disabled Animation
     </button>
 </Tippy>`}</pre>
@@ -323,7 +323,7 @@ import 'tippy.js/dist/tippy.css';
                                     </button>
                                 </Tippy>
                                 <Tippy content="dark" theme="dark">
-                                    <button type="button" className="btn btn-dark">
+                                    <button type="button" className="btn btn-dark gradient-blue-to-blue">
                                         Dark
                                     </button>
                                 </Tippy>
@@ -371,7 +371,7 @@ import 'tippy.js/dist/tippy.css';
 </Tippy>
 
 <Tippy content="dark" theme="dark">
-    <button type="button" className="btn btn-dark">
+    <button type="button" className="btn btn-dark gradient-blue-to-blue">
         Dark
     </button>
 </Tippy>`}</pre>

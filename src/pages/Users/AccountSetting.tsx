@@ -365,9 +365,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                             <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                 <h6 className="text-lg font-bold mb-5">Edit Profile</h6>
                                 <div className="flex flex-col sm:flex-row">
-                                    <div className="ltr:sm:mr-4 rtl:sm:ml-4 w-full sm:w-2/12 mb-5">
-                                        <img src="/assets//images/profile-34.jpeg" alt="img" className="w-20 h-20 md:w-32 md:h-32 rounded-full object-cover mx-auto" />
-                                    </div>
+                                 
                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                         <div className={formik.submitCount ? (formik.errors.first_name ? 'has-error' : 'has-success') : ''}>
                                             <label htmlFor="first_name">First Name<span className="text-danger">*</span> </label>

@@ -300,7 +300,7 @@ const Badges = () => {
                                 </span>
                                 <span className="badge absolute ltr:right-0 rtl:left-0 -top-3 bg-danger p-0.5 px-1.5 rounded-full">8</span>
                             </button>
-                            <button type="button" className="btn btn-dark my-4">
+                            <button type="button" className="btn btn-dark gradient-blue-to-blue my-4">
                                 Notifications
                                 <span className="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4">4</span>
                             </button>
@@ -339,7 +339,7 @@ const Badges = () => {
     <span className="badge absolute ltr:right-0 rtl:left-0 -top-3 bg-danger p-0.5 px-1.5 rounded-full">8</span>
 </button>
 
-<button type="button" className="btn btn-dark my-4">
+<button type="button" className="btn btn-dark gradient-blue-to-blue my-4">
     Notifications
     <span className="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4">4</span>
 </button>

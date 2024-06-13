@@ -547,7 +547,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
                     Add Station Fuel Purchase
                 </button>
             </div>
