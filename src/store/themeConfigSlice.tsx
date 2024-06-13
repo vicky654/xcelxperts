@@ -134,7 +134,7 @@ const themeConfigSlice = createSlice({
         },
 
         setPageTitle(state, { payload }) {
-            document.title = `${payload} | XcelXperts Accounting Services Pvt.LTD.`;
+            document.title = `XcelXperts Accounting Services Pvt.LTD.`;
         },
     },
 });
