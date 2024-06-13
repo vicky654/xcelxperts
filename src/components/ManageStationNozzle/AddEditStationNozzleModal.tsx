@@ -171,6 +171,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                 formik.setValues(userData)
                 FetchClientList()
                 fetchEntityList(userData?.client_id)
+                fetchSiteList(userData?.entity_id)
                 fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
@@ -355,8 +356,10 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                 // onChange={handleSiteChange}
                                                 />
 
+                                                <FormikInput formik={formik} type="text" name="code" label="Nozzle Code" placeholder="Nozzle Code"
 
-                                                <FormikInput formik={formik} type="text" name="code" label="Nozzle Code" placeholder="Nozzle Code" />
+                                                    readOnly={isEditMode ? true : false}
+                                                />
 
                                                 <FormikInput formik={formik} type="text" name="name" label="Nozzle Name" placeholder="Nozzle Name" />
 

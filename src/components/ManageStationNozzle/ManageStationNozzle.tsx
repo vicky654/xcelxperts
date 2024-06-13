@@ -39,6 +39,7 @@ interface RowData {
     station_name: string;
     station: string;
     code: string;
+    name: string;
     fuel_name: string;
     station_code: string;
     station_address: string;
@@ -102,14 +103,14 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
     const columns: any = [
         {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station,
+            name: 'Nozzle Name',
+            selector: (row: RowData) => row.name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
                     </div>
                 </div>
             ),

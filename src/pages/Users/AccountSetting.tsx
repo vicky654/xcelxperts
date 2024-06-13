@@ -425,7 +425,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                             //     }
                                             // }}
                                             >
-                                                Save
+                                                Update
                                             </button>
                                         </div>
                                     </div>
@@ -496,7 +496,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                             //     }
                                             // }}
                                             >
-                                                Save
+                                                Update
                                             </button>
                                         </div>
                                     </div>
@@ -572,7 +572,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                             //     }
                                             // }}
                                             >
-                                                Save
+                                                Update
                                             </button>
                                         </div>
                                     </div>
