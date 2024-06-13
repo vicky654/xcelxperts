@@ -12,6 +12,8 @@ import withApiHandler from '../../utils/withApiHandler';
 import useHandleError from '../../hooks/useHandleError';
 import LoaderImg from '../../utils/Loader';
 import useApiErrorHandler from '../../hooks/useHandleError';
+import IconLockDots from '../../components/Icon/IconLockDots';
+import { fetchStoreData } from '../../store/dataSlice';
 
 
 
@@ -51,6 +53,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
     const isUpdatePasswordPermissionAvailable = data?.permissions?.includes("profile-update-password");
     const isSettingsPermissionAvailable = data?.permissions?.includes("config-setting");
     const handleError = useHandleError();
+    const navigate = useNavigate();
     const [tabs, setTabs] = useState<string>('home');
     const toggleTabs = (name: string) => {
         setTabs(name);
@@ -131,15 +134,14 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
                 // const data: ResponseData = await response.json();
 
-                if (response.ok) {
-                    // SuccessAlert(Array.isArray(data.message) ? data.message.join(" ") : data.message);
-                    useNavigate()("/dashboard");
-                    // setSubmitting(false);
+
+
+                if (response) {
+                    const actionResult = await dispatch<any>(fetchStoreData()); // Dispatch the fetchStoreData thunk here
+                    console.log('response:', actionResult);
+                    navigate("/")
                 } else {
-                    const errorMessage = Array.isArray(data.message)
-                        ? data.message.join(" ")
-                        : data.message;
-                    // ErrorAlert(errorMessage);
+                    // Handle error
                 }
             } catch (error) {
                 // handleError(error)
@@ -172,16 +174,12 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
             // const data: ResponseData = await response.json();
 
-            if (response.ok) {
-                SuccessAlert(Array.isArray(data.message) ? data.message.join(" ") : data.message);
-                useNavigate()("/dashboard");
-                // setSubmitting(false);
+            if (response) {
+                const actionResult = await dispatch<any>(fetchStoreData()); // Dispatch the fetchStoreData thunk here
+                console.log('response:', actionResult);
+                navigate("/")
             } else {
-                const errorMessage = Array.isArray(data.message)
-                    ? data.message.join(" ")
-                    : data.message;
-
-                ErrorAlert(errorMessage);
+                // Handle error
             }
         } catch (error) {
             ErrorAlert("An error occurred while updating the profile.");
@@ -220,24 +218,22 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
                 const response = await postData(`/update/password`, formData,)
 
-                const data = await response.json();
+                // const data = await response.json();
 
 
 
 
 
-                if (response.ok) {
-                    localStorage.clear();
+                if (response) {
                     setTimeout(() => {
-                        window.location.replace("/");
+                        localStorage.clear()
+                        window.location.replace('/auth/cover-login');
                     }, 500);
-                    // SuccessAlert(data.message);
-                    // setLoading(false);
                 } else {
                     const errorMessage = Array.isArray(data.message)
-                        ? data.message.join(" ")
+                        ? data.message.join(' ')
                         : data.message;
-
+                    // Handle error message
                 }
             } catch (error) {
                 handleApiError(error);
@@ -277,16 +273,12 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     }
                     const response = await postData(`/config-setting/update`, formData,)
 
-
-                    if (response.ok) {
-                        // SuccessAlert(Array.isArray(data.message) ? data.message.join(" ") : data.message);
-                        // useNavigate()("/dashboard");
-                        // setSubmitting(false);
+                    if (response) {
+                        const actionResult = await dispatch<any>(fetchStoreData()); // Dispatch the fetchStoreData thunk here
+                        console.log('response:', actionResult);
+                        navigate("/")
                     } else {
-                        const errorMessage = Array.isArray(data.message)
-                            ? data.message.join(" ")
-                            : data.message;
-                        // ErrorAlert(errorMessage);
+                        // Handle error
                     }
                 }
 
@@ -359,7 +351,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         onClick={() => toggleTabs('Settings')}
                                         className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'Settings' ? '!border-primary text-primary' : ''}`}
                                     >
-                                        <IconDollarSignCircle />
+                                        <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                         Settings
                                     </button>
                                 </li>
@@ -554,13 +546,13 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         </div>
 
                                         <div className={formik3.submitCount ? (formik3.errors.auto_logout ? 'has-error' : 'has-success') : ''}>
-                                            <label htmlFor="auto_logout">Auto Logout<span className="text-danger">*</span></label>
+                                            <label htmlFor="auto_logout">Auto Logout (minutes)<span className="text-danger">*</span></label>
                                             <select
                                                 id="auto_logout"
                                                 onChange={formik3.handleChange}
                                                 value={formik3.values.auto_logout}
                                                 className="form-select text-white-dark">
-                                                <option value="">Select an Auto Logout Time</option>
+                                                <option value="">Select an Auto Logout Time(minutes)</option>
                                                 <option value="5">5 minutes</option>
                                                 <option value="10">10 minutes</option>
                                                 <option value="15">15 minutes</option>

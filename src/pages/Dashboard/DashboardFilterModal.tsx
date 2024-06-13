@@ -36,11 +36,13 @@ interface Client {
 interface Company {
     id: string;
     company_name: string;
+    entity_name: string;
 }
 
 interface Site {
     id: string;
     site_name: string;
+    station_name: string;
 }
 
 const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = false, getData, isLoading, onApplyFilters }) => {
@@ -48,13 +50,13 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const auth = useSelector((state: IRootState) => state.auth);
 
-    
+
 
 
     const handleApiError = useErrorHandler();
     const navigate = useNavigate();
 
-    
+
 
 
 
@@ -84,7 +86,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
         validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values as FilterValues); // Type assertion to FilterValues
-            
+
 
             // Store the form values in local storage
             localStorage.setItem("testing", JSON.stringify(values));
@@ -96,7 +98,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
     });
 
 
-  
+
     const fetchClientList = async () => {
         try {
             const response = await getData('/common/client-list');
@@ -117,7 +119,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const fetchCompanyList = async (clientId: string) => {
         try {
-            const response = await getData(`common/company-list?client_id=${clientId}`);
+            const response = await getData(`common/entity-list?client_id=${clientId}`);
             formik.setFieldValue('companies', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -126,7 +128,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/site-list?company_id=${companyId}`);
+            const response = await getData(`common/station-list?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -278,7 +280,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                         {formik.values.companies.length > 0 ? (
                                                             formik.values.companies.map((company) => (
                                                                 <option key={company.id} value={company.id}>
-                                                                    {company.company_name}
+                                                                    {company.entity_name}
                                                                 </option>
                                                             ))
                                                         ) : (
@@ -308,7 +310,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                         {formik.values.sites.length > 0 ? (
                                                             formik.values.sites.map((site) => (
                                                                 <option key={site.id} value={site.id}>
-                                                                    {site.site_name}
+                                                                    {site.station_name}
                                                                 </option>
                                                             ))
                                                         ) : (

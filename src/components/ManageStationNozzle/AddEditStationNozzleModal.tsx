@@ -165,12 +165,13 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/station/detail?id=${id}`);
+            const response = await getData(`/station/nozzle/${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
                 formik.setValues(userData)
                 FetchClientList()
                 fetchEntityList(userData?.client_id)
+                fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
             console.error('API error:', error);
@@ -349,7 +350,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                     formik={formik}
                                                     name="station_pump_id"
                                                     label="Station Pump  Name"
-                                                    options={formik.values.tankList?.pumps?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
+                                                    options={formik.values.tankList?.pumps?.map((item: any) => ({ id: item.id, name: item.pump_name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />

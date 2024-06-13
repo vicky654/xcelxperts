@@ -37,6 +37,9 @@ interface RowData {
     status: number;
     station_status: number;
     station_name: string;
+    station: string;
+    code: string;
+    fuel_name: string;
     station_code: string;
     station_address: string;
     getData: any;
@@ -63,7 +66,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         if (storedData) {
             handleApplyFilters(JSON.parse(storedData));
         }
-      
+
     }, [currentPage]);
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
@@ -80,15 +83,15 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
+        formData.append('status', (row.status === 1 ? 0 : 1).toString());
+        toggleStatus(postData, '/station/nozzle/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
+        customDelete(postData, 'station/nozzle/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -100,39 +103,39 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const columns: any = [
         {
             name: 'Station Name',
-            selector: (row: RowData) => row.station_name,
+            selector: (row: RowData) => row.station,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Station Code',
-            selector: (row: RowData) => row.station_code,
+            name: 'Nozzal Code',
+            selector: (row: RowData) => row.code,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Station Address',
-            selector: (row: RowData) => row.station_address,
+            name: 'Fuel Name',
+            selector: (row: RowData) => row.fuel_name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
                     </div>
                 </div>
             ),
@@ -152,15 +155,15 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.station_status,
+            selector: (row: RowData) => row.status,
             sortable: false,
             width: '10%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
-                    {row.station_status === 1 || row.station_status === 0 ? (
-                        <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
+                    {row.status === 1 || row.status === 0 ? (
+                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
                     ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
+                        <div className="pointer" >
                             Unknown
                         </div>
                     )}
@@ -257,7 +260,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             const url = isEditMode && userId ? `/station/nozzle/update` : `/station/nozzle/create`;
             const response = await postData(url, formData);
 
-            if (response && response.status_code == 200) {
+            if (response) {
 
                 handleSuccess();
                 closeModal();
@@ -276,7 +279,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         try {
             const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.Stations);
+                setData(response.data.data);
                 // setCurrentPage(response.data.data?.currentPage || 1);
                 // setLastPage(response.data.data?.lastPage || 1);
             } else {
