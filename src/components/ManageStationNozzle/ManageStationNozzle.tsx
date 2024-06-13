@@ -63,8 +63,8 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         if (storedData) {
             handleApplyFilters(JSON.parse(storedData));
         }
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+      
+    }, [currentPage]);
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
     };

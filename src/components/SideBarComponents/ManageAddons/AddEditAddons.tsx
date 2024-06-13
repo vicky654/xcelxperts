@@ -25,11 +25,6 @@ interface FormData {
     selectedPermissions: string[];
 }
 
-interface RoleDetail {
-    name: string;
-    permissions: Permissions;
-}
-
 const validationSchema = Yup.object().shape({
     roleName: Yup.string().required('Addon name Is Required'),
     selectedPermissions: Yup.array().min(1, 'Select at least one permission').required('Select at least one permission'),

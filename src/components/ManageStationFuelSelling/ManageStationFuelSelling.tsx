@@ -56,8 +56,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {
         fetchData();
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [currentPage]);
     const handleSuccess = () => {
         fetchData();
     };

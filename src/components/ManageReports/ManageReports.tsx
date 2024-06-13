@@ -78,7 +78,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     useEffect(() => {
         fetchData();
         FetchClientList()
-        dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
         fetchData();

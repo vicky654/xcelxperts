@@ -9,7 +9,7 @@ interface FormikInputProps {
     className?: string;
     isRequired?: boolean;
     readOnly?: boolean;
-    // onBlur: any; // Add onChange prop
+    autoComplete?: string; // Correctly define autoComplete prop
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // Change type here
 
 
@@ -24,6 +24,7 @@ const FormikInput: React.FC<FormikInputProps> = ({
     className = 'form-input',
     isRequired = true, // Default to true if not provided
     readOnly = false,
+    autoComplete = 'off', // Default to 'off' if not provided
     onBlur,
 }) => {
 
@@ -54,6 +55,7 @@ const FormikInput: React.FC<FormikInputProps> = ({
                 onChange={formik.handleChange}
                 onBlur={handleBlur}
                 value={formik.values[name]}
+                autoComplete={autoComplete} 
             />
             {formik.submitCount > 0 && formik.errors[name] && formik.touched[name] && (
                 <div className="text-danger mt-1">{formik.errors[name]}</div>

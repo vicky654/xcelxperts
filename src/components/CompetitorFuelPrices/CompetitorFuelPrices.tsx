@@ -13,7 +13,6 @@ import CustomSwitch from '../FormikFormTools/CustomSwitch';
 import IconTrashLines from '../Icon/IconTrashLines';
 import IconPencil from '../Icon/IconPencil';
 import LoaderImg from '../../utils/Loader';
-import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStationModal';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
@@ -51,12 +50,8 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-    const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-    useEffect(() => {
-        // fetchData();
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+
     const handleSuccess = () => {
         // fetchData();
     };

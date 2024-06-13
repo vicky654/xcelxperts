@@ -97,8 +97,6 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                 </div>
             ),
         },
-  
-
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
