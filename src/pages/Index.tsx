@@ -353,7 +353,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     },
                 },
             },
-            labels: ['Apparel', 'Sports', 'Others'],
+            labels: ['Volume', 'Gross Margin', 'Others'],
             states: {
                 hover: {
                     filter: {

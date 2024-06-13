@@ -306,3 +306,11 @@ border-color: none;
     border: 1px Solid #ddd !important;
     border-radius: 7px !important;
 }
+
+.horizontal-menu .nav-link {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
+}
+li.menu.nav-item.relative {
+    margin-left: 6px !important;
+}
