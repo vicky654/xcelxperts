@@ -346,3 +346,10 @@ li.menu.nav-item.relative {
     background: linear-gradient(90deg, var(--secondary-color-from), var(--secondary-color-to));
     border-radius: 0px !important;
 }
+.rounded-md {
+    border-radius: 0px  !important;
+}
+.form-input {
+    /* border: 1px Solid #ddd !important; */
+    border-radius: 0px !important;
+}
