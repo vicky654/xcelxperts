@@ -115,7 +115,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                   name: 'Actions',
                   selector: (row: RowData) => row.id,
                   sortable: false,
-                  width: '40%',
+                  width: '10%',
                   cell: (row: RowData) => (
                       <span className="text-center">
                           <div className="flex items-center justify-center">

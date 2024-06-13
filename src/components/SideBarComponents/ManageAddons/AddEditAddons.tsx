@@ -102,7 +102,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
             const postDataUrl = id ? `/addon/update` : '/addon/create';
 
             if (id) {
-                formData.role_id = id;
+                formData.id = id;
             }
 
             await postData(postDataUrl, formData);

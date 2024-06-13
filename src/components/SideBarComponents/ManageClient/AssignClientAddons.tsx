@@ -23,6 +23,7 @@ interface AddonData {
 
 const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<AddonData[]>([]);
+    const [name, setname] = useState("");
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
     const navigate = useNavigate();
@@ -37,8 +38,8 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
         try {
             const response = await getData(`/addon/assigned?id=${id}`);
             if (response && response.data) {
-                console.log(response.data, 'response.data');
-                setData(response.data?.data);
+                setData(response.data?.data?.addons);
+                setname(response.data?.data?.name);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -97,7 +98,7 @@ const AssignClientAddons: React.FC<AssignClientAddonsProps> = ({ postData, getDa
 
             <div className="panel mt-6">
                 <div className="btn-dark p-2 mb-3">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Assign Addons</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Assign Addons ({name})</h5>
                 </div>
 
                 {data.length > 0 ? (

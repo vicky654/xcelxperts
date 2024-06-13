@@ -120,7 +120,7 @@ const menuItems: MenuItem[] = [
     // },
     {
         key: 'supplier',
-        title: 'Supplier',
+        title: 'Suppliers',
         icon: IconMenuDatatables,
         link: '/manage-supplier/supplier', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false

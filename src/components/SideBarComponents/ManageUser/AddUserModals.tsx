@@ -5,6 +5,7 @@ import FormikInput from '../../FormikFormTools/FormikInput';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import { userInitialValues } from '../../FormikFormTools/InitialValues';
 import { getUserValidationSchema } from '../../FormikFormTools/ValidationSchema';
+
 interface RowData {
     first_name: string;
     last_name: string;
@@ -12,6 +13,7 @@ interface RowData {
     phone_number: string;
     role: any;
 }
+
 interface UserData {
     id: string;
     first_name: string;
@@ -40,15 +42,6 @@ interface RoleItem {
     role_name: string;
 }
 
-interface UserData {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    role: string;
-    password: string;
-}
-
 const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
@@ -62,8 +55,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
         }
     }, [isOpen, isEditMode, userId]);
 
-  
-
     const FetchRoleList = async () => {
         try {
             const response = await getData('/roles');
@@ -76,12 +67,13 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
             console.error('API error:', error);
         }
     };
+
     const fetchUserDetails = async (id: string) => {
         try {
             const response = await getData(`/user/detail?id=${id}`);
             if (response && response.data) {
-                const userData: UserData = response.data?.data;
-                
+                const userData: UserData = response.data.data;
+
                 formik.setValues({
                     first_name: userData.first_name || '',
                     last_name: userData.last_name || '',
@@ -95,6 +87,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
             console.error('API error:', error);
         }
     };
+
     const formik = useFormik({
         initialValues: userInitialValues,
         validationSchema: getUserValidationSchema(isEditMode),
@@ -125,10 +118,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                                 <FormikInput formik={formik} type="text" name="first_name" />
                                                 <FormikInput formik={formik} type="text" name="last_name" />
-                                                <FormikInput formik={formik} type="text" name="email"  />
+                                                <FormikInput formik={formik} type="text" name="email" />
                                                 {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
-                                                <FormikInput formik={formik} type="number" name="phone_number"  />
-
+                                                <FormikInput formik={formik} type="number" name="phone_number" />
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="role"

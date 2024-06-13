@@ -193,12 +193,7 @@
     font-weight: 500;
 }
 
-.heading-div {
-    background: #3b3f5c;
-    color: #fff;
-    margin-bottom: 10px;
-    padding: 10px !important;
-}
+
 
 span.checkbox-title {
     margin-left: 10px;
@@ -299,8 +294,15 @@ label.form-check-label {
     list-style: none; /* Remove default list styles if necessary */
 }
 .boxminheight {
-    min-height:300px;
-    max-height:300px;
-    background: #c3c5c9;
-    overflow-y: auto; /* Add vertical scroll */
+    min-height: 300px;
+    max-height: 300px;
+    background: #e7e8e9;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    overflow-y: auto;
+}
+.heading-div {
+    background: #3b3f5c;
+    color: #fff;
+    margin-bottom: 10px;
+    padding: 10px !important;
 }
