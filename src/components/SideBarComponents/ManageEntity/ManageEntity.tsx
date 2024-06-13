@@ -114,7 +114,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Entity Code',
             selector: (row: RowData) => row.entity_code,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -127,7 +127,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Entity Details',
             selector: (row: RowData) => row.entity_details,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -172,7 +172,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '10%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
@@ -220,7 +220,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             : null,
     ];
     // user/detail?id=${selectedRowId}
-    const openModal = async (id: string,EditclientId: string) => {
+    const openModal = async (id: string, EditclientId: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
@@ -241,7 +241,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-   
+
             formData.append('client_id', values.client_id);
             formData.append('entity_name', values.entity_name);
             formData.append('entity_code', values.entity_code);
@@ -250,16 +250,14 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             formData.append('entity_details', values.entity_details);
             formData.append('start_month', values.start_month);
             formData.append('end_month', values.end_month);
-         
             if (userId) {
                 formData.append('entity_id', userId);
             }
             // formData.append('id', values.user_id);
-
             const url = isEditMode && userId ? `/entity/update` : `/entity/create`;
             const response = await postData(url, formData);
 
-            if (response && response.status_code == 200) {
+            if (response) {
                 handleSuccess();
                 closeModal();
             } else {
