@@ -73,7 +73,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-       
+
         if (data?.applyFilter === false && !clientId && !companyId) {
             const initialFilters = {
                 client_id: data?.superiorId || '',
@@ -390,24 +390,24 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     // );
     const handleSuccessClick = () => {
         showMessage('Operation was successful!', 'success');
-      };
-    
-      const handleErrorClick = () => {
+    };
+
+    const handleErrorClick = () => {
         showMessage('Error: Something went wrong.', 'error');
-      };
+    };
 
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
             <div>
-      <button onClick={handleSuccessClick}>Show Success Alert</button>
-      <button onClick={handleErrorClick}>Show Error Alert</button>
-    </div>
+                {/* <button onClick={handleSuccessClick}>Show Success Alert</button>
+      <button onClick={handleErrorClick}>Show Error Alert</button> */}
+            </div>
             <div>
                 <div className="flex justify-between items-center">
                     <ul className="flex space-x-2 rtl:space-x-reverse">
                         <li>
-                       
+
                         </li>
                     </ul>
 
@@ -430,7 +430,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <>
-                                <div className="badges-container flex flex-wrap items-center gap-2 px-4  rounded-lg text-white" style={{background:"#ddd"}}>
+                                <div className="badges-container flex flex-wrap items-center gap-2 px-4  rounded-lg text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
                                             <span className="font-semibold">Client Name:</span> {filters.client_id}

@@ -30,6 +30,7 @@ interface DashboardOverviewProps {
     getData: (url: string, id?: string, params?: any) => Promise<any>;
     detailsData: any;
     isSitePermissionAvailable: string;
+    handleNavigateToNextPage?: any;
     // handleNavigateToNextPage: (item: any) => void;
 }
 
@@ -870,4 +871,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     );
 };
 
-export default withApiHandler(DashboardOverview);
+const enhanceDashboardOverview = DashboardOverview
+
+export default withApiHandler(enhanceDashboardOverview);

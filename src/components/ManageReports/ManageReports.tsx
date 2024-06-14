@@ -215,21 +215,21 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 }
 
                 // Assuming you have an array of selected values in the 'selected' state
-                const selectedSiteIds = selected?.map((site) => site.value);
-                const selectedSiteIdParams = selectedSiteIds
-                    .map((id) => `station_id[]=${id}`)
-                    .join("&");
+                // const selectedSiteIds = selected?.map((site) => site.value);
+                // const selectedSiteIdParams = selectedSiteIds
+                //     .map((id) => `station_id[]=${id}`)
+                //     .join("&");
 
                 // Now 'selectedSiteIdParams' contains the query parameter string for selected site IDs
 
 
 
-                const commonParams = values.toggle
-                    ? `/report/${values.report_code}?${clientIDCondition}entity_id=${values.entity_id}&${selectedSiteIdParams}&from_date=${values.from_date}&to_date=${values.to_date}`
-                    : `/report/${values.report_code}?${clientIDCondition}entity_id=${values.entity_id}&${selectedSiteIdParams}&month=${values.month}`;
+                // const commonParams = values.toggle
+                //     ? `/report/${values.report_code}?${clientIDCondition}entity_id=${values.entity_id}&${selectedSiteIdParams}&from_date=${values.from_date}&to_date=${values.to_date}`
+                //     : `/report/${values.report_code}?${clientIDCondition}entity_id=${values.entity_id}&${selectedSiteIdParams}&month=${values.month}`;
 
                 try {
-                    const response = await getData(commonParams);
+                    // const response = await getData(commonParams);
 
                     // if (response.status === 200) {
                     //     setShowButton(true);

@@ -35,7 +35,7 @@ interface DashboardStationPageProps {
     getData: (url: string, id?: string, params?: any) => Promise<any>;
     detailsData: any[];
     isSitePermissionAvailable: boolean;
-    handleNavigateToNextPage: (item: any) => void;
+    handleNavigateToNextPage?: (item: any) => void;
 }
 
 
@@ -598,7 +598,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
 
     const handleNavigateToNextPage = (item: any) => {
-   
+
 
         if (isSitePermissionAvailable) {
             navigate(`/dashboard/station/${item?.id}`)

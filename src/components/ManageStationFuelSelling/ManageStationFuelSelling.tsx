@@ -40,10 +40,12 @@ interface RowData {
     station_code: string;
     station_address: string;
     getData: any;
+    listing: any;
+    head_array: any;
 }
 
 const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ postData, getData, isLoading }) => {
-    const [data, setData] = useState<RowData[]>([]);
+    const [data, setData] = useState<RowData[] | any>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -305,6 +307,10 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         // site_id: Yup.string().required('Station Is Required'),
     });
 
+    function handleInputChange(id: string, value: string): void {
+        throw new Error('Function not implemented.');
+    }
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -400,7 +406,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                                                 </td>
 
                                                 {Array.isArray(item?.fuels) &&
-                                                    item.fuels.map((fuel, index) => (
+                                                    item.fuels.map((fuel: any, index: any) => (
                                                         <td key={index} className="whitespace-nowrap">
                                                             {Array.isArray(fuel) ? (
                                                                 <input type="text" className="table-input readonly" readOnly />

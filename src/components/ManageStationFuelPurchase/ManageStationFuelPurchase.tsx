@@ -28,6 +28,13 @@ interface ManageStationFuelPurchaseProps {
     postData: (url: string, body: any) => Promise<any>;
     // onSubmit: (values: any, formik: any) => Promise<void>;
 }
+interface FormValues {
+    data: any;
+    // isLoading: boolean;
+    // getData: (url: string) => Promise<any>;
+    // postData: (url: string, body: any) => Promise<any>;
+    // onSubmit: (values: any, formik: any) => Promise<void>;
+}
 
 
 interface RowData {
@@ -86,7 +93,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
     const formik = useFormik<FormValues>({
         // initialValues: stationSettingInitialValues,
-        initialValues: {},
+        initialValues: {
+            data: undefined
+        },
         // validationSchema: getStationValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -190,7 +199,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
-    const columns = [
+    const columns: any = [
         {
             name: "FUEL NAME",
             selector: (row: ColData) => row.fuel_name,
@@ -233,12 +242,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         {
             name: "PREMIUM",
 
-            selector: (row) => row.premium_price,
+            selector: (row: any) => row.premium_price,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) =>
+            cell: (row: any, index: any) =>
                 row.fuel_name === "Total" ? (
                     <h4 className="bottom-toal">{row.premium_price}</h4>
                 ) : (
@@ -264,12 +273,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         },
         {
             name: "	DEVELOPMENT FUELS ",
-            selector: (row) => row.development_fuels_price,
+            selector: (row: any) => row.development_fuels_price,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) =>
+            cell: (row: any, index: any) =>
                 row.fuel_name === "Total" ? (
                     <h4 className="bottom-toal">{row.development_fuels_price}</h4>
                 ) : (
@@ -296,12 +305,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         },
         {
             name: "DUTY ",
-            selector: (row) => row.duty_price,
+            selector: (row: any) => row.duty_price,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) =>
+            cell: (row: any, index: any) =>
                 row.fuel_name === "Total" ? (
                     <h4 className="bottom-toal">{row.duty_price}</h4>
                 ) : (
@@ -328,12 +337,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
         {
             name: "EX VAT",
-            selector: (row) => row.ex_vat_price,
+            selector: (row: any) => row.ex_vat_price,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) =>
+            cell: (row: any, index: any) =>
                 row.fuel_name === "Total" ? (
                     <h4 className="bottom-toal">{row.ex_vat_price}</h4>
                 ) : (
@@ -357,12 +366,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         },
         {
             name: "VAT %",
-            selector: (row) => row.vat_percentage_rate,
+            selector: (row: any) => row.vat_percentage_rate,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) =>
+            cell: (row: any, index: any) =>
                 row.fuel_name === "Total" ? (
                     <h4 className="bottom-toal">{row.vat_percentage_rate}</h4>
                 ) : (
@@ -389,12 +398,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         },
         {
             name: "TOTAL",
-            selector: (row) => row.total,
+            selector: (row: any) => row.total,
             sortable: false,
             width: "12.5%",
             center: true,
 
-            cell: (row, index) =>
+            cell: (row: any, index: any) =>
                 row.fuel_name === "Total" ? (
                     <h4 className="bottom-toal">{row.total}</h4>
                 ) : (
@@ -490,7 +499,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                 const { data } = response;
                 if (data) {
                     setData(data?.data);
-                    const formValues = data?.data.map((item) => {
+                    const formValues = data?.data.map((item: any) => {
                         return {
                             id: item.id,
                             fuel_name: item.fuel_name,
@@ -643,3 +652,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 };
 
 export default withApiHandler(ManageStationFuelPurchase);
+
+function calculateSum(index: number) {
+    throw new Error('Function not implemented.');
+}
+
+
+function sendEventWithName1(event: React.FocusEvent<HTMLInputElement, Element>, arg1: string, index: any) {
+    throw new Error('Function not implemented.');
+}

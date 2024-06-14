@@ -137,11 +137,11 @@ const routes = [
   },
   {
     path: '/dashboard/overview',
-    element: <DashboardOverview />,
+    element: <DashboardOverview detailsData={undefined} isSitePermissionAvailable={''} />,
   },
   {
     path: '/dashboard/station/:id',
-    element: <DashboardStationPage />,
+    element: <DashboardStationPage detailsData={[]} isSitePermissionAvailable={false} />,
   },
   //permissions Routings
 
