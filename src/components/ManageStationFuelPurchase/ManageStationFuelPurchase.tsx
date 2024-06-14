@@ -531,11 +531,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
     const validationSchemaForCustomInput = Yup.object({
         client_id: isNotClient
-            ? Yup.string().required("Client Is Required")
+            ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
-        entity_id: Yup.string().required("Entity Is Required"),
-        station_id: Yup.string().required('Station Is Required'),
-        start_date: Yup.string().required('Start Date Is Required'),
+        entity_id: Yup.string().required("Entity is required"),
+        station_id: Yup.string().required('Station is required'),
+        start_date: Yup.string().required('Start Date is required'),
     });
 
     console.log(data, "data");

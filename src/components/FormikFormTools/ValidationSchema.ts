@@ -5,68 +5,68 @@ export const getUserValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         first_name: Yup.string()
             .min(3, 'First Name must be at least 3 characters') // Corrected to 3 characters
-            .required('First Name Is Required'),
+            .required('First Name is required'),
         last_name: Yup.string()
             .min(3, 'Last Name must be at least 3 characters') // Corrected to 3 characters
-            .required('Last Name Is Required'),
+            .required('Last Name is required'),
         email: Yup.string()
             .email('Invalid Email Format') // Added email format validation
-            .required('Email Is Required'),
+            .required('Email is required'),
         password: Yup.string().when('isEditMode', {
             is: false, // Apply validation when `isEditMode` is false
-            then: Yup.string().required('Password Is Required'),
+            then: Yup.string().required('Password is required'),
             otherwise: Yup.string().notRequired(),
         }),
         phone_number: Yup.string()
             .min(10, 'Phone Number must be at least 10 characters')
             .max(10, 'Phone Number must be at least 10 characters')
-            .required('Phone Number Is Required'),
-        role: Yup.string().required('Role Is Required'),
+            .required('Phone Number is required'),
+        role: Yup.string().required('Role is required'),
     });
 };
 export const getClientValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         first_name: Yup.string()
             .min(3, 'First Name must be at least 3 characters') // Corrected to 3 characters
-            .required('First Name Is Required'),
+            .required('First Name is required'),
         last_name: Yup.string()
             .min(3, 'Last Name must be at least 3 characters') // Corrected to 3 characters
-            .required('Last Name Is Required'),
+            .required('Last Name is required'),
         email: Yup.string()
             .email('Invalid Email Format') // Added email format validation
-            .required('Email Is Required'),
+            .required('Email is required'),
         password: Yup.string().when('isEditMode', {
             is: false, // Apply validation when `isEditMode` is false
-            then: Yup.string().required('Password Is Required'),
+            then: Yup.string().required('Password is required'),
             otherwise: Yup.string().notRequired(),
         }),
         phone_number: Yup.string()
             .min(10, 'Phone Number must be at least 10 characters')
             .max(10, 'Phone Number must be at least 10 characters')
-            .required('Phone Number Is Required'),
+            .required('Phone Number is required'),
 
-        client_code: Yup.string().required('Client Code Is Required'),
-        address: Yup.string().required('Address Is Required'),
+        client_code: Yup.string().required('Client Code is required'),
+        address: Yup.string().required('Address is required'),
     });
 };
 export const getStationValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: Yup.string().required('Client Is Required'),
+        client_id: Yup.string().required('Client is required'),
         entity_id: Yup.string()
-            .required('Entity Is Required'),
-        supplier_id: Yup.string().required('Supplier Is Required'),
-        station_code: Yup.string().required('Station Code Is Required'),
-        station_name: Yup.string().required('Station Name Is Required'),
-        station_display_name: Yup.string().required('Station Display Name Is Required'),
-        station_status: Yup.string().required('Station Status Is Required'),
-        data_import_type_id: Yup.string().required('Data Import Type Is Required'),
-        start_date: Yup.string().required('Start Date Is Required'),
+            .required('Entity is required'),
+        supplier_id: Yup.string().required('Supplier is required'),
+        station_code: Yup.string().required('Station Code is required'),
+        station_name: Yup.string().required('Station Name is required'),
+        station_display_name: Yup.string().required('Station Display Name is required'),
+        station_status: Yup.string().required('Station Status is required'),
+        data_import_type_id: Yup.string().required('Data Import Type is required'),
+        start_date: Yup.string().required('Start Date is required'),
 
-        station_address: Yup.string().required('Station Address Is Required'),
-        security_amount: Yup.string().required('Security Amount Is Required'),
+        station_address: Yup.string().required('Station Address is required'),
+        security_amount: Yup.string().required('Security Amount is required'),
         // password: Yup.string()
-        //     .required('Password Is Required'),
-        // drs_upload_status: Yup.string().required('DRS Upload Status Is Required'),
+        //     .required('Password is required'),
+        // drs_upload_status: Yup.string().required('DRS Upload Status is required'),
 
 
     });
@@ -76,94 +76,94 @@ export const getEntitiesValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         entity_name: Yup.string()
             .min(3, 'Entity Name must be at least 3 characters') // Corrected to 3 characters
-            .required('Entity Name Is Required'),
+            .required('Entity Name is required'),
         entity_code: Yup.string()
             .min(3, 'Entity Code must be at least 3 characters') // Corrected to 3 characters
-            .required('Entity Code Is Required'),
+            .required('Entity Code is required'),
         website: Yup.string() // Added email format validation
-            .required('Website Is Required'),
-        entity_details: Yup.string().required('Entity Details Is Required'),
-        start_month: Yup.string().required('Start Month Is Required'),
-        end_month: Yup.string().required('End Month Is Required'),
-        client_id: Yup.string().required('Client  Is Required'),
-        address: Yup.string().required('Address Is Required'),
+            .required('Website is required'),
+        entity_details: Yup.string().required('Entity Details is required'),
+        start_month: Yup.string().required('Start Month is required'),
+        end_month: Yup.string().required('End Month is required'),
+        client_id: Yup.string().required('Client  is required'),
+        address: Yup.string().required('Address is required'),
     });
 };
 export const chargestValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        charge_name: Yup.string().required('Charge Name Is Required'),
-        charge_code: Yup.string().required('Charge Code Is Required'),
+        charge_name: Yup.string().required('Charge Name is required'),
+        charge_code: Yup.string().required('Charge Code is required'),
     });
 };
 export const supplierValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        supplier_name: Yup.string().required('Supplier Name Is Required'),
-        supplier_code: Yup.string().required('Supplier Code Is Required'),
+        supplier_name: Yup.string().required('Supplier Name is required'),
+        supplier_code: Yup.string().required('Supplier Code is required'),
 
     });
 };
 export const deductionstValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        deduction_name: Yup.string().required('Deduction Name Is Required'),
-        deduction_code: Yup.string().required('Deduction Code Is Required'),
+        deduction_name: Yup.string().required('Deduction Name is required'),
+        deduction_code: Yup.string().required('Deduction Code is required'),
     });
 };
 
 
 export const getStationTankValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: isEditMode ? Yup.string() : Yup.string().required('Client Is Required'),
-        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity Is Required'),
-        station_id: isEditMode ? Yup.string() : Yup.string().required('Station Is Required'),
-        tank_name: Yup.string().required('Tank Name Is Required'),
-        tank_code: Yup.string().required('Tank Code Is Required'),
-        fuel_id: isEditMode ? Yup.string() : Yup.string().required('Fuel Is Required'),
-        status: Yup.string().required('Station Tank Status Is Required'),
+        client_id: isEditMode ? Yup.string() : Yup.string().required('Client is required'),
+        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity is required'),
+        station_id: isEditMode ? Yup.string() : Yup.string().required('Station is required'),
+        tank_name: Yup.string().required('Tank Name is required'),
+        tank_code: Yup.string().required('Tank Code is required'),
+        fuel_id: isEditMode ? Yup.string() : Yup.string().required('Fuel is required'),
+        status: Yup.string().required('Station Tank Status is required'),
     });
 };
 
 export const getStationPumpValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: isEditMode ? Yup.string() : Yup.string().required('Client Is Required'),
-        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity Is Required'),
-        station_id: isEditMode ? Yup.string() : Yup.string().required('Station Is Required'),
-        name: Yup.string().required('Pump Name Is Required'),
-        code: Yup.string().required('Pump Code Is Required'),
-        status: Yup.string().required(' Pump Status Is Required'),
+        client_id: isEditMode ? Yup.string() : Yup.string().required('Client is required'),
+        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity is required'),
+        station_id: isEditMode ? Yup.string() : Yup.string().required('Station is required'),
+        name: Yup.string().required('Pump Name is required'),
+        code: Yup.string().required('Pump Code is required'),
+        status: Yup.string().required(' Pump Status is required'),
     });
 };
 export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: isEditMode ? Yup.string() : Yup.string().required('Client Is Required'),
-        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity Is Required'),
-        station_id: isEditMode ? Yup.string() : Yup.string().required('Station Is Required'),
-        fuel_id: isEditMode ? Yup.string() : Yup.string().required('Station Fuel Is Required'),
-        status: Yup.string().required(' Nozzle Status Is Required'),
-        station_pump_id: Yup.string().required('Station Pump  Name Is Required'),
-        name: Yup.string().required('Nozzle Name Is Required'),
-        code: Yup.string().required('Nozzle Code Is Required'),
+        client_id: isEditMode ? Yup.string() : Yup.string().required('Client is required'),
+        entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity is required'),
+        station_id: isEditMode ? Yup.string() : Yup.string().required('Station is required'),
+        fuel_id: isEditMode ? Yup.string() : Yup.string().required('Station Fuel is required'),
+        status: Yup.string().required(' Nozzle Status is required'),
+        station_pump_id: Yup.string().required('Station Pump  Name is required'),
+        name: Yup.string().required('Nozzle Name is required'),
+        code: Yup.string().required('Nozzle Code is required'),
     });
 };
 
 export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: Yup.string().required('Client Is Required'),
+        client_id: Yup.string().required('Client is required'),
         entity_id: Yup.string()
-            .required('Entity Is Required'),
-        station_id: Yup.string().required('Station Is Required'),
-        // fuel_id: Yup.string().required('Fuel Is Required'),
+            .required('Entity is required'),
+        station_id: Yup.string().required('Station is required'),
+        // fuel_id: Yup.string().required('Fuel is required'),
         start_date1: Yup.date()
-            .required("Start Date Is Required")
+            .required("Start Date is required")
             .min(
                 new Date("2023-01-01"),
                 "Start Date cannot be before January 1, 2023"
             ),
-        platts: Yup.string().required("Platts Is Required"),
-        developmentfuels: Yup.string().required("Development Fuels Is Required"),
-        dutty: Yup.string().required("Dutty  Is Required"),
-        vat_percentage_rate: Yup.string().required("Vat % Is Required"),
+        platts: Yup.string().required("Platts is required"),
+        developmentfuels: Yup.string().required("Development Fuels is required"),
+        dutty: Yup.string().required("Dutty  is required"),
+        vat_percentage_rate: Yup.string().required("Vat % is required"),
 
-        premium: Yup.string().required("Premium Is Required"),
+        premium: Yup.string().required("Premium is required"),
     });
 };
 export default {

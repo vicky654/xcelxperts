@@ -305,16 +305,15 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
     };
-    console.log(data, "data");
 
     const validationSchemaForCustomInput = Yup.object({
-        company_id: Yup.string().required("Entity Is Required"),
+        company_id: Yup.string().required("Entity is required"),
         client_id: isNotClient
-            ? Yup.string().required("Client Is Required")
+            ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
-        // client_id: Yup.string().required('Client Is Required'),
-        // company_id: Yup.string().required('Entity Is Required'),
-        // site_id: Yup.string().required('Station Is Required'),
+        // client_id: Yup.string().required('Client is required'),
+        // company_id: Yup.string().required('Entity is required'),
+        // site_id: Yup.string().required('Station is required'),
     });
 
     console.log(data, "data");

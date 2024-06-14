@@ -115,13 +115,13 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
         validationSchema: Yup.object({
             first_name: Yup.string()
                 .min(3, 'First name must be at least 3 characters')
-                .required('First name Is Required'),
+                .required('First name is required'),
             last_name: Yup.string()
                 .min(3, 'Last name must be at least 3 characters')
-                .required('Last name Is Required'),
+                .required('Last name is required'),
             email: Yup.string()
                 .email('Invalid email address')
-                .required('Email Is Required'),
+                .required('Email is required'),
         }),
         onSubmit: async (values) => {
 
@@ -198,13 +198,13 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
         validationSchema: Yup.object({
             old_password: Yup.string()
                 .min(8, 'Current password must be at least 8 characters')
-                .required('Current password Is Required'),
+                .required('Current password is required'),
             password: Yup.string()
                 .min(8, 'Password must be at least 8 characters')
-                .required('Password Is Required'),
+                .required('Password is required'),
             password_confirmation: Yup.string()
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
-                .required('Confirm Password Is Required'),
+                .required('Confirm Password is required'),
         }),
 
 
@@ -243,9 +243,9 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
     });
 
     const validationSchema = Yup.object({
-        date_format: Yup.string().required('Date format Is Required'),
-        pagination: Yup.string().required('Pagination Is Required'),
-        auto_logout: Yup.string().required('Auto logout time Is Required'),
+        date_format: Yup.string().required('Date format is required'),
+        pagination: Yup.string().required('Pagination is required'),
+        auto_logout: Yup.string().required('Auto logout time is required'),
     });
     const formik3 = useFormik<FormValues3>({
         initialValues: {

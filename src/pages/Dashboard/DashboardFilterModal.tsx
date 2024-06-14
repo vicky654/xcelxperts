@@ -62,9 +62,9 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
 
     const validationSchema = Yup.object({
-        company_id: Yup.string().required("Station Is Required"),
+        company_id: Yup.string().required("Station is required"),
         client_id: isNotClient
-            ? Yup.string().required("Client Is Required")
+            ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
     });
 
@@ -81,7 +81,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
             sites: [] as Site[],
         },
         // validationSchema: Yup.object({
-        //     company_id: Yup.string().required("Station Is Required"),
+        //     company_id: Yup.string().required("Station is required"),
         // }),
         validationSchema: validationSchema,
         onSubmit: (values) => {
