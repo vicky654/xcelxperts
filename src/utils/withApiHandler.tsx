@@ -29,6 +29,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                 toast: true,
                 position: 'top',
                 showConfirmButton: false,
+                showCloseButton: true,
                 timer: 3000,
                 customClass: { container: 'toast' },
             });

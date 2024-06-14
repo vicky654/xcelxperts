@@ -12,13 +12,13 @@ const showMessage = (msg: string = '', type: 'success' | 'error' = 'success') =>
     customClass: {
       container: 'toast',
       popup: type === 'success' ? 'success-toast' : 'error-toast', // Custom classes based on type
+      closeButton: 'custom-close-button', // Custom class for close button
     },
   });
   toast.fire({
     icon: type,
     title: msg,
     padding: '10px 20px',
-    // border-radius:"0px",
   });
 };
 

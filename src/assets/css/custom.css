@@ -311,7 +311,6 @@ border-color: none;
     overflow-y: auto;
 }
 .heading-div {
-    background: #3b3f5c;
     color: #fff;
     margin-bottom: 10px;
     padding: 10px !important;
@@ -433,3 +432,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 .swal2-container.swal2-top > .swal2-popup {
     border-radius: 0px;
 }
+.custom-close-button {
+    margin-right: 100px; /* Set the margin for the close button */
+    background-color: #0000 !important;
+  }

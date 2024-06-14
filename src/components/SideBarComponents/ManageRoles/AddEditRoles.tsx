@@ -201,8 +201,8 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             {Object.keys(permissions).map((sectionName, index) => (
-                                <div key={sectionName} className="boxminheight">
-                                    <div className="flex items-center heading-div">
+                                <div key={sectionName} className="boxminheight gradient-blue-to-blue" >
+                                    <div className="flex items-center heading-div gradient-blue-to-blue">
                                         <input
                                             className="form-check-input"
                                             type="checkbox"
