@@ -424,7 +424,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 }
 
 .swal2-popup.swal2-toast.error-toast.swal2-icon-error.swal2-show {
-    background: red !important;
+    background: #a00000 !important;
     border-radius: 0px;
 }
 .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
