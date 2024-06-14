@@ -198,19 +198,19 @@ const Contacts = () => {
 
     const saveUser = () => {
         if (!params.name) {
-            showMessage('Name Is Required.', 'error');
+            showMessage('Name is required.', 'error');
             return true;
         }
         if (!params.email) {
-            showMessage('Email Is Required.', 'error');
+            showMessage('Email is required.', 'error');
             return true;
         }
         if (!params.phone) {
-            showMessage('Phone Is Required.', 'error');
+            showMessage('Phone is required.', 'error');
             return true;
         }
         if (!params.role) {
-            showMessage('Occupation Is Required.', 'error');
+            showMessage('Occupation is required.', 'error');
             return true;
         }
 

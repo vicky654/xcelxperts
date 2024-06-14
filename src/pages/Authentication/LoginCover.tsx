@@ -27,8 +27,8 @@ const LoginCover = () => {
             password: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address').required('Email Is Required'),
-            password: Yup.string().required('Password Is Required'),
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+            password: Yup.string().required('Password is required'),
         }),
         onSubmit: async (values) => {
             setLoading(true);

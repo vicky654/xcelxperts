@@ -550,7 +550,7 @@ const Todolist = () => {
 
     const saveTask = () => {
         if (!params.title) {
-            showMessage('Title Is Required.', 'error');
+            showMessage('Title is required.', 'error');
             return false;
         }
         if (params.id) {

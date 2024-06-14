@@ -36,7 +36,7 @@ const RecoverIdCover = () => {
             email: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address').required('Email Is Required'),
+            email: Yup.string().email('Invalid email address').required('Email is required'),
         }),
         onSubmit: async (values) => {
             await submitForm(values);

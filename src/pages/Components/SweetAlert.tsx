@@ -80,7 +80,7 @@ const SweetAlert = () => {
                 inputAttributes: {
                     required: 'true',
                 },
-                validationMessage: 'This field Is Required',
+                validationMessage: 'This field is required',
                 padding: '2em',
                 customClass: 'sweet-alerts',
             });
@@ -515,7 +515,7 @@ if (type === 5) {
         inputAttributes: {
             required: 'true',
         },
-        validationMessage: 'This field Is Required',
+        validationMessage: 'This field is required',
         padding: '2em',
         customClass: 'sweet-alerts',
     });
