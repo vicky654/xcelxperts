@@ -140,17 +140,17 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                 }
                             >
                                 <ul className="text-dark   dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
-                                    <li className="px-4 py-4">
+                                    <li className="px-4 py-4" style={{background:"#ddd"}}>
                                         <div className="flex items-center">
-                                            <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
-                                            <div className="ltr:pl-4 rtl:pr-4 truncate">
+                                           <div className=" truncate">
                                                 <h4 className="text-base">
                                                     <span className="block whitespace-normal">{data?.full_name}</span>
                                                 </h4>
                                             </div>
+                                        
                                         </div>
-                                        <span className="hover:rounded-sm whitespace-normal text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white p-0">{data?.email}</span>
-                                    </li>
+                                   </li>
+                                   
                                     {isProfileUpdatePermissionAvailable && (
                                         <li>
                                             <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
