@@ -92,7 +92,7 @@ const LoginCover = () => {
                             <div  style={{background:"#fff",borderRadius:"5px"}}className="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
                                 <Link to="/" className="w-48 block lg:w-72">
                            
-                                    <img src="/public/assets/images/xx_logo.png" alt="Logo" className="w-full" />
+                                    <img src="/assets/images/xx_logo.png" alt="Logo" className="w-full" />
                                 </Link>
                                 {/* <div className="mt-24 hidden w-full max-w-[430px] lg:block">
                                     <img src="/../../src/assets/logo/logo.jpeg" alt="Cover Image" className="w-full" />
@@ -102,7 +102,7 @@ const LoginCover = () => {
                         <div  className="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
                             <div style={{background:"#fff",borderRadius:"5px"}} className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
                                 <Link to="/" className="w-8 block lg:hidden">
-                                    <img src="/public/assets/images/xx_logo.png" alt="Logo" className="mx-auto w-10" />
+                                    <img src="/assets/images/xx_logo.png" alt="Logo" className="mx-auto w-10" />
                                 </Link>
                             </div>
                             <div className="w-full max-w-[440px] lg:mt-16">
