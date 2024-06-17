@@ -166,7 +166,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div className="container mx-auto p-4">
+            <div className="panel mt-6">
                 <div className="flex justify-between items-center mb-4">
                     <ul className="flex space-x-2">
                         <li>

@@ -83,6 +83,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
     const openEditRolePage = (id: string) => {
       navigate(`/manage-roles/edit-roles/${id}`);
     };
+    
     const columns: any = [
         {
             name: 'Role',
@@ -138,11 +139,6 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
               }
             : null,
     ];
-
-
-
-
-
     return (
         <>
             {isLoading && <LoaderImg />}

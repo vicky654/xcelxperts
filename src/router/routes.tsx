@@ -715,3 +715,4 @@ const routes = [
   },
 ];
 export { routes };
+// assets/images/auth/contact-us.svg
