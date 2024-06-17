@@ -102,6 +102,13 @@ export const supplierValidationSchema = (isEditMode: boolean) => {
 
     });
 };
+export const cardValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+       card_name: Yup.string().required('Card Name is required'),
+       card_code: Yup.string().required('Card Code is required'),
+
+    });
+};
 export const deductionstValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         deduction_name: Yup.string().required('Deduction Name is required'),

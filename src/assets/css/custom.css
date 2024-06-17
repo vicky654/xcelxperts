@@ -436,3 +436,6 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     margin-right: 100px; /* Set the margin for the close button */
     background-color: #0000 !important;
   }
+  .form-select {
+    border: 1px solid #ddd;
+}

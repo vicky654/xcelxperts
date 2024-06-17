@@ -130,6 +130,7 @@ import AddAddons from '../components/SideBarComponents/ManageAddons/AddEditAddon
 import AssignUserAddons from '../components/SideBarComponents/ManageUser/AssignUserAddon';
 import AssignClientAddons from '../components/SideBarComponents/ManageClient/AssignClientAddons';
 import AssignClientReports from '../components/SideBarComponents/ManageClient/AssignClientReports';
+import Managecards from '../components/SideBarComponents/Managecards/Managecards';
 
 const routes = [
   {
@@ -244,6 +245,10 @@ const routes = [
   {
     path: 'manage-supplier/supplier',
     element: <Managesupplier />,
+  },
+  {
+    path: 'manage-cards/cards',
+    element: <Managecards />,
   },
   {
     path: 'manage-logs/emaillogs',

@@ -128,6 +128,7 @@ const menuItems: MenuItem[] = [
             { title: 'Charges', link: '/manage-charges/charges', permission: 'user-list', visibility: false },
             { title: 'Deductions', link: '/manage-deductions/deductions', permission: 'user-list', visibility: false },
             { title: 'Suppliers', link: '/manage-supplier/supplier', permission: 'user-list', visibility: false },
+            { title: 'Cards', link: '/manage-cards/cards', permission: 'user-list', visibility: false },
             { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
          // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],

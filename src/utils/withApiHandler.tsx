@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import useErrorHandler from '../hooks/useHandleError';
+import showMessage from '../hooks/showMessage';
 
 interface WithApiHandlerProps {
     fetchedData?: any;
@@ -20,27 +21,8 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
         const [postedData, setPostedData] = useState<any>(null);
         const [isLoading, setIsLoading] = useState<boolean>(false);
         const [apiError, setApiError] = useState<AxiosError | null>(null);
-
         const navigate = useNavigate();
         const handleApiError = useErrorHandler(); // Use the error handler hook
-
-        const showMessage = (msg = '', type = 'success') => {
-            const toast = Swal.mixin({
-                toast: true,
-                position: 'top',
-                showConfirmButton: false,
-                showCloseButton: true,
-                timer: 3000,
-                customClass: { container: 'toast' },
-            });
-            // @ts-ignore
-            toast.fire({
-                icon: type,
-                title: msg,
-                padding: '10px 20px',
-            });
-        };
-
         const axiosInstance: AxiosInstance = axios.create({
             baseURL: import.meta.env.VITE_API_URL,
         });
@@ -73,7 +55,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
                     throw new Error('Invalid response');
                 }
             } catch (error) {
-                handleApiError(error);
+                handleApiError(error,);
                 setApiError(error as AxiosError);
                 setIsLoading(false);
                 throw error;
@@ -86,7 +68,7 @@ const withApiHandler = <P extends object>(WrappedComponent: React.ComponentType<
         
                 if (response && response.data) {
                     const data = response.data;
-                    showMessage(data.message);
+                    showMessage(data?.message, 'success');
                     setPostedData(data);
                     setFetchedData(data);
                     setIsLoading(false);

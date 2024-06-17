@@ -114,6 +114,11 @@ export const supplierInitialValues = {
   supplier_code: '', // Add deduction_name here
 
 };
+export const cardInitialValues = {
+card_name: '',
+card_code: '', // Add deduction_name here
+
+};
 
 export const stationTankInitialValues = {
   client_id: '',
