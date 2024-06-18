@@ -104,8 +104,8 @@ export const supplierValidationSchema = (isEditMode: boolean) => {
 };
 export const cardValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-       card_name: Yup.string().required('Card Name is required'),
-       card_code: Yup.string().required('Card Code is required'),
+        card_name: Yup.string().required('Card Name is required'),
+        card_code: Yup.string().required('Card Code is required'),
 
     });
 };
@@ -157,20 +157,21 @@ export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
         client_id: Yup.string().required('Client is required'),
         entity_id: Yup.string()
             .required('Entity is required'),
-        station_id: Yup.string().required('Station is required'),
-        // fuel_id: Yup.string().required('Fuel is required'),
-        start_date1: Yup.date()
+        // station_id: Yup.string().required('Station is required'),
+        fuel_id: Yup.string().required('Fuel is required'),
+        date: Yup.date()
             .required("Start Date is required")
             .min(
                 new Date("2023-01-01"),
                 "Start Date cannot be before January 1, 2023"
             ),
         platts: Yup.string().required("Platts is required"),
-        developmentfuels: Yup.string().required("Development Fuels is required"),
-        dutty: Yup.string().required("Dutty  is required"),
+        development_fuels_price: Yup.string().required("Development Fuels is required"),
+        duty_price: Yup.string().required("Dutty  is required"),
         vat_percentage_rate: Yup.string().required("Vat % is required"),
-
         premium: Yup.string().required("Premium is required"),
+        total: Yup.string().required("Total is required"),
+        ex_vat_price: Yup.string().required("Ex. Vat. Price is required"),
     });
 };
 export default {

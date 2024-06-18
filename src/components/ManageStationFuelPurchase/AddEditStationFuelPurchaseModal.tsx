@@ -8,6 +8,8 @@ import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
 import { stationFuelPurchaseInitialValues, stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
 import { getStationFuelPurchaseValidationSchema, getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { Col } from 'react-bootstrap';
+import { MultiSelect } from 'react-multi-select-component';
 
 
 interface Client {
@@ -85,13 +87,17 @@ type tankList = {
 
 const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
+    const [fuelSubCategory, setFuelSubCategory] = useState([]);
     const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
     const [SumTotal, setTotal] = useState<any>(); // Adjust ClientList type as needed
     const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
     const handleApiError = useErrorHandler();
+    const [selected, setSelected] = useState([]);
+
     useEffect(() => {
         if (isOpen) {
             FetchClientList();
+            FetchFuelSubCategoryList();
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
@@ -106,6 +112,16 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
             const response = await getData('/station/common-data-list');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
+            }
+        } catch (error) {
+            console.error('API error:', error);
+        }
+    };
+    const FetchFuelSubCategoryList = async () => {
+        try {
+            const response = await getData('/fuel/subcategory');
+            if (response && response.data && response.data.data) {
+                setFuelSubCategory(response.data.data)
             }
         } catch (error) {
             console.error('API error:', error);
@@ -196,7 +212,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
     const handleBlurChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const BlurId = e.target.value;
         // formik.setFieldValue('entity_id', entityId);
-        console.log(BlurId, "BlurId");
+        // console.log(BlurId, "BlurId");
 
     };
 
@@ -253,7 +269,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         validationSchema: getStationFuelPurchaseValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
-                await onSubmit(values, formik);
+                await onSubmit(values, selected);
                 onClose();
             } catch (error) {
                 console.error('Submit error:', error);
@@ -262,7 +278,6 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         },
     });
 
-    console.log(formik?.values, "formik values");
 
     const sendEventWithName = (event: any) => {
         formik.setFieldValue("total", 0);
@@ -298,7 +313,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Station' : 'Add Station'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Fuel Purchase' : 'Add Fuel Purchase'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
@@ -324,21 +339,28 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                 />
 
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="station_id"
-                                                    label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleSiteChange}
-                                                />
-                                                <FormikInput formik={formik} type="date" name="start_date1" label="Start Date" placeholder="Start Date" />
+                                                <Col lg={4} md={6}>
+                                                    <label className="form-label ">
+                                                        Select Stations
+                                                        <span className="text-danger">*</span>
+                                                    </label>
+                                                    <MultiSelect
+                                                        value={selected}
+                                                        onChange={setSelected}
+                                                        labelledBy="Select Stations.."
+                                                        options={formik.values?.sites?.map((item) => ({ value: item.id, label: item.station_name }))}
+                                                    />
+                                                </Col>
+
+
+
+                                                <FormikInput formik={formik} type="date" name="date" label="Start Date" placeholder="Start Date" />
 
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="fuel_id"
                                                     label="Fuel Name"
-                                                    options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
+                                                    options={fuelSubCategory?.map((item: any) => ({ id: item.id, name: item.sub_category_name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />
@@ -347,9 +369,9 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                     onBlur={sendEventWithName} />
 
 
-                                                <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="developmentfuels" label="Development Fuels " placeholder="Development Fuels" />
+                                                <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="development_fuels_price" label="Development Fuels " placeholder="Development Fuels" />
 
-                                                <FormikInput formik={formik} type="number" name="dutty" onBlur={sendEventWithName} />
+                                                <FormikInput formik={formik} type="number" name="duty_price" onBlur={sendEventWithName} />
                                                 <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="premium" />
 
                                                 <div className={formik.submitCount && formik.errors.ex_vat_price ? 'has-error' : formik.submitCount ? 'has-success' : ''}>

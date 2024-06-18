@@ -21,6 +21,9 @@ import CustomInput from '../ManageStationTank/CustomInput';
 import AddEditStationFuelPurchaseModal from './AddEditStationFuelPurchaseModal';
 import { useFormik } from 'formik';
 import { stationSettingInitialValues } from '../FormikFormTools/InitialValues';
+import { MultiSelect } from 'react-multi-select-component';
+import { Col, FormGroup } from 'react-bootstrap';
+import { showMessage } from '../../utils/errorHandler';
 
 interface ManageStationFuelPurchaseProps {
     isLoading: boolean;
@@ -29,6 +32,8 @@ interface ManageStationFuelPurchaseProps {
     // onSubmit: (values: any, formik: any) => Promise<void>;
 }
 interface FormValues {
+    start_date(arg0: string, start_date: any): unknown;
+    length: number;
     data: any;
     // isLoading: boolean;
     // getData: (url: string) => Promise<any>;
@@ -60,6 +65,7 @@ interface ColData {
 
 const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
+    const [stationData, setstationData] = useState<any>();
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,10 +80,14 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     let storedKeyName = "stationPurchase";
 
 
+
+
+
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
 
         if (storedData) {
+            setstationData(JSON.parse(storedData))
             handleApplyFilters(JSON.parse(storedData));
         }
         // fetchData();
@@ -87,72 +97,18 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         // fetchData();
     };
 
+
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
 
-    const formik = useFormik<FormValues>({
-        // initialValues: stationSettingInitialValues,
-        initialValues: {
-            data: undefined
-        },
+    const formik = useFormik({
+        initialValues: {} as any,
         // validationSchema: getStationValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
 
                 console.log(values, "values");
-
-
-                // const formData = new FormData();
-
-                // formData.append(`id`, station_id);
-
-                // formik?.values?.cards?.forEach((card, index) => {
-                //     if (card.checked) {
-                //         formData.append(`cards[${index}]`, card.id);
-                //     }
-                // });
-                // formik?.values?.dataEntryCard?.forEach((card, index) => {
-                //     if (card.checked) {
-                //         formData.append(`data_entry_card_id[${index}]`, card.id);
-                //     }
-                // });
-
-                // formik?.values?.fuels?.forEach((card, index) => {
-                //     if (card.checked) {
-                //         formData.append(`fuels[${index}]`, card.id);
-                //     }
-                // });
-                // formik?.values?.reports?.forEach((card, index) => {
-                //     if (card.checked) {
-                //         formData.append(`reports[${index}]`, card.id);
-                //     }
-                // });
-
-
-                // formik?.values?.charges?.forEach((card: any, index) => {
-                //     if (card.checked) {
-                //         formData.append(`charges[${index}]`, card.id);
-                //         formData.append(`charge_amount[${card.id}]`, card.charge_value);
-                //     }
-                // });
-                // formik?.values?.deductions?.forEach((card: any, index) => {
-                //     if (card.checked) {
-                //         formData.append(`deductions[${index}]`, card.id);
-                //         formData.append(`deduction_amount[${card.id}]`, card.deduction_value);
-                //     }
-                // });
-
-                // const url = `station/update-setting`;
-                // const navigationpath: string = '/manage-stations/station'
-                // const response = await postData(url, formData,);
-
-
-                // console.log(response, "test");
-
-                // if (response) {
-                //     navigate("/manage-stations/station")
-                // }
 
             } catch (error) {
                 console.error('Submit error:', error);
@@ -163,35 +119,8 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
 
 
-    const fetchData = async () => {
-        try {
-            const response = await getData(`/site/tank/list?page=${currentPage}`);
-            if (response && response.data && response.data.data) {
-                // setData(response.data.data?.Stations);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            handleApiError(error);
 
-        }
-    };
-    const { toggleStatus } = useToggleStatus();
-    const toggleActive = (row: RowData) => {
-        const formData = new FormData();
-        formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
-    };
-    const { customDelete } = useCustomDelete();
 
-    const handleDelete = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
-    };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
@@ -224,12 +153,13 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                     <input
                         type="number"
                         id={`platts_price-${index}`}
-                        name={`data[${index}].platts_price`}
+                        name={`[${index}].platts_price`}
                         className="table-input form-input"
                         step="0.01"
-                        value={
-                            formik?.values?.data && formik.values.data[index]?.platts_price
-                        }
+                        value={row?.platts_price}
+                        // value={
+                        //     formik?.values && formik.values.[index]?.platts_price
+                        // }
                         onChange={formik.handleChange}
                         onBlur={(e) => {
                             formik.handleBlur(e);
@@ -256,11 +186,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             type="number"
                             step="0.01"
                             id={`premium_price-${index}`}
-                            name={`data[${index}].premium_price`}
+                            name={`[${index}].premium_price`}
                             className="table-input form-input"
-                            value={
-                                formik?.values?.data && formik.values.data[index]?.premium_price
-                            }
+                            value={row?.premium_price}
                             onChange={formik.handleChange}
                             onBlur={(e) => {
                                 formik.handleBlur(e);
@@ -287,12 +215,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             type="number"
                             step="0.01"
                             id={`development_fuels_price-${index}`}
-                            name={`data[${index}].development_fuels_price`}
+                            name={`[${index}].development_fuels_price`}
                             className="table-input form-input"
-                            value={
-                                formik?.values?.data &&
-                                formik.values.data[index]?.development_fuels_price
-                            }
+                            value={row?.development_fuels_price}
                             onChange={formik.handleChange}
                             onBlur={(e) => {
                                 formik.handleBlur(e);
@@ -319,11 +244,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             type="number"
                             step="0.01"
                             id={`duty_price-${index}`}
-                            name={`data[${index}].duty_price`}
+                            name={`[${index}].duty_price`}
                             className="table-input form-input"
-                            value={
-                                formik?.values?.data && formik.values.data[index]?.duty_price
-                            }
+                            value={row?.duty_price}
                             onChange={formik.handleChange}
                             onBlur={(e) => {
                                 formik.handleBlur(e);
@@ -351,11 +274,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             type="number"
                             step="0.01"
                             id={`ex_vat_price-${index}`}
-                            name={`data[${index}].ex_vat_price`}
+                            name={`[${index}].ex_vat_price`}
                             className="table-input readonly form-input"
-                            value={
-                                formik?.values?.data && formik.values.data[index]?.ex_vat_price
-                            }
+                            value={row?.ex_vat_price}
                             onChange={formik.handleChange}
                             readOnly
                             onBlur={formik.handleBlur}
@@ -380,12 +301,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             type="number"
                             step="0.01"
                             id={`vat_percentage_rate-${index}`}
-                            name={`data[${index}].vat_percentage_rate`}
+                            name={`[${index}].vat_percentage_rate`}
                             className="table-input form-input"
-                            value={
-                                formik?.values?.data &&
-                                formik.values.data[index]?.vat_percentage_rate
-                            }
+                            value={row?.vat_percentage_rate}
                             onChange={formik.handleChange}
                             onBlur={(event) => {
                                 formik.handleBlur(event);
@@ -413,7 +331,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             id={`total-${index}`}
                             name={`data[${index}].total`}
                             className="table-input readonly form-input"
-                            value={formik?.values?.data && formik.values.data[index]?.total}
+                            value={row?.total}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             readOnly
@@ -443,36 +361,31 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         setEditUserData(null);
     };
 
-    const handleFormSubmit = async (values: any) => {
+    const handleFormSubmit = async (values: any, selected: any) => {
 
-        console.log(values, "handleFormSubmit ");
 
         try {
             const formData = new FormData();
 
             formData.append("platts_price", values.platts);
             formData.append("premium_price", values.premium);
-            formData.append("development_fuels_price", values.developmentfuels);
-            formData.append("duty_price", values.dutty);
-            formData.append("vat_percentage_rate", values.vat);
-            formData.append("ex_vat_price", values.exvat);
+            formData.append("development_fuels_price", values.development_fuels_price);
+            formData.append("duty_price", values.duty_price);
+            formData.append("vat_percentage_rate", values.vat_percentage_rate);
+            formData.append("ex_vat_price", values.ex_vat_price);
             formData.append("total", values.total);
-            formData.append("date", values.start_date1);
-            formData.append("fuel_id", values.fuel_name);
-            // values.sites.forEach((site, index) => {
-            //   formData.append(`station_id[${index}]`, site.id);
-            // });
-            // const selectedSiteIds = selected?.map((site) => site.value);
+            formData.append("date", values.date);
+            formData.append("fuel_id", values.fuel_id);
 
-            // selectedSiteIds?.forEach((id, index) => {
-            //     formData.append(`station_id[${index}]`, id);
-            // });
 
+            selected?.forEach((selected: any, index: any) => {
+                formData.append(`station_id[${index}]`, selected.value);
+            });
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/site/fuel/purchase-price/update` : `/site/fuel/purchase-price/add`;
+            const url = isEditMode && userId ? `/station/fuel/purchase-price/update` : `/station/fuel/purchase-price/create`;
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
@@ -494,26 +407,8 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
-                formik.setValues(response.data.data)
-                setData(response.data.data);
-                const { data } = response;
-                if (data) {
-                    setData(data?.data);
-                    const formValues = data?.data.map((item: any) => {
-                        return {
-                            id: item.id,
-                            fuel_name: item.fuel_name,
-                            platts_price: item.platts_price,
-                            premium_price: item.premium_price,
-                            development_fuels_price: item.development_fuels_price,
-                            duty_price: item.duty_price,
-                            vat_percentage_rate: item.vat_percentage_rate,
-                            ex_vat_price: item.ex_vat_price,
-                            total: item.total,
-                        };
-                    });
-
-                    formik.setFieldValue("data", formValues);
+                if (response && response?.data) {
+                    formik.setValues(response.data.data)
                 }
             } else {
                 throw new Error('No data available in the response');
@@ -526,8 +421,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
     };
-    console.log(data, "data");
-    console.log(formik?.values, "data formik in purchase");
 
     const validationSchemaForCustomInput = Yup.object({
         client_id: isNotClient
@@ -538,7 +431,118 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         start_date: Yup.string().required('Start Date is required'),
     });
 
-    console.log(data, "data");
+
+    const handleSubmitForm1 = async (event: any) => {
+        event.preventDefault();
+        if (
+            selected === undefined ||
+            selected === null ||
+            (Array.isArray(selected) && selected.length === 0)
+        ) {
+            showMessage("Please select at least one site");
+        }
+
+        try {
+            const formData = new FormData();
+            formik?.values?.forEach((obj: any) => {
+                const id = obj.id;
+                const platts_price = `platts_price[${id}]`;
+                const premium_price = `premium_price[${id}]`;
+                const development_fuels_price = `development_fuels_price[${id}]`;
+                const duty_price = `duty_price[${id}]`;
+                const vat_percentage_rate = `vat_percentage_rate[${id}]`;
+                const total = `total[${id}]`;
+                const ex_vat_price = `ex_vat_price[${id}]`;
+
+                const platts_price_Value = obj.platts_price;
+                const premium_price_discount = obj.premium_price;
+                const development_fuels_price_nettValue = obj.development_fuels_price;
+                const ex_vat_price_price = obj.ex_vat_price;
+                const vat_percentage_rate_price = obj.vat_percentage_rate;
+
+                const total_values = obj.total;
+                const duty_price_salesValue = obj.duty_price;
+                // const action = obj.action;
+
+                formData.append(platts_price, platts_price_Value);
+                formData.append(premium_price, premium_price_discount);
+                formData.append(
+                    development_fuels_price,
+                    development_fuels_price_nettValue
+                );
+                formData.append(duty_price, duty_price_salesValue);
+                formData.append(vat_percentage_rate, vat_percentage_rate_price);
+                formData.append(ex_vat_price, ex_vat_price_price);
+                formData.append(total, total_values);
+            });
+
+            const selectedSiteIds = selected?.map((site: any) => site.value);
+
+            selectedSiteIds?.forEach((id: any, index: number) => {
+                formData.append(`station_id[${index}]`, id);
+            });
+
+            formData.append("date", stationData?.start_date);
+
+            const postDataUrl = "/station/fuel/purchase-price/update";
+
+            await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+        } catch (error) {
+            console.log(error); // Set the submission state to false if an error occurs
+        }
+    };
+    const [selected, setSelected] = useState<any>([]);
+
+
+    console.log(formik?.values, "formik?.values");
+
+
+    function calculateSum(index: number) {
+        const plattsPrice =
+            formik?.values && formik.values?.[index]?.platts_price;
+        const developmentfuels_price =
+            formik?.values &&
+            formik.values?.[index]?.development_fuels_price;
+        const dutyprice =
+            formik?.values && formik.values?.[index]?.duty_price;
+        const premiumPrice =
+            formik?.values && formik.values?.[index]?.premium_price;
+
+        if (
+            plattsPrice !== undefined &&
+            premiumPrice !== undefined &&
+            developmentfuels_price !== undefined &&
+            dutyprice !== undefined
+        ) {
+            const sum =
+                (parseFloat(plattsPrice) +
+                    parseFloat(premiumPrice) +
+                    parseFloat(developmentfuels_price) +
+                    parseFloat(dutyprice)) /
+                100;
+
+            const roundedSum = sum.toFixed(2);
+            formik.setFieldValue(`[${index}].ex_vat_price`, roundedSum);
+        }
+    }
+    const sendEventWithName1 = (event: any, name: any, index: number) => {
+        const plattsValue =
+            parseFloat(
+                formik?.values && formik.values?.[index]?.vat_percentage_rate
+            ) || 0;
+
+        const SumTotal = parseFloat(
+            formik?.values && formik.values?.[index]?.ex_vat_price
+        );
+
+        const sum = (SumTotal * plattsValue) / 100 + SumTotal;
+
+        const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
+        const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
+
+        formik.setFieldValue(`[${index}].total`, formattedSum);
+    };
+
 
 
     return (
@@ -588,23 +592,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             // storedKeyItems={storedKeyItems}
                             storedKeyName={storedKeyName}
                         />
-                        {/* <CustomInput
-                            getData={getData}
-                            isLoading={isLoading}
-                            onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
-                            showClientInput={true}  // or false
-                            showEntityInput={true}  // or false
-                            showStationInput={true} // or false
-                            showDateInput={true} // or false
-                            validationSchema={validationSchemaForCustomInput}
-                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                            isOpen={false}
-                            onClose={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
-                        /> */}
-
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
@@ -614,11 +601,61 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>
                         </div>
-                        {data?.length > 0 ? (
+                        {formik?.values?.length > 0 ? (
                             <>
 
+                                <>
+                                    <form onSubmit={handleSubmitForm1}>
+                                        <div className=' my-4'>
+                                            <FormGroup>
+                                                <label className="form-label mt-4">
+                                                    Select Sites
+                                                    <span className="text-danger">*</span>
+                                                </label>
+                                                <MultiSelect
+                                                    value={selected}
+                                                    onChange={setSelected}
+                                                    labelledBy="Select Sites"
+                                                    // disableSearch="true"
+                                                    options={stationData?.sites?.map((item: any) => ({ value: item.id, label: item.station_name }))}
+                                                // options={[]}
+                                                // showCheckbox="false"
+                                                />
+                                            </FormGroup>
+                                        </div>
+                                        <div className="table-responsive deleted-table">
+                                            <DataTable
+                                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                                columns={columns}
+                                                data={formik?.values}
+                                                noHeader
+                                                defaultSortAsc={false}
+                                                striped={true}
+                                                persistTableHead
+                                                highlightOnHover
+                                                responsive={true}
+                                            />
+                                        </div>
+                                        {isEditPermissionAvailable ? (
+                                            <div className="d-flex justify-content-end mt-3">
+                                                {data ? (
+                                                    <>
+                                                        <button className="btn btn-primary" type="submit">
+                                                            Submit
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </form>
+                                </>
 
-                                <div className="datatables">
+
+                                {/* <div className="datatables">
                                     <DataTable
                                         className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
                                         columns={columns}
@@ -630,7 +667,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                         highlightOnHover
                                         responsive={true}
                                     />
-                                </div>
+                                </div> */}
                             </>
                         ) : (
                             <>
