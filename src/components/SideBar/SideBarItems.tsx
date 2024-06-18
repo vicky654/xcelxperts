@@ -161,12 +161,12 @@ const menuItems: MenuItem[] = [
         key: 'Logs',
         title: 'Logs',
         icon: IconMenuDatatables,
-        link: '/manage-logs/logs', // Single link for the dashboard
+        link: '/ss', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
+        permission: 'email-logs', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Email Logs', link: '/manage-logs/emaillogs', permission: 'user-list', visibility: false },
-            { title: 'Activity Logs', link: '/manage-logs/activity_logs', permission: 'user-list', visibility: false },
+            { title: 'Email Logs', link: '/manage-logs/emaillogs', permission: 'email-logs', visibility: false },
+            { title: 'Activity Logs', link: '/manage-logs/activity_logs', permission: 'activity-logs', visibility: false },
         ],
     },
     // {

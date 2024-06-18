@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -19,6 +18,8 @@ import AddClientModal from './AddClientModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
 import IconUserPlus from '../../Icon/IconUserPlus';
 import IconPlus from '../../Icon/IconPlus';
+import IconUser from '../../Icon/IconUser';
+import showMessage from '../../../hooks/showMessage';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -93,6 +94,32 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         formData.append('id', id);
         customDelete(postData, 'client/delete', formData, handleSuccess);
     };
+    const handleClientLogin =  async (id: any) => {
+        try {
+            const response = await getData(`/account-login/${id}`);
+            if (response && response.data && response.data.data) {
+                console.log(response.data.data, "response.data.data");
+                localStorage.setItem('token', response.data.data?.access_token);
+                localStorage.setItem('superiorId', response.data.data?.superiorId);
+                localStorage.setItem('superiorRole', response.data.data?.superiorRole);
+                localStorage.setItem('role', response.data.data?.role);
+                localStorage.setItem('auto_logout', response.data.data?.auto_logout);
+                localStorage.setItem('authToken', response.data.data?.token);
+
+                if (response.data.data?.is_verified === true) {
+                    showMessage(response.data.data?.message, 'success');
+                    navigate('/manage-logs/logs');
+                } else if (response.data.data?.is_verified === false) {
+                    navigate('/validateOtp');
+                }
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+            // console.error('API error:', error);
+        }
+    };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
@@ -106,7 +133,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             name: 'Client Name',
             selector: (row: RowData) => row.full_name,
             sortable: false,
-            width: '30%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -160,39 +187,46 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         },
         anyPermissionAvailable
             ? {
-                name: 'Actions',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '10%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Assign Client Addon">
+                  name: 'Actions',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '20%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  <Tippy content="Edit">
+                                      <button type="button" onClick={() => openModal(row?.id)}>
+                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Delete">
+                                      <button onClick={() => handleDelete(row.id)} type="button">
+                                          <IconTrashLines />
+                                      </button>
+                                  </Tippy>
+                                  <Tippy content="Assign Client Addon">
                                       <button onClick={() => navigate(`/manage-clients/assignaddons/${row.id}`)} type="button">
                                           <IconUserPlus className="ml-2" />
                                       </button>
                                   </Tippy>
-                                <Tippy content="Assign Client Reports">
+                                  <Tippy content="Assign Client Reports">
                                       <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
                                           <IconPlus className="ml-2" />
                                       </button>
                                   </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                                  <Tippy content=" Client Login">
+                                      <button onClick={() => handleClientLogin(row.id)} type="button">
+                                          <div className="grid place-content-center w-14 h-14 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                              <IconUser fill={true} className="w-6 h-6" />
+                                          </div>
+                                      </button>
+                                  </Tippy>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
 
@@ -238,13 +272,12 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             }
 
             const url = isEditMode && userId ? `/client/update` : `/client/create`;
-        
+
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
                 handleSuccess();
                 closeModal();
             }
-       
         } catch (error) {
             handleApiError(error);
         }
