@@ -1,25 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import AddModalHeader from '../CrudModal/AddModalHeader';
-import { cardValidationSchema, supplierValidationSchema } from '../../FormikFormTools/ValidationSchema';
-import FormikInput from '../../FormikFormTools/FormikInput';
 import { cardInitialValues } from '../../FormikFormTools/InitialValues';
-
-interface RowData {
-    card_code: string;
-    card_status: string;
-    card_name: string;
-}
-
-interface AddUserModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    getData: (url: string) => Promise<any>;
-    onSubmit: (values: any, formik: any) => Promise<void>;
-    isEditMode: boolean;
-    userId?: string | null;
-    editUserData?: Partial<RowData> | null;
-}
+import FormikInput from '../../FormikFormTools/FormikInput';
 
 interface UserData {
     id: string;
@@ -27,13 +9,35 @@ interface UserData {
     name: string;
     status: string;
     userData: string;
+    file: File | null;
+    logo: string;
 }
 
-const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+interface AddEditManagesupplierProps {
+    isOpen: boolean;
+    onClose: () => void;
+    getData: (url: string) => Promise<any>;
+    onSubmit: (values: any, formik: any) => Promise<void>;
+    isEditMode: boolean;
+    userId?: string | null;
+}
+
+const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+    const [userData, setUserData] = useState<UserData>({
+        id: '',
+        code: '',
+        name: '',
+        status: '',
+        userData: '',
+        file: null,
+        logo: '',
+    });
+
     useEffect(() => {
         if (isEditMode) {
-            fetchUserDetails(userId ? userId : '');
+            fetchUserDetails(userId ?? '');
         }
+        formik.resetForm();
     }, [isOpen, isEditMode, userId]);
 
     const fetchUserDetails = async (id: string) => {
@@ -41,20 +45,23 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
             const response = await getData(`/card/${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                
+                setUserData(userData);
                 formik.setValues({
                     card_name: userData.name || '',
                     card_code: userData.code || '',
+                    logo: userData.logo || '',
+                    file: userData.file || null,
                 });
             }
         } catch (error) {
             console.error('API error:', error);
         }
     };
+
     const formik = useFormik({
         initialValues: cardInitialValues,
-        validationSchema: cardValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
+            console.log(values, 'values');
             try {
                 await onSubmit(values, formik);
                 onClose();
@@ -65,6 +72,16 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
         },
     });
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.currentTarget.files?.[0];
+        formik.setFieldValue('file', file);
+        if (file) {
+            console.log(file, 'file');
+            formik.setFieldValue('file', file);
+            console.log(formik.values, 'columnIndex');
+        }
+    };
+
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -74,13 +91,18 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Card' : 'Add Card'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                                 <FormikInput formik={formik} type="text" name="card_code" />
                                                 <FormikInput formik={formik} type="text" name="card_name" />
+                                                {/* <input type="text" name="logo" value={formik.values.logo} onChange={formik.handleChange} placeholder="Logo" className="input-field" /> */}
+                                                <div>
+                                                    <label htmlFor="file">File</label>
+                                                    <input type="file" id="file" name="file" onChange={handleFileChange} />
+                                                    {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
+                                                </div>
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

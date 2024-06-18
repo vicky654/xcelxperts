@@ -202,8 +202,8 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             formData.append('supplier_name', values.supplier_name);
             formData.append('supplier_code', values.supplier_code);
             formData.append('status', "1");
-            if (values.image) {
-                formData.append("logo", values.image);
+            if (values.file) {
+                formData.append('logo', values.file);
             }
             if (userId) {
                 formData.append('id', userId);

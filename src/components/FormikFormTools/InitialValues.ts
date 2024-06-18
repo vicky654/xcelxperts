@@ -112,13 +112,17 @@ export const stationSettingInitialValues = {
 export const supplierInitialValues = {
   supplier_name: '',
   supplier_code: '', // Add deduction_name here
+  logo: '',
+  file: null as File | null,
 
 };
 export const cardInitialValues = {
-card_name: '',
-card_code: '', // Add deduction_name here
-
+  card_name: '',
+  card_code: '',
+  logo: '',
+  file: null as File | null,
 };
+
 
 export const stationTankInitialValues = {
   client_id: '',

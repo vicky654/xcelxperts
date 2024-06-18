@@ -219,9 +219,10 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
             formData.append('name', values.card_name);
             formData.append('code', values.card_code);
        
-            if (values.image) {
-                formData.append('logo', values.image);
+            if (values.file) {
+                formData.append('logo', values.file);
             }
+         
             if (userId) {
                 formData.append('id', userId);
             }

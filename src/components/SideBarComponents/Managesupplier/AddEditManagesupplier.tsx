@@ -26,6 +26,8 @@ interface UserData {
     supplier_code: string;
     supplier_status: string;
     supplier_name: string;
+    file: null,
+    logo: '',
 }
 
 const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
@@ -44,6 +46,9 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
                 formik.setValues({
                     supplier_name: userData.supplier_name || '',
                     supplier_code: userData.supplier_code || '',
+                    logo: userData.logo || '',
+                    file: userData.file || null,
+           
                 });
             }
         } catch (error) {
@@ -63,7 +68,15 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
             }
         },
     });
-
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.currentTarget.files?.[0];
+        formik.setFieldValue('file', file);
+        if (file) {
+          console.log(file, "file");
+            formik.setFieldValue('file', file);
+            console.log(formik.values, "columnIndex");
+        }
+    };
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -80,7 +93,11 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                                 <FormikInput formik={formik} type="text" name="supplier_code" />
                                                 <FormikInput formik={formik} type="text" name="supplier_name" />
-
+                                                <div>
+                                                    <label htmlFor="file">File</label>
+                                                    <input type="file" id="file" name="file" onChange={handleFileChange} />
+                                                    {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
+                                                </div>
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
                                                         {isEditMode ? 'Update' : 'Save'}
