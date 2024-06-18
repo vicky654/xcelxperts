@@ -106,7 +106,7 @@ const menuItems: MenuItem[] = [
         icon: IconMenuDatatables,
         link: '/manage-stations/station', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
+        permission: 'station-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'Stations', link: '/manage-stations/station', permission: 'station-list', visibility: false },
             { title: 'Tanks', link: '/manage-stations/tank', permission: 'tank-list', visibility: false },

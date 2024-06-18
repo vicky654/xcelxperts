@@ -20,6 +20,7 @@ import IconUserPlus from '../../Icon/IconUserPlus';
 import IconPlus from '../../Icon/IconPlus';
 import IconUser from '../../Icon/IconUser';
 import showMessage from '../../../hooks/showMessage';
+import { fetchStoreData } from '../../../store/dataSlice';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -105,10 +106,11 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 localStorage.setItem('role', response.data.data?.role);
                 localStorage.setItem('auto_logout', response.data.data?.auto_logout);
                 localStorage.setItem('authToken', response.data.data?.token);
-
+                const actionResult = await dispatch<any>(fetchStoreData());
+                console.log('actionResult:', actionResult);
                 if (response.data.data?.is_verified === true) {
                     showMessage(response.data.data?.message, 'success');
-                    navigate('/manage-logs/logs');
+                    navigate('/manage-logs/emaillogs');
                 } else if (response.data.data?.is_verified === false) {
                     navigate('/validateOtp');
                 }
