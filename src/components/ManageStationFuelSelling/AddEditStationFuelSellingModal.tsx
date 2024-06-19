@@ -91,7 +91,15 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
     useEffect(() => {
         if (isOpen) {
-            FetchClientList();
+            if (localStorage.getItem("superiorRole") === "Client") {
+                const clientId = localStorage.getItem("superiorId");
+                if (clientId) {
+                    // Simulate the change event to call handleClientChange
+                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+                }
+            } else {
+                FetchClientList();
+            }
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
@@ -275,15 +283,15 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="client_id"
-                                                    label="Client"
-                                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleClientChange}
-                                                />
+                                                {!isEditMode || localStorage.getItem("superiorRole") !== "Client" &&
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="client_id"
+                                                        label="Client"
+                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-select text-white-dark"
+                                                        onChange={handleClientChange}
+                                                    />}
 
                                                 <FormikSelect
                                                     formik={formik}

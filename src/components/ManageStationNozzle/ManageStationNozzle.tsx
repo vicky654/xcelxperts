@@ -273,10 +273,6 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         }
     };
     const handleApplyFilters = async (values: any) => {
-        console.log(values, "handleApplyFilters");
-
-
-
         try {
             const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
             if (response && response.data && response.data.data) {

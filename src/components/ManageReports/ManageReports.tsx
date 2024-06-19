@@ -77,7 +77,21 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     useEffect(() => {
         fetchData();
-        FetchClientList()
+        // FetchClientList()
+
+        if (localStorage.getItem("superiorRole") === "Client") {
+            const clientId = localStorage.getItem("superiorId");
+            if (clientId) {
+                // formik.setFieldValue("client_id", clientId)
+                // Simulate the change event to call handleClientChange
+                handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+                // fetchUserDetails(userId, clientId);
+            }
+        } else {
+            FetchClientList();
+        }
+
+
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
         fetchData();
@@ -431,14 +445,15 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         <div className="flex-1 grid grid-cols-3 sm:grid-cols-2 gap-5">
 
 
-                            <FormikSelect
-                                formik={formik}
-                                name="client_id"
-                                label="Client"
-                                options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                className="form-select text-white-dark"
-                                onChange={handleClientChange}
-                            />
+                            {!isEditMode || localStorage.getItem("superiorRole") !== "Client" &&
+                                <FormikSelect
+                                    formik={formik}
+                                    name="client_id"
+                                    label="Client"
+                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                    className="form-select text-white-dark"
+                                    onChange={handleClientChange}
+                                />}
 
                             <FormikSelect
                                 formik={formik}

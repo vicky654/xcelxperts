@@ -114,7 +114,15 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
 
     useEffect(() => {
         if (isOpen) {
-            FetchClientList();
+            if (localStorage.getItem("superiorRole") === "Client") {
+                const clientId = localStorage.getItem("superiorId");
+                if (clientId) {
+                    // Simulate the change event to call handleClientChange
+                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+                }
+            } else {
+                FetchClientList();
+            }
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
@@ -297,7 +305,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
 
-                                                {!isEditMode &&
+                                                {!isEditMode && localStorage.getItem("superiorRole") !== "Client" &&
                                                     <FormikSelect
                                                         formik={formik}
                                                         name="client_id"

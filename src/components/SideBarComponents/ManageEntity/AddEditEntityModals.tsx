@@ -30,7 +30,17 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      fetchClientList();
+      if (localStorage.getItem("superiorRole") === "Client") {
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          formik.setFieldValue("client_id", clientId)
+          // Simulate the change event to call handleClientChange
+          // handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+          // fetchUserDetails(userId, clientId);
+        }
+      } else {
+        fetchClientList();
+      }
       if (isEditMode && userId && clientId) {
         fetchUserDetails(userId, clientId);
       }
@@ -101,14 +111,17 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
                   <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                     <div className="flex flex-col sm:flex-row">
                       <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <FormikSelect
-                          formik={formik}
-                          name="client_id"
-                          label="Client"
-                          options={clientList.map((item) => ({ id: item.id, name: item.client_name }))}
-                          className="form-select text-white-dark"
-                          isRequired={true}
-                        />
+
+                        {!isEditMode && localStorage.getItem("superiorRole") !== "Client" &&
+                          <FormikSelect
+                            formik={formik}
+                            name="client_id"
+                            label="Client"
+                            options={clientList.map((item) => ({ id: item.id, name: item.client_name }))}
+                            className="form-select text-white-dark"
+                            isRequired={true}
+                          />}
+
                         <FormikInput formik={formik} type="text" name="entity_name" label="Entity Name" placeholder="Entity Name" />
                         <FormikInput formik={formik} type="text" name="entity_code" label="Entity Code" placeholder="Entity Code" />
                         <FormikInput formik={formik} type="text" name="website" label="Website" placeholder="Website" />

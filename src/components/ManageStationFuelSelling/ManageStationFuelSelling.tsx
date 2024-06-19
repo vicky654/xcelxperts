@@ -185,30 +185,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                {/* <div className="dropdown">
-                                      <Dropdown
-                                          btnClassName="btn btn-success dropdown-toggle"
-                                          button={
-                                              <>
-                                                  Action
-                                                  <span>
-                                                      <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
-                                                  </span>
-                                              </>
-                                          }
-                                      >
-                                          <ul className="!min-w-[170px]">
-                                              <li>
-                                                  <button type="button">Edit</button>
-                                              </li>
-                                              <li>
-                                                  <button type="button" onClick={() => handleDelete(row.id)}>
-                                                      Delete
-                                                  </button>
-                                              </li>
-                                          </ul>
-                                      </Dropdown>
-                                  </div> */}
+
 
                                 <Tippy content="Edit">
                                     <button type="button" onClick={() => openModal(row?.id)}>
@@ -298,7 +275,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     console.log(data, "data");
 
     const validationSchemaForCustomInput = Yup.object({
-        company_id: Yup.string().required("Entity is required"),
+        entity_id: Yup.string().required("Entity is required"),
         client_id: isNotClient
             ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),

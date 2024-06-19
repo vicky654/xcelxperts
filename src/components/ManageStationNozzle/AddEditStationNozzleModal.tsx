@@ -114,7 +114,15 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     useEffect(() => {
         if (isOpen) {
-            FetchClientList();
+            if (localStorage.getItem("superiorRole") === "Client") {
+                const clientId = localStorage.getItem("superiorId");
+                if (clientId) {
+                    // Simulate the change event to call handleClientChange
+                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+                }
+            } else {
+                FetchClientList();
+            }
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
@@ -300,24 +308,26 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
+                                                {!isEditMode && localStorage.getItem("superiorRole") !== "Client" &&
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="client_id"
+                                                        label="Client"
+                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-select text-white-dark"
+                                                        onChange={handleClientChange}
+                                                    />
+                                                }
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="client_id"
-                                                    label="Client"
-                                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleClientChange}
-                                                />
 
-                                                <FormikSelect
+                                                {!isEditMode && <FormikSelect
                                                     formik={formik}
                                                     name="entity_id"
                                                     label="Entity"
                                                     options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleEntityChange}
-                                                />
+                                                />}
 
 
                                                 <FormikSelect

@@ -69,12 +69,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const handleApiError = useErrorHandler();
     const navigate = useNavigate();
 
-    // const validationSchema = Yup.object({
-    //     entity_id: showEntityInput ? Yup.string().required("Entity is required") : Yup.mixed().notRequired(),
-    //     client_id: isNotClient && showClientInput
-    //         ? Yup.string().required("Client is required")
-    //         : Yup.mixed().notRequired(),
-    // });
+
 
     const formik = useFormik({
         initialValues: {
@@ -103,28 +98,39 @@ const CustomInput: React.FC<CustomInputProps> = ({
     }, [showClientInput]);
 
     useEffect(() => {
-        // if (!storedKeyName) {
-        //     if (localStorage.getItem("superiorRole") !== "Client") {
-        //         fetchClientList();
-        //         // formik.setValues(JSON.parse(localStorage.getItem("testing")))
-        //     } else {
-        //         fetchCompanyList(localStorage.getItem("superiorId") || "");
-        //     }
-        // }
-
         const storedData = localStorage.getItem(storedKeyName);
-
-
-
         // Check if there is any stored data
         if (storedData) {
             // Parse the stored data into an object
             const parsedData = JSON.parse(storedData);
-
             // Set the parsed data into Formik
             formik.setValues(parsedData);
         }
+
+        if (!storedData && localStorage.getItem("superiorRole") === "Client") {
+            const clientId = localStorage.getItem("superiorId");
+            if (clientId) {
+                // Simulate the change event to call handleClientChange
+                handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+            }
+        }
+        // if (localStorage.getItem("superiorRole") == "Client") {
+        //     const clientId = localStorage.getItem("superiorId");
+        //     fetchCompanyList(clientId)
+
+        //     formik.setFieldValue("client_id", clientId)
+        //     // if (localStorage.getItem("superiorRole") !== "Client") {
+        //     //     fetchClientList()
+        //     // } else {
+        //     //     setSelectedClientId(clientId);
+
+        //     // }
+        // }
     }, []);
+
+
+    console.log(formik?.values, "formik values in nozzal ");
+
 
     const fetchClientList = async () => {
         try {
@@ -156,6 +162,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
+
+        console.log(clientId, "clientIdclientId");
+
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);

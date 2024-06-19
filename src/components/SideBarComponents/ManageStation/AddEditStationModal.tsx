@@ -84,7 +84,16 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
     useEffect(() => {
         if (isOpen) {
-            FetchClientList();
+
+            if (localStorage.getItem("superiorRole") === "Client") {
+                const clientId = localStorage.getItem("superiorId");
+                if (clientId) {
+                    // Simulate the change event to call handleClientChange
+                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+                }
+            } else {
+                FetchClientList();
+            }
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
@@ -93,16 +102,9 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         }
     }, [isOpen, isEditMode, userId]);
 
-    // const FetchClientList = async () => {
-    //     try {
-    //         const response = await getData('/common/client-list');
-    //         if (response && response.data && response.data.data) {
-    //             setClientList(response.data.data);
-    //         }
-    //     } catch (error) {
-    //         console.error('API error:', error);
-    //     }
-    // };
+
+
+
     const FetchCommonDataList = async () => {
         try {
             const response = await getData('/station/common-data-list');
@@ -119,14 +121,6 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             const response = await getData('/common/client-list');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
-            // const clientId = localStorage.getItem("superiorId");
-            // if (localStorage.getItem("superiorRole") !== "Client" && clientId) {
-            //     formik.setFieldValue('client_id', clientId);
-            //     const selectedClient = clients.find((client: Client) => client.id === clientId);
-            //     if (selectedClient) {
-            //         formik.setFieldValue('entities', selectedClient.entities);
-            //     }
-            // }
         } catch (error) {
             handleApiError(error)
         }
@@ -231,14 +225,17 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="client_id"
-                                                    label="Client"
-                                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleClientChange}
-                                                />
+                                                {localStorage.getItem("superiorRole") !== "Client" && (
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="client_id"
+                                                        label="Client"
+                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-select text-white-dark"
+                                                        onChange={handleClientChange}
+                                                    />
+                                                )}
+
 
                                                 <FormikSelect
                                                     formik={formik}
