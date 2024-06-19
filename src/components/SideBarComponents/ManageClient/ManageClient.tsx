@@ -95,11 +95,11 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         formData.append('id', id);
         customDelete(postData, 'client/delete', formData, handleSuccess);
     };
-    const handleClientLogin =  async (id: any) => {
+    const handleClientLogin = async (id: any) => {
         try {
             const response = await getData(`/account-login/${id}`);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, "response.data.data");
+                console.log(response.data.data, 'response.data.data');
                 localStorage.setItem('token', response.data.data?.access_token);
                 localStorage.setItem('superiorId', response.data.data?.superiorId);
                 localStorage.setItem('superiorRole', response.data.data?.superiorRole);
@@ -107,9 +107,9 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 localStorage.setItem('auto_logout', response.data.data?.auto_logout);
                 localStorage.setItem('authToken', response.data.data?.token);
                 const actionResult = await dispatch<any>(fetchStoreData());
+                showMessage("Login Successfully");
                 console.log('actionResult:', actionResult);
                 if (response.data.data?.is_verified === true) {
-                    showMessage(response.data.data?.message, 'success');
                     navigate('/manage-logs/emaillogs');
                 } else if (response.data.data?.is_verified === false) {
                     navigate('/validateOtp');
@@ -219,7 +219,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                                   </Tippy>
                                   <Tippy content=" Client Login">
                                       <button onClick={() => handleClientLogin(row.id)} type="button">
-                                          <div className="grid place-content-center w-14 h-14 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                          <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
                                               <IconUser fill={true} className="w-6 h-6" />
                                           </div>
                                       </button>

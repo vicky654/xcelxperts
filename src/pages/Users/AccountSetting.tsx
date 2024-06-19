@@ -14,6 +14,7 @@ import LoaderImg from '../../utils/Loader';
 import useApiErrorHandler from '../../hooks/useHandleError';
 import IconLockDots from '../../components/Icon/IconLockDots';
 import { fetchStoreData } from '../../store/dataSlice';
+import IconSettings from '../../components/Icon/IconSettings';
 
 
 
@@ -310,6 +311,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+             
                         <span>User Settings</span>
                     </li>
                 </ul>

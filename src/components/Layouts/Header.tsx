@@ -1,30 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IRootState } from '../../store';
 import { toggleSidebar } from '../../store/themeConfigSlice';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../Dropdown';
 import IconMenu from '../Icon/IconMenu';
 import IconSearch from '../Icon/IconSearch';
-import IconBellBing from '../Icon/IconBellBing';
 import IconUser from '../Icon/IconUser';
 import IconLockDots from '../Icon/IconLockDots';
 import IconLogout from '../Icon/IconLogout';
-import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';
 import IconCaretDown from '../Icon/IconCaretDown';
-import IconMenuApps from '../Icon/Menu/IconMenuApps';
-import IconMenuComponents from '../Icon/Menu/IconMenuComponents';
-import IconMenuElements from '../Icon/Menu/IconMenuElements';
-import IconMenuDatatables from '../Icon/Menu/IconMenuDatatables';
-import IconMenuForms from '../Icon/Menu/IconMenuForms';
-import IconMenuPages from '../Icon/Menu/IconMenuPages';
-import IconMenuMore from '../Icon/Menu/IconMenuMore';
 import { showMessage } from '../../utils/errorHandler';
 import withApiHandler from '../../utils/withApiHandler';
 import menuItems from '../SideBar/SideBarItems';
 import MenuItemComponent from '../SideBar/SideBarListing';
 import { clearAuthData } from '../../store/authSlice';
+import IconSettings from '../Icon/IconSettings';
 interface HeaderProps {
     isLoading: boolean;
     fetchedData: any;
@@ -155,6 +147,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                         <li>
                                             <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                            
                                                 Edit Profile
                                             </button>
                                         </li>
@@ -162,8 +155,8 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                     {isSettingsPermissionAvailable && (
                                         <li>
                                             <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                                                <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                                Setting
+                                                <IconSettings className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                Settings
                                             </button>
                                         </li>
                                     )}
