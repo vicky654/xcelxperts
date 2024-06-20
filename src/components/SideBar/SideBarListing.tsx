@@ -25,11 +25,12 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
             {hasSubMenu ? (
                 <button type="button" className="nav-link">
                     <div className="flex items-center">
-                        <Icon className="shrink-0" />
+                        {/* <Icon className="shrink-0" /> */}
+                        <i className="fi fi-rr-settings"></i>
                         <span className="px-1">{title}</span>
                     </div>
                     <div className="right_arrow">
-                        <IconCaretDown />
+                        <i className="c-fi-down-arrow m-0 fi fi-rr-angle-small-down"></i>
                     </div>
                 </button>
             ) : link ? (

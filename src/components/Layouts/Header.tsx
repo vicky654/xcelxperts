@@ -90,9 +90,9 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
                 <div className="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-black">
-                    <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2" style={{background:"#fff",borderRadius:"5px"}}>
-                        <Link to="/" className="main-logo flex items-center shrink-0" style={{background:"#fff",borderRadius:"5px"}}>
-                            <img style={{height:"50px",width:"100%",background:"#fff",}} className="w-8 ltr:-ml-1 rtl:-mr-1 inline" src="/../../src/assets/noDataFoundImage/xx_logo.png" alt="logo" />
+                    <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2" style={{ background: "#fff", borderRadius: "5px" }}>
+                        <Link to="/" className="main-logo flex items-center shrink-0" style={{ background: "#fff", borderRadius: "5px" }}>
+                            <img style={{ height: "50px", width: "100%", background: "#fff", }} className="w-8 ltr:-ml-1 rtl:-mr-1 inline" src="/../../src/assets/noDataFoundImage/xx_logo.png" alt="logo" />
                             {/* <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle hidden md:inline dark:text-white-light transition-all duration-300">XcelXperts</span> */}
                         </Link>
                         <button
@@ -123,31 +123,31 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
                                 btnClassName="relative group block"
                                 button={
-                                    <div style={{background:"linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to))"}} className="flex items-center bg-[#3b3f5c] p-2.5 font-bold text-white whitespace-nowrap">
-                                    <span className="ml-2">
-                                        Welcome, {data?.first_name} <IconCaretDown className="w-6 h-6 inline" />
-                                    </span>
-                                </div>
-                                
+                                    <div style={{ background: "linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to))" }} className="flex items-center bg-[#3b3f5c] p-2.5 font-bold text-white whitespace-nowrap">
+                                        <span className="ml-2">
+                                            Welcome, {data?.first_name} <IconCaretDown className="w-6 h-6 inline" />
+                                        </span>
+                                    </div>
+
                                 }
                             >
                                 <ul className="text-dark   dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
-                                    <li className="px-4 py-4" style={{background:"#ddd"}}>
+                                    <li className="px-4 py-4" style={{ background: "#ddd" }}>
                                         <div className="flex items-center">
-                                           <div className=" truncate">
+                                            <div className=" truncate">
                                                 <h4 className="text-base">
                                                     <span className="block whitespace-normal">{data?.full_name}</span>
                                                 </h4>
                                             </div>
-                                        
+
                                         </div>
-                                   </li>
-                                   
+                                    </li>
+
                                     {isProfileUpdatePermissionAvailable && (
                                         <li>
                                             <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                                            
+
                                                 Edit Profile
                                             </button>
                                         </li>

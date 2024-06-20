@@ -492,3 +492,8 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     font-size: 16px;
     margin: 4.5px;
 }
+
+.c-fi-down-arrow {
+    position: relative;
+    top: 4px;
+}
