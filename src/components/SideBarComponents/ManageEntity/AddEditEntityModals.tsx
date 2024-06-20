@@ -123,7 +123,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
                           />}
 
                         <FormikInput formik={formik} type="text" name="entity_name" label="Entity Name" placeholder="Entity Name" />
-                        <FormikInput formik={formik} type="text" name="entity_code" label="Entity Code" placeholder="Entity Code" />
+                        <FormikInput formik={formik} type="text" name="entity_code" label="Entity Code"   readOnly={isEditMode ? true : false} placeholder="Entity Code" />
                         <FormikInput formik={formik} type="text" name="website" label="Website" placeholder="Website" />
                         <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
                         <FormikInput formik={formik} type="text" name="entity_details" label="Entity Details" placeholder="Entity Details" />

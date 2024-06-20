@@ -1,11 +1,11 @@
 /* import '@flaticon/flaticon-uicons/css/all/all.css'; */
 
 :root {
-    --primary-color: #084a9e;
+    --primary-color: #09469F;
     --animate-delay: 1s;
     --animate-repeat: 1;
     --primary-color-from: #09469F;
-    --primary-color-to: #072b5a;
+    --primary-color-to: #09469F;
     --secondary-color-from: #ec6c21;
     --secondary-color-to: #88370998;
     --third-color-from: #cfb40b;
@@ -326,6 +326,7 @@ border-color: none;
     color: #fff;
     margin-bottom: 10px;
     padding: 10px !important;
+    background: #09469f;
 }
 
 .form-input {
@@ -507,4 +508,11 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 }
 .forthbox {
     background: #A66AB4 !important;
+}
+/* .gradient-blue-to-blue {
+    background: #09469F !important;
+} */
+.bg-primary {
+
+    background-color: #09469F !important;
 }

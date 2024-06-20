@@ -184,7 +184,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                     <form onSubmit={formik.handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">
-                                Role Name
+                                Role Name <span className="text-danger">*</span>
                             </label>
                             <input
                                 id="roleName"

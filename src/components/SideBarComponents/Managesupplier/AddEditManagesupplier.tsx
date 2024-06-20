@@ -91,7 +91,7 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <FormikInput formik={formik} type="text" name="supplier_code" />
+                                                <FormikInput formik={formik} type="text" name="supplier_code"   readOnly={isEditMode ? true : false}/>
                                                 <FormikInput formik={formik} type="text" name="supplier_name" />
                                                 <div>
                                                     <label htmlFor="file">File</label>
