@@ -21,7 +21,7 @@ interface Company {
 }
 
 interface Site {
-    station_name: string;
+    name: string;
     id: string;
     site_name: string;
 }
@@ -282,7 +282,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     {formik.values.sites.length > 0 ? (
                                         formik.values.sites.map(site => (
                                             <option key={site.id} value={site.id}>
-                                                {site.station_name}
+                                                {site.name}
                                             </option>
                                         ))
                                     ) : (

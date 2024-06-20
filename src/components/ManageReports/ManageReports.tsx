@@ -477,7 +477,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                     onChange={setSelected}
                                     labelledBy="Select Sites"
                                     // disableSearch="true"
-                                    options={formik.values.sites?.map((item) => ({ value: item.id, label: item.station_name }))}
+                                    options={formik.values.sites?.map((item) => ({ value: item.id, label: item.name }))}
                                 // showCheckbox="false"
                                 />
                                 {/* </FormGroup> */}

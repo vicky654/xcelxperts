@@ -348,7 +348,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                         value={selected}
                                                         onChange={setSelected}
                                                         labelledBy="Select Stations.."
-                                                        options={formik.values?.sites?.map((item) => ({ value: item.id, label: item.station_name }))}
+                                                        options={formik.values?.sites?.map((item) => ({ value: item.id, label: item.name }))}
                                                     />
                                                 </Col>
 

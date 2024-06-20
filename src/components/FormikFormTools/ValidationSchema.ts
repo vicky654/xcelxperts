@@ -72,12 +72,20 @@ export const getStationValidationSchema = (isEditMode: boolean) => {
         station_code: Yup.string().required('Station Code is required'),
         station_name: Yup.string().required('Station Name is required'),
         station_display_name: Yup.string().required('Station Display Name is required'),
-        station_status: Yup.string().required('Station Status is required'),
+        
         data_import_type_id: Yup.string().required('Data Import Type is required'),
         start_date: Yup.string().required('Start Date is required'),
 
         station_address: Yup.string().required('Station Address is required'),
-        security_amount: Yup.string().required('Security Amount is required'),
+        security_amount: Yup.string()
+        .matches(/^[0-9]+$/, 'Security amount must only contain digits')
+        .test('is-positive', 'Security amount cannot be negative', value => {
+          if (value) {
+            return parseInt(value, 10) >= 0; // Ensure the value is non-negative
+          }
+          return true; // If no value is provided, it passes the test (handled by required check)
+        })
+        .required('Security amount is required'),
         // password: Yup.string()
         //     .required('Password is required'),
         // drs_upload_status: Yup.string().required('DRS Upload Status is required'),
@@ -159,7 +167,7 @@ export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
         entity_id: isEditMode ? Yup.string() : Yup.string().required('Entity is required'),
         station_id: isEditMode ? Yup.string() : Yup.string().required('Station is required'),
         fuel_id: isEditMode ? Yup.string() : Yup.string().required('Station Fuel is required'),
-        status: Yup.string().required(' Nozzle Status is required'),
+        
         station_pump_id: Yup.string().required('Station Pump  Name is required'),
         name: Yup.string().required('Nozzle Name is required'),
         code: Yup.string().required('Nozzle Code is required'),

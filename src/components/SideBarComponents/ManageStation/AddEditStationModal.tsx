@@ -249,7 +249,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     formik={formik}
                                                     name="supplier_id"
                                                     label="Suppliers "
-                                                    options={commonDataList?.suppliers?.map((item: any) => ({ id: item?.id, name: item?.supplier_name }))}
+                                                    options={commonDataList?.suppliers?.map((item: any) => ({ id: item?.id, name: item?.name }))}
                                                     className="form-select text-white-dark"
                                                 />
 
@@ -260,14 +260,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                 <FormikInput formik={formik} type="text" name="station_name" label="Station Name" placeholder="Station Name" />
                                                 <FormikInput formik={formik} type="text" name="station_display_name" label="Station Display Name" placeholder="Station Display Name" />
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="station_status"
-                                                    label="Station Status"
-                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                    isRequired={true}
-                                                />
+                                           
 
 
                                                 <FormikInput formik={formik} type="date" name="start_date" label="Start Date" placeholder="Start Date" />
@@ -286,7 +279,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     formik={formik}
                                                     name="data_import_type_id"
                                                     label="Data Import Types"
-                                                    options={commonDataList?.data_import_types?.map((item: any) => ({ id: item?.id, name: item?.import_type_name }))}
+                                                    options={commonDataList?.data_import_types?.map((item: any) => ({ id: item?.id, name: item?.name }))}
                                                     className="form-select text-white-dark"
                                                 />
 

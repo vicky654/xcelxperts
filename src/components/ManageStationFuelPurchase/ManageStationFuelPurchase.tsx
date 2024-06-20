@@ -617,7 +617,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                                     onChange={setSelected}
                                                     labelledBy="Select Sites"
                                                     // disableSearch="true"
-                                                    options={stationData?.sites?.map((item: any) => ({ value: item.id, label: item.station_name }))}
+                                                    options={stationData?.sites?.map((item: any) => ({ value: item.id, label: item.name }))}
                                                 // options={[]}
                                                 // showCheckbox="false"
                                                 />

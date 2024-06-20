@@ -10,15 +10,10 @@ import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
-import IconUserPlus from '../../Icon/IconUserPlus';
-import IconPlus from '../../Icon/IconPlus';
-import IconUser from '../../Icon/IconUser';
 import showMessage from '../../../hooks/showMessage';
 import { fetchStoreData } from '../../../store/dataSlice';
 
@@ -109,8 +104,10 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 const actionResult = await dispatch<any>(fetchStoreData());
                 showMessage("Login Successfully");
                 console.log('actionResult:', actionResult);
+                navigate("/");
                 if (response.data.data?.is_verified === true) {
-                    navigate('/manage-logs/emaillogs');
+                    
+                    navigate("/");
                 } else if (response.data.data?.is_verified === false) {
                     navigate('/validateOtp');
                 }
