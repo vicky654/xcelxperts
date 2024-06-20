@@ -15,7 +15,7 @@ export interface SubMenuItem {
 export interface MenuItem {
     key: string;
     title: string;
-    icon: React.ElementType;
+    icon: any;
     link?: string;
     subMenu?: SubMenuItem[];
     visibility?: boolean; // Optional visibility of the main menu item
@@ -26,7 +26,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'dashboard',
         title: 'Dashboard',
-        icon: IconMenuApps,
+        icon: "apps",
         link: '/', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
@@ -34,7 +34,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'Manage',
         title: 'Manage',
-        icon: IconMenuDatatables,
+        icon: "lead-management",
         link: '/manage-charges/charges', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'user-list', // Permission associated with the dashboard
@@ -65,7 +65,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'Permissions',
         title: 'Permissions',
-        icon: IconMenuDatatables,
+        icon: "dice-d6",
         link: '/manage-roles/roles', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
@@ -103,7 +103,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'Stations',
         title: 'Stations',
-        icon: IconMenuDatatables,
+        icon: "charging-station",
         link: '/manage-stations/station', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'station-list', // Permission associated with the dashboard
@@ -121,7 +121,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'PaidOuts',
         title: 'PaidOuts',
-        icon: IconMenuDatatables,
+        icon: "briefcase",
         link: '/manage-charges/charges', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
@@ -161,7 +161,7 @@ const menuItems: MenuItem[] = [
     {
         key: 'Logs',
         title: 'Logs',
-        icon: IconMenuDatatables,
+        icon: "newspaper",
         link: '/ss', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'email-logs', // Permission associated with the dashboard

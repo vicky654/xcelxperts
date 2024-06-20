@@ -26,7 +26,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                 <button type="button" className="nav-link">
                     <div className="flex items-center">
                         {/* <Icon className="shrink-0" /> */}
-                        <i className="fi fi-rr-settings"></i>
+                        <i className={`fi fi-rr-${Icon}`}></i>
                         <span className="px-1">{title}</span>
                     </div>
                     <div className="right_arrow">
@@ -37,7 +37,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                 link.startsWith('http') ? (
                     <a href={link} className="nav-link" target="_blank" rel="noopener noreferrer">
                         <div className="flex items-center">
-                            <Icon className="shrink-0" />
+                            <i className={`fi fi-rr-${Icon}`}></i>
                             <span className="px-1">{title}</span>
                         </div>
                     </a>
@@ -47,7 +47,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                         className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
                     >
                         <div className="flex items-center">
-                            <Icon className="shrink-0" />
+                            <i className={`fi fi-rr-${Icon}`}></i>
                             <span className="px-1">{title}</span>
                         </div>
                     </NavLink>
@@ -55,7 +55,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
             ) : (
                 <div className="nav-link">
                     <div className="flex items-center">
-                        <Icon className="shrink-0" />
+                        <i className={`fi fi-rr-${Icon}`}></i>
                         <span className="px-1">{title}</span>
                     </div>
                 </div>
