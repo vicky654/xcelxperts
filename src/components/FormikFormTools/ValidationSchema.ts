@@ -173,7 +173,13 @@ export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
         code: Yup.string().required('Nozzle Code is required'),
     });
 };
+export const CardValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        card_name: Yup.string().required('Card Name is required'),
+        card_code: Yup.string().required('Card Code is required'),
 
+    });
+};
 export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         client_id: Yup.string().required('Client is required'),
@@ -205,4 +211,5 @@ export default {
     supplierValidationSchema,
     getStationTankValidationSchema,
     getStationFuelPurchaseValidationSchema,
+    CardValidationSchema,
 };

@@ -12,7 +12,7 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 
 interface ManageRolesProps {
     isLoading: boolean;
@@ -153,7 +153,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                         <span>Roles</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => navigate('/manage-roles/add-roles')}>
+                <button type="button" className="btn btn-dark " onClick={() => navigate('/manage-roles/add-roles')}>
                     Add Role
                 </button>
             </div>

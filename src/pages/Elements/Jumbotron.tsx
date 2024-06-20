@@ -57,7 +57,7 @@ const Jumbotron = () => {
                         <hr className="my-4 dark:border-[#191e3a]" />
                         <p className="mb-5">It uses utility classes for typography and spacing to space content out within the larger container.</p>
                         <p className="lead">
-                            <button type="button" className="btn btn-dark gradient-blue-to-blue">
+                            <button type="button" className="btn btn-dark ">
                                 Learn more
                             </button>
                         </p>
@@ -73,7 +73,7 @@ const Jumbotron = () => {
     <hr className="my-4 dark:border-[#191e3a]" />
     <p className="mb-5">It uses utility classes for typography and spacing to space content out within the larger container.</p>
     <p className="lead">
-        <button type="button" className="btn btn-dark gradient-blue-to-blue">
+        <button type="button" className="btn btn-dark ">
             Learn more
         </button>
     </p>

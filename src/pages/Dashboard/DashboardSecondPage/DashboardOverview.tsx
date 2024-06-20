@@ -12,7 +12,7 @@ import 'tippy.js/dist/tippy.css';
 import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import logoImage from '../../../assets/logo/logo.jpeg'; // Import the image
 import IconTrendingUp from '../../../components/Icon/IconTrendingUp';
 
@@ -599,7 +599,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                         </> : ""}
 
-                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
+                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark ">
                             Apply Filter
                         </button>
 

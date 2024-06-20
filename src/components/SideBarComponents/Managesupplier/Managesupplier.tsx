@@ -14,7 +14,7 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import AddEditManageCharges from './AddEditManagesupplier';
 import AddEditManagesupplier from './AddEditManagesupplier';
 interface ManagesupplierProps {
@@ -234,7 +234,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                         <span>Suppliers</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                     Add Supplier
                 </button>
             </div>

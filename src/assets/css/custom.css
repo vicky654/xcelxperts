@@ -4,7 +4,7 @@
     --primary-color: #084a9e;
     --animate-delay: 1s;
     --animate-repeat: 1;
-    --primary-color-from: #084a9e;
+    --primary-color-from: #09469F;
     --primary-color-to: #072b5a;
     --secondary-color-from: #ec6c21;
     --secondary-color-to: #88370998;
@@ -16,17 +16,7 @@
     background-color: var(--primary-color);
 }
 
-.gradient-blue-to-blue {
-    background: linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to));
-}
 
-.gradient-secondary-to-secondary {
-    background: linear-gradient(90deg, var(--secondary-color-from), var(--secondary-color-to));
-}
-
-.gradient-third-to-third {
-    background: linear-gradient(90deg, var(--third-color-from), var(--third-color-to));
-}
 
 .fullscreen {
     position: fixed;
@@ -108,8 +98,7 @@
     width: calc(100px - 14px);
     height: 50px;
     border-radius: 50px;
-    background:
-        radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) left,
+    background: radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) left,
         radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) right;
     background-size: calc(50% + 7px) 100%;
     background-repeat: no-repeat;
@@ -118,7 +107,7 @@
 }
 
 .loader:before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     margin: auto;
@@ -131,21 +120,20 @@
 }
 
 @keyframes l10-0 {
-
     0%,
     49.99% {
-        transform: scaleX(1)
+        transform: scaleX(1);
     }
 
     50%,
     100% {
-        transform: scaleX(-1)
+        transform: scaleX(-1);
     }
 }
 
 @keyframes l10-1 {
     100% {
-        transform: rotate(1turn)
+        transform: rotate(1turn);
     }
 }
 
@@ -258,7 +246,8 @@ label.form-check-label {
 }
 
 .btn-dark {
-    background-color: #3b3f5c !important;
+    background-color: #09469f !important;
+    border: #09469f !important;
 }
 
 .btn-primary {
@@ -406,7 +395,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     width: 100% !important;
 }
 
-.swal2-container.swal2-top>.swal2-popup {
+.swal2-container.swal2-top > .swal2-popup {
     grid-column: 2;
     align-self: start;
     justify-self: auto !important;
@@ -474,7 +463,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     background-color: #fff !important;
 }
 
-.swal2-container.swal2-top>.swal2-popup {
+.swal2-container.swal2-top > .swal2-popup {
     border-radius: 0px;
 }
 
@@ -502,4 +491,20 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     position: absolute;
     right: 14px;
     top: 14px;
+}
+
+
+.firstbox {
+    background: #09469F !important;
+}
+
+.secondbox {
+    background: #5850A8 !important;
+}
+
+.thiredbox {
+    background: #825CAE !important;
+}
+.forthbox {
+    background: #A66AB4 !important;
 }

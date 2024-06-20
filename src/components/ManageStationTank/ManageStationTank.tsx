@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import useToggleStatus from '../../utils/ToggleStatus';
@@ -328,7 +328,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                     Add Tank Station
                 </button>
             </div>

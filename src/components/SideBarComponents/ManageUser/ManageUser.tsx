@@ -16,7 +16,7 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import IconUser from '../../Icon/IconUser';
 import IconUserPlus from '../../Icon/IconUserPlus';
 
@@ -263,7 +263,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         <span>Users</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                     Add User
                 </button>
             </div>

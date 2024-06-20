@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { cardInitialValues } from '../../FormikFormTools/InitialValues';
 import FormikInput from '../../FormikFormTools/FormikInput';
+import { CardValidationSchema } from '../../FormikFormTools/ValidationSchema';
 
 interface UserData {
     id: string;
@@ -60,6 +61,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
 
     const formik = useFormik({
         initialValues: cardInitialValues,
+        validationSchema: CardValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             console.log(values, 'values');
             try {

@@ -658,7 +658,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                                     <div className="dropdown">
                                         <Dropdown
                                             placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                            btnClassName="btn btn-dark gradient-blue-to-blue btn-sm dropdown-toggle"
+                                            btnClassName="btn btn-dark  btn-sm dropdown-toggle"
                                             button={
                                                 <>
                                                     Small Button
@@ -727,7 +727,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
 <div className="dropdown">
     <Dropdown
         placement={\`\${isRtl ? 'bottom-start' : 'bottom-end'}\`}
-        btnClassName="btn btn-dark gradient-blue-to-blue btn-sm dropdown-toggle"
+        btnClassName="btn btn-dark  btn-sm dropdown-toggle"
         button={
             <>
                 Small Button

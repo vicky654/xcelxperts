@@ -1445,7 +1445,7 @@ const [modal8, setModal8] = useState(false);
                                 </div>
                                 {/* FadeIn Right */}
                                 <div>
-                                    <button onClick={() => setModal15(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
+                                    <button onClick={() => setModal15(true)} type="button" className="btn btn-dark ">
                                         FadeIn Right
                                     </button>
                                     <Transition appear show={modal15} as={Fragment}>
@@ -1849,7 +1849,7 @@ const [modal16, setModal16] = useState(false);
             </Transition>
         </div>
         <div>
-            <button onClick={() => setModal15(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
+            <button onClick={() => setModal15(true)} type="button" className="btn btn-dark ">
                 FadeIn Right
             </button>
             <Transition appear show={modal15} as={Fragment}>

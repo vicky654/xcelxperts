@@ -191,7 +191,7 @@ const SweetAlert = () => {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-secondary',
-                    cancelButton: 'btn btn-dark gradient-blue-to-blue ltr:mr-3 rtl:ml-3',
+                    cancelButton: 'btn btn-dark  ltr:mr-3 rtl:ml-3',
                     popup: 'sweet-alerts',
                 },
                 buttonsStyling: false,
@@ -875,7 +875,7 @@ const showAlert = async (type: number) => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-secondary',
-                cancelButton: 'btn btn-dark gradient-blue-to-blue ltr:mr-3 rtl:ml-3',
+                cancelButton: 'btn btn-dark  ltr:mr-3 rtl:ml-3',
                 popup: 'sweet-alerts',
             },
             buttonsStyling: false,
@@ -973,7 +973,7 @@ const showAlert = async (type: number) => {
                         </div>
                         <div className="mb-5">
                             <div className="flex items-center justify-center">
-                                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => showAlert(13)}>
+                                <button type="button" className="btn btn-dark " onClick={() => showAlert(13)}>
                                     With Footer
                                 </button>
                             </div>
@@ -998,7 +998,7 @@ const showAlert = async (type: number) => {
 
 <div className="mb-5">
     <div className="flex items-center justify-center">
-        <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => showAlert(13)}>
+        <button type="button" className="btn btn-dark " onClick={() => showAlert(13)}>
             With Footer
         </button>
     </div>

@@ -89,7 +89,7 @@ const Profile = () => {
                                     </button>
                                 </li>
                                 <li>
-                                    <button className="btn btn-dark gradient-blue-to-blue flex items-center justify-center rounded-full w-10 h-10 p-0">
+                                    <button className="btn btn-dark  flex items-center justify-center rounded-full w-10 h-10 p-0">
                                         <IconGithub />
                                     </button>
                                 </li>

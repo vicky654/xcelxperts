@@ -7,7 +7,7 @@ import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
 import 'tippy.js/dist/tippy.css';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 
 interface AssignClientReportsProps {
     isLoading: boolean;

@@ -13,7 +13,7 @@ import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import showMessage from '../../../hooks/showMessage';
 import { fetchStoreData } from '../../../store/dataSlice';
 
@@ -296,7 +296,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                         <span>Clients</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                     Add Client
                 </button>
             </div>

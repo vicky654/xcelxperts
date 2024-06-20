@@ -14,7 +14,7 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import AddEditManageCharges from './AddEditCards';
 import AddEditManagecard from './AddEditCards';
 interface ManagecardProps {
@@ -252,7 +252,7 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
                         <span>Cards</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                     Add card
                 </button>
             </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import ReactApexChart from 'react-apexcharts';
@@ -7,9 +7,7 @@ import Dropdown from '../components/Dropdown';
 import { setPageTitle } from '../store/themeConfigSlice';
 import IconHorizontalDots from '../components/Icon/IconHorizontalDots';
 import withApiHandler from '../utils/withApiHandler';
-import useHandleError from '../hooks/useHandleError';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
-import useApiErrorHandler from '../hooks/useHandleError';
 import LoaderImg from '../utils/Loader';
 import IconTrendingUp from '../components/Icon/IconTrendingUp';
 import IconRefresh from '../components/Icon/IconRefresh';
@@ -454,7 +452,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             ''
                         )}
 
-                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark gradient-blue-to-blue">
+                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark ">
                             Apply Filter
                         </button>
 
@@ -489,7 +487,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 <div className="pt-5 ">
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
                                 </div>
@@ -507,7 +505,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Sessions */}
-                        <div className={`panel gradient-secondary-to-secondary ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
                             </div>
@@ -522,7 +520,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className={`panel gradient-third-to-third ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
@@ -539,7 +537,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>

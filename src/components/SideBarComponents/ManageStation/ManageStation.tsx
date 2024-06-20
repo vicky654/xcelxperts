@@ -15,7 +15,7 @@ import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddEditStationModal from './AddEditStationModal';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import IconSettings from '../../Icon/IconSettings';
 
 interface ManageSiteProps {
@@ -300,7 +300,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark gradient-blue-to-blue" onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                     Add Station
                 </button>
             </div>

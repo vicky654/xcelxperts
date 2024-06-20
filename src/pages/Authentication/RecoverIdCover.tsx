@@ -183,7 +183,7 @@ const RecoverIdCover = () => {
                                         </div>
                                         {formik.touched.email && formik.errors.email ? <div className="text-red-500">{formik.errors.email}</div> : null}
                                     </div>
-                                    <button type="submit" className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
+                                    <button type="submit" className="btn btn-dark !mt-6 w-full border-0 uppercase ">
                                     Reset Password
                                     </button>
                                     <div className="text-center dark:text-white">

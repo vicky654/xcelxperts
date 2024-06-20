@@ -9,7 +9,7 @@ import withApiHandler from '../../../utils/withApiHandler';
 import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 
 
 interface ActivityLogsProps {
@@ -134,7 +134,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
                         ) : row.action === '2' ? (
                             <button className="btn btn-danger btn-sm">Delete</button>
                         ) : row.action === '3' ? (
-                            <button className="btn btn-dark gradient-blue-to-blue btn-sm">Assign</button>
+                            <button className="btn btn-dark  btn-sm">Assign</button>
                         ) : (
                             <button className="badge">Unknown</button>
                         )}

@@ -13,7 +13,7 @@ import 'tippy.js/dist/tippy.css';
 import IconTrashLines from '../Icon/IconTrashLines';
 import IconPencil from '../Icon/IconPencil';
 import ErrorHandler from '../../hooks/useHandleError';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.jpg'; // Import the image
+import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import CustomPagination from '../../utils/CustomPagination';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
