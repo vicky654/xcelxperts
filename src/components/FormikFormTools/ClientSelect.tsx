@@ -24,7 +24,7 @@ const ClientEntity: React.FC<ClientEntityProps> = ({ getData, handleClientChange
 
     const fetchClientList = async () => {
         try {
-            const response = await getData('/common/client-list');
+            const response = await getData('/getClients');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
             const clientId = localStorage.getItem("superiorId");

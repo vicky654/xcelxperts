@@ -81,7 +81,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/permission-list`);
+            const response = await getData(`/getPermissions`);
             if (response && response.data && response.data.data) {
                 setPermissions(response.data.data);
             } else {

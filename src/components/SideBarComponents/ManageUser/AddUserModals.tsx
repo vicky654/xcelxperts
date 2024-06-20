@@ -57,7 +57,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
 
     const FetchRoleList = async () => {
         try {
-            const response = await getData('/roles');
+            const response = await getData('/getRoles');
             if (response && response.data && response.data.data) {
                 setRoleList(response.data.data);
             } else {

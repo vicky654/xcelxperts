@@ -111,7 +111,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
     const FetchCommonDataList = async () => {
         try {
-            const response = await getData('/station/common-data-list');
+            const response = await getData('/getStation/data');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
             }
@@ -122,7 +122,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
     const FetchClientList = async () => {
         try {
-            const response = await getData('/common/client-list');
+            const response = await getData('/getClients');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
             // const clientId = localStorage.getItem("superiorId");

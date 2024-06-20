@@ -101,7 +101,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const fetchClientList = async () => {
         try {
-            const response = await getData('/common/client-list');
+            const response = await getData('/getClients');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
             // const clientId = localStorage.getItem("superiorId");
@@ -119,7 +119,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const fetchCompanyList = async (clientId: string) => {
         try {
-            const response = await getData(`common/entity-list?client_id=${clientId}`);
+            const response = await getData(`getEntities?client_id=${clientId}`);
             formik.setFieldValue('companies', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -128,7 +128,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/station-list?company_id=${companyId}`);
+            const response = await getData(`getStations?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);

@@ -107,7 +107,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
     const FetchCommonDataList = async () => {
         try {
-            const response = await getData('/station/common-data-list');
+            const response = await getData('/getStation/data');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
             }
@@ -118,7 +118,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
     const FetchClientList = async () => {
         try {
-            const response = await getData('/common/client-list');
+            const response = await getData('/getClients');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
         } catch (error) {
@@ -183,7 +183,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
     const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/entity-list?client_id=${clientId}`);
+            const response = await getData(`getEntities?client_id=${clientId}`);
             formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)

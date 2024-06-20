@@ -111,7 +111,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const FetchCommonDataList = async () => {
         try {
-            const response = await getData('/station/common-data-list');
+            const response = await getData('/getStation/data');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
             }
@@ -122,7 +122,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const FetchClientList = async () => {
         try {
-            const response = await getData('/common/client-list');
+            const response = await getData('/getClients');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
             // const clientId = localStorage.getItem("superiorId");
@@ -140,7 +140,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/station-list?company_id=${companyId}`);
+            const response = await getData(`getStations?company_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -241,7 +241,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const fetchEntityList = async (clientId: string) => {
         try {
-            const response = await getData(`common/entity-list?client_id=${clientId}`);
+            const response = await getData(`getEntities?client_id=${clientId}`);
             formik.setFieldValue('entities', response.data.data);
         } catch (error) {
             handleApiError(error)

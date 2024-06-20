@@ -134,7 +134,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const fetchClientList = async () => {
         try {
-            const response = await getData('/common/client-list');
+            const response = await getData('/getClients');
             const clients = response.data.data;
             formik.setFieldValue('clients', clients);
         } catch (error) {
@@ -144,7 +144,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const fetchCompanyList = async (clientId: string) => {
         try {
-            const response = await getData(`common/entity-list?client_id=${clientId}`);
+            const response = await getData(`getEntities?client_id=${clientId}`);
             formik.setFieldValue('companies', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -153,7 +153,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`common/station-list?entity_id=${companyId}`);
+            const response = await getData(`getStations?entity_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);

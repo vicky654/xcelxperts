@@ -49,7 +49,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
 
   const fetchClientList = async () => {
     try {
-      const response = await getData('/common/client-list');
+      const response = await getData('/getClients');
       if (response?.data?.data) {
         setClientList(response.data.data);
       }
