@@ -189,12 +189,12 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
 
                                 <Tippy content="Edit">
                                     <button type="button" onClick={() => openModal(row?.id)}>
-                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
                                     </button>
                                 </Tippy>
                                 <Tippy content="Delete">
                                     <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines />
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                     </button>
                                 </Tippy>
                             </div>

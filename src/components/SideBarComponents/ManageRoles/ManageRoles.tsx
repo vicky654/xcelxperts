@@ -70,7 +70,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('role_id', id);
-		customDelete(postData, 'role/delete', formData, handleSuccess);
+        customDelete(postData, 'role/delete', formData, handleSuccess);
     };
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
@@ -81,9 +81,9 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
 
 
     const openEditRolePage = (id: string) => {
-      navigate(`/manage-roles/edit-roles/${id}`);
+        navigate(`/manage-roles/edit-roles/${id}`);
     };
-    
+
     const columns: any = [
         {
             name: 'Role',
@@ -113,30 +113,30 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '10%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  {' '}
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openEditRolePage(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '10%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                {' '}
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openEditRolePage(row?.id)}>
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
     return (

@@ -115,17 +115,16 @@ const Tables = () => {
                                         <td>{data.sale}</td>
                                         <td>
                                             <div
-                                                className={`whitespace-nowrap ${
-                                                    data.status === 'completed'
-                                                        ? 'text-success'
-                                                        : data.status === 'Pending'
+                                                className={`whitespace-nowrap ${data.status === 'completed'
+                                                    ? 'text-success'
+                                                    : data.status === 'Pending'
                                                         ? 'text-secondary'
                                                         : data.status === 'In Progress'
-                                                        ? 'text-info'
-                                                        : data.status === 'Canceled'
-                                                        ? 'text-danger'
-                                                        : 'text-success'
-                                                }`}
+                                                            ? 'text-info'
+                                                            : data.status === 'Canceled'
+                                                                ? 'text-danger'
+                                                                : 'text-success'
+                                                    }`}
                                             >
                                                 {data.status}
                                             </div>
@@ -288,17 +287,16 @@ const tableData = [
                                         <td>{data.sale}</td>
                                         <td>
                                             <div
-                                                className={`whitespace-nowrap ${
-                                                    data.status === 'completed'
-                                                        ? 'text-success'
-                                                        : data.status === 'Pending'
+                                                className={`whitespace-nowrap ${data.status === 'completed'
+                                                    ? 'text-success'
+                                                    : data.status === 'Pending'
                                                         ? 'text-secondary'
                                                         : data.status === 'In Progress'
-                                                        ? 'text-info'
-                                                        : data.status === 'Canceled'
-                                                        ? 'text-danger'
-                                                        : 'text-success'
-                                                }`}
+                                                            ? 'text-info'
+                                                            : data.status === 'Canceled'
+                                                                ? 'text-danger'
+                                                                : 'text-success'
+                                                    }`}
                                             >
                                                 {data.status}
                                             </div>
@@ -739,17 +737,16 @@ const tableData = [
                                         <td>{data.email}</td>
                                         <td>
                                             <span
-                                                className={`badge whitespace-nowrap ${
-                                                    data.status === 'completed'
-                                                        ? 'badge-outline-primary'
-                                                        : data.status === 'Pending'
+                                                className={`badge whitespace-nowrap ${data.status === 'completed'
+                                                    ? 'badge-outline-primary'
+                                                    : data.status === 'Pending'
                                                         ? 'badge-outline-secondary'
                                                         : data.status === 'In Progress'
-                                                        ? 'badge-outline-info'
-                                                        : data.status === 'Canceled'
-                                                        ? 'badge-outline-danger'
-                                                        : 'badge-outline-primary'
-                                                }`}
+                                                            ? 'badge-outline-info'
+                                                            : data.status === 'Canceled'
+                                                                ? 'badge-outline-danger'
+                                                                : 'badge-outline-primary'
+                                                    }`}
                                             >
                                                 {data.status}
                                             </span>
@@ -897,34 +894,32 @@ const tableData = [
                                         <td>
                                             <div className="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
                                                 <div
-                                                    className={`h-1.5 rounded-full rounded-bl-full text-center text-white text-xs ${
-                                                        data.status === 'completed'
-                                                            ? 'bg-success'
-                                                            : data.status === 'Pending'
+                                                    className={`h-1.5 rounded-full rounded-bl-full text-center text-white text-xs ${data.status === 'completed'
+                                                        ? 'bg-success'
+                                                        : data.status === 'Pending'
                                                             ? 'bg-secondary'
                                                             : data.status === 'In Progress'
-                                                            ? 'bg-info'
-                                                            : data.status === 'Canceled'
-                                                            ? 'bg-danger'
-                                                            : 'bg-success'
-                                                    }`}
+                                                                ? 'bg-info'
+                                                                : data.status === 'Canceled'
+                                                                    ? 'bg-danger'
+                                                                    : 'bg-success'
+                                                        }`}
                                                     style={{ width: `${data.progress}` }}
                                                 ></div>
                                             </div>
                                         </td>
                                         <td>
                                             <div
-                                                className={`whitespace-nowrap ${
-                                                    data.status === 'completed'
-                                                        ? 'text-success'
-                                                        : data.status === 'Pending'
+                                                className={`whitespace-nowrap ${data.status === 'completed'
+                                                    ? 'text-success'
+                                                    : data.status === 'Pending'
                                                         ? 'text-secondary'
                                                         : data.status === 'In Progress'
-                                                        ? 'text-info'
-                                                        : data.status === 'Canceled'
-                                                        ? 'text-danger'
-                                                        : 'text-success'
-                                                }`}
+                                                            ? 'text-info'
+                                                            : data.status === 'Canceled'
+                                                                ? 'text-danger'
+                                                                : 'text-success'
+                                                    }`}
                                             >
                                                 {data.progress}
                                             </div>
@@ -932,12 +927,12 @@ const tableData = [
                                         <td className="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
                                             <Tippy content="Edit">
                                                 <button type="button">
-                                                    <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                                    <i className="pencil-icon fi fi-rr-file-edit"></i>
                                                 </button>
                                             </Tippy>
                                             <Tippy content="Delete">
                                                 <button type="button">
-                                                    <IconTrashLines />
+                                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                                 </button>
                                             </Tippy>
                                         </td>
@@ -1308,17 +1303,16 @@ const tableData = [
                                         <td>{data.sale}</td>
                                         <td>
                                             <span
-                                                className={`badge whitespace-nowrap ${
-                                                    data.status === 'completed'
-                                                        ? 'bg-primary   '
-                                                        : data.status === 'Pending'
+                                                className={`badge whitespace-nowrap ${data.status === 'completed'
+                                                    ? 'bg-primary   '
+                                                    : data.status === 'Pending'
                                                         ? 'bg-secondary'
                                                         : data.status === 'In Progress'
-                                                        ? 'bg-success'
-                                                        : data.status === 'Canceled'
-                                                        ? 'bg-danger'
-                                                        : 'bg-primary'
-                                                }`}
+                                                            ? 'bg-success'
+                                                            : data.status === 'Canceled'
+                                                                ? 'bg-danger'
+                                                                : 'bg-primary'
+                                                    }`}
                                             >
                                                 {data.status}
                                             </span>

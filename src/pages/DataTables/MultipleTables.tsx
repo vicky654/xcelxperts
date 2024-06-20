@@ -763,7 +763,7 @@ const MultipleTables = () => {
                                         </Tippy>
                                         <Tippy content="Delete">
                                             <button type="button">
-                                                <IconTrashLines />
+                                                <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                             </button>
                                         </Tippy>
                                     </div>

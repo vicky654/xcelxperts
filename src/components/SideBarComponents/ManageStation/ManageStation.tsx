@@ -110,7 +110,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                   <div className=" mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                   <div className=" mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
-                   <div className=" mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
-                   <div className=" mt-0 mt-sm-2 d-block">
+                    <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
                     </div>
                 </div>
@@ -209,7 +209,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                 <Tippy content="Edit">
                                     <button type="button" onClick={() => openModal(row?.id)}>
-                                        <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
                                     </button>
                                 </Tippy>
                                 <Tippy content="Delete">

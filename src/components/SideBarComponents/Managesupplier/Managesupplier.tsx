@@ -14,7 +14,7 @@ import IconTrashLines from '../../Icon/IconTrashLines';
 import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg'; 
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.jpg';
 import AddEditManageCharges from './AddEditManagesupplier';
 import AddEditManagesupplier from './AddEditManagesupplier';
 interface ManagesupplierProps {
@@ -119,7 +119,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                 </div>
             ),
         },
-    
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -152,29 +152,29 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
 
@@ -213,7 +213,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-              
+
                 handleSuccess();
                 closeModal();
             } else {

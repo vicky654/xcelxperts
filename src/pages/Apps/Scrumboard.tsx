@@ -353,7 +353,7 @@ const Scrumboard = () => {
                                                                     <IconEdit className="ltr:mr-3 rtl:ml-3" />
                                                                 </button>
                                                                 <button onClick={() => deleteConfirmModal(project.id, task)} type="button" className="hover:text-danger">
-                                                                    <IconTrashLines />
+                                                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -507,7 +507,7 @@ const Scrumboard = () => {
                                     <div className="text-lg font-medium bg-[#fbfbfb] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">Delete Task</div>
                                     <div className="p-5 text-center">
                                         <div className="text-white bg-danger ring-4 ring-danger/30 p-4 rounded-full w-fit mx-auto">
-                                            <IconTrashLines />
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                         </div>
                                         <div className="text-base sm:w-3/4 mx-auto mt-5">Are you sure you want to delete Task?</div>
 

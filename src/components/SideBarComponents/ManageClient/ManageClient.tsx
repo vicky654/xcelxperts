@@ -189,46 +189,46 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Assign Client Addon">
-                                      <button onClick={() => navigate(`/manage-clients/assignaddons/${row.id}`)} type="button">
-                                          <IconUserPlus className="ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Assign Client Reports">
-                                      <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
-                                          <IconPlus className="ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content=" Client Login">
-                                      <button onClick={() => handleClientLogin(row.id)} type="button">
-                                          <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
-                                              <IconUser fill={true} className="w-6 h-6" />
-                                          </div>
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Assign Client Addon">
+                                    <button onClick={() => navigate(`/manage-clients/assignaddons/${row.id}`)} type="button">
+                                        <i className="fi fi-rr-user-add"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Assign Client Reports">
+                                    <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
+                                        <IconPlus className="ml-2" />
+                                    </button>
+                                </Tippy>
+                                <Tippy content=" Client Login">
+                                    <button onClick={() => handleClientLogin(row.id)} type="button">
+                                        <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                            <IconUser fill={true} className="w-6 h-6" />
+                                        </div>
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
 

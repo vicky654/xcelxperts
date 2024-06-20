@@ -120,7 +120,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                 </div>
             ),
         },
-    
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -153,29 +153,29 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
 
@@ -211,7 +211,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             const response = await postData(url, formData);
 
             if (response && response.status_code == 200) {
-              
+
                 handleSuccess();
                 closeModal();
             } else {

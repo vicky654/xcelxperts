@@ -213,7 +213,7 @@ const List = () => {
                 <div className="mb-4.5 px-5 flex md:items-center md:flex-row flex-col gap-5">
                     <div className="flex items-center gap-2">
                         <button type="button" className="btn btn-danger gap-2" onClick={() => deleteRow()}>
-                            <IconTrashLines />
+                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                             Delete
                         </button>
                         <Link to="/apps/invoice/add" className="btn btn-primary gap-2">
@@ -286,7 +286,7 @@ const List = () => {
                                         </NavLink>
                                         {/* <NavLink to="" className="flex"> */}
                                         <button type="button" className="flex hover:text-danger" onClick={(e) => deleteRow(id)}>
-                                            <IconTrashLines />
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                         </button>
                                         {/* </NavLink> */}
                                     </div>

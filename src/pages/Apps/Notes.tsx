@@ -403,9 +403,8 @@ const Notes = () => {
                             <div className="space-y-1">
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        selectedTab === 'all' && 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]'
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${selectedTab === 'all' && 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]'
+                                        }`}
                                     onClick={() => tabChanged('all')}
                                 >
                                     <div className="flex items-center">
@@ -415,9 +414,8 @@ const Notes = () => {
                                 </button>
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        selectedTab === 'fav' && 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]'
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${selectedTab === 'fav' && 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]'
+                                        }`}
                                     onClick={() => tabChanged('fav')}
                                 >
                                     <div className="flex items-center">
@@ -429,9 +427,8 @@ const Notes = () => {
                                 <div className="px-1 py-3 text-white-dark">Tags</div>
                                 <button
                                     type="button"
-                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-primary ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${
-                                        selectedTab === 'personal' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
-                                    }`}
+                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-primary ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${selectedTab === 'personal' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
+                                        }`}
                                     onClick={() => tabChanged('personal')}
                                 >
                                     <IconSquareRotated className="fill-primary shrink-0" />
@@ -439,9 +436,8 @@ const Notes = () => {
                                 </button>
                                 <button
                                     type="button"
-                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-warning ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${
-                                        selectedTab === 'work' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
-                                    }`}
+                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-warning ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${selectedTab === 'work' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
+                                        }`}
                                     onClick={() => tabChanged('work')}
                                 >
                                     <IconSquareRotated className="fill-warning shrink-0" />
@@ -449,9 +445,8 @@ const Notes = () => {
                                 </button>
                                 <button
                                     type="button"
-                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-info ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${
-                                        selectedTab === 'social' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
-                                    }`}
+                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-info ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${selectedTab === 'social' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
+                                        }`}
                                     onClick={() => tabChanged('social')}
                                 >
                                     <IconSquareRotated className="fill-info shrink-0" />
@@ -459,9 +454,8 @@ const Notes = () => {
                                 </button>
                                 <button
                                     type="button"
-                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-danger ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${
-                                        selectedTab === 'important' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
-                                    }`}
+                                    className={`w-full flex items-center h-10 p-1 hover:bg-white-dark/10 rounded-md dark:hover:bg-[#181F32] font-medium text-danger ltr:hover:pl-3 rtl:hover:pr-3 duration-300 ${selectedTab === 'important' && 'ltr:pl-3 rtl:pr-3 bg-gray-100 dark:bg-[#181F32]'
+                                        }`}
                                     onClick={() => tabChanged('important')}
                                 >
                                     <IconSquareRotated className="fill-danger shrink-0" />
@@ -489,17 +483,16 @@ const Notes = () => {
                                 {filterdNotesList.map((note: any) => {
                                     return (
                                         <div
-                                            className={`panel pb-12 ${
-                                                note.tag === 'personal'
+                                            className={`panel pb-12 ${note.tag === 'personal'
                                                     ? 'bg-primary-light shadow-primary'
                                                     : note.tag === 'work'
-                                                    ? 'bg-warning-light shadow-warning'
-                                                    : note.tag === 'social'
-                                                    ? 'bg-info-light shadow-info'
-                                                    : note.tag === 'important'
-                                                    ? 'bg-danger-light shadow-danger'
-                                                    : 'dark:shadow-dark'
-                                            }`}
+                                                        ? 'bg-warning-light shadow-warning'
+                                                        : note.tag === 'social'
+                                                            ? 'bg-info-light shadow-info'
+                                                            : note.tag === 'important'
+                                                                ? 'bg-danger-light shadow-danger'
+                                                                : 'dark:shadow-dark'
+                                                }`}
                                             key={note.id}
                                         >
                                             <div className="min-h-[142px]">
@@ -569,17 +562,16 @@ const Notes = () => {
                                                         <Dropdown
                                                             offset={[0, 5]}
                                                             placement={`${isRtl ? 'bottom-end' : 'bottom-start'}`}
-                                                            btnClassName={`${
-                                                                note.tag === 'personal'
+                                                            btnClassName={`${note.tag === 'personal'
                                                                     ? 'text-primary'
                                                                     : note.tag === 'work'
-                                                                    ? 'text-warning'
-                                                                    : note.tag === 'social'
-                                                                    ? 'text-info'
-                                                                    : note.tag === 'important'
-                                                                    ? 'text-danger'
-                                                                    : ''
-                                                            }`}
+                                                                        ? 'text-warning'
+                                                                        : note.tag === 'social'
+                                                                            ? 'text-info'
+                                                                            : note.tag === 'important'
+                                                                                ? 'text-danger'
+                                                                                : ''
+                                                                }`}
                                                             button={
                                                                 <span>
                                                                     <IconSquareRotated
@@ -587,12 +579,12 @@ const Notes = () => {
                                                                             note.tag === 'personal'
                                                                                 ? 'fill-primary'
                                                                                 : note.tag === 'work'
-                                                                                ? 'fill-warning'
-                                                                                : note.tag === 'social'
-                                                                                ? 'fill-info'
-                                                                                : note.tag === 'important'
-                                                                                ? 'fill-danger'
-                                                                                : ''
+                                                                                    ? 'fill-warning'
+                                                                                    : note.tag === 'social'
+                                                                                        ? 'fill-info'
+                                                                                        : note.tag === 'important'
+                                                                                            ? 'fill-danger'
+                                                                                            : ''
                                                                         }
                                                                     />
                                                                 </span>
@@ -628,7 +620,7 @@ const Notes = () => {
                                                     </div>
                                                     <div className="flex items-center">
                                                         <button type="button" className="text-danger" onClick={() => deleteNoteConfirm(note)}>
-                                                            <IconTrashLines />
+                                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                                         </button>
                                                         <button type="button" className="text-warning group ltr:ml-2 rtl:mr-2" onClick={() => setFav(note)}>
                                                             <IconStar className={`w-4.5 h-4.5 group-hover:fill-warning ${note.isFav && 'fill-warning'}`} />
@@ -842,12 +834,11 @@ const Notes = () => {
                                                 {params.tag && (
                                                     <button
                                                         type="button"
-                                                        className={`badge badge-outline-primary rounded-3xl capitalize ltr:mr-3 rtl:ml-3 ${
-                                                            (params.tag === 'personal' && 'shadow-primary',
-                                                            params.tag === 'work' && 'shadow-warning',
-                                                            params.tag === 'social' && 'shadow-info',
-                                                            params.tag === 'important' && 'shadow-danger')
-                                                        }`}
+                                                        className={`badge badge-outline-primary rounded-3xl capitalize ltr:mr-3 rtl:ml-3 ${(params.tag === 'personal' && 'shadow-primary',
+                                                                params.tag === 'work' && 'shadow-warning',
+                                                                params.tag === 'social' && 'shadow-info',
+                                                                params.tag === 'important' && 'shadow-danger')
+                                                            }`}
                                                     >
                                                         {params.tag}
                                                     </button>

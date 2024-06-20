@@ -89,7 +89,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         formData.append('id', id);
         customDelete(postData, 'user/delete', formData, handleSuccess);
     };
- 
+
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
     const isAddonPermissionAvailable = true; // Placeholder for permission check
@@ -168,34 +168,34 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '10%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Assign Addon">
-                                      <button onClick={() => navigate(`/manage-users/assignaddons/${row.id}`)} type="button">
-                                          <IconUserPlus className="ml-2" />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '10%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <i className="setting-icon fi fi-rr-file-edit "></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Assign Addon">
+                                    <button onClick={() => navigate(`/manage-users/assignaddons/${row.id}`)} type="button">
+                                        <i className="fi fi-rr-user-add"></i>
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
     // user/detail?id=${selectedRowId}

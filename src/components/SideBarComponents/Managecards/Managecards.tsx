@@ -169,29 +169,29 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  <Tippy content="Edit">
-                                      <button type="button" onClick={() => openModal(row?.id)}>
-                                          <IconPencil className="ltr:mr-2 rtl:ml-2" />
-                                      </button>
-                                  </Tippy>
-                                  <Tippy content="Delete">
-                                      <button onClick={() => handleDelete(row.id)} type="button">
-                                          <IconTrashLines />
-                                      </button>
-                                  </Tippy>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                <Tippy content="Edit">
+                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
 
@@ -218,11 +218,11 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
 
             formData.append('name', values.card_name);
             formData.append('code', values.card_code);
-       
+
             if (values.file) {
                 formData.append('logo', values.file);
             }
-         
+
             if (userId) {
                 formData.append('id', userId);
             }

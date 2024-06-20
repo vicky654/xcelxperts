@@ -106,7 +106,7 @@ const Clipboard = () => {
                                             }}
                                         >
                                             <button type="button" className="btn btn-dark gradient-blue-to-blue" value={message1} onClick={() => setMessage1('')}>
-                                                <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                                <i className="pencil-icon fi fi-rr-file-edit"></i>
                                                 Cut from Input
                                             </button>
                                         </CopyToClipboard>
@@ -193,7 +193,7 @@ const [message1, setMessage1] = useState<any>('http://www.admin-dashboard.com');
                                             }}
                                         >
                                             <button type="button" className="btn btn-dark gradient-blue-to-blue " onClick={() => setMessage2('')}>
-                                                <IconPencil className="ltr:mr-2 rtl:ml-2" />
+                                                <i className="pencil-icon fi fi-rr-file-edit"></i>
                                                 Cut from Input
                                             </button>
                                         </CopyToClipboard>
