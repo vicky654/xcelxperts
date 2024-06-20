@@ -210,14 +210,10 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             }
 
             const url = isEditMode && userId ? `/supplier/update` : `/supplier/create`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
             }
         } catch (error) {
             handleApiError(error);

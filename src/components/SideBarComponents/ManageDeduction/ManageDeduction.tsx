@@ -207,14 +207,10 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             }
 
             const url = isEditMode && userId ? `/deduction/update` : `/deduction/create`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
             }
         } catch (error) {
             handleApiError(error);

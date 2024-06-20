@@ -95,7 +95,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <FormikInput formik={formik} type="text" name="card_code" />
+                                                <FormikInput formik={formik} type="text" name="card_code"  readOnly={isEditMode ? true : false} />
                                                 <FormikInput formik={formik} type="text" name="card_name" />
                                                 {/* <input type="text" name="logo" value={formik.values.logo} onChange={formik.handleChange} placeholder="Logo" className="input-field" /> */}
                                                 <div>

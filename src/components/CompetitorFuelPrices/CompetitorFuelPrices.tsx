@@ -270,14 +270,10 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             }
 
             const url = isEditMode && userId ? `/site/fuel/purchase-price/update` : `/site/fuel/purchase-price/add`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
             }
         } catch (error) {
             handleApiError(error);

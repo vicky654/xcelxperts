@@ -325,7 +325,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
                                                 <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" placeholder="Station Name" />
 
-                                                <FormikInput formik={formik} type="text" name="tank_code" label="Tank Code" placeholder="Tank Code" />
+                                                <FormikInput formik={formik} type="text" name="tank_code"   readOnly={isEditMode ? true : false}label="Tank Code" placeholder="Tank Code" />
 
                                                 <FormikSelect
                                                     formik={formik}

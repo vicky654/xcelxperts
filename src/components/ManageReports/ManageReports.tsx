@@ -181,14 +181,10 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             }
 
             const url = isEditMode && userId ? `/station/update` : `/station/create`;
-            const response = await postData(url, formData);
-
-            if (response && response.status_code == 200) {
-
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
             }
         } catch (error) {
             handleApiError(error);
@@ -492,6 +488,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 label="Report"
                                 options={formik.values?.reports?.map((item: any) => ({ id: item.report_code, name: item.report_name }))}
                                 className="form-select text-white-dark"
+                                
                             // onChange={handleSiteChange}
                             />
 
