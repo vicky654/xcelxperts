@@ -497,3 +497,9 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     position: relative;
     top: 4px;
 }
+
+.login-password-eye-icon {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+}

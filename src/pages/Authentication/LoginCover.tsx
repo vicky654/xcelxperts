@@ -16,6 +16,16 @@ interface FormValues {
 const LoginCover = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+
+    const toggleEyeIcon2 = () => {
+        setShowPassword2(!showPassword2);
+    };
+    const toggleEyeIcon1 = () => {
+        setShowPassword1(!showPassword1);
+    };
+
     useEffect(() => {
         dispatch(setPageTitle('Login Cover'));
     });
@@ -88,10 +98,10 @@ const LoginCover = () => {
                     <img src="/assets/images/auth/coming-soon-object3.png" alt="image" className="absolute right-0 top-0 h-[300px]" />
                     <img src="/assets/images/auth/polygon-object.svg" alt="image" className="absolute bottom-0 end-[28%]" />
                     <div className="relative flex w-full max-w-[1502px] flex-col justify-between overflow-hidden rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 lg:min-h-[758px] lg:flex-row lg:gap-10 xl:gap-0">
-                    <div  className="relative hidden w-full items-center justify-center bg-[linear-gradient(18deg,rgba(8,70,154,1)_0%,rgba(54,116,200,1)_62%,rgba(121,178,255,1)_100%)] p-5 lg:inline-flex lg:max-w-[835px] xl:-ms-28 ltr:xl:skew-x-[14deg] rtl:xl:skew-x-[-14deg]"><div className="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"></div>
-                            <div  className="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-                                <Link to="/" className="w-48 block lg:w-60 ms-10"  style={{background:"#fff",borderRadius:"5px"}}>
-                           
+                        <div className="relative hidden w-full items-center justify-center bg-[linear-gradient(18deg,rgba(8,70,154,1)_0%,rgba(54,116,200,1)_62%,rgba(121,178,255,1)_100%)] p-5 lg:inline-flex lg:max-w-[835px] xl:-ms-28 ltr:xl:skew-x-[14deg] rtl:xl:skew-x-[-14deg]"><div className="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"></div>
+                            <div className="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
+                                <Link to="/" className="w-48 block lg:w-60 ms-10" style={{ background: "#fff", borderRadius: "5px" }}>
+
                                     <img src="/assets/images/xx_logo.png" alt="Logo" className="w-full" />
                                 </Link>
                                 <div className="mt-24 hidden w-full max-w-[430px] lg:block">
@@ -99,8 +109,8 @@ const LoginCover = () => {
                                 </div>
                             </div>
                         </div>
-                        <div  className="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
-                            <div style={{background:"#fff",borderRadius:"5px"}} className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
+                        <div className="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
+                            <div style={{ background: "#fff", borderRadius: "5px" }} className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
                                 <Link to="/" className="w-8 block lg:hidden">
                                     <img src="/assets/images/xx_logo.png" alt="Logo" className="mx-auto w-10" />
                                 </Link>
@@ -115,20 +125,43 @@ const LoginCover = () => {
                                         <label htmlFor="Email">
                                             Email <span className="text-danger">*</span>
                                         </label>
-                                        <div className="relative text-white-dark">
-                                            <input
-                                                id="Email"
-                                                name="email"
-                                                type="email"
-                                                placeholder="Enter Email"
-                                                className={`form-input ps-10 placeholder:text-white-dark ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''}`}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.email}
-                                            />
-                                            <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                                <IconMail fill={true} />
-                                            </span>
+
+
+                                        <div className=' d-flex w-100'>
+                                            <div className="relative text-white-dark">
+                                                <div>
+                                                    <input
+                                                        id="Email"
+                                                        name="email"
+                                                        type="email"
+                                                        // type={
+                                                        //     showPassword2
+                                                        //         ? 'email'
+                                                        //         : 'password'
+                                                        // }
+                                                        placeholder="Enter Email"
+                                                        className={`form-input ps-10 placeholder:text-white-dark ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''}`}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.email}
+                                                    />
+                                                    <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                                        <IconMail fill={true} />
+                                                    </span>
+                                                </div>
+                                                {/* <span className=' d-block position-relative '>
+                                                    <span
+                                                        className='login-password-eye-icon pointer'
+                                                        onClick={toggleEyeIcon2}>
+                                                        {showPassword2 ? (
+                                                            <i className="fi fi-rr-eye"></i>
+                                                        ) : (
+                                                            <i className="fi fi-rr-eye-crossed"></i>
+                                                        )}
+                                                    </span>
+                                                </span> */}
+
+                                            </div>
                                         </div>
                                         {formik.touched.email && formik.errors.email ? <div className="text-red-500">{formik.errors.email}</div> : null}
                                     </div>
@@ -136,21 +169,47 @@ const LoginCover = () => {
                                         <label htmlFor="Password">
                                             Password <span className="text-danger">*</span>
                                         </label>
-                                        <div className="relative text-white-dark">
-                                            <input
-                                                id="Password"
-                                                name="password"
-                                                type="password"
-                                                placeholder="Enter Password"
-                                                className={`form-input ps-10 placeholder:text-white-dark ${formik.touched.password && formik.errors.password ? 'border-red-500' : ''}`}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.password}
-                                            />
-                                            <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                                <IconLockDots fill={true} />
-                                            </span>
+
+                                        <div className=' d-flex w-100'>
+
+                                            <div className="relative text-white-dark">
+                                                <div>
+                                                    <input
+                                                        id="Password"
+                                                        name="password"
+                                                        type={
+                                                            showPassword1
+                                                                ? 'text'
+                                                                : 'password'
+                                                        }
+                                                        placeholder="Enter Password"
+                                                        className={`form-input ps-10 placeholder:text-white-dark ${formik.touched.password && formik.errors.password ? 'border-red-500' : ''}`}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.password}
+                                                    />
+                                                    <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                                        <IconLockDots fill={true} />
+                                                    </span>
+                                                </div>
+
+                                                <span className=' d-block position-relative '>
+                                                    <span
+                                                        className='login-password-eye-icon pointer'
+                                                        onClick={toggleEyeIcon1}>
+                                                        {showPassword1 ? (
+                                                            <i className="fi fi-rr-eye"></i>
+                                                        ) : (
+                                                            <i className="fi fi-rr-eye-crossed"></i>
+                                                        )}
+                                                    </span>
+                                                </span>
+
+                                            </div>
+
+
                                         </div>
+
                                         {formik.touched.password && formik.errors.password ? <div className="text-red-500">{formik.errors.password}</div> : null}
                                     </div>
 
