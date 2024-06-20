@@ -69,7 +69,7 @@ const Breadcrumbs = () => {
                     {codeArr.includes('code1') && (
                         <CodeHighlight>
                             <pre className='language-xml'>
-{`<ol className="flex text-gray-500 font-semibold dark:text-white-dark">
+                                {`<ol className="flex text-gray-500 font-semibold dark:text-white-dark">
     <li>
         <button className="hover:text-gray-500/70 dark:hover:text-white-dark/70">
         <svg>.....</svg>
@@ -114,7 +114,7 @@ const Breadcrumbs = () => {
                     {codeArr.includes('code2') && (
                         <CodeHighlight>
                             <pre className='language-xml'>
-{`<ol className="flex text-gray-500 font-semibold dark:text-white-dark">
+                                {`<ol className="flex text-gray-500 font-semibold dark:text-white-dark">
     <li>
         <button type="button">Components</button>
     </li>
@@ -163,7 +163,7 @@ const Breadcrumbs = () => {
                     {codeArr.includes('code3') && (
                         <CodeHighlight>
                             <pre className='language-xml'>
-{`<ol className="flex text-primary font-semibold dark:text-white-dark">
+                                {`<ol className="flex text-primary font-semibold dark:text-white-dark">
     <li className="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
         <button className="p-1.5 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 relative  h-full flex items-center before:absolute ltr:before:-right-[15px] rtl:before:-left-[15px] rtl:before:rotate-180 before:inset-y-0 before:m-auto before:w-0 before:h-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-[#ebedf2] before:z-[1] dark:before:border-l-[#1b2e4b] hover:text-primary/70 dark:hover:text-white-dark/70">
             Home
@@ -215,7 +215,7 @@ const Breadcrumbs = () => {
                     {codeArr.includes('code4') && (
                         <CodeHighlight>
                             <pre className='language-xml'>
-{`<ol className="flex text-gray-500 font-semibold dark:text-white-dark">
+                                {`<ol className="flex text-gray-500 font-semibold dark:text-white-dark">
     <li>
         <button className="hover:text-gray-500/70 dark:hover:text-white-dark/70">Home</button>
     </li>
@@ -249,7 +249,7 @@ const Breadcrumbs = () => {
                         <ol className="flex items-center flex-wrap text-gray-500 font-semibold dark:text-white-dark gap-y-4">
                             <li>
                                 <button className="p-2.5 border border-gray-500/20 rounded-md shadow flex items-center justify-center dark:border-0 dark:bg-[#191e3a] hover:text-gray-500/70 dark:hover:text-white-dark/70">
-                                    <IconHome />
+                                    <i className="fi fi-rr-house-chimney"></i>
                                 </button>
                             </li>
                             <li className="flex items-center before:w-1 before:h-1 before:rounded-full before:bg-primary before:inline-block before:relative before:-top-0.5 before:mx-4">
@@ -269,7 +269,7 @@ const Breadcrumbs = () => {
                     {codeArr.includes('code5') && (
                         <CodeHighlight>
                             <pre className='language-xml'>
-{`<ol className="flex items-center flex-wrap text-gray-500 font-semibold dark:text-white-dark gap-y-4">
+                                {`<ol className="flex items-center flex-wrap text-gray-500 font-semibold dark:text-white-dark gap-y-4">
     <li>
         <button className="p-2.5 border border-gray-500/20 rounded-md shadow flex items-center justify-center dark:border-0 dark:bg-[#191e3a] hover:text-gray-500/70 dark:hover:text-white-dark/70">
         <svg>.....</svg>

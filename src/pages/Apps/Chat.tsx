@@ -390,9 +390,8 @@ const Chat = () => {
                                     <div key={person.userId}>
                                         <button
                                             type="button"
-                                            className={`w-full flex justify-between items-center p-2 hover:bg-gray-100 dark:hover:bg-[#050b14] rounded-md dark:hover:text-primary hover:text-primary ${
-                                                selectedUser && selectedUser.userId === person.userId ? 'bg-gray-100 dark:bg-[#050b14] dark:text-primary text-primary' : ''
-                                            }`}
+                                            className={`w-full flex justify-between items-center p-2 hover:bg-gray-100 dark:hover:bg-[#050b14] rounded-md dark:hover:text-primary hover:text-primary ${selectedUser && selectedUser.userId === person.userId ? 'bg-gray-100 dark:bg-[#050b14] dark:text-primary text-primary' : ''
+                                                }`}
                                             onClick={() => selectUser(person)}
                                         >
                                             <div className="flex-1">
@@ -601,7 +600,7 @@ const Chat = () => {
                                                 </li>
                                                 <li>
                                                     <button type="button">
-                                                        <IconSettings className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                        <i className="fi fi-rr-settings"></i>
                                                         Settings
                                                     </button>
                                                 </li>
@@ -640,11 +639,10 @@ const Chat = () => {
                                                             <div className="space-y-2">
                                                                 <div className="flex items-center gap-3">
                                                                     <div
-                                                                        className={`dark:bg-gray-800 p-4 py-2 rounded-md bg-black/10 ${
-                                                                            message.fromUserId === selectedUser.userId
+                                                                        className={`dark:bg-gray-800 p-4 py-2 rounded-md bg-black/10 ${message.fromUserId === selectedUser.userId
                                                                                 ? 'ltr:rounded-br-none rtl:rounded-bl-none !bg-primary text-white'
                                                                                 : 'ltr:rounded-bl-none rtl:rounded-br-none'
-                                                                        }`}
+                                                                            }`}
                                                                     >
                                                                         {message.text}
                                                                     </div>

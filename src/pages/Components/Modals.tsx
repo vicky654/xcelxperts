@@ -1362,9 +1362,8 @@ const [modal8, setModal8] = useState(false);
                                             <div id="fadein_up_modal" className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
                                                 <div className="flex min-h-screen items-start justify-center px-4">
                                                     <Dialog.Panel
-                                                        className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${
-                                                            isRtl ? 'animate__fadeInRight' : 'animate__fadeInLeft'
-                                                        }`}
+                                                        className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${isRtl ? 'animate__fadeInRight' : 'animate__fadeInLeft'
+                                                            }`}
                                                     >
                                                         <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
                                                             <h5 className="text-lg font-bold">Modal Title</h5>
@@ -1414,9 +1413,8 @@ const [modal8, setModal8] = useState(false);
                                             <div id="rotatein_left_modal" className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
                                                 <div className="flex min-h-screen items-start justify-center px-4">
                                                     <Dialog.Panel
-                                                        className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${
-                                                            isRtl ? 'animate__rotateInDownRight' : 'animate__rotateInDownLeft'
-                                                        }`}
+                                                        className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${isRtl ? 'animate__rotateInDownRight' : 'animate__rotateInDownLeft'
+                                                            }`}
                                                     >
                                                         <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
                                                             <h5 className="text-lg font-bold">Modal Title</h5>
@@ -1466,9 +1464,8 @@ const [modal8, setModal8] = useState(false);
                                             <div id="fadein_right_modal" className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
                                                 <div className="flex min-h-screen items-start justify-center px-4">
                                                     <Dialog.Panel
-                                                        className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${
-                                                            isRtl ? 'animate__fadeInLeft' : 'animate__fadeInRight'
-                                                        }`}
+                                                        className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark ${isRtl ? 'animate__fadeInLeft' : 'animate__fadeInRight'
+                                                            }`}
                                                     >
                                                         <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
                                                             <h5 className="text-lg font-bold">Modal Title</h5>
@@ -2071,11 +2068,10 @@ const [modal16, setModal16] = useState(false);
                                                                             {({ selected }) => (
                                                                                 <button
                                                                                     type="button"
-                                                                                    className={`${
-                                                                                        selected
+                                                                                    className={`${selected
                                                                                             ? '!border-white-light !border-b-white  text-primary !outline-none dark:!border-[#191e3a] dark:!border-b-black '
                                                                                             : ''
-                                                                                    } -mb-[1px] block border border-transparent p-3.5 py-2 hover:text-primary dark:hover:border-b-black`}
+                                                                                        } -mb-[1px] block border border-transparent p-3.5 py-2 hover:text-primary dark:hover:border-b-black`}
                                                                                 >
                                                                                     Home
                                                                                 </button>
@@ -2085,11 +2081,10 @@ const [modal16, setModal16] = useState(false);
                                                                             {({ selected }) => (
                                                                                 <button
                                                                                     type="button"
-                                                                                    className={`${
-                                                                                        selected
+                                                                                    className={`${selected
                                                                                             ? '!border-white-light !border-b-white  text-primary !outline-none dark:!border-[#191e3a] dark:!border-b-black '
                                                                                             : ''
-                                                                                    }-mb-[1px] block border border-transparent p-3.5 py-2 hover:text-primary dark:hover:border-b-black`}
+                                                                                        }-mb-[1px] block border border-transparent p-3.5 py-2 hover:text-primary dark:hover:border-b-black`}
                                                                                 >
                                                                                     Profile
                                                                                 </button>
@@ -2099,11 +2094,10 @@ const [modal16, setModal16] = useState(false);
                                                                             {({ selected }) => (
                                                                                 <button
                                                                                     type="button"
-                                                                                    className={`${
-                                                                                        selected
+                                                                                    className={`${selected
                                                                                             ? '!border-white-light !border-b-white  text-primary !outline-none dark:!border-[#191e3a] dark:!border-b-black '
                                                                                             : ''
-                                                                                    }-mb-[1px] block border border-transparent p-3.5 py-2 hover:text-primary dark:hover:border-b-black`}
+                                                                                        }-mb-[1px] block border border-transparent p-3.5 py-2 hover:text-primary dark:hover:border-b-black`}
                                                                                 >
                                                                                     Contact
                                                                                 </button>
@@ -2274,7 +2268,7 @@ const [modal16, setModal16] = useState(false);
                                                                 <form>
                                                                     <div className="relative mb-4">
                                                                         <span className="absolute top-1/2 -translate-y-1/2 ltr:left-3 rtl:right-3 dark:text-white-dark">
-                                                                            <IconUser className="w-5 h-5" />
+                                                                            <i className="fi fi-rr-settings"></i>
                                                                         </span>
                                                                         <input type="email" placeholder="Email" className="form-input ltr:pl-10 rtl:pr-10" id="login_email" />
                                                                     </div>
@@ -2362,7 +2356,7 @@ const [modal16, setModal16] = useState(false);
                                                                 <form>
                                                                     <div className="relative mb-4">
                                                                         <span className="absolute top-1/2 -translate-y-1/2 ltr:left-3 rtl:right-3 dark:text-white-dark">
-                                                                            <IconUser className="w-5 h-5" />
+                                                                            <i className="fi fi-rr-settings"></i>
                                                                         </span>
                                                                         <input type="text" placeholder="Name" className="form-input ltr:pl-10 rtl:pr-10" id="name" />
                                                                     </div>

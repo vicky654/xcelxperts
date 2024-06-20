@@ -178,7 +178,7 @@ const [activeTab, setActiveTab] = useState<any>(1);
                                             flex items-center justify-center rounded-full bg-[#f3f2ee] p-2.5 dark:bg-[#1b2e4b]`}
                                             onClick={() => setActiveTab1(2)}
                                         >
-                                            <IconUser className="w-5 h-5" />
+                                            <i className="fi fi-rr-settings"></i>
                                         </div>
                                     </li>
                                     <li>
@@ -294,7 +294,7 @@ const [activeTab1, setActiveTab1] = useState<any>(1);
                                             flex items-center justify-center rounded-full bg-[#f3f2ee] p-2.5 dark:bg-[#1b2e4b]`}
                                             onClick={() => setActiveTab2(2)}
                                         >
-                                            <IconUser className="w-5 h-5" />
+                                            <i className="fi fi-rr-settings"></i>
                                         </div>
                                         <span className="text-center block mt-2">About</span>
                                     </li>
@@ -425,7 +425,7 @@ const [activeTab2, setActiveTab2] = useState<any>(1);
                                             bg-white dark:bg-[#253b5c] border-[3px] border-[#f3f2ee] dark:border-[#1b2e4b] flex justify-center items-center w-16 h-16 rounded-full`}
                                                 onClick={() => setActiveTab3(2)}
                                             >
-                                                <IconUser className="w-5 h-5" />
+                                                <i className="fi fi-rr-settings"></i>
                                             </button>
                                         </li>
                                         <li className="mx-auto">
@@ -556,7 +556,7 @@ const [activeTab3, setActiveTab3] = useState<any>(1);
                                                 border-[3px] border-[#f3f2ee] bg-white dark:bg-[#253b5c] dark:border-[#1b2e4b] flex justify-center items-center w-16 h-16 rounded-full`}
                                                 onClick={() => setActiveTab4(2)}
                                             >
-                                                <IconUser className="w-5 h-5" />
+                                                <i className="fi fi-rr-settings"></i>
                                             </button>
                                             <span className={`${activeTab4 === 2 ? 'text-primary ' : ''}text-center block mt-2`}>About</span>
                                         </li>
@@ -695,7 +695,7 @@ const [activeTab4, setActiveTab4] = useState<any>(1);
                                                 bg-white dark:bg-[#253b5c] border-[3px] border-[#f3f2ee] dark:border-[#1b2e4b] flex justify-center items-center w-16 h-16`}
                                                 onClick={() => setActiveTab5(2)}
                                             >
-                                                <IconUser className="w-5 h-5" />
+                                                <i className="fi fi-rr-settings"></i>
                                             </button>
                                         </li>
                                         <li className="mx-auto">
@@ -826,7 +826,7 @@ const [activeTab5, setActiveTab5] = useState<any>(1);
                                                 border-[3px] border-[#f3f2ee] bg-white dark:bg-[#253b5c] dark:border-[#1b2e4b] flex justify-center items-center w-16 h-16`}
                                                 onClick={() => setActiveTab6(2)}
                                             >
-                                                <IconUser className="w-5 h-5" />
+                                                <i className="fi fi-rr-settings"></i>
                                             </button>
                                             <span className={`${activeTab6 === 2 ? 'text-primary ' : ''}text-center block mt-2`}>About</span>
                                         </li>

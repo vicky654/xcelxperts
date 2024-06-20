@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import IconHome from '../../components/Icon/IconHome';
-import IconDollarSignCircle from '../../components/Icon/IconDollarSignCircle';
 import IconUser from '../../components/Icon/IconUser';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -14,7 +13,6 @@ import LoaderImg from '../../utils/Loader';
 import useApiErrorHandler from '../../hooks/useHandleError';
 import IconLockDots from '../../components/Icon/IconLockDots';
 import { fetchStoreData } from '../../store/dataSlice';
-import IconSettings from '../../components/Icon/IconSettings';
 
 
 
@@ -311,7 +309,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-             
+
                         <span>User Settings</span>
                     </li>
                 </ul>
@@ -328,7 +326,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         onClick={() => toggleTabs('home')}
                                         className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'home' ? '!border-primary text-primary' : ''}`}
                                     >
-                                        <IconHome />
+                                        <i className="fi fi-rr-house-chimney"></i>
                                         Edit Profile
                                     </button>
                                 </li>
@@ -341,7 +339,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         onClick={() => toggleTabs('update-password')}
                                         className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'update-password' ? '!border-primary text-primary' : ''}`}
                                     >
-                                        <IconUser className="w-5 h-5" />
+                                        <i className="fi fi-rr-lock"></i>
                                         Update Password
                                     </button>
                                 </li>
@@ -353,7 +351,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         onClick={() => toggleTabs('Settings')}
                                         className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${tabs === 'Settings' ? '!border-primary text-primary' : ''}`}
                                     >
-                                        <IconLockDots className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                        <i className="fi fi-rr-settings"></i>
                                         Settings
                                     </button>
                                 </li>
@@ -367,7 +365,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                             <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                 <h6 className="text-lg font-bold mb-5">Edit Profile</h6>
                                 <div className="flex flex-col sm:flex-row">
-                                 
+
                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                         <div className={formik.submitCount ? (formik.errors.first_name ? 'has-error' : 'has-success') : ''}>
                                             <label htmlFor="first_name">First Name<span className="text-danger">*</span> </label>

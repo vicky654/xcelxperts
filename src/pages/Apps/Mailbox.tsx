@@ -1231,9 +1231,8 @@ const Mailbox = () => {
                     onClick={() => setIsShowMailMenu(!isShowMailMenu)}
                 ></div>
                 <div
-                    className={`panel xl:block p-4 dark:gray-50 w-[250px] max-w-full flex-none space-y-3 xl:relative absolute z-10 xl:h-auto h-full hidden ltr:xl:rounded-r-md ltr:rounded-r-none rtl:xl:rounded-l-md rtl:rounded-l-none overflow-hidden ${
-                        isShowMailMenu ? '!block' : ''
-                    }`}
+                    className={`panel xl:block p-4 dark:gray-50 w-[250px] max-w-full flex-none space-y-3 xl:relative absolute z-10 xl:h-auto h-full hidden ltr:xl:rounded-r-md ltr:rounded-r-none rtl:xl:rounded-l-md rtl:rounded-l-none overflow-hidden ${isShowMailMenu ? '!block' : ''
+                        }`}
                 >
                     <div className="flex flex-col h-full pb-16">
                         <div className="pb-5">
@@ -1245,9 +1244,8 @@ const Mailbox = () => {
                             <div className="space-y-1">
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        !isEdit && selectedTab === 'inbox' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'inbox' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                        }`}
                                     onClick={() => {
                                         setSelectedTab('inbox');
                                         tabChanged('inbox');
@@ -1264,9 +1262,8 @@ const Mailbox = () => {
 
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        !isEdit && selectedTab === 'star' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'star' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                        }`}
                                     onClick={() => {
                                         setSelectedTab('star');
                                         tabChanged('star');
@@ -1280,9 +1277,8 @@ const Mailbox = () => {
 
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        !isEdit && selectedTab === 'sent_mail' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'sent_mail' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                        }`}
                                     onClick={() => {
                                         setSelectedTab('sent_mail');
                                         tabChanged('sent_mail');
@@ -1297,9 +1293,8 @@ const Mailbox = () => {
 
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        !isEdit && selectedTab === 'spam' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'spam' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                        }`}
                                     onClick={() => {
                                         setSelectedTab('spam');
                                         tabChanged('spam');
@@ -1313,9 +1308,8 @@ const Mailbox = () => {
 
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        !isEdit && selectedTab === 'draft' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'draft' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                        }`}
                                     onClick={() => {
                                         setSelectedTab('draft');
                                         tabChanged('draft');
@@ -1332,9 +1326,8 @@ const Mailbox = () => {
 
                                 <button
                                     type="button"
-                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                        !isEdit && selectedTab === 'trash' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                    }`}
+                                    className={`w-full flex justify-between items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'trash' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                        }`}
                                     onClick={() => {
                                         setSelectedTab('trash');
                                         tabChanged('trash');
@@ -1359,9 +1352,8 @@ const Mailbox = () => {
                                                 <li>
                                                     <button
                                                         type="button"
-                                                        className={`w-full flex items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                                            !isEdit && selectedTab === 'archive' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                                        }`}
+                                                        className={`w-full flex items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'archive' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                                            }`}
                                                         onClick={() => {
                                                             setSelectedTab('archive');
                                                             tabChanged('archive');
@@ -1374,9 +1366,8 @@ const Mailbox = () => {
                                                 <li>
                                                     <button
                                                         type="button"
-                                                        className={`w-full flex items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${
-                                                            !isEdit && selectedTab === 'important' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
-                                                        }`}
+                                                        className={`w-full flex items-center p-2 hover:bg-white-dark/10 rounded-md dark:hover:text-primary hover:text-primary dark:hover:bg-[#181F32] font-medium h-10 ${!isEdit && selectedTab === 'important' ? 'bg-gray-100 dark:text-primary text-primary dark:bg-[#181F32]' : ''
+                                                            }`}
                                                         onClick={() => {
                                                             setSelectedTab('important');
                                                             tabChanged('important');
@@ -1749,9 +1740,8 @@ const Mailbox = () => {
                                                                     <Tippy content="Important">
                                                                         <button
                                                                             type="button"
-                                                                            className={`enabled:hover:text-primary disabled:opacity-60 rotate-90 flex items-center ${
-                                                                                mail.isImportant ? 'text-primary' : ''
-                                                                            }`}
+                                                                            className={`enabled:hover:text-primary disabled:opacity-60 rotate-90 flex items-center ${mail.isImportant ? 'text-primary' : ''
+                                                                                }`}
                                                                             onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 setImportant(mail.id);
@@ -1763,9 +1753,8 @@ const Mailbox = () => {
                                                                     </Tippy>
                                                                 </div>
                                                                 <div
-                                                                    className={`dark:text-gray-300 whitespace-nowrap font-semibold ${
-                                                                        !mail.isUnread ? 'text-gray-500 dark:text-gray-500 font-normal' : ''
-                                                                    }`}
+                                                                    className={`dark:text-gray-300 whitespace-nowrap font-semibold ${!mail.isUnread ? 'text-gray-500 dark:text-gray-500 font-normal' : ''
+                                                                        }`}
                                                                 >
                                                                     {mail.firstName ? mail.firstName + ' ' + mail.lastName : mail.email}
                                                                 </div>
@@ -1782,12 +1771,11 @@ const Mailbox = () => {
                                                         <td>
                                                             <div className="flex items-center">
                                                                 <div
-                                                                    className={`w-2 h-2 rounded-full ${
-                                                                        (mail.group === 'personal' && 'bg-primary') ||
+                                                                    className={`w-2 h-2 rounded-full ${(mail.group === 'personal' && 'bg-primary') ||
                                                                         (mail.group === 'work' && 'bg-warning') ||
                                                                         (mail.group === 'social' && 'bg-success') ||
                                                                         (mail.group === 'private' && 'bg-danger')
-                                                                    }`}
+                                                                        }`}
                                                                 ></div>
                                                                 {mail.attachments && (
                                                                     <div className="ltr:ml-4 rtl:mr-4">
@@ -1835,7 +1823,7 @@ const Mailbox = () => {
                                             <img src={`/assets/images/${selectedMail.path}`} className="h-12 w-12 rounded-full object-cover" alt="avatar" />
                                         ) : (
                                             <div className="border border-gray-300 dark:border-gray-800 rounded-full p-3">
-                                                <IconUser className="w-5 h-5" />
+                                                <i className="fi fi-rr-settings"></i>
                                             </div>
                                         )}
                                     </div>
@@ -1848,12 +1836,11 @@ const Mailbox = () => {
                                                 <div className="ltr:mr-4 rtl:ml-4">
                                                     <Tippy content={selectedMail.group} className="capitalize">
                                                         <div
-                                                            className={`w-2 h-2 rounded-full ${
-                                                                (selectedMail.group === 'personal' && 'bg-primary') ||
+                                                            className={`w-2 h-2 rounded-full ${(selectedMail.group === 'personal' && 'bg-primary') ||
                                                                 (selectedMail.group === 'work' && 'bg-warning') ||
                                                                 (selectedMail.group === 'social' && 'bg-success') ||
                                                                 (selectedMail.group === 'private' && 'bg-danger')
-                                                            }`}
+                                                                }`}
                                                         ></div>
                                                     </Tippy>
                                                 </div>

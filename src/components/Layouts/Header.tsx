@@ -146,7 +146,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                     {isProfileUpdatePermissionAvailable && (
                                         <li>
                                             <button onClick={() => handleNavigation('home', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                                                <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                <i className="fi fi-rr-user"></i>
 
                                                 Edit Profile
                                             </button>
@@ -155,7 +155,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                     {isSettingsPermissionAvailable && (
                                         <li>
                                             <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
-                                                <IconSettings className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                                <i className="fi fi-rr-settings"></i>
                                                 Settings
                                             </button>
                                         </li>
@@ -167,7 +167,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                             // to="/auth/boxed-signin"
                                             className="text-danger !py-3"
                                         >
-                                            <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
+                                            <i className="fi fi-rr-exit"></i>
                                             Sign Out
                                         </Link>
                                     </li>
