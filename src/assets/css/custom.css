@@ -1,3 +1,5 @@
+/* import '@flaticon/flaticon-uicons/css/all/all.css'; */
+
 :root {
     --primary-color: #084a9e;
     --animate-delay: 1s;
@@ -106,33 +108,47 @@
     width: calc(100px - 14px);
     height: 50px;
     border-radius: 50px;
-    background: 
-     radial-gradient(farthest-side,#0000 calc(100% - 15px),#ccc calc(100% - 14px) 99%,#0000) left,
-     radial-gradient(farthest-side,#0000 calc(100% - 15px),#ccc calc(100% - 14px) 99%,#0000) right;
+    background:
+        radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) left,
+        radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) right;
     background-size: calc(50% + 7px) 100%;
     background-repeat: no-repeat;
     position: relative;
     animation: l10-0 1s infinite linear;
-  }
-  .loader:before {
+}
+
+.loader:before {
     content: "";
     position: absolute;
     inset: 0;
-    margin: auto; 
+    margin: auto;
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: #f03355;
     transform-origin: -14px 50%;
     animation: l10-1 0.5s infinite linear;
-  }
-  @keyframes l10-0 { 
-      0%,49.99% { transform:scaleX(1)}
-      50%,100% { transform:scaleX(-1)} 
-  }
-  @keyframes l10-1 { 
-      100% { transform:rotate(1turn)} 
-  }
+}
+
+@keyframes l10-0 {
+
+    0%,
+    49.99% {
+        transform: scaleX(1)
+    }
+
+    50%,
+    100% {
+        transform: scaleX(-1)
+    }
+}
+
+@keyframes l10-1 {
+    100% {
+        transform: rotate(1turn)
+    }
+}
+
 .text-danger {
     color: #f82649 !important;
 }
@@ -284,6 +300,7 @@ border-color: none;
     justify-content: center;
     align-items: center;
 }
+
 .labelclick {
     cursor: pointer;
     background: #ddd;
@@ -293,16 +310,21 @@ border-color: none;
     align-items: center;
     cursor: 'pointer';
 }
+
 .horizontal-menu {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem; /* Adjust the value as needed */
+    gap: 1rem;
+    /* Adjust the value as needed */
 }
 
 .horizontal-menu li {
-    margin: 1px; /* Adjust the value as needed */
-    list-style: none; /* Remove default list styles if necessary */
+    margin: 1px;
+    /* Adjust the value as needed */
+    list-style: none;
+    /* Remove default list styles if necessary */
 }
+
 .boxminheight {
     min-height: 300px;
     max-height: 300px;
@@ -310,11 +332,13 @@ border-color: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     overflow-y: auto;
 }
+
 .heading-div {
     color: #fff;
     margin-bottom: 10px;
     padding: 10px !important;
 }
+
 .form-input {
     border: 1px Solid #ddd !important;
     border-radius: 7px !important;
@@ -324,9 +348,11 @@ border-color: none;
     padding-left: 0.4rem !important;
     padding-right: 0.4rem !important;
 }
+
 li.menu.nav-item.relative {
     margin-left: 6px !important;
 }
+
 .panel {
     border-radius: 0px !important;
 }
@@ -334,9 +360,11 @@ li.menu.nav-item.relative {
 .btn {
     border-radius: 0px !important;
 }
+
 .horizontal-menu .nav-link {
     border-radius: 0px !important;
 }
+
 .btn-gradient {
     background: linear-gradient(18deg, rgba(8, 70, 154, 1) 0%, rgba(54, 116, 200, 1) 62%, rgba(121, 178, 255, 1) 100%) !important;
     color: white;
@@ -347,21 +375,26 @@ li.menu.nav-item.relative {
     background: linear-gradient(18deg, rgba(54, 116, 200, 1) 0%, rgba(8, 70, 154, 1) 100%) !important;
     /* Define hover effect if needed */
 }
+
 .bg-indigo-600 {
     border-radius: 0px !important;
     background: linear-gradient(90deg, var(--primary-color-from), var(--primary-color-to));
 }
+
 .bg-red-600 {
     background: linear-gradient(90deg, var(--secondary-color-from), var(--secondary-color-to));
     border-radius: 0px !important;
 }
+
 .rounded-md {
     border-radius: 0px !important;
 }
+
 .form-input {
     /* border: 1px Solid #ddd !important; */
     border-radius: 0px !important;
 }
+
 /* Ensure this CSS is included in your project */
 
 body.swal2-toast-shown .swal2-container.swal2-top {
@@ -372,7 +405,8 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     transform: translateX(-50%);
     width: 100% !important;
 }
-.swal2-container.swal2-top > .swal2-popup {
+
+.swal2-container.swal2-top>.swal2-popup {
     grid-column: 2;
     align-self: start;
     justify-self: auto !important;
@@ -381,15 +415,21 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 /* styles.css or your preferred stylesheet */
 
 .error-toast {
-    background-color: #f44336; /* Red background for error messages */
-    color: white; /* White text color */
-    border-color: #d32f2f; /* Darker red border color */
+    background-color: #f44336;
+    /* Red background for error messages */
+    color: white;
+    /* White text color */
+    border-color: #d32f2f;
+    /* Darker red border color */
 }
 
 .success-toast {
-    background-color: #4caf50; /* Green background for success messages */
-    color: white; /* White text color */
-    border-color: #388e3c; /* Darker green border color */
+    background-color: #4caf50;
+    /* Green background for success messages */
+    color: white;
+    /* White text color */
+    border-color: #388e3c;
+    /* Darker green border color */
 }
 
 .toast-title {
@@ -400,11 +440,13 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 .toast-message {
     font-size: 14px;
 }
+
 body.swal2-toast-shown .swal2-container.swal2-top {
     width: 100% !important;
     padding: 0px !important;
     border-radius: 0px !important;
 }
+
 .swal2-container .swal2-popup.swal2-toast {
     --tw-bg-opacity: 1;
     background-color: green;
@@ -413,6 +455,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
 }
+
 .swal2-container .swal2-popup.swal2-toast {
     --tw-bg-opacity: 1;
     background-color: green !important;
@@ -426,16 +469,21 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     background: #a00000 !important;
     border-radius: 0px;
 }
+
 .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
     background-color: #fff !important;
 }
-.swal2-container.swal2-top > .swal2-popup {
+
+.swal2-container.swal2-top>.swal2-popup {
     border-radius: 0px;
 }
+
 .custom-close-button {
-    margin-right: 100px; /* Set the margin for the close button */
+    margin-right: 100px;
+    /* Set the margin for the close button */
     background-color: #0000 !important;
-  }
-  .form-select {
+}
+
+.form-select {
     border: 1px solid #ddd;
 }

@@ -3,6 +3,7 @@ import BlankLayout from '../components/Layouts/BlankLayout';
 import DefaultLayout from '../components/Layouts/DefaultLayout';
 import { routes } from './routes';
 import PrivateRouter from './PrivateRouter';
+
 const permissions: string[] = [
     'view:public',
     'view:about',

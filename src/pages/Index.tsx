@@ -491,7 +491,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                         <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
+                                </div>
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
