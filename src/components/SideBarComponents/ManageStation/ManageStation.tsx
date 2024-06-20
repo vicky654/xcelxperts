@@ -214,12 +214,12 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 </Tippy>
                                 <Tippy content="Delete">
                                     <button onClick={() => handleDelete(row.id)} type="button">
-                                        <IconTrashLines className="ltr:mr-2 rtl:ml-2" />
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                     </button>
                                 </Tippy>
                                 <Tippy content="Station Settings">
                                     <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                        <IconSettings className="ltr:mr-2 rtl:ml-2" />
+                                        <i className="fi fi-rr-settings"></i>
                                     </button>
                                 </Tippy>
                             </div>

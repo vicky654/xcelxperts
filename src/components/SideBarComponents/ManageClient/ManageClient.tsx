@@ -214,14 +214,14 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                                 </Tippy>
                                 <Tippy content="Assign Client Reports">
                                     <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
-                                        <IconPlus className="ml-2" />
+                                        <i className="fi fi-rr-assign"></i>
                                     </button>
                                 </Tippy>
                                 <Tippy content=" Client Login">
                                     <button onClick={() => handleClientLogin(row.id)} type="button">
-                                        <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
-                                            <IconUser fill={true} className="w-6 h-6" />
-                                        </div>
+                                        <i className="fi fi-rr-sign-in-alt"></i>
+                                        {/* <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                        </div> */}
                                     </button>
                                 </Tippy>
                             </div>

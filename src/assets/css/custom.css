@@ -487,3 +487,8 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 .form-select {
     border: 1px solid #ddd;
 }
+
+.fi {
+    font-size: 16px;
+    margin: 4.5px;
+}
