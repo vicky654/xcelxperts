@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+const phoneNumberRegex = /^[0-9]+$/; // Regex to ensure only numeric values
 
 // Define your validation schema and use `isEditMode` to conditionally apply validations
 export const getUserValidationSchema = (isEditMode: boolean) => {
@@ -18,9 +19,16 @@ export const getUserValidationSchema = (isEditMode: boolean) => {
             otherwise: Yup.string().notRequired(),
         }),
         phone_number: Yup.string()
-            .min(10, 'Phone Number must be at least 10 characters')
-            .max(10, 'Phone Number must be at least 10 characters')
-            .required('Phone Number is required'),
+        .matches(phoneNumberRegex, 'Phone number must only contain digits')
+        .min(10, 'Phone number must be exactly 10 characters')
+        .max(10, 'Phone number must be exactly 10 characters')
+        .test('is-positive', 'Phone number cannot be negative', value => {
+          if (value) {
+            return !/^-[0-9]+$/.test(value); // Ensure no negative sign
+          }
+          return true; // If no value is provided, it passes the test (handled by required check)
+        })
+        .required('Phone number is required'),
         role: Yup.string().required('Role is required'),
     });
 };
@@ -41,10 +49,16 @@ export const getClientValidationSchema = (isEditMode: boolean) => {
             otherwise: Yup.string().notRequired(),
         }),
         phone_number: Yup.string()
-            .min(10, 'Phone Number must be at least 10 characters')
-            .max(10, 'Phone Number must be at least 10 characters')
-            .required('Phone Number is required'),
-
+        .matches(phoneNumberRegex, 'Phone number must only contain digits')
+        .min(10, 'Phone number must be exactly 10 characters')
+        .max(10, 'Phone number must be exactly 10 characters')
+        .test('is-positive', 'Phone number cannot be negative', value => {
+          if (value) {
+            return !/^-[0-9]+$/.test(value); // Ensure no negative sign
+          }
+          return true; // If no value is provided, it passes the test (handled by required check)
+        })
+        .required('Phone number is required'),
         client_code: Yup.string().required('Client Code is required'),
         address: Yup.string().required('Address is required'),
     });
