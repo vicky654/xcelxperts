@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -16,6 +16,8 @@ import AddClientModal from './AddClientModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import showMessage from '../../../hooks/showMessage';
 import { fetchStoreData } from '../../../store/dataSlice';
+import { IRootState } from '../../../store';
+import UserAddonModal from '../ManageUser/UserAddonModal';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -33,7 +35,7 @@ interface RowData {
     phone_number: string;
     password: string;
     client_code: string;
-
+    addons: string;
     created_date: string;
     status: number;
 }
@@ -49,6 +51,8 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
+    
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
@@ -119,13 +123,22 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             // console.error('API error:', error);
         }
     };
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
     const isAddonPermissionAvailable = true; // Placeholder for permission check
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('user-assign-permission');
 
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const openUserAddonModal = (id: string) => {
+        setIsUserAddonModalOpen(true);
+        setUserId(id);
+    };
 
+    const closeUserAddonModal = () => {
+        setIsUserAddonModalOpen(false);
+    };
     const columns: any = [
         // Other columns
         {
@@ -142,10 +155,23 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             ),
         },
         {
+            name: 'Addons',
+            selector: (row: RowData) => row.addons,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
             name: 'Email',
             selector: (row: RowData) => row.email,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -158,7 +184,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -171,7 +197,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             name: 'Status',
             selector: (row: RowData) => row.status,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
                     {row.status === 1 || row.status === 0 ? (
@@ -204,11 +230,18 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                                         <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                     </button>
                                 </Tippy>
-                                <Tippy content="Assign Client Addon">
+                                {/* <Tippy content="Assign Client Addon">
                                     <button onClick={() => navigate(`/manage-clients/assignaddons/${row.id}`)} type="button">
                                         <i className="fi fi-rr-user-add"></i>
                                     </button>
-                                </Tippy>
+                                </Tippy> */}
+                                {isAssignAddPermissionAvailable && (
+                                      <Tippy content="Assign Addon">
+                                          <button onClick={() => openUserAddonModal(row?.id)} type="button">
+                                              <i className="fi fi-rr-user-add"></i>
+                                          </button>
+                                      </Tippy>
+                                  )}
                                 <Tippy content="Assign Client Reports">
                                     <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
                                         <i className="fi fi-rr-assign"></i>
@@ -281,7 +314,27 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             handleApiError(error);
         }
     };
+    const SubmitAddon = async (values: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('id', userId ?? ''); 
 
+            values.addons.forEach((addon:any, index:any) => {
+                if (addon.checked) {
+                    formData.append(`addons[${index}]`, addon.id);
+                }
+            });
+
+            const postDataUrl = "/addon/assign";
+
+            const isSuccess = await postData(postDataUrl, formData);
+            if (isSuccess) {
+                fetchData();
+            }
+        }catch (error) {
+            handleApiError(error);
+        }
+    };
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -301,7 +354,8 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 </button>
             </div>
             <AddClientModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
-
+            <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
+            
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light"> Clients</h5>

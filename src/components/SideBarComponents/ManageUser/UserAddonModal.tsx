@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import FormikInput from '../../FormikFormTools/FormikInput';
-import FormikSelect from '../../FormikFormTools/FormikSelect';
-import { userInitialValues } from '../../FormikFormTools/InitialValues';
-import { getUserValidationSchema } from '../../FormikFormTools/ValidationSchema';
 import useErrorHandler from '../../../hooks/useHandleError';
 
 interface AddonsModalProps {
@@ -23,18 +19,14 @@ interface AddonData {
     checked: boolean;
 }
 
-
-
 const UserAddonModal: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, onSubmit, userId }) => {
-  
     const [data, setData] = useState<AddonData[]>([]);
     const [name, setname] = useState('');
     const handleApiError = useErrorHandler();
     useEffect(() => {
-        if(userId){
+        if (userId) {
             fetchData();
         }
-        
     }, [userId]);
 
     const fetchData = async () => {
@@ -51,8 +43,8 @@ const UserAddonModal: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         }
     };
 
-console.log(name, "name");
- 
+    console.log(name, 'name');
+
     const formik = useFormik({
         initialValues: {
             addons: data.map((addon) => ({ id: addon.id, name: addon.name, checked: addon.checked })),
@@ -68,12 +60,11 @@ console.log(name, "name");
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
                 <div className={`absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={onClose}></div>
-
                 <section className={`absolute inset-y-0 right-0 pl-10 max-w-full flex transform transition-transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} duration-300 ease-in-out`}>
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title="Assign User Addon" onClose={onClose} />
+                                <AddModalHeader title={`Assign  Addon ${name ? (name) : ''}`} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit}>
                                         {formik.values.addons.map((addon: any, index: any) => (
