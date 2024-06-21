@@ -6,6 +6,7 @@ import withApiHandler from '../../../utils/withApiHandler';
 import LoaderImg from '../../../utils/Loader';
 import useErrorHandler from '../../../hooks/useHandleError';
 import 'tailwindcss/tailwind.css';
+import { validateForm } from '../../../hooks/helperfunction';
 
 interface PermissionData {
     id: string;
@@ -114,7 +115,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 
     const formik = useFormik({
         initialValues: initialValues,
-        validationSchema: validationSchema,
+        validate: (values: FormData) => validateForm(values, validationSchema),
         onSubmit: handleFormSubmit,
     });
 
@@ -186,8 +187,19 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             <label htmlFor="roleName" className="block text-sm font-medium text-gray-700">
                                 Addon Name <span className="text-danger">*</span>
                             </label>
-                            <input id="roleName" name="roleName" type="text" placeholder="Addon Name" className="form-input flex-1" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
+                            <input
+                                id="roleName"
+                                name="roleName"
+                                type="text"
+                                placeholder="Addon Name"
+                                className="form-input flex-1"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.roleName}
+                            />
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
+                            {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
+                       
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -231,11 +243,8 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                             </div>
                                         ))}
                                     </div>
-                               </div>
-                               
+                                </div>
                             ))}
-                                 {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
-                                
                         </div>
 
                         <div className="text-end mt-4">
@@ -250,7 +259,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 className="bg-red-600 text-white px-4 py-2 ml-4 rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                 onClick={handleClearForm}
                             >
-                                Clear 
+                                Clear
                             </button>
                         </div>
                     </form>

@@ -6,6 +6,7 @@ import withApiHandler from '../../../utils/withApiHandler';
 import LoaderImg from '../../../utils/Loader';
 import useErrorHandler from '../../../hooks/useHandleError';
 import 'tailwindcss/tailwind.css';
+import { validateForm } from '../../../hooks/helperfunction';
 
 interface PermissionData {
     id: string;
@@ -114,7 +115,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 
     const formik = useFormik({
         initialValues: initialValues,
-        validationSchema: validationSchema,
+        validate: (values: FormData) => validateForm(values, validationSchema),
         onSubmit: handleFormSubmit,
     });
 
