@@ -48,6 +48,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
 
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             FetchRoleList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');

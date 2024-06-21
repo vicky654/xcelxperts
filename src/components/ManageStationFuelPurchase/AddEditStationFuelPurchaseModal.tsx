@@ -99,6 +99,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
             FetchClientList();
             FetchFuelSubCategoryList();
             FetchCommonDataList();
+            formik.resetForm()
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
                 // FetchClientList();

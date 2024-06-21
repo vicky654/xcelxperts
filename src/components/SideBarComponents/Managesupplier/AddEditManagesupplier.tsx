@@ -32,6 +32,7 @@ interface UserData {
 
 const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     useEffect(() => {
+        formik.resetForm()
         if (isEditMode) {
             fetchUserDetails(userId ? userId : '');
         }
