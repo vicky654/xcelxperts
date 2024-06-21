@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
@@ -19,6 +19,7 @@ import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import IconUser from '../../Icon/IconUser';
 import IconUserPlus from '../../Icon/IconUserPlus';
+import { IRootState } from '../../../store';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -47,6 +48,19 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isAddPermissionAvailable = UserPermissions?.includes("user-create");
+    const isListPermissionAvailable = UserPermissions?.includes("user-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("user-edit");
+    const isDeletePermissionAvailable = UserPermissions?.includes("user-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("user-assign-permission");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
+
+
+
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
@@ -90,11 +104,6 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         customDelete(postData, 'user/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
-
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
         {
@@ -176,21 +185,32 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="setting-icon fi fi-rr-file-edit "></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Assign Addon">
-                                    <button onClick={() => navigate(`/manage-users/assignaddons/${row.id}`)} type="button">
-                                        <i className="fi fi-rr-user-add"></i>
-                                    </button>
-                                </Tippy>
+
+                                {isEditPermissionAvailable && (
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="setting-icon fi fi-rr-file-edit "></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+                                {isDeletePermissionAvailable && (
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+                                {isAssignAddPermissionAvailable && (
+                                    <Tippy content="Assign Addon">
+                                        <button onClick={() => navigate(`/manage-users/assignaddons/${row.id}`)} type="button">
+                                            <i className="fi fi-rr-user-add"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+
+
+
+
                             </div>
                         </div>
                     </span>
@@ -263,9 +283,11 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         <span>Users</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add User
-                </button>
+                {isAddPermissionAvailable && (
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add User
+                    </button>
+                )}
             </div>
             <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
