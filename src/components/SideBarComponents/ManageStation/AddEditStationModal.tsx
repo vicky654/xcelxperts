@@ -265,14 +265,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
                                                 <FormikInput formik={formik} type="date" name="start_date" label="Start Date" placeholder="Start Date" />
 
-                                                {/* <FormikSelect
-                                                    formik={formik}
-                                                    name="drs_upload_status"
-                                                    label="DRS Upload Status"
-                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                /> */}
-
+                                           
 
 
                                                 <FormikSelect

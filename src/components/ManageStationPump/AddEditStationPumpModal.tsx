@@ -344,14 +344,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                                                     readOnly={isEditMode ? true : false}
                                                 />
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="status"
-                                                    label="Pump Status"
-                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                    isRequired={true}
-                                                />
+                                          
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

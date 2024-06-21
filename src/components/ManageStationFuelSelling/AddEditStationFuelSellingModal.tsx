@@ -327,14 +327,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
                                                 <FormikInput formik={formik} type="text" name="tank_code"   readOnly={isEditMode ? true : false}label="Tank Code" placeholder="Tank Code" />
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="status"
-                                                    label="Tank Status"
-                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                    isRequired={true}
-                                                />
+                                            
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
