@@ -1,11 +1,11 @@
 /* import '@flaticon/flaticon-uicons/css/all/all.css'; */
 
 :root {
-    --primary-color: #09469F;
+    --primary-color: #09469f;
     --animate-delay: 1s;
     --animate-repeat: 1;
-    --primary-color-from: #09469F;
-    --primary-color-to: #09469F;
+    --primary-color-from: #09469f;
+    --primary-color-to: #09469f;
     --secondary-color-from: #ec6c21;
     --secondary-color-to: #88370998;
     --third-color-from: #cfb40b;
@@ -15,8 +15,6 @@
 .bg-primary {
     background-color: var(--primary-color);
 }
-
-
 
 .fullscreen {
     position: fixed;
@@ -494,25 +492,27 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     top: 14px;
 }
 
-
 .firstbox {
-    background: #09469F !important;
+    background: #09469f !important;
 }
 
 .secondbox {
-    background: #5850A8 !important;
+    background: #5850a8 !important;
 }
 
 .thiredbox {
-    background: #825CAE !important;
+    background: #825cae !important;
 }
 .forthbox {
-    background: #A66AB4 !important;
+    background: #a66ab4 !important;
 }
 /* .gradient-blue-to-blue {
     background: #09469F !important;
 } */
 .bg-primary {
-
-    background-color: #09469F !important;
+    background-color: #09469f !important;
+}
+.text-end {
+    display: flex;
+    justify-content: end;
 }

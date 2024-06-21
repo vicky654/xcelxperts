@@ -478,17 +478,17 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> {formik?.values?.station_name} Station</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light "> {formik?.values?.station_name} Station</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
                 </div>
 
                 <form onSubmit={formik.handleSubmit} className="p-4 mb-5 bg-white dark:bg-black">
-                    <div className="grid xl:grid-cols-2 gap-6 mb-6">
+                    <div className="grid xl:grid-cols-3 gap-6 mb-6">
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Assign Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4 ">Assign Card</h6>
                             {formik?.values?.cards?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -516,7 +516,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Data Entry Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Data Entry Card</h6>
                             {formik?.values?.dataEntryCard?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -545,7 +545,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                         </div>
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Fuels Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Fuels Card</h6>
                             {formik?.values?.fuels?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -573,7 +573,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Reports Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Reports Card</h6>
                             {formik?.values?.reports?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -601,7 +601,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Charges Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Charges Card</h6>
                             {formik?.values?.cards?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -629,7 +629,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light">Deductions</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Deductions</h6>
                             {formik?.values?.deductions?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -659,9 +659,8 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                     </div>
 
 
-                    <div className="sm:col-span-2 mt-3">
-                        <button type="submit" className="btn btn-primary">
-                            {/* {isEditMode ? 'Update' : 'Save'} */}
+                    <div className="sm:col-span-2 mt-3 text-end">
+                        <button type="submit" className="btn btn-primary ">
                             Update
                         </button>
                     </div>
