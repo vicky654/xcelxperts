@@ -52,8 +52,10 @@ interface UserData {
 const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     useEffect(() => {
         if (isEditMode) {
+           
             fetchUserDetails(userId ? userId : '');
         }
+        formik.resetForm()
     }, [isOpen, isEditMode, userId]);
 
     const fetchUserDetails = async (id: string) => {

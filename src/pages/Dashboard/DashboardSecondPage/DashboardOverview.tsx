@@ -614,7 +614,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 <div className="pt-5">
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className={`panel  gradient-blue-to-blue ${filterData ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
@@ -631,7 +631,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/* Sessions */}
-                        <div className={`panel gradient-secondary-to-secondary ${filterData ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
                             </div>
@@ -646,7 +646,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className={`panel gradient-third-to-third ${filterData ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
@@ -663,7 +663,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className={`panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400 ${filterData ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel forthbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>

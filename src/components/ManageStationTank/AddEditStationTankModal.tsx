@@ -313,7 +313,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />
@@ -322,7 +322,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     formik={formik}
                                                     name="fuel_id"
                                                     label="Fuel Name"
-                                                    options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.fuel_name }))}
+                                                    options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />

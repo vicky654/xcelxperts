@@ -877,7 +877,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
                 <div className="pt-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-                        <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400" >
+                        <div className="panel firstbox " >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
                             </div>
@@ -892,7 +892,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                         </div>
 
                         {/* Sessions */}
-                        <div className="panel bg-gradient-to-r from-violet-500 to-violet-400">
+                        <div className="panel secondbox ">
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
 
@@ -908,7 +908,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
+                        <div className="panel thiredbox ">
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>
@@ -923,7 +923,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
+                        <div className="panel forthbox ">
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>

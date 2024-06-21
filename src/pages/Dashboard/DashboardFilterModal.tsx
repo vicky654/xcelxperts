@@ -310,7 +310,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                         {formik.values.sites.length > 0 ? (
                                                             formik.values.sites.map((site) => (
                                                                 <option key={site.id} value={site.id}>
-                                                                    {site.station_name}
+                                                                    {site.name}
                                                                 </option>
                                                             ))
                                                         ) : (
