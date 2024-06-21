@@ -461,7 +461,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <button onClick={handleResetFilters}>
                                     <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
                                         <Tippy content="Reset Filter">
-                                            <span className="btn bg-primary btn-primary">
+                                            <span className="btn bg-danger btn-danger">
                                                 <IconRefresh className="w-6 h-6" />
                                             </span>
                                         </Tippy>
