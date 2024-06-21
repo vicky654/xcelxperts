@@ -42,7 +42,7 @@ const menuItems: MenuItem[] = [
             { title: 'Users', link: '/manage-users/user', permission: 'user-list', visibility: false },
             { title: 'Clients', link: '/manage-clients/client', permission: 'client-list', visibility: false },
             { title: 'Entities', link: '/manage-entities/entity', permission: 'entity-list', visibility: false },
-            { title: 'Credt User', link: '/manage-users/credit-users', permission: 'credituser-list', visibility: false },
+            { title: 'Credt User', link: '/manage-users/credit-users', permission: 'entity-list', visibility: false },
             // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
