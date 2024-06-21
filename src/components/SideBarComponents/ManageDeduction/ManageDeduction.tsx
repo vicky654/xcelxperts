@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -16,6 +16,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import AddEditManageCharges from './AddEditManageDeduction'; // Import the image
+import { IRootState } from '../../../store';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -43,6 +44,17 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isAddPermissionAvailable = UserPermissions?.includes("deduction-create");
+    const isListPermissionAvailable = UserPermissions?.includes("deduction-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("deduction-edit");
+    const isDeletePermissionAvailable = UserPermissions?.includes("deduction-delete");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
+
+
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
@@ -85,11 +97,8 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         customDelete(postData, 'charge/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+
 
     const columns: any = [
         // Other columns
@@ -160,16 +169,23 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+                                {isEditPermissionAvailable && (
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+
+
+                                {isDeletePermissionAvailable && (
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+
                             </div>
                         </div>
                     </span>
@@ -231,9 +247,12 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         <span>Deductions</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Deduction
-                </button>
+                {isAddPermissionAvailable && (
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Deduction
+                    </button>
+                )}
+
             </div>
             <AddEditManageCharges getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
