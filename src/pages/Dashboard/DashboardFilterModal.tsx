@@ -42,6 +42,7 @@ interface Company {
 interface Site {
     id: string;
     site_name: string;
+    name: string;
     station_name: string;
 }
 

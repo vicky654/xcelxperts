@@ -10,12 +10,9 @@ import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
-import AddEditManageCharges from './AddEditManagesupplier';
 import AddEditManagesupplier from './AddEditManagesupplier';
 interface ManagesupplierProps {
     isLoading: boolean;
@@ -29,6 +26,7 @@ interface RowData {
     supplier_name: string;
     supplier_code: string;
     created_date: string;
+    supplier_logo: string;
     supplier_status: number;
 }
 
@@ -119,6 +117,22 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                 </div>
             ),
         },
+        {
+            name: 'Supplier Logo',
+            selector: (row: RowData) => row.supplier_code,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                <div className="mt-0 mt-sm-2 d-block">
+                    {/* Assuming row.logo contains the URL of the image */}
+                    <img style={{width:"50px",height:"40px"}} src={row.supplier_logo} alt="Logo" className="img-fluid" />
+                    {/* If you want to display the URL as text */}
+                    {/* <h6 className="mb-0 fs-14 fw-semibold">{row.logo}</h6> */}
+                </div>
+            </div>
+            ),
+        },
 
         {
             name: 'Created Date',
@@ -137,7 +151,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             name: 'Status',
             selector: (row: RowData) => row.supplier_status,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <Tippy content={<div>Status</div>} placement="top">
                     {row.supplier_status === 1 || row.supplier_status === 0 ? (
@@ -155,7 +169,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '10%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
