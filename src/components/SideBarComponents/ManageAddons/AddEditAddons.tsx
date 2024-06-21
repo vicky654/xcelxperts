@@ -106,8 +106,10 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                 formData.id = id;
             }
 
-            await postData(postDataUrl, formData);
-            handleSuccess();
+            const isSuccess = await postData(postDataUrl, formData);
+            if (isSuccess) {
+                handleSuccess();
+            }
         } catch (error) {
             handleApiError(error);
         }

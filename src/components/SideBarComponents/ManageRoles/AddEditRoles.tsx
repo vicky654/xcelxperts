@@ -106,8 +106,11 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                 formData.role_id = id;
             }
 
-            await postData(postDataUrl, formData);
-            handleSuccess();
+           
+            const isSuccess = await postData(postDataUrl, formData);
+            if (isSuccess) {
+                handleSuccess();
+            }
         } catch (error) {
             handleApiError(error);
         }
@@ -197,7 +200,10 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 onBlur={formik.handleBlur}
                                 value={formik.values.roleName}
                             />
+                          
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
+                            {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
+                                
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
