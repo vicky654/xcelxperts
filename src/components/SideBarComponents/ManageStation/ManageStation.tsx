@@ -265,7 +265,6 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formData.append('station_code', values.station_code);
             formData.append('station_display_name', values.station_display_name);
             formData.append('station_name', values.station_name);
-            formData.append('station_status', values.station_status);
             formData.append('supplier_id', values.supplier_id);
             if (userId) {
                 formData.append('id', userId);

@@ -3,12 +3,9 @@ import { useFormik } from 'formik';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
-import FormikTextArea from '../FormikFormTools/FormikTextArea';
-import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
-import { stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
-import Select from 'react-select';
+import { stationTankInitialValues } from '../FormikFormTools/InitialValues';
+import { getStationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
 
 interface Client {
     id: string;
@@ -84,8 +81,7 @@ type tankList = {
 };
 
 const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
-    const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
+
     const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
     const handleApiError = useErrorHandler();
 
@@ -100,7 +96,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             } else {
                 FetchClientList();
             }
-            FetchCommonDataList();
+         
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
                 // FetchClientList();
@@ -109,16 +105,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     }, [isOpen, isEditMode, userId]);
 
 
-    const FetchCommonDataList = async () => {
-        try {
-            const response = await getData('/getStation/data');
-            if (response && response.data && response.data.data) {
-                setCommonDataList(response.data.data)
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
+
 
     const FetchClientList = async () => {
         try {
@@ -348,14 +335,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     readOnly={isEditMode ? true : false}
                                                 />
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="status"
-                                                    label="Station Tank Status"
-                                                    options={activeInactiveOption.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                    isRequired={true}
-                                                />
+                                           
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

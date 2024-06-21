@@ -117,12 +117,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         }
     };
     const { toggleStatus } = useToggleStatus();
-    const toggleActive = (row: RowData) => {
-        const formData = new FormData();
-        formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
-    };
+
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {

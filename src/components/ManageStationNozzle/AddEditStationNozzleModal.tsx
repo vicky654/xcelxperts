@@ -352,7 +352,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                     formik={formik}
                                                     name="station_pump_id"
                                                     label="Station Pump  Name"
-                                                    options={formik.values.tankList?.pumps?.map((item: any) => ({ id: item.id, name: item.pump_name }))}
+                                                    options={formik.values.tankList?.pumps?.map((item: any) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />
