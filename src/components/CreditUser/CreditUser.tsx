@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import useToggleStatus from '../../utils/ToggleStatus';
 import useCustomDelete from '../../utils/customDelete';
 import CustomSwitch from '../FormikFormTools/CustomSwitch';
 import LoaderImg from '../../utils/Loader';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
-import AddEditStationTankModal from './AddEditStationTankModal';
-import CustomInput from './CustomInput';
+import AddEditStationTankModal from './AddEditCreditUser';
 import * as Yup from 'yup';
 import { IRootState } from '../../store';
+import FormikSelect from '../FormikFormTools/FormikSelect';
+import { useFormik } from 'formik';
 
 interface ManageSiteProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
-    // onSubmit: (values: any, formik: any) => Promise<void>;
 }
 
 interface RowData {
@@ -43,7 +42,12 @@ interface RowData {
     storedKeyName?: any;
 }
 
-const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+interface RoleItem {
+    id: number;
+    client_name: string;
+}
+
+const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
@@ -53,52 +57,43 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-    const navigate = useNavigate();
-    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-    let storedKeyItems = localStorage.getItem("stationTank") || '[]';
-    let storedKeyName = "stationTank";
 
+    const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
+    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
-    const isListPermissionAvailable = UserPermissions?.includes("tank-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("tank-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("tank-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("tank-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes('credituser-create');
+    const isListPermissionAvailable = UserPermissions?.includes('credituser-list');
+    const isEditPermissionAvailable = UserPermissions?.includes('credituser-edit');
+    const isEditSettingPermissionAvailable = UserPermissions?.includes('credituser-setting');
+    const isDeletePermissionAvailable = UserPermissions?.includes('credituser-delete');
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('credituser-assign-permission');
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
-
-
-
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
+        FetchRoleList();
+    }, []);
 
-        if (storedData) {
-            handleApplyFilters(JSON.parse(storedData));
-        }
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
     const handleSuccess = () => {
-        handleApplyFilters(JSON.parse(storedKeyItems));
+        fetchData();
     };
-
 
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
 
-    const fetchData = async () => {
+    const fetchData = async () => {};
 
-    };
     const { toggleStatus } = useToggleStatus();
+
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
         formData.append('status', (row.status === 1 ? 0 : 1).toString());
         toggleStatus(postData, '/station/tank/update-status', formData, handleSuccess);
     };
+
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
@@ -108,7 +103,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     };
 
     const columns: any = [
-
         {
             name: 'Tank Name',
             selector: (row: RowData) => row.tank_name,
@@ -168,62 +162,57 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             width: '10%',
             cell: (row: RowData) => (
                 <>
-                    {isEditPermissionAvailable && <>
-                        <Tippy content={<div>Status</div>} placement="top">
-                            {row.status === 1 || row.status === 0 ? (
-                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                            ) : (
-                                <div className="pointer" >
-                                    Unknown
-                                </div>
-                            )}
-                        </Tippy>
-                    </>}
+                    {isEditPermissionAvailable && (
+                        <>
+                            <Tippy content={<div>Status</div>} placement="top">
+                                {row.status === 1 || row.status === 0 ? <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} /> : <div className="pointer">Unknown</div>}
+                            </Tippy>
+                        </>
+                    )}
                 </>
             ),
         },
         anyPermissionAvailable
             ? {
-                name: 'Actions',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '10%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-
-
-                                {isEditPermissionAvailable && <>
-                                    <Tippy content="Edit">
-                                        <button type="button" onClick={() => openModal(row?.id)}>
-                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                        </button>
-                                    </Tippy>
-
-                                </>}
-                                {isDeletePermissionAvailable && <>
-                                    <Tippy content="Delete">
-                                        <button onClick={() => handleDelete(row.id)} type="button">
-                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                        </button>
-                                    </Tippy>
-                                </>}
-
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                  name: 'Actions',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '10%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  {isEditPermissionAvailable && (
+                                      <>
+                                          <Tippy content="Edit">
+                                              <button type="button" onClick={() => openModal(row?.id)}>
+                                                  <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                              </button>
+                                          </Tippy>
+                                      </>
+                                  )}
+                                  {isDeletePermissionAvailable && (
+                                      <>
+                                          <Tippy content="Delete">
+                                              <button onClick={() => handleDelete(row.id)} type="button">
+                                                  <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                              </button>
+                                          </Tippy>
+                                      </>
+                                  )}
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
-    // station/detail?id=${selectedRowId}
+
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
@@ -255,8 +244,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             const response = await postData(url, formData);
 
             if (response) {
-
-
                 handleSuccess();
                 closeModal();
             } else {
@@ -266,40 +253,58 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             handleApiError(error);
         }
     };
-    const handleApplyFilters = async (values: any) => {
-        console.log(values, "handleApplyFilters");
 
-
-        // Store the form values in local storage
-        // localStorage.setItem("stationTank", JSON.stringify(values));
+    const FetchRoleList = async () => {
         try {
-            const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
+            const response = await getData('/getClients');
             if (response && response.data && response.data.data) {
-                setData(response.data.data);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
+                setRoleList(response.data.data);
             } else {
                 throw new Error('No data available in the response');
             }
         } catch (error) {
-            handleApiError(error);
-
+            console.error('API error:', error);
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, "filterValues");
-    };
-
-
-    const validationSchemaForCustomInput = Yup.object({
-        client_id: isNotClient
-            ? Yup.string().required("Client is required")
-            : Yup.mixed().notRequired(),
-        entity_id: Yup.string().required("Entity is required"),
-        station_id: Yup.string().required('Station is required'),
+    console.log(isNotClient, 'isNotClient');
+    const validationSchemaForCustomInput = Yup.object().shape({
+        client_id: isNotClient ? Yup.string().required('Client is required') : Yup.mixed().notRequired(),
     });
 
+    const initialValues = {
+        client_id: '', // Initial value for client_id
+    };
 
+    const formik = useFormik({
+        initialValues,
+        validationSchema: validationSchemaForCustomInput,
+        onSubmit: async (values:any, { resetForm }) => {
+            try {
+                // Handle form submission logic here
+                GetUserList(values?.client_id)
+                console.log('Form submitted with values:', values);
+            } catch (error) {
+                console.error('Submit error:', error);
+                throw error; // Rethrow the error to be handled by the caller
+            }
+        },
+    });
+    const GetUserList = async (id: any) => {
+        console.log(id, "GetUserList");
+        try {
+            const response = await getData(`credit-user/list?client_id=${id}`);
+            // const response = await getData(`credit-user/list`);
+            if (response && response.data && response.data.data) {
+                console.log(response.data.data, "response.data.data");
+                // setRoleList(response.data.data);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            console.error('API error:', error);
+        }
+    };
+    
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -311,46 +316,45 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Tank Stations </span>
+                        <span>Credit Users</span>
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Tank Station
-                </button>
+             
+                {isAddPermissionAvailable && (
+                  <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                  Add Credit User
+              </button>
+                )}
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
                 <div className="grid xl:grid-cols-4 gap-6 mb-6">
-                    <div className='panel h-full '>
+                    <div className="panel h-full ">
+                        <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
+                            <div className="flex flex-col sm:flex-row">
+                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
+                                    <FormikSelect
+                                        formik={formik}
+                                        name="client_id"
+                                        label="Client"
+                                        options={RoleList.map((item) => ({ id: item.id, name: item.client_name }))}
+                                        className="form-select text-white-dark"
+                                    />
 
-
-                        <CustomInput
-                            getData={getData}
-                            isLoading={isLoading}
-                            onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
-                            showClientInput={true}  // or false
-                            showEntityInput={true}  // or false
-                            showStationInput={true} // or false
-                            showStationValidation={true} // or false
-                            validationSchema={validationSchemaForCustomInput}
-                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                            isOpen={false}
-                            onClose={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
-                            showDateInput={false}
-                            // storedKeyItems={storedKeyItems}
-                            storedKeyName={storedKeyName}
-                        />
-
-
+                                    <div className="sm:col-span-2 mt-6">
+                                        <button type="submit" className="btn btn-primary">
+                                            Filter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div className='panel h-full xl:col-span-3'>
+                    <div className="panel h-full xl:col-span-3">
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Tank Stations </h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                             </div>
@@ -381,13 +385,11 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             </>
                         )}
                     </div>
-
                 </div>
-
             </div>
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };
 
-export default withApiHandler(ManageStationTank);
+export default withApiHandler(CreditUser);

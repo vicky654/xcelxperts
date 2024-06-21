@@ -119,6 +119,7 @@ import Managesupplier from '../components/SideBarComponents/Managesupplier/Manag
 import EmailLogs from '../components/SideBarComponents/Events/EmailEvents';
 import ActivityLogs from '../components/SideBarComponents/Events/ActivityEvents';
 import ManageStationTank from '../components/ManageStationTank/ManageStationTank';
+import ManageCreditUser from '../components/CreditUser/CreditUser';
 import ManageStationNozzle from '../components/ManageStationNozzle/ManageStationNozzle';
 import ManageStationPump from '../components/ManageStationPump/ManageStationPump';
 import ManageStationFuelSelling from '../components/ManageStationFuelSelling/ManageStationFuelSelling';
@@ -186,6 +187,10 @@ const routes = [
   {
     path: 'manage-stations/tank',
     element: <ManageStationTank />,
+  },
+  {
+    path: 'manage-users/credit-users',
+    element: <ManageCreditUser />,
   },
   {
     path: 'manage-stations/nozzle',
