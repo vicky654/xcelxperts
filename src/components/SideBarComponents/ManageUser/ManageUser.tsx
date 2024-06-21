@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -12,24 +11,20 @@ import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
-import IconUser from '../../Icon/IconUser';
-import IconUserPlus from '../../Icon/IconUserPlus';
 import { IRootState } from '../../../store';
+import UserAddonModal from './UserAddonModal';
 
 interface ManageUserProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
-    // onSubmit: (values: any, formik: any) => Promise<void>;
 }
 
 interface RowData {
-    id: string; // Change type from number to string
+    id: string;
     full_name: string;
     role: string;
     addons: string;
@@ -41,30 +36,29 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+    const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
-    const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
+    const [userId, setUserId] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-    const navigate = useNavigate();
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("user-create");
-    const isListPermissionAvailable = UserPermissions?.includes("user-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("user-edit");
-    const isDeletePermissionAvailable = UserPermissions?.includes("user-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("user-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes('user-create');
+    const isListPermissionAvailable = UserPermissions?.includes('user-list');
+    const isEditPermissionAvailable = UserPermissions?.includes('user-edit');
+    const isDeletePermissionAvailable = UserPermissions?.includes('user-delete');
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('user-assign-permission');
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
-
-
 
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
+
     const handleSuccess = () => {
         fetchData();
     };
@@ -77,7 +71,6 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         try {
             const response = await getData(`/user/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                // setData(response.data.data?.users);
                 setData(response.data.data?.users);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
@@ -86,9 +79,9 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
         }
     };
+
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
@@ -96,16 +89,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         formData.append('status', (row.status === 1 ? 0 : 1).toString());
         toggleStatus(postData, '/user/update-status', formData, handleSuccess);
     };
-    const { customDelete } = useCustomDelete();
 
+    const { customDelete } = useCustomDelete();
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
         customDelete(postData, 'user/delete', formData, handleSuccess);
     };
 
-
-    const columns: any = [
+    const columns: any[] = [
         {
             name: 'User Name',
             selector: (row: RowData) => row.full_name,
@@ -177,68 +169,68 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                name: 'Actions',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '10%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-
-                                {isEditPermissionAvailable && (
-                                    <Tippy content="Edit">
-                                        <button type="button" onClick={() => openModal(row?.id)}>
-                                            <i className="setting-icon fi fi-rr-file-edit "></i>
-                                        </button>
-                                    </Tippy>
-                                )}
-                                {isDeletePermissionAvailable && (
-                                    <Tippy content="Delete">
-                                        <button onClick={() => handleDelete(row.id)} type="button">
-                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                        </button>
-                                    </Tippy>
-                                )}
-                                {isAssignAddPermissionAvailable && (
-                                    <Tippy content="Assign Addon">
-                                        <button onClick={() => navigate(`/manage-users/assignaddons/${row.id}`)} type="button">
-                                            <i className="fi fi-rr-user-add"></i>
-                                        </button>
-                                    </Tippy>
-                                )}
-
-
-
-
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                  name: 'Actions',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '10%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              <div className="inline-flex">
+                                  {isEditPermissionAvailable && (
+                                      <Tippy content="Edit">
+                                          <button type="button" onClick={() => openEditModal(row?.id)}>
+                                              <i className="setting-icon fi fi-rr-file-edit "></i>
+                                          </button>
+                                      </Tippy>
+                                  )}
+                                  {isDeletePermissionAvailable && (
+                                      <Tippy content="Delete">
+                                          <button onClick={() => handleDelete(row.id)} type="button">
+                                              <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                          </button>
+                                      </Tippy>
+                                  )}
+                                  {isAssignAddPermissionAvailable && (
+                                      <Tippy content="Assign Addon">
+                                          <button onClick={() => openUserAddonModal(row?.id)} type="button">
+                                              <i className="fi fi-rr-user-add"></i>
+                                          </button>
+                                      </Tippy>
+                                  )}
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
-    ];
-    // user/detail?id=${selectedRowId}
-    const openModal = async (id: string) => {
-        try {
-            setIsModalOpen(true);
-            setIsEditMode(true);
-            setUserId(id);
-            // const response = await getData(`/user/detail?id=${id}`)`);
-            // const response = await getData(`/user/detail?id=${id}`);
-            // if (response && response.data) {
-            //     setUserId(id)
-            //     setEditUserData(response.data);
-            // }
-        } catch (error) {
-            console.error('Error fetching user details:', error);
-        }
-    };
+    ].filter(Boolean); // Filter out any null values from the columns array
 
-    const closeModal = () => {
-        setIsModalOpen(false);
+    const openAddUserModal = () => {
+        setIsAddUserModalOpen(true);
         setIsEditMode(false);
         setEditUserData(null);
+    };
+
+    const openEditModal = async (id: string) => {
+        setIsAddUserModalOpen(true);
+        setIsEditMode(true);
+        setUserId(id);
+    };
+
+    const closeAddUserModal = () => {
+        setIsAddUserModalOpen(false);
+        setIsEditMode(false);
+        setEditUserData(null);
+    };
+
+    const openUserAddonModal = (id: string) => {
+        setIsUserAddonModalOpen(true);
+        setUserId(id);
+    };
+
+    const closeUserAddonModal = () => {
+        setIsUserAddonModalOpen(false);
     };
 
     const handleFormSubmit = async (values: any) => {
@@ -256,15 +248,36 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             if (userId) {
                 formData.append('id', userId);
             }
-            // formData.append('id', values.user_id);
 
             const url = isEditMode && userId ? `/user/update` : `/user/create`;
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
                 handleSuccess();
-                closeModal();
+                closeAddUserModal();
             }
         } catch (error) {
+            handleApiError(error);
+        }
+    };
+    const navigate = useNavigate();
+    const SubmitAddon = async (values: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('id', userId ?? ''); 
+
+            values.addons.forEach((addon:any, index:any) => {
+                if (addon.checked) {
+                    formData.append(`addons[${index}]`, addon.id);
+                }
+            });
+
+            const postDataUrl = "/addon/assign";
+
+            const isSuccess = await postData(postDataUrl, formData);
+            if (isSuccess) {
+                fetchData();
+            }
+        }catch (error) {
             handleApiError(error);
         }
     };
@@ -284,47 +297,40 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     </li>
                 </ul>
                 {isAddPermissionAvailable && (
-                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                    <button type="button" className="btn btn-dark" onClick={openAddUserModal}>
                         Add User
                     </button>
                 )}
             </div>
-            <AddUserModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
+            <AddUserModals getData={getData} isOpen={isAddUserModalOpen} onClose={closeAddUserModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
                 </div>
 
                 {data?.length > 0 ? (
-                    <>
-                        <div className="datatables">
-                            <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
-                                columns={columns}
-                                data={data}
-                                noHeader
-                                defaultSortAsc={false}
-                                striped={true}
-                                persistTableHead
-                                highlightOnHover
-                                responsive={true}
-                            />
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <img
-                            src={noDataImage} // Use the imported image directly as the source
-                            alt="no data found"
-                            className="all-center-flex nodata-image"
+                    <div className="datatables">
+                        <DataTable
+                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortAsc={false}
+                            striped
+                            persistTableHead
+                            highlightOnHover
+                            responsive
                         />
-                    </>
+                    </div>
+                ) : (
+                    <div className="all-center-flex">
+                        <img src={noDataImage} alt="No data found" className="nodata-image" />
+                    </div>
                 )}
             </div>
+
             {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
