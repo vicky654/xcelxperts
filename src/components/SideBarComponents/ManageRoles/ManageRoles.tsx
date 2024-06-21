@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -13,6 +13,7 @@ import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import { IRootState } from '../../../store';
 
 interface ManageRolesProps {
     isLoading: boolean;
@@ -73,11 +74,15 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
         customDelete(postData, 'role/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const isAddPermissionAvailable = UserPermissions?.includes("role-create");
+    const isListPermissionAvailable = UserPermissions?.includes("role-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("role-edit");
+    const isDeletePermissionAvailable = UserPermissions?.includes("role-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("role-assign-permission");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
 
     const openEditRolePage = (id: string) => {
@@ -122,16 +127,22 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
                                 {' '}
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openEditRolePage(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+                                {isEditPermissionAvailable && (
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openEditRolePage(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+                                {isDeletePermissionAvailable && (
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+
+
                             </div>
                         </div>
                     </span>
@@ -153,9 +164,12 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                         <span>Roles</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => navigate('/manage-roles/add-roles')}>
-                    Add Role
-                </button>
+                {isAddPermissionAvailable && (
+                    <button type="button" className="btn btn-dark " onClick={() => navigate('/manage-roles/add-roles')}>
+                        Add Role
+                    </button>
+
+                )}
             </div>
 
             <div className="panel mt-6">

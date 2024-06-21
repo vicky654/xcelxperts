@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -20,6 +20,7 @@ import AddEditStationTankModal from './AddEditStationTankModal';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { IRootState } from '../../store';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -61,8 +62,17 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
     let storedKeyName = "stationTank";
 
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    // console.log(storedKeyItems, "storedKeyItems");
+    const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
+    const isListPermissionAvailable = UserPermissions?.includes("tank-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("tank-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("tank-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("tank-assign-permission");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
+
 
 
 
@@ -100,12 +110,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         formData.append('id', id);
         customDelete(postData, 'station/delete', formData, handleSuccess);
     };
-
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
-
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
 
@@ -167,15 +171,19 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             sortable: false,
             width: '10%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" >
-                            Unknown
-                        </div>
-                    )}
-                </Tippy>
+                <>
+                    {isEditPermissionAvailable && <>
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" >
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
+                    </>}
+                </>
             ),
         },
         anyPermissionAvailable
@@ -188,41 +196,24 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                {/* <div className="dropdown">
-                                      <Dropdown
-                                          btnClassName="btn btn-success dropdown-toggle"
-                                          button={
-                                              <>
-                                                  Action
-                                                  <span>
-                                                      <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
-                                                  </span>
-                                              </>
-                                          }
-                                      >
-                                          <ul className="!min-w-[170px]">
-                                              <li>
-                                                  <button type="button">Edit</button>
-                                              </li>
-                                              <li>
-                                                  <button type="button" onClick={() => handleDelete(row.id)}>
-                                                      Delete
-                                                  </button>
-                                              </li>
-                                          </ul>
-                                      </Dropdown>
-                                  </div> */}
 
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+
+                                {isEditPermissionAvailable && <>
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+
+                                </>}
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+
                             </div>
                         </div>
                     </span>
