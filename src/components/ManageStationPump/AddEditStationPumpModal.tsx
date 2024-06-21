@@ -25,7 +25,7 @@ interface Entity {
 
 interface Site {
     id: string;
-    site_name: string;
+    name: string;
 }
 
 interface RowData {
@@ -247,7 +247,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         // fetchFuelNameList(selectedSiteId)
         if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.site_name);
+            formik.setFieldValue("site_name", selectedSiteData.name);
         } else {
             formik.setFieldValue("site_name", "");
         }
@@ -332,7 +332,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.station_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />

@@ -219,7 +219,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             fetchFuelNameList(selectedSiteId)
         }
         if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.site_name);
+            formik.setFieldValue("site_name", selectedSiteData.name);
         } else {
             formik.setFieldValue("site_name", "");
         }

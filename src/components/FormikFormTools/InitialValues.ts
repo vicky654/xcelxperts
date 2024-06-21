@@ -14,7 +14,7 @@ interface Entity {
 interface Station {
   station_name: string;
   id: string;
-  site_name: string;
+  name: string;
 
 }
 

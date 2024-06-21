@@ -38,8 +38,13 @@ interface Entity {
 
 interface Site {
     id: string;
-    site_name: string;
+    name: string;
 }
+interface Station {
+    id: string;
+    name: string;
+}
+
 
 
 interface ManageSiteProps {
@@ -382,7 +387,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
 
         if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.site_name);
+            formik.setFieldValue("site_name", selectedSiteData.name);
         } else {
             formik.setFieldValue("site_name", "");
         }
@@ -436,7 +441,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         <div className="flex-1 grid grid-cols-3 sm:grid-cols-2 gap-5">
 
 
-                            {!isEditMode || localStorage.getItem("superiorRole") !== "Client" &&
+                            {localStorage.getItem("superiorRole") !== "Client" &&
                                 <FormikSelect
                                     formik={formik}
                                     name="client_id"
@@ -458,7 +463,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
                             <Col lg={4} md={6}>
-                                {/* <FormGroup> */}
                                 <label className="form-label ">
                                     Select Sites
                                     <span className="text-danger">*</span>
@@ -467,11 +471,10 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                     value={selected}
                                     onChange={setSelected}
                                     labelledBy="Select Sites"
-                                    // disableSearch="true"
-                                    options={formik.values.sites?.map((item) => ({ value: item.id, label: item.name }))}
-                                // showCheckbox="false"
+                                    options={formik.values.sites?.map((item) => ({ value: item.id, label: item?.name }))}
+                             
                                 />
-                                {/* </FormGroup> */}
+                      
                             </Col>
 
 

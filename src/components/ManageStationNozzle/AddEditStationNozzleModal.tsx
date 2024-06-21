@@ -249,7 +249,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         fetchFuelNameList(selectedSiteId)
         if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.site_name);
+            formik.setFieldValue("site_name", selectedSiteData.name);
         } else {
             formik.setFieldValue("site_name", "");
         }

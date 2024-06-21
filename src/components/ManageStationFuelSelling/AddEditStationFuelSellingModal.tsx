@@ -24,7 +24,7 @@ interface Entity {
 
 interface Site {
     id: string;
-    site_name: string;
+    name: string;
 }
 
 
@@ -226,7 +226,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         fetchFuelNameList(selectedSiteId)
         if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.site_name);
+            formik.setFieldValue("site_name", selectedSiteData.name);
         } else {
             formik.setFieldValue("site_name", "");
         }
@@ -307,7 +307,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
                                                     formik={formik}
                                                     name="station_id"
                                                     label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.site_name }))}
+                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                     onChange={handleSiteChange}
                                                 />
