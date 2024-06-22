@@ -59,6 +59,8 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
+                console.log(exampleData, "exampleData");
+                console.log(response.data.data, "exampleData");
                 setData(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -79,7 +81,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-
+            console.log(values, 'values');
             // Iterate through each site in values
             Object.keys(values).forEach((siteId) => {
                 const fuels = values[siteId];
@@ -96,8 +98,6 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             formData.append('client_id', formValues.client_id);
             formData.append('entity_id', formValues.entity_id);
             formData.append('drs_date', formValues.start_date);
-            formData.append('send_sms', values.send_sms.toString());
-            formData.append('notify_operator', values.notify_operator.toString());
 
             const postDataUrl = '/station/fuel-price/update';
 
@@ -159,7 +159,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
 
                         {data?.listing?.length > 0 ? (
                             <>
-                                <TableWithFormik data={exampleData} onSubmit={handleFormSubmit} />
+                                <TableWithFormik data={data} onSubmit={handleFormSubmit} />
                             </>
                         ) : (
                             <>
