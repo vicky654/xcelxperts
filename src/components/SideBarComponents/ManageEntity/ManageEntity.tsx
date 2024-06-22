@@ -5,14 +5,11 @@ import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import AddUserModals from './AddEditEntityModals';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
@@ -23,10 +20,18 @@ interface ManageUserProps {
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
 }
+interface Client {
+    id: string;
+    first_name: string;
+    last_name: string;
+    full_name: string;
+    created_date: string;
+    status: number;
+}
 interface RowData {
     id: string;
     entity_name: string;
-    entity_code: string;
+    client: Client;
     entity_details: string;
     created_date: string;
     status: number;
@@ -111,18 +116,22 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             ),
         },
         {
-            name: 'Entity Code',
-            selector: (row: RowData) => row.entity_code,
+            name: 'Client',
+            selector: (row: RowData) => (Array.isArray(row.client) || !row.client.full_name) ? 'N/A' : row.client.full_name,
             sortable: false,
             width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.entity_code}</h6>
+            cell: (row: RowData) => {
+                const clientFullName = Array.isArray(row.client) || !row.client.full_name ? 'N/A' : row.client.full_name;
+                return (
+                    <div className="d-flex">
+                        <div className="mt-0 mt-sm-2 d-block">
+                            <h6 className="mb-0 fs-14 fw-semibold">{clientFullName}</h6>
+                        </div>
                     </div>
-                </div>
-            ),
+                );
+            },
         },
+        
         {
             name: 'Entity Details',
             selector: (row: RowData) => row.entity_details,
