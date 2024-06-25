@@ -77,32 +77,37 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         entity_id: Yup.string().required('Entity is required'),
         client_id: isNotClient ? Yup.string().required('Client is required') : Yup.mixed().notRequired(),
     });
-
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
             console.log(values, 'values');
+            
             // Iterate through each site in values
             Object.keys(values).forEach((siteId) => {
                 const fuels = values[siteId];
-
+    
                 // Iterate through each fuel type within the site
                 Object.keys(fuels).forEach((fuelId) => {
                     const price = fuels[fuelId];
                     const fieldKey = `fuels[${siteId}][${fuelId}]`;
-
-                    // Append price to formData
-                    formData.append(fieldKey, price.toString());
+    
+                    // Ensure price is defined before appending
+                    if (price !== undefined && price !== null) {
+                        formData.append(fieldKey, price.toString());
+                    } else {
+                        console.warn(`Price for site ${siteId} and fuel ${fuelId} is undefined or null`);
+                    }
                 });
             });
+    
             formData.append('client_id', formValues.client_id);
             formData.append('entity_id', formValues.entity_id);
             formData.append('drs_date', formValues.start_date);
-
+    
             const postDataUrl = '/station/fuel-price/update';
-
+    
             const isSuccess = await postData(postDataUrl, formData);
-
+    
             if (isSuccess) {
                 console.log('Form submitted successfully');
             } else {
@@ -112,7 +117,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             console.error('Error submitting form:', error);
         }
     };
-
+    
     return (
         <>
             {isLoading && <LoaderImg />}

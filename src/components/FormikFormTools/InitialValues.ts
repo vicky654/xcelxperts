@@ -138,6 +138,13 @@ export const stationTankInitialValues = {
   tankList: {} as any,
   pumps: {} as any,
 };
+export const credituserInitialValues = {
+  client_id: '',
+  name: '',
+  phone_number: '',
+
+
+};
 
 export const stationPumpInitialValues = {
   client_id: '',

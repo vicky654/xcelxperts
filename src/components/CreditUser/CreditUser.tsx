@@ -26,20 +26,12 @@ interface ManageSiteProps {
 
 interface RowData {
     id: string; // Change type from number to string
-    full_name: string;
-    role: string;
-    addons: string;
+    name: string;
+    phone: string;
+
     created_date: string;
     status: number;
-    station_status: number;
-    station_name: string;
-    station: string;
-    tank_name: string;
-    fuel_name: string;
-    station_code: string;
-    station_address: string;
-    storedKeyItems?: any;
-    storedKeyName?: any;
+
 }
 
 interface RoleItem {
@@ -104,44 +96,32 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
     const columns: any = [
         {
-            name: 'Tank Name',
-            selector: (row: RowData) => row.tank_name,
+            name: 'Credit User Name',
+            selector: (row: RowData) => row.name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.tank_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station,
+            name: 'Phone Number',
+            selector: (row: RowData) => row.phone,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.phone}</h6>
                     </div>
                 </div>
             ),
         },
-        {
-            name: 'Fuel Name',
-            selector: (row: RowData) => row.fuel_name,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
-                    </div>
-                </div>
-            ),
-        },
+  
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -228,19 +208,15 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         try {
             const formData = new FormData();
 
-            formData.append('status', values.status);
-            formData.append('tank_name', values.tank_name);
-            formData.append('station_id', values.station_id);
-            // formData.append('entity_id', values.entity_id);
-            // formData.append('client_id', values.client_id);
-            formData.append('fuel_id', values.fuel_id);
-            formData.append('tank_code', values.tank_code);
+            formData.append('phone', values.phone_number);
+            formData.append('name', values.name);
+            formData.append('client_id', values.client_id);
 
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/station/tank/update` : `/station/tank/create`;
+            const url = isEditMode && userId ? `/credit-user/update` : `/credit-user/create`;
             const response = await postData(url, formData);
 
             if (response) {
@@ -278,10 +254,10 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaForCustomInput,
-        onSubmit: async (values:any, { resetForm }) => {
+        onSubmit: async (values: any, { resetForm }) => {
             try {
                 // Handle form submission logic here
-                GetUserList(values?.client_id)
+                GetUserList(values?.client_id);
                 console.log('Form submitted with values:', values);
             } catch (error) {
                 console.error('Submit error:', error);
@@ -290,13 +266,13 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         },
     });
     const GetUserList = async (id: any) => {
-        console.log(id, "GetUserList");
+        console.log(id, 'GetUserList');
         try {
             const response = await getData(`credit-user/list?client_id=${id}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, "response.data.data");
-                // setRoleList(response.data.data);
+                console.log(response.data.data, 'response.data.data');
+                setData(response.data.data?.creditUsers);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -304,7 +280,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             console.error('API error:', error);
         }
     };
-    
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -320,11 +296,10 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     </li>
                 </ul>
 
-             
                 {isAddPermissionAvailable && (
-                  <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                  Add Credit User
-              </button>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Credit User
+                    </button>
                 )}
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />

@@ -13,14 +13,12 @@ interface Fuel {
 interface Site {
     id: string;
     station_name: string;
-
     fuels: Fuel[];
 }
 
 interface Data {
     head_array: string[];
     listing: Site[];
- 
 }
 
 // Define type for form values
@@ -72,49 +70,69 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
                                 {listings.map((site) => (
                                     <tr key={site.id}>
                                         <td>{site.station_name}</td>
-                                        {site.fuels.map((fuel) => (
-                                            <td key={fuel.id}>
+                                        {site.fuels.length === 0 ? (
+                                            <td>
                                                 <Field
-                                                    type="number"
-                                                    name={`${site.id}.${fuel.id}`}
+                                                    type="text"
+                                                    name={`dummy`}
                                                     className="form-input"
+                                                    value="Dummy"
+                                                    readOnly
                                                     style={{
-                                                        borderColor: fuel.status === 'DOWN' ? 'red' : fuel.status === 'UP' ? 'green' : 'black',
+                                                        backgroundColor: '#ddd',
+                                                        borderColor: 'black',
                                                         borderWidth: '2px',
                                                     }}
                                                 />
-                                                <ErrorMessage name={`${site.id}.${fuel.id}`} component="div" />
                                             </td>
-                                        ))}
+                                        ) : (
+                                            site.fuels.map((fuel) => (
+                                                Array.isArray(fuel) && fuel.length === 0 ? (
+                                                    <td key={Math.random()}>
+                                                        <Field
+                                                            type="text"
+                                                            name={`dummy`}
+                                                            className="form-input"
+                                                            value=""
+                                                            readOnly
+                                                            style={{
+                                                                backgroundColor: '#ddd',
+                                                                borderColor: 'black',
+                                                                borderWidth: '2px',
+                                                            }}
+                                                        />
+                                                    </td>
+                                                ) : (
+                                                    <td key={fuel.id}>
+                                                        <Field
+                                                            type="number"
+                                                            name={`${site.id}.${fuel.id}`}
+                                                            className="form-input"
+                                                            style={{
+                                                                backgroundColor: 'white',
+                                                                borderColor: fuel.status === 'DOWN' ? 'red' : fuel.status === 'UP' ? 'green' : 'black',
+                                                                borderWidth: '2px',
+                                                            }}
+                                                        />
+                                                        <ErrorMessage name={`${site.id}.${fuel.id}`} component="div" />
+                                                    </td>
+                                                )
+                                            ))
+                                        )}
                                     </tr>
                                 ))}
-                                {/* <tr>
-                                    <td colSpan={data.head_array.length}>
-                                        <div className="d-flex justify-content-center">
-                                            <div>
-                                                <label style={{ cursor: 'pointer' }}>
-                                                    <Field type="checkbox" name="send_sms" className="form-check-input" /> Send SMS
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label style={{ cursor: 'pointer' }}>
-                                                    <Field type="checkbox" name="notify_operator" className="form-check-input" /> Notify Operator
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr> */}
                             </tbody>
                         </table>
                     ) : (
                         <p>No data available</p>
                     )}
                     {listings.length > 0 ? (
-                    <div className="text-end mt-6">
-                        <button type="submit" className="btn btn-primary">
-                            Submit
-                        </button>
-                    </div>):""}
+                        <div className="text-end mt-6">
+                            <button type="submit" className="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                    ) : ""}
                 </Form>
             )}
         </Formik>
