@@ -6,7 +6,6 @@ import { FormikErrors } from 'formik';
 export const validateForm = async (values: any, validationSchema: Yup.ObjectSchema<any>): Promise<FormikErrors<any>> => {
   try {
     await validationSchema.validate(values, { abortEarly: false });
-    console.log('No validation errors'); // Log message when no errors
     return {}; // Return an empty object when no errors
   } catch (err:any) {
     const errors = err.inner.reduce((acc: any, error: any) => {

@@ -283,7 +283,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
         }
     };
     const handleApplyFilters = async (values: any) => {
-        console.log(values, "handleApplyFilters");
+        
 
         try {
             const response = await getData(`/station/pump/list?station_id=${values?.station_id}`);

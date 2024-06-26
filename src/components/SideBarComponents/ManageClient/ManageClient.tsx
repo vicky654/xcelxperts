@@ -100,7 +100,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         try {
             const response = await getData(`/account-login/${id}`);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, 'response.data.data');
+                
                 localStorage.setItem('token', response.data.data?.access_token);
                 localStorage.setItem('superiorId', response.data.data?.superiorId);
                 localStorage.setItem('superiorRole', response.data.data?.superiorRole);
@@ -109,7 +109,6 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 localStorage.setItem('authToken', response.data.data?.token);
                 const actionResult = await dispatch<any>(fetchStoreData());
                 showMessage('Login Successfully');
-                console.log('actionResult:', actionResult);
                 navigate('/');
                 if (response.data.data?.is_verified === true) {
                     navigate('/');

@@ -37,7 +37,6 @@ const AssignClientReports: React.FC<AssignClientReportsProps> = ({ postData, get
         try {
             const response = await getData(`/client/assigned-report?client_id=${id}`);
             if (response && response.data) {
-                console.log(response.data, 'response.data');
                 setData(response.data?.data);
             } else {
                 throw new Error('No data available in the response');

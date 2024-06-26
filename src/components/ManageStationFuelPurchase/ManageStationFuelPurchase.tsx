@@ -396,7 +396,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         }
     };
     const handleApplyFilters = async (values: any) => {
-        console.log(values, "handleApplyFilters");
+        
 
         const apiURL = `station/fuel/purchase-price?client_id=${values.client_id}&entity_id=${values.entity_id}&station_id=${values?.station_id}&date=${values.start_date}`
 
@@ -490,7 +490,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const [selected, setSelected] = useState<any>([]);
 
 
-    console.log(formik?.values, "formik?.values");
 
 
     function calculateSum(index: number) {

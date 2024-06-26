@@ -43,7 +43,6 @@ const UserAddonModal: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         }
     };
 
-    console.log(name, 'name');
 
     const formik = useFormik({
         initialValues: {

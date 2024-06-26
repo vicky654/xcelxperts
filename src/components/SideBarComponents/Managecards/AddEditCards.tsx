@@ -64,7 +64,6 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
         initialValues: cardInitialValues,
         validationSchema: CardValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
-            console.log(values, 'values');
             try {
                 await onSubmit(values, formik);
                 onClose();
@@ -79,9 +78,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
         const file = event.currentTarget.files?.[0];
         formik.setFieldValue('file', file);
         if (file) {
-            console.log(file, 'file');
             formik.setFieldValue('file', file);
-            console.log(formik.values, 'columnIndex');
         }
     };
 

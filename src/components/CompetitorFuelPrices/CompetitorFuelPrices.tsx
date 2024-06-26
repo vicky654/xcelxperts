@@ -242,7 +242,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
 
     const handleFormSubmit = async (values: any) => {
 
-        console.log(values, "handleFormSubmit ");
+  
 
         try {
             const formData = new FormData();
@@ -280,7 +280,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
         }
     };
     const handleApplyFilters = async (values: any) => {
-        console.log(values, "handleApplyFilters");
+        
 
         const apiURL = `station/competitor-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
 
@@ -312,7 +312,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
         // site_id: Yup.string().required('Station is required'),
     });
 
-    console.log(data, "data");
+    
 
 
     return (

@@ -48,7 +48,6 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
 
     const handleApplyFilters = async (values: any) => {
-        console.log(values, 'handleApplyFilters');
         setFormValues({
             client_id: values.client_id,
             entity_id: values.entity_id,
@@ -59,8 +58,6 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
-                console.log(exampleData, "exampleData");
-                console.log(response.data.data, "exampleData");
                 setData(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -80,7 +77,6 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, 'values');
             
             // Iterate through each site in values
             Object.keys(values).forEach((siteId) => {

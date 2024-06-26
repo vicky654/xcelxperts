@@ -159,7 +159,6 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 const response = await postData(url, formData,);
 
 
-                console.log(response, "test");
 
                 if (response) {
                     navigate("/manage-stations/station")
