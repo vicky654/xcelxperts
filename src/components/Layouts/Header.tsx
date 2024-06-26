@@ -7,16 +7,12 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../Dropdown';
 import IconMenu from '../Icon/IconMenu';
 import IconSearch from '../Icon/IconSearch';
-import IconUser from '../Icon/IconUser';
-import IconLockDots from '../Icon/IconLockDots';
-import IconLogout from '../Icon/IconLogout';
 import IconCaretDown from '../Icon/IconCaretDown';
 import { showMessage } from '../../utils/errorHandler';
 import withApiHandler from '../../utils/withApiHandler';
 import menuItems from '../SideBar/SideBarItems';
 import MenuItemComponent from '../SideBar/SideBarListing';
 import { clearAuthData } from '../../store/authSlice';
-import IconSettings from '../Icon/IconSettings';
 interface HeaderProps {
     isLoading: boolean;
     fetchedData: any;
@@ -86,6 +82,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         navigate(path);
     };
 
+
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
             <div className="shadow-sm">
@@ -93,8 +90,8 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                     <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2" style={{ background: '#fff', borderRadius: '5px' }}>
                         <Link to="/" className="main-logo flex items-center shrink-0" style={{ background: '#fff', borderRadius: '5px' }}>
                             <img
-                                style={{ height: '50px', width: '100%', background: '#fff' }}
-                                className="w-8 ltr:-ml-1 rtl:-mr-1 inline"
+                                style={{ width: '100%', background: '#fff' }}
+                                className="w-8 ltr:-ml-1 rtl:-mr-1 inline c-brand-img"
                                 src="/assets/images/xx_logo.png"
                                 alt="logo"
                             />
@@ -111,8 +108,8 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                         </button>
                     </div>
 
-                    <div className="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
-                        <div className="sm:ltr:mr-auto sm:rtl:ml-auto">
+                    <div className=" justify-end sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
+                        {/* <div className="sm:ltr:mr-auto sm:rtl:ml-auto">
                             <button
                                 type="button"
                                 onClick={() => setSearch(!search)}
@@ -120,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                             >
                                 <IconSearch className="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
                             </button>
-                        </div>
+                        </div> */}
 
                         <div className="dropdown shrink-0 flex">
                             <Dropdown
@@ -128,9 +125,15 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
                                 btnClassName="relative group block"
                                 button={
-                                    <div className="btn btn-dark">
-                                        <span className="ml-2">
-                                            Welcome, {data?.first_name} <IconCaretDown className="w-6 h-6 inline" />
+                                    <div className="btn btn-dark c-profile-btn">
+                                        <span className="">
+                                            <span className=' c-head-icon'>
+                                                <i className="fi fi-rr-user"></i>
+                                            </span>
+                                            <span className=' c-head-text'>
+                                                Welcome, {data?.first_name}
+                                            </span>
+                                            <IconCaretDown className="w-6 h-6 inline" />
                                         </span>
                                     </div>
                                 }

@@ -13,7 +13,6 @@ import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
-import logoImage from '../../../assets/logo/logo.jpeg'; // Import the image
 import IconTrendingUp from '../../../components/Icon/IconTrendingUp';
 
 
@@ -87,7 +86,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-details?${queryString}`);
             if (response && response.data && response.data.data) {
-                setDetailsData(response.data.data?.sites)
+                setDetailsData(response.data.data?.station)
             }
             // setData(response.data);
         } catch (error) {
@@ -550,7 +549,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
     const handleNavigateToNextPage = (item: any) => {
-        if (isSitePermissionAvailable) {
+        if (!isSitePermissionAvailable) {
             navigate(`/dashboard/station/${item?.id}`)
         }
     }
@@ -561,7 +560,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         <>
             {isLoading ? <LoaderImg /> : ""}
             <div>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center flex-wrap'>
                     <ul className="flex space-x-2 rtl:space-x-reverse">
                         <li>
                             <Link to="/" className="text-primary hover:underline">
@@ -573,7 +572,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </li>
                     </ul>
 
-                    <div className=' flex gap-4'>
+                    <div className=' flex gap-4 flex-wrap'>
 
                         {filters?.client_id || filters?.company_id || filters?.site_id ? <>
                             <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
@@ -689,7 +688,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         key={item?.id}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
                                             }`}
-                                        onClick={() => isSitePermissionAvailable && handleNavigateToNextPage(item)}
+                                        onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
                                         <div className="flex items-center mb-4">
                                             <img

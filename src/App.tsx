@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from './store';
+import store, { IRootState } from './store';
 import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from './store/themeConfigSlice';
 import { fetchStoreData } from './store/dataSlice';
 import '@flaticon/flaticon-uicons/css/all/all.css';
@@ -28,7 +28,12 @@ function App({ children }: PropsWithChildren) {
 
     return (
         <div
-            className=" horizontal full ltr main-section antialiased relative font-nunito text-sm font-normal"
+
+
+            className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${themeConfig.rtlClass
+                } horizontal main-section antialiased relative font-nunito text-sm font-normal`}
+        // className="
+        //  horizontal full ltr main-section antialiased relative font-nunito text-sm font-normal"
         >
             {children}
         </div>

@@ -208,13 +208,13 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             }
 
             const url = isEditMode && userId ? `/charge/update` : `/charge/create`;
-          
+
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
                 handleSuccess();
                 closeModal();
             }
-        
+
         } catch (error) {
             handleApiError(error);
         }
@@ -249,7 +249,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                     <>
                         <div className="datatables">
                             <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                className=" table-striped table-hover table-bordered table-compact"
                                 columns={columns}
                                 data={data}
                                 noHeader

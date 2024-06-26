@@ -134,7 +134,7 @@ const EmailLogs: React.FC<EmailLogsProps> = ({ postData, getData, isLoading }) =
                 </span>
             ),
         },
-     
+
     ];
 
     return (
@@ -151,9 +151,9 @@ const EmailLogs: React.FC<EmailLogsProps> = ({ postData, getData, isLoading }) =
                         <span>Email Logs</span>
                     </li>
                 </ul>
-           
+
             </div>
-          
+
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">Email Logs</h5>
@@ -166,7 +166,7 @@ const EmailLogs: React.FC<EmailLogsProps> = ({ postData, getData, isLoading }) =
                     <>
                         <div className="datatables">
                             <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                className=" table-striped table-hover table-bordered table-compact"
                                 columns={columns}
                                 data={data}
                                 noHeader

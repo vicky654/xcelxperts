@@ -110,11 +110,11 @@ const LoginCover = () => {
                             </div>
                         </div>
                         <div className="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
-                            <div style={{ background: "#fff", borderRadius: "5px" }} className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
-                                <Link to="/" className="w-8 block lg:hidden">
+                            {/* <div style={{ background: "#fff", borderRadius: "5px" }} className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
+                                <Link to="/" className="w-8 block lg:hidden md:hidden sm:hidden ">
                                     <img src="/assets/images/xx_logo.png" alt="Logo" className="mx-auto w-10" />
                                 </Link>
-                            </div>
+                            </div> */}
                             <div className="w-full max-w-[440px] lg:mt-16">
                                 <div className="mb-10">
                                     <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>

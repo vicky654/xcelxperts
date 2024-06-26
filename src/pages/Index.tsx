@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
@@ -393,6 +393,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const handleErrorClick = () => {
         showMessage('Error: Something went wrong.', 'error');
     };
+    const revenueChartRef = useRef(null);
+    const salesByCategoryChartRef = useRef(null);
+
+
 
     return (
         <>
@@ -409,7 +413,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </li>
                     </ul>
 
-                    <div className=" flex gap-4">
+                    <div className=" flex gap-4 flex-wrap">
                         {/* {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <div className="badges-container flex flex-wrap items-center gap-2 px-4 py-1 bg-info rounded-lg text-white shadow-md">
                                 {filters?.client_id && (
@@ -428,21 +432,21 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <>
-                                <div className="badges-container flex flex-wrap items-center gap-2 px-4  rounded-lg text-white" style={{ background: "#ddd" }}>
+                                <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
-                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
                                             <span className="font-semibold">Client Name:</span> {filters.client_id}
                                         </div>
                                     )}
 
                                     {filters?.company_id && (
-                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
                                             <span className="font-semibold">Entity Name:</span> {filters.company_id}
                                         </div>
                                     )}
 
                                     {filters?.site_id && (
-                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 rounded">
+                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
                                             <span className="font-semibold">Station Name:</span> {filters.site_id}
                                         </div>
                                     )}
@@ -459,7 +463,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <>
                                 <button onClick={handleResetFilters}>
-                                    <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                                    <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
                                         <Tippy content="Reset Filter">
                                             <span className="btn bg-danger btn-danger">
                                                 <IconRefresh className="w-6 h-6" />
@@ -553,8 +557,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid xl:grid-cols-3 gap-6 mb-6">
-                        <div className="panel h-full xl:col-span-2">
+                    <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-6 mb-6">
+                        <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg">Revenue</h5>
                                 <div className="dropdown">
@@ -581,10 +585,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 Total Profit <span className="text-primary ml-2">$10,840</span>
                             </p>
                             <div className="relative">
-                                <div className="bg-white dark:bg-black rounded-lg overflow-hidden">
+                                <div className="bg-white dark:bg-black  overflow-hidden">
                                     {loading ? (
                                         <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  rounded-full w-5 h-5 inline-flex"></span>
+                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
                                         </div>
                                     ) : (
                                         <ReactApexChart series={revenueChart.series} options={revenueChart.options} type="area" height={325} />
@@ -598,10 +602,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <h5 className="font-semibold text-lg dark:text-white-light">Sales By Category</h5>
                             </div>
                             <div>
-                                <div className="bg-white dark:bg-black rounded-lg overflow-hidden">
+                                <div className="bg-white dark:bg-black  overflow-hidden">
                                     {loading ? (
                                         <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  rounded-full w-5 h-5 inline-flex"></span>
+                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
                                         </div>
                                     ) : (
                                         <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />

@@ -818,7 +818,7 @@ const Skin = () => {
                     <DataTable
                         highlightOnHover
                         striped
-                        className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                        className=" table-striped table-hover table-bordered table-compact"
                         records={recordsData4}
                         columns={[
                             { accessor: 'id', title: 'ID' },

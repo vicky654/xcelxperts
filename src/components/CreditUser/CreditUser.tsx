@@ -75,7 +75,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         setCurrentPage(newPage);
     };
 
-    const fetchData = async () => {};
+    const fetchData = async () => { };
 
     const { toggleStatus } = useToggleStatus();
 
@@ -121,7 +121,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 </div>
             ),
         },
-  
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -154,37 +154,37 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '10%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
-                                  {isEditPermissionAvailable && (
-                                      <>
-                                          <Tippy content="Edit">
-                                              <button type="button" onClick={() => openModal(row?.id)}>
-                                                  <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                              </button>
-                                          </Tippy>
-                                      </>
-                                  )}
-                                  {isDeletePermissionAvailable && (
-                                      <>
-                                          <Tippy content="Delete">
-                                              <button onClick={() => handleDelete(row.id)} type="button">
-                                                  <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                              </button>
-                                          </Tippy>
-                                      </>
-                                  )}
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '10%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                {isEditPermissionAvailable && (
+                                    <>
+                                        <Tippy content="Edit">
+                                            <button type="button" onClick={() => openModal(row?.id)}>
+                                                <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                            </button>
+                                        </Tippy>
+                                    </>
+                                )}
+                                {isDeletePermissionAvailable && (
+                                    <>
+                                        <Tippy content="Delete">
+                                            <button onClick={() => handleDelete(row.id)} type="button">
+                                                <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                            </button>
+                                        </Tippy>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ];
 
@@ -338,7 +338,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                             <>
                                 <div className="datatables">
                                     <DataTable
-                                        className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                        className=" table-striped table-hover table-bordered table-compact"
                                         columns={columns}
                                         data={data}
                                         noHeader

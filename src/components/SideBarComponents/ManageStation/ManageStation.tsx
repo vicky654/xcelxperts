@@ -319,7 +319,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                     <>
                         <div className="datatables">
                             <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                className=" table-striped table-hover table-bordered table-compact"
                                 columns={columns}
                                 data={data}
                                 noHeader

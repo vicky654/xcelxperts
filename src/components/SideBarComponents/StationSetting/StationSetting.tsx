@@ -493,7 +493,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 <>
                                     <div className="module-height">
                                         <DataTable
-                                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                            className=" table-striped table-hover table-bordered table-compact"
                                             columns={CardsModelColumn}
                                             data={formik?.values?.cards}
                                             noHeader
@@ -521,7 +521,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 <>
                                     <div className="module-height">
                                         <DataTable
-                                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                            className=" table-striped table-hover table-bordered table-compact"
                                             columns={dataEntryCardColumn}
                                             data={formik?.values?.dataEntryCard}
                                             noHeader
@@ -550,7 +550,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 <>
                                     <div className="module-height">
                                         <DataTable
-                                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                            className=" table-striped table-hover table-bordered table-compact"
                                             columns={fuelsColumn}
                                             data={formik?.values?.fuels}
                                             noHeader
@@ -578,7 +578,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 <>
                                     <div className="module-height">
                                         <DataTable
-                                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                            className=" table-striped table-hover table-bordered table-compact"
                                             columns={reportsColumn}
                                             data={formik?.values?.reports}
                                             noHeader
@@ -606,7 +606,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 <>
                                     <div className="module-height">
                                         <DataTable
-                                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                            className=" table-striped table-hover table-bordered table-compact"
                                             columns={chargesColumns}
                                             data={formik?.values?.charges}
                                             noHeader
@@ -634,7 +634,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 <>
                                     <div className="module-height">
                                         <DataTable
-                                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                            className=" table-striped table-hover table-bordered table-compact"
                                             columns={deductionsColumns}
                                             data={formik?.values?.deductions}
                                             noHeader

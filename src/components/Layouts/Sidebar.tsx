@@ -31,6 +31,8 @@ import IconMenuUsers from '../Icon/Menu/IconMenuUsers';
 import IconMenuPages from '../Icon/Menu/IconMenuPages';
 import IconMenuAuthentication from '../Icon/Menu/IconMenuAuthentication';
 import IconMenuDocumentation from '../Icon/Menu/IconMenuDocumentation';
+import menuItems from '../SideBar/SideBarItems';
+import MenuItemComponent from '../SideBar/SideBarListing';
 
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
@@ -78,8 +80,14 @@ const Sidebar = () => {
                 <div className="bg-white dark:bg-black h-full">
                     <div className="flex justify-between items-center px-4 py-3">
                         <NavLink to="/" className="main-logo flex items-center shrink-0">
-                            <img className="w-8 ml-[5px] flex-none" src="/assets/images/logo.svg" alt="logo" />
-                            <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5 font-semibold align-middle lg:inline dark:text-white-light">{t('XcelXperts')}</span>
+                            {/* <img className="w-8 ml-[5px] flex-none" src="/assets/images/logo.svg" alt="logo" /> */}
+                            <img
+                                style={{ width: '100%', background: '#fff' }}
+                                className="w-8 ltr:-ml-1 rtl:-mr-1 inline c-brand-img"
+                                src="/assets/images/xx_logo.png"
+                                alt="logo"
+                            />
+                            {/* <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5 font-semibold align-middle lg:inline dark:text-white-light">{t('XcelXperts')}</span> */}
                         </NavLink>
 
                         <button
@@ -91,12 +99,20 @@ const Sidebar = () => {
                         </button>
                     </div>
                     <PerfectScrollbar className="h-[calc(100vh-80px)] relative">
+
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
+                            {menuItems.map((menuItem) => (
+                                <MenuItemComponent {...menuItem} itemKey={menuItem.key} />
+                            ))}
+                        </ul>
+                        {/* <ul className="relative font-semibold space-y-0.5 p-4 py-0">
+
+
                             <li className="menu nav-item">
                                 <button type="button" className={`${currentMenu === 'dashboard' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('dashboard')}>
                                     <div className="flex items-center">
                                         <IconMenuDashboard
-                                         className="group-hover:!text-primary shrink-0" />
+                                            className="group-hover:!text-primary shrink-0" />
                                         <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('dashboard')}</span>
                                     </div>
 
@@ -593,9 +609,8 @@ const Sidebar = () => {
                                         <li className="menu nav-item">
                                             <button
                                                 type="button"
-                                                className={`${
-                                                    errorSubMenu ? 'open' : ''
-                                                } w-full before:bg-gray-300 before:w-[5px] before:h-[5px] before:rounded ltr:before:mr-2 rtl:before:ml-2 dark:text-[#888ea8] hover:bg-gray-100 dark:hover:bg-gray-900`}
+                                                className={`${errorSubMenu ? 'open' : ''
+                                                    } w-full before:bg-gray-300 before:w-[5px] before:h-[5px] before:rounded ltr:before:mr-2 rtl:before:ml-2 dark:text-[#888ea8] hover:bg-gray-100 dark:hover:bg-gray-900`}
                                                 onClick={() => setErrorSubMenu(!errorSubMenu)}
                                             >
                                                 {t('error')}
@@ -704,7 +719,7 @@ const Sidebar = () => {
                                     </div>
                                 </NavLink>
                             </li>
-                        </ul>
+                        </ul> */}
                     </PerfectScrollbar>
                 </div>
             </nav>

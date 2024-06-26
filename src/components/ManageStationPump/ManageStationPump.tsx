@@ -257,7 +257,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
         try {
             const formData = new FormData();
 
-     
+
             formData.append('code', values.code);
             formData.append('name', values.name);
             formData.append('station_id', values.station_id);
@@ -369,7 +369,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
                             <>
                                 <div className="datatables">
                                     <DataTable
-                                        className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                        className=" table-striped table-hover table-bordered table-compact"
                                         columns={columns}
                                         data={data}
                                         noHeader

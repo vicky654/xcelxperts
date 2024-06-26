@@ -103,7 +103,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
                 </div>
             ),
         },
-     
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -161,7 +161,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
                 </span>
             ),
         },
-     
+
     ];
 
     return (
@@ -178,9 +178,9 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
                         <span>Activity Logs</span>
                     </li>
                 </ul>
-           
+
             </div>
-          
+
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">Activity Logs</h5>
@@ -193,7 +193,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
                     <>
                         <div className="datatables">
                             <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                className=" table-striped table-hover table-bordered table-compact"
                                 columns={columns}
                                 data={data}
                                 noHeader
