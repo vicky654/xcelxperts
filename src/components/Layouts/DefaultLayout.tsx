@@ -91,7 +91,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
 
                         {/* BEGIN CONTENT AREA */}
                         <Suspense>
-                            <div className={`${themeConfig.animation} p-6 animate__animated`}>{children}</div>
+                            <div className={`${themeConfig.animation} p-6 `}>{children}</div>
                         </Suspense>
                         {/* END CONTENT AREA */}
 

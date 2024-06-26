@@ -16,6 +16,8 @@ import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
 import UserAddonModal from './UserAddonModal';
+import Dropdown from '../../Dropdown';
+import IconHorizontalDots from '../../Icon/IconHorizontalDots';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -169,14 +171,14 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '10%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              <div className="inline-flex">
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '10%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            {/* <div className="inline-flex">
                                   {isEditPermissionAvailable && (
                                       <Tippy content="Edit">
                                           <button type="button" onClick={() => openEditModal(row?.id)}>
@@ -198,11 +200,46 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                                           </button>
                                       </Tippy>
                                   )}
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                              </div> */}
+                            <div className="dropdown">
+                                <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
+                                    <ul>
+
+                                        <li>
+                                            {isEditPermissionAvailable && (
+
+                                                <button type="button" onClick={() => openEditModal(row?.id)}>
+                                                    <i className="setting-icon fi fi-rr-file-edit "></i> Edit
+                                                </button>
+
+                                            )}
+                                        </li>
+                                        <li>
+                                            {isDeletePermissionAvailable && (
+
+                                                <button onClick={() => handleDelete(row.id)} type="button">
+                                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i> Delete
+                                                </button>
+
+                                            )}
+                                        </li>
+                                        <li>
+                                            {isAssignAddPermissionAvailable && (
+
+                                                <button onClick={() => openUserAddonModal(row?.id)} type="button">
+                                                    <i className="fi fi-rr-user-add"></i>  Assign Addon
+                                                </button>
+
+                                            )}
+                                        </li>
+
+                                    </ul>
+                                </Dropdown>
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
             : null,
     ].filter(Boolean); // Filter out any null values from the columns array
 
@@ -263,9 +300,9 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const SubmitAddon = async (values: any) => {
         try {
             const formData = new FormData();
-            formData.append('id', userId ?? ''); 
+            formData.append('id', userId ?? '');
 
-            values.addons.forEach((addon:any, index:any) => {
+            values.addons.forEach((addon: any, index: any) => {
                 if (addon.checked) {
                     formData.append(`addons[${index}]`, addon.id);
                 }
@@ -277,7 +314,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             if (isSuccess) {
                 fetchData();
             }
-        }catch (error) {
+        } catch (error) {
             handleApiError(error);
         }
     };
@@ -313,7 +350,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 {data?.length > 0 ? (
                     <div className="datatables">
                         <DataTable
-                            className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                            className=" table-striped table-hover table-bordered table-compact"
                             columns={columns}
                             data={data}
                             noHeader

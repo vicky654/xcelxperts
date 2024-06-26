@@ -53,7 +53,6 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
     useEffect(() => {
         formik.resetForm()
         if (isEditMode) {
-           
             fetchUserDetails(userId ? userId : '');
         }
         formik.resetForm()
@@ -116,27 +115,7 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
                                                 <FormikInput formik={formik} type="number" name="phone_number"  label="Phone Number" placeholder="Phone Number" />
                                                 <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
 
-                                                {/* <FormikSelect
-                                                    formik={formik}
-                                                    name="financial_start_month"
-                                                    label="Financial Start Month"
-                                                    options={monthOptions.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                />
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="financial_end_month"
-                                                    label="Financial End Month"
-                                                    options={monthOptions.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                />
-                                                     <FormikSelect
-                                                    formik={formik}
-                                                    name="role"
-                                                    label="Role"
-                                                    options={RoleList.map((item) => ({ id: item.id, name: item.role_name }))}
-                                                    className="form-select text-white-dark"
-                                                /> */}
+                                             
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
                                                         {isEditMode ? 'Update' : 'Save'}

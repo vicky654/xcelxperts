@@ -18,6 +18,8 @@ import showMessage from '../../../hooks/showMessage';
 import { fetchStoreData } from '../../../store/dataSlice';
 import { IRootState } from '../../../store';
 import UserAddonModal from '../ManageUser/UserAddonModal';
+import Dropdown from '../../Dropdown';
+import IconHorizontalDots from '../../Icon/IconHorizontalDots';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -52,7 +54,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
-    
+
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
@@ -106,12 +108,11 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 localStorage.setItem('auto_logout', response.data.data?.auto_logout);
                 localStorage.setItem('authToken', response.data.data?.token);
                 const actionResult = await dispatch<any>(fetchStoreData());
-                showMessage("Login Successfully");
+                showMessage('Login Successfully');
                 console.log('actionResult:', actionResult);
-                navigate("/");
+                navigate('/');
                 if (response.data.data?.is_verified === true) {
-                    
-                    navigate("/");
+                    navigate('/');
                 } else if (response.data.data?.is_verified === false) {
                     navigate('/validateOtp');
                 }
@@ -125,12 +126,12 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     };
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
-    const isAssignAddPermissionAvailable = UserPermissions?.includes('user-assign-permission');
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('user-assign-permission');
+    const isEditPermissionAvailable = UserPermissions?.includes('client-edit');
+    const isDeletePermissionAvailable = UserPermissions?.includes('client-delete');
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isAssignAddPermissionAvailable || isDeletePermissionAvailable;
     const openUserAddonModal = (id: string) => {
         setIsUserAddonModalOpen(true);
         setUserId(id);
@@ -212,53 +213,78 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         },
         anyPermissionAvailable
             ? {
-                name: 'Actions',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '20%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
-                                {/* <Tippy content="Assign Client Addon">
-                                    <button onClick={() => navigate(`/manage-clients/assignaddons/${row.id}`)} type="button">
-                                        <i className="fi fi-rr-user-add"></i>
-                                    </button>
-                                </Tippy> */}
-                                {isAssignAddPermissionAvailable && (
-                                      <Tippy content="Assign Addon">
-                                          <button onClick={() => openUserAddonModal(row?.id)} type="button">
-                                              <i className="fi fi-rr-user-add"></i>
-                                          </button>
-                                      </Tippy>
+                  name: 'Actions',
+                  selector: (row: RowData) => row.id,
+                  sortable: false,
+                  width: '20%',
+                  cell: (row: RowData) => (
+                      <span className="text-center">
+                          <div className="flex items-center justify-center">
+                              {/* <div className="inline-flex">
+                                  <button type="button" onClick={() => openModal(row?.id)}>
+                                      <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                  </button>
+
+                                  <button onClick={() => handleDelete(row.id)} type="button">
+                                      <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                  </button>
+
+                                  {isAssignAddPermissionAvailable && (
+                                      <button onClick={() => openUserAddonModal(row?.id)} type="button">
+                                          <i className="fi fi-rr-user-add"></i>
+                                      </button>
                                   )}
-                                <Tippy content="Assign Client Reports">
-                                    <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
-                                        <i className="fi fi-rr-assign"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content=" Client Login">
-                                    <button onClick={() => handleClientLogin(row.id)} type="button">
-                                        <i className="fi fi-rr-sign-in-alt"></i>
-                                        {/* <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+
+                                  <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
+                                      <i className="fi fi-rr-assign"></i>
+                                  </button>
+
+                                  <button onClick={() => handleClientLogin(row.id)} type="button">
+                                      <i className="fi fi-rr-sign-in-alt"></i>
+                             
+                                  </button>
+                              </div> */}
+                              <div className="dropdown">
+                                  <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
+                                      <ul>
+                                          <li>
+                                              <button type="button" onClick={() => openModal(row?.id)}>
+                                                  <i className="pencil-icon fi fi-rr-file-edit"></i> Edit
+                                              </button>
+                                          </li>
+                                          <li>
+                                          {isAssignAddPermissionAvailable && (
+                                              <button onClick={() => handleDelete(row.id)} type="button">
+                                                  <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i> Delete
+                                              </button>
+                                                 )}
+                                          </li>
+                                          <li>
+                                              {isAssignAddPermissionAvailable && (
+                                                  <button onClick={() => openUserAddonModal(row?.id)} type="button">
+                                                      <i className="fi fi-rr-user-add"></i> Assign Addon
+                                                  </button>
+                                              )}
+                                          </li>
+                                          <li>
+                                              <button onClick={() => handleClientLogin(row.id)} type="button">
+                                                  <i className="fi fi-rr-sign-in-alt"></i> Client Login
+                                                  {/* <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
                                         </div> */}
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </span>
-                ),
-            }
+                                              </button>
+                                          </li>
+                                          <li>
+                                              <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
+                                                  <i className="fi fi-rr-assign"></i> Assign Client Reports
+                                              </button>
+                                          </li>
+                                      </ul>
+                                  </Dropdown>
+                              </div>
+                          </div>
+                      </span>
+                  ),
+              }
             : null,
     ];
 
@@ -317,21 +343,19 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const SubmitAddon = async (values: any) => {
         try {
             const formData = new FormData();
-            formData.append('id', userId ?? ''); 
-
-            values.addons.forEach((addon:any, index:any) => {
+            formData.append('id', userId ?? '');
+            values.addons.forEach((addon: any, index: any) => {
                 if (addon.checked) {
                     formData.append(`addons[${index}]`, addon.id);
                 }
             });
-
-            const postDataUrl = "/addon/assign";
+            const postDataUrl = '/addon/assign';
 
             const isSuccess = await postData(postDataUrl, formData);
             if (isSuccess) {
                 fetchData();
             }
-        }catch (error) {
+        } catch (error) {
             handleApiError(error);
         }
     };
@@ -355,7 +379,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             </div>
             <AddClientModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
             <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
-            
+
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light"> Clients</h5>
@@ -368,7 +392,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                     <>
                         <div className="datatables">
                             <DataTable
-                                className="whitespace-nowrap table-striped table-hover table-bordered table-compact"
+                                className=" table-striped table-hover table-bordered table-compact"
                                 columns={columns}
                                 data={data}
                                 noHeader
