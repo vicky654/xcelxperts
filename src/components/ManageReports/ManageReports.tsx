@@ -286,7 +286,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             const { data } = response;
             if (data) {
 
-                console.log(response?.data, "response?.data?.months");
 
                 formik.setFieldValue('months', response?.data?.data?.months);
                 formik.setFieldValue('reports', response?.data?.data?.reports);
@@ -405,7 +404,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
 
-    console.log(formik?.values, "formik values");
 
 
     return (

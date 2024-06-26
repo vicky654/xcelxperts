@@ -267,7 +267,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         }
     };
     const handleApplyFilters = async (values: any) => {
-        console.log(values, "handleApplyFilters");
+        
 
 
         // Store the form values in local storage

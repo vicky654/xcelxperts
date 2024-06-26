@@ -73,9 +73,7 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
         const file = event.currentTarget.files?.[0];
         formik.setFieldValue('file', file);
         if (file) {
-          console.log(file, "file");
             formik.setFieldValue('file', file);
-            console.log(formik.values, "columnIndex");
         }
     };
     return (

@@ -94,19 +94,9 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             handleApiError(error);
         }
     };
-
-    const fetchSiteList = async (companyId: string) => {
-        try {
-            const response = await getData(`getStations?company_id=${companyId}`);
-            formik.setFieldValue('sites', response.data.data);
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
-
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/credit-user/detail?client_id=${id}`);
+            const response = await getData(`/credit-user/detail?id=${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
                 formik.setValues(userData);

@@ -129,7 +129,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
     }, []);
 
 
-    console.log(formik?.values, "formik values in nozzal ");
 
 
     const fetchClientList = async () => {
@@ -163,7 +162,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
 
-        console.log(clientId, "clientIdclientId");
 
         formik.setFieldValue('client_id', clientId);
         if (clientId) {

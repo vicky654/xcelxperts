@@ -68,30 +68,25 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     }, []);
 
     const handleSuccess = () => {
-        fetchData();
+        GetUserList(formik?.values?.client_id);
     };
 
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
-
-    const fetchData = async () => { };
-
     const { toggleStatus } = useToggleStatus();
 
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
         formData.append('status', (row.status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/tank/update-status', formData, handleSuccess);
+        toggleStatus(postData, '/credit-user/update-status', formData, handleSuccess);
     };
-
     const { customDelete } = useCustomDelete();
-
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
+        customDelete(postData, 'credit-user/delete', formData, handleSuccess);
     };
 
     const columns: any = [
@@ -242,7 +237,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             console.error('API error:', error);
         }
     };
-    console.log(isNotClient, 'isNotClient');
+    
     const validationSchemaForCustomInput = Yup.object().shape({
         client_id: isNotClient ? Yup.string().required('Client is required') : Yup.mixed().notRequired(),
     });
@@ -258,7 +253,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             try {
                 // Handle form submission logic here
                 GetUserList(values?.client_id);
-                console.log('Form submitted with values:', values);
+                
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -266,12 +261,12 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         },
     });
     const GetUserList = async (id: any) => {
-        console.log(id, 'GetUserList');
+        
         try {
             const response = await getData(`credit-user/list?client_id=${id}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, 'response.data.data');
+                
                 setData(response.data.data?.creditUsers);
             } else {
                 throw new Error('No data available in the response');

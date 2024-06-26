@@ -285,7 +285,6 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
         },
     });
 
-    console.log(formik?.values, "formik valued in pump");
 
 
 
