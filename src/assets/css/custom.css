@@ -568,3 +568,8 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 .gjoprN {
     justify-content: center;
 }
+
+
+.dropdown ul {
+    min-width: 195px !important;
+}
