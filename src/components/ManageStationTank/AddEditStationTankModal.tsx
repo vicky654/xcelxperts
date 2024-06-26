@@ -32,20 +32,7 @@ interface RowData {
     phone_number: string;
     role: any;
 }
-interface UserData {
-    id: string;
-    client_id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    role: string;
-    role_id: string;
-    status: number;
-    work_flow: number;
-    clients: any[];
-    tankList: tankList;
-}
+
 
 interface AddEditStationTankModalProps {
     isOpen: boolean;
@@ -264,11 +251,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         },
     });
 
-    const options5 = [
-        { value: 'orange', label: 'Orange' },
-        { value: 'white', label: 'White' },
-        { value: 'purple', label: 'Purple' },
-    ];
+
 
 
 

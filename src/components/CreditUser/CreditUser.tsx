@@ -203,7 +203,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         try {
             const formData = new FormData();
 
-            formData.append('phone', values.phone_number);
+            formData.append('phone', values.phone);
             formData.append('name', values.name);
             formData.append('client_id', values.client_id);
 

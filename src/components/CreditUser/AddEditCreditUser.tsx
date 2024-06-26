@@ -4,8 +4,8 @@ import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
 import useErrorHandler from '../../hooks/useHandleError';
-import { credituserInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { credituserValidationSchema, getStationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { credituserInitialValues } from '../FormikFormTools/InitialValues';
+import { credituserValidationSchema } from '../FormikFormTools/ValidationSchema';
 
 interface Client {
     id: string;
@@ -28,7 +28,7 @@ interface RowData {
     first_name: string;
     last_name: string;
     email: string;
-    phone_number: string;
+    phone: string;
     role: any;
 }
 
@@ -44,10 +44,7 @@ interface AddEditStationTankModalProps {
     tankList?: tankList;
 }
 
-interface RoleItem {
-    id: number;
-    role_name: string;
-}
+
 
 
 type tankList = {
@@ -57,7 +54,7 @@ type tankList = {
 
 const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const handleApiError = useErrorHandler();
-
+    const [clients, setClients] = useState<Client[]>([]);
     useEffect(() => {
         if (isOpen) {
             if (localStorage.getItem('superiorRole') === 'Client') {
@@ -76,12 +73,26 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             }
         }
     }, [isOpen, isEditMode, userId]);
+    const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const clientId = e.target.value;
+        formik.setFieldValue('client_id', clientId);
+        if (clientId) {
+            const selectedClient = clients.find((client: Client) => client.id === clientId);
+           
+            formik.setFieldValue('client_name', selectedClient?.client_name || "");
 
+        } else {
+
+            formik.setFieldValue('client_name', "");
+
+        }
+    };
     const FetchClientList = async () => {
         try {
             const response = await getData('/getClients');
             const clients = response.data.data;
-            formik.setFieldValue('clients', clients);
+            console.log(response.data.data, "response.data.data");
+            setClients(clients);
             // const clientId = localStorage.getItem("superiorId");
             // if (localStorage.getItem("superiorRole") !== "Client" && clientId) {
             //     formik.setFieldValue('client_id', clientId);
@@ -111,7 +122,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     };
 
 
-  
+
 
     const editCloseCheck = () => {
         if (isEditMode) {
@@ -154,14 +165,14 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                         formik={formik}
                                                         name="client_id"
                                                         label="Client"
-                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                        className="form-select text-white-dark"
+                                                        options={clients?.map((item:any) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-input"
                                                     />
                                                 )}
 
                                                 <FormikInput formik={formik} type="text" name="name" label="Credit User Name" />
 
-                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" />
+                                                <FormikInput formik={formik} type="number" name="phone" label="Phone Number" />
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
