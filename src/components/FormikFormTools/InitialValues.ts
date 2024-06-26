@@ -142,6 +142,7 @@ export const credituserInitialValues = {
   client_id: '',
   name: '',
   phone_number: '',
+  max_amount: '',
 
 
 };

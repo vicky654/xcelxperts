@@ -149,6 +149,7 @@ export const credituserValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         client_id: isEditMode ? Yup.string().optional() : Yup.string().required('Client is required'),
         name: Yup.string().required('Name is required'),
+        max_amount: Yup.string().required('Max Amount is required'),
         phone: Yup.string()
             .required('Phone Number is required')
             .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits'),

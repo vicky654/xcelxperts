@@ -160,7 +160,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                {!isEditMode && localStorage.getItem('superiorRole') !== 'Client' && (
+                                                {localStorage.getItem('superiorRole') !== 'Client' && (
                                                     <FormikSelect
                                                         formik={formik}
                                                         name="client_id"
@@ -173,6 +173,8 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                 <FormikInput formik={formik} type="text" name="name" label="Credit User Name" />
 
                                                 <FormikInput formik={formik} type="number" name="phone" label="Phone Number" />
+
+                                                <FormikInput formik={formik} type="number" name="max_amount" label="Max Amount" />
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
