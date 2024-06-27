@@ -84,7 +84,7 @@ const Sidebar = () => {
                             <img
                                 style={{ width: '100%', background: '#fff' }}
                                 className="w-8 ltr:-ml-1 rtl:-mr-1 inline c-brand-img"
-                                src="/assets/images/xx_logo.png"
+                                src="/assets/images/n_xx_logo.png"
                                 alt="logo"
                             />
                             {/* <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5 font-semibold align-middle lg:inline dark:text-white-light">{t('XcelXperts')}</span> */}

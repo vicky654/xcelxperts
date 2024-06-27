@@ -310,7 +310,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
 
-                        <span>User Settings</span>
+                        <span>Account</span>
                     </li>
                 </ul>
                 <div className="pt-5">

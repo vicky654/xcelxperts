@@ -74,9 +74,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-    const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-    let storedKeyItems = localStorage.getItem("stationPurchase") || '[]';
     let storedKeyName = "stationPurchase";
 
 
@@ -87,6 +85,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         const storedData = localStorage.getItem(storedKeyName);
 
         if (storedData) {
+            console.log(storedData, "storedData");
             setstationData(JSON.parse(storedData))
             handleApplyFilters(JSON.parse(storedData));
         }
@@ -125,9 +124,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const isEditPermissionAvailable = true; // Placeholder for permission check
     const isDeletePermissionAvailable = true; // Placeholder for permission check
     const isAddonPermissionAvailable = true; // Placeholder for permission check
-
     const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
-
     const columns: any = [
         {
             name: "FUEL NAME",
@@ -344,17 +341,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         // ... remaining columns
     ];
 
-    const openModal = async (id: string) => {
-        try {
-            setIsModalOpen(true);
-            setIsEditMode(true);
-            setUserId(id);
-
-        } catch (error) {
-            console.error('Error fetching user details:', error);
-        }
-    };
-
+ 
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
@@ -604,7 +591,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                         <div className=' my-4'>
                                             <FormGroup>
                                                 <label className="form-label mt-4">
-                                                    Select Sites
+                                                    Select Stations 
                                                     <span className="text-danger">*</span>
                                                 </label>
                                                 <MultiSelect

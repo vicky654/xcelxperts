@@ -89,9 +89,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         setCurrentPage(newPage);
     };
 
-    const fetchData = async () => {
-
-    };
+ 
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
         const formData = new FormData();

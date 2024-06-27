@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import DataTable from 'react-data-table-component';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import 'tippy.js/dist/tippy.css';
 import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
 import LoaderImg from '../../utils/Loader';
-import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import TableWithFormik from './TableWithFormik';
-import { exampleData } from './data';
 
 interface ManageStationFuelSellingProps {
     isLoading: boolean;
@@ -44,9 +40,17 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         entity_id: '',
         start_date: '',
     });
-
+    let storedKeyName = "fuelselling";
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
 
+    useEffect(() => {
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            handleApplyFilters(JSON.parse(storedData));
+        }
+
+    }, []);
     const handleApplyFilters = async (values: any) => {
         setFormValues({
             client_id: values.client_id,
@@ -58,6 +62,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
+                console.log(response.data.data, "response.data.data");
                 setData(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -66,27 +71,26 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             handleApiError(error);
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, 'filterValues');
-    };
+
 
     const validationSchemaForCustomInput = Yup.object({
         entity_id: Yup.string().required('Entity is required'),
         client_id: isNotClient ? Yup.string().required('Client is required') : Yup.mixed().notRequired(),
     });
+
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            
+
             // Iterate through each site in values
             Object.keys(values).forEach((siteId) => {
                 const fuels = values[siteId];
-    
+
                 // Iterate through each fuel type within the site
                 Object.keys(fuels).forEach((fuelId) => {
                     const price = fuels[fuelId];
                     const fieldKey = `fuels[${siteId}][${fuelId}]`;
-    
+
                     // Ensure price is defined before appending
                     if (price !== undefined && price !== null) {
                         formData.append(fieldKey, price.toString());
@@ -95,15 +99,15 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                     }
                 });
             });
-    
+
             formData.append('client_id', formValues.client_id);
             formData.append('entity_id', formValues.entity_id);
             formData.append('drs_date', formValues.start_date);
-    
+
             const postDataUrl = '/station/fuel-price/update';
-    
+
             const isSuccess = await postData(postDataUrl, formData);
-    
+
             if (isSuccess) {
                 console.log('Form submitted successfully');
             } else {
@@ -113,7 +117,11 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             console.error('Error submitting form:', error);
         }
     };
-    
+
+    const filterValues = async (values: any) => {
+        console.log(values, 'formValues');
+    };
+    console.log(formValues, "formValues");
     return (
         <>
             {isLoading && <LoaderImg />}

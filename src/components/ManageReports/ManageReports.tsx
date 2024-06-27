@@ -456,35 +456,25 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
                                 className="form-select text-white-dark"
                                 onChange={handleEntityChange}
-                            />
-
-
-
-                            <Col lg={4} md={6}>
+                            /><Col lg={4} md={6}>
                                 <label className="form-label ">
-                                    Select Sites
+                                    Select Stations
                                     <span className="text-danger">*</span>
                                 </label>
                                 <MultiSelect
                                     value={selected}
                                     onChange={setSelected}
-                                    labelledBy="Select Sites"
+                                    labelledBy="Select Stations"
                                     options={formik.values.sites?.map((item) => ({ value: item.id, label: item?.name }))}
-                             
-                                />
-                      
-                            </Col>
 
-
-
-
+                                /></Col>
                             <FormikSelect
                                 formik={formik}
                                 name="report_code"
                                 label="Report"
                                 options={formik.values?.reports?.map((item: any) => ({ id: item.report_code, name: item.report_name }))}
                                 className="form-select text-white-dark"
-                                
+
                             // onChange={handleSiteChange}
                             />
 

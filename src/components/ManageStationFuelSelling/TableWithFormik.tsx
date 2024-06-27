@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -13,7 +13,7 @@ interface Fuel {
 interface Site {
     id: string;
     station_name: string;
-    fuels: Fuel[];
+    fuels: (Fuel | null | [])[];
 }
 
 interface Data {
@@ -34,30 +34,39 @@ interface TableWithFormikProps {
 }
 
 const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => {
-    // Handle cases where data or listing is undefined
-    const listings = data?.listing || [];
+    const [initialValues, setInitialValues] = useState<FormValues>({});
 
-    const initialValues: FormValues = listings.reduce((acc, site) => {
-        acc[site.id] = site.fuels.reduce((fuelAcc, fuel) => {
-            fuelAcc[fuel.id] = fuel.price;
-            return fuelAcc;
-        }, {} as { [fuelId: string]: number });
-        return acc;
-    }, {} as { [siteId: string]: { [fuelId: string]: number } });
+    useEffect(() => {
+        const newInitialValues: FormValues = data.listing.reduce((acc, site) => {
+            acc[site.id] = site.fuels.reduce((fuelAcc, fuel) => {
+                if (fuel && typeof fuel === 'object' && 'id' in fuel) {
+                    fuelAcc[fuel.id] = fuel.price;
+                }
+                return fuelAcc;
+            }, {} as { [fuelId: string]: number });
+            return acc;
+        }, {} as { [siteId: string]: { [fuelId: string]: number } });
+
+        setInitialValues(newInitialValues);
+    }, [data]);
+
+    // Debugging initial values
+    console.log("Initial Values: ", initialValues);
 
     const validationSchema = Yup.object().shape({
         // Add your validation schema here if needed
     });
 
     const handleSubmit = (values: FormValues) => {
+        console.log("Form Values on Submit: ", values);
         onSubmit(values); // Call the parent callback with form values
     };
 
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            {({ values }) => (
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} enableReinitialize>
+            {({ values, setFieldValue }) => (
                 <Form>
-                    {listings.length > 0 ? (
+                    {data.listing.length > 0 ? (
                         <table cellPadding="10">
                             <thead>
                                 <tr>
@@ -67,28 +76,44 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
                                 </tr>
                             </thead>
                             <tbody>
-                                {listings.map((site) => (
+                                {data.listing.map((site) => (
                                     <tr key={site.id}>
                                         <td>{site.station_name}</td>
-                                        {site.fuels.length === 0 ? (
-                                            <td>
-                                                <Field
-                                                    type="text"
-                                                    name={`dummy`}
-                                                    className="form-input"
-                                                    value="Dummy"
-                                                    readOnly
-                                                    style={{
-                                                        backgroundColor: '#ddd',
-                                                        borderColor: 'black',
-                                                        borderWidth: '2px',
-                                                    }}
-                                                />
-                                            </td>
-                                        ) : (
-                                            site.fuels.map((fuel) => (
-                                                Array.isArray(fuel) && fuel.length === 0 ? (
-                                                    <td key={Math.random()}>
+                                        {site.fuels.map((fuel, index) => (
+                                            Array.isArray(fuel) && fuel.length === 0 ? (
+                                                <td key={`empty-${index}`}>
+                                                    <Field
+                                                        type="text"
+                                                        name={`dummy`}
+                                                        className="form-input"
+                                                        value=""
+                                                        readOnly
+                                                        style={{
+                                                            backgroundColor: '#ddd',
+                                                            borderColor: 'black',
+                                                            borderWidth: '2px',
+                                                        }}
+                                                    />
+                                                </td>
+                                            ) : (
+                                                fuel && typeof fuel === 'object' && 'id' in fuel ? (
+                                                    <td key={fuel.id}>
+                                                        <Field
+                                                            type="number"
+                                                            name={`${site.id}.${fuel.id}`}
+                                                            className="form-input"
+                                                            value={values[site.id] && values[site.id][fuel.id] !== undefined ? values[site.id][fuel.id] : ''}
+                                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(`${site.id}.${fuel.id}`, parseFloat(e.target.value))}
+                                                            style={{
+                                                                backgroundColor: 'white',
+                                                                borderColor: fuel.status === 'DOWN' ? 'red' : fuel.status === 'UP' ? 'green' : 'black',
+                                                                borderWidth: '2px',
+                                                            }}
+                                                        />
+                                                        <ErrorMessage name={`${site.id}.${fuel.id}`} component="div" />
+                                                    </td>
+                                                ) : (
+                                                    <td key={`invalid-${index}`}>
                                                         <Field
                                                             type="text"
                                                             name={`dummy`}
@@ -102,23 +127,9 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
                                                             }}
                                                         />
                                                     </td>
-                                                ) : (
-                                                    <td key={fuel.id}>
-                                                        <Field
-                                                            type="number"
-                                                            name={`${site.id}.${fuel.id}`}
-                                                            className="form-input"
-                                                            style={{
-                                                                backgroundColor: 'white',
-                                                                borderColor: fuel.status === 'DOWN' ? 'red' : fuel.status === 'UP' ? 'green' : 'black',
-                                                                borderWidth: '2px',
-                                                            }}
-                                                        />
-                                                        <ErrorMessage name={`${site.id}.${fuel.id}`} component="div" />
-                                                    </td>
                                                 )
-                                            ))
-                                        )}
+                                            )
+                                        ))}
                                     </tr>
                                 ))}
                             </tbody>
@@ -126,13 +137,13 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
                     ) : (
                         <p>No data available</p>
                     )}
-                    {listings.length > 0 ? (
+                    {data.listing.length > 0 ? (
                         <div className="text-end mt-6">
                             <button type="submit" className="btn btn-primary">
                                 Submit
                             </button>
                         </div>
-                    ) : ""}
+                    ) : null}
                 </Form>
             )}
         </Formik>

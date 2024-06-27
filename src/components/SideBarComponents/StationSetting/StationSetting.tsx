@@ -544,7 +544,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                         </div>
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Fuels Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Fuels</h6>
                             {formik?.values?.fuels?.length > 0 ? (
                                 <>
                                     <div className="module-height">

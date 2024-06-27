@@ -10,13 +10,10 @@ import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddEditStationModal from './AddEditStationModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
-import IconSettings from '../../Icon/IconSettings';
 import { IRootState } from '../../../store';
 
 interface ManageSiteProps {
@@ -29,6 +26,8 @@ interface ManageSiteProps {
 interface RowData {
     id: string; // Change type from number to string
     full_name: string;
+    client_name: string;
+    entity_name: string;
     role: string;
     addons: string;
     created_date: string;
@@ -98,9 +97,6 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-
-    const isAddPermissionAvailable = UserPermissions?.includes("station-create");
-    const isListPermissionAvailable = UserPermissions?.includes("station-list");
     const isEditPermissionAvailable = UserPermissions?.includes("station-edit");
     const isEditSettingPermissionAvailable = UserPermissions?.includes("station-setting");
     const isDeletePermissionAvailable = UserPermissions?.includes("station-delete");
@@ -113,7 +109,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Station Name',
             selector: (row: RowData) => row.station_name,
             sortable: false,
-            width: '20%',
+            width: '13%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -123,10 +119,37 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             ),
         },
         {
+            name: 'Client Name',
+            selector: (row: RowData) => row.client_name,
+            sortable: false,
+            width: '14%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.client_name}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: 'Entity Name',
+            selector: (row: RowData) => row.entity_name,
+            sortable: false,
+            width: '13%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.entity_name}</h6>
+                    </div>
+                </div>
+            ),
+        },
+     
+        {
             name: 'Station Code',
             selector: (row: RowData) => row.station_code,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -139,7 +162,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Station Address',
             selector: (row: RowData) => row.station_address,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -152,7 +175,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '20%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className=" mt-0 mt-sm-2 d-block">
