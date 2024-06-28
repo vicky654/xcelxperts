@@ -212,7 +212,6 @@ export const stationFuelPurchaseInitialValues = {
   premium: "",
   fuel_name: "",
   entity_id: '',
-  station_id: '',
   tank_name: '',
   tank_code: '',
   ex_vat_price: '',
