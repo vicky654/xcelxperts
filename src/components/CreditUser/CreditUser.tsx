@@ -325,7 +325,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
             <div className=" mt-6">
                 <div
-                    className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'
+                    className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6'
                 >
                     {
                         localStorage.getItem("superiorRole") !== "Client" && (

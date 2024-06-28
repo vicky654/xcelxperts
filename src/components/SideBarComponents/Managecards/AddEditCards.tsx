@@ -90,7 +90,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Cards' : 'Add Cards'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Card' : 'Add Card'} onClose={onClose} />
 
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">

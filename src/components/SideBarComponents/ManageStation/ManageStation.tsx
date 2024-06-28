@@ -15,6 +15,8 @@ import ErrorHandler from '../../../hooks/useHandleError';
 import AddEditStationModal from './AddEditStationModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
+import Dropdown from '../../Dropdown';
+import IconHorizontalDots from '../../Icon/IconHorizontalDots';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -218,8 +220,47 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
 
+                                <div className="dropdown">
+                                    <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
+                                        <ul>
 
-                                {isEditPermissionAvailable && (
+                                            <li>
+                                                {isEditPermissionAvailable && (
+
+                                                    <button type="button" onClick={() => openModal(row?.id)}>
+                                                        <i className="pencil-icon fi fi-rr-file-edit"></i>Edit
+                                                    </button>
+
+                                                )}
+                                            </li>
+                                            <li>
+                                                {isDeletePermissionAvailable && (
+
+                                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                                        Delete
+                                                    </button>
+
+                                                )}
+                                            </li>
+                                            <li>
+                                                {isEditSettingPermissionAvailable && (
+
+                                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
+                                                        <i className="fi fi-rr-settings"></i> Station Setting
+                                                    </button>
+
+
+
+                                                )}
+                                            </li>
+
+                                        </ul>
+                                    </Dropdown>
+                                </div>
+
+
+                                {/* {isEditPermissionAvailable && (
                                     <Tippy content="Edit">
                                         <button type="button" onClick={() => openModal(row?.id)}>
                                             <i className="pencil-icon fi fi-rr-file-edit"></i>
@@ -242,7 +283,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                             </button>
                                         </Tippy>
                                     </>
-                                )}
+                                )} */}
 
 
 

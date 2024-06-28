@@ -188,6 +188,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             if (showStationInput) {
                 fetchSiteList(companyId);
             }
+            formik.setFieldValue('station_id', "");
             const selectedCompany = formik.values.companies.find(company => company.id === companyId);
             formik.setFieldValue('company_name', selectedCompany?.company_name || "");
         } else {
