@@ -242,7 +242,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
 
     const handleFormSubmit = async (values: any) => {
 
-  
+
 
         try {
             const formData = new FormData();
@@ -257,12 +257,12 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             formData.append("date", values.start_date1);
             formData.append("fuel_id", values.fuel_name);
             // values.sites.forEach((site, index) => {
-            //   formData.append(`site_id[${index}]`, site.id);
+            //   formData.append(`station_id[${index}]`, site.id);
             // });
             // const selectedSiteIds = selected?.map((site) => site.value);
 
             // selectedSiteIds?.forEach((id, index) => {
-            //     formData.append(`site_id[${index}]`, id);
+            //     formData.append(`station_id[${index}]`, id);
             // });
 
             if (userId) {
@@ -280,7 +280,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
         }
     };
     const handleApplyFilters = async (values: any) => {
-        
+
 
         const apiURL = `station/competitor-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
 
@@ -309,10 +309,10 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             : Yup.mixed().notRequired(),
         // client_id: Yup.string().required('Client is required'),
         // company_id: Yup.string().required('Entity is required'),
-        // site_id: Yup.string().required('Station is required'),
+        // station_id: Yup.string().required('Station is required'),
     });
 
-    
+
 
 
     return (
@@ -337,7 +337,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             {/* <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} /> */}
 
             <div className=" mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'>
                     <div className='panel h-full '>
 
 

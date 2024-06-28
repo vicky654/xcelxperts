@@ -144,7 +144,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 </div>
             ),
         },
-     
+
         {
             name: 'Station Code',
             selector: (row: RowData) => row.station_code,

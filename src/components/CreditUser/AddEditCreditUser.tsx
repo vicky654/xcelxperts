@@ -57,6 +57,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     const [clients, setClients] = useState<Client[]>([]);
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             if (localStorage.getItem('superiorRole') === 'Client') {
                 const clientId = localStorage.getItem('superiorId');
                 if (clientId) {
@@ -78,7 +79,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             const selectedClient = clients.find((client: Client) => client.id === clientId);
-           
+
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
 
         } else {
@@ -165,7 +166,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                         formik={formik}
                                                         name="client_id"
                                                         label="Client"
-                                                        options={clients?.map((item:any) => ({ id: item.id, name: item.full_name }))}
+                                                        options={clients?.map((item: any) => ({ id: item.id, name: item.full_name }))}
                                                         className="form-input"
                                                     />
                                                 )}

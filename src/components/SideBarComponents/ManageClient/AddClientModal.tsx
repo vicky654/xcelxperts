@@ -63,13 +63,13 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
             const response = await getData(`/client/detail?id=${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                
+
                 formik.setValues({
                     first_name: userData.first_name || '',
                     last_name: userData.last_name || '',
                     email: userData.email || '',
                     client_code: userData.client_code || '',
-
+                    phone_number: userData.phone_number || '',
                     address: userData.address || '',
                     password: '', // Password field should remain empty for security reasons
                 });
@@ -84,7 +84,6 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -106,16 +105,16 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
-                                                {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
 
                                                 <FormikInput formik={formik} type="text" name="first_name" label="First Name" placeholder="First Name" />
                                                 <FormikInput formik={formik} type="text" name="last_name" label="Last Name" placeholder="Last Name" />
-                                                <FormikInput formik={formik} type="text" name="client_code" label="Client Code" placeholder="Client Code"   readOnly={isEditMode ? true : false} />
-                                                <FormikInput formik={formik} type="number" name="phone_number"  label="Phone Number" placeholder="Phone Number" />
+                                                <FormikInput formik={formik} type="text" name="email" label="Email" placeholder="Email" />
+                                                {!isEditMode && <FormikInput formik={formik} type="password" name="password" label="Password" placeholder="Password" />}
+                                                <FormikInput formik={formik} type="text" name="client_code" label="Client Code" placeholder="Client Code" readOnly={isEditMode ? true : false} />
+                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" />
                                                 <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
 
-                                             
+
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
                                                         {isEditMode ? 'Update' : 'Save'}

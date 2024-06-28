@@ -76,14 +76,13 @@ type StationStatusOption = {
 };
 
 const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
-    const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
     const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
     const handleApiError = useErrorHandler();
 
     useEffect(() => {
         if (isOpen) {
-
+            formik.resetForm();
+            setCommonDataList([])
             if (localStorage.getItem("superiorRole") === "Client") {
                 const clientId = localStorage.getItem("superiorId");
                 if (clientId) {
@@ -151,10 +150,10 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -174,7 +173,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
         }
     };
@@ -195,17 +194,13 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
+                // onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
             }
         },
     });
-
-
-
-
 
 
     return (
@@ -248,7 +243,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     formik={formik}
                                                     name="supplier_id"
                                                     label="Suppliers "
-                                                    options={commonDataList?.suppliers?.map((item: any) => ({ id: item?.id, name: item?.name }))}
+                                                    options={commonDataList?.suppliers?.map((item: any) => ({ id: item?.id, name: item?.name })) || []}
                                                     className="form-select text-white-dark"
                                                 />
 
@@ -259,12 +254,12 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                 <FormikInput formik={formik} type="text" name="station_name" label="Station Name" placeholder="Station Name" />
                                                 <FormikInput formik={formik} type="text" name="station_display_name" label="Station Display Name" placeholder="Station Display Name" />
 
-                                           
+
 
 
                                                 <FormikInput formik={formik} type="date" name="start_date" label="Start Date" placeholder="Start Date" />
 
-                                           
+
 
 
                                                 <FormikSelect

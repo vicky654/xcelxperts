@@ -3,12 +3,9 @@ import { useFormik } from 'formik';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
-import FormikTextArea from '../FormikFormTools/FormikTextArea';
-import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
-import { stationInitialValues, stationPumpInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationPumpValidationSchema, getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
-import withApiHandler from '../../utils/withApiHandler';
+import { stationPumpInitialValues } from '../FormikFormTools/InitialValues';
+import { getStationPumpValidationSchema } from '../FormikFormTools/ValidationSchema';
 
 
 interface Client {
@@ -114,6 +111,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
 
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             if (localStorage.getItem("superiorRole") === "Client") {
                 const clientId = localStorage.getItem("superiorId");
                 if (clientId) {
@@ -193,10 +191,10 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -217,7 +215,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tankList', "");
         }
@@ -234,7 +232,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
     //     } else {
     //         formik.setFieldValue('company_name', "");
     //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('site_id', "");
+    //         formik.setFieldValue('station_id', "");
     //         formik.setFieldValue('site_name', "");
     //     }
     // };
@@ -242,7 +240,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
-        formik.setFieldValue("site_id", selectedSiteId);
+        formik.setFieldValue("station_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         // fetchFuelNameList(selectedSiteId)
@@ -264,7 +262,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`site/fuel/list?site_id=${siteId}`);
+            const response = await getData(`site/fuel/list?station_id=${siteId}`);
             formik.setFieldValue('tankList', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -277,7 +275,6 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -343,7 +340,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                                                     readOnly={isEditMode ? true : false}
                                                 />
 
-                                          
+
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

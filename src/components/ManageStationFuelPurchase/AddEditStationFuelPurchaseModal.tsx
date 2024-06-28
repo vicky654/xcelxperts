@@ -96,10 +96,10 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
 
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             FetchClientList();
             FetchFuelSubCategoryList();
             FetchCommonDataList();
-            formik.resetForm()
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
                 // FetchClientList();
@@ -181,10 +181,10 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -205,7 +205,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tankList', "");
         }
@@ -228,7 +228,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
     //     } else {
     //         formik.setFieldValue('company_name', "");
     //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('site_id', "");
+    //         formik.setFieldValue('station_id', "");
     //         formik.setFieldValue('site_name', "");
     //     }
     // };

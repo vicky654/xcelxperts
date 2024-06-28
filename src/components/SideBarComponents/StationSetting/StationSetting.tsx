@@ -484,7 +484,10 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 </div>
 
                 <form onSubmit={formik.handleSubmit} className="p-4 mb-5 bg-white dark:bg-black">
-                    <div className="grid xl:grid-cols-3 gap-6 mb-6">
+                    <div
+                        className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 mb-6'
+                    // className="grid xl:grid-cols-3 gap-6 mb-6"
+                    >
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
                             <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4 ">Assign Card</h6>

@@ -36,6 +36,7 @@ export const clientInitialValues = {
   password: '',
   client_code: '',
   address: '',
+  phone_number: '',
 
 };
 export const companyInitialValues = {
@@ -200,7 +201,7 @@ export const stationFuelPurchaseInitialValues = {
 
   client_id: "",
   company_id: "",
-  site_id: "",
+  station_id: "",
   start_date1: "",
   platts: "",
   developmentfuels: "",

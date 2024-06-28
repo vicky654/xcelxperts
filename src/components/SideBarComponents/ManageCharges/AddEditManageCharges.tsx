@@ -41,7 +41,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
             const response = await getData(`/charge/${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                
+
                 formik.setValues({
                     charge_name: userData.charge_name || '',
                     charge_code: userData.charge_code || '',
@@ -57,7 +57,6 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -79,7 +78,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <FormikInput formik={formik} type="text" name="charge_code"  readOnly={isEditMode ? true : false} />
+                                                <FormikInput formik={formik} type="text" name="charge_code" readOnly={isEditMode ? true : false} />
                                                 <FormikInput formik={formik} type="text" name="charge_name" />
 
                                                 <div className="sm:col-span-2 mt-3">

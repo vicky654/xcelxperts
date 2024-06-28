@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
-import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
 import { stationNozzleInitialValues } from '../FormikFormTools/InitialValues';
 import { getStationNozzleValidationSchema } from '../FormikFormTools/ValidationSchema';
@@ -112,6 +111,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             if (localStorage.getItem("superiorRole") === "Client") {
                 const clientId = localStorage.getItem("superiorId");
                 if (clientId) {
@@ -195,10 +195,10 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -219,7 +219,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tankList', "");
         }
@@ -236,7 +236,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
     //     } else {
     //         formik.setFieldValue('company_name', "");
     //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('site_id', "");
+    //         formik.setFieldValue('station_id', "");
     //         formik.setFieldValue('site_name', "");
     //     }
     // };
@@ -244,7 +244,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
-        formik.setFieldValue("site_id", selectedSiteId);
+        formik.setFieldValue("station_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         fetchFuelNameList(selectedSiteId)
@@ -279,7 +279,6 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -346,7 +345,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                 // onChange={handleSiteChange}
                                                 />
 
-                                            
+
 
                                                 <FormikSelect
                                                     formik={formik}

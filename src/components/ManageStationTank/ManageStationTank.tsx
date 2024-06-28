@@ -89,7 +89,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         setCurrentPage(newPage);
     };
 
- 
+
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
@@ -265,9 +265,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         }
     };
     const handleApplyFilters = async (values: any) => {
-        
-
-
         // Store the form values in local storage
         // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
@@ -320,7 +317,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'>
                     <div className='panel h-full '>
 
 

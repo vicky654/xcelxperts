@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import useToggleStatus from '../../utils/ToggleStatus';
-import useCustomDelete from '../../utils/customDelete';
-import CustomSwitch from '../FormikFormTools/CustomSwitch';
-import IconTrashLines from '../Icon/IconTrashLines';
-import IconPencil from '../Icon/IconPencil';
 import LoaderImg from '../../utils/Loader';
-import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStationModal';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import AddEditStationFuelPurchaseModal from './AddEditStationFuelPurchaseModal';
 import { useFormik } from 'formik';
-import { stationSettingInitialValues } from '../FormikFormTools/InitialValues';
 import { MultiSelect } from 'react-multi-select-component';
-import { Col, FormGroup } from 'react-bootstrap';
-import { showMessage } from '../../utils/errorHandler';
+import { FormGroup } from 'react-bootstrap';
+import { getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import showMessage from '../../hooks/showMessage';
 
 interface ManageStationFuelPurchaseProps {
     isLoading: boolean;
@@ -85,21 +78,40 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         const storedData = localStorage.getItem(storedKeyName);
 
         if (storedData) {
-            console.log(storedData, "storedData");
             setstationData(JSON.parse(storedData))
             handleApplyFilters(JSON.parse(storedData));
         }
-        // fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
         // fetchData();
+
+        // let storedData = localStorage.getItem(storedKeyName);
+
+        // if (storedData) {
+        //     console.log(storedData, "storedData");
+        //     setstationData(JSON.parse(storedData))
+        //     // handleApplyFilters(JSON.parse(storedData));
+        // }
+
     };
+
+
+
 
 
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
+
+    const validationPurchaseSchema = Yup.object().shape({
+        selected: Yup.array()
+            .of(Yup.string()) // Assuming station IDs are strings; adjust as per your data type
+            .min(1, 'Please select at least one station')
+            .required('Please select at least one station'),
+    });
+
+
 
     const formik = useFormik({
         initialValues: {} as any,
@@ -341,7 +353,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         // ... remaining columns
     ];
 
- 
+
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
@@ -383,9 +395,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         }
     };
     const handleApplyFilters = async (values: any) => {
-        
 
-        const apiURL = `station/fuel/purchase-price?client_id=${values.client_id}&entity_id=${values.entity_id}&station_id=${values?.station_id}&date=${values.start_date}`
+
+        setstationData(values)
+
+        const apiURL = `station/fuel/purchase-price?client_id=${values?.client_id}&entity_id=${values?.entity_id}&station_id=${values?.station_id}&date=${values?.start_date}`
 
         try {
             const response = await getData(apiURL);
@@ -420,10 +434,17 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         if (
             selected === undefined ||
             selected === null ||
-            (Array.isArray(selected) && selected.length === 0)
+            (Array?.isArray(selected) && selected?.length === 0)
         ) {
-            showMessage("Please select at least one site");
+            showMessage("Pleaseeeee select at least one site", 'error');
         }
+
+        // Check if at least one site is selected
+        if (!selected || selected?.length === 0) {
+            showMessage("Please select at least one site", 'error');
+            return; // Exit the function if no site is selected
+        }
+
 
         try {
             const formData = new FormData();
@@ -549,7 +570,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'>
                     <div className='panel h-full '>
 
 
@@ -591,7 +612,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                         <div className=' my-4'>
                                             <FormGroup>
                                                 <label className="form-label mt-4">
-                                                    Select Stations 
+                                                    Select Stations
                                                     <span className="text-danger">*</span>
                                                 </label>
                                                 <MultiSelect
@@ -599,9 +620,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                                     onChange={setSelected}
                                                     labelledBy="Select Sites"
                                                     // disableSearch="true"
-                                                    options={stationData?.sites?.map((item: any) => ({ value: item.id, label: item.name }))}
-                                                // options={[]}
-                                                // showCheckbox="false"
+                                                    options={stationData?.sites?.map((item: any) => ({ value: item?.id, label: item?.name })) || []}
                                                 />
                                             </FormGroup>
                                         </div>
@@ -635,21 +654,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                         )}
                                     </form>
                                 </>
-
-
-                                {/* <div className="datatables">
-                                    <DataTable
-                                        className=" table-striped table-hover table-bordered table-compact"
-                                        columns={columns}
-                                        data={data}
-                                        noHeader
-                                        defaultSortAsc={false}
-                                        striped={true}
-                                        persistTableHead
-                                        highlightOnHover
-                                        responsive={true}
-                                    />
-                                </div> */}
                             </>
                         ) : (
                             <>
@@ -665,7 +669,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                 </div>
 
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };

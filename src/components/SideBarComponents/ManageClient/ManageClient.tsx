@@ -100,7 +100,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         try {
             const response = await getData(`/account-login/${id}`);
             if (response && response.data && response.data.data) {
-                
+
                 localStorage.setItem('token', response.data.data?.access_token);
                 localStorage.setItem('superiorId', response.data.data?.superiorId);
                 localStorage.setItem('superiorRole', response.data.data?.superiorRole);
@@ -126,7 +126,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
 
-    const isAssignAddPermissionAvailable = UserPermissions?.includes('user-assign-permission');
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('client-assign-permission');
     const isEditPermissionAvailable = UserPermissions?.includes('client-edit');
     const isDeletePermissionAvailable = UserPermissions?.includes('client-delete');
 
@@ -212,14 +212,14 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         },
         anyPermissionAvailable
             ? {
-                  name: 'Actions',
-                  selector: (row: RowData) => row.id,
-                  sortable: false,
-                  width: '20%',
-                  cell: (row: RowData) => (
-                      <span className="text-center">
-                          <div className="flex items-center justify-center">
-                              {/* <div className="inline-flex">
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '20%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            {/* <div className="inline-flex">
                                   <button type="button" onClick={() => openModal(row?.id)}>
                                       <i className="pencil-icon fi fi-rr-file-edit"></i>
                                   </button>
@@ -243,47 +243,56 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                              
                                   </button>
                               </div> */}
-                              <div className="dropdown">
-                                  <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
-                                      <ul>
-                                          <li>
-                                              <button type="button" onClick={() => openModal(row?.id)}>
-                                                  <i className="pencil-icon fi fi-rr-file-edit"></i> Edit
-                                              </button>
-                                          </li>
-                                          <li>
-                                          {isAssignAddPermissionAvailable && (
-                                              <button onClick={() => handleDelete(row.id)} type="button">
-                                                  <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i> Delete
-                                              </button>
-                                                 )}
-                                          </li>
-                                          <li>
-                                              {isAssignAddPermissionAvailable && (
-                                                  <button onClick={() => openUserAddonModal(row?.id)} type="button">
-                                                      <i className="fi fi-rr-user-add"></i> Assign Addon
-                                                  </button>
-                                              )}
-                                          </li>
-                                          <li>
-                                              <button onClick={() => handleClientLogin(row.id)} type="button">
-                                                  <i className="fi fi-rr-sign-in-alt"></i> Client Login
-                                                  {/* <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
+                            <div className="dropdown">
+                                <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
+                                    <ul>
+                                        {isEditPermissionAvailable && (<>
+
+
+                                            <li>
+                                                <button type="button" onClick={() => openModal(row?.id)}>
+                                                    <i className="pencil-icon fi fi-rr-file-edit"></i> Edit
+                                                </button>
+
+                                            </li>
+                                        </>)}
+                                        <li>
+                                            {isDeletePermissionAvailable && (
+                                                <button onClick={() => handleDelete(row.id)} type="button">
+                                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i> Delete
+                                                </button>
+                                            )}
+                                        </li>
+                                        <li>
+                                            {isAssignAddPermissionAvailable && (
+                                                <button onClick={() => openUserAddonModal(row?.id)} type="button">
+                                                    <i className="fi fi-rr-user-add"></i> Assign Addon
+                                                </button>
+                                            )}
+                                        </li>
+                                        <li>
+                                            <button onClick={() => handleClientLogin(row.id)} type="button">
+                                                <i className="fi fi-rr-sign-in-alt"></i> Client Login
+                                                {/* <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
                                         </div> */}
-                                              </button>
-                                          </li>
-                                          <li>
-                                              <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
-                                                  <i className="fi fi-rr-assign"></i> Assign Client Reports
-                                              </button>
-                                          </li>
-                                      </ul>
-                                  </Dropdown>
-                              </div>
-                          </div>
-                      </span>
-                  ),
-              }
+                                            </button>
+                                        </li>
+
+                                        {isAssignAddPermissionAvailable && (<>
+                                            <li>
+                                                <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
+                                                    <i className="fi fi-rr-assign"></i> Assign Client Reports
+                                                </button>
+                                            </li>
+                                        </>)}
+
+                                    </ul>
+                                </Dropdown>
+                            </div>
+                        </div>
+                    </span >
+                ),
+            }
             : null,
     ];
 

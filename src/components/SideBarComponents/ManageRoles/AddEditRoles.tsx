@@ -106,7 +106,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                 formData.role_id = id;
             }
 
-           
+
             const isSuccess = await postData(postDataUrl, formData);
             if (isSuccess) {
                 handleSuccess();
@@ -178,6 +178,11 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 Dashboard
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/manage-roles/roles" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+                                Roles
+                            </Link>
+                        </li>
                         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                             <span>Roles</span>
                         </li>
@@ -200,10 +205,10 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 onBlur={formik.handleBlur}
                                 value={formik.values.roleName}
                             />
-                          
+
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
                             {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
-                                
+
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -247,11 +252,11 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                             </div>
                                         ))}
                                     </div>
-                               </div>
-                               
+                                </div>
+
                             ))}
-                                 {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
-                                
+                            {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
+
                         </div>
                         <div className="text-end mt-4">
                             <button
@@ -265,7 +270,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 className="bg-red-600 text-white px-4 py-2 ml-4 rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                 onClick={handleClearForm}
                             >
-                                Clear 
+                                Clear
                             </button>
                         </div>
                     </form>

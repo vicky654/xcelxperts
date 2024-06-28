@@ -561,7 +561,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             {isLoading ? <LoaderImg /> : ""}
             <div>
                 <div className='flex justify-between items-center flex-wrap'>
-                    <ul className="flex space-x-2 rtl:space-x-reverse">
+                    <ul className="flex space-x-2 rtl:space-x-reverse my-2">
                         <li>
                             <Link to="/" className="text-primary hover:underline">
                                 Dashboard
@@ -574,29 +574,31 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                     <div className=' flex gap-4 flex-wrap'>
 
-                        {filters?.client_id || filters?.company_id || filters?.site_id ? <>
-                            <div className="badges-container flex flex-wrap items-center gap-2 px-4 bg-info rounded-lg text-white">
+                        {filters?.client_id || filters?.company_id || filters?.site_id ? (
+                            <>
+                                <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
+                                    {filters?.client_id && (
+                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Client </span> {filters.client_id}
+                                        </div>
+                                    )}
 
-                                {filters?.client_id && (
-                                    <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 rounded">
-                                        <span className="font-semibold">Client Name:</span> {filters.client_id}
-                                    </div>
-                                )}
+                                    {filters?.company_id && (
+                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Entity </span> {filters.company_id}
+                                        </div>
+                                    )}
 
-                                {filters?.company_id && (
-                                    <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 rounded">
-                                        <span className="font-semibold">Entity Name:</span> {filters.company_id}
-                                    </div>
-                                )}
-
-                                {filters?.site_id && (
-                                    <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 rounded">
-                                        <span className="font-semibold">Station Name:</span> {filters.site_id}
-                                    </div>
-                                )}
-
-                            </div>
-                        </> : ""}
+                                    {filters?.site_id && (
+                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Station </span> {filters.site_id}
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            ''
+                        )}
 
                         <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark ">
                             Apply Filter

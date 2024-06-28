@@ -137,7 +137,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
                 if (response) {
                     const actionResult = await dispatch<any>(fetchStoreData()); // Dispatch the fetchStoreData thunk here
-             
+
                     navigate("/")
                 } else {
                     // Handle error
@@ -175,7 +175,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
             if (response) {
                 const actionResult = await dispatch<any>(fetchStoreData()); // Dispatch the fetchStoreData thunk here
-         
+
                 navigate("/")
             } else {
                 // Handle error
@@ -416,13 +416,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                                         </div>
 
                                         <div className="sm:col-span-2 mt-3">
-                                            <button type="submit" className="btn btn-primary"
-                                            // onClick={() => {
-                                            //     if (Object.keys(formik.touched).length !== 0 && Object.keys(formik.errors).length === 0) {
-                                            //         formik.handleSubmit();
-                                            //     }
-                                            // }}
-                                            >
+                                            <button type="submit" className="btn btn-primary" >
                                                 Update
                                             </button>
                                         </div>
@@ -436,7 +430,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                     {tabs === 'update-password' ? (
                         <div>
                             <form onSubmit={formik2.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
-                                <h6 className="text-lg font-bold mb-5">Update Password<span className="text-danger">*</span></h6>
+                                <h6 className="text-lg font-bold mb-5">Update Password</h6>
                                 <div className="flex flex-col sm:flex-row">
                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-5">
                                         <div className={formik2.submitCount ? (formik2.errors.old_password ? 'has-error' : 'has-success') : ''}>

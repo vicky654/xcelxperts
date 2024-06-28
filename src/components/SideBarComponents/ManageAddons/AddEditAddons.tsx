@@ -177,6 +177,11 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                                 Dashboard
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/manage-addons/addons" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+                                Addons
+                            </Link>
+                        </li>
                         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                             <span>Addon</span>
                         </li>
@@ -201,7 +206,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             />
                             {formik.touched.roleName && formik.errors.roleName && <p className="mt-2 text-sm text-red-600">{formik.errors.roleName}</p>}
                             {formik.touched.selectedPermissions && formik.errors.selectedPermissions && <div className="text-red-600 mt-1">{formik.errors.selectedPermissions}</div>}
-                       
+
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

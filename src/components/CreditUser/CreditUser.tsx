@@ -64,6 +64,16 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
     useEffect(() => {
+
+        if (localStorage.getItem("superiorRole") === "Client") {
+            const clientId = localStorage.getItem("superiorId");
+            if (clientId) {
+                formik.setFieldValue("client_id", clientId)
+                GetUserList(clientId)
+                // Simulate the change event to call handleClientChange
+                // handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+            }
+        }
         FetchRoleList();
     }, []);
 
@@ -251,7 +261,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             console.error('API error:', error);
         }
     };
-    
+
     const validationSchemaForCustomInput = Yup.object().shape({
         client_id: isNotClient ? Yup.string().required('Client is required') : Yup.mixed().notRequired(),
     });
@@ -267,7 +277,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             try {
                 // Handle form submission logic here
                 GetUserList(values?.client_id);
-                
+
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -275,12 +285,12 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         },
     });
     const GetUserList = async (id: any) => {
-        
+
         try {
             const response = await getData(`credit-user/list?client_id=${id}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
-                
+
                 setData(response.data.data?.creditUsers);
             } else {
                 throw new Error('No data available in the response');
@@ -314,28 +324,38 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
-                    <div className="panel h-full ">
-                        <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
-                            <div className="flex flex-col sm:flex-row">
-                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
-                                    <FormikSelect
-                                        formik={formik}
-                                        name="client_id"
-                                        label="Client"
-                                        options={RoleList.map((item) => ({ id: item.id, name: item.client_name }))}
-                                        className="form-select text-white-dark"
-                                    />
+                <div
+                    className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'
+                >
+                    {
+                        localStorage.getItem("superiorRole") !== "Client" && (
+                            <div>
+                                {/* className="panel h-full " */}
+                                <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
+                                    <div className="flex flex-col sm:flex-row">
+                                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
+                                            <FormikSelect
+                                                formik={formik}
+                                                name="client_id"
+                                                label="Client"
+                                                options={RoleList.map((item) => ({ id: item.id, name: item.client_name }))}
+                                                className="form-select text-white-dark"
+                                            />
 
-                                    <div className="sm:col-span-2 mt-6">
-                                        <button type="submit" className="btn btn-primary">
-                                            Filter
-                                        </button>
+                                            <div className="sm:col-span-2 mt-6">
+                                                <button type="submit" className="btn btn-primary">
+                                                    Filter
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
+                        )
+                    }
+
+
+
                     <div className="panel h-full xl:col-span-3">
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users</h5>

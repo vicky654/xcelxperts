@@ -91,6 +91,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             if (localStorage.getItem("superiorRole") === "Client") {
                 const clientId = localStorage.getItem("superiorId");
                 if (clientId) {
@@ -101,7 +102,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
                 FetchClientList();
             }
             FetchCommonDataList();
-            
+
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
                 // FetchClientList();
@@ -173,10 +174,10 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -197,7 +198,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tankList', "");
         }
@@ -214,7 +215,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
     //     } else {
     //         formik.setFieldValue('company_name', "");
     //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('site_id', "");
+    //         formik.setFieldValue('station_id', "");
     //         formik.setFieldValue('site_name', "");
     //     }
     // };
@@ -222,7 +223,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
-        formik.setFieldValue("site_id", selectedSiteId);
+        formik.setFieldValue("station_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         fetchFuelNameList(selectedSiteId)
@@ -244,7 +245,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`site/fuel/list?site_id=${siteId}`);
+            const response = await getData(`site/fuel/list?station_id=${siteId}`);
             formik.setFieldValue('tankList', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -257,7 +258,6 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -326,9 +326,9 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
                                                 <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" placeholder="Station Name" />
 
-                                                <FormikInput formik={formik} type="text" name="tank_code"   readOnly={isEditMode ? true : false}label="Tank Code" placeholder="Tank Code" />
+                                                <FormikInput formik={formik} type="text" name="tank_code" readOnly={isEditMode ? true : false} label="Tank Code" placeholder="Tank Code" />
 
-                                            
+
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

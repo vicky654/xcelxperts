@@ -74,6 +74,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     useEffect(() => {
         if (isOpen) {
+            formik.resetForm()
             if (localStorage.getItem("superiorRole") === "Client") {
                 const clientId = localStorage.getItem("superiorId");
                 if (clientId) {
@@ -83,7 +84,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             } else {
                 FetchClientList();
             }
-         
+
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
                 // FetchClientList();
@@ -150,10 +151,10 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -174,7 +175,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tankList', "");
         }
@@ -191,7 +192,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     //     } else {
     //         formik.setFieldValue('company_name', "");
     //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('site_id', "");
+    //         formik.setFieldValue('station_id', "");
     //         formik.setFieldValue('site_name', "");
     //     }
     // };
@@ -199,7 +200,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
-        formik.setFieldValue("site_id", selectedSiteId);
+        formik.setFieldValue("station_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
         if (selectedSiteId) {
@@ -316,7 +317,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     readOnly={isEditMode ? true : false}
                                                 />
 
-                                           
+
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

@@ -332,10 +332,10 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formik.setFieldValue('entities', selectedClient?.entities || []);
             formik.setFieldValue('sites', []);
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
         } else {
             formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('entities', []);
             formik.setFieldValue('sites', []);
@@ -356,7 +356,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         } else {
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
-            formik.setFieldValue('site_id', "");
+            formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tankList', "");
         }
@@ -373,7 +373,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     //     } else {
     //         formik.setFieldValue('company_name', "");
     //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('site_id', "");
+    //         formik.setFieldValue('station_id', "");
     //         formik.setFieldValue('site_name', "");
     //     }
     // };
@@ -381,7 +381,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
-        formik.setFieldValue("site_id", selectedSiteId);
+        formik.setFieldValue("station_id", selectedSiteId);
         formik.setFieldValue('tankList', "");
         const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
 
@@ -435,10 +435,8 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 <form onSubmit={formik.handleSubmit}
                 //  className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black"
                 >
-                    <div className="flex flex-col sm:flex-row">
-                        <div className="flex-1 grid grid-cols-3 sm:grid-cols-2 gap-5">
-
-
+                    <div className="">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
                             {localStorage.getItem("superiorRole") !== "Client" &&
                                 <FormikSelect
                                     formik={formik}
@@ -456,7 +454,8 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
                                 className="form-select text-white-dark"
                                 onChange={handleEntityChange}
-                            /><Col lg={4} md={6}>
+                            />
+                            <Col lg={4} sm={12} md={6}>
                                 <label className="form-label ">
                                     Select Stations
                                     <span className="text-danger">*</span>

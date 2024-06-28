@@ -10,10 +10,7 @@ import { setPageTitle } from '../../store/themeConfigSlice';
 import useToggleStatus from '../../utils/ToggleStatus';
 import useCustomDelete from '../../utils/customDelete';
 import CustomSwitch from '../FormikFormTools/CustomSwitch';
-import IconTrashLines from '../Icon/IconTrashLines';
-import IconPencil from '../Icon/IconPencil';
 import LoaderImg from '../../utils/Loader';
-import AddEditStationModal from '../SideBarComponents/ManageStation/AddEditStationModal';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
@@ -283,7 +280,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
         }
     };
     const handleApplyFilters = async (values: any) => {
-        
+
 
         try {
             const response = await getData(`/station/pump/list?station_id=${values?.station_id}`);
@@ -333,7 +330,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             <AddEditStationPumpModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'>
                     <div className='panel h-full '>
 
 

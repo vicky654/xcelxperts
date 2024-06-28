@@ -435,19 +435,19 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client Name:</span> {filters.client_id}
+                                            <span className="font-semibold">Client </span> {filters.client_id}
                                         </div>
                                     )}
 
                                     {filters?.company_id && (
                                         <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity Name:</span> {filters.company_id}
+                                            <span className="font-semibold">Entity </span> {filters.company_id}
                                         </div>
                                     )}
 
                                     {filters?.site_id && (
                                         <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station Name:</span> {filters.site_id}
+                                            <span className="font-semibold">Station </span> {filters.site_id}
                                         </div>
                                     )}
                                 </div>
@@ -499,7 +499,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
                                 <div className="badge bg-white/30">
-                                    {filterData?.gross_volume?.status === 'up' ? '+' : '-'} {filterData?.gross_volume?.percentage}%{' '}
+                                    {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.gross_volume?.percentage}%{' '}
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -519,7 +519,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : '-'} {filterData?.gross_profit?.gross_margin}
+                                Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : ''} {filterData?.gross_profit?.gross_margin}
                             </div>
                         </div>
 
@@ -531,7 +531,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_margin_?.gross_margin} </div>
                                 <div className="badge bg-white/30">
-                                    {filterData?.gross_margin_?.status === 'up' ? '+' : '-'} {filterData?.gross_margin_?.percentage}%{' '}
+                                    {filterData?.gross_margin_?.status === 'up' ? '+' : ''} {filterData?.gross_margin_?.percentage}%{' '}
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -548,7 +548,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
                                 <div className="badge bg-white/30">
-                                    {filterData?.shop_sales?.status === 'up' ? '+' : '-'} {filterData?.shop_sales?.percentage}%{' '}
+                                    {filterData?.shop_sales?.status === 'up' ? '+' : ''} {filterData?.shop_sales?.percentage}%{' '}
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">

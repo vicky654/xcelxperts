@@ -545,6 +545,12 @@ body.swal2-toast-shown .swal2-container.swal2-top {
         padding-left: 0.5rem !important;
         padding-right: 0.5rem !important;
     }
+
+    .nodata-image {
+        max-height: 250px;
+        max-width: 350px;
+        margin: auto;
+    }
 }
 
 .c-head-icon {
@@ -561,18 +567,11 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     /* This is an alias for word-wrap and ensures compatibility */
 }
 
-.isPiMa {
-    justify-content: center !important;
-}
-
-.gjoprN {
-    justify-content: center;
-}
-
 
 .dropdown ul {
     min-width: 195px !important;
 }
-/* .form-select{
-    border: #6b728033 !important;
-} */
+
+.badge {
+    border-radius: 0px !important;
+}

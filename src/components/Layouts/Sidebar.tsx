@@ -33,6 +33,7 @@ import IconMenuAuthentication from '../Icon/Menu/IconMenuAuthentication';
 import IconMenuDocumentation from '../Icon/Menu/IconMenuDocumentation';
 import menuItems from '../SideBar/SideBarItems';
 import MenuItemComponent from '../SideBar/SideBarListing';
+import MenuItemResponsiveComponent from './ResponsiveSideBar';
 
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
@@ -102,7 +103,7 @@ const Sidebar = () => {
 
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                             {menuItems.map((menuItem) => (
-                                <MenuItemComponent {...menuItem} itemKey={menuItem.key} />
+                                <MenuItemResponsiveComponent {...menuItem} itemKey={menuItem.key} />
                             ))}
                         </ul>
                         {/* <ul className="relative font-semibold space-y-0.5 p-4 py-0">

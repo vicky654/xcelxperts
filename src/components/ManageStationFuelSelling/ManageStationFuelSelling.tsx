@@ -40,17 +40,24 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         entity_id: '',
         start_date: '',
     });
+    let storedKeyItems: any = localStorage.getItem("fuelselling") || '[]';
     let storedKeyName = "fuelselling";
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
 
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
-
         if (storedData) {
             handleApplyFilters(JSON.parse(storedData));
         }
-
     }, []);
+
+
+    const handleSuccess = () => {
+        handleApplyFilters(JSON.parse(storedKeyItems));
+    };
+
+
+
     const handleApplyFilters = async (values: any) => {
         setFormValues({
             client_id: values.client_id,
@@ -62,7 +69,6 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, "response.data.data");
                 setData(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -76,6 +82,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     const validationSchemaForCustomInput = Yup.object({
         entity_id: Yup.string().required('Entity is required'),
         client_id: isNotClient ? Yup.string().required('Client is required') : Yup.mixed().notRequired(),
+        start_date: Yup.string().required('Start Date is required'),
     });
 
     const handleFormSubmit = async (values: any) => {
@@ -139,7 +146,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             </div>
 
             <div className=" mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6'>
                     <div className="panel h-full ">
                         <CustomInput
                             getData={getData}
@@ -153,6 +160,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
+                            storedKeyName={storedKeyName}
                             onClose={function (): void {
                                 throw new Error('Function not implemented.');
                             }}

@@ -162,7 +162,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
 
-   
+
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);
@@ -229,7 +229,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     onBlur={formik.handleBlur}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Client</option>
-                                    {formik.values.clients.length > 0 ? (
+                                    {formik.values.clients?.length > 0 ? (
                                         formik.values.clients.map(item => (
                                             <option key={item.id} value={item.id}>
                                                 {item.client_name}
@@ -253,7 +253,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     value={formik.values.entity_id}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Entity</option>
-                                    {formik.values.companies.length > 0 ? (
+                                    {formik.values.companies?.length > 0 ? (
                                         formik.values.companies.map(company => (
                                             <option key={company.id} value={company.id}>
                                                 {company.entity_name}
@@ -277,7 +277,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     onBlur={formik.handleBlur}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Station</option>
-                                    {formik.values.sites.length > 0 ? (
+                                    {formik.values.sites?.length > 0 ? (
                                         formik.values.sites.map(site => (
                                             <option key={site.id} value={site.id}>
                                                 {site.name}
@@ -295,9 +295,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                             <FormikInput formik={formik} type="date" label="Start Date" name="start_date" />
                         )}
 
-
                         <div
-                        // className="sm:col-span-2 mt-3"
                         >
                             <button type="submit" className="btn btn-primary">
                                 Apply

@@ -95,8 +95,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, o
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                await formik.resetForm()
-                onClose();
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
