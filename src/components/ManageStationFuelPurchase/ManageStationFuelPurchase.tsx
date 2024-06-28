@@ -85,15 +85,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
         // fetchData();
-
-        // let storedData = localStorage.getItem(storedKeyName);
-
-        // if (storedData) {
-        //     console.log(storedData, "storedData");
-        //     setstationData(JSON.parse(storedData))
-        //     // handleApplyFilters(JSON.parse(storedData));
-        // }
-
     };
 
 
@@ -118,9 +109,6 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         // validationSchema: getStationValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
-
-                console.log(values, "values");
-
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller

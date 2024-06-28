@@ -274,7 +274,6 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
 
                     if (response) {
                         const actionResult = await dispatch<any>(fetchStoreData()); // Dispatch the fetchStoreData thunk here
-                        console.log('response:', actionResult);
                         navigate("/")
                     } else {
                         // Handle error

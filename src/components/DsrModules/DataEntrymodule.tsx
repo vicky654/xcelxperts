@@ -9,8 +9,8 @@ import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import { IRootState } from '../../store';
-import { 
-    FuelSales, FuelInventory, FuelDelivery, ShopSales, ChargesDeductions, CreditSales, Payment, CashBanking, Summary 
+import {
+    FuelSales, FuelInventory, FuelDelivery, ShopSales, ChargesDeductions, CreditSales, Payment, CashBanking, Summary
 } from './CardComponents';
 
 interface ManageSiteProps {
@@ -91,7 +91,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             if (response && response.data && response.data.data) {
                 setData(response.data?.data);
                 setCards(response.data.data?.cards);
-                console.log(response.data.data, "response.data.data");
             } else {
                 throw new Error('No data available in the response');
             }
@@ -158,7 +157,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
-                            onClose={() => {}}
+                            onClose={() => { }}
                             showDateInput={true}
                             storedKeyName={storedKeyName}
                         />

@@ -3,11 +3,9 @@ import { useFormik } from 'formik';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
-import FormikTextArea from '../FormikFormTools/FormikTextArea';
-import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
-import { stationFuelPurchaseInitialValues, stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationFuelPurchaseValidationSchema, getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { stationFuelPurchaseInitialValues } from '../FormikFormTools/InitialValues';
+import { getStationFuelPurchaseValidationSchema } from '../FormikFormTools/ValidationSchema';
 import { Col } from 'react-bootstrap';
 import { MultiSelect } from 'react-multi-select-component';
 
@@ -68,14 +66,6 @@ interface RoleItem {
     role_name: string;
 }
 
-// interface UserData {
-//     first_name: string;
-//     last_name: string;
-//     email: string;
-//     phone_number: string;
-//     role: string;
-//     password: string;
-// }
 type StationStatusOption = {
     id: string;
     name: string;
@@ -86,9 +76,7 @@ type tankList = {
 };
 
 const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [fuelSubCategory, setFuelSubCategory] = useState([]);
-    const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
     const [SumTotal, setTotal] = useState<any>(); // Adjust ClientList type as needed
     const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
     const handleApiError = useErrorHandler();
@@ -97,15 +85,31 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
     useEffect(() => {
         if (isOpen) {
             formik.resetForm()
+            setFuelSubCategory([])
+            setSelected([])
+            setTotal("")
             FetchClientList();
             FetchFuelSubCategoryList();
             FetchCommonDataList();
+
+            if (localStorage.getItem("superiorRole") === "Client") {
+                const clientId = localStorage.getItem("superiorId");
+                if (clientId) {
+                    // Simulate the change event to call handleClientChange
+                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+                }
+            } else {
+                FetchClientList();
+            }
+
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
-                // FetchClientList();
             }
         }
     }, [isOpen, isEditMode, userId]);
+
+
+
 
 
     const FetchCommonDataList = async () => {
@@ -118,6 +122,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
             console.error('API error:', error);
         }
     };
+
     const FetchFuelSubCategoryList = async () => {
         try {
             const response = await getData('/fuel/subcategory');
@@ -210,29 +215,6 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
             formik.setFieldValue('tankList', "");
         }
     };
-    const handleBlurChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const BlurId = e.target.value;
-        // formik.setFieldValue('entity_id', entityId);
-        // console.log(BlurId, "BlurId");
-
-    };
-
-    // const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const companyId = e.target.value;
-    //     formik.setFieldValue('company_id', companyId);
-    //     if (companyId) {
-    //         fetchSiteList(companyId);
-    //         const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
-    //         formik.setFieldValue('company_name', selectedCompany?.company_name || "");
-    //         formik.setFieldValue('sites', []);
-    //     } else {
-    //         formik.setFieldValue('company_name', "");
-    //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('station_id', "");
-    //         formik.setFieldValue('site_name', "");
-    //     }
-    // };
-
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
@@ -303,8 +285,6 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
     };
 
 
-
-
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -321,14 +301,18 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="client_id"
-                                                    label="Client"
-                                                    options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleClientChange}
-                                                />
+
+                                                {localStorage.getItem("superiorRole") !== "Client" &&
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="client_id"
+                                                        label="Client"
+                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
+                                                        className="form-select text-white-dark"
+                                                        onChange={handleClientChange}
+                                                    />
+                                                }
+
 
                                                 <FormikSelect
                                                     formik={formik}

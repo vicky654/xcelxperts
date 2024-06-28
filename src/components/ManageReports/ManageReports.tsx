@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import DataTable from 'react-data-table-component';
 import LoaderImg from '../../utils/Loader';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import withApiHandler from '../../utils/withApiHandler';
-import CustomSwitch from '../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../utils/ToggleStatus';
 import useCustomDelete from '../../utils/customDelete';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../Icon/IconTrashLines';
-import IconPencil from '../Icon/IconPencil';
 import ErrorHandler from '../../hooks/useHandleError';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
-import CustomPagination from '../../utils/CustomPagination';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
 import { useFormik } from 'formik';
-import { ReportsTankInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
-import Select from 'react-select';
-import { Col, FormGroup, Row } from 'react-bootstrap';
+import { ReportsTankInitialValues } from '../FormikFormTools/InitialValues';
+import { Col } from 'react-bootstrap';
 import { MultiSelect } from 'react-multi-select-component';
 
 interface Client {
@@ -238,22 +228,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 //     ? `/report/${values.report_code}?${clientIDCondition}entity_id=${values.entity_id}&${selectedSiteIdParams}&from_date=${values.from_date}&to_date=${values.to_date}`
                 //     : `/report/${values.report_code}?${clientIDCondition}entity_id=${values.entity_id}&${selectedSiteIdParams}&month=${values.month}`;
 
-                try {
-                    // const response = await getData(commonParams);
 
-                    // if (response.status === 200) {
-                    //     setShowButton(true);
-                    //     // Console log the response
-                    //     setReportDownloadUrl(commonParams);
-                    // }
-
-                    // if (apidata && apidata.api_response === "success") {
-                    //     setReportDownloadUrl(commonParams);
-                    //     setShowButton(true);
-                    // }
-                } catch (error) {
-                    console.error("Error occurred while fetching data:", error);
-                }
             } catch (error) {
                 console.log(error);
                 // Set the submission state to false if an error occurs

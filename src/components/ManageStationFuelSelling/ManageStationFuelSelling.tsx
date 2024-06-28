@@ -115,11 +115,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
 
             const isSuccess = await postData(postDataUrl, formData);
 
-            if (isSuccess) {
-                console.log('Form submitted successfully');
-            } else {
-                console.error('Failed to submit form');
-            }
+
         } catch (error) {
             console.error('Error submitting form:', error);
         }
@@ -128,7 +124,8 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     const filterValues = async (values: any) => {
         console.log(values, 'formValues');
     };
-    console.log(formValues, "formValues");
+
+
     return (
         <>
             {isLoading && <LoaderImg />}

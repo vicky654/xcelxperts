@@ -50,15 +50,12 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
         setInitialValues(newInitialValues);
     }, [data]);
 
-    // Debugging initial values
-    console.log("Initial Values: ", initialValues);
 
     const validationSchema = Yup.object().shape({
         // Add your validation schema here if needed
     });
 
     const handleSubmit = (values: FormValues) => {
-        console.log("Form Values on Submit: ", values);
         onSubmit(values); // Call the parent callback with form values
     };
 

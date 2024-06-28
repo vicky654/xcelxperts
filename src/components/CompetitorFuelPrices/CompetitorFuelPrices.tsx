@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import useToggleStatus from '../../utils/ToggleStatus';
 import useCustomDelete from '../../utils/customDelete';
 import CustomSwitch from '../FormikFormTools/CustomSwitch';
-import IconTrashLines from '../Icon/IconTrashLines';
-import IconPencil from '../Icon/IconPencil';
 import LoaderImg from '../../utils/Loader';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
@@ -307,9 +304,6 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
         client_id: isNotClient
             ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
-        // client_id: Yup.string().required('Client is required'),
-        // company_id: Yup.string().required('Entity is required'),
-        // station_id: Yup.string().required('Station is required'),
     });
 
 

@@ -92,16 +92,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         try {
             const response = await getData('/getClients');
             const clients = response.data.data;
-            console.log(response.data.data, "response.data.data");
             setClients(clients);
-            // const clientId = localStorage.getItem("superiorId");
-            // if (localStorage.getItem("superiorRole") !== "Client" && clientId) {
-            //     formik.setFieldValue('client_id', clientId);
-            //     const selectedClient = clients.find((client: Client) => client.id === clientId);
-            //     if (selectedClient) {
-            //         formik.setFieldValue('entities', selectedClient.entities);
-            //     }
-            // }
         } catch (error) {
             handleApiError(error);
         }
@@ -112,10 +103,6 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             if (response && response.data) {
                 const userData: any = response.data?.data;
                 formik.setValues(userData);
-                // FetchClientList()
-                // fetchEntityList(userData?.client_id)
-                // fetchSiteList(userData?.entity_id);
-                // fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
             console.error('API error:', error);
