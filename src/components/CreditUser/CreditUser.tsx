@@ -104,7 +104,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             name: 'Credit User Name',
             selector: (row: RowData) => row.name,
             sortable: false,
-            width: '20%',
+            width: '30%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -113,24 +113,24 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 </div>
             ),
         },
-        {
-            name: 'Max Amount',
-            selector: (row: RowData) => row.name,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
-                    </div>
-                </div>
-            ),
-        },
+        // {
+        //     name: 'Max Amount',
+        //     selector: (row: RowData) => row.name,
+        //     sortable: false,
+        //     width: '20%',
+        //     cell: (row: RowData) => (
+        //         <div className="d-flex">
+        //             <div className=" mt-0 mt-sm-2 d-block">
+        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+        //             </div>
+        //         </div>
+        //     ),
+        // },
         {
             name: 'Phone Number',
             selector: (row: RowData) => row.phone,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -144,7 +144,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className=" mt-0 mt-sm-2 d-block">
