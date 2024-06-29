@@ -43,6 +43,7 @@ const menuItems: MenuItem[] = [
             { title: 'Clients', link: '/manage-clients/client', permission: 'client-list', visibility: false },
             { title: 'Entities', link: '/manage-entities/entity', permission: 'entity-list', visibility: false },
             { title: 'Credt User', link: '/manage-users/credit-users', permission: 'credituser-list', visibility: false },
+            { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
             // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],

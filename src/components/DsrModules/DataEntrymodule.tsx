@@ -9,9 +9,16 @@ import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import { IRootState } from '../../store';
-import {
-    FuelSales, FuelInventory, FuelDelivery, ShopSales, ChargesDeductions, CreditSales, Payment, CashBanking, Summary
-} from './CardComponents';
+
+import FuelSales from './DrsComponents/FuelSales';
+import FuelInventory from './DrsComponents/FuelInventory';
+import FuelDelivery from './DrsComponents/FuelDelivery';
+import ShopSales from './DrsComponents/ShopSales';
+import ChargesDeductions from './DrsComponents/ChargesDeductions';
+import CreditSales from './DrsComponents/CreditSales';
+import Payment from './DrsComponents/Payment';
+import CashBanking from './DrsComponents/CashBanking';
+import Summary from './DrsComponents/Summary';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -43,10 +50,7 @@ interface CardData {
     bgColor: string;
 }
 
-interface ApiResponse {
-    data: RowData[];
-    cards: CardData[];
-}
+
 
 const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
@@ -54,28 +58,21 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
+    const [stationId, setStationId] = useState<string | null>(null);
+    const [startDate, setStartDate] = useState<string | null>(null);
     const navigate = useNavigate();
     const [tabs, setTabs] = useState('home');
 
     const toggleTabs = (name: string) => {
         setSelectedCardName(name);
     };
-
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
     const isNotClient = localStorage.getItem("superiorRole") !== "Client";
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
     let storedKeyName = "stationTank";
 
-    const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
-    const isListPermissionAvailable = UserPermissions?.includes("tank-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("tank-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("tank-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("tank-assign-permission");
-    const isProfileUpdatePermissionAvailable = UserPermissions?.includes("profile-update-profile");
-    const isUpdatePasswordPermissionAvailable = UserPermissions?.includes("profile-update-password");
-    const isSettingsPermissionAvailable = UserPermissions?.includes("config-setting");
 
+  
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
 
@@ -91,6 +88,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             if (response && response.data && response.data.data) {
                 setData(response.data?.data);
                 setCards(response.data.data?.cards);
+                setStationId(values?.station_id);
+                setStartDate(values?.start_date);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -98,7 +97,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             handleApiError(error);
         }
     };
-
     const filterValues = async (values: any) => {
         console.log(values, "filterValues");
     };
@@ -112,7 +110,15 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         start_date: Yup.string().required('Date is required'),
     });
 
-    const componentMap: { [key: string]: React.ComponentType } = {
+    // ... other functions and validations
+
+    const componentMap: { [key: string]: React.ComponentType<{ 
+        stationId: string | null; 
+        startDate: string | null; 
+        isLoading: boolean;
+        getData: (url: string) => Promise<any>;
+        postData: (url: string, body: any) => Promise<any>; 
+    }> } = {
         'Fuel Sales': FuelSales,
         'Fuel Inventory': FuelInventory,
         'Fuel Delivery': FuelDelivery,
@@ -123,7 +129,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         'Cash Banking': CashBanking,
         'Summary': Summary,
     };
-
+    
     const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
 
     return (
@@ -143,8 +149,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div>
 
             <div className="mt-6">
-                <div className="grid xl:grid-cols-4 gap-6 mb-6">
-                    <div className='panel h-full '>
+                <div className="grid grid-cols-12 gap-6 mb-6">
+                    <div className='panel h-full col-span-2'>
                         <CustomInput
                             getData={getData}
                             isLoading={isLoading}
@@ -157,35 +163,45 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
-                            onClose={() => { }}
+                            onClose={() => {}}
                             showDateInput={true}
                             storedKeyName={storedKeyName}
                         />
                     </div>
-                    <div className='panel h-full xl:col-span-3'>
+                    <div className='panel h-full col-span-2'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry</h5>
                         </div>
                         <div>
                             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
                                 {cards.map((card) => (
-                                    <li key={card.id} className="w-1/5 inline-block">
+                                    <li key={card.id} className="inline-block w-full flexcenter">
                                         <button
                                             onClick={() => toggleTabs(card.name)}
                                             className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName === card.name ? '!border-primary text-primary' : ''}`}
                                             style={{ color: card.bgColor }}
                                         >
-                                            <i className={`fi fi-rr-${card?.name.toLowerCase().replace(/\s/g, '-')}`}></i>
-                                            {card?.name}
+                                            <i className={`fi fi-rr-${card.name.toLowerCase().replace(/\s/g, '-')}`}></i>
+                                            {card.name}
                                         </button>
                                     </li>
                                 ))}
                             </ul>
-                            <div>
-                                {SelectedComponent ? <SelectedComponent /> : <div>Select a card to view details</div>}
-                            </div>
                         </div>
                     </div>
+                    <div className="col-span-8 panel h-full">
+                    {SelectedComponent ? 
+                        <SelectedComponent 
+                            stationId={stationId} 
+                            startDate={startDate} 
+                            isLoading={isLoading}
+                            getData={getData}
+                            postData={postData}
+                        /> 
+                    : 
+                        <div>Select a card to view details</div>
+                    }
+                </div>
                 </div>
             </div>
         </>

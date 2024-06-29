@@ -132,11 +132,16 @@ import AssignUserAddons from '../components/SideBarComponents/ManageUser/AssignU
 import AssignClientAddons from '../components/SideBarComponents/ManageClient/AssignClientAddons';
 import AssignClientReports from '../components/SideBarComponents/ManageClient/AssignClientReports';
 import Managecards from '../components/SideBarComponents/Managecards/Managecards';
+import DataEntruModules from '../components/DsrModules/DataEntrymodule';
 
 const routes = [
   {
     path: '/',
     element: <Index />,
+  },
+  {
+    path: '/data-entry',
+    element: <DataEntruModules   />,
   },
   {
     path: '/dashboard/overview',
