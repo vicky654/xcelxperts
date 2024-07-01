@@ -20,7 +20,7 @@ export const getUserValidationSchema = (isEditMode: boolean) => {
             ? Yup.string()
             : Yup.string()
                 .matches(/^[^\s]/, 'cannot start with a space')
-                .required('Password Is Required'),
+                .required('Password is Required'),
         phone_number: Yup.string()
             .matches(phoneNumberRegex, 'Phone number must only contain digits')
             .min(10, 'Phone number must be exactly 10 characters')
@@ -55,7 +55,7 @@ export const getClientValidationSchema = (isEditMode: boolean) => {
             ? Yup.string()
             : Yup.string()
                 .matches(/^[^\s]/, 'Password cannot start with a space')
-                .required('Password Is Required'),
+                .required('Password is Required'),
         phone_number: Yup.string()
             .matches(phoneNumberRegex, 'Phone number must only contain digits')
             .min(10, 'Phone number must be exactly 10 characters')

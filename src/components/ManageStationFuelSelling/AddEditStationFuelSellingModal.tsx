@@ -3,11 +3,9 @@ import { useFormik } from 'formik';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
-import FormikTextArea from '../FormikFormTools/FormikTextArea';
-import { activeInactiveOption } from '../../pages/constants';
 import useErrorHandler from '../../hooks/useHandleError';
-import { stationInitialValues, stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema, getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { stationTankInitialValues } from '../FormikFormTools/InitialValues';
+import { getStationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
 
 
 interface Client {
@@ -204,21 +202,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
         }
     };
 
-    // const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const companyId = e.target.value;
-    //     formik.setFieldValue('company_id', companyId);
-    //     if (companyId) {
-    //         fetchSiteList(companyId);
-    //         const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
-    //         formik.setFieldValue('company_name', selectedCompany?.company_name || "");
-    //         formik.setFieldValue('sites', []);
-    //     } else {
-    //         formik.setFieldValue('company_name', "");
-    //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('station_id', "");
-    //         formik.setFieldValue('site_name', "");
-    //     }
-    // };
+
 
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

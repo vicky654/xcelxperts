@@ -62,7 +62,7 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} enableReinitialize>
             {({ values, setFieldValue }) => (
-                <Form>
+                <Form className=' overflow-auto'>
                     {data.listing.length > 0 ? (
                         <table cellPadding="10">
                             <thead>
@@ -134,7 +134,7 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
                     ) : (
                         <p>No data available</p>
                     )}
-                    {data.listing.length > 0 ? (
+                    {data?.listing?.length > 0 ? (
                         <div className="text-end mt-6">
                             <button type="submit" className="btn btn-primary">
                                 Submit

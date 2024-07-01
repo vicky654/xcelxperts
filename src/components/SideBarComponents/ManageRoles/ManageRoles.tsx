@@ -8,8 +8,6 @@ import withApiHandler from '../../../utils/withApiHandler';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
@@ -121,7 +119,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '10%',
+                width: '20%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">

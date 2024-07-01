@@ -72,7 +72,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     let storedKeyName = "stationTank";
 
 
-  
+
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
 
@@ -112,13 +112,15 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
     // ... other functions and validations
 
-    const componentMap: { [key: string]: React.ComponentType<{ 
-        stationId: string | null; 
-        startDate: string | null; 
-        isLoading: boolean;
-        getData: (url: string) => Promise<any>;
-        postData: (url: string, body: any) => Promise<any>; 
-    }> } = {
+    const componentMap: {
+        [key: string]: React.ComponentType<{
+            stationId: string | null;
+            startDate: string | null;
+            isLoading: boolean;
+            getData: (url: string) => Promise<any>;
+            postData: (url: string, body: any) => Promise<any>;
+        }>
+    } = {
         'Fuel Sales': FuelSales,
         'Fuel Inventory': FuelInventory,
         'Fuel Delivery': FuelDelivery,
@@ -129,7 +131,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         'Cash Banking': CashBanking,
         'Summary': Summary,
     };
-    
+
     const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
 
     return (
@@ -149,8 +151,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div>
 
             <div className="mt-6">
-                <div className="grid grid-cols-12 gap-6 mb-6">
-                    <div className='panel h-full col-span-2'>
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+                    <div className='panel h-full '>
                         <CustomInput
                             getData={getData}
                             isLoading={isLoading}
@@ -163,12 +165,12 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
-                            onClose={() => {}}
+                            onClose={() => { }}
                             showDateInput={true}
                             storedKeyName={storedKeyName}
                         />
                     </div>
-                    <div className='panel h-full col-span-2'>
+                    <div className='panel h-full xl:col-span-1'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry</h5>
                         </div>
@@ -189,19 +191,19 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             </ul>
                         </div>
                     </div>
-                    <div className="col-span-8 panel h-full">
-                    {SelectedComponent ? 
-                        <SelectedComponent 
-                            stationId={stationId} 
-                            startDate={startDate} 
-                            isLoading={isLoading}
-                            getData={getData}
-                            postData={postData}
-                        /> 
-                    : 
-                        <div>Select a card to view details</div>
-                    }
-                </div>
+                    <div className="panel h-full xl:col-span-2">
+                        {SelectedComponent ?
+                            <SelectedComponent
+                                stationId={stationId}
+                                startDate={startDate}
+                                isLoading={isLoading}
+                                getData={getData}
+                                postData={postData}
+                            />
+                            :
+                            <div>Select a card to view details</div>
+                        }
+                    </div>
                 </div>
             </div>
         </>

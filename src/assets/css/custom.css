@@ -575,3 +575,21 @@ body.swal2-toast-shown .swal2-container.swal2-top {
 .badge {
     border-radius: 0px !important;
 }
+
+.form-input,
+.form-textarea,
+.form-select,
+.form-multiselect {
+    appearance: none;
+    background-color: #fff;
+    border-color: #6b7280 !important;
+    border-width: 1px;
+    border-radius: 0px;
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    --tw-shadow: 0 0 #0000;
+}

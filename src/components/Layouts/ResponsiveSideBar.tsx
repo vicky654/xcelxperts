@@ -33,13 +33,13 @@ const MenuItemResponsiveComponent: React.FC<Props> = ({ itemKey, title, icon: Ic
     return (
         <li className="menu nav-item relative" key={itemKey}>
             {hasSubMenu ? (
-                <button type="button" className="nav-link">
+                <button type="button" className="nav-link" onClick={() => toggleMenu(itemKey)}>
                     <div className="flex items-center">
                         {/* <Icon className="shrink-0" /> */}
                         <i className={`fi fi-rr-${Icon}`}></i>
                         <span className="px-1">{title}</span>
                     </div>
-                    <div className="right_arrow" onClick={() => toggleMenu(itemKey)}>
+                    <div className="right_arrow">
                         <i className="c-fi-down-arrow m-0 fi fi-rr-angle-small-down"></i>
                     </div>
                 </button>
