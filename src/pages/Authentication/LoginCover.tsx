@@ -110,11 +110,7 @@ const LoginCover = () => {
                             </div>
                         </div>
                         <div className="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
-                            {/* <div style={{ background: "#fff", borderRadius: "5px" }} className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
-                                <Link to="/" className="w-8 block lg:hidden md:hidden sm:hidden ">
-                                    <img src="/assets/images/AuthLogo.png" alt="Logo" className="mx-auto w-10" />
-                                </Link>
-                            </div> */}
+                      
                             <div className="w-full max-w-[440px] lg:mt-16">
                                 <div className="mb-10">
                                     <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>
@@ -134,11 +130,7 @@ const LoginCover = () => {
                                                         id="Email"
                                                         name="email"
                                                         type="email"
-                                                        // type={
-                                                        //     showPassword2
-                                                        //         ? 'email'
-                                                        //         : 'password'
-                                                        // }
+                                                   
                                                         placeholder="Enter Email"
                                                         className={`form-input ps-10 placeholder:text-white-dark ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''}`}
                                                         onChange={formik.handleChange}
@@ -149,17 +141,7 @@ const LoginCover = () => {
                                                         <IconMail fill={true} />
                                                     </span>
                                                 </div>
-                                                {/* <span className=' d-block position-relative '>
-                                                    <span
-                                                        className='login-password-eye-icon pointer'
-                                                        onClick={toggleEyeIcon2}>
-                                                        {showPassword2 ? (
-                                                            <i className="fi fi-rr-eye"></i>
-                                                        ) : (
-                                                            <i className="fi fi-rr-eye-crossed"></i>
-                                                        )}
-                                                    </span>
-                                                </span> */}
+                                        
 
                                             </div>
                                         </div>
@@ -220,8 +202,7 @@ const LoginCover = () => {
 
                                 <div className="relative my-7 text-center md:mb-9">
                                     <span className="absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 bg-white-light dark:bg-white-dark"></span>
-                                    {/* <span className="relative bg-white px-2 font-bold uppercase text-white-dark dark:bg-dark dark:text-white-light"></span> */}
-                                </div>
+                                    </div>
 
                                 <div className="text-center dark:text-white">
                                     &nbsp;
