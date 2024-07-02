@@ -87,7 +87,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("charges-add");
+    const isAddPermissionAvailable = UserPermissions?.includes("charges-create");
     const isListPermissionAvailable = UserPermissions?.includes("charges-list");
     const isEditPermissionAvailable = UserPermissions?.includes("charges-edit");
     const isEditSettingPermissionAvailable = UserPermissions?.includes("charges-setting");
