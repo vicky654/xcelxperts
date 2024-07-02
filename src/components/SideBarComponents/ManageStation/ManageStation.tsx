@@ -99,6 +99,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+    const isAddPermissionAvailable = UserPermissions?.includes("station-create");
     const isEditPermissionAvailable = UserPermissions?.includes("station-edit");
     const isEditSettingPermissionAvailable = UserPermissions?.includes("station-setting");
     const isDeletePermissionAvailable = UserPermissions?.includes("station-delete");
@@ -364,9 +365,12 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Station
-                </button>
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Station
+                    </button>
+
+                </>}
             </div>
             <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
 

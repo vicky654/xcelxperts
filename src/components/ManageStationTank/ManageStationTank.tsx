@@ -60,12 +60,12 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
-    const isListPermissionAvailable = UserPermissions?.includes("tank-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("tank-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("tank-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("tank-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes("nozzle-create");
+    const isListPermissionAvailable = UserPermissions?.includes("nozzle-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("nozzle-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("nozzle-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("nozzle-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("nozzle-assign-permission");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
@@ -309,10 +309,12 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                         <span>Tank Stations </span>
                     </li>
                 </ul>
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Tank Station
+                    </button>
+                </>}
 
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Tank Station
-                </button>
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 

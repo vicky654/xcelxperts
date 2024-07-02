@@ -20,6 +20,7 @@ import { IRootState } from '../../../store';
 import UserAddonModal from '../ManageUser/UserAddonModal';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';
+import AssignClientReportAddonsModal from './AssignClientReportAddonsModal';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -54,6 +55,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
+    const [isAssignReportAddonModalOpen, setIsAssignReportAddonModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -126,9 +128,12 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
 
-    const isAssignAddPermissionAvailable = UserPermissions?.includes('client-assign-permission');
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('addons-assign');
+    const isAssignReportPermissionAvailable = UserPermissions?.includes('report-assign');
+    const isAddPermissionAvailable = UserPermissions?.includes('client-create');
     const isEditPermissionAvailable = UserPermissions?.includes('client-edit');
     const isDeletePermissionAvailable = UserPermissions?.includes('client-delete');
+    const isLoginPermissionAvailable = UserPermissions?.includes("client-account-access");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isAssignAddPermissionAvailable || isDeletePermissionAvailable;
     const openUserAddonModal = (id: string) => {
@@ -136,8 +141,15 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
         setUserId(id);
     };
 
+
+    const handleAssignReportsLogin = (row: any) => {
+        setIsAssignReportAddonModalOpen(true);
+        setUserId(row?.id);
+    };
+
     const closeUserAddonModal = () => {
         setIsUserAddonModalOpen(false);
+        setIsAssignReportAddonModalOpen(false);
     };
     const columns: any = [
         // Other columns
@@ -158,7 +170,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             name: 'Addons',
             selector: (row: RowData) => row.addons,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -171,7 +183,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             name: 'Email',
             selector: (row: RowData) => row.email,
             sortable: false,
-            width: '15%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -199,15 +211,22 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                <>
+                    {isEditPermissionAvailable ? (
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" onClick={() => toggleActive(row)}>
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
                     ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
+                        " "
                     )}
-                </Tippy>
+
+                </>
             ),
         },
         anyPermissionAvailable
@@ -215,34 +234,11 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '10%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
-                            {/* <div className="inline-flex">
-                                  <button type="button" onClick={() => openModal(row?.id)}>
-                                      <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                  </button>
 
-                                  <button onClick={() => handleDelete(row.id)} type="button">
-                                      <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                  </button>
-
-                                  {isAssignAddPermissionAvailable && (
-                                      <button onClick={() => openUserAddonModal(row?.id)} type="button">
-                                          <i className="fi fi-rr-user-add"></i>
-                                      </button>
-                                  )}
-
-                                  <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
-                                      <i className="fi fi-rr-assign"></i>
-                                  </button>
-
-                                  <button onClick={() => handleClientLogin(row.id)} type="button">
-                                      <i className="fi fi-rr-sign-in-alt"></i>
-                             
-                                  </button>
-                              </div> */}
                             <div className="dropdown">
                                 <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
                                     <ul>
@@ -271,16 +267,20 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                                             )}
                                         </li>
                                         <li>
-                                            <button onClick={() => handleClientLogin(row.id)} type="button">
-                                                <i className="fi fi-rr-sign-in-alt"></i> Client Login
-                                                {/* <div className="grid place-content-center w-10 h-10 border border-white-dark/20 dark:border-[#191e3a] rounded-md">
-                                        </div> */}
-                                            </button>
+
+                                            {isLoginPermissionAvailable && (
+                                                <>
+                                                    <button onClick={() => handleClientLogin(row.id)} type="button">
+                                                        <i className="fi fi-rr-sign-in-alt"></i> Client Login
+                                                    </button>
+                                                </>
+                                            )}
                                         </li>
 
-                                        {isAssignAddPermissionAvailable && (<>
+
+                                        {isAssignReportPermissionAvailable && (<>
                                             <li>
-                                                <button onClick={() => navigate(`/manage-clients/assignreports/${row.id}`)} type="button">
+                                                <button onClick={() => handleAssignReportsLogin(row)} type="button">
                                                     <i className="fi fi-rr-assign"></i> Assign Client Reports
                                                 </button>
                                             </li>
@@ -302,12 +302,6 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
-            // const response = await getData(`/client/detail?id=${id}`)`);
-            // const response = await getData(`/client/detail?id=${id}`);
-            // if (response && response.data) {
-            //     setUserId(id)
-            //     setEditUserData(response.data);
-            // }
         } catch (error) {
             console.error('Error fetching client details:', error);
         }
@@ -348,6 +342,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             handleApiError(error);
         }
     };
+
     const SubmitAddon = async (values: any) => {
         try {
             const formData = new FormData();
@@ -367,6 +362,30 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             handleApiError(error);
         }
     };
+    const SubmitAssignReportAddon = async (values: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('client_id', values?.client_id);
+
+            values.addons.forEach((addon: any, index: number) => {
+                if (addon.checked) {
+                    formData.append(`report_id[${index}]`, addon.id);
+                }
+            });
+
+            const postDataUrl = "/client/assign-report";
+
+            const isSuccess = await postData(postDataUrl, formData);
+            if (isSuccess) {
+                handleSuccess()
+                // navigate("/manage-clients/client");
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -381,12 +400,16 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                         <span>Clients</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Client
-                </button>
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Client
+                    </button>
+                </>}
+
             </div>
             <AddClientModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
             <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
+            <AssignClientReportAddonsModal getData={getData} isOpen={isAssignReportAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAssignReportAddon} userId={userId} />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">

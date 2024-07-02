@@ -52,7 +52,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const isListPermissionAvailable = UserPermissions?.includes('user-list');
     const isEditPermissionAvailable = UserPermissions?.includes('user-edit');
     const isDeletePermissionAvailable = UserPermissions?.includes('user-delete');
-    const isAssignAddPermissionAvailable = UserPermissions?.includes('user-assign-permission');
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('addons-assign');
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
@@ -158,15 +158,25 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
+
+                <>
+
+                    {isEditPermissionAvailable && (
+
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" >
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
+
                     )}
-                </Tippy>
+
+                </>
+
             ),
         },
         anyPermissionAvailable

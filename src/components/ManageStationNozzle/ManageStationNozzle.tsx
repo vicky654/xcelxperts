@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -15,6 +15,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import AddEditStationNozzleModal from './AddEditStationNozzleModal';
 import CustomInput from '../ManageStationTank/CustomInput';
+import { IRootState } from '../../store';
 
 interface ManageStationNozzleProps {
     isLoading: boolean;
@@ -91,11 +92,16 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         customDelete(postData, 'station/nozzle/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const isAddPermissionAvailable = UserPermissions?.includes("pump-create");
+    const isListPermissionAvailable = UserPermissions?.includes("pump-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("pump-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("pump-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("pump-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("pump-assign-permission");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
         {

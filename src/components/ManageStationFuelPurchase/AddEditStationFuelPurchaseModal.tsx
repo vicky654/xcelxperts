@@ -330,11 +330,17 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                         <span className="text-danger">*</span>
                                                     </label>
                                                     <MultiSelect
-                                                        value={selected}
-                                                        onChange={setSelected}
+                                                        value={formik.values.selectedStations}
+                                                        onChange={(selectedStations: any) => formik.setFieldValue('selectedStations', selectedStations)}
+                                                        // value={selected}
+                                                        // onChange={setSelected}
                                                         labelledBy="Select Stations.."
                                                         options={formik.values?.sites?.map((item) => ({ value: item.id, label: item.name }))}
                                                     />
+
+                                                    {formik.errors.selectedStations && formik.touched.selectedStations && (
+                                                        <div className="text-danger">{formik?.errors?.selectedStations}</div>
+                                                    )}
                                                 </Col>
 
 
@@ -386,20 +392,6 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
 
 
                                                 <FormikInput formik={formik} type="number" name="total" readOnly={true} />
-
-
-                                                {/* developmentfuels: "",
-                                                dutty: "",
-                                                ex_vat_price: "",
-                                                vat_percentage_rate: "",
-                                                total: "",
-                                                
-      formData.append("vat_percentage_rate", values.vat_percentage_rate);
-      formData.append("ex_vat_price", values.ex_vat_price);
-      premium: "", 
-                                                
-                                                */}
-
 
 
                                                 <div className="sm:col-span-2 mt-3">

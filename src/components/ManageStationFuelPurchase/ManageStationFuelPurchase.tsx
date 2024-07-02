@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import 'tippy.js/dist/tippy.css';
 import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import LoaderImg from '../../utils/Loader';
-import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
@@ -15,8 +14,8 @@ import AddEditStationFuelPurchaseModal from './AddEditStationFuelPurchaseModal';
 import { useFormik } from 'formik';
 import { MultiSelect } from 'react-multi-select-component';
 import { FormGroup } from 'react-bootstrap';
-import { getStationValidationSchema } from '../FormikFormTools/ValidationSchema';
 import showMessage from '../../hooks/showMessage';
+import { IRootState } from '../../store';
 
 interface ManageStationFuelPurchaseProps {
     isLoading: boolean;
@@ -74,6 +73,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
 
 
+
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
 
@@ -85,6 +85,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     }, [dispatch, currentPage]);
     const handleSuccess = () => {
         // fetchData();
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            setstationData(JSON.parse(storedData))
+            handleApplyFilters(JSON.parse(storedData));
+        }
     };
 
 
@@ -120,11 +126,17 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
 
 
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const isAddPermissionAvailable = UserPermissions?.includes("fuel-purchase-add");
+    const isListPermissionAvailable = UserPermissions?.includes("fuel-purchase-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("fuel-purchase-update");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("fuel-purchase-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("fuel-purchase-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("fuel-purchase-assign-permission");
+
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
     const columns: any = [
         {
             name: "FUEL NAME",
@@ -365,7 +377,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             formData.append("fuel_id", values.fuel_id);
 
 
-            selected?.forEach((selected: any, index: any) => {
+            values?.selectedStations?.forEach((selected: any, index: any) => {
                 formData.append(`station_id[${index}]`, selected.value);
             });
             if (userId) {
@@ -551,9 +563,13 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Station Fuel Purchase
-                </button>
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Station Fuel Purchase
+                    </button>
+                </>}
+
+
             </div>
             <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
@@ -626,11 +642,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                             />
                                         </div>
                                         {isEditPermissionAvailable ? (
-                                            <div className="d-flex justify-content-end mt-3">
+                                            <div className="d-flex justify-content-end mt-3 ">
                                                 {data ? (
                                                     <>
                                                         <button className="btn btn-primary" type="submit">
-                                                            Submit
+                                                            Update
                                                         </button>
                                                     </>
                                                 ) : (

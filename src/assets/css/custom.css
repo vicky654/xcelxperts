@@ -593,3 +593,10 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     line-height: 1.5rem;
     --tw-shadow: 0 0 #0000;
 }
+
+.multi-select>.dropdown-container {
+    padding-right: 0.25rem;
+    padding-bottom: 0.15rem;
+    border-color: #6b7280 !important;
+    border-radius: unset !important;
+}

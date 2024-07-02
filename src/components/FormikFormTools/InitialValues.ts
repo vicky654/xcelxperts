@@ -18,6 +18,12 @@ interface Station {
 
 }
 
+interface SelectedStation {
+  label: string;
+  value: string;
+
+}
+
 
 export const userInitialValues = {
   first_name: '',
@@ -221,6 +227,8 @@ export const stationFuelPurchaseInitialValues = {
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],
+  stations: [] as Station[],
+  selectedStations: [],
   tankList: {} as any,
 };
 

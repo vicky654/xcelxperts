@@ -121,7 +121,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                 sortable: false,
                 width: '20%',
                 cell: (row: RowData) => (
-                    <span className="text-center">
+                    <span className="">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
                                 {' '}
@@ -139,8 +139,6 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                                         </button>
                                     </Tippy>
                                 )}
-
-
                             </div>
                         </div>
                     </span>

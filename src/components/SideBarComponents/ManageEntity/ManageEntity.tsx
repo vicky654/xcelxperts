@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -14,6 +14,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import AddEditEntityModals from './AddEditEntityModals';
+import { IRootState } from '../../../store';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -94,12 +95,15 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
         formData.append('id', id);
         customDelete(postData, 'entity/delete', formData, handleSuccess);
     };
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
+    const isAddPermissionAvailable = UserPermissions?.includes('entity-create');
+    const isListPermissionAvailable = UserPermissions?.includes('entity-list');
+    const isEditPermissionAvailable = UserPermissions?.includes('entity-edit');
+    const isDeletePermissionAvailable = UserPermissions?.includes('entity-delete');
+    const isAssignAddPermissionAvailable = UserPermissions?.includes('addons-assign');
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
         {
@@ -165,15 +169,22 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
+
+                <>
+
+                    {isEditPermissionAvailable && (
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" onClick={() => toggleActive(row)}>
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
                     )}
-                </Tippy>
+                </>
+
             ),
         },
         anyPermissionAvailable
@@ -186,41 +197,23 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                {/* <div className="dropdown">
-                                      <Dropdown
-                                          btnClassName="btn btn-success dropdown-toggle"
-                                          button={
-                                              <>
-                                                  Action
-                                                  <span>
-                                                      <IconCaretDown className="ltr:ml-1 rtl:mr-1 inline-block" />
-                                                  </span>
-                                              </>
-                                          }
-                                      >
-                                          <ul className="!min-w-[170px]">
-                                              <li>
-                                                  <button type="button">Edit</button>
-                                              </li>
-                                              <li>
-                                                  <button type="button" onClick={() => handleDelete(row.id)}>
-                                                      Delete
-                                                  </button>
-                                              </li>
-                                          </ul>
-                                      </Dropdown>
-                                  </div> */}
 
-                                <Tippy content="Edit">
+                                {isEditPermissionAvailable && <>  <Tippy content="Edit">
                                     <button type="button" onClick={() => openModal(row.id, row.client_id)}>
                                         <i className="pencil-icon fi fi-rr-file-edit"></i>
                                     </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+                                </Tippy></>}
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+
+
+
+
                             </div>
                         </div>
                     </span>
@@ -291,9 +284,12 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         <span>Entities</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Entity
-                </button>
+
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Entity
+                    </button>
+                </>}
             </div>
             <AddEditEntityModals getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} clientId={clientId} />
 

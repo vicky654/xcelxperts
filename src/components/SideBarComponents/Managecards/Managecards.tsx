@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -14,6 +14,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import AddEditManagecard from './AddEditCards';
+import { IRootState } from '../../../store';
 interface ManagecardProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
@@ -83,11 +84,13 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
         customDelete(postData, 'card/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const isAddPermissionAvailable = UserPermissions?.includes("card-create");
+    const isListPermissionAvailable = UserPermissions?.includes("card-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("card-edit");
+    const isDeletePermissionAvailable = UserPermissions?.includes("card-delete");
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
         // Other columns
@@ -153,15 +156,21 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
             sortable: false,
             width: '10%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.status === 1 || row.status === 0 ? (
-                        <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
-                    )}
-                </Tippy>
+
+                <>
+                    {isEditPermissionAvailable && <>
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" onClick={() => toggleActive(row)}>
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
+                    </>}
+                </>
+
             ),
         },
         anyPermissionAvailable
@@ -174,16 +183,20 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+                                {isEditPermissionAvailable && <>
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
                             </div>
                         </div>
                     </span>
@@ -249,9 +262,12 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
                         <span>Cards</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add card
-                </button>
+
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add card
+                    </button>
+                </>}
             </div>
             <AddEditManagecard getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 

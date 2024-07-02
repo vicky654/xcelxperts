@@ -241,6 +241,9 @@ export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         client_id: Yup.string().required('Client is required'),
         entity_id: Yup.string().required('Entity is required'),
+        selectedStations: Yup.array()
+            .min(1, 'At least one station must be selected')
+            .required('Stations are required'),
         // station_id: Yup.string().required('Station is required'),
         fuel_id: Yup.string().required('Fuel is required'),
         date: Yup.date().required('Start Date is required').min(new Date('2023-01-01'), 'Start Date cannot be before January 1, 2023'),

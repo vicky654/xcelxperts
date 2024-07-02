@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -16,6 +16,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import AddEditStationPumpModal from './AddEditStationPumpModal';
+import { IRootState } from '../../store';
 
 interface ManageStationPumpProps {
     isLoading: boolean;
@@ -103,11 +104,16 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
         customDelete(postData, 'station/pump/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
+    const isListPermissionAvailable = UserPermissions?.includes("tank-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("tank-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("tank-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("tank-assign-permission");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
 

@@ -135,7 +135,7 @@ const TableWithFormik: React.FC<TableWithFormikProps> = ({ data, onSubmit }) => 
                         <p>No data available</p>
                     )}
                     {data?.listing?.length > 0 ? (
-                        <div className="text-end mt-6">
+                        <div className=" mt-6">
                             <button type="submit" className="btn btn-primary">
                                 Submit
                             </button>

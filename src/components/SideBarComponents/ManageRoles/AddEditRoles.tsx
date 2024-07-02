@@ -179,12 +179,16 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             </Link>
                         </li>
                         <li>
-                            <Link to="/manage-roles/roles" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
-                                Roles
+                            <Link to="/manage-roles/roles" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary ">
+                                <span className='hover:underline'>
+                                    Roles
+                                </span>
                             </Link>
                         </li>
                         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                            <span>Roles</span>
+                            <span>
+                                {id ? "Edit Role" : "Add Role"}
+                            </span>
                         </li>
                     </ul>
                 </div>

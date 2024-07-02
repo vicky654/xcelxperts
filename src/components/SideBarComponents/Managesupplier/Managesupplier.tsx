@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -14,6 +14,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import AddEditManagesupplier from './AddEditManagesupplier';
+import { IRootState } from '../../../store';
 interface ManagesupplierProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
@@ -83,11 +84,17 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
         customDelete(postData, 'supplier/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isAddPermissionAvailable = UserPermissions?.includes("supplier-create");
+    const isListPermissionAvailable = UserPermissions?.includes("supplier-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("supplier-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("supplier-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("supplier-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("supplier-assign-permission");
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
         // Other columns
@@ -153,15 +160,21 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             sortable: false,
             width: '15%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.supplier_status === 1 || row.supplier_status === 0 ? (
-                        <CustomSwitch checked={row.supplier_status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
-                    )}
-                </Tippy>
+                <>
+
+                    {isEditPermissionAvailable && <>
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.supplier_status === 1 || row.supplier_status === 0 ? (
+                                <CustomSwitch checked={row.supplier_status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" onClick={() => toggleActive(row)}>
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
+                    </>}
+
+                </>
             ),
         },
         anyPermissionAvailable
@@ -174,16 +187,25 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+
+                                {isEditPermissionAvailable && <>
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+
+
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+
+
                             </div>
                         </div>
                     </span>
@@ -248,9 +270,13 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                         <span>Suppliers</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Supplier
-                </button>
+
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Supplier
+                    </button>
+                </>}
+
             </div>
             <AddEditManagesupplier getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 

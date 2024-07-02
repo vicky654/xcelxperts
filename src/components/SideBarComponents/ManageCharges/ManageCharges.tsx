@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
@@ -11,12 +10,11 @@ import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import IconTrashLines from '../../Icon/IconTrashLines';
-import IconPencil from '../../Icon/IconPencil';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import AddEditManageCharges from './AddEditManageCharges'; // Import the image
+import { IRootState } from '../../../store';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -86,11 +84,18 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         customDelete(postData, 'charge/delete', formData, handleSuccess);
     };
 
-    const isEditPermissionAvailable = true; // Placeholder for permission check
-    const isDeletePermissionAvailable = true; // Placeholder for permission check
-    const isAddonPermissionAvailable = true; // Placeholder for permission check
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isAddonPermissionAvailable || isDeletePermissionAvailable;
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isAddPermissionAvailable = UserPermissions?.includes("charges-add");
+    const isListPermissionAvailable = UserPermissions?.includes("charges-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("charges-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("charges-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("charges-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("charges-assign-permission");
+
+
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const columns: any = [
         // Other columns
@@ -140,15 +145,21 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
-                <Tippy content={<div>Status</div>} placement="top">
-                    {row.charge_status === 1 || row.charge_status === 0 ? (
-                        <CustomSwitch checked={row.charge_status === 1} onChange={() => toggleActive(row)} />
-                    ) : (
-                        <div className="pointer" onClick={() => toggleActive(row)}>
-                            Unknown
-                        </div>
-                    )}
-                </Tippy>
+
+                <>
+                    {isEditPermissionAvailable && <>
+                        <Tippy content={<div>Status</div>} placement="top">
+                            {row.charge_status === 1 || row.charge_status === 0 ? (
+                                <CustomSwitch checked={row.charge_status === 1} onChange={() => toggleActive(row)} />
+                            ) : (
+                                <div className="pointer" onClick={() => toggleActive(row)}>
+                                    Unknown
+                                </div>
+                            )}
+                        </Tippy>
+                    </>}
+                </>
+
             ),
         },
         anyPermissionAvailable
@@ -161,16 +172,22 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                <Tippy content="Edit">
-                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                        <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                    </button>
-                                </Tippy>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
+                                {isEditPermissionAvailable && <>
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+
+
                             </div>
                         </div>
                     </span>
@@ -234,9 +251,13 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         <span>Charges</span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                    Add Charge
-                </button>
+
+                {isAddPermissionAvailable && <>
+                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                        Add Charge
+                    </button>
+                </>}
+
             </div>
             <AddEditManageCharges getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
