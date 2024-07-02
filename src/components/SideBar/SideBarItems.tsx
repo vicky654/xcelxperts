@@ -122,7 +122,7 @@ const menuItems: MenuItem[] = [
             { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dashboard-view', visibility: false },
             { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dataentry-fuelsale--list', visibility: false },
             // { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'fuel-purchase-list', visibility: false },
-            { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'pump-list', visibility: false },
+            { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'fuel-purchase-price', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
