@@ -112,15 +112,11 @@ const menuItems: MenuItem[] = [
         subMenu: [
             { title: 'Stations', link: '/manage-stations/station', permission: 'station-list', visibility: false },
             { title: 'Tanks', link: '/manage-stations/tank', permission: 'tank-list', visibility: false },
-
             { title: 'Pumps', link: '/manage-stations/pump', permission: 'pump-list', visibility: false },
             { title: 'Nozzles', link: '/manage-stations/nozzle', permission: 'nozzle-list', visibility: false },
             { title: 'Suppliers', link: '/manage-supplier/supplier', permission: 'supplier-list', visibility: false },
-
-
-
-            { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dashboard-view', visibility: false },
-            { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dataentry-fuelsale--list', visibility: false },
+            // { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dashboard-view', visibility: false },
+            { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'fuel-price-update', visibility: false },
             // { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'fuel-purchase-list', visibility: false },
             { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'fuel-purchase-price', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
@@ -136,7 +132,6 @@ const menuItems: MenuItem[] = [
         subMenu: [
             { title: 'Charges', link: '/manage-charges/charges', permission: 'charges-list', visibility: false },
             { title: 'Deductions', link: '/manage-deductions/deductions', permission: 'deduction-list', visibility: false },
-
             { title: 'Cards', link: '/manage-cards/cards', permission: 'card-list', visibility: false },
             { title: 'Reports', link: '/manage-reports/reports', permission: 'report-generate', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
