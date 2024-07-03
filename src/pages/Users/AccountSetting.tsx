@@ -226,7 +226,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 if (response) {
                     setTimeout(() => {
                         localStorage.clear()
-                        window.location.replace('/auth/cover-login');
+                        window.location.replace('/login');
                     }, 500);
                 } else {
                     const errorMessage = Array.isArray(data.message)

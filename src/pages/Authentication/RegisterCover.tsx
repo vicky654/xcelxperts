@@ -193,7 +193,7 @@ const RegisterCover = () => {
                             </div>
                             <div className="text-center dark:text-white">
                                 Already have an account ?&nbsp;
-                                <Link to="/auth/cover-login" className="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
+                                <Link to="/login" className="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
                                     SIGN IN
                                 </Link>
                             </div>

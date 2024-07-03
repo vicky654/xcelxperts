@@ -27,7 +27,7 @@ const useErrorHandler = () => {
         if (error.response && error.response.data) {
             const { status_code, message, data } = error.response.data;
             if (status_code == 401) {
-                navigate('/auth/cover-login');
+                navigate('/login');
                 showMessage('Invalid access token', 'error');
                 localStorage.clear();
             } else if (status_code == 403) {

@@ -188,7 +188,7 @@ const RecoverIdCover = () => {
                                     </button>
                                     <div className="text-center dark:text-white">
                                         &nbsp;
-                                        <Link to="/auth/cover-login" className="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
+                                        <Link to="/login" className="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
                                             Back To Login ?
                                         </Link>
                                     </div>

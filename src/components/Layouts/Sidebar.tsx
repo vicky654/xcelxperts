@@ -691,7 +691,7 @@ const Sidebar = () => {
                                             </NavLink>
                                         </li>
                                         <li>
-                                            <NavLink to="/auth/cover-login" target="_blank">
+                                            <NavLink to="/login" target="_blank">
                                                 {t('login_cover')}
                                             </NavLink>
                                         </li>

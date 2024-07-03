@@ -60,7 +60,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
         } catch (error) {
             setTimeout(() => {
                 localStorage.clear();
-                window.location.replace("/auth/cover-login");
+                window.location.replace("/login");
             }, 3000);
 
             if (axios.isAxiosError(error)) {
@@ -68,7 +68,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
                 if (response) {
                     if (response.status === 401) {
                         setTimeout(() => {
-                            window.location.replace("/auth/cover-login");
+                            window.location.replace("/login");
                             localStorage.clear();
                         }, 2000);
                     } else if (response.status === 403) {

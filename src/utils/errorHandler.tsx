@@ -25,7 +25,7 @@ export const handleError = (error: AxiosError) => {
     showMessage("yes error caught at Top");
 
     if (error.response && error.response.status === 401) {
-        // navigate('/auth/cover-login');
+        // navigate('/login');
         showMessage('Invalid access token');
         localStorage.clear();
     } else if (error.response && error.response.data) {

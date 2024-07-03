@@ -640,7 +640,7 @@ const routes = [
     layout: 'blank',
   },
   {
-    path: '/auth/cover-login',
+    path: '/login',
     element: <LoginCover />,
     layout: 'blank',
   },

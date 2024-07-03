@@ -6,7 +6,7 @@ const PrivateRouter: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     const isLoggedIn = Boolean(localStorage.getItem('token'));
 
     if (!isLoggedIn) {
-        return <Navigate to="/auth/cover-login" state={{ from: location }} />;
+        return <Navigate to="/login" state={{ from: location }} />;
     }
 
     return <>{children}</>;

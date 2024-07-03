@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         dispatch(clearAuthData());
         localStorage.clear();
         // Redirect to login or any other appropriate action
-        window.location.replace('/auth/cover-login');
+        window.location.replace('/login');
     };
 
     const logout = async () => {
@@ -601,7 +601,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                 </button>
                                 <ul className="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden">
                                     <li>
-                                        <NavLink to="/auth/cover-login" target="_blank">
+                                        <NavLink to="/login" target="_blank">
                                             {t('login_cover')}
                                         </NavLink>
                                     </li>
