@@ -155,7 +155,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div>
 
             <div className="mt-6">
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
                     <div className='panel h-full '>
                         <CustomInput
                             getData={getData}
@@ -174,11 +174,11 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             storedKeyName={storedKeyName}
                         />
                     </div>
-                    <div className='panel h-full xl:col-span-1'>
+                    <div className='panel h-full md:grid-cols-6  xl:grid-cols-6'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry</h5>
                         </div>
-                        <div>
+                  
                             <ul className="flexcenter flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
                                 {cards.map((card) => (
                                     <li key={card.id} onClick={() => toggleTabs(card.name)} style={{ background: card.bgColor }} className={`flexcenter dataentrytab ${selectedCardName === card.name ? 'activeTab' : ''}`}>
@@ -189,9 +189,9 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        
                     </div>
-                    <div className="panel h-full xl:col-span-2">
+                    <div className="panel h-full xl:col-span-4">
                         {SelectedComponent ?
                             <SelectedComponent
                                 stationId={stationId}
