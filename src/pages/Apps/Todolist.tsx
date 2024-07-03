@@ -586,7 +586,7 @@ const Todolist = () => {
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             customClass: { container: 'toast' },
         });
         toast.fire({

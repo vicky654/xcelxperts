@@ -34,7 +34,7 @@ const Notification = () => {
             toast: true,
             position: 'bottom-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -45,7 +45,7 @@ const Notification = () => {
             toast: true,
             position: isRtl ? 'top-end' : 'top-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -55,7 +55,7 @@ const Notification = () => {
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -66,7 +66,7 @@ const Notification = () => {
             toast: true,
             position: isRtl ? 'top-start' : 'top-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -77,7 +77,7 @@ const Notification = () => {
             toast: true,
             position: isRtl ? 'bottom-end' : 'bottom-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -88,7 +88,7 @@ const Notification = () => {
             toast: true,
             position: 'bottom',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -99,7 +99,7 @@ const Notification = () => {
             toast: true,
             position: isRtl ? 'bottom-start' : 'bottom-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -110,7 +110,7 @@ const Notification = () => {
             toast: true,
             position: 'bottom-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: false,
         });
     };
@@ -149,7 +149,7 @@ const Notification = () => {
             toast: true,
             position: 'bottom-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
             customClass: {
                 popup: `color-${color}`,
@@ -215,7 +215,7 @@ const showMessage = () => {
         toast: true,
         position: 'bottom-start',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 5000,
         showCloseButton: true,
     });
 };
@@ -282,7 +282,7 @@ const MySwal = withReactContent(Swal);
             toast: true,
             position: isRtl ? 'top-end' : 'top-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -292,7 +292,7 @@ const MySwal = withReactContent(Swal);
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -303,7 +303,7 @@ const MySwal = withReactContent(Swal);
             toast: true,
             position: isRtl ? 'top-start' : 'top-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -314,7 +314,7 @@ const MySwal = withReactContent(Swal);
             toast: true,
             position: isRtl ? 'bottom-end' : 'bottom-start',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -325,7 +325,7 @@ const MySwal = withReactContent(Swal);
             toast: true,
             position: 'bottom',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -336,7 +336,7 @@ const MySwal = withReactContent(Swal);
             toast: true,
             position: isRtl ? 'bottom-start' : 'bottom-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             showCloseButton: true,
         });
     };
@@ -404,7 +404,7 @@ const showMessage7 = () => {
         toast: true,
         position: 'bottom-start',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 5000,
         showCloseButton: false,
     });
 };
@@ -585,7 +585,7 @@ const coloredToast = (color: any) => {
         toast: true,
         position: 'bottom-start',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 5000,
         showCloseButton: true,
         customClass: {
             popup: \`color-\${color}\`,

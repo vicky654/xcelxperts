@@ -246,7 +246,7 @@ const SweetAlert = () => {
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 5000,
             });
             toast.fire({
                 icon: 'success',
@@ -1086,7 +1086,7 @@ const showAlert = async (type: number) => {
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
         });
         toast.fire({
             icon: 'success',

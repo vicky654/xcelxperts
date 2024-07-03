@@ -91,9 +91,13 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                 setStationId(values?.station_id);
                 setStartDate(values?.start_date);
             } else {
+                setData([])
+                setCards([])
                 throw new Error('No data available in the response');
             }
         } catch (error) {
+            setData([])
+            setCards([])
             handleApiError(error);
         }
     };
@@ -175,17 +179,13 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry</h5>
                         </div>
                         <div>
-                            <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
+                            <ul className="flexcenter flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
                                 {cards.map((card) => (
-                                    <li key={card.id} className="inline-block w-full flexcenter">
-                                        <button
-                                            onClick={() => toggleTabs(card.name)}
-                                            className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName === card.name ? '!border-primary text-primary' : ''}`}
-                                            style={{ color: card.bgColor }}
-                                        >
-                                            <i className={`fi fi-rr-${card.name.toLowerCase().replace(/\s/g, '-')}`}></i>
-                                            {card.name}
-                                        </button>
+                                    <li key={card.id} onClick={() => toggleTabs(card.name)} style={{ background: card.bgColor }} className={`flexcenter dataentrytab ${selectedCardName === card.name ? 'activeTab' : ''}`}>
+
+                                        <i className={`fi fi-rr-${card.name.toLowerCase().replace(/\s/g, '-')}`}></i>
+                                        {card.name}
+
                                     </li>
                                 ))}
                             </ul>

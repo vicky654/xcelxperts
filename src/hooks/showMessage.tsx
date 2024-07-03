@@ -8,7 +8,7 @@ const showMessage = (msg: string = '', type: 'success' | 'error' = 'success') =>
     position: 'top',
     showConfirmButton: false,
     showCloseButton: true,
-    timer: 3000,
+    timer: 5000,
     customClass: {
       container: 'toast',
       popup: type === 'success' ? 'success-toast' : 'error-toast', // Custom classes based on type

@@ -35,7 +35,7 @@ const Clipboard = () => {
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
         });
         toast.fire({
             icon: 'success',
