@@ -5,6 +5,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
+import LoaderImg from '../../../utils/Loader';
 
 interface FuelSalesData {
     id: number;
@@ -240,11 +241,11 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     ];
 
     return (
+        <>
+      {isLoading && <LoaderImg />}
         <div>
-            <h1 style={{ fontWeight: 'bolder' }}>{`FuelSales`}</h1>
-            {isLoading ? (
-                <p>Loading...</p>
-            ) : (
+            {/* <h1 style={{ fontWeight: 'bolder' }}>{`FuelSales`}</h1> */}
+        
                 <Formik
                     initialValues={{ data }}
                     enableReinitialize
@@ -267,12 +268,15 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     />
                                 )}
                             </FieldArray>
-                            {iseditable && <button className="btn btn-primary" type="submit">Submit</button>}
+                            <hr></hr>
+                            <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
+                           
                         </Form>
                     )}
                 </Formik>
-            )}
+          
         </div>
+        </>
     );
 };
 

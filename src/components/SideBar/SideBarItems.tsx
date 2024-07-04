@@ -32,6 +32,14 @@ const menuItems: MenuItem[] = [
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
     {
+        key: 'DataEntry',
+        title: 'Data Entry',
+        icon: "apps",
+        link: '/data-entry', // Single link for the Data Entry
+        visibility: false, // Example of setting visibility to false
+        permission: 'workflow-list', // Permission associated with the dashboard
+    },
+    {
         key: 'Manage',
         title: 'Manage',
         icon: "lead-management",
