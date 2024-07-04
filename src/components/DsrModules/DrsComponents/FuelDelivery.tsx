@@ -13,7 +13,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
     }, [stationId, startDate]);
     const handleApplyFilters = async (stationId: string | null, startDate: string | null) => {
         try {
-            const response = await getData(`/fuel-delivery/list?drs_date=${startDate}&station_id=${stationId}`);
+            const response = await getData(`/data-entry/fuel-delivery/list?station_id=${stationId}&drs_date=${startDate}`);
             if (response && response.data && response.data.data) {
                 console.log(response.data.data, "columnIndex");
             } else {

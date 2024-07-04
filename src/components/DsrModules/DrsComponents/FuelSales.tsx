@@ -1,21 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
+import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
+import * as Yup from 'yup';
+import DataTable from 'react-data-table-component';
 
+interface FuelSalesData {
+    id: number;
+    fuel_name: string;
+    fuel_price: string;
+    sales_volume: number;
+    gross_value: number;
+    discount: number;
+    nett_value: number;
+    update_discount: boolean;
+    update_gross_value: boolean;
+    update_nett_value: boolean;
+    update_price: boolean;
+    update_sales_volume: boolean;
+}
+
+interface FormValues {
+    data: FuelSalesData[];
+}
+
+const validationSchema = Yup.object({
+    data: Yup.array().of(
+        Yup.object().shape({
+            sales_volume: Yup.number().required('Required'),
+            gross_value: Yup.number().required('Required'),
+            discount: Yup.number().required('Required'),
+            nett_value: Yup.number().required('Required'),
+        })
+    ),
+});
 
 const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
+    const [data, setData] = useState<FuelSalesData[]>([]);
+    const [iseditable, setIsEditable] = useState(true);
+
     const handleApiError = useErrorHandler();
+
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
         }
     }, [stationId, startDate]);
+
     const handleApplyFilters = async (stationId: string | null, startDate: string | null) => {
         try {
             const response = await getData(`/data-entry/fuel-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, "columnIndex");
+                setData(response.data.data?.listing);
+                setIsEditable(response.data.data?.is_editable);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -24,10 +62,216 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         }
     };
 
+    //   const handleSubmit = (values: FormValues) => {
+    //     try {
+    //       const formData = new FormData();
+
+    //       values.data.forEach((obj) => {
+    //         if (obj.id !== undefined) {
+    //           const id = obj.id;
+
+    //           // Append each field with its corresponding id as part of the key
+    //           formData.append(`gross_value[${id}]`, obj.gross_value.toString());
+    //           formData.append(`discount[${id}]`, obj.discount.toString());
+    //           formData.append(`nett_value[${id}]`, obj.nett_value.toString());
+    //           formData.append(`sales_volume[${id}]`, obj.sales_volume.toString());
+    //         }
+    //       });
+
+    //       // Log the FormData for inspection
+    //       formData.forEach((value, key) => {
+    //         console.log(key, value);
+    //       });
+
+    //       // Example: Send `formData` as the payload to your API
+    //       // await postData('/your-endpoint', formData);
+
+    //     } catch (error) {
+    //       handleApiError(error);
+    //     }
+    //   };
+
+
+    const handleSubmit = async (values: FormValues) => {
+        try {
+            const formData = new FormData();
+
+            values.data.forEach((obj) => {
+                if (obj.id !== undefined) {
+                    const id = obj.id;
+
+                    // Append each field with its corresponding id as part of the key
+                    formData.append(`gross_value[${id}]`, obj.gross_value.toString());
+                    formData.append(`discount[${id}]`, obj.discount.toString());
+                    formData.append(`nett_value[${id}]`, obj.nett_value.toString());
+                    formData.append(`sales_volume[${id}]`, obj.sales_volume.toString());
+                }
+            });
+
+            if (stationId && startDate) {
+                formData.append('drs_date', startDate);
+
+                formData.append('station_id', stationId);
+            }
+
+
+            const url = `data-entry/fuel-sale/update`;
+
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
+                if (stationId && startDate) {
+                    handleApplyFilters(stationId, startDate);
+                }
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+
+    const handleFieldChange = (
+        setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
+        values: FormValues,
+        index: number,
+        field: string,
+        value: any,
+        row: FuelSalesData
+    ) => {
+        const numericValue = parseFloat(value);
+        setFieldValue(`data[${index}].${field}`, numericValue);
+
+        const sales_volume = field === 'sales_volume' ? numericValue : values.data[index].sales_volume;
+        const fuel_price = field === 'fuel_price' ? numericValue : parseFloat(values.data[index].fuel_price);
+        const discount = field === 'discount' ? numericValue : values.data[index].discount;
+
+        const gross_value = sales_volume * fuel_price;
+        const nett_value = gross_value - discount;
+
+        setFieldValue(`data[${index}].gross_value`, gross_value);
+        setFieldValue(`data[${index}].nett_value`, nett_value);
+    };
+
+
+
+    const columns = [
+        {
+            name: 'Fuel',
+            selector: (row: FuelSalesData) => row.fuel_name,
+            cell: (row: FuelSalesData) => <span>{row.fuel_name}</span>,
+        },
+        {
+            name: 'Fuel Price',
+            cell: (row: FuelSalesData, index: number) => (
+                <Field name={`data[${index}].fuel_price`}>
+                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
+                        <input
+                            type="number"
+                            {...field}
+                            className={`form-input ${!row.update_price ? 'readonly' : ''}`}
+                            readOnly={!row.update_price}
+                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'fuel_price', e.target.value, row)}
+                        />
+                    )}
+                </Field>
+            ),
+        },
+        {
+            name: 'Sales Volume',
+            cell: (row: FuelSalesData, index: number) => (
+                <Field name={`data[${index}].sales_volume`}>
+                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
+                        <input
+                            type="number"
+                            {...field}
+                            className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
+                            readOnly={!row.update_sales_volume}
+                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
+                        />
+                    )}
+                </Field>
+            ),
+        },
+        {
+            name: 'Gross Value',
+            cell: (row: FuelSalesData, index: number) => (
+                <Field name={`data[${index}].gross_value`}>
+                    {({ field }: FieldProps) => (
+                        <input
+                            type="number"
+                            {...field}
+                            className={`form-input ${!row.update_gross_value ? 'readonly' : ''}`}
+                            readOnly={!row.update_gross_value}
+                        />
+                    )}
+                </Field>
+            ),
+        },
+        {
+            name: 'Discount',
+            cell: (row: FuelSalesData, index: number) => (
+                <Field name={`data[${index}].discount`}>
+                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
+                        <input
+                            type="number"
+                            {...field}
+                            className={`form-input ${!row.update_discount ? 'readonly' : ''}`}
+                            readOnly={!row.update_discount}
+                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'discount', e.target.value, row)}
+                        />
+                    )}
+                </Field>
+            ),
+        },
+        {
+            name: 'Nett Value',
+            cell: (row: FuelSalesData, index: number) => (
+                <Field name={`data[${index}].nett_value`}>
+                    {({ field }: FieldProps) => (
+                        <input
+                            type="number"
+                            {...field}
+                            className={`form-input ${!row.update_nett_value ? 'readonly' : ''}`}
+                            readOnly={!row.update_nett_value}
+                        />
+                    )}
+                </Field>
+            ),
+        },
+    ];
+
     return (
         <div>
-            <h1>{`FuelSales ${stationId} ${startDate}`}</h1>
-            {/* Your component content */}
+            <h1 style={{ fontWeight: 'bolder' }}>{`FuelSales`}</h1>
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <Formik
+                    initialValues={{ data }}
+                    enableReinitialize
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ values }) => (
+                        <Form>
+                            <FieldArray name="data">
+                                {() => (
+                                    <DataTable
+                                        columns={columns}
+                                        data={values.data}
+                                        noHeader
+                                        defaultSortAsc={false}
+                                        striped
+                                        persistTableHead
+                                        highlightOnHover
+
+                                    />
+                                )}
+                            </FieldArray>
+                            {iseditable && <button className="btn btn-primary" type="submit">Submit</button>}
+                        </Form>
+                    )}
+                </Formik>
+            )}
         </div>
     );
 };
