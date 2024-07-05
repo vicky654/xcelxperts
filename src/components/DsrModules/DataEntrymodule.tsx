@@ -42,7 +42,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const [startDate, setStartDate] = useState<string | null>(null);
 
   const toggleTabs = (name: string) => {
-    setSelectedCardName(name === selectedCardName ? null : name); // Toggle tab selection
+    // setSelectedCardName(name === selectedCardName ? null : name); // Toggle tab selection
+    setSelectedCardName(name === selectedCardName ? selectedCardName : name); // Toggle tab selection
   };
 
   const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
@@ -93,13 +94,13 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
   const componentMap: {
     [key: string]: React.ComponentType<{
-        stationId: string | null;
-        startDate: string | null;
-        isLoading: boolean;
-        getData: (url: string) => Promise<any>;
-        postData: (url: string, body: any) => Promise<any>;
+      stationId: string | null;
+      startDate: string | null;
+      isLoading: boolean;
+      getData: (url: string) => Promise<any>;
+      postData: (url: string, body: any) => Promise<any>;
     }>
-} = {
+  } = {
     'Fuel Sales': FuelSales,
     'Fuel Inventory': FuelInventory,
     'Fuel Delivery': FuelDelivery,
@@ -109,9 +110,13 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Payment': Payment,
     'Cash Banking': CashBanking,
     'Summary': Summary,
-};
+  };
 
   const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
+
+
+  console.log(selectedCardName, "selectedCardName");
+
 
   return (
     <>
@@ -156,11 +161,11 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div>
             <div>
               <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
-                {cards.map((card) => (
+                {cards?.map((card) => (
                   <li key={card.id} className="w-1/8 inline-block">
                     <button
                       onClick={() => toggleTabs(card.name)}
-                      className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName === card.name ? 'border-primary text-primary' : ''}`}
+                      className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary' : ''}`}
                       style={{ color: card.bgColor }}
                     >
                       <i className={`fi fi-rr-${card?.name.toLowerCase().replace(/\s/g, '-')}`}></i>

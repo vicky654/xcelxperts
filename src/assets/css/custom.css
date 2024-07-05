@@ -600,6 +600,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     border-color: #6b7280 !important;
     border-radius: unset !important;
 }
+
 li.flexcenter.dataentrytab {
     /* display: block; */
     width: 82%;
@@ -610,6 +611,11 @@ li.flexcenter.dataentrytab {
     color: #fff;
     cursor: pointer;
 }
-.activeTab{
+
+.activeTab {
     border: 5px solid #ddd !important;
+}
+
+.c-border-primary {
+    border-color: #4361ee !important;
 }
