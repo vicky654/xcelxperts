@@ -120,7 +120,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     return (
         <div className='container mx-auto p-4'>
             <div className='spacebetween'>
-                <h1 className='text-2xl font-bold mb-4'>{`CreditSales ${stationId} ${startDate}`}</h1>
+                <h1 className="text-xl font-semibold mb-4 ">Credit Sales</h1>
                 <button className='btn btn-primary' onClick={addRow}>Add</button>
             </div>
             <form onSubmit={formik.handleSubmit}>

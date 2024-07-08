@@ -245,7 +245,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
     return (
         <div>
-            <h1 style={{ fontWeight: 'bolder' }}>{`Fuel Delivery`}</h1>
+            <h1 className="text-xl font-semibold mb-4 ">{`Fuel Delivery`}</h1>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (

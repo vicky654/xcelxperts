@@ -244,7 +244,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         <>
       {isLoading && <LoaderImg />}
         <div>
-            {/* <h1 style={{ fontWeight: 'bolder' }}>{`FuelSales`}</h1> */}
+            <h1 className="text-xl font-semibold mb-4 ">{`FuelSales`}</h1>
         
                 <Formik
                     initialValues={{ data }}
