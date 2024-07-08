@@ -111,8 +111,8 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                     paymentData && (
                         <DataTable
                             columns={columns}
-                            data={paymentData.listing}
-                            pagination
+                            data={paymentData?.listing}
+                            
                         />
                     )
                 )}
