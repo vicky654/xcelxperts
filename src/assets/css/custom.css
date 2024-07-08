@@ -619,3 +619,7 @@ li.flexcenter.dataentrytab {
 .c-border-primary {
     border-color: #4361ee !important;
 }
+.spacebetween{
+    display: flex;
+    justify-content: space-between;
+}
