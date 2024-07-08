@@ -112,17 +112,29 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
     ) => {
         const numericValue = parseFloat(value);
         setFieldValue(`data[${index}].${field}`, numericValue);
-
+    
         // Update book_stock field if opening, delivery_volume, or sales_volume changes
         if (field === 'opening' || field === 'delivery_volume' || field === 'sales_volume') {
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const delivery_volume = field === 'delivery_volume' ? numericValue : values.data[index].delivery_volume;
             const sales_volume = field === 'sales_volume' ? numericValue : values.data[index].sales_volume;
-
+    
             const newBookStock = opening + delivery_volume - sales_volume;
             setFieldValue(`data[${index}].book_stock`, newBookStock);
+    
+            // Update variance
+            const dips_stock = values.data[index].dips_stock;
+            const newVariance = dips_stock - newBookStock;
+            setFieldValue(`data[${index}].variance`, newVariance);
+        }
+    
+        // Update dips_stock field if dips_stock changes
+        if (field === 'dips_stock') {
+            const newVariance = numericValue - values.data[index].book_stock;
+            setFieldValue(`data[${index}].variance`, newVariance);
         }
     };
+    
 
     const columns = [
         {
