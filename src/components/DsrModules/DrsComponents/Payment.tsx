@@ -32,7 +32,10 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             setLoading(true);
             const response = await getData(`/data-entry/payment/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-                setPaymentData(response.data?.data);
+                const data = response.data.data;
+                const totalAmount = calculateTotalAmount(data.listing);
+                data.listing = updateTotalInListing(data.listing, totalAmount);
+                setPaymentData(data);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -43,12 +46,29 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         }
     };
 
+    const calculateTotalAmount = (listing: PaymentItem[]) => {
+        return listing.reduce((total, item) => {
+            if (item.update_amount) {
+                return total + parseFloat(item.amount);
+            }
+            return total;
+        }, 0);
+    };
+
+    const updateTotalInListing = (listing: PaymentItem[], totalAmount: number) => {
+        return listing.map((item) =>
+            item.card_name === 'Total' ? { ...item, amount: totalAmount.toFixed(2) } : item
+        );
+    };
+
     const handleAmountChange = (value: string, id: string) => {
         if (paymentData) {
             const updatedList = paymentData.listing.map((payment) =>
                 payment.id === id ? { ...payment, amount: value } : payment
             );
-            setPaymentData({ ...paymentData, listing: updatedList });
+            const totalAmount = calculateTotalAmount(updatedList);
+            const updatedListWithTotal = updateTotalInListing(updatedList, totalAmount);
+            setPaymentData({ ...paymentData, listing: updatedListWithTotal });
         }
     };
 
@@ -90,31 +110,26 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             name: 'Amount',
             cell: (row: PaymentItem) => (
                 <input
-                type="number"
-                value={row.amount}
-                readOnly={!row.update_amount}
-                className={`${!row.update_amount ? 'readonly' : ''} mt-1 block w-80 pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                onChange={(e) => handleAmountChange(e.target.value, row.id)}
-            />
-            
+                    type="number"
+                    value={row.amount}
+                    readOnly={!row.update_amount}
+                    className={`${!row.update_amount ? 'readonly' : ''} mt-1 block w-80 pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                    onChange={(e) => handleAmountChange(e.target.value, row.id)}
+                />
             ),
-            sortable: true
-        }
+            sortable: true,
+        },
     ];
 
     return (
         <div>
-            <h1 className="text-lg font-semibold mb-4 ">Payments</h1>
+            <h1 className="text-lg font-semibold mb-4">Payments</h1>
             <form onSubmit={handleFormSubmit}>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
                     paymentData && (
-                        <DataTable
-                            columns={columns}
-                            data={paymentData?.listing}
-
-                        />
+                        <DataTable columns={columns} data={paymentData?.listing} />
                     )
                 )}
                 <button type="submit" className="btn btn-primary">Submit</button>
