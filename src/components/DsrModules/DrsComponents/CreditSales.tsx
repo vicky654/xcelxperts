@@ -36,14 +36,23 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 if (response.data.data.listing) {
                     formik.setValues({ services: response.data.data.listing });
                 }
-                console.log(response.data.data, "columnIndex");
             } else {
                 throw new Error('No data available in the response');
+            }
+            if (Array.isArray(response.data.data?.listing) && response.data.data.listing.length === 0) {
+                response.data.data.listing = [
+                    {
+                        credit_user_id: '',
+                        amount: '',
+                        fuel_sub_category_id: '',
+                    },
+                ];
             }
         } catch (error) {
             handleApiError(error);
         }
     };
+    
 
     const addEditSLAInitialValues: AddEditSLAInitialValues = {
         services: [

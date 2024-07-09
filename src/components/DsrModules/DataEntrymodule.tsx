@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 import useErrorHandler from '../../hooks/useHandleError';
 import { setPageTitle } from '../../store/themeConfigSlice';
@@ -8,8 +8,7 @@ import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
-import { IRootState } from '../../store';
-
+import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
 import FuelSales from './DrsComponents/FuelSales';
 import FuelInventory from './DrsComponents/FuelInventory';
 import FuelDelivery from './DrsComponents/FuelDelivery';
@@ -19,6 +18,7 @@ import CreditSales from './DrsComponents/CreditSales';
 import Payment from './DrsComponents/Payment';
 import CashBanking from './DrsComponents/CashBanking';
 import Summary from './DrsComponents/Summary';
+
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -54,8 +54,9 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     if (storedData) {
       handleApplyFilters(JSON.parse(storedData));
     }
-    dispatch(setPageTitle('Alternative Pagination Table'));
+   
   }, [dispatch]);
+
   const componentMap: {
     [key: string]: React.ComponentType<{
       stationId: string | null;
@@ -71,8 +72,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Shop Sales': ShopSales,
     'Charges & Deductions': ChargesDeductions,
     'Credit Sales': CreditSales,
-    'Payment': Payment,
-    'Cash Banking': CashBanking,
+    'Payments': Payment,
+    'Cash Deposited': CashBanking,
     'Summary': Summary,
   };
 
@@ -118,7 +119,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     }
   }, [cards]);
 
-
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -133,7 +133,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         </li>
       </ul>
     </div>
-
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
         <div className='panel h-full '>
@@ -175,41 +174,15 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               ))}
             </ul>
             <div>
-              {SelectedComponent ? <SelectedComponent stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>Select a card to view details</div>}
+              {SelectedComponent ? <SelectedComponent stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
+                src={noDataImage} // Use the imported image directly as the source
+                alt="no data found"
+                className="all-center-flex nodata-image"
+              /></div>}
             </div>
           </div>
         </div>
-        {/* <div className='panel h-full md:col-span-3 xl:col-span-3'>
-          <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-            <h5 className="font-semibold text-lg dark:text-white-light">Data Entry</h5>
-          </div>
-          <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
-            {cards.map((card) => (
-              <li
-                key={card.id}
-                onClick={() => toggleTabs(card.name)}
-                className={`flexcenter dataentrytab ${selectedCardName === card.name ? 'activeTab' : ''}`}
-                style={{ background: card.bgColor }}
-              >
-                <i className={`fi fi-rr-${card.name.toLowerCase().replace(/\s/g, '-')}`}></i>
-                {card.name}
-              </li>
-            ))}
-          </ul>
-        </div> */}
-        {/* <div className="panel h-full xl:col-span-4">
-          {SelectedComponent ? (
-            <SelectedComponent
-              stationId={stationId}
-              startDate={startDate}
-              isLoading={isLoading}
-              getData={getData}
-              postData={postData}
-            />
-          ) : (
-            <div>Select a card to view details</div>
-          )}
-        </div> */}
+
       </div>
     </div>
   </>;
