@@ -68,16 +68,16 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
         }
     };
 
-    const handleChange = (value: string, id: string, field: keyof ChargesDeductionsData) => {
+    const handleChange = (value: string, row: any, field: keyof ChargesDeductionsData) => {
 
         console.log(field, "field");
 
         // Update charges or deductions based on the field
-        if (field === 'amount') {
-            const updatedCharges = charges.map(charge => charge.id === id ? { ...charge, amount: value } : charge);
+        if (row?.type === 'charge') {
+            const updatedCharges = charges.map(charge => charge.id === row?.id ? { ...charge, amount: value } : charge);
             setCharges(updatedCharges);
         } else {
-            const updatedDeductions = deductions.map(deduction => deduction.id === id ? { ...deduction, name: value } : deduction);
+            const updatedDeductions = deductions.map(deduction => deduction.id === row?.id ? { ...deduction, amount: value } : deduction);
             setDeductions(updatedDeductions);
         }
     };
@@ -100,7 +100,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
                     type="text"
                     value={row.amount}
                     className="form-input"
-                    onChange={(e) => handleChange(e.target.value, row.id, 'amount')}
+                    onChange={(e) => handleChange(e.target.value, row, 'amount')}
                     readOnly={!row.update_amount}
                 />
             )

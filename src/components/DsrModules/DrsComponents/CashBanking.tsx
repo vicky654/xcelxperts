@@ -13,7 +13,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     }, [stationId, startDate]);
     const handleApplyFilters = async (stationId: string | null, startDate: string | null) => {
         try {
-            const response = await getData(`/data-entry/cash-banking/list?drs_date=${startDate}&station_id=${stationId}`);
+            const response = await getData(`/data-entry/cash-banking/?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
                 console.log(response.data.data, "columnIndex");
             } else {
