@@ -97,12 +97,13 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
             sortable: true,
             cell: (row) => (
                 <Form.Control
-                    type="text"
-                    value={row.amount}
-                    className="form-input"
-                    onChange={(e) => handleChange(e.target.value, row, 'amount')}
-                    readOnly={!row.update_amount}
-                />
+                type="text"
+                value={row.amount}
+                className={`form-input ${row.update_amount ? '' : 'readonly'}`}
+                onChange={(e) => handleChange(e.target.value, row, 'amount')}
+                readOnly={!row.update_amount}
+            />
+            
             )
         }
     ];

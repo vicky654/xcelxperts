@@ -186,15 +186,17 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     {`Amount `} <span className="text-red-500">*</span>
                                 </label>
                                 <input
-                                    type='text'
+                                    type="number"
                                     id={`services[${index}].amount`}
                                     name={`services[${index}].amount`}
-                                    placeholder={`Amount `}
+                                    placeholder="Amount"
                                     value={formik.values.services[index].amount}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className="mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    readOnly={!formik.values.services[index].update_amount}
+                                    className={`${!formik.values.services[index].update_amount ? 'readonly' : ''} mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                                 />
+
                                 {formik.errors.services?.[index]?.amount && formik.touched.services?.[index]?.amount && (
                                     <div className="text-red-500 text-sm mt-1">
                                         <span>Amount is required</span>
@@ -217,9 +219,9 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         </div>
                     ))}
                 </div>
-          
-                    <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
-               
+
+                <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
+
             </form>
 
         </div>

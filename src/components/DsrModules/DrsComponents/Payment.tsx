@@ -90,12 +90,13 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             name: 'Amount',
             cell: (row: PaymentItem) => (
                 <input
-                    type="text"
-                    value={row.amount}
-                   className="mt-1 block w-80 pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    onChange={(e) => handleAmountChange(e.target.value, row.id)}
-      
-                />
+                type="number"
+                value={row.amount}
+                readOnly={!row.update_amount}
+                className={`${!row.update_amount ? 'readonly' : ''} mt-1 block w-80 pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                onChange={(e) => handleAmountChange(e.target.value, row.id)}
+            />
+            
             ),
             sortable: true
         }
@@ -112,7 +113,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                         <DataTable
                             columns={columns}
                             data={paymentData?.listing}
-                            
+
                         />
                     )
                 )}
