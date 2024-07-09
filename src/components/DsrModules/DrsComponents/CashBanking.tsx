@@ -156,10 +156,10 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     return (
         <div className="p-6">
-            <h1 className="text-lg font-semibold mb-4">{`Cash Banking ${startDate}`}</h1>
+            <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1>
             {selectedCashBanking && isEditable &&  cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
-                    <h2 className="text-lg font-semibold mb-4">Edit Cash Banking</h2>
+                    <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Reference</label>
@@ -198,7 +198,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             )}
             {!selectedCashBanking && isEditable && (
                 <div className='mb-3'>
-                    <h2 className="text-lg font-semibold mb-4">Add New Cash Banking Entry</h2>
+                    <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Reference</label>

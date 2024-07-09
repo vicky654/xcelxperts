@@ -4,16 +4,16 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useErrorHandler from '../../../hooks/useHandleError';
 import { CommonDataEntryProps } from '../../commonInterfaces';
+import LoaderImg from '../../../utils/Loader';
 interface SummaryProps {
   stationId: string | null;
   startDate: string | null;
 }
 
 
-const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData }) => {
+const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData,isLoading }) => {
   const [data, setData] = useState<any>({ takings: {}, banking: {} });
   const [summaryRemarks, setSummaryRemarks] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const handleApiError = useErrorHandler();
   useEffect(() => {
@@ -76,9 +76,12 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       handleApiError(error);
     }
   };
-  return <>
-    {/* {isLoading && <LoaderImg />} */}
+  return (
+    <>
+    {isLoading && <LoaderImg />}
     <div className="container mx-auto px-4">
+    <h1 className="text-lg font-semibold mb-4 ">Summary{startDate ? `(${startDate})` : ''}</h1>
+                
       <div className="flex justify-center ">
         <div className="w-full ">
           <div className="mb-8">
@@ -164,7 +167,8 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
         </div>
       </div>
     </div>
-  </>;
+  </>
+  )
 };
 
 export default Summary;
