@@ -103,7 +103,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
 
     return (
         <div>
-            <h1 className="text-xl font-semibold mb-4 ">Payment</h1>
+            <h1 className="text-lg font-semibold mb-4 ">Payments</h1>
             <form onSubmit={handleFormSubmit}>
                 {loading ? (
                     <p>Loading...</p>

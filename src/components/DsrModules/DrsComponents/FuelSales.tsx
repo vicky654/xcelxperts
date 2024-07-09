@@ -63,34 +63,6 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         }
     };
 
-    //   const handleSubmit = (values: FormValues) => {
-    //     try {
-    //       const formData = new FormData();
-
-    //       values.data.forEach((obj) => {
-    //         if (obj.id !== undefined) {
-    //           const id = obj.id;
-
-    //           // Append each field with its corresponding id as part of the key
-    //           formData.append(`gross_value[${id}]`, obj.gross_value.toString());
-    //           formData.append(`discount[${id}]`, obj.discount.toString());
-    //           formData.append(`nett_value[${id}]`, obj.nett_value.toString());
-    //           formData.append(`sales_volume[${id}]`, obj.sales_volume.toString());
-    //         }
-    //       });
-
-    //       // Log the FormData for inspection
-    //       formData.forEach((value, key) => {
-    //         console.log(key, value);
-    //       });
-
-    //       // Example: Send `formData` as the payload to your API
-    //       // await postData('/your-endpoint', formData);
-
-    //     } catch (error) {
-    //       handleApiError(error);
-    //     }
-    //   };
 
 
     const handleSubmit = async (values: FormValues) => {
@@ -244,7 +216,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         <>
       {isLoading && <LoaderImg />}
         <div>
-            <h1 className="text-xl font-semibold mb-4 ">{`FuelSales`}</h1>
+            <h1 className="text-lg font-semibold mb-4 ">{`Fuel Sales`} {startDate ? `(${startDate})` : ''}</h1>
         
                 <Formik
                     initialValues={{ data }}
