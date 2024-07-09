@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import LoaderImg from '../../../utils/Loader';
 import useErrorHandler from '../../../hooks/useHandleError';
-import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 interface SummaryProps {
   stationId: string | null;
@@ -44,97 +41,130 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
 
   const isSummaryRemarksNull = summaryRemarks === null;
+  const submitsummary = async (values: any) => {
+    try {
+      const formData = new FormData();
+      
+      // Append takings data
+      Object.keys(data?.takings).forEach((key) => {
+        formData.append(`takings.${key}`, data?.takings[key]);
+      });
 
-  return (
-    <>
-      {/* {isLoading && <LoaderImg />} */}
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center ">
-          <div className="w-full ">
-            <div className="mb-8">
-              <h1 className="text-lg font-bold ">SUMMARY OF TAKINGS</h1>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                <div className="p-4">
-                  {Object.keys(data.takings).map((item, index) => (
-                    <div key={index} className="flex justify-between py-2">
-                      <p className="font-semibold">{item.replace(/_/g, ' ')}</p>
-                      <p>{data.takings[item]}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+      // Append banking data
+      Object.keys(data?.banking).forEach((key) => {
+        formData.append(`banking.${key}`, data?.banking[key]);
+      });
+      if (stationId && startDate) {
+        formData.append('drs_date', startDate);
+        formData.append('station_id', stationId);
+    }
 
-            <div className="mb-8">
-              <h1 className="text-lg font-bold ">SUMMARY OF BANKING</h1>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                <div className="p-4">
-                  {Object.keys(data.banking).map((item, index) => (
-                    <div key={index} className="flex justify-between py-2">
-                      <p className="font-semibold">{item.replace(/_/g, ' ')}</p>
-                      <p>{data.banking[item]}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+      // Append other fields
+      formData.append('cash_difference', data?.cash_difference);
+      formData.append('variance', data?.variance);
+      formData.append('remarks', values?.Remarks);
 
-            <div className="mb-8">
-              <h1 className="text-lg font-bold ">Cash Difference</h1>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                <div className="p-4">
-                  <div className="flex justify-between py-2">
-                    <p className="font-semibold">Cash Difference</p>
-                    <p>{data.cash_difference}</p>
+      const url = `data-entry/dayend`;
+
+      const isSuccess = await postData(url, formData);
+      if (isSuccess) {
+        if (stationId && startDate) {
+          handleApplyFilters(stationId, startDate);
+        }
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+  return <>
+    {/* {isLoading && <LoaderImg />} */}
+    <div className="container mx-auto px-4">
+      <div className="flex justify-center ">
+        <div className="w-full ">
+          <div className="mb-8">
+            <h1 className="text-lg font-bold ">SUMMARY OF TAKINGS</h1>
+            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="p-4">
+                {Object.keys(data?.takings).map((item, index) => (
+                  <div key={index} className="flex justify-between py-2">
+                    <p className="font-semibold">{item.replace(/_/g, ' ')}</p>
+                    <p>{data?.takings[item]}</p>
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
-                  {!isSummaryRemarksNull ? (
-                    <div className="flex justify-between py-2">
-                      <p className="font-semibold">Remarks</p>
-                      <p>{summaryRemarks}</p>
-                    </div>
-                  ) : (
-                    <Formik
-                      initialValues={{ Remarks: '' }}
-                      validationSchema={Yup.object().shape({
-                        Remarks: Yup.string().required('*Remarks is required'),
-                      })}
-                      onSubmit={(values) => {
-                        console.log(values, "columnIndex");
-                      }}
-                    >
-                      <Form>
-                        <div className="">
-                          <label htmlFor="Remarks" className="font-semibold">
-                            Remarks<span className="text-red-600">*</span>
-                          </label>
-                          <br/>
-                          <Field as="textarea" id="Remarks" name="Remarks" className="w-full p-2 border rounded-md" />
-                        </div>
-                        <div className="text-red-600">
-                          <ErrorMessage name="Remarks" component="div" />
-                        </div>
-                        {data.dayend === true && (
-                          <div className="text-right mt-4">
-                            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md btn btn-primary">
-                              Day End
-                            </button>
-                            <p className="text-sm text-gray-600 mt-2">
-                              <span className="text-red-600">*</span>On clicking the Day End button, Day End process will be completed and no modification will be allowed for the closed DRS
-                            </p>
-                          </div>
-                        )}
-                      </Form>
-                    </Formik>
-                  )}
+          <div className="mb-8">
+            <h1 className="text-lg font-bold ">SUMMARY OF BANKING</h1>
+            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="p-4">
+                {Object.keys(data?.banking).map((item, index) => (
+                  <div key={index} className="flex justify-between py-2">
+                    <p className="font-semibold">{item.replace(/_/g, ' ')}</p>
+                    <p>{data?.banking[item]}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-8">
+            <h1 className="text-lg font-bold ">Cash Difference</h1>
+            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="p-4">
+                <div className="flex justify-between py-2">
+                  <p className="font-semibold">Cash Difference</p>
+                  <p>{data?.cash_difference}</p>
                 </div>
+
+                {!isSummaryRemarksNull ? (
+                  <div className="flex justify-between py-2">
+                    <p className="font-semibold">Remarks</p>
+                    <p>{summaryRemarks}</p>
+                  </div>
+                ) : (
+                  <Formik
+                    initialValues={{ Remarks: '' }}
+                    validationSchema={Yup.object().shape({
+                      Remarks: Yup.string().required('*Remarks is required'),
+                    })}
+                    onSubmit={(values) => {
+                      submitsummary(values)
+                      console.log(values, "columnIndex");
+                    }}
+                  >
+                    <Form>
+                      <div className="">
+                        <label htmlFor="Remarks" className="font-semibold">
+                          Remarks<span className="text-red-600">*</span>
+                        </label>
+                        <br/>
+                        <Field as="textarea" id="Remarks" name="Remarks" className="w-full p-2 border rounded-md" />
+                      </div>
+                      <div className="text-red-600">
+                        <ErrorMessage name="Remarks" component="div" />
+                      </div>
+                      {data.dayend === true && (
+                        <div className="text-right mt-4">
+                          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md btn btn-primary">
+                            Day End
+                          </button>
+                          <p className="text-sm text-gray-600 mt-2">
+                            <span className="text-red-600">*</span>On clicking the Day End button, Day End process will be completed and no modification will be allowed for the closed DRS
+                          </p>
+                        </div>
+                      )}
+                    </Form>
+                  </Formik>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>;
 };
 
 export default Summary;
