@@ -19,6 +19,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const handleApiError = useErrorHandler();
     const [commonListData, setCommonListData] = useState<any>(null);
     const [iseditable, setIsEditable] = useState(true);
+    const [totalAmount, setTotalAmount] = useState<number>(0); // State to hold total amount
+
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
@@ -32,7 +34,6 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 setCommonListData(response.data.data);
                 setIsEditable(response.data.data?.is_editable);
                 if (response.data.data.listing) {
-
                     formik.setValues({ services: response.data.data.listing });
                 }
                 console.log(response.data.data, "columnIndex");
@@ -119,6 +120,22 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         formik.setFieldValue('services', services);
     };
 
+    // Function to calculate total amount
+    const calculateTotalAmount = () => {
+        let total = 0;
+        formik.values.services.forEach((service: any) => {
+            if (service.amount) {
+                total += parseFloat(service.amount);
+            }
+        });
+        setTotalAmount(total);
+    };
+
+    // Calculate total amount on component mount and when formik values change
+    useEffect(() => {
+        calculateTotalAmount();
+    }, [formik.values.services]);
+
     return (
         <div className='container mx-auto p-4'>
             <div className='spacebetween'>
@@ -193,7 +210,6 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     value={formik.values.services[index].amount}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    readOnly={!formik.values.services[index].update_amount}
                                     className={`${!formik.values.services[index].update_amount ? 'readonly' : ''} mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                                 />
 
@@ -220,10 +236,16 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     ))}
                 </div>
 
-                <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
+                {/* Display total amount */}
+                <div className="mt-3">
+                    <p className="text-lg font-semibold">Total Amount: {totalAmount}</p>
+                </div>
 
+                {/* Submit button */}
+                <footer>
+                    {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}
+                </footer>
             </form>
-
         </div>
     );
 };
