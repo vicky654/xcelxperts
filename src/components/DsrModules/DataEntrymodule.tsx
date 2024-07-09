@@ -111,7 +111,12 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     station_id: Yup.string().required('Station is required'),
     start_date: Yup.string().required('Date is required'),
   });
-
+  useEffect(() => {
+    // Select the first card by default if cards have data
+    if (cards.length > 0) {
+      setSelectedCardName(cards[0].name);
+    }
+  }, [cards]);
 
 
   return <>
