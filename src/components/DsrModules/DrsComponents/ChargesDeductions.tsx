@@ -4,6 +4,7 @@ import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
 import DataTable, { TableColumn } from 'react-data-table-component'; // Import TableColumn type
 import { Button, Form } from 'react-bootstrap';
+import { currency } from '../../../utils/CommonData';
 
 interface ChargesDeductionsData {
     id: string;
@@ -24,9 +25,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
                 const response = await getData(`data-entry/charge-deduction/list?drs_date=${startDate}&station_id=${stationId}`);
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
-                    if (stationId && startDate) {
-                        applyFilters({ station_id: stationId, start_date: startDate });
-                      }
+                
 
                     setCharges(charges);
                     setDeductions(deductions);
@@ -64,7 +63,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
             const isSuccess = await postData(url, formData);
 
             if (isSuccess) {
-                // Optionally, refetch data after successful submission
+                applyFilters({ station_id: stationId, start_date: startDate });
                 fetchData();
             }
         } catch (error) {
@@ -96,7 +95,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
             )
         },
         {
-            name: 'Amount',
+            name: `Amount ${currency}`,
             selector: (row) => row.amount,
             sortable: true,
             cell: (row) => (

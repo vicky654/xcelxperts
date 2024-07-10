@@ -1,9 +1,11 @@
 // authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { string } from 'yup';
 
 interface AuthState {
     token: string | null;
     superiorId: string | null;
+    currency: string | null;
     superiorRole: string | null;
     role: string | null;
     autoLogout: boolean | null;
@@ -20,6 +22,7 @@ const initialState: AuthState = {
     autoLogout: null,
     authToken: null,
     isVerified: null,
+    currency: null,
     isClient: false,
 };
 
@@ -35,6 +38,7 @@ const authSlice = createSlice({
             state.autoLogout = action.payload.autoLogout;
             state.authToken = action.payload.authToken;
             state.isVerified = action.payload.isVerified;
+            state.currency = "(₤ )";
             state.isClient = action.payload.superiorRole === 'Client';
         },
         clearAuthData(state) {

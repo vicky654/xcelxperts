@@ -9,6 +9,7 @@ import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import { currency } from '../../../utils/CommonData';
 interface CashBankingItem {
     id: string;
     reference: string;
@@ -37,9 +38,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             setLoading(true);
             const response = await getData(`/data-entry/cash-banking?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-                if (stationId && startDate) {
-                    applyFilters({ station_id: stationId, start_date: startDate });
-                  }
+             
                 const { listing, is_editable } = response.data.data;
                 formik.setFieldValue("amount", response.data?.data?.cash_value)
                 setCashBankingData(listing);
@@ -94,6 +93,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     const isSuccess = await postData(url, formData);
                     if (isSuccess) {
                         if (stationId && startDate) {
+                            applyFilters({ station_id: stationId, start_date: startDate });
                             handleApplyFilters(stationId, startDate);
                         }
                         setSelectedCashBanking(null);
@@ -124,7 +124,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     const columns: TableColumn<CashBankingItem>[] = [
         { name: 'Reference', selector: (row) => row.reference, sortable: true },
-        { name: 'Amount', selector: (row) => row.amount, sortable: true },
+        { name: `Amount ${currency}`, selector: (row) => row.amount, sortable: true },
         // { name: 'Type', selector: (row) => row.type, sortable: true },
         { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
     ];
@@ -187,7 +187,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         ) : null}
                                     </div>
                                     <div className="col-span-12 md:col-span-4">
-                                        <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                                        <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
                                         <input
                                             type="text"
                                             name="amount"
@@ -235,7 +235,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         ) : null}
                                     </div>
                                     <div className="col-span-12 md:col-span-4">
-                                        <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                                        <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
                                         <input
                                             type="text"
                                             name="amount"

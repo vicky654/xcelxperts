@@ -4,6 +4,7 @@ import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { currency } from '../../../utils/CommonData';
 
 interface Service {
     credit_user_id: string;
@@ -31,9 +32,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         try {
             const response = await getData(`/data-entry/credit-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-                if (stationId && startDate) {
-                    applyFilters({ station_id: stationId, start_date: startDate });
-                  }
+             
                 setCommonListData(response.data.data);
                 setIsEditable(response.data.data?.is_editable);
                 if (response.data.data.listing) {
@@ -106,9 +105,10 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
             const url = data?.id ? `/data-entry/credit-sale/update` : `/data-entry/credit-sale/update`;
             const isSuccess = await postData(url, formData);
-            if (isSuccess) {
+         if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
+                    applyFilters({ station_id: stationId, start_date: startDate });
                 }
             }
         } catch (error) {
@@ -215,7 +215,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             {/* Column 3 - Amount */}
                             <div className="w-full lg:w-3/12 flex flex-col mb-4">
                                 <label htmlFor={`services[${index}].amount`} className="block text-sm font-medium text-gray-700">
-                                    {`Amount `} <span className="text-red-500">*</span>
+                                    {`Amount ${currency} `} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="number"
@@ -256,13 +256,14 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                 {/* Display total amount */}
                 <div className="mt-3">
-                    <p className="text-lg font-semibold">Total Amount: {totalAmount}</p>
+                    <p className="text-lg font-semibold">Total Amount {currency}: {totalAmount}</p>
                 </div>
 
                 {/* Submit button */}
-                <footer>
+                {formik.values.services?.length !== 0 ?  <footer>
                     {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}
-                </footer>
+                </footer>:""}
+              
             </form>
         </div>
     );

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import useErrorHandler from '../../../hooks/useHandleError';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import LoaderImg from '../../../utils/Loader';
+import { currency } from '../../../utils/CommonData';
 
 interface SummaryProps {
   stationId: string | null;
@@ -20,6 +21,7 @@ interface SummaryRemarks {
 }
 const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading,applyFilters }) => {
   const [data, setData] = useState<any>({ takings: {}, banking: {}, charges: {} });
+
   const [summaryRemarks, setSummaryRemarks] = useState<SummaryRemarks | null>(null);
   const navigate = useNavigate();
   const handleApiError = useErrorHandler();
@@ -34,9 +36,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
     try {
       const response = await getData(`/data-entry/summary?drs_date=${startDate}&station_id=${stationId}`);
       if (response && response.data && response.data.data) {
-        if (stationId && startDate) {
-          applyFilters({ station_id: stationId, start_date: startDate });
-        }
+     
         setData(response.data?.data);
         setSummaryRemarks(response.data.data?.remark);
       } else {
@@ -48,8 +48,11 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   };
 
   const isSummaryRemarksNull = summaryRemarks === null;
-  const isreadSummaryRemarksNull = summaryRemarks !== null;
-  // console.log(summaryRemarks?.remarks, "summaryRemarks");
+
+  console.log(summaryRemarks, "summaryRemarks");
+
+  console.log(isSummaryRemarksNull, "summaryRemarks");
+
   const submitsummary = async (values: any) => {
     try {
       const formData = new FormData();
@@ -79,6 +82,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       const isSuccess = await postData(url, formData);
       if (isSuccess) {
         if (stationId && startDate) {
+          applyFilters({ station_id: stationId, start_date: startDate });
           handleApplyFilters(stationId, startDate);
         }
       }
@@ -103,10 +107,10 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
               <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="p-4">
-                  {Object.keys(data?.charges).map((item, index) => (
+                  {Object.keys(data?.charges || {}).map((item, index) => (
                     <div key={index} className="flex justify-between py-2">
                       <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                      <p>{data?.charges[item]}</p>
+                      <p> {currency} {data?.charges[item]}</p>
                     </div>
                   ))}
                 </div>
@@ -119,7 +123,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                   {Object.keys(data?.takings).map((item, index) => (
                     <div key={index} className="flex justify-between py-2">
                       <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                      <p>{data?.takings[item]}</p>
+                      <p> {currency} {data?.takings[item]}</p>
                     </div>
                   ))}
                 </div>
@@ -135,7 +139,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                   {Object.keys(data?.banking).map((item, index) => (
                     <div key={index} className="flex justify-between py-2">
                       <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                      <p>{data?.banking[item]}</p>
+                      <p> {currency} {data?.banking[item]}</p>
                     </div>
                   ))}
                 </div>
@@ -193,7 +197,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     <>
                       <div className="flex justify-between py-2">
                         <p className="font-semibold">Remarks</p>
-                        <p>{summaryRemarks?.remarks}</p>
+                        {/* <p>{summaryRemarks?.remarks}</p> */}
                       </div>
                       {/* <p>{summaryRemarks?.remarks}</p> */}
                     </>

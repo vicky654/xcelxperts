@@ -3,7 +3,7 @@ import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
 import DataTable, { TableColumn } from 'react-data-table-component';
-
+import { currency } from '../../../utils/CommonData'
 interface PaymentItem {
     id: string;
     card_name: string;
@@ -21,7 +21,10 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [isEditable, setIsEditable] = useState<boolean>(false);
+// Default to 'USD' if not set
+
     useEffect(() => {
+     
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
         }
@@ -32,9 +35,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             setLoading(true);
             const response = await getData(`/data-entry/payment/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-                if (stationId && startDate) {
-                    applyFilters({ station_id: stationId, start_date: startDate });
-                  }
+             
                 const data = response.data.data;
                 setIsEditable(data?.is_editable);
                 const totalAmount = calculateTotalAmount(data?.listing);
@@ -106,6 +107,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 const isSuccess = await postData(url, formData);
                 if (isSuccess) {
                     if (stationId && startDate) {
+                        applyFilters({ station_id: stationId, start_date: startDate });
                         handleApplyFilters(stationId, startDate);
                     }
                 }
@@ -116,11 +118,11 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             }
         }
     };
-
+ 
     const columns: TableColumn<PaymentItem>[] = [
         { name: 'Card Name', selector: (row: PaymentItem) => row.card_name, sortable: true },
         {
-            name: 'Amount',
+            name: `Amount ${currency} `,
             cell: (row: PaymentItem) => (
                 <input
                     type="number"

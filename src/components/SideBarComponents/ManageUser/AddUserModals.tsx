@@ -44,7 +44,6 @@ interface RoleItem {
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
-    const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
 
     useEffect(() => {
         if (isOpen) {

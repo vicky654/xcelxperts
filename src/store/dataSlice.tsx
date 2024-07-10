@@ -46,6 +46,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
                     role: data?.data?.role,
                     autoLogout: data?.data?.auto_logout,
                     authToken: data?.data?.token,
+                    currency: "(₤)",
                     isVerified: data?.data?.is_verified,
                 }));
                 localStorage.setItem("superiorId", data?.data?.superiorId);
