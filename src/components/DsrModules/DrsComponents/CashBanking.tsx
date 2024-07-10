@@ -37,6 +37,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             const response = await getData(`/data-entry/cash-banking?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
                 const { listing, is_editable } = response.data.data;
+                formik.setFieldValue("amount", response.data?.data?.cash_value)
                 setCashBankingData(listing);
                 setIsEditable(is_editable);
             } else {
@@ -120,7 +121,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const columns: TableColumn<CashBankingItem>[] = [
         { name: 'Reference', selector: (row) => row.reference, sortable: true },
         { name: 'Amount', selector: (row) => row.amount, sortable: true },
-        { name: 'Type', selector: (row) => row.type, sortable: true },
+        // { name: 'Type', selector: (row) => row.type, sortable: true },
         { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
         {
             name: 'Actions',
@@ -143,7 +144,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 </>
             ),
         }
-        
+
     ];
     const { customDelete } = useCustomDelete();
     const handleSuccess = () => {
@@ -162,94 +163,100 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1>
             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                       <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
-                    <form onSubmit={formik.handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Reference</label>
-                            <input
-                                type="text"
-                                name="reference"
-                                placeholder='Reference'
-                                value={formik.values.reference}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            />
-                            {formik.touched.reference && formik.errors.reference ? (
-                                <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                            ) : null}
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+                        <div className="bg-white shadow-md rounded-lg p-4">
+                            <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
+                            <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                <div className="grid grid-cols-12 gap-4">
+                                    <div className="col-span-12 md:col-span-4">
+                                        <label className="block text-sm font-medium text-gray-700">Reference <span className="text-danger">*</span></label>
+                                        <input
+                                            type="text"
+                                            name="reference"
+                                            placeholder="Reference"
+                                            value={formik.values.reference}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                        {formik.touched.reference && formik.errors.reference ? (
+                                            <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                        ) : null}
+                                    </div>
+                                    <div className="col-span-12 md:col-span-4">
+                                        <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                                        <input
+                                            type="text"
+                                            name="amount"
+                                            placeholder="Amount"
+                                            value={formik.values.amount}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                        {formik.touched.amount && formik.errors.amount ? (
+                                            <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                        ) : null}
+                                    </div>
+                                    <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
+                                        <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
+                                        <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Amount</label>
-                            <input
-                                type="text"
-                                name="amount"
-                                placeholder='Amount'
-                                value={formik.values.amount}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            />
-                            {formik.touched.amount && formik.errors.amount ? (
-                                <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                            ) : null}
-                        </div>
-                        <div className="flex space-x-4">
-                            <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
-                            <button type="button" onClick={handleEditcancel} className=" btn btn-danger px-4 py-2  text-white rounded-md">Cancel</button>
-                        </div>
-                    </form>
-                    </div>
                     </div>
                 </div>
             )}
+
             {!selectedCashBanking && isEditable && (
-                <div className='mb-3'>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                       <div className="bg-white shadow-md rounded-lg p-4">
-                   
-                    <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
-                    <form onSubmit={formik.handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Reference</label>
-                            <input
-                                type="text"
-                                name="reference"
-                                placeholder='Reference'
-                                value={formik.values.reference}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            />
-                            {formik.touched.reference && formik.errors.reference ? (
-                                <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                            ) : null}
+                <div className="mb-3">
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+                        <div className="bg-white shadow-md rounded-lg p-4">
+                            <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
+                            <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                <div className="grid grid-cols-12 gap-4">
+                                    <div className="col-span-12 md:col-span-4">
+                                        <label className="block text-sm font-medium text-gray-700">Reference <span className="text-danger">*</span></label>
+                                        <input
+                                            type="text"
+                                            name="reference"
+                                            placeholder="Reference"
+                                            value={formik.values.reference}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                        {formik.touched.reference && formik.errors.reference ? (
+                                            <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                        ) : null}
+                                    </div>
+                                    <div className="col-span-12 md:col-span-4">
+                                        <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                                        <input
+                                            type="text"
+                                            name="amount"
+                                            placeholder="Amount"
+                                            value={formik.values.amount}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                        {formik.touched.amount && formik.errors.amount ? (
+                                            <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                        ) : null}
+                                    </div>
+                                    <div className="col-span-12 md:col-span-4 flex items-end">
+                                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Amount</label>
-                            <input
-                                type="text"
-                                name="amount"
-                                placeholder='Amount'
-                                value={formik.values.amount}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                            />
-                            {formik.touched.amount && formik.errors.amount ? (
-                                <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                            ) : null}
-                        </div>
-                        <div>
-                            <button type="submit" className="px-4 py-2 btn btn-primary text-white rounded-md">Add</button>
-                        </div>
-                    </form>
-                    </div>
                     </div>
                 </div>
             )}
+
+
             {loading ? (
                 <p>Loading...</p>
             ) : (
@@ -259,7 +266,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         {/* <h2 className="text-lg font-semibold mb-4">Add New Cash Banking Entry</h2>
                         <form onSubmit={formik.handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Reference</label>
+                                <label className="block text-sm font-medium text-gray-700">Reference <span className="text-danger">*</span></label>
                                 <input
                                     type="text"
                                     name="reference"
@@ -273,7 +280,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 ) : null}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Amount</label>
+                                <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
                                 <input
                                     type="text"
                                     name="amount"

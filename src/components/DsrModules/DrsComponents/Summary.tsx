@@ -10,10 +10,17 @@ interface SummaryProps {
   stationId: string | null;
   startDate: string | null;
 }
-
+interface SummaryRemarks {
+  remarks: string | null;
+  date: string;
+  net_cash_due_banking: number;
+  cash_operator: number;
+  banking_difference: number;
+  variance: number;
+}
 const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
   const [data, setData] = useState<any>({ takings: {}, banking: {}, charges: {} });
-  const [summaryRemarks, setSummaryRemarks] = useState<string | null>(null);
+  const [summaryRemarks, setSummaryRemarks] = useState<SummaryRemarks | null>(null);
   const navigate = useNavigate();
   const handleApiError = useErrorHandler();
 
@@ -38,7 +45,8 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   };
 
   const isSummaryRemarksNull = summaryRemarks === null;
-
+  const isreadSummaryRemarksNull = summaryRemarks !== null;
+  // console.log(summaryRemarks?.remarks, "summaryRemarks");
   const submitsummary = async (values: any) => {
     try {
       const formData = new FormData();
@@ -83,6 +91,9 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).replace(/_/g, ' ');
   };
+
+  console.log(isSummaryRemarksNull, "isSummaryRemarksNull")
+
   return (
     <>
       {isLoading && <LoaderImg />}
@@ -90,7 +101,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
         <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
         <div className="flex justify-center">
           <div className="w-full">
-          <div className="mb-8">
+            <div className="mb-8">
               <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="p-4">
@@ -117,7 +128,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
               </div>
             </div>
 
-      
+
 
             <div className="mb-8">
               <h1 className="text-lg font-bold">SUMMARY OF BANKING</h1>
@@ -137,17 +148,12 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
               <h1 className="text-lg font-bold">Remarks</h1>
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="p-4">
-                  {/* <div className="flex justify-between py-2">
+                  <div className="flex justify-between py-2">
                     <p className="font-semibold">Cash Difference</p>
                     <p>{data?.cash_difference}</p>
-                  </div> */}
+                  </div>
 
-                  {!isSummaryRemarksNull ? (
-                    <div className="flex justify-between py-2">
-                      <p className="font-semibold">Remarks</p>
-                      <p>{summaryRemarks}</p>
-                    </div>
-                  ) : (
+                  {isSummaryRemarksNull ? (
                     <Formik
                       initialValues={{ Remarks: '' }}
                       validationSchema={Yup.object().shape({
@@ -185,6 +191,14 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                         )}
                       </Form>
                     </Formik>
+                  ) : (
+                    <>
+ <div className="flex justify-between py-2">
+                      <p className="font-semibold">Remarks</p>
+                      <p>{summaryRemarks?.remarks}</p>
+                    </div>
+                      {/* <p>{summaryRemarks?.remarks}</p> */}
+                    </>
                   )}
                 </div>
               </div>
