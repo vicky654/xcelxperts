@@ -35,7 +35,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 const data = response.data.data;
                 setIsEditable(data?.is_editable);
                 const totalAmount = calculateTotalAmount(data?.listing);
-                data.listing = updateTotalInListing(data?.listing, totalAmount);
+                data.listing = updateTotalInListing(data?.listing, totalAmount, data?.is_editable);
                 setPaymentData(data);
             } else {
                 throw new Error('No data available in the response');
@@ -46,6 +46,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             setLoading(false);
         }
     };
+    
 
     const calculateTotalAmount = (listing: PaymentItem[]) => {
         return listing.reduce((total, item) => {
@@ -56,22 +57,30 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         }, 0);
     };
 
-    const updateTotalInListing = (listing: PaymentItem[], totalAmount: number) => {
-        return listing.map((item) =>
-            item.card_name === 'Total' ? { ...item, amount: totalAmount.toFixed(2) } : item
-        );
+    const updateTotalInListing = (listing: PaymentItem[], totalAmount: number, isEditable: boolean) => {
+        if (isEditable) {
+            return listing.map((item) =>
+                item.card_name === 'Total' ? { ...item, amount: totalAmount.toFixed(2) } : item
+            );
+        }
+        return listing; // Return the original listing if not editable
     };
-
+    
+    
     const handleAmountChange = (value: string, id: string) => {
         if (paymentData) {
             const updatedList = paymentData.listing.map((payment) =>
                 payment.id === id ? { ...payment, amount: value } : payment
             );
             const totalAmount = calculateTotalAmount(updatedList);
-            const updatedListWithTotal = updateTotalInListing(updatedList, totalAmount);
+            
+            // Use isEditable from state directly within the function
+            const updatedListWithTotal = updateTotalInListing(updatedList, totalAmount, isEditable);
+            
             setPaymentData({ ...paymentData, listing: updatedListWithTotal });
         }
     };
+    
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
