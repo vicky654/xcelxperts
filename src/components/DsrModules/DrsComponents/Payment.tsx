@@ -16,7 +16,7 @@ interface PaymentData {
     is_editable: boolean;
 }
 
-const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData, postData, isLoading }) => {
+const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData, postData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -32,6 +32,9 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             setLoading(true);
             const response = await getData(`/data-entry/payment/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
+                if (stationId && startDate) {
+                    applyFilters({ station_id: stationId, start_date: startDate });
+                  }
                 const data = response.data.data;
                 setIsEditable(data?.is_editable);
                 const totalAmount = calculateTotalAmount(data?.listing);

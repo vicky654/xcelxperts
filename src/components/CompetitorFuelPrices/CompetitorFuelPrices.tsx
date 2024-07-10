@@ -59,21 +59,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
 
 
 
-    const fetchData = async () => {
-        try {
-            const response = await getData(`/site/tank/list?page=${currentPage}`);
-            if (response && response.data && response.data.data) {
-                // setData(response.data.data?.Stations);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            handleApiError(error);
 
-        }
-    };
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
         const formData = new FormData();

@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 interface CashBankingItem {
     id: string;
     reference: string;
@@ -18,7 +19,7 @@ interface CashBankingItem {
 }
 
 
-const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
+const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [cashBankingData, setCashBankingData] = useState<CashBankingItem[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
@@ -36,6 +37,9 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             setLoading(true);
             const response = await getData(`/data-entry/cash-banking?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
+                if (stationId && startDate) {
+                    applyFilters({ station_id: stationId, start_date: startDate });
+                  }
                 const { listing, is_editable } = response.data.data;
                 formik.setFieldValue("amount", response.data?.data?.cash_value)
                 setCashBankingData(listing);
@@ -124,7 +128,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         // { name: 'Type', selector: (row) => row.type, sortable: true },
         { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
     ];
-    
+
     if (isEditable) {
         columns.push({
             name: 'Actions',
@@ -144,7 +148,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             ),
         });
     }
-    
+
     const { customDelete } = useCustomDelete();
     const handleSuccess = () => {
         if (stationId && startDate) {
@@ -255,56 +259,28 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 </div>
             )}
 
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+                <div className="bg-white shadow-md rounded-lg p-4">
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        cashBankingData?.length === 0 ? (
+                            <img
+                                src={noDataImage} // Use the imported image directly as the source
+                                alt="no data found"
+                                className="all-center-flex nodata-image"
+                            />
+                        ) : (
 
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                cashBankingData.length === 0 ? (
-                    <div>
-                        no dataa
-                        {/* <h2 className="text-lg font-semibold mb-4">Add New Cash Banking Entry</h2>
-                        <form onSubmit={formik.handleSubmit} className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Reference <span className="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    name="reference"
-                                    value={formik.values.reference}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                />
-                                {formik.touched.reference && formik.errors.reference ? (
-                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                ) : null}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    name="amount"
-                                    value={formik.values.amount}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                />
-                                {formik.touched.amount && formik.errors.amount ? (
-                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                                ) : null}
-                            </div>
-                            <div>
-                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">Add</button>
-                            </div>
-                        </form> */}
-                    </div>
-                ) : (
-                    <DataTable
-                        columns={columns}
-                        data={cashBankingData}
-                        // pagination
-                    />
-                )
-            )}
+                            <DataTable
+                                columns={columns}
+                                data={cashBankingData}
+                            // pagination
+                            />
+                        )
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

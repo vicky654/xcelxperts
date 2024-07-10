@@ -37,7 +37,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
+const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading,applyFilters  }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
     const [iseditable, setIsEditable] = useState(true);
 
@@ -53,6 +53,9 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         try {
             const response = await getData(`/data-entry/fuel-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
+                if (stationId && startDate) {
+                    applyFilters({ station_id: stationId, start_date: startDate });
+                  }
                 setData(response.data.data?.listing);
                 setIsEditable(response.data.data?.is_editable);
             } else {

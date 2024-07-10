@@ -18,7 +18,7 @@ interface SummaryRemarks {
   banking_difference: number;
   variance: number;
 }
-const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
+const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading,applyFilters }) => {
   const [data, setData] = useState<any>({ takings: {}, banking: {}, charges: {} });
   const [summaryRemarks, setSummaryRemarks] = useState<SummaryRemarks | null>(null);
   const navigate = useNavigate();
@@ -34,6 +34,9 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
     try {
       const response = await getData(`/data-entry/summary?drs_date=${startDate}&station_id=${stationId}`);
       if (response && response.data && response.data.data) {
+        if (stationId && startDate) {
+          applyFilters({ station_id: stationId, start_date: startDate });
+        }
         setData(response.data?.data);
         setSummaryRemarks(response.data.data?.remark);
       } else {

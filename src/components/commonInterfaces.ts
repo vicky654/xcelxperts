@@ -5,4 +5,5 @@ export interface CommonDataEntryProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
+    applyFilters: (values: any) => Promise<void>;
 }

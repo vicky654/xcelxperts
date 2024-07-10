@@ -15,7 +15,7 @@ interface AddEditSLAInitialValues {
     services: Service[];
 }
 
-const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
+const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [commonListData, setCommonListData] = useState<any>(null);
     const [iseditable, setIsEditable] = useState(true);
@@ -31,6 +31,9 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         try {
             const response = await getData(`/data-entry/credit-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
+                if (stationId && startDate) {
+                    applyFilters({ station_id: stationId, start_date: startDate });
+                  }
                 setCommonListData(response.data.data);
                 setIsEditable(response.data.data?.is_editable);
                 if (response.data.data.listing) {

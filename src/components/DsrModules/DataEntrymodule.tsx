@@ -64,6 +64,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       isLoading: boolean;
       getData: (url: string) => Promise<any>;
       postData: (url: string, body: any) => Promise<any>;
+      applyFilters: (values: any) => Promise<void>; 
     }>
   } = {
     'Fuel Sales': FuelSales,
@@ -174,7 +175,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               ))}
             </ul>
             <div>
-              {SelectedComponent ? <SelectedComponent stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
+              {SelectedComponent ? <SelectedComponent  applyFilters={handleApplyFilters}  stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
                 src={noDataImage} // Use the imported image directly as the source
                 alt="no data found"
                 className="all-center-flex nodata-image"

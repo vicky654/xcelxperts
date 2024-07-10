@@ -12,7 +12,7 @@ interface ChargesDeductionsData {
     update_amount: boolean;
 }
 
-const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading }) => {
+const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [charges, setCharges] = useState<ChargesDeductionsData[]>([]);
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
@@ -24,6 +24,10 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
                 const response = await getData(`data-entry/charge-deduction/list?drs_date=${startDate}&station_id=${stationId}`);
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
+                    if (stationId && startDate) {
+                        applyFilters({ station_id: stationId, start_date: startDate });
+                      }
+
                     setCharges(charges);
                     setDeductions(deductions);
                     setIsEditable(is_editable);
