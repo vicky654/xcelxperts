@@ -20,7 +20,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     const handleApiError = useErrorHandler();
     const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-
+    const [isEditable, setIsEditable] = useState<boolean>(false);
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
@@ -33,8 +33,9 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             const response = await getData(`/data-entry/payment/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
                 const data = response.data.data;
-                const totalAmount = calculateTotalAmount(data.listing);
-                data.listing = updateTotalInListing(data.listing, totalAmount);
+                setIsEditable(data?.is_editable);
+                const totalAmount = calculateTotalAmount(data?.listing);
+                data.listing = updateTotalInListing(data?.listing, totalAmount);
                 setPaymentData(data);
             } else {
                 throw new Error('No data available in the response');
@@ -132,7 +133,9 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                         <DataTable columns={columns} data={paymentData?.listing} />
                     )
                 )}
-                <button type="submit" className="btn btn-primary">Submit</button>
+
+                {isEditable?
+                <button type="submit" className="btn btn-primary">Submit</button>:""}
             </form>
         </div>
     );

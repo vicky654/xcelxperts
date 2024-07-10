@@ -125,22 +125,25 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         {
             name: 'Actions',
             cell: (row) => (
-           <>
-                <Tippy content="Edit">
-                                        <button type="button" onClick={() => handleEdit(row)}>
-                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                        </button>
-                                    </Tippy>
-                <Tippy content="Delete">
-                                        <button onClick={() => handleDelete(row)} type="button">
-                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                        </button>
-                                    </Tippy>
-                {/* <button className='ms-2' onClick={() => handleDelete(row)}>Delete</button> */}
-           </>
-           
+                <>
+                    {isEditable ? (
+                        <>
+                            <Tippy content="Edit">
+                                <button type="button" onClick={() => handleEdit(row)}>
+                                    <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                </button>
+                            </Tippy>
+                            <Tippy content="Delete">
+                                <button onClick={() => handleDelete(row)} type="button">
+                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                </button>
+                            </Tippy>
+                        </>
+                    ) : null}
+                </>
             ),
-        },
+        }
+        
     ];
     const { customDelete } = useCustomDelete();
     const handleSuccess = () => {
@@ -157,8 +160,10 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     return (
         <div className="p-6">
             <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1>
-            {selectedCashBanking && isEditable &&  cashBankingData?.length !== 0 && (
+            {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <div className="bg-white shadow-md rounded-lg p-4">
                     <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div>
@@ -166,6 +171,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <input
                                 type="text"
                                 name="reference"
+                                placeholder='Reference'
                                 value={formik.values.reference}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -180,6 +186,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <input
                                 type="text"
                                 name="amount"
+                                placeholder='Amount'
                                 value={formik.values.amount}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -190,14 +197,19 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             ) : null}
                         </div>
                         <div className="flex space-x-4">
-                            <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Save</button>
+                            <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
                             <button type="button" onClick={handleEditcancel} className=" btn btn-danger px-4 py-2  text-white rounded-md">Cancel</button>
                         </div>
                     </form>
+                    </div>
+                    </div>
                 </div>
             )}
             {!selectedCashBanking && isEditable && (
                 <div className='mb-3'>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <div className="bg-white shadow-md rounded-lg p-4">
+                   
                     <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div>
@@ -205,6 +217,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <input
                                 type="text"
                                 name="reference"
+                                placeholder='Reference'
                                 value={formik.values.reference}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -219,6 +232,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <input
                                 type="text"
                                 name="amount"
+                                placeholder='Amount'
                                 value={formik.values.amount}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -232,6 +246,8 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <button type="submit" className="px-4 py-2 btn btn-primary text-white rounded-md">Add</button>
                         </div>
                     </form>
+                    </div>
+                    </div>
                 </div>
             )}
             {loading ? (

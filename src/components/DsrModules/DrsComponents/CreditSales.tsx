@@ -52,7 +52,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             handleApiError(error);
         }
     };
-    
+
 
     const addEditSLAInitialValues: AddEditSLAInitialValues = {
         services: [
@@ -149,7 +149,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         <div className='container mx-auto p-4'>
             <div className='spacebetween'>
                 <h1 className="text-lg font-semibold mb-4 ">Credit Sales {startDate ? `(${startDate})` : ''}</h1>
-                <button className='btn btn-primary mb-3' onClick={addRow}>Add</button>
+                {iseditable ?
+                    <button className='btn btn-primary mb-3' onClick={addRow}>Add</button> : ""}
             </div>
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-wrap gap-4">
@@ -167,6 +168,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     value={formik.values.services[index].credit_user_id}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
+                                    
                                     className="form-select text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                 >
                                     <option value="">Select  User</option>
@@ -192,6 +194,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     value={formik.values.services[index].fuel_sub_category_id}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
+                                
                                     className="form-select text-white-dark mt-1 block w-full pl-3 pr-10  py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                 >
                                     <option value="">Select Fuel</option>
@@ -219,7 +222,9 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     value={formik.values.services[index].amount}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className={`${!formik.values.services[index].update_amount ? 'readonly' : ''} mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                                    readOnly={!iseditable}
+                                    // ${!formik.values.services[index].update_amount ? 'readonly' : ''}
+                                    className={` mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                                 />
 
                                 {formik.errors.services?.[index]?.amount && formik.touched.services?.[index]?.amount && (
@@ -228,19 +233,20 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     </div>
                                 )}
                             </div>
-
+                            {iseditable ?
+                      <div className="w-full lg:w-1/12 flex justify-end">
+                      {index > 0 && (
+                          <button
+                              type='button'
+                              className='btn btn-danger'
+                              onClick={() => removeRow(index)}
+                          >
+                              Remove
+                          </button>
+                      )}
+                  </div> : ""}
                             {/* Column 1 - Remove Button */}
-                            <div className="w-full lg:w-1/12 flex justify-end">
-                                {index > 0 && (
-                                    <button
-                                        type='button'
-                                        className='btn btn-danger'
-                                        onClick={() => removeRow(index)}
-                                    >
-                                        Remove
-                                    </button>
-                                )}
-                            </div>
+                         
                         </div>
                     ))}
                 </div>

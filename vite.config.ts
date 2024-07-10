@@ -13,7 +13,7 @@ export default defineConfig({
         },
     },
     server: {
-        port: 3006, // Replace 3000 with your desired port number
+        port: 3003, // Replace 3000 with your desired port number
         host: '0.0.0.0',
     },
 });
