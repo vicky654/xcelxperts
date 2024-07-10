@@ -19,6 +19,8 @@ import Payment from './DrsComponents/Payment';
 import CashBanking from './DrsComponents/CashBanking';
 import Summary from './DrsComponents/Summary';
 import { languageContent } from '../../utils/Languages/LanguageTextComponent';
+import UserAddonModal from '../SideBarComponents/ManageUser/UserAddonModal';
+import DataEntryStats from './DataEntryStats';
 
 
 interface ManageSiteProps {
@@ -41,6 +43,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const dispatch = useDispatch();
   const handleApiError = useErrorHandler();
   const [currentLanguage, setCurrentLanguage] = useState('english'); // Default language
+  const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
 
   const switchLanguage = (language: string) => {
     setCurrentLanguage(language);
@@ -152,7 +156,13 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       setSelectedCardName(cards[0].name);
     }
   }, [cards]);
+  const openUserAddonModal = () => {
+    setIsUserAddonModalOpen(true);
 
+  };
+  const closeUserAddonModal = () => {
+    setIsUserAddonModalOpen(false);
+  };
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -169,6 +179,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         </li>
       </ul>
     </div>
+    <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
 
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
@@ -194,14 +205,14 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
             <div className='Action-btns flex'>
-              <button className='btn btn-primary'>View Stats</button>
+              <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
               <button className='btn btn-danger ms-2' onClick={DeleteDataEntry}>Delete Data</button>
             </div>
             <hr></hr>
           </div>
-          <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
+          {/* <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
             <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('hindi')}>हिंदी</button>
-            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('punjabi')}>ਪੰਜਾਬੀ</button></div>
+            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('punjabi')}>ਪੰਜਾਬੀ</button></div> */}
           <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
               {cards?.map((card) => (
