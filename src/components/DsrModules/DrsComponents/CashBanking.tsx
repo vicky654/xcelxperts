@@ -123,29 +123,28 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         { name: 'Amount', selector: (row) => row.amount, sortable: true },
         // { name: 'Type', selector: (row) => row.type, sortable: true },
         { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
-        {
+    ];
+    
+    if (isEditable) {
+        columns.push({
             name: 'Actions',
             cell: (row) => (
                 <>
-                    {isEditable ? (
-                        <>
-                            <Tippy content="Edit">
-                                <button type="button" onClick={() => handleEdit(row)}>
-                                    <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                </button>
-                            </Tippy>
-                            <Tippy content="Delete">
-                                <button onClick={() => handleDelete(row)} type="button">
-                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                </button>
-                            </Tippy>
-                        </>
-                    ) : null}
+                    <Tippy content="Edit">
+                        <button type="button" onClick={() => handleEdit(row)}>
+                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                        </button>
+                    </Tippy>
+                    <Tippy content="Delete">
+                        <button onClick={() => handleDelete(row)} type="button">
+                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                        </button>
+                    </Tippy>
                 </>
             ),
-        }
-
-    ];
+        });
+    }
+    
     const { customDelete } = useCustomDelete();
     const handleSuccess = () => {
         if (stationId && startDate) {
@@ -302,7 +301,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     <DataTable
                         columns={columns}
                         data={cashBankingData}
-                        pagination
+                        // pagination
                     />
                 )
             )}

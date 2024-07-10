@@ -50,34 +50,29 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   const submitsummary = async (values: any) => {
     try {
       const formData = new FormData();
-
-      // Append takings data
-      Object.keys(data?.takings).forEach((key) => {
-        formData.append(`takings.${key}`, data?.takings[key]);
-      });
-
-      // Append banking data
-      Object.keys(data?.banking).forEach((key) => {
-        formData.append(`banking.${key}`, data?.banking[key]);
-      });
-
-      // Append charges data
-      Object.keys(data?.charges).forEach((key) => {
-        formData.append(`charges.${key}`, data?.charges[key]);
-      });
-
-      if (stationId && startDate) {
-        formData.append('drs_date', startDate);
-        formData.append('station_id', stationId);
-      }
-
-      // Append other fields
-      formData.append('cash_difference', data?.cash_difference);
-      formData.append('variance', data?.variance);
-      formData.append('remarks', values?.Remarks);
-
+  
+      // Append specific fields
+      formData.append('drs_date', startDate || '');
+      formData.append('station_id', stationId || '');
+      formData.append('total_fuel_sales', data?.takings?.total_fuel_sales || '');
+      formData.append('total_deductions', data?.takings?.deductions || '');
+      formData.append('total_charges', data?.takings?.total_charges || '');
+      formData.append('total_sales', data?.takings.total_sales_value || ''); // Assuming total_sales is available in takings
+      formData.append('total_credit_sales', data?.takings.total_credit_sales || '');
+      formData.append('total_credit_card', data?.takings.total_credit_card || '');
+      formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
+      formData.append('cash_operator', data?.banking?.cash_commited_by_operator || '');
+      formData.append('banking_difference', data?.banking.banking_difference || '');
+      formData.append('variance', data?.variance || '');
+      formData.append('remarks', values?.Remarks || '');
+  
+      // Append other fields if needed
+      // formData.append('cash_difference', data?.cash_difference || '');
+      // formData.append('variance', data?.variance || '');
+      // formData.append('remarks', values?.Remarks || '');
+  
       const url = `data-entry/dayend`;
-
+  
       const isSuccess = await postData(url, formData);
       if (isSuccess) {
         if (stationId && startDate) {
@@ -88,11 +83,11 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       handleApiError(error);
     }
   };
+  
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).replace(/_/g, ' ');
   };
 
-  console.log(isSummaryRemarksNull, "isSummaryRemarksNull")
 
   return (
     <>
@@ -148,10 +143,10 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
               <h1 className="text-lg font-bold">Remarks</h1>
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="p-4">
-                  <div className="flex justify-between py-2">
+                  {/* <div className="flex justify-between py-2">
                     <p className="font-semibold">Cash Difference</p>
                     <p>{data?.cash_difference}</p>
-                  </div>
+                  </div> */}
 
                   {isSummaryRemarksNull ? (
                     <Formik
@@ -193,10 +188,10 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     </Formik>
                   ) : (
                     <>
- <div className="flex justify-between py-2">
-                      <p className="font-semibold">Remarks</p>
-                      <p>{summaryRemarks?.remarks}</p>
-                    </div>
+                      <div className="flex justify-between py-2">
+                        <p className="font-semibold">Remarks</p>
+                        <p>{summaryRemarks?.remarks}</p>
+                      </div>
                       {/* <p>{summaryRemarks?.remarks}</p> */}
                     </>
                   )}
