@@ -109,6 +109,30 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
+  const DeleteDataEntry = async () => {
+    try {
+      const formData = new FormData();
+
+
+
+      if (stationId && startDate) {
+        formData.append('drs_date', startDate);
+        formData.append('station_id', stationId);
+      }
+
+      const url = `data-entry/delete-data`;
+
+      const isSuccess = await postData(url, formData);
+      if (isSuccess) {
+        if (stationId && startDate) {
+          // handleApplyFilters(formik?.values);
+        }
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
 
   const filterValues = async (values: any) => {
     console.log(values, "filterValues");
@@ -135,12 +159,12 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
           <Link to="/" className="text-primary hover:underline">
-          {languageContent[currentLanguage].dashboardLink}
+            {languageContent[currentLanguage].dashboardLink}
           </Link>
         </li>
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
           <span>  {languageContent[currentLanguage].dataEntry} </span>
-       
+
           {/* {languageContent[currentLanguage as keyof typeof languageContent].dashboardLink} */}
         </li>
       </ul>
@@ -167,9 +191,12 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           />
         </div>
         <div className='panel h-full xl:col-span-5'>
-          <div className="flex justify-between  md:items-center md:flex-row flex-col mb-5 gap-5">
+          <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
-            {/* <button>dsdasd</button> */}
+            <div className='Action-btns flex'>
+              <button className='btn btn-primary'>View Stats</button>
+              <button className='btn btn-danger ms-2' onClick={DeleteDataEntry}>Delete Data</button>
+            </div>
             <hr></hr>
           </div>
           <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
