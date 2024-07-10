@@ -18,6 +18,7 @@ import CreditSales from './DrsComponents/CreditSales';
 import Payment from './DrsComponents/Payment';
 import CashBanking from './DrsComponents/CashBanking';
 import Summary from './DrsComponents/Summary';
+import { languageContent } from '../../utils/Languages/LanguageTextComponent';
 
 
 interface ManageSiteProps {
@@ -25,7 +26,9 @@ interface ManageSiteProps {
   getData: (url: string) => Promise<any>;
   postData: (url: string, body: any) => Promise<any>;
 }
-
+interface LanguageContentInterface {
+  [key: string]: Record<string, any>;
+}
 interface CardData {
   id: string;
   name: string;
@@ -37,6 +40,12 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const [cards, setCards] = useState<CardData[]>([]);
   const dispatch = useDispatch();
   const handleApiError = useErrorHandler();
+  const [currentLanguage, setCurrentLanguage] = useState('english'); // Default language
+
+  const switchLanguage = (language: string) => {
+    setCurrentLanguage(language);
+  };
+
   const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
   const [stationId, setStationId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
@@ -54,7 +63,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     if (storedData) {
       handleApplyFilters(JSON.parse(storedData));
     }
-   
+
   }, [dispatch]);
 
   const componentMap: {
@@ -64,7 +73,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       isLoading: boolean;
       getData: (url: string) => Promise<any>;
       postData: (url: string, body: any) => Promise<any>;
-      applyFilters: (values: any) => Promise<void>; 
+      applyFilters: (values: any) => Promise<void>;
     }>
   } = {
     'Fuel Sales': FuelSales,
@@ -126,14 +135,17 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
           <Link to="/" className="text-primary hover:underline">
-            Dashboard
+          {languageContent[currentLanguage].dashboardLink}
           </Link>
         </li>
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-          <span>Data Entry </span>
+          <span>  {languageContent[currentLanguage].dataEntry} </span>
+       
+          {/* {languageContent[currentLanguage as keyof typeof languageContent].dashboardLink} */}
         </li>
       </ul>
     </div>
+
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
         <div className='panel h-full '>
@@ -155,10 +167,14 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           />
         </div>
         <div className='panel h-full xl:col-span-5'>
-          <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-            <h5 className="font-semibold text-lg dark:text-white-light">Data Entry</h5>
+          <div className="flex justify-between  md:items-center md:flex-row flex-col mb-5 gap-5">
+            <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
+            {/* <button>dsdasd</button> */}
             <hr></hr>
           </div>
+          <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
+            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('hindi')}>हिंदी</button>
+            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('punjabi')}>ਪੰਜਾਬੀ</button></div>
           <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
               {cards?.map((card) => (
@@ -175,7 +191,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               ))}
             </ul>
             <div>
-              {SelectedComponent ? <SelectedComponent  applyFilters={handleApplyFilters}  stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
+              {SelectedComponent ? <SelectedComponent applyFilters={handleApplyFilters} stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
                 src={noDataImage} // Use the imported image directly as the source
                 alt="no data found"
                 className="all-center-flex nodata-image"
