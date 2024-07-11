@@ -10,6 +10,7 @@ import Tippy from '@tippyjs/react';
 
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import { currency } from '../../../utils/CommonData';
+import LoaderImg from '../../../utils/Loader';
 interface CashBankingItem {
     id: string;
     reference: string;
@@ -124,7 +125,12 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     const columns: TableColumn<CashBankingItem>[] = [
         { name: 'Reference', selector: (row) => row.reference, sortable: true },
-        { name: `Amount ${currency}`, selector: (row) => row.amount, sortable: true },
+        {
+            name: 'Amount',
+            selector: (row) => `${currency} ${row.amount} `,
+            sortable: true
+          }
+,          
         // { name: 'Type', selector: (row) => row.type, sortable: true },
         { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
     ];
@@ -162,12 +168,11 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     };
 
     return (
-        <div className="p-6">
+        <div >
             <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1>
             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
-                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                        <div className="bg-white shadow-md rounded-lg p-4">
+            
                             <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
                             <form onSubmit={formik.handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-12 gap-4">
@@ -207,15 +212,13 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
+                  
                 </div>
             )}
 
             {!selectedCashBanking && isEditable && (
                 <div className="mb-3">
-                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                        <div className="bg-white shadow-md rounded-lg p-4">
+                  
                             <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
                             <form onSubmit={formik.handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-12 gap-4">
@@ -254,15 +257,15 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
+                      
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                <div className="bg-white shadow-md rounded-lg p-4">
+
                     {loading ? (
-                        <p>Loading...</p>
+                          <>
+                          {LoaderImg}
+                      </>
                     ) : (
                         cashBankingData?.length === 0 ? (
                             <img
@@ -279,8 +282,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             />
                         )
                     )}
-                </div>
-            </div>
+             
         </div>
     );
 };

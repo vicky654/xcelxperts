@@ -6,6 +6,9 @@ import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import LoaderImg from '../../../utils/Loader';
+
 interface FuelDeliveryData {
     id: string;
     fuel_name: string;
@@ -41,7 +44,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading,applyFilters }) => {
+const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelDeliveryData[]>([]);
     const [isEditable, setIsEditable] = useState(true);
 
@@ -50,7 +53,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
-            
+
         }
     }, [stationId, startDate]);
 
@@ -58,7 +61,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         try {
             const response = await getData(`/data-entry/fuel-delivery/list?station_id=${stationId}&drs_date=${startDate}`);
             if (response && response.data && response.data.data) {
-             
+
                 setData(response.data.data.listing);
                 setIsEditable(response.data.data.is_editable);
             } else {
@@ -115,29 +118,29 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
     ) => {
         const numericValue = parseFloat(value);
         setFieldValue(`data[${index}].${field}`, numericValue);
-    
+
         // Update book_stock field if opening, delivery_volume, or sales_volume changes
         if (field === 'opening' || field === 'delivery_volume' || field === 'sales_volume') {
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const delivery_volume = field === 'delivery_volume' ? numericValue : values.data[index].delivery_volume;
             const sales_volume = field === 'sales_volume' ? numericValue : values.data[index].sales_volume;
-    
+
             const newBookStock = opening + delivery_volume - sales_volume;
             setFieldValue(`data[${index}].book_stock`, newBookStock);
-    
+
             // Update variance
             const dips_stock = values.data[index].dips_stock;
             const newVariance = dips_stock - newBookStock;
             setFieldValue(`data[${index}].variance`, newVariance);
         }
-    
+
         // Update dips_stock field if dips_stock changes
         if (field === 'dips_stock') {
             const newVariance = numericValue - values.data[index].book_stock;
             setFieldValue(`data[${index}].variance`, newVariance);
         }
     };
-    
+
 
     const columns = [
         {
@@ -248,9 +251,11 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
     return (
         <div>
-           <h1 className="text-lg font-semibold mb-4 ">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
+            <h1 className="text-lg font-semibold mb-4 ">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
             {isLoading ? (
-                <p>Loading...</p>
+                <>
+                    {LoaderImg}
+                </>
             ) : (
                 <Formik
                     initialValues={{ data }}
