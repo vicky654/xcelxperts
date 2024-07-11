@@ -21,6 +21,7 @@ import Summary from './DrsComponents/Summary';
 import { languageContent } from '../../utils/Languages/LanguageTextComponent';
 import UserAddonModal from '../SideBarComponents/ManageUser/UserAddonModal';
 import DataEntryStats from './DataEntryStats';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
 interface ManageSiteProps {
@@ -46,9 +47,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
 
-  const switchLanguage = (language: string) => {
-    setCurrentLanguage(language);
-  };
 
   const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
   const [stationId, setStationId] = useState<string | null>(null);
@@ -113,7 +111,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
-  const DeleteDataEntry = async () => {
+  const handleDeleteDataEntry = async () => {
     try {
       const formData = new FormData();
 
@@ -200,13 +198,27 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             showDateInput={true}
             storedKeyName={storedKeyName}
           />
+          {SelectedComponent ? (
+            <>
+              <hr className='m-2' />
+              <div className='text-end'>
+                <OverlayTrigger placement="top" overlay={<Tooltip>Delete </Tooltip>}>
+                  <button className='btn btn-danger ms-2' onClick={handleDeleteDataEntry}>
+                    <i className="c-fi-down-arrow m-0 fi fi-rr-trash"></i>
+                  </button>
+                </OverlayTrigger>
+              </div>
+            </>
+          ) : null}
+
         </div>
+
         <div className='panel h-full xl:col-span-5'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
             <div className='Action-btns flex'>
               <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
-              <button className='btn btn-danger ms-2' onClick={DeleteDataEntry}>Delete Data</button>
+
             </div>
             <hr></hr>
           </div>
