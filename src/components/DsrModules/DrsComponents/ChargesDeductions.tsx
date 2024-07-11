@@ -7,6 +7,7 @@ import { Button, Form } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 
+import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
 interface ChargesDeductionsData {
     id: string;
     name: string;

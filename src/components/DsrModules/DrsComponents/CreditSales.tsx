@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { currency } from '../../../utils/CommonData';
 
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 interface Service {
     credit_user_id: string;
     amount: string;
@@ -32,7 +33,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         try {
             const response = await getData(`/data-entry/credit-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-             
+
                 setCommonListData(response.data.data);
                 setIsEditable(response.data.data?.is_editable);
                 if (response.data.data.listing) {
@@ -105,7 +106,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
             const url = data?.id ? `/data-entry/credit-sale/update` : `/data-entry/credit-sale/update`;
             const isSuccess = await postData(url, formData);
-         if (isSuccess) {
+            if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
                     applyFilters({ station_id: stationId, start_date: startDate });
@@ -171,7 +172,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     value={formik.values.services[index].credit_user_id}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    
+
                                     className="form-select text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                 >
                                     <option value="">Select  User</option>
@@ -197,7 +198,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     value={formik.values.services[index].fuel_sub_category_id}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                
+
                                     className="form-select text-white-dark mt-1 block w-full pl-3 pr-10  py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                 >
                                     <option value="">Select Fuel</option>
@@ -237,33 +238,43 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 )}
                             </div>
                             {iseditable ?
-                      <div className="w-full lg:w-1/12 flex justify-end">
-                      {index > 0 && (
-                          <button
-                              type='button'
-                              className='btn btn-danger'
-                              onClick={() => removeRow(index)}
-                          >
-                              Remove
-                          </button>
-                      )}
-                  </div> : ""}
+                                <div className="w-full lg:w-1/12 flex justify-end">
+                                    {index > 0 && (
+                                        <button
+                                            type='button'
+                                            className='btn btn-danger'
+                                            onClick={() => removeRow(index)}
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
+                                </div> : ""}
                             {/* Column 1 - Remove Button */}
-                         
+
                         </div>
                     ))}
                 </div>
 
                 {/* Display total amount */}
-                <div className="mt-3">
-                    <p className="text-lg font-semibold">Total Amount {currency}: {totalAmount}</p>
-                </div>
+                {formik.values.services?.length !== 0 ?
+                    <div className="mt-3">
+                        <p className="text-lg font-semibold">Total Amount {currency}: {totalAmount}</p>
+                    </div> : ""}
 
                 {/* Submit button */}
-                {formik.values.services?.length !== 0 ?  <footer>
+                {formik.values.services?.length !== 0 ? <footer>
                     {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}
-                </footer>:""}
-              
+                </footer> : ""}
+                {formik.values.services?.length === 0 ? 
+                    <>
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="no data found"
+                                    className="all-center-flex nodata-image"
+                                />
+                            </>
+               : ""}
+
             </form>
         </div>
     );
