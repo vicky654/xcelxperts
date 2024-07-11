@@ -39,7 +39,7 @@ interface TabData {
     labels: string[];
     data: string[];
     total: string;
-    listing: { id: string; date: string; amount: string; variance: string; balance: string }[];
+    payments: { id: string; date: string; amount: string; variance: string; balance: string }[];
 }
 const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, stationId, startDate }) => {
     const [selectedTab, setSelectedTab] = useState<string>('Varience-accumulation');
@@ -51,18 +51,18 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         labels: [],
         data: [],
         total: '0.00',
-        listing: []
+        payments: []
     });
     const handleApiError = useErrorHandler();
- console.log(isOpen, "isOpen");
+    console.log(isOpen, "isOpen");
 
-useEffect(()=>{
-if(isOpen){
+    useEffect(() => {
+        if (isOpen) {
 
-    handleTabClick('Varience-accumulation')
-}
+            handleTabClick('Varience-accumulation')
+        }
 
-},[isOpen])
+    }, [isOpen])
 
     const handleTabClick = async (tabName: string) => {
         try {
@@ -87,6 +87,7 @@ if(isOpen){
 
 
     const salesByCategory = tabData;
+    console.log(tabData, "tabData?.payments");
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -112,7 +113,7 @@ if(isOpen){
                                         ))}
                                     </ul>
                                     {/* <h2 className="text-lg font-semibold">{selectedTab}</h2> */}
-                                    <div className="p-2" style={{padding:"10px"}}>
+                                    <div className="p-2" style={{ padding: "10px" }}>
                                         <h2 className="text-lg font-semibold">{selectedTab}</h2>
                                         <div className="">
                                             {selectedTab !== 'Varience-accumulation' && (
@@ -121,7 +122,7 @@ if(isOpen){
                                                         <p className="font-semibold">Date</p>
                                                         <p className="font-semibold">Amount</p>
                                                     </li>
-                                                    {tabData?.listing.map((item, index) => (
+                                                    {tabData?.payments.map((item, index) => (
                                                         <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
                                                             <p className="font-semibold">{item?.date}</p>
                                                             <p>{currency} {item?.amount} </p>
@@ -136,7 +137,7 @@ if(isOpen){
                                                         <p className="font-semibold">Variance</p>
                                                         <p className="font-semibold">Balance</p>
                                                     </li>
-                                                    {tabData?.listing.map((item, index) => (
+                                                    {tabData?.payments.map((item, index) => (
                                                         <li key={item?.id} className="flex justify-between py-2 hover:bg-gray-100">
                                                             <p>{item?.date}</p>
                                                             <p>{item?.variance}</p>

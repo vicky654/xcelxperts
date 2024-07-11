@@ -7,20 +7,12 @@ import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
-import FuelSales from './DrsComponents/FuelSales';
-import FuelInventory from './DrsComponents/FuelInventory';
-import FuelDelivery from './DrsComponents/FuelDelivery';
-import ShopSales from './DrsComponents/ShopSales';
-import ChargesDeductions from './DrsComponents/ChargesDeductions';
-import CreditSales from './DrsComponents/CreditSales';
-import Payment from './DrsComponents/Payment';
-import CashBanking from './DrsComponents/CashBanking';
-import Summary from './DrsComponents/Summary';
-import { languageContent } from '../../utils/Languages/LanguageTextComponent';
-import DataEntryStats from './DataEntryStats';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
+import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
+import { currency } from '../../utils/CommonData';
+import ReactApexChart from 'react-apexcharts';
+import CollapsibleItem from '../../utils/CollapsibleItem';
+import axios from 'axios';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -35,10 +27,24 @@ interface CardData {
   name: string;
   bgColor: string;
 }
+interface TabData {
+  labels: string[];
+  data: string[];
+  total: string;
+  listing: { id: string; date: string; amount: string; variance: string; balance: string }[];
+}
 
 const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
   const [cards, setCards] = useState<CardData[]>([]);
+  const [selectedTab, setSelectedTab] = useState<string>('Varience-accumulation');
+  const [subData, setSubData] = useState<any[]>([]);
+  const [tabData, setTabData] = useState<TabData>({
+    labels: [],
+    data: [],
+    total: '0.00',
+    listing: []
+  });
   const dispatch = useDispatch();
   const handleApiError = useErrorHandler();
   const [currentLanguage, setCurrentLanguage] = useState('english'); // Default language
@@ -50,10 +56,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const [stationId, setStationId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
 
-  const toggleTabs = (name: string) => {
-    // setSelectedCardName(name === selectedCardName ? null : name); // Toggle tab selection
-    setSelectedCardName(name === selectedCardName ? selectedCardName : name); // Toggle tab selection
-  };
+
 
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
@@ -66,72 +69,70 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   }, [dispatch]);
 
-  const componentMap: {
-    [key: string]: React.ComponentType<{
-      stationId: string | null;
-      startDate: string | null;
-      isLoading: boolean;
-      getData: (url: string) => Promise<any>;
-      postData: (url: string, body: any) => Promise<any>;
-      applyFilters: (values: any) => Promise<void>;
-    }>
-  } = {
-    'Fuel Sales': FuelSales,
-    'Fuel Inventory': FuelInventory,
-    'Fuel Delivery': FuelDelivery,
-    'Shop Sales': ShopSales,
-    'Charges & Deductions': ChargesDeductions,
-    'Credit Sales': CreditSales,
-    'Payments': Payment,
-    'Cash Deposited': CashBanking,
-    'Summary': Summary,
-  };
 
-  const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
-  const handleApplyFilters = async (values: any) => {
+  const staticTabs = [
+    'Varience-accumulation',
+    'Fuel Sales',
+    'Charges',
+    'Deductions',
+    'Payments',
+    'Credit Sales',
+
+
+
+  ];
+  const tabKeyMap: { [key: string]: string } = {
+    'Varience-accumulation': 'varience-accumulation',
+    'Fuel Sales': 'fuel-sales',
+    'Charges': 'charges',
+    'Deductions': 'deductions',
+    'Payments': 'payments',
+    'Credit Sales': 'credit-sales',
+
+
+  };
+  useEffect(() => {
+    // Select the first card by default if cards have data
+    if (cards.length > 0) {
+      setSelectedCardName(cards[0].name);
+    }
+  }, [cards]);
+  const handleTabClick = async (tabName: string) => {
     try {
-      const response = await getData(`/data-entry/cards?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
-      if (response && response.data && response.data.data) {
-        setData(response.data?.data);
-        setCards(response.data.data?.cards);
-        setStationId(values?.station_id);
-        setStartDate(values?.start_date);
+      const key = tabKeyMap[tabName];
+      const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
+      if (response && response.data) {
+        setSelectedTab(tabName);
+        setTabData(response.data?.data);
+        setActiveAccordion(null);
       } else {
-        setData([])
-        setCards([])
-        setSelectedCardName(null)
         throw new Error('No data available in the response');
       }
     } catch (error) {
-      setData([])
-      setCards([])
-      setSelectedCardName(null)
+
       handleApiError(error);
     }
   };
-  const handleDeleteDataEntry = async () => {
+
+
+  const handleApplyFilters = async (values: any) => {
     try {
-      const formData = new FormData();
+      const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
+      if (response && response.data && response.data.data) {
 
+        setStationId(values?.station_id);
+        setStartDate(values?.start_date);
+      } else {
 
-
-      if (stationId && startDate) {
-        formData.append('drs_date', startDate);
-        formData.append('station_id', stationId);
-      }
-
-      const url = `data-entry/delete-data`;
-
-      const isSuccess = await postData(url, formData);
-      if (isSuccess) {
-        if (stationId && startDate) {
-          // handleApplyFilters(formik?.values);
-        }
+        throw new Error('No data available in the response');
       }
     } catch (error) {
+
       handleApiError(error);
     }
   };
+
+
 
 
   const filterValues = async (values: any) => {
@@ -146,18 +147,52 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     station_id: Yup.string().required('Station is required'),
     start_date: Yup.string().required('Date is required'),
   });
-  useEffect(() => {
-    // Select the first card by default if cards have data
-    if (cards.length > 0) {
-      setSelectedCardName(cards[0].name);
-    }
-  }, [cards]);
-  const openUserAddonModal = () => {
-    setIsUserAddonModalOpen(true);
 
+
+
+
+  const salesByCategory = tabData;
+  const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+
+  const handleToggle = async (id: string, date: string, selectedTab: string) => {
+    const isCurrentlyActive = activeAccordion === id;
+    const newActiveAccordion = isCurrentlyActive ? null : id;
+    setActiveAccordion(newActiveAccordion);
+
+    // If the accordion is being opened, make the API call
+    if (!isCurrentlyActive) {
+      await GetSubData(date, selectedTab);
+      // Log the ID to the console
+      console.log(id, "handleToggle");
+    }
   };
-  const closeUserAddonModal = () => {
-    setIsUserAddonModalOpen(false);
+  const formatKey = (key: string) => key.replace(/\s+/g, '');
+  const formatDate = (date: string) => {
+    const dateObj = new Date(date);
+    const day = dateObj.getDate().toString().padStart(2, '0');
+    const month = dateObj.toLocaleString('default', { month: 'short' });
+    const year = dateObj.getFullYear();
+    return `${day}${month}${year}`;
+  };
+  const convertTabName = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, '-');
+  };
+  const GetSubData = async (date: string, selectedTab: string) => {
+    try {
+      const formattedDate = formatDate(date);
+      const formattedTab = convertTabName(selectedTab);
+      const response = await getData(`/daily-stats/${formattedTab}?station_id=${stationId}&drs_date=${formattedDate}`);
+      if (response && response.data && response.data.data) {
+        setSubData(response.data?.data?.listing);
+        console.log(response.data.data, "columnIndex");
+      } else {
+
+        throw new Error('No data available in the response');
+      }
+    } catch (error) {
+
+      handleApiError(error);
+    }
   };
   return <>
     {isLoading && <LoaderImg />}
@@ -165,7 +200,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
           <Link to="/" className="text-primary hover:underline">
-           Dashboard
+            Dashboard
           </Link>
         </li>
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
@@ -175,7 +210,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </li>
       </ul>
     </div>
-    <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
 
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
@@ -196,18 +230,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             showDateInput={true}
             storedKeyName={storedKeyName}
           />
-          {SelectedComponent ? (
-            <>
-              <hr className='m-2' />
-              <div className='text-end'>
-                <OverlayTrigger placement="top" overlay={<Tooltip>Delete </Tooltip>}>
-                  <button className='btn btn-danger ms-2' onClick={handleDeleteDataEntry}>
-                    <i className="c-fi-down-arrow m-0 fi fi-rr-trash"></i>
-                  </button>
-                </OverlayTrigger>
-              </div>
-            </>
-          ) : null}
+
 
         </div>
 
@@ -224,27 +247,125 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('hindi')}>हिंदी</button>
             <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('punjabi')}>ਪੰਜਾਬੀ</button></div> */}
           <div>
-            <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
-              {cards?.map((card) => (
-                <li key={card.id} className="w-1/8 inline-block">
-                  <button
-                    onClick={() => toggleTabs(card.name)}
-                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary' : ''}`}
-                    style={{ color: card.bgColor }}
-                  >
-                    <i className={`fi fi-rr-${card?.name.toLowerCase().replace(/\s/g, '-')}`}></i>
-                    {card?.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <div>
-              {SelectedComponent ? <SelectedComponent applyFilters={handleApplyFilters} stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
+            {startDate && stationId ? (
+              <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
+                {staticTabs?.map((tabName) => (
+                  <li key={tabName} className="w-1/8 inline-block" style={{ minWidth: "100px" }}>
+                    <button
+                      onClick={() => handleTabClick(tabName)}
+                      className={`flex gap-2 border-b border-transparent hover:border-primary hover:text-primary ${selectedTab === tabName ? 'border-primary c-border-primary' : ''}`}
+                      style={{ color: 'currentColor' }}
+                    >
+                      <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
+                      {tabName}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : <>
+              <img
                 src={noDataImage} // Use the imported image directly as the source
                 alt="no data found"
                 className="all-center-flex nodata-image"
-              /></div>}
+              /></>}
+
+          </div>
+          <div className="p-2" style={{ padding: "10px" }}>
+            {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
+            <div className="">
+              {/* {stationId  && selectedTab !== 'Varience-accumulation' && (
+                <ul className="divide-y divide-gray-200">
+                  <li className="flex justify-between p-2 bg-gray-200">
+                    <p className="font-semibold">Date</p>
+                    <p className="font-semibold">Amount</p>
+                  </li>
+                  {tabData?.listing?.map((item, index) => (
+                    <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                      <p className="font-semibold">{item?.date}</p>
+                      <p>{currency} {item?.amount} </p>
+                    </li>
+                  ))}
+                </ul>
+              )} */}
+              {stationId && selectedTab === 'Varience-accumulation' && (
+                <ul className="divide-y divide-gray-200">
+                  <li className="flex justify-between py-2 bg-gray-200">
+                    <p className="font-semibold">Date</p>
+                    <p className="font-semibold">Variance</p>
+                    <p className="font-semibold">Balance</p>
+                  </li>
+                  {tabData?.listing?.map((item, index) => (
+                    <li key={item?.id} className="flex justify-between py-2 hover:bg-gray-100">
+                      <p>{item?.date}</p>
+                      <p>{item?.variance}</p>
+                      <p>{item?.balance}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {stationId && selectedTab !== 'Varience-accumulation' && (
+                <ul className="divide-y divide-gray-200">
+                  {tabData?.listing?.map((item, index) => (
+                    <CollapsibleItem
+                      key={index}
+                      id={`${currency}-${index}`}
+                      title={item?.date}
+                      isActive={activeAccordion === `${currency}-${index}`}
+                      onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
+                    >
+                      {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                        <li key={subIndex} className="flex justify-between py-2 hover:bg-gray-100">
+                          <p>{subItem?.name}</p>
+                          <p>{currency} {subItem?.amount}</p>
+                        </li>
+                      ))}
+                    </CollapsibleItem>
+                  ))}
+                </ul>
+              )}
             </div>
+
+
+
+            {stationId && selectedTab !== 'Varience-accumulation' && (
+              <div className="panel h-full mt-4">
+                <div className="flex items-center mb-5">
+                  <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
+                </div>
+                <div>
+                  <ReactApexChart
+                    series={salesByCategory?.data?.map(amount => parseFloat(amount))}
+                    options={{
+                      chart: {
+                        type: 'donut',
+                        height: 400,
+                      },
+                      labels: salesByCategory?.labels,
+                      legend: {
+                        position: 'bottom',
+                        horizontalAlign: 'center',
+                        fontSize: '14px',
+                        markers: {
+                          width: 10,
+                          height: 10,
+                          offsetX: -2,
+                        },
+                        height: 50,
+                        offsetY: 20,
+                      },
+                      dataLabels: {
+                        enabled: false,
+                      },
+                    }}
+                    type="donut"
+                    height={460}
+                  />
+
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
 
