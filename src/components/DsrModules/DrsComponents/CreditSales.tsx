@@ -248,7 +248,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     </div>
                                     {iseditable ?
                                         <div className="w-full lg:w-1/12 flex justify-end">
-                                            {index > 0 && (
+                                          
                                                 <button
                                                     type='button'
                                                     className='btn btn-danger'
@@ -256,7 +256,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                 >
                                                     Remove
                                                 </button>
-                                            )}
+                                        
                                         </div> : ""}
                                     {/* Column 1 - Remove Button */}
 

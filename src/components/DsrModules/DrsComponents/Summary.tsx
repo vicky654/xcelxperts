@@ -221,7 +221,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                   <>
                     <div className="flex justify-between py-2">
                       <p className="font-semibold">Remarks</p>
-                      {/* <p>{summaryRemarks?.remarks}</p> */}
+                      <p>{summaryRemarks?.remarks}</p>
                     </div>
                     {/* <p>{summaryRemarks?.remarks}</p> */}
                   </>
