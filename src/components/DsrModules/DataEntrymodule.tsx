@@ -201,11 +201,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             <>
               <hr className='m-2' />
               <div className='text-end'>
-                <OverlayTrigger placement="top" overlay={<Tooltip>Delete </Tooltip>}>
-                  <button className='btn btn-danger ms-2' onClick={handleDeleteDataEntry}>
-                    <i className="c-fi-down-arrow m-0 fi fi-rr-trash"></i>
-                  </button>
-                </OverlayTrigger>
+                <button className='btn btn-danger' style={{ width: "100%" }} onClick={handleDeleteDataEntry}>Delete Data
+                </button>
               </div>
             </>
           ) : null}
