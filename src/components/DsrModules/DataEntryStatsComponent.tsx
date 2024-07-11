@@ -194,6 +194,39 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       handleApiError(error);
     }
   };
+  const pieChart: any = {
+    series:salesByCategory?.data?.map(amount => parseFloat(amount)),
+    options: {
+        chart: {
+            height: 300,
+            type: 'pie',
+            zoom: {
+                enabled: false,
+            },
+            toolbar: {
+                show: false,
+            },
+        },
+        labels: salesByCategory?.labels,
+        colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
+        responsive: [
+            {
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200,
+                    },
+                },
+            },
+        ],
+        stroke: {
+            show: false,
+        },
+        legend: {
+            position: 'bottom',
+        },
+    },
+};
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -210,7 +243,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </li>
       </ul>
     </div>
-
+   
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
         <div className='panel h-full '>
@@ -332,9 +365,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               <div className="panel h-full mt-4">
                 <div className="flex items-center mb-5">
                   <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
-                </div>
+                </div> 
                 <div>
-                  <ReactApexChart
+               
+      <ReactApexChart series={pieChart.series} options={pieChart.options} className="rounded-lg bg-white dark:bg-black overflow-hidden" type="pie" height={300} />
+      {/* <ReactApexChart
                     series={salesByCategory?.data?.map(amount => parseFloat(amount))}
                     options={{
                       chart: {
@@ -360,8 +395,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     }}
                     type="donut"
                     height={460}
-                  />
-
+                  /> */}
                 </div>
               </div>
             )}
