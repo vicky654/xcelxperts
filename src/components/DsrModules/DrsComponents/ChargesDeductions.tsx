@@ -5,6 +5,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import DataTable, { TableColumn } from 'react-data-table-component'; // Import TableColumn type
 import { Button, Form } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
+import LoaderImg from '../../../utils/Loader';
 
 interface ChargesDeductionsData {
     id: string;
@@ -13,7 +14,7 @@ interface ChargesDeductionsData {
     update_amount: boolean;
 }
 
-const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, applyFilters }) => {
+const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [charges, setCharges] = useState<ChargesDeductionsData[]>([]);
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
@@ -112,12 +113,14 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
     ];
 
     return (
-        <div className="p-4">
+        <>
+      {isLoading && <LoaderImg />}
+        <div >
             <h1 className="text-lg font-semibold mb-4 ">Charges and Deductions {startDate ? `(${startDate})` : ''}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-xl font-semibold mb-4">Charges</h2>
+                <div >
+                    <h2 className="text-lg font-semibold mb-4">Charges</h2>
                     <DataTable
                         columns={columns}
                         data={charges}
@@ -127,8 +130,8 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
 
                     />
                 </div>
-                <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-xl font-semibold mb-4">Deductions</h2>
+                <div >
+                    <h2 className="text-lg font-semibold mb-4">Deductions</h2>
                     <DataTable
                         columns={columns}
                         data={deductions}
@@ -147,6 +150,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ stationId, startDat
                 </div>
             )}
         </div>
+        </>
     );
 };
 
