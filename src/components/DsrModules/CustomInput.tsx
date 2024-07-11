@@ -41,6 +41,7 @@ interface CustomInputProps {
     validationSchema: any;
     layoutClasses: any;
     storedKeyName?: any;
+    fullWidthButton?: boolean;
 }
 
 
@@ -160,7 +161,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
 
-   
+
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);
@@ -295,9 +296,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
 
                         <div
-                        // className="sm:col-span-2 mt-3"
+                            className="w-100"
                         >
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
                                 Apply
                             </button>
                         </div>

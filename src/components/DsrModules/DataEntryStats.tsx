@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import useErrorHandler from '../../hooks/useHandleError';
 import ReactApexChart from 'react-apexcharts';
@@ -15,21 +15,25 @@ interface AddonsModalProps {
 }
 
 const staticTabs = [
+    'Varience-accumulation',
+    'Fuel Sales',
     'Charges',
     'Deductions',
     'Payments',
     'Credit Sales',
-    'Fuel Sales',
-    'Varience-accumulation',
+
+
 
 ];
 const tabKeyMap: { [key: string]: string } = {
+    'Varience-accumulation': 'varience-accumulation',
+    'Fuel Sales': 'fuel-sales',
     'Charges': 'charges',
     'Deductions': 'deductions',
     'Payments': 'payments',
     'Credit Sales': 'credit-sales',
-    'Fuel Sales': 'fuel-sales',
-    'Varience-accumulation': 'varience-accumulation',
+
+
 };
 interface TabData {
     labels: string[];
@@ -38,7 +42,7 @@ interface TabData {
     listing: { id: string; date: string; amount: string; variance: string; balance: string }[];
 }
 const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, stationId, startDate }) => {
-    const [selectedTab, setSelectedTab] = useState<string>('Fuel Sales');
+    const [selectedTab, setSelectedTab] = useState<string>('Varience-accumulation');
     const [labels, setLabels] = useState<string[]>([]);
     const [data, setData] = useState<string[]>([]);
     const [total, setTotal] = useState<number>(0);
@@ -50,10 +54,16 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         listing: []
     });
     const handleApiError = useErrorHandler();
-    // const handleTabClick = (tabName: string) => {
-    //     setSelectedTab(tabName);
-    // };
-    const [loading] = useState(false);
+ console.log(isOpen, "isOpen");
+
+useEffect(()=>{
+if(isOpen){
+
+    handleTabClick('Varience-accumulation')
+}
+
+},[isOpen])
+
     const handleTabClick = async (tabName: string) => {
         try {
             const key = tabKeyMap[tabName];
@@ -74,92 +84,8 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
             handleApiError(error);
         }
     };
-    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
-    console.log(tabData, "tabData");
-    // const salesByCategory: any = {
-    //     series: [985, 737, 270],
-    //     options: {
-    //         chart: {
-    //             type: 'donut',
-    //             height: 460,
-    //             fontFamily: 'Nunito, sans-serif',
-    //         },
-    //         dataLabels: {
-    //             enabled: false,
-    //         },
-    //         stroke: {
-    //             show: true,
-    //             width: 25,
-    //             colors: isDark ? '#0e1726' : '#fff',
-    //         },
-    //         colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
-    //         legend: {
-    //             position: 'bottom',
-    //             horizontalAlign: 'center',
-    //             fontSize: '14px',
-    //             markers: {
-    //                 width: 10,
-    //                 height: 10,
-    //                 offsetX: -2,
-    //             },
-    //             height: 50,
-    //             offsetY: 20,
-    //         },
-    //         plotOptions: {
-    //             pie: {
-    //                 donut: {
-    //                     size: '65%',
-    //                     background: 'transparent',
-    //                     labels: {
-    //                         show: true,
-    //                         name: {
-    //                             show: true,
-    //                             fontSize: '29px',
-    //                             offsetY: -10,
-    //                         },
-    //                         value: {
-    //                             show: true,
-    //                             fontSize: '26px',
-    //                             color: isDark ? '#bfc9d4' : undefined,
-    //                             offsetY: 16,
-    //                             formatter: (val: any) => {
-    //                                 return val;
-    //                             },
-    //                         },
-    //                         total: {
-    //                             show: true,
-    //                             label: 'Total',
-    //                             color: '#888ea8',
-    //                             fontSize: '29px',
-    //                             formatter: (w: any) => {
-    //                                 return w.globals.seriesTotals.reduce(function (a: any, b: any) {
-    //                                     return a + b;
-    //                                 }, 0);
-    //                             },
-    //                         },
-    //                     },
-    //                 },
-    //             },
-    //         },
-    //         labels: ['Volume', 'Gross Margin', 'Others'],
-    //         states: {
-    //             hover: {
-    //                 filter: {
-    //                     type: 'none',
-    //                     value: 0.15,
-    //                 },
-    //             },
-    //             active: {
-    //                 filter: {
-    //                     type: 'none',
-    //                     value: 0.15,
-    //                 },
-    //             },
-    //         },
-    //     },
-    // };
-   
+
     const salesByCategory = tabData;
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -186,7 +112,7 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
                                         ))}
                                     </ul>
                                     {/* <h2 className="text-lg font-semibold">{selectedTab}</h2> */}
-                                    <div className="p-2">
+                                    <div className="p-2" style={{padding:"10px"}}>
                                         <h2 className="text-lg font-semibold">{selectedTab}</h2>
                                         <div className="">
                                             {selectedTab !== 'Varience-accumulation' && (
@@ -223,21 +149,14 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
 
 
 
-
-                                        <div className="panel h-full mt-4">
-                                            <div className="flex items-center mb-5">
-                                                <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
-                                            </div>
-                                            <div>
-                                                <div className="bg-white dark:bg-black  overflow-hidden">
-                                                    {loading ? (
-                                                        <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
-                                                        </div>
-                                                    ) : (
-                                                        <ReactApexChart
+                                        {selectedTab !== 'Varience-accumulation' && (
+                                            <div className="panel h-full mt-4">
+                                                <div className="flex items-center mb-5">
+                                                    <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
+                                                </div>
+                                                <div>
+                                                    <ReactApexChart
                                                         series={salesByCategory?.data?.map(amount => parseFloat(amount))}
-
                                                         options={{
                                                             chart: {
                                                                 type: 'donut',
@@ -262,10 +181,11 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
                                                         }}
                                                         type="donut"
                                                         height={460}
-                                                    /> )}
+                                                    />
+
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
 
                                 </div>

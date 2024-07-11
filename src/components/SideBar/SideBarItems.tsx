@@ -48,7 +48,7 @@ const menuItems: MenuItem[] = [
         permission: 'workflow-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'DataEntry', link: '/data-entry', permission: 'workflow-list', visibility: false },
-            { title: 'DataEntry Stats', link: '/data-entry', permission: 'workflow-list', visibility: false },
+            { title: 'DataEntry Stats', link: '/data-entry-stats', permission: 'workflow-list', visibility: false },
           
             // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },

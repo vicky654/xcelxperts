@@ -133,6 +133,7 @@ import AssignClientAddons from '../components/SideBarComponents/ManageClient/Ass
 import AssignClientReports from '../components/SideBarComponents/ManageClient/AssignClientReports';
 import Managecards from '../components/SideBarComponents/Managecards/Managecards';
 import DataEntruModules from '../components/DsrModules/DataEntrymodule';
+import DataEntryStatsComponent from '../components/DsrModules/DataEntryStatsComponent';
 
 const routes = [
   {
@@ -142,6 +143,10 @@ const routes = [
   {
     path: '/data-entry',
     element: <DataEntruModules   />,
+  },
+  {
+    path: '/data-entry-stats',
+    element: <DataEntryStatsComponent   />,
   },
   {
     path: '/dashboard/overview',

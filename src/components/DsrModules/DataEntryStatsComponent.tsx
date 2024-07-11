@@ -36,7 +36,7 @@ interface CardData {
   bgColor: string;
 }
 
-const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
   const [cards, setCards] = useState<CardData[]>([]);
   const dispatch = useDispatch();
@@ -165,11 +165,11 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
           <Link to="/" className="text-primary hover:underline">
-            {languageContent[currentLanguage].dashboardLink}
+           Dashboard
           </Link>
         </li>
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-          <span>  {languageContent[currentLanguage].dataEntry} </span>
+          <span>  Data Entry Stats </span>
 
           {/* {languageContent[currentLanguage as keyof typeof languageContent].dashboardLink} */}
         </li>
@@ -193,7 +193,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
             isOpen={false}
             onClose={() => { }}
-            fullWidthButton={true}
             showDateInput={true}
             storedKeyName={storedKeyName}
           />
@@ -214,7 +213,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         <div className='panel h-full xl:col-span-5'>
           <div className="flex justify-between  ">
-            <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
+            <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
             {/* <div className='Action-btns flex'>
               <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
 
@@ -254,4 +253,4 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   </>;
 };
 
-export default withApiHandler(DataEntrymodule);
+export default withApiHandler(DataEntryStatsComponent);
