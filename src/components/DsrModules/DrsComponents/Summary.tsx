@@ -6,6 +6,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import LoaderImg from '../../../utils/Loader';
 import { currency } from '../../../utils/CommonData';
+import DataEntryStats from '../DataEntryStats';
 
 interface SummaryProps {
   stationId: string | null;
@@ -21,11 +22,18 @@ interface SummaryRemarks {
 }
 const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
   const [data, setData] = useState<any>({ takings: {}, banking: {}, charges: {} });
+  const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
 
   const [summaryRemarks, setSummaryRemarks] = useState<SummaryRemarks | null>(null);
   const navigate = useNavigate();
   const handleApiError = useErrorHandler();
+  const openUserAddonModal = () => {
+    setIsUserAddonModalOpen(true);
 
+  };
+  const closeUserAddonModal = () => {
+    setIsUserAddonModalOpen(false);
+  };
   useEffect(() => {
     if (stationId && startDate) {
       handleApplyFilters(stationId, startDate);
@@ -100,10 +108,16 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
     <>
       {isLoading && <LoaderImg />}
       <div >
+      
+        <div className='spacebetween'>
         <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
+         
+        <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
+
+        </div>
         <div className="flex justify-center">
           <div className="w-full">
-            <div className="mb-8">
+            <div className="mb-8  ">
               <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
 
               <div className="p-2">
@@ -119,6 +133,8 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
 
             </div>
+            <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
+
             <div className="mb-8">
               <h1 className="text-lg font-bold">SUMMARY OF TAKINGS</h1>
               <div className="p-2">

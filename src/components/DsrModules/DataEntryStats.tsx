@@ -4,6 +4,7 @@ import useErrorHandler from '../../hooks/useHandleError';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
+import { currency } from '../../utils/CommonData';
 
 interface AddonsModalProps {
     isOpen: boolean;
@@ -34,7 +35,7 @@ interface TabData {
     labels: string[];
     data: string[];
     total: string;
-    deductions: string[];
+    listing: { id: string; date: string; amount: string; variance: string; balance: string }[];
 }
 const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, stationId, startDate }) => {
     const [selectedTab, setSelectedTab] = useState<string>('Fuel Sales');
@@ -46,7 +47,7 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         labels: [],
         data: [],
         total: '0.00',
-        deductions: []
+        listing: []
     });
     const handleApiError = useErrorHandler();
     // const handleTabClick = (tabName: string) => {
@@ -74,92 +75,92 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         }
     };
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
-    const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
-    console.log(tabData?.labels, "tabData");
-    console.log(tabData?.data, "tabData");
+
     console.log(tabData, "tabData");
-    const salesByCategory: any = {
-        series: tabData?.data,
-        options: {
-            chart: {
-                type: 'donut',
-                height: 460,
-                fontFamily: 'Nunito, sans-serif',
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                show: true,
-                width: 25,
-                colors: isDark ? '#0e1726' : '#fff',
-            },
-            colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center',
-                fontSize: '14px',
-                markers: {
-                    width: 10,
-                    height: 10,
-                    offsetX: -2,
-                },
-                height: 50,
-                offsetY: 20,
-            },
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '65%',
-                        background: 'transparent',
-                        labels: {
-                            show: true,
-                            name: {
-                                show: true,
-                                fontSize: '29px',
-                                offsetY: -10,
-                            },
-                            value: {
-                                show: true,
-                                fontSize: '26px',
-                                color: isDark ? '#bfc9d4' : undefined,
-                                offsetY: 16,
-                                formatter: (val: any) => {
-                                    return val;
-                                },
-                            },
-                            total: {
-                                show: true,
-                                label: 'Total',
-                                color: '#888ea8',
-                                fontSize: '29px',
-                                formatter: (w: any) => {
-                                    return w.globals.seriesTotals.reduce(function (a: any, b: any) {
-                                        return a + b;
-                                    }, 0);
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-            labels: tabData?.labels,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none',
-                        value: 0.15,
-                    },
-                },
-                active: {
-                    filter: {
-                        type: 'none',
-                        value: 0.15,
-                    },
-                },
-            },
-        },
-    };
+    // const salesByCategory: any = {
+    //     series: [985, 737, 270],
+    //     options: {
+    //         chart: {
+    //             type: 'donut',
+    //             height: 460,
+    //             fontFamily: 'Nunito, sans-serif',
+    //         },
+    //         dataLabels: {
+    //             enabled: false,
+    //         },
+    //         stroke: {
+    //             show: true,
+    //             width: 25,
+    //             colors: isDark ? '#0e1726' : '#fff',
+    //         },
+    //         colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
+    //         legend: {
+    //             position: 'bottom',
+    //             horizontalAlign: 'center',
+    //             fontSize: '14px',
+    //             markers: {
+    //                 width: 10,
+    //                 height: 10,
+    //                 offsetX: -2,
+    //             },
+    //             height: 50,
+    //             offsetY: 20,
+    //         },
+    //         plotOptions: {
+    //             pie: {
+    //                 donut: {
+    //                     size: '65%',
+    //                     background: 'transparent',
+    //                     labels: {
+    //                         show: true,
+    //                         name: {
+    //                             show: true,
+    //                             fontSize: '29px',
+    //                             offsetY: -10,
+    //                         },
+    //                         value: {
+    //                             show: true,
+    //                             fontSize: '26px',
+    //                             color: isDark ? '#bfc9d4' : undefined,
+    //                             offsetY: 16,
+    //                             formatter: (val: any) => {
+    //                                 return val;
+    //                             },
+    //                         },
+    //                         total: {
+    //                             show: true,
+    //                             label: 'Total',
+    //                             color: '#888ea8',
+    //                             fontSize: '29px',
+    //                             formatter: (w: any) => {
+    //                                 return w.globals.seriesTotals.reduce(function (a: any, b: any) {
+    //                                     return a + b;
+    //                                 }, 0);
+    //                             },
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //         },
+    //         labels: ['Volume', 'Gross Margin', 'Others'],
+    //         states: {
+    //             hover: {
+    //                 filter: {
+    //                     type: 'none',
+    //                     value: 0.15,
+    //                 },
+    //             },
+    //             active: {
+    //                 filter: {
+    //                     type: 'none',
+    //                     value: 0.15,
+    //                 },
+    //             },
+    //         },
+    //     },
+    // };
+   
+    const salesByCategory = tabData;
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -184,46 +185,89 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
                                             </li>
                                         ))}
                                     </ul>
-                                    <div className="p-4">
-                                        <h2 className="text-2xl font-semibold">{selectedTab}</h2>
-                                        <div className="p-4">
-                                            <h2 className="text-2xl font-semibold">{selectedTab}</h2>
-                                            <div>
-                                                <h3>Labels:</h3>
-                                                <ul>
-                                                    {labels?.map((label, index) => (
-                                                        <li key={index}>{label}</li>
+                                    {/* <h2 className="text-lg font-semibold">{selectedTab}</h2> */}
+                                    <div className="p-2">
+                                        <h2 className="text-lg font-semibold">{selectedTab}</h2>
+                                        <div className="">
+                                            {selectedTab !== 'Varience-accumulation' && (
+                                                <ul className="divide-y divide-gray-200">
+                                                    <li className="flex justify-between p-2 bg-gray-200">
+                                                        <p className="font-semibold">Date</p>
+                                                        <p className="font-semibold">Amount</p>
+                                                    </li>
+                                                    {tabData?.listing.map((item, index) => (
+                                                        <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                                                            <p className="font-semibold">{item?.date}</p>
+                                                            <p>{currency} {item?.amount} </p>
+                                                        </li>
                                                     ))}
                                                 </ul>
-                                                <h3>Data:</h3>
-                                                <ul>
-                                                    {data?.map((datum, index) => (
-                                                        <li key={index}>{datum}</li>
+                                            )}
+                                            {selectedTab === 'Varience-accumulation' && (
+                                                <ul className="divide-y divide-gray-200">
+                                                    <li className="flex justify-between py-2 bg-gray-200">
+                                                        <p className="font-semibold">Date</p>
+                                                        <p className="font-semibold">Variance</p>
+                                                        <p className="font-semibold">Balance</p>
+                                                    </li>
+                                                    {tabData?.listing.map((item, index) => (
+                                                        <li key={item?.id} className="flex justify-between py-2 hover:bg-gray-100">
+                                                            <p>{item?.date}</p>
+                                                            <p>{item?.variance}</p>
+                                                            <p>{item?.balance}</p>
+                                                        </li>
                                                     ))}
                                                 </ul>
-                                                <h3>Total:</h3>
-                                                <p>{total}</p>
-                                                <h3>Deductions:</h3>
+                                            )}
+                                        </div>
 
+
+
+
+                                        <div className="panel h-full mt-4">
+                                            <div className="flex items-center mb-5">
+                                                <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
                                             </div>
-                                            <div className="panel h-full">
-                                                <div className="flex items-center mb-5">
-                                                    <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
-                                                </div>
-                                                <div>
-                                                    <div className="bg-white dark:bg-black  overflow-hidden">
-                                                        {loading ? (
-                                                            <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                                                                <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
-                                                            </div>
-                                                        ) : (
-                                                            <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
-                                                        )}
-                                                    </div>
+                                            <div>
+                                                <div className="bg-white dark:bg-black  overflow-hidden">
+                                                    {loading ? (
+                                                        <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
+                                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
+                                                        </div>
+                                                    ) : (
+                                                        <ReactApexChart
+                                                        series={salesByCategory?.data?.map(amount => parseFloat(amount))}
+
+                                                        options={{
+                                                            chart: {
+                                                                type: 'donut',
+                                                                height: 400,
+                                                            },
+                                                            labels: salesByCategory?.labels,
+                                                            legend: {
+                                                                position: 'bottom',
+                                                                horizontalAlign: 'center',
+                                                                fontSize: '14px',
+                                                                markers: {
+                                                                    width: 10,
+                                                                    height: 10,
+                                                                    offsetX: -2,
+                                                                },
+                                                                height: 50,
+                                                                offsetY: 20,
+                                                            },
+                                                            dataLabels: {
+                                                                enabled: false,
+                                                            },
+                                                        }}
+                                                        type="donut"
+                                                        height={460}
+                                                    /> )}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

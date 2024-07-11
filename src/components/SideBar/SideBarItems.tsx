@@ -31,6 +31,14 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },
+    // {
+    //     key: 'DataEntry',
+    //     title: 'Data Entry',
+    //     icon: "apps",
+    //     link: '/data-entry', // Single link for the Data Entry
+    //     visibility: false, // Example of setting visibility to false
+    //     permission: 'workflow-list', // Permission associated with the dashboard
+    // },
     {
         key: 'DataEntry',
         title: 'Data Entry',
@@ -38,6 +46,13 @@ const menuItems: MenuItem[] = [
         link: '/data-entry', // Single link for the Data Entry
         visibility: false, // Example of setting visibility to false
         permission: 'workflow-list', // Permission associated with the dashboard
+        subMenu: [
+            { title: 'DataEntry', link: '/data-entry', permission: 'workflow-list', visibility: false },
+            { title: 'DataEntry Stats', link: '/data-entry', permission: 'workflow-list', visibility: false },
+          
+            // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
+            // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
+        ],
     },
     {
         key: 'Manage',
@@ -51,7 +66,7 @@ const menuItems: MenuItem[] = [
             { title: 'Clients', link: '/manage-clients/client', permission: 'client-list', visibility: false },
             { title: 'Entities', link: '/manage-entities/entity', permission: 'entity-list', visibility: false },
             { title: 'Credit User', link: '/manage-users/credit-users', permission: 'credituser-list', visibility: false },
-            { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
+            // { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
             // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],

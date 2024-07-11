@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 import useErrorHandler from '../../hooks/useHandleError';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
@@ -19,7 +18,6 @@ import Payment from './DrsComponents/Payment';
 import CashBanking from './DrsComponents/CashBanking';
 import Summary from './DrsComponents/Summary';
 import { languageContent } from '../../utils/Languages/LanguageTextComponent';
-import UserAddonModal from '../SideBarComponents/ManageUser/UserAddonModal';
 import DataEntryStats from './DataEntryStats';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
@@ -216,10 +214,10 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         <div className='panel h-full xl:col-span-5'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
-            <div className='Action-btns flex'>
+            {/* <div className='Action-btns flex'>
               <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
 
-            </div>
+            </div> */}
             <hr></hr>
           </div>
           {/* <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
