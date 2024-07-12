@@ -178,7 +178,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
         <div className='panel h-full '>
           <CustomInput
             getData={getData}
@@ -197,6 +197,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             showDateInput={true}
             storedKeyName={storedKeyName}
           />
+
+
           {SelectedComponent ? (
             <>
               <hr className='m-2' />
@@ -209,7 +211,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         </div>
 
-        <div className='panel h-full xl:col-span-5'>
+        <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
             {/* <div className='Action-btns flex'>

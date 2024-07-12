@@ -245,7 +245,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     </div>
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
         <div className='panel h-full '>
           <CustomInput
             getData={getData}
@@ -267,7 +267,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
         </div>
 
-        <div className='panel h-full xl:col-span-5'>
+        <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
             {/* <div className='Action-btns flex'>
@@ -286,7 +286,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <li key={tabName} className="w-1/8 inline-block" style={{ minWidth: "100px" }}>
                     <button
                       onClick={() => handleTabClick(tabName)}
-                      className={`flex gap-2 border-b border-transparent hover:border-primary hover:text-primary ${selectedTab === tabName ? 'border-primary c-border-primary' : ''}`}
+                      className={`
+                        flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
+                  ${selectedTab === tabName ? 'border-primary c-border-primary' : ''}`}
+
+
                       style={{ color: 'currentColor' }}
                     >
                       <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
@@ -347,45 +351,45 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       isActive={activeAccordion === `${currency}-${index}`}
                       onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                     >
-                    {selectedTab === "Fuel Sales" ? (
-  <>
-    <ul className="divide-y divide-gray-200 w-full">
-      <li className="flex justify-between p-2 bg-gray-200">
-        <p className="font-semibold w-1/6">Name </p>
-        <p className="font-semibold w-1/6">Price </p>
-        <p className="font-semibold w-1/6">Volume</p>
-        <p className="font-semibold w-1/6">Gross Value</p>
-        <p className="font-semibold w-1/6">Discount</p>
-        <p className="font-semibold w-1/6">Balance</p>
-      </li>
-      {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-        <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-          <p className="w-1/6">{subItem?.name}</p>
-          <p className="w-1/6">{subItem?.price}</p>
-          <p className="w-1/6">{subItem?.volume}</p>
-          <p className="w-1/6">{subItem?.gross_value}</p>
-          <p className="w-1/6">{subItem?.discount}</p>
-          <p className="w-1/6">{currency} {subItem?.amount}</p>
-        </li>
-      ))}
-    </ul>
-  </>
-) : (
-  <>
-    <ul className="divide-y divide-gray-200 w-full">
-      <li className="flex justify-between p-2 bg-gray-200">
-        <p className="font-semibold w-1/2">Name </p>
-        <p className="font-semibold w-1/2">Amount</p>
-      </li>
-      {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-        <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-          <p className="w-1/2">{subItem?.name}</p>
-          <p className="w-1/2">{currency} {subItem?.amount}</p>
-        </li>
-      ))}
-    </ul>
-  </>
-)}
+                      {selectedTab === "Fuel Sales" ? (
+                        <>
+                          <ul className="divide-y divide-gray-200 w-full">
+                            <li className="flex justify-between p-2 bg-gray-200">
+                              <p className="font-semibold w-1/6">Name </p>
+                              <p className="font-semibold w-1/6">Price </p>
+                              <p className="font-semibold w-1/6">Volume</p>
+                              <p className="font-semibold w-1/6">Gross Value</p>
+                              <p className="font-semibold w-1/6">Discount</p>
+                              <p className="font-semibold w-1/6">Balance</p>
+                            </li>
+                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                <p className="w-1/6">{subItem?.name}</p>
+                                <p className="w-1/6">{subItem?.price}</p>
+                                <p className="w-1/6">{subItem?.volume}</p>
+                                <p className="w-1/6">{subItem?.gross_value}</p>
+                                <p className="w-1/6">{subItem?.discount}</p>
+                                <p className="w-1/6">{currency} {subItem?.amount}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          <ul className="divide-y divide-gray-200 w-full">
+                            <li className="flex justify-between p-2 bg-gray-200">
+                              <p className="font-semibold w-1/2">Name </p>
+                              <p className="font-semibold w-1/2">Amount</p>
+                            </li>
+                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                <p className="w-1/2">{subItem?.name}</p>
+                                <p className="w-1/2">{currency} {subItem?.amount}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
 
                     </CollapsibleItem>
                   ))}
