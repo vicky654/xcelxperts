@@ -195,38 +195,38 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     }
   };
   const pieChart: any = {
-    series:salesByCategory?.data?.map(amount => parseFloat(amount)),
+    series: salesByCategory?.data?.map(amount => parseFloat(amount)),
     options: {
-        chart: {
-            height: 300,
-            type: 'pie',
-            zoom: {
-                enabled: false,
-            },
-            toolbar: {
-                show: false,
-            },
+      chart: {
+        height: 300,
+        type: 'pie',
+        zoom: {
+          enabled: false,
         },
-        labels: salesByCategory?.labels,
-        colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
-        responsive: [
-            {
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200,
-                    },
-                },
+        toolbar: {
+          show: false,
+        },
+      },
+      labels: salesByCategory?.labels,
+      colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
             },
-        ],
-        stroke: {
-            show: false,
+          },
         },
-        legend: {
-            position: 'bottom',
-        },
+      ],
+      stroke: {
+        show: false,
+      },
+      legend: {
+        position: 'bottom',
+      },
     },
-};
+  };
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -243,7 +243,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </li>
       </ul>
     </div>
-   
+
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-6 mb-6">
         <div className='panel h-full '>
@@ -336,7 +336,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   ))}
                 </ul>
               )}
-
               {stationId && selectedTab !== 'Varience-accumulation' && (
                 <ul className="divide-y divide-gray-200">
                   {tabData?.listing?.map((item, index) => (
@@ -344,19 +343,55 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       key={index}
                       id={`${currency}-${index}`}
                       title={item?.date}
+                      subtitle={item?.amount}
                       isActive={activeAccordion === `${currency}-${index}`}
                       onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                     >
-                      {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                        <li key={subIndex} className="flex justify-between py-2 hover:bg-gray-100">
-                          <p>{subItem?.name}</p>
-                          <p>{currency} {subItem?.amount}</p>
-                        </li>
-                      ))}
+                    {selectedTab === "Fuel Sales" ? (
+  <>
+    <ul className="divide-y divide-gray-200 w-full">
+      <li className="flex justify-between p-2 bg-gray-200">
+        <p className="font-semibold w-1/6">Name </p>
+        <p className="font-semibold w-1/6">Price </p>
+        <p className="font-semibold w-1/6">Volume</p>
+        <p className="font-semibold w-1/6">Gross Value</p>
+        <p className="font-semibold w-1/6">Discount</p>
+        <p className="font-semibold w-1/6">Balance</p>
+      </li>
+      {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+        <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+          <p className="w-1/6">{subItem?.name}</p>
+          <p className="w-1/6">{subItem?.price}</p>
+          <p className="w-1/6">{subItem?.volume}</p>
+          <p className="w-1/6">{subItem?.gross_value}</p>
+          <p className="w-1/6">{subItem?.discount}</p>
+          <p className="w-1/6">{currency} {subItem?.amount}</p>
+        </li>
+      ))}
+    </ul>
+  </>
+) : (
+  <>
+    <ul className="divide-y divide-gray-200 w-full">
+      <li className="flex justify-between p-2 bg-gray-200">
+        <p className="font-semibold w-1/2">Name </p>
+        <p className="font-semibold w-1/2">Amount</p>
+      </li>
+      {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+        <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+          <p className="w-1/2">{subItem?.name}</p>
+          <p className="w-1/2">{currency} {subItem?.amount}</p>
+        </li>
+      ))}
+    </ul>
+  </>
+)}
+
                     </CollapsibleItem>
                   ))}
                 </ul>
               )}
+
             </div>
 
 
@@ -365,11 +400,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               <div className="panel h-full mt-4">
                 <div className="flex items-center mb-5">
                   <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
-                </div> 
+                </div>
                 <div>
-               
-      <ReactApexChart series={pieChart.series} options={pieChart.options} className="rounded-lg bg-white dark:bg-black overflow-hidden" type="pie" height={300} />
-      {/* <ReactApexChart
+
+                  <ReactApexChart series={pieChart.series} options={pieChart.options} className="rounded-lg bg-white dark:bg-black overflow-hidden" type="pie" height={300} />
+                  {/* <ReactApexChart
                     series={salesByCategory?.data?.map(amount => parseFloat(amount))}
                     options={{
                       chart: {

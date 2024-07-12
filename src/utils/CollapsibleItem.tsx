@@ -1,27 +1,35 @@
 import React from 'react';
 import AnimateHeight from 'react-animate-height';
+import IconCaretDown from '../components/Icon/IconCaretDown';
 
 interface CollapsibleItemProps {
   id: string;
   title: string;
+  subtitle: string;
   isActive: boolean;
   onToggle: (id: string) => void;
   children: React.ReactNode;
 }
 
-const CollapsibleItem: React.FC<CollapsibleItemProps> = ({ id, title, isActive, onToggle, children }) => {
+const CollapsibleItem: React.FC<CollapsibleItemProps> = ({ id, title, subtitle, isActive, onToggle, children }) => {
   return (
-    <div className="border border-[#d3d3d3] dark:border-[#1b2e4b] rounded">
+    <div className="border border-[#d3d3d3] dark:border-[#1b2e4b] rounded mt-4 " style={{ border: "1px solid #ddd" }}>
+
+
       <button
         type="button"
-        className="p-4 w-full flex items-center text-white-dark dark:bg-[#1b2e4b]"
+        className={`p-4 w-full flex items-center text-white-dark dark:bg-[#1b2e4b] ${isActive ? '!text-primary' : ''}`}
         onClick={() => onToggle(id)}
       >
-     
-        {title}
-        <div className="ltr:ml-auto rtl:mr-auto">
-       
+
+
+        {subtitle} ({title})<br></br>
+
+        <div className={`ltr:ml-auto rtl:mr-auto ${isActive ? 'rotate-180' : ''}`}>
+          <IconCaretDown />
         </div>
+
+
       </button>
       <div>
         <AnimateHeight duration={300} height={isActive ? 'auto' : 0}>

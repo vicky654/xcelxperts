@@ -112,7 +112,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
         <div className='spacebetween'>
         <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
          
-        <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
+        {/* <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button> */}
 
         </div>
         <div className="flex justify-center">
