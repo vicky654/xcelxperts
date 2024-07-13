@@ -185,7 +185,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.reference}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                         />
                                         {formik.touched.reference && formik.errors.reference ? (
                                             <div className="text-red-600 text-sm">{formik.errors.reference}</div>
@@ -200,7 +200,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.amount}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                         />
                                         {formik.touched.amount && formik.errors.amount ? (
                                             <div className="text-red-600 text-sm">{formik.errors.amount}</div>
@@ -231,7 +231,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.reference}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                         />
                                         {formik.touched.reference && formik.errors.reference ? (
                                             <div className="text-red-600 text-sm">{formik.errors.reference}</div>
@@ -246,7 +246,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.amount}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                         />
                                         {formik.touched.amount && formik.errors.amount ? (
                                             <div className="text-red-600 text-sm">{formik.errors.amount}</div>

@@ -181,8 +181,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.services[index].credit_user_id}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-
-                                            className="form-select text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            disabled={!iseditable} 
+                                            className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         >
                                             <option value="">Select  User</option>
                                             {commonListData?.users?.map((item: any) => (
@@ -207,9 +207,9 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.services[index].fuel_sub_category_id}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-
-                                            className="form-select text-white-dark mt-1 block w-full pl-3 pr-10  py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                        >
+                                            className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10  py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            disabled={!iseditable} 
+                                       >
                                             <option value="">Select Fuel</option>
                                             {commonListData?.fuels?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.sub_category_name}</option>
@@ -225,7 +225,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     {/* Column 3 - Amount */}
                                     <div className="w-full lg:w-3/12 flex flex-col mb-4">
                                         <label htmlFor={`services[${index}].amount`} className="block text-sm font-medium text-gray-700">
-                                            Amount  ( {currency && `${currency}`} )  <span className="text-red-500">*</span>
+                                        {formik.values.services[index]?.update_amount}     Amount  ( {currency && `${currency}`} )  <span className="text-red-500">*</span>
+                                       
                                         </label>
                                         <input
                                             type="number"
@@ -237,7 +238,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             onBlur={formik.handleBlur}
                                             readOnly={!iseditable}
                                             // ${!formik.values.services[index].update_amount ? 'readonly' : ''}
-                                            className={` mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                                            className={` ${!iseditable ? 'readonly' : ''} form-input mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                                         />
 
                                         {formik.errors.services?.[index]?.amount && formik.touched.services?.[index]?.amount && (
