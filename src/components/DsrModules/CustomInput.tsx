@@ -38,7 +38,6 @@ interface CustomInputProps {
     showStationValidation?: boolean;
     showDateValidation?: boolean;
     showDateInput?: boolean;
-    showMonthInput?: boolean;
     validationSchema: any;
     layoutClasses: any;
     storedKeyName?: any;
@@ -57,7 +56,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
     showStationInput = true,
     showStationValidation,
     showDateInput = true,
-    showMonthInput = true,
     validationSchema,
     storedKeyName,
     // layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2',
@@ -79,7 +77,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
             entity_id: "",
             company_name: "",
             start_date: "",
-            start_month: "",
             station_id: "",
             site_name: "",
             clients: [] as Client[],
@@ -295,9 +292,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
                         {showDateInput && (
                             <FormikInput formik={formik} type="date" label="Start Date" name="start_date" />
-                        )}
-                        {showMonthInput && (
-                            <FormikInput formik={formik} type="month" label="Select Month" name="start_month" />
                         )}
 
 
