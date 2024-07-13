@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 import useErrorHandler from '../../hooks/useHandleError';
 import LoaderImg from '../../utils/Loader';
@@ -20,6 +20,7 @@ import Summary from './DrsComponents/Summary';
 import { languageContent } from '../../utils/Languages/LanguageTextComponent';
 import DataEntryStats from './DataEntryStats';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { IRootState } from '../../store';
 
 
 interface ManageSiteProps {
@@ -65,7 +66,9 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     }
 
   }, [dispatch]);
+  const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
+  const isDeletePermissionAvailable = UserPermissions?.includes('dataentry-delete-data');
   const componentMap: {
     [key: string]: React.ComponentType<{
       stationId: string | null;
@@ -199,7 +202,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           />
 
 
-          {SelectedComponent ? (
+          {SelectedComponent && isDeletePermissionAvailable ? (
             <>
               <hr className='m-2' />
               <div className='text-end'>

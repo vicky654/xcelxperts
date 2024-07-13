@@ -100,6 +100,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleTabClick = async (tabName: string) => {
     try {
       const key = tabKeyMap[tabName];
+      // const startDate = `${startDate}-01`;
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
       if (response && response.data) {
         setSelectedTab(tabName);
@@ -117,11 +118,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const handleApplyFilters = async (values: any) => {
     try {
-      const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
+      const startDate = `${values?.start_month}-01`;
+      const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id}&drs_date=${startDate}`);
+      
+      
+      
+      
       if (response && response.data && response.data.data) {
-
+        setTabData(response.data?.data);
         setStationId(values?.station_id);
-        setStartDate(values?.start_date);
+        setStartDate(values?.start_month);
       } else {
 
         throw new Error('No data available in the response');
@@ -145,7 +151,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       : Yup.mixed().notRequired(),
     entity_id: Yup.string().required("Entity is required"),
     station_id: Yup.string().required('Station is required'),
-    start_date: Yup.string().required('Date is required'),
+    start_month: Yup.string().required('Month is required'),
   });
 
 
@@ -260,7 +266,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
             isOpen={false}
             onClose={() => { }}
-            showDateInput={true}
+            showMonthInput={true}
+            showDateInput={false}
             storedKeyName={storedKeyName}
           />
 
