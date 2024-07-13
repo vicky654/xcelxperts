@@ -118,10 +118,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleApplyFilters = async (values: any) => {
     try {
       const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
-
-
-
-
       if (response && response.data && response.data.data) {
         setTabData(response.data?.data);
         setStationId(values?.station_id);
@@ -274,15 +270,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
-            {/* <div className='Action-btns flex'>
-              <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
 
-            </div> */}
             <hr></hr>
           </div>
-          {/* <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
-            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('hindi')}>हिंदी</button>
-            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('punjabi')}>ਪੰਜਾਬੀ</button></div> */}
           <div>
             {startDate && stationId ? (
               <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
@@ -314,53 +304,52 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           <div className="p-2" style={{ padding: "10px" }}>
             {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
             <div className="">
-              {/* {stationId  && selectedTab !== 'Varience-accumulation' && (
-                <ul className="divide-y divide-gray-200">
-                  <li className="flex justify-between p-2 bg-gray-200">
-                    <p className="font-semibold">Date</p>
-                    <p className="font-semibold">Amount</p>
-                  </li>
-                  {tabData?.listing?.map((item, index) => (
-                    <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
-                      <p className="font-semibold">{item?.date}</p>
-                      <p>{currency} {item?.amount} </p>
+
+              {stationId && selectedTab === 'Varience-accumulation' ? (
+                tabData?.listing.length > 0 ? (
+                  <ul className="divide-y p-2 b divide-gray-200">
+                    <li className="flex justify-between p-2 bg-gray-200">
+                      <p className="font-semibold">Date</p>
+                      <p className="font-semibold">Variance</p>
+                      <p className="font-semibold">Balance</p>
                     </li>
-                  ))}
-                </ul>
-              )} */}
-              {stationId && selectedTab === 'Varience-accumulation' && (
-                <ul className="divide-y divide-gray-200">
-                  <li className="flex justify-between py-2 bg-gray-200">
-                    <p className="font-semibold">Date</p>
-                    <p className="font-semibold">Variance</p>
-                    <p className="font-semibold">Balance</p>
-                  </li>
-                  {tabData?.listing?.map((item, index) => (
-                    <li key={item?.id} className="flex justify-between py-2 hover:bg-gray-100">
-                      <p>{item?.date}</p>
-                      <p>{item?.variance}</p>
-                      <p>{item?.balance}</p>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                    {tabData?.listing?.map((item, index) => (
+                      <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
+                        <p>{item?.date}</p>
+                        <p>{item?.variance}</p>
+                        <p>{item?.balance}</p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <img
+                      src={noDataImage} // Use the imported image directly as the source
+                      alt="no data found"
+                      className="nodata-image"
+                    />
+                  </div>
+                )
+              ) : null}
+
+
               {stationId && selectedTab !== 'Varience-accumulation' && (
-                <ul className="divide-y divide-gray-200">
-                  {tabData?.listing?.map((item, index) => (
-                    <CollapsibleItem
-                      key={index}
-                      id={`${currency}-${index}`}
-                      title={item?.date}
-                      subtitle={item?.amount}
-                      isActive={activeAccordion === `${currency}-${index}`}
-                      onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
-                    >
-                      {selectedTab === "Fuel Sales" ? (
-                        <>
+                tabData?.listing.length > 0 ? (
+                  <ul className="divide-y divide-gray-200">
+                    {tabData?.listing?.map((item, index) => (
+                      <CollapsibleItem
+                        key={index}
+                        id={`${currency}-${index}`}
+                        title={item?.date}
+                        subtitle={item?.amount}
+                        isActive={activeAccordion === `${currency}-${index}`}
+                        onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
+                      >
+                        {selectedTab === "Fuel Sales" ? (
                           <ul className="divide-y divide-gray-200 w-full">
                             <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/6">Name </p>
-                              <p className="font-semibold w-1/6">Price </p>
+                              <p className="font-semibold w-1/6">Name</p>
+                              <p className="font-semibold w-1/6">Price</p>
                               <p className="font-semibold w-1/6">Volume</p>
                               <p className="font-semibold w-1/6">Gross Value</p>
                               <p className="font-semibold w-1/6">Discount</p>
@@ -377,12 +366,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                               </li>
                             ))}
                           </ul>
-                        </>
-                      ) : (
-                        <>
+                        ) : (
                           <ul className="divide-y divide-gray-200 w-full">
                             <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/2">Name </p>
+                              <p className="font-semibold w-1/2">Name</p>
                               <p className="font-semibold w-1/2">Amount</p>
                             </li>
                             {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
@@ -392,56 +379,49 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                               </li>
                             ))}
                           </ul>
-                        </>
-                      )}
-
-                    </CollapsibleItem>
-                  ))}
-                </ul>
+                        )}
+                      </CollapsibleItem>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <img
+                      src={noDataImage} // Use the imported image directly as the source
+                      alt="no data found"
+                      className="nodata-image"
+                    />
+                  </div>
+                )
               )}
+
 
             </div>
 
 
 
             {stationId && selectedTab !== 'Varience-accumulation' && (
-              <div className="panel h-full mt-4">
-                <div className="flex items-center mb-5">
-                  <h5 className="font-semibold text-lg dark:text-white-light"> {selectedTab} Graph Stats</h5>
+              tabData?.listing.length > 0 ? (
+                <div className="panel h-full mt-4">
+                  <div className="flex items-center mb-5">
+                    <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+                  </div>
+                  <div>
+                    <ReactApexChart
+                      series={pieChart.series}
+                      options={pieChart.options}
+                      className="rounded-lg bg-white dark:bg-black overflow-hidden"
+                      type="pie"
+                      height={300}
+                    />
+                  </div>
                 </div>
-                <div>
-
-                  <ReactApexChart series={pieChart.series} options={pieChart.options} className="rounded-lg bg-white dark:bg-black overflow-hidden" type="pie" height={300} />
-                  {/* <ReactApexChart
-                    series={salesByCategory?.data?.map(amount => parseFloat(amount))}
-                    options={{
-                      chart: {
-                        type: 'donut',
-                        height: 400,
-                      },
-                      labels: salesByCategory?.labels,
-                      legend: {
-                        position: 'bottom',
-                        horizontalAlign: 'center',
-                        fontSize: '14px',
-                        markers: {
-                          width: 10,
-                          height: 10,
-                          offsetX: -2,
-                        },
-                        height: 50,
-                        offsetY: 20,
-                      },
-                      dataLabels: {
-                        enabled: false,
-                      },
-                    }}
-                    type="donut"
-                    height={460}
-                  /> */}
+              ) : (
+                <div className="flex justify-center items-center">
+                  ""
                 </div>
-              </div>
+              )
             )}
+
 
           </div>
         </div>
