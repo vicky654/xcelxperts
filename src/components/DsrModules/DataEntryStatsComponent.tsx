@@ -31,8 +31,22 @@ interface TabData {
   labels: string[];
   data: string[];
   total: string;
-  listing: { id: string; date: string; amount: string; variance: string; balance: string }[];
+  listing: {
+    id: string;
+    date: string;
+    fuel_sales: string;
+    charges: string;
+    credit_sales: string;
+    deductions: string;
+    credit_card: string;
+    total_sales: string;
+    cash_deposited: string;
+    variance: string;
+    amount: string;
+    balance: string;
+  }[];
 }
+
 
 const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
@@ -309,16 +323,31 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 tabData?.listing.length > 0 ? (
                   <ul className="divide-y p-2 b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
-                      <p className="font-semibold">Date</p>
-                      <p className="font-semibold">Variance</p>
-                      <p className="font-semibold">Balance</p>
-                    </li>
+                              <p className="font-semibold w-1/6">Date</p>
+                              <p className="font-semibold w-1/6">Balance</p>
+                              <p className="font-semibold w-1/6">Cash Deposited</p>
+                              <p className="font-semibold w-1/6">Charges</p>
+                              <p className="font-semibold w-1/6">Credit Card</p>
+                              <p className="font-semibold w-1/6">Credit Sales</p>
+                              <p className="font-semibold w-1/6">Deductions</p>
+                              <p className="font-semibold w-1/6">Fuel Sales</p>
+                              <p className="font-semibold w-1/6">Total Sales</p>
+                              <p className="font-semibold w-1/6">variance</p>
+                            </li>
                     {tabData?.listing?.map((item, index) => (
-                      <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
-                        <p>{item?.date}</p>
-                        <p>{item?.variance}</p>
-                        <p>{item?.balance}</p>
-                      </li>
+                     <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
+                     <p className="w-1/6">{item?.date}</p>
+                     <p className="w-1/6">{item?.balance}</p>
+                     <p className="w-1/6">{item?.cash_deposited}</p>
+                     <p className="w-1/6">{item?.charges}</p>
+                     <p className="w-1/6">{item?.credit_card}</p>
+                     <p className="w-1/6">{currency} {item?.credit_sales}</p>
+                     <p className="w-1/6">{item?.deductions}</p>
+                     <p className="w-1/6">{item?.fuel_sales}</p>
+                     <p className="w-1/6">{item?.total_sales}</p>
+                     <p className="w-1/6">{item?.variance}</p>
+                   
+                   </li>
                     ))}
                   </ul>
                 ) : (

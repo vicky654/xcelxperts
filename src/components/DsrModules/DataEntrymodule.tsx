@@ -83,7 +83,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Fuel Inventory': FuelInventory,
     'Fuel Delivery': FuelDelivery,
     'Shop Sales': ShopSales,
-    'Charges & Deductions': ChargesDeductions,
+    'Income & Expenses': ChargesDeductions,
     'Credit Sales': CreditSales,
     'Payments': Payment,
     'Cash Deposited': CashBanking,

@@ -7,7 +7,6 @@ import { Button, Form } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
 interface ChargesDeductionsData {
     id: string;
     name: string;
@@ -112,16 +111,16 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId
             )
         }
     ];
-
+// Income & Expenses"
     return (
         <>
       {isLoading && <LoaderImg />}
         <div >
-            <h1 className="text-lg font-semibold mb-4 ">Charges and Deductions {startDate ? `(${startDate})` : ''}
+            <h1 className="text-lg font-semibold mb-4 ">Income and Expenses {startDate ? `(${startDate})` : ''}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div >
-                    <h2 className="text-lg font-semibold mb-4">Charges</h2>
+                    <h2 className="text-lg font-semibold mb-4">Income</h2>
                     <DataTable
                         columns={columns}
                         data={charges}
@@ -132,7 +131,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId
                     />
                 </div>
                 <div >
-                    <h2 className="text-lg font-semibold mb-4">Deductions</h2>
+                    <h2 className="text-lg font-semibold mb-4">Expenses</h2>
                     <DataTable
                         columns={columns}
                         data={deductions}
