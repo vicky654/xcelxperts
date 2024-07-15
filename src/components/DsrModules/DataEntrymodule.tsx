@@ -21,6 +21,7 @@ import { languageContent } from '../../utils/Languages/LanguageTextComponent';
 import DataEntryStats from './DataEntryStats';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { IRootState } from '../../store';
+import useCustomDelete from '../../utils/customDelete';
 
 
 interface ManageSiteProps {
@@ -44,9 +45,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const handleApiError = useErrorHandler();
   const [currentLanguage, setCurrentLanguage] = useState('english'); // Default language
   const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
-
-
   const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
   const [stationId, setStationId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
@@ -112,12 +110,25 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
+  const { customDelete } = useCustomDelete();
+
+
+
+  const handleSuccess = () => {
+    if (stationId && startDate) {
+      const values = {
+
+        station_id: stationId, 
+        start_date: startDate
+      };
+      handleApplyFilters(values);
+    }
+  };
+
+
   const handleDeleteDataEntry = async () => {
     try {
       const formData = new FormData();
-
-
-
       if (stationId && startDate) {
         formData.append('drs_date', startDate);
         formData.append('station_id', stationId);
@@ -125,16 +136,31 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
       const url = `data-entry/delete-data`;
 
-      const isSuccess = await postData(url, formData);
-      if (isSuccess) {
-        if (stationId && startDate) {
-          // handleApplyFilters(formik?.values);
-        }
-      }
+      await customDelete(postData, url, formData, handleSuccess, "You will not be able to recover this item!", "Are you suredd?");
     } catch (error) {
       handleApiError(error);
     }
   };
+  //   const handleDeleteDataEntry = async () => {
+  //     try {
+  //       const formData = new FormData();
+  // if (stationId && startDate) {
+  //         formData.append('drs_date', startDate);
+  //         formData.append('station_id', stationId);
+  //       }
+
+  //       const url = `data-entry/delete-data`;
+
+  //       const isSuccess = await postData(url, formData);
+  //       if (isSuccess) {
+  //         if (stationId && startDate) {
+  //           // handleApplyFilters(formik?.values);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       handleApiError(error);
+  //     }
+  //   };
 
 
   const filterValues = async (values: any) => {
