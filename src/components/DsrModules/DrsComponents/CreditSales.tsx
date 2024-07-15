@@ -8,9 +8,11 @@ import { currency } from '../../../utils/CommonData';
 
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
+
 interface Service {
     credit_user_id: string;
     amount: string;
+    quantity: string;
     fuel_sub_category_id: string;
 }
 
@@ -57,12 +59,12 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         }
     };
 
-
     const addEditSLAInitialValues: AddEditSLAInitialValues = {
         services: [
             {
                 credit_user_id: '',
                 amount: '',
+                quantity: '',
                 fuel_sub_category_id: '',
             },
         ],
@@ -72,7 +74,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         services: Yup.array().of(
             Yup.object().shape({
                 credit_user_id: Yup.string().required('Credit User is required'),
-                amount: Yup.string().required('Amount is required'),
+                quantity: Yup.string().required('Quantity is required'),
                 fuel_sub_category_id: Yup.string().required('Fuel is required'),
             })
         ),
@@ -123,6 +125,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         services.push({
             credit_user_id: '',
             amount: '',
+            quantity: '',
             fuel_sub_category_id: '',
         });
         formik.setFieldValue('services', services);
@@ -132,6 +135,15 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         const services = [...formik.values.services];
         services.splice(index, 1);
         formik.setFieldValue('services', services);
+    };
+
+    // Function to calculate the amount
+    const calculateAmount = (fuelId: string, quantity: string) => {
+        const fuel = commonListData?.fuels.find((item: any) => item.id === fuelId);
+        if (fuel && quantity) {
+            return (parseFloat(fuel.price) * parseFloat(quantity)).toFixed(2);
+        }
+        return '';
     };
 
     // Function to calculate total amount
@@ -145,6 +157,21 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         setTotalAmount(total);
     };
 
+    // Update the amount field when fuel or quantity changes
+    const handleFuelChange = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
+        const { value } = e.target;
+        formik.setFieldValue(`services[${index}].fuel_sub_category_id`, value);
+        const amount = calculateAmount(value, formik.values.services[index].quantity);
+        formik.setFieldValue(`services[${index}].amount`, amount);
+    };
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const { value } = e.target;
+        formik.setFieldValue(`services[${index}].quantity`, value);
+        const amount = calculateAmount(formik.values.services[index].fuel_sub_category_id, value);
+        formik.setFieldValue(`services[${index}].amount`, amount);
+    };
+
     // Calculate total amount on component mount and when formik values change
     useEffect(() => {
         calculateTotalAmount();
@@ -152,28 +179,26 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     return (
         <>
-
             {isLoading ? (
                 <>
                     {LoaderImg}
                 </>
             ) : (
-
-                <div >
+                <div>
                     <div className='spacebetween'>
-                        <h1 className="text-lg font-semibold mb-4 ">Credit Sales {startDate ? `(${startDate})` : ''}</h1>
-                        {iseditable ?
-                            <button className='btn btn-primary mb-3' onClick={addRow}>Add</button> : ""}
+                        <h1 className="text-lg font-semibold  ">Credit Sales {startDate ? `(${startDate})` : ''}</h1>
+                        {iseditable ? (
+                            <button className='btn btn-primary mb-3' onClick={addRow}>Add</button>
+                        ) : null}
                     </div>
                     <form onSubmit={formik.handleSubmit}>
                         <div className="flex flex-wrap gap-4">
                             {formik.values.services.map((service: any, index: any) => (
                                 <div key={index} className="w-full flex flex-wrap items-center p-4 border border-gray-200 rounded-md gap-4">
-
                                     {/* Column 4 - Credit User */}
-                                    <div className="w-full lg:w-4/12 flex flex-col mb-4">
+                                    <div className="w-full lg:w-3/12 flex flex-col ">
                                         <label htmlFor={`services[${index}].credit_user_id`} className="block text-sm font-medium text-gray-700">
-                                            {`User `} <span className="text-red-500">*</span>
+                                            User <span className="text-red-500">*</span>
                                         </label>
                                         <select
                                             id={`services[${index}].credit_user_id`}
@@ -181,10 +206,10 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.services[index].credit_user_id}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            disabled={!iseditable} 
+                                            disabled={!iseditable}
                                             className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         >
-                                            <option value="">Select  User</option>
+                                            <option value="">Select User</option>
                                             {commonListData?.users?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
                                             ))}
@@ -197,19 +222,19 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     </div>
 
                                     {/* Column 4 - Fuel Sub Category */}
-                                    <div className="w-full lg:w-3/12 flex flex-col mb-4">
+                                    <div className="w-full lg:w-2/12 flex flex-col ">
                                         <label htmlFor={`services[${index}].fuel_sub_category_id`} className="block text-sm font-medium text-gray-700">
-                                            {`Fuel `} <span className="text-red-500">*</span>
+                                            Fuel <span className="text-red-500">*</span>
                                         </label>
                                         <select
                                             id={`services[${index}].fuel_sub_category_id`}
                                             name={`services[${index}].fuel_sub_category_id`}
                                             value={formik.values.services[index].fuel_sub_category_id}
-                                            onChange={formik.handleChange}
+                                            onChange={(e) => handleFuelChange(e, index)}
                                             onBlur={formik.handleBlur}
-                                            className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10  py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                            disabled={!iseditable} 
-                                       >
+                                            disabled={!iseditable}
+                                            className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                        >
                                             <option value="">Select Fuel</option>
                                             {commonListData?.fuels?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.sub_category_name}</option>
@@ -222,70 +247,79 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         )}
                                     </div>
 
-                                    {/* Column 3 - Amount */}
-                                    <div className="w-full lg:w-3/12 flex flex-col mb-4">
-                                        <label htmlFor={`services[${index}].amount`} className="block text-sm font-medium text-gray-700">
-                                        {formik.values.services[index]?.update_amount}     Amount  ( {currency && `${currency}`} )  <span className="text-red-500">*</span>
-                                       
+                                    {/* Column 4 - Quantity */}
+                                    <div className="w-full lg:w-2/12 flex flex-col ">
+                                        <label htmlFor={`services[${index}].quantity`} className="block text-sm font-medium text-gray-700">
+                                            Quantity <span className="text-red-500">*</span>
                                         </label>
                                         <input
-                                            type="number"
-                                            id={`services[${index}].amount`}
-                                            name={`services[${index}].amount`}
-                                            placeholder="Amount"
-                                            value={formik.values.services[index].amount}
-                                            onChange={formik.handleChange}
+                                            type="text"
+                                            id={`services[${index}].quantity`}
+                                            name={`services[${index}].quantity`}
+                                            value={formik.values.services[index].quantity}
+                                            placeholder='Quantity'
+                                            onChange={(e) => handleQuantityChange(e, index)}
                                             onBlur={formik.handleBlur}
-                                            readOnly={!iseditable}
-                                            // ${!formik.values.services[index].update_amount ? 'readonly' : ''}
-                                            className={` ${!iseditable ? 'readonly' : ''} form-input mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                                            disabled={!iseditable}
+                                            className="form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         />
-
-                                        {formik.errors.services?.[index]?.amount && formik.touched.services?.[index]?.amount && (
+                                        {formik.errors.services?.[index]?.quantity && formik.touched.services?.[index]?.quantity && (
                                             <div className="text-red-500 text-sm mt-1">
-                                                <span>Amount is required</span>
+                                                <span>Quantity is required</span>
                                             </div>
                                         )}
                                     </div>
-                                    {iseditable ?
-                                        <div className="w-full lg:w-1/12 flex justify-end">
-                                          
-                                                <button
-                                                    type='button'
-                                                    className='btn btn-danger'
-                                                    onClick={() => removeRow(index)}
-                                                >
-                                                    Remove
-                                                </button>
-                                        
-                                        </div> : ""}
-                                    {/* Column 1 - Remove Button */}
 
+                                    {/* Column 4 - Amount */}
+                                    <div className="w-full lg:w-2/12 flex flex-col ">
+                                        <label htmlFor={`services[${index}].amount`} className="block text-sm font-medium text-gray-700">
+                                            Amount <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id={`services[${index}].amount`}
+                                            name={`services[${index}].amount`}
+                                            value={formik.values.services[index].amount}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                             placeholder='Amount'
+                                            disabled
+                                            readOnly
+                                            className="readonly form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                        />
+                                    </div>
+
+                                    {iseditable ? (
+                                        <div className="w-full lg:w-1/12 flex items-center mt-6  ">
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger"
+                                                onClick={() => removeRow(index)}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ) : null}
                                 </div>
                             ))}
                         </div>
-
-                        {/* Display total amount */}
-                        {formik.values.services?.length !== 0 ?
-                            <div className="mt-3">
-                                <p className="text-lg font-semibold">Total Amount : {currency}{totalAmount}</p>
-                            </div> : ""}
-
-                        {/* Submit button */}
-                        {formik.values.services?.length !== 0 ? <footer>
-                            {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}
-                        </footer> : ""}
-                        {formik.values.services?.length === 0 ?
-                            <>
-                                <img
-                                    src={noDataImage} // Use the imported image directly as the source
-                                    alt="no data found"
-                                    className="all-center-flex nodata-image"
-                                />
-                            </>
-                            : ""}
-
+                        <div className="">
+                            <div className="font-semibold text-lg">
+                                Total Amount: {currency} {totalAmount.toFixed(2)}
+                            </div>
+                        </div>
+                        {iseditable && (
+                            <div className="mt-6">
+                                <button type="submit" className="btn btn-primary">Submit</button>
+                            </div>
+                        )}
                     </form>
+                    {!isLoading && commonListData?.listing?.length === 0 && (
+                        <div className="text-center mt-5">
+                            <img src={noDataImage} alt="No data found" className="mx-auto " />
+                            <p className="text-gray-500">No data found.</p>
+                        </div>
+                    )}
                 </div>
             )}
         </>
