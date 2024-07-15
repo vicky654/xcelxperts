@@ -139,6 +139,7 @@ export const stationTankInitialValues = {
   tank_code: '',
   fuel_id: '',
   status: '',
+  capacity : '',
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],

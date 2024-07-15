@@ -317,6 +317,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     readOnly={isEditMode ? true : false}
                                                 />
 
+                                                <FormikInput formik={formik} type="number" name="capacity" label=" Tank Capacity" placeholder=" Tank Capacity" />
 
 
                                                 <div className="sm:col-span-2 mt-3">

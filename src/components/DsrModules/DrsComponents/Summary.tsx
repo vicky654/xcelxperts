@@ -117,6 +117,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
         </div>
         <div className="flex justify-center">
           <div className="w-full">
+          {data?.charges && (
             <div className="mb-8  ">
               <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
 
@@ -133,8 +134,9 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
 
             </div>
+               )}
             <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
-
+            {data?.takings && (
             <div className="mb-8">
               <h1 className="text-lg font-bold">SUMMARY OF TAKINGS</h1>
               <div className="p-2">
@@ -151,8 +153,8 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
             </div>
 
-
-
+          )}
+  {data?.banking && (
             <div className="mb-8">
               <h1 className="text-lg font-bold">SUMMARY OF BANKING</h1>
 
@@ -169,7 +171,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
 
             </div>
-
+   )}
             <div className="mb-8">
               <h1 className="text-lg font-bold">Remarks</h1>
 

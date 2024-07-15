@@ -243,6 +243,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             // formData.append('entity_id', values.entity_id);
             // formData.append('client_id', values.client_id);
             formData.append('fuel_id', values.fuel_id);
+            formData.append('capacity', values.capacity);
             formData.append('tank_code', values.tank_code);
 
             if (userId) {
