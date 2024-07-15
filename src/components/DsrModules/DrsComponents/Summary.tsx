@@ -77,6 +77,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
       formData.append('cash_operator', data?.banking?.cash_commited_by_operator || '');
       formData.append('banking_difference', data?.banking.banking_difference || '');
+      // formData.append('banking_difference', data?.banking.variance_difference || '');
       formData.append('variance', data?.variance || '');
       formData.append('remarks', values?.Remarks || '');
 
