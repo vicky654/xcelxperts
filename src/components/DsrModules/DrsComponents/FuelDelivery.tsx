@@ -53,7 +53,6 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
-
         }
     }, [stationId, startDate]);
 
@@ -61,7 +60,6 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         try {
             const response = await getData(`/data-entry/fuel-delivery/list?station_id=${stationId}&drs_date=${startDate}`);
             if (response && response.data && response.data.data) {
-
                 setData(response.data.data.listing);
                 setIsEditable(response.data.data.is_editable);
             } else {
@@ -140,7 +138,6 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             setFieldValue(`data[${index}].variance`, newVariance);
         }
     };
-
 
     const columns = [
         {
@@ -251,11 +248,9 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
     return (
         <div>
-            <h1 className="text-lg font-semibold mb-4 ">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
+            <h1 className="text-lg font-semibold mb-4">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
             {isLoading ? (
-                <>
-                    {LoaderImg}
-                </>
+                <LoaderImg />
             ) : (
                 <Formik
                     initialValues={{ data }}

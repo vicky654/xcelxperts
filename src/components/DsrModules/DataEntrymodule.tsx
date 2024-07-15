@@ -89,7 +89,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   };
 
   const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
-  const handleApplyFilters = async (values: any) => {
+  const handleApplyFilterss = async (values: any) => {
     try {
       const response = await getData(`/data-entry/cards?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
       if (response && response.data && response.data.data) {
@@ -110,6 +110,24 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
+  const handleApplyFilters = async (values: any) => {
+    console.log(values, "values");
+
+    try {
+        // Simulate an API call with a dummy response
+        const response = {
+            data: {
+                message: "Dummy response data",
+                values: values,
+            }
+        };
+
+        console.log(response, "response");
+    } catch (error) {
+        console.error(error, "error");
+    }
+};
+
   const { customDelete } = useCustomDelete();
 
 
@@ -117,7 +135,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const handleSuccess = () => {
     if (stationId && startDate) {
       const values = {
-
         station_id: stationId, 
         start_date: startDate
       };
@@ -212,7 +229,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           <CustomInput
             getData={getData}
             isLoading={isLoading}
-            onApplyFilters={handleApplyFilters}
+            onApplyFilters={handleApplyFilterss}
             FilterValues={filterValues}
             showClientInput={true}
             showEntityInput={true}
