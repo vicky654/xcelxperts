@@ -169,6 +169,14 @@ export const fuelcategoryValidation = (isEditMode: boolean) => {
             .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };
+export const BankValidation = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        name: Yup.string()
+            .required(' Name is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+     
+    });
+};
 export const fuelsubcategoryValidation = (isEditMode: boolean) => {
     return Yup.object().shape({
         sub_category_name: Yup.string()
@@ -359,4 +367,5 @@ export default {
     CardValidationSchema,
     credituserValidationSchema,
     fuelcategoryValidation,
+    BankValidation,
 };
