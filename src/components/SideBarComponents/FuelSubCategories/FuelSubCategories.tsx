@@ -56,7 +56,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/fuel/category/list?page=${currentPage}`);
+            const response = await getData(`/fuel/subcategory/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.charges);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -74,7 +74,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         const formData = new FormData();
         formData.append('id', row.id.toString());
         formData.append('charge_status', (row.charge_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/fuel/category/update-status', formData, handleSuccess);
+        toggleStatus(postData, '/fuel/subcategory/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
@@ -100,7 +100,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const columns: any = [
         // Other columns
         {
-            name: 'Fuel Categories Name',
+            name: 'Fuel  Sub Categories Name',
             selector: (row: RowData) => row.charge_name,
             sortable: false,
             width: '20%',
@@ -113,7 +113,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             ),
         },
         {
-            name: 'Fuel Categories Code',
+            name: 'Fuel  Sub Categories Code',
             selector: (row: RowData) => row.charge_code,
             sortable: false,
             width: '20%',
@@ -224,7 +224,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/fuel/category/update` : `/fuel/category/create`;
+            const url = isEditMode && userId ? `/fuel/subcategory/update` : `/fuel/subcategory/create`;
 
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
@@ -248,13 +248,13 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Fuel Categories</span>
+                        <span>Fuel  Sub Categories</span>
                     </li>
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Fuel Category
+                        Add Fuel Sub Category
                     </button>
                 </>}
 
@@ -263,7 +263,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Fuel Categories</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Fuel  Sub Categories</h5>
                 </div>
 
                 {data?.length > 0 ? (

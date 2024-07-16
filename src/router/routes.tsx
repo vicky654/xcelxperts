@@ -105,10 +105,6 @@ import DateRangePicker from '../pages/Forms/DateRangePicker';
 import Clipboard from '../pages/Forms/Clipboard';
 import DashboardOverview from '../pages/Dashboard/DashboardSecondPage/DashboardOverview';
 import DashboardStationPage from '../pages/Dashboard/DashboardThirdPage/DashboardStationPage';
-
-
-//permissions Routings
-
 import ManageUser from '../components/SideBarComponents/ManageUser/ManageUser';
 import ManageClient from '../components/SideBarComponents/ManageClient/ManageClient';
 import ManageEntity from '../components/SideBarComponents/ManageEntity/ManageEntity';

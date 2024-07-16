@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import { chargestValidationSchema, fuelcategoryValidation } from '../../FormikFormTools/ValidationSchema';
+import { fuelsubcategoryValidation } from '../../FormikFormTools/ValidationSchema';
 import FormikInput from '../../FormikFormTools/FormikInput';
-import { chargesInitialValues, fuelcategoryInitialValues } from '../../FormikFormTools/InitialValues';
+import { fuelcategoryInitialValues, fuelsubcategoryInitialValues } from '../../FormikFormTools/InitialValues';
 
 interface RowData {
     code: string;
     charge_status: string;
-    category_name: string;
+    sub_category_name: string;
+    fuel_category_id: string;
 }
 
 interface AddUserModalProps {
@@ -25,7 +26,8 @@ interface UserData {
     id: string;
     code: string;
     charge_status: string;
-    category_name: string;
+    sub_category_name: string;
+    fuel_category_id: string;
 }
 
 const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
@@ -43,7 +45,8 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                 const userData: UserData = response.data?.data;
 
                 formik.setValues({
-                    category_name: userData.category_name || '',
+                    sub_category_name: userData.sub_category_name || '',
+                    fuel_category_id: userData.fuel_category_id || '',
                     code: userData.code || '',
                 });
             }
@@ -52,8 +55,8 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
         }
     };
     const formik = useFormik({
-        initialValues: fuelcategoryInitialValues,
-        validationSchema: fuelcategoryValidation(isEditMode),
+        initialValues: fuelsubcategoryInitialValues,
+        validationSchema: fuelsubcategoryValidation(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
@@ -78,7 +81,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                            <FormikInput formik={formik} type="text" name="category_name" />
+                                            <FormikInput formik={formik} type="text" name="sub_category_name" />
 
                                                 <FormikInput formik={formik} type="text" name="code" readOnly={isEditMode ? true : false} />
                                                

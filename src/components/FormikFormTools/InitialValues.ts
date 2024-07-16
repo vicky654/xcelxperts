@@ -70,6 +70,13 @@ export const fuelcategoryInitialValues = {
   code: '',
 
 };
+export const fuelsubcategoryInitialValues = {
+  sub_category_name: '',
+  fuel_category_id: '',
+  code: '',
+
+
+};
 export const deductionsInitialValues = {
   deduction_code: '',
   deduction_name: '', // Add deduction_name here
@@ -245,4 +252,5 @@ export default {
   chargesInitialValues,
   deductionsInitialValues,
   stationTankInitialValues,
+  fuelsubcategoryInitialValues,
 };

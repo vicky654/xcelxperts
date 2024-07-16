@@ -169,6 +169,19 @@ export const fuelcategoryValidation = (isEditMode: boolean) => {
             .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };
+export const fuelsubcategoryValidation = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        sub_category_name: Yup.string()
+            .required('Fuel Sub category Name is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+            fuel_category_id: Yup.string()
+            .required('Fuel  category  is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+        code: Yup.string()
+            .required('Fuel Sub category Code is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+    });
+};
 export const supplierValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         supplier_name: Yup.string()
