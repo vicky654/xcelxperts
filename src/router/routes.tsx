@@ -115,6 +115,9 @@ import ManageEntity from '../components/SideBarComponents/ManageEntity/ManageEnt
 import ManageStation from '../components/SideBarComponents/ManageStation/ManageStation';
 import ManageCharges from '../components/SideBarComponents/ManageCharges/ManageCharges';
 import FuelCategories from '../components/SideBarComponents/FuelCategories/FuelCategories';
+import FuelSubCategories from '../components/SideBarComponents/FuelSubCategories/FuelSubCategories';
+import Bank from '../components/SideBarComponents/Bank/Bank';
+import Lubricant from '../components/SideBarComponents/Lubricant/Lubricant';
 import ManageDeduction from '../components/SideBarComponents/ManageDeduction/ManageDeduction';
 import Managesupplier from '../components/SideBarComponents/Managesupplier/Managesupplier';
 import EmailLogs from '../components/SideBarComponents/Events/EmailEvents';
@@ -194,6 +197,18 @@ const routes = [
   {
     path: 'manage-categories/fuelcategories',
     element: <FuelCategories />,
+  },
+  {
+    path: 'manage-others/fuelsubcategories',
+    element: <FuelSubCategories />,
+  },
+  {
+    path: 'manage-others/bank',
+    element: <Bank />,
+  },
+  {
+    path: 'manage-others/lubricant',
+    element: <Lubricant />,
   },
   {
     path: 'manage-deductions/deductions',

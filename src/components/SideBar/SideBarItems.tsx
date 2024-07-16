@@ -1,9 +1,4 @@
-import IconMenuDatatables from '../Icon/Menu/IconMenuDatatables';
 
-import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';
-import IconMenuUsers from '../Icon/Menu/IconMenuUsers';
-import IconUser from '../Icon/IconUser';
-import IconMenuApps from '../Icon/Menu/IconMenuApps';
 export interface SubMenuItem {
     title: string;
     link: string;
@@ -206,6 +201,9 @@ const menuItems: MenuItem[] = [
         permission: 'user-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'user-list', visibility: false },
+            { title: 'Fuel Sub Categories', link: '/manage-others/fuelsubcategories', permission: 'user-list', visibility: false },
+            { title: 'Bank', link: '/manage-others/bank', permission: 'bank-list', visibility: false },
+            { title: 'Lubricant', link: '/manage-others/lubricant', permission: 'lubricant-list', visibility: false },
          
             // { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
             // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
