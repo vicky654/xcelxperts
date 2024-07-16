@@ -25,10 +25,10 @@ interface ManageUserProps {
 
 interface RowData {
     id: string;
-    charge_name: string;
-    charge_code: string;
+    name: string;
+    size: string;
     created_date: string;
-    charge_status: number;
+    status: number;
 }
 
 const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
@@ -56,9 +56,9 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/fuel/category/list?page=${currentPage}`);
+            const response = await getData(`/lubricant/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.charges);
+                setData(response.data.data?.lubricants);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -73,26 +73,26 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('charge_status', (row.charge_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/fuel/category/update-status', formData, handleSuccess);
+        formData.append('status', (row.status === 1 ? 0 : 1).toString());
+        toggleStatus(postData, '/lubricant/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'fuel/category/delete', formData, handleSuccess);
+        customDelete(postData, 'lubricant/delete', formData, handleSuccess);
     };
 
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("charges-create");
-    const isListPermissionAvailable = UserPermissions?.includes("charges-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("charges-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("charges-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("charges-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("charges-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes("lubricant-create");
+    const isListPermissionAvailable = UserPermissions?.includes("lubricant-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("lubricant-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("lubricant-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("lubricant-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("lubricant-assign-permission");
 
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
@@ -100,31 +100,32 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const columns: any = [
         // Other columns
         {
-            name: 'Fuel Categories Name',
-            selector: (row: RowData) => row.charge_name,
+            name: 'lubricant Name',
+            selector: (row: RowData) => row.name,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.charge_name}`}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.name}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Fuel Categories Code',
-            selector: (row: RowData) => row.charge_code,
+            name: 'lubricant Size',
+            selector: (row: RowData) => row.size,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.charge_code}`}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.size}`}</h6>
                     </div>
                 </div>
             ),
         },
+
 
         {
             name: 'Created Date',
@@ -141,16 +142,16 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.charge_status,
+            selector: (row: RowData) => row.status,
             sortable: false,
-            width: '20%',
+            width: '25%',
             cell: (row: RowData) => (
 
                 <>
                     {isEditPermissionAvailable && <>
                         <Tippy content={<div>Status</div>} placement="top">
-                            {row.charge_status === 1 || row.charge_status === 0 ? (
-                                <CustomSwitch checked={row.charge_status === 1} onChange={() => toggleActive(row)} />
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
                             ) : (
                                 <div className="pointer" onClick={() => toggleActive(row)}>
                                     Unknown
@@ -196,14 +197,14 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             : null,
     ];
 
-    // fuel/category/detail?id=${selectedRowId}
+    // lubricant/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
         try {
             setIsModalOpen(true);
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-            console.error('Error fetching fuel/category details:', error);
+            console.error('Error fetching lubricant details:', error);
         }
     };
 
@@ -217,14 +218,15 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         try {
             const formData = new FormData();
 
-            formData.append('category_name', values.category_name);
-            formData.append('code', values.code);
+            formData.append('name', values.name);
+            formData.append('size', values.size);
+          
 
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/fuel/category/update` : `/fuel/category/create`;
+            const url = isEditMode && userId ? `/lubricant/update` : `/lubricant/create`;
 
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
@@ -248,13 +250,13 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Fuel Categories</span>
+                        <span>lubricants</span>
                     </li>
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Fuel Category
+                        Add lubricant
                     </button>
                 </>}
 
@@ -263,7 +265,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Fuel Categories</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> lubricants</h5>
                 </div>
 
                 {data?.length > 0 ? (

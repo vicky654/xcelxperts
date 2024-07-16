@@ -177,6 +177,17 @@ export const BankValidation = (isEditMode: boolean) => {
      
     });
 };
+export const lubricantValidation = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        name: Yup.string()
+            .required(' Name is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+        size: Yup.string()
+            .required(' Size is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+     
+    });
+};
 export const fuelsubcategoryValidation = (isEditMode: boolean) => {
     return Yup.object().shape({
         sub_category_name: Yup.string()
@@ -368,4 +379,5 @@ export default {
     credituserValidationSchema,
     fuelcategoryValidation,
     BankValidation,
+    lubricantValidation,
 };

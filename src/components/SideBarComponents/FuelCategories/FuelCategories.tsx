@@ -25,10 +25,10 @@ interface ManageUserProps {
 
 interface RowData {
     id: string;
-    charge_name: string;
-    charge_code: string;
+    category_name: string;
+    code: string;
     created_date: string;
-    charge_status: number;
+    status: number;
 }
 
 const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
@@ -56,9 +56,9 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/fuel/category/list?page=${currentPage}`);
+            const response = await getData(`/fuel/category?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.charges);
+                setData(response.data.data);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -73,7 +73,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const toggleActive = (row: RowData) => {
         const formData = new FormData();
         formData.append('id', row.id.toString());
-        formData.append('charge_status', (row.charge_status === 1 ? 0 : 1).toString());
+        formData.append('status', (row.status === 1 ? 0 : 1).toString());
         toggleStatus(postData, '/fuel/category/update-status', formData, handleSuccess);
     };
     const { customDelete } = useCustomDelete();
@@ -101,26 +101,26 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         // Other columns
         {
             name: 'Fuel Categories Name',
-            selector: (row: RowData) => row.charge_name,
+            selector: (row: RowData) => row.category_name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.charge_name}`}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.category_name}`}</h6>
                     </div>
                 </div>
             ),
         },
         {
             name: 'Fuel Categories Code',
-            selector: (row: RowData) => row.charge_code,
+            selector: (row: RowData) => row.code,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.charge_code}`}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.code}`}</h6>
                     </div>
                 </div>
             ),
@@ -141,7 +141,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         },
         {
             name: 'Status',
-            selector: (row: RowData) => row.charge_status,
+            selector: (row: RowData) => row.status,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
@@ -149,8 +149,8 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                 <>
                     {isEditPermissionAvailable && <>
                         <Tippy content={<div>Status</div>} placement="top">
-                            {row.charge_status === 1 || row.charge_status === 0 ? (
-                                <CustomSwitch checked={row.charge_status === 1} onChange={() => toggleActive(row)} />
+                            {row.status === 1 || row.status === 0 ? (
+                                <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
                             ) : (
                                 <div className="pointer" onClick={() => toggleActive(row)}>
                                     Unknown

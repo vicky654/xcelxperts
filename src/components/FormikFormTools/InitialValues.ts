@@ -75,6 +75,12 @@ export const BankInitialValues = {
 
 
 };
+export const lubricantInitialValues = {
+  name: '',
+  size: '',
+
+
+};
 export const fuelsubcategoryInitialValues = {
   sub_category_name: '',
   fuel_category_id: '',
@@ -259,4 +265,5 @@ export default {
   stationTankInitialValues,
   fuelsubcategoryInitialValues,
   BankInitialValues,
+  lubricantInitialValues,
 };
