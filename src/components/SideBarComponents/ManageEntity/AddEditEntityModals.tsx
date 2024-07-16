@@ -90,7 +90,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
     onSubmit: async (values, { resetForm }) => {
       try {
         await onSubmit(values, formik);
-        onClose();
+     
       } catch (error) {
         console.error('Submit error:', error);
         throw error; // Rethrow the error to be handled by the caller
