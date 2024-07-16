@@ -125,7 +125,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                editCloseCheck();
+              
             } catch (error) {
                 handleApiError(error);
                 throw error; // Rethrow the error to be handled by the caller
