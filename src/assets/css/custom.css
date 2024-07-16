@@ -623,3 +623,10 @@ li.flexcenter.dataentrytab {
     display: flex;
     justify-content: space-between;
 }
+.tabletext-red-500 {
+    --tw-text-opacity: 1;
+    color: rgb(132 85 85);
+    z-index: 1;
+    background: #aa1f1f;
+    color: #fff;
+}
