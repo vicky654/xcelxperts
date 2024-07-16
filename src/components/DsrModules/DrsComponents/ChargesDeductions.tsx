@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
-import DataTable, { TableColumn } from 'react-data-table-component'; // Import TableColumn type
+import DataTable, { TableColumn } from 'react-data-table-component';
 import { Button, Form } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 
-
 interface ChargesDeductionsData {
     id: string;
     name: string;
     amount: string;
+    note: string;
     update_amount: boolean;
+    type: 'charge' | 'deduction'; // Added type to differentiate between charges and deductions
 }
 
 const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationId, startDate, postData, getData, applyFilters }) => {
@@ -28,8 +29,6 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 const response = await getData(`data-entry/charge-deduction/list?drs_date=${startDate}&station_id=${stationId}`);
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
-
-
                     setCharges(charges);
                     setDeductions(deductions);
                     setIsEditable(is_editable);
@@ -49,14 +48,18 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const handleSubmit = async () => {
         try {
             const formData = new FormData();
-
+console.log(charges, "charges");
+console.log(deductions, "deductions");
             charges.forEach(charge => {
-                formData.append(`charge[${charge.id}]`, charge.amount);
+                formData.append(`charge[${charge.id}][amount]`, charge.amount);
+                formData.append(`charge[${charge.id}][note]`, charge.note);
             });
 
             deductions.forEach(deduction => {
-                formData.append(`deduction[${deduction.id}]`, deduction.amount);
+                formData.append(`deduction[${deduction.id}][amount]`, deduction.amount);
+                formData.append(`deduction[${deduction.id}][note]`, deduction.note);
             });
+
             if (stationId && startDate) {
                 formData.append('drs_date', startDate);
                 formData.append('station_id', stationId);
@@ -74,16 +77,30 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         }
     };
 
-    const handleChange = (value: string, row: any, field: keyof ChargesDeductionsData) => {
-
-
-
-        // Update charges or deductions based on the field
-        if (row?.type === 'charge') {
-            const updatedCharges = charges.map(charge => charge.id === row?.id ? { ...charge, amount: value } : charge);
+    const handleAmountChange = (value: string, row: ChargesDeductionsData) => {
+        if (row.type === 'charge') {
+            const updatedCharges = charges.map(charge =>
+                charge.id === row.id ? { ...charge, amount: value } : charge
+            );
             setCharges(updatedCharges);
         } else {
-            const updatedDeductions = deductions.map(deduction => deduction.id === row?.id ? { ...deduction, amount: value } : deduction);
+            const updatedDeductions = deductions.map(deduction =>
+                deduction.id === row.id ? { ...deduction, amount: value } : deduction
+            );
+            setDeductions(updatedDeductions);
+        }
+    };
+
+    const handleNoteChange = (value: string, row: ChargesDeductionsData) => {
+        if (row.type === 'charge') {
+            const updatedCharges = charges.map(charge =>
+                charge.id === row.id ? { ...charge, note: value } : charge
+            );
+            setCharges(updatedCharges);
+        } else {
+            const updatedDeductions = deductions.map(deduction =>
+                deduction.id === row.id ? { ...deduction, note: value } : deduction
+            );
             setDeductions(updatedDeductions);
         }
     };
@@ -93,8 +110,20 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             name: 'Name',
             selector: (row) => row.name,
             sortable: true,
+            cell: (row) => <span>{row.name}</span>
+        },
+        {
+            name: 'Note',
+            selector: (row) => row.note,
+            sortable: true,
             cell: (row) => (
-                <span>{row.name}</span>
+                <Form.Control
+                    type="text"
+                    value={row.note}
+                    className={`form-input ${row.update_amount ? '' : 'readonly'}`}
+                    onChange={(e) => handleNoteChange(e.target.value, row)}
+                    readOnly={!row.update_amount}
+                />
             )
         },
         {
@@ -106,24 +135,23 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     type="text"
                     value={row.amount}
                     className={`form-input ${row.update_amount ? '' : 'readonly'}`}
-                    onChange={(e) => handleChange(e.target.value, row, 'amount')}
+                    onChange={(e) => handleAmountChange(e.target.value, row)}
                     readOnly={!row.update_amount}
                 />
-
             )
         }
     ];
-    // Income & Expenses"
+
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div >
-                <h1 className="text-lg font-semibold mb-4 ">Income and Expenses {startDate ? `(${startDate})` : ''}
+            <div>
+                <h1 className="text-lg font-semibold mb-4">
+                    Income and Expenses {startDate ? `(${startDate})` : ''}
                 </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div >
+                <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-12 md:col-span-6">
                         <h2 className="text-lg font-semibold mb-4">Income</h2>
-
                         {charges && charges.length > 0 ? (
                             <DataTable
                                 columns={columns}
@@ -135,16 +163,15 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                         ) : (
                             <div className="all-center-flex">
                                 <img
-                                    src={noDataImage} // Use the imported image directly as the source
+                                    src={noDataImage}
                                     alt="No data found"
                                     className="nodata-image"
                                 />
-                             </div>
+                            </div>
                         )}
                     </div>
-                    <div >
+                    <div className="col-span-12 md:col-span-6">
                         <h2 className="text-lg font-semibold mb-4">Expenses</h2>
-
                         {deductions && deductions.length > 0 ? (
                             <DataTable
                                 columns={columns}
@@ -152,19 +179,16 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                                 noHeader
                                 striped
                                 highlightOnHover
-
                             />
                         ) : (
                             <div className="all-center-flex">
                                 <img
-                                    src={noDataImage} // Use the imported image directly as the source
+                                    src={noDataImage}
                                     alt="No data found"
                                     className="nodata-image"
                                 />
-                             </div>
+                            </div>
                         )}
-
-
                     </div>
                 </div>
                 {isEditable && (

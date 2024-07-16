@@ -55,6 +55,12 @@ interface CardRow {
     report_name: string;
 
 }
+interface LubricantsRow {
+    checked: boolean;
+    lubricant_name: string;
+    id: string;
+
+}
 
 interface Card {
     id: string;
@@ -62,11 +68,17 @@ interface Card {
     charge_value?: string; // Optional property for charge value
     deduction_value?: number; // Optional property for deduction value
 }
+interface lubricant {
+    id: string;
+    checked: boolean;
+    lubricant_name?: number; // Optional property for deduction value
+}
 
 interface FormValues {
     id: string;
     station_name: string;
     cards: Card[];
+    lubricants: lubricant[];
     dataEntryCard: Card[];
     fuels: Card[];
     reports: Card[];
@@ -82,6 +94,7 @@ const stationSettingInitialValues: FormValues = {
     id: '', // You can assign an initial value if needed
     station_name: '', // You can assign an initial value if needed
     cards: [], // Assuming cards is an array of Card objects
+    lubricants: [], // Assuming cards is an array of Card objects
     dataEntryCard: [],
     fuels: [],
     reports: [],
@@ -120,6 +133,11 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 formik?.values?.cards?.forEach((card, index) => {
                     if (card.checked) {
                         formData.append(`cards[${index}]`, card.id);
+                    }
+                });
+                formik?.values?.lubricants?.forEach((card, index) => {
+                    if (card.checked) {
+                        formData.append(`lubricants[${index}]`, card.id);
                     }
                 });
                 formik?.values?.dataEntryCard?.forEach((card, index) => {
@@ -218,6 +236,44 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.card_name}</h6>
+                    </div>
+                </div>
+            ),
+        },
+    ];
+    const LubricantModelColumn: any = [
+        {
+            name: "Select",
+            selector: "checked",
+            sortable: false,
+            center: true,
+            width: "20%",
+            cell: (row: LubricantsRow, index: number) => (
+                <div>
+                    <input
+                        type="checkbox"
+                        id={`checked-${index}`}
+                        name={`lubricants[${index}].checked`}
+                        className="pointer form-check-input table-checkbox-input"
+                        checked={
+                            row?.checked ?? false
+                        }
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {/* Error handling code */}
+                </div>
+            ),
+        },
+        {
+            name: "Assign Card Model",
+            selector: (row: LubricantsRow) => row.lubricant_name,
+            sortable: false,
+            width: "80%",
+            cell: (row: LubricantsRow) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.lubricant_name}</h6>
                     </div>
                 </div>
             ),
@@ -497,6 +553,35 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                             className=" table-striped table-hover table-bordered table-compact"
                                             columns={CardsModelColumn}
                                             data={formik?.values?.cards}
+                                            noHeader
+                                            defaultSortAsc={false}
+                                            striped={true}
+                                            persistTableHead
+                                            highlightOnHover
+                                            responsive={true}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <img
+                                        src={noDataImage} // Use the imported image directly as the source
+                                        alt="no data found"
+                                        className="all-center-flex nodata-image"
+                                    />
+                                </>
+                            )}
+                        </div>
+                        <div
+                            className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4 ">Assign Lubricants</h6>
+                            {formik?.values?.lubricants?.length > 0 ? (
+                                <>
+                                    <div className="module-height">
+                                        <DataTable
+                                            className=" table-striped table-hover table-bordered table-compact"
+                                            columns={LubricantModelColumn}
+                                            data={formik?.values?.lubricants}
                                             noHeader
                                             defaultSortAsc={false}
                                             striped={true}
