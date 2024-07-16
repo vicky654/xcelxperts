@@ -17,7 +17,7 @@ interface SummaryRemarks {
   date: string;
   net_cash_due_banking: number;
   cash_operator: number;
-  banking_difference: number;
+  varience_accumulation: number;
   variance: number;
 }
 const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
@@ -76,8 +76,8 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('total_credit_card', data?.takings.total_credit_card || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
       formData.append('cash_operator', data?.banking?.cash_commited_by_operator || '');
-      formData.append('banking_difference', data?.banking.banking_difference || '');
-      // formData.append('banking_difference', data?.banking.variance_difference || '');
+      formData.append('varience_accumulation', data?.banking.varience_accumulation || '');
+      // formData.append('varience_accumulation', data?.banking.variance_difference || '');
       formData.append('variance', data?.variance || '');
       formData.append('remarks', values?.Remarks || '');
 
@@ -109,70 +109,88 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
     <>
       {isLoading && <LoaderImg />}
       <div >
-      
+
         <div className='spacebetween'>
-        <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
-         
-        {/* <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button> */}
+          <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
+
+          {/* <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button> */}
 
         </div>
         <div className="flex justify-center">
           <div className="w-full">
-          {data?.charges && (
-            <div className="mb-8  ">
-              <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
+            {data?.charges && (
+              <div className="mb-8  ">
+                <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
 
-              <div className="p-2">
-                <ul className="divide-y divide-gray-200">
-                  {Object.keys(data?.charges || {}).map((item, index) => (
-                    <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
-                      <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                      <p>{currency} {data?.charges[item]}</p>
-                    </li>
-                  ))}
-                </ul>
+                <div className="p-2">
+                  <ul className="divide-y divide-gray-200">
+                    {Object.keys(data?.charges || {}).map((item, index) => (
+                      <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                        <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
+                        <p>{currency} {data?.charges[item]}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+
               </div>
+            )}
+            {data?.deductions && (
+              <div className="mb-8  ">
+                <h1 className="text-lg font-bold">SUMMARY OF DEDUCTIONS</h1>
+
+                <div className="p-2">
+                  <ul className="divide-y divide-gray-200">
+                    {Object.keys(data?.deductions || {}).map((item, index) => (
+                      <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                        <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
+                        <p>{currency} {data?.deductions[item]}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
 
-            </div>
-               )}
+              </div>
+            )}
             <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
             {data?.takings && (
-            <div className="mb-8">
-              <h1 className="text-lg font-bold">SUMMARY OF TAKINGS</h1>
-              <div className="p-2">
-                <ul className="divide-y divide-gray-200">
-                  {Object.keys(data?.takings).map((item, index) => (
-                    <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
-                      <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                      <p>{currency} {data?.takings[item]}</p>
-                    </li>
-                  ))}
-                </ul>
+              <div className="mb-8">
+                <h1 className="text-lg font-bold">SUMMARY OF TAKINGS</h1>
+                <div className="p-2">
+                  <ul className="divide-y divide-gray-200">
+                    {Object.keys(data?.takings).map((item, index) => (
+                      <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                        <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
+                        <p>{currency} {data?.takings[item]}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+
               </div>
 
+            )}
+            {data?.banking && (
+              <div className="mb-8">
+                <h1 className="text-lg font-bold">SUMMARY OF BANKING</h1>
 
-            </div>
+                <div className="p-2">
+                  <ul className="divide-y divide-gray-200">
+                    {Object.keys(data?.banking).map((item, index) => (
+                      <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                        <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
+                        <p>{currency} {data?.banking[item]}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-          )}
-  {data?.banking && (
-            <div className="mb-8">
-              <h1 className="text-lg font-bold">SUMMARY OF BANKING</h1>
 
-              <div className="p-2">
-                <ul className="divide-y divide-gray-200">
-                  {Object.keys(data?.banking).map((item, index) => (
-                    <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
-                      <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                      <p>{currency} {data?.banking[item]}</p>
-                    </li>
-                  ))}
-                </ul>
               </div>
-
-
-            </div>
-   )}
+            )}
             <div className="mb-8">
               <h1 className="text-lg font-bold">Remarks</h1>
 
