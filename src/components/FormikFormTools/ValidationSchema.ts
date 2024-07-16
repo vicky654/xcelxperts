@@ -159,6 +159,16 @@ export const chargestValidationSchema = (isEditMode: boolean) => {
             .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };
+export const fuelcategoryValidation = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        category_name: Yup.string()
+            .required('Fuel category Name is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+        code: Yup.string()
+            .required('Fuel category Code is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+    });
+};
 export const supplierValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         supplier_name: Yup.string()
@@ -335,4 +345,5 @@ export default {
     getStationFuelPurchaseValidationSchema,
     CardValidationSchema,
     credituserValidationSchema,
+    fuelcategoryValidation,
 };

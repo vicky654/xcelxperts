@@ -114,6 +114,7 @@ import ManageClient from '../components/SideBarComponents/ManageClient/ManageCli
 import ManageEntity from '../components/SideBarComponents/ManageEntity/ManageEntity';
 import ManageStation from '../components/SideBarComponents/ManageStation/ManageStation';
 import ManageCharges from '../components/SideBarComponents/ManageCharges/ManageCharges';
+import FuelCategories from '../components/SideBarComponents/FuelCategories/FuelCategories';
 import ManageDeduction from '../components/SideBarComponents/ManageDeduction/ManageDeduction';
 import Managesupplier from '../components/SideBarComponents/Managesupplier/Managesupplier';
 import EmailLogs from '../components/SideBarComponents/Events/EmailEvents';
@@ -189,6 +190,10 @@ const routes = [
   {
     path: 'manage-charges/charges',
     element: <ManageCharges />,
+  },
+  {
+    path: 'manage-categories/fuelcategories',
+    element: <FuelCategories />,
   },
   {
     path: 'manage-deductions/deductions',

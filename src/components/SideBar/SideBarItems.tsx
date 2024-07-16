@@ -71,6 +71,7 @@ const menuItems: MenuItem[] = [
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
+  
     // {
     //     key: 'users',
     //     title: 'Users',
@@ -194,6 +195,21 @@ const menuItems: MenuItem[] = [
         subMenu: [
             { title: 'Email Logs', link: '/manage-logs/emaillogs', permission: 'email-logs', visibility: false },
             { title: 'Activity Logs', link: '/manage-logs/activity_logs', permission: 'activity-logs', visibility: false },
+        ],
+    },
+    {
+        key: 'Others',
+        title: 'Others',
+        icon: "lead-management",
+        link: '/manage-categories/fuelcategories', // Single link for the dashboard
+        visibility: false, // Example of setting visibility to false
+        permission: 'user-list', // Permission associated with the dashboard
+        subMenu: [
+            { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'user-list', visibility: false },
+         
+            // { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
+            // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
+            // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
     // {
