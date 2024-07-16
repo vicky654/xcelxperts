@@ -237,7 +237,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         >
                                             <option value="">Select Fuel</option>
                                             {commonListData?.fuels?.map((item: any) => (
-                                                <option key={item.id} value={item.id}>{item.sub_category_name}</option>
+                                                <option key={item.id} value={item.id}>{item.sub_category_name} ({currency}{item.price})</option>
                                             ))}
                                         </select>
                                         {formik.errors.services?.[index]?.fuel_sub_category_id && formik.touched.services?.[index]?.fuel_sub_category_id && (
@@ -308,7 +308,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 Total Amount: {currency} {totalAmount.toFixed(2)}
                             </div>
                         </div>
-                        {iseditable && (
+                        {iseditable && formik.values.services.length> 0  &&(
                             <div className="mt-6">
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </div>

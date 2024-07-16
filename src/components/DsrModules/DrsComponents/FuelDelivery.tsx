@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
-import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
+import { Formik, Form, Field, FieldArray, ErrorMessage, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 
@@ -31,7 +31,13 @@ interface FormValues {
     data: FuelDeliveryData[];
 }
 
-const validationSchema = Yup.object({
+type FuelDeliveryErrors = {
+    data?: Array<{
+        [K in keyof FuelDeliveryData]?: string;
+    }>;
+};
+
+const validationSchema = Yup.object().shape({
     data: Yup.array().of(
         Yup.object().shape({
             opening: Yup.number().required('Required'),
@@ -153,127 +159,166 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: 'Opening',
             cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].opening`}>
-                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
-                        <input
-                            type="number"
-                            {...field}
-                            className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
-                            readOnly={!row.update_opening}
-                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
-                        />
-                    )}
-                </Field>
+                <>
+                    <Field name={`data[${index}].opening`}>
+                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                            <input
+                                type="number"
+                                {...field}
+                                className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
+                                readOnly={!row.update_opening}
+                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
+                            />
+                        )}
+                    </Field>
+                    <br></br>
+                    <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1" />
+                </>
             ),
         },
         {
             name: 'Delivery Volume',
             cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].delivery_volume`}>
-                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
-                        <input
-                            type="number"
-                            {...field}
-                            className={`form-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
-                            readOnly={!row.update_delivery_volume}
-                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
-                        />
-                    )}
-                </Field>
+                <>
+                    <Field name={`data[${index}].delivery_volume`}>
+                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                            <input
+                                type="number"
+                                {...field}
+                                className={`form-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
+                                readOnly={!row.update_delivery_volume}
+                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
+                            />
+                        )}
+                    </Field>
+                    <br></br>
+                    <ErrorMessage name={`data[${index}].delivery_volume`} component="div" className="text-red-500 text-xs mt-1" />
+                </>
             ),
         },
         {
             name: 'Sales Volume',
             cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].sales_volume`}>
-                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
-                        <input
-                            type="number"
-                            {...field}
-                            className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
-                            readOnly={!row.update_sales_volume}
-                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
-                        />
-                    )}
-                </Field>
+                <>
+                    <Field name={`data[${index}].sales_volume`}>
+                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                            <input
+                                type="number"
+                                {...field}
+                                className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
+                                readOnly={!row.update_sales_volume}
+                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
+                            />
+                        )}
+                    </Field>
+                    <br></br>
+                    <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1" />
+                </>
             ),
         },
         {
             name: 'Book Stock',
             cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].book_stock`}>
-                    {({ field }: FieldProps) => (
-                        <input
-                            type="number"
-                            {...field}
-                            className="form-input readonly"
-                            readOnly
-                        />
-                    )}
-                </Field>
+                <>
+                    <Field name={`data[${index}].book_stock`}>
+                        {({ field }: FieldProps<any>) => (
+                            <input
+                                type="number"
+                                {...field}
+                                className="form-input readonly"
+                                readOnly
+                            />
+                        )}
+                    </Field>
+                    <br></br>
+                    <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1" />
+                </>
             ),
         },
         {
             name: 'Dips Stock',
             cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].dips_stock`}>
-                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
-                        <input
-                            type="number"
-                            {...field}
-                            className={`form-input ${!row.update_dips_stock ? 'readonly' : ''}`}
-                            readOnly={!row.update_dips_stock}
-                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
-                        />
-                    )}
-                </Field>
+                <>
+                    <Field name={`data[${index}].dips_stock`}>
+                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                            <input
+                                type="number"
+                                {...field}
+                                className={`form-input ${!row.update_dips_stock ? 'readonly' : ''}`}
+                                readOnly={!row.update_dips_stock}
+                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
+                            />
+                        )}
+                    </Field>
+                    <br></br>
+                    <ErrorMessage name={`data[${index}].dips_stock`} component="div" className="text-red-500 text-xs mt-1" />
+                </>
             ),
         },
         {
             name: 'Variance',
             cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].variance`}>
-                    {({ field }: FieldProps) => (
-                        <input
-                            type="number"
-                            {...field}
-                            className={`form-input ${!row.update_variance ? 'readonly' : ''}`}
-                            readOnly={!row.update_variance}
-                        />
-                    )}
-                </Field>
+                <>
+                    <Field name={`data[${index}].variance`}>
+                        {({ field }: FieldProps<any>) => (
+                            <input
+                                type="number"
+                                {...field}
+                                className="form-input readonly"
+                                readOnly
+                            />
+                        )}
+                    </Field>
+                    <br></br>
+                    <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1" />
+                </>
             ),
         },
     ];
 
     return (
         <div>
-            <h1 className="text-lg font-semibold mb-4">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
+            <h2>Fuel Delivery Data Entry</h2>
             {isLoading ? (
                 <LoaderImg />
             ) : (
-                <Formik
-                    initialValues={{ data }}
-                    enableReinitialize
+                <Formik<FormValues, FuelDeliveryErrors>
+                    initialValues={{ data: data }}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
+                    enableReinitialize
                 >
                     {({ values }) => (
                         <Form>
-                            <FieldArray name="data">
-                                {() => (
-                                    <DataTable
-                                        columns={columns}
-                                        data={values.data}
-                                        noHeader
-                                        defaultSortAsc={false}
-                                        striped
-                                        persistTableHead
-                                        highlightOnHover
-                                    />
-                                )}
-                            </FieldArray>
-                            {isEditable && <button className="btn btn-primary" type="submit">Submit</button>}
+                            {data.length > 0 ? (
+                                <FieldArray
+                                    name="data"
+                                    render={() => (
+                                        <DataTable
+                                            columns={columns}
+                                            data={values.data}
+                                            noHeader
+                                            customStyles={{
+                                                cells: {
+                                                    style: {
+                                                        padding: '8px',
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                />
+                            ) : (
+                                <div className="no-data">
+                                    <img src={noDataImage} alt="No Data" />
+                                    <p>No Data Available</p>
+                                </div>
+                            )}
+                            {data.length > 0 && (
+                                <button type="submit" className="submit-button">
+                                    Submit
+                                </button>
+                            )}
                         </Form>
                     )}
                 </Formik>

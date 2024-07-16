@@ -89,7 +89,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   };
 
   const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
-  const handleApplyFilterss = async (values: any) => {
+  const handleApplyFilters = async (values: any) => {
     try {
       const response = await getData(`/data-entry/cards?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
       if (response && response.data && response.data.data) {
@@ -110,7 +110,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
-  const handleApplyFilters = async (values: any) => {
+  const handleApplyFilterss = async (values: any) => {
     console.log(values, "values");
 
     try {
@@ -229,7 +229,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           <CustomInput
             getData={getData}
             isLoading={isLoading}
-            onApplyFilters={handleApplyFilterss}
+            onApplyFilters={handleApplyFilters}
             FilterValues={filterValues}
             showClientInput={true}
             showEntityInput={true}
