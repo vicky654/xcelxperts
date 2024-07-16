@@ -134,6 +134,7 @@ import AssignClientReports from '../components/SideBarComponents/ManageClient/As
 import Managecards from '../components/SideBarComponents/Managecards/Managecards';
 import DataEntruModules from '../components/DsrModules/DataEntrymodule';
 import DataEntryStatsComponent from '../components/DsrModules/DataEntryStatsComponent';
+import ManageStationBank from '../components/SideBarComponents/ManageStationBank/ManageStationBank';
 
 const routes = [
   {
@@ -185,6 +186,10 @@ const routes = [
   {
     path: 'manage-stations/station',
     element: <ManageStation />,
+  },
+  {
+    path: 'manage-bank/bank',
+    element: <ManageStationBank />,
   },
   {
     path: 'manage-charges/charges',
