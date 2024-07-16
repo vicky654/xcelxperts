@@ -277,20 +277,21 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
     ];
 
     return (
-        <div>
-            <h2>Fuel Delivery Data Entry</h2>
-            {isLoading ? (
-                <LoaderImg />
-            ) : (
-                <Formik<FormValues, FuelDeliveryErrors>
-                    initialValues={{ data: data }}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                    enableReinitialize
-                >
-                    {({ values }) => (
-                        <Form>
-                            {data.length > 0 ? (
+        <>
+            {isLoading && <LoaderImg />}
+
+            <div>
+                <h1 className="text-lg font-semibold mb-4 ">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
+
+                {data.length > 0 ? (
+                    <Formik
+                        initialValues={{ data: data }}
+                        validationSchema={validationSchema}
+                        onSubmit={handleSubmit}
+                        enableReinitialize
+                    >
+                        {({ values }) => (
+                            <Form>
                                 <FieldArray
                                     name="data"
                                     render={() => (
@@ -308,22 +309,22 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                         />
                                     )}
                                 />
-                            ) : (
-                                <div className="no-data">
-                                    <img src={noDataImage} alt="No Data" />
-                                    <p>No Data Available</p>
-                                </div>
-                            )}
-                            {data.length > 0 && (
                                 <button type="submit" className="submit-button">
                                     Submit
                                 </button>
-                            )}
-                        </Form>
-                    )}
-                </Formik>
-            )}
-        </div>
+                            </Form>
+                        )}
+                    </Formik>
+                ) : (
+                    <img
+                                src={noDataImage} // Use the imported image directly as the source
+                                alt="no data found"
+                                className="all-center-flex nodata-image"
+                            />
+                )}
+
+            </div>
+        </>
     );
 };
 

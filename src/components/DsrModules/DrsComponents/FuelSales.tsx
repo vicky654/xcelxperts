@@ -5,6 +5,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 
 interface FuelSalesData {
@@ -219,7 +220,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
       {isLoading && <LoaderImg />}
         <div>
             <h1 className="text-lg font-semibold mb-4 ">{`Fuel Sales`} {startDate ? `(${startDate})` : ''}</h1>
-        
+            {data.length > 0 ? (
                 <Formik
                     initialValues={{ data }}
                     enableReinitialize
@@ -248,7 +249,13 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         </Form>
                     )}
                 </Formik>
-          
+               ) : (
+                <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+            )}
         </div>
         </>
     );
