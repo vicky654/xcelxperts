@@ -249,19 +249,12 @@ export const getStationTankValidationSchema = (isEditMode: boolean) => {
             : Yup.string()
                   .required('Station is required')
                   .matches(/^[^\s]/, 'cannot start with a space'),
-        tank_name: Yup.string()
-            .required('Tank Name is required')
+                  account_no: Yup.string()
+            .required('Account Number is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-        capacity: Yup.string()
-            .required('Tank Capacity is required')
-            .matches(/^[^\s]/, 'cannot start with a space'),
-        tank_code: Yup.string()
-            .required('Tank Code is required')
-            .matches(/^[^\s]/, 'cannot start with a space'),
-        fuel_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Fuel is required')
+        
+            bank_id : Yup.string()
+                  .required('Bank is required')
                   .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };

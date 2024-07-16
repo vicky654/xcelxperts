@@ -169,6 +169,19 @@ export const stationTankInitialValues = {
   tankList: {} as any,
   pumps: {} as any,
 };
+export const stationBankInitialValues = {
+  client_id: '',
+  entity_id: '',
+  station_id: '',
+  bank_id: '',
+  account_no: '',
+  status: '',
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
+  tankList: {} as any,
+  
+};
 export const credituserInitialValues = {
   client_id: '',
   name: '',
@@ -266,4 +279,5 @@ export default {
   fuelsubcategoryInitialValues,
   BankInitialValues,
   lubricantInitialValues,
+  stationBankInitialValues
 };
