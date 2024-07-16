@@ -6,6 +6,8 @@ import DataTable, { TableColumn } from 'react-data-table-component'; // Import T
 import { Button, Form } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
+import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+
 
 interface ChargesDeductionsData {
     id: string;
@@ -14,7 +16,7 @@ interface ChargesDeductionsData {
     update_amount: boolean;
 }
 
-const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId, startDate, postData, getData, applyFilters }) => {
+const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [charges, setCharges] = useState<ChargesDeductionsData[]>([]);
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
@@ -26,7 +28,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId
                 const response = await getData(`data-entry/charge-deduction/list?drs_date=${startDate}&station_id=${stationId}`);
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
-                
+
 
                     setCharges(charges);
                     setDeductions(deductions);
@@ -74,7 +76,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId
 
     const handleChange = (value: string, row: any, field: keyof ChargesDeductionsData) => {
 
-    
+
 
         // Update charges or deductions based on the field
         if (row?.type === 'charge') {
@@ -101,55 +103,78 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId
             sortable: true,
             cell: (row) => (
                 <Form.Control
-                type="text"
-                value={row.amount}
-                className={`form-input ${row.update_amount ? '' : 'readonly'}`}
-                onChange={(e) => handleChange(e.target.value, row, 'amount')}
-                readOnly={!row.update_amount}
-            />
-            
+                    type="text"
+                    value={row.amount}
+                    className={`form-input ${row.update_amount ? '' : 'readonly'}`}
+                    onChange={(e) => handleChange(e.target.value, row, 'amount')}
+                    readOnly={!row.update_amount}
+                />
+
             )
         }
     ];
-// Income & Expenses"
+    // Income & Expenses"
     return (
         <>
-      {isLoading && <LoaderImg />}
-        <div >
-            <h1 className="text-lg font-semibold mb-4 ">Income and Expenses {startDate ? `(${startDate})` : ''}
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div >
-                    <h2 className="text-lg font-semibold mb-4">Income</h2>
-                    <DataTable
-                        columns={columns}
-                        data={charges}
-                        noHeader
-                        striped
-                        highlightOnHover
+            {isLoading && <LoaderImg />}
+            <div >
+                <h1 className="text-lg font-semibold mb-4 ">Income and Expenses {startDate ? `(${startDate})` : ''}
+                </h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div >
+                        <h2 className="text-lg font-semibold mb-4">Income</h2>
 
-                    />
-                </div>
-                <div >
-                    <h2 className="text-lg font-semibold mb-4">Expenses</h2>
-                    <DataTable
-                        columns={columns}
-                        data={deductions}
-                        noHeader
-                        striped
-                        highlightOnHover
+                        {charges && charges.length > 0 ? (
+                            <DataTable
+                                columns={columns}
+                                data={charges}
+                                noHeader
+                                striped
+                                highlightOnHover
+                            />
+                        ) : (
+                            <div className="all-center-flex">
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="No data found"
+                                    className="nodata-image"
+                                />
+                             </div>
+                        )}
+                    </div>
+                    <div >
+                        <h2 className="text-lg font-semibold mb-4">Expenses</h2>
 
-                    />
+                        {deductions && deductions.length > 0 ? (
+                            <DataTable
+                                columns={columns}
+                                data={deductions}
+                                noHeader
+                                striped
+                                highlightOnHover
+
+                            />
+                        ) : (
+                            <div className="all-center-flex">
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="No data found"
+                                    className="nodata-image"
+                                />
+                             </div>
+                        )}
+
+
+                    </div>
                 </div>
+                {isEditable && (
+                    <div className="mt-4">
+                        <Button variant="primary" onClick={handleSubmit}>
+                            Submit
+                        </Button>
+                    </div>
+                )}
             </div>
-            {isEditable && (
-                <div className="mt-4">
-                    <Button variant="primary" onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                </div>
-            )}
-        </div>
         </>
     );
 };
