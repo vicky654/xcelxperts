@@ -135,7 +135,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                 // fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 

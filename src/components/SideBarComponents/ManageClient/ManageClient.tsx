@@ -81,7 +81,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -122,7 +122,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);

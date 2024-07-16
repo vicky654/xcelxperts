@@ -75,7 +75,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -308,7 +308,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             //     setEditUserData(response.data);
             // }
         } catch (error) {
-            console.error('Error fetching user details:', error);
+               handleApiError(error);
         }
     };
 

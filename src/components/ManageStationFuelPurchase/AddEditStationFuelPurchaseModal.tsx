@@ -119,7 +119,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 
@@ -130,7 +130,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                 setFuelSubCategory(response.data.data)
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 
@@ -172,7 +172,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                 fetchEntityList(userData?.client_id)
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 
@@ -255,7 +255,6 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                 await onSubmit(values, selected);
                 onClose();
             } catch (error) {
-                console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

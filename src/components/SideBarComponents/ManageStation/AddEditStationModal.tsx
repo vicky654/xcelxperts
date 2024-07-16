@@ -110,7 +110,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 
@@ -136,7 +136,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                 fetchEntityList(userData?.client_id)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 

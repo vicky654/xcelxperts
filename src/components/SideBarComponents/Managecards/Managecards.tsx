@@ -66,7 +66,7 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const { toggleStatus } = useToggleStatus();

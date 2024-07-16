@@ -58,7 +58,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
 

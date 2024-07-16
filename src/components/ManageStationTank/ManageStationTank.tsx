@@ -223,7 +223,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             setUserId(id);
 
         } catch (error) {
-            console.error('Error fetching user details:', error);
+               handleApiError(error);
         }
     };
 

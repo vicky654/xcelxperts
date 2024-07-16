@@ -233,7 +233,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             setUserId(id);
 
         } catch (error) {
-            console.error('Error fetching user details:', error);
+               handleApiError(error);
         }
     };
 

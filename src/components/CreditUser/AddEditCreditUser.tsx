@@ -105,7 +105,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                 formik.setValues(userData);
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 
@@ -127,7 +127,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                 await onSubmit(values, formik);
                 editCloseCheck();
             } catch (error) {
-                console.error('Submit error:', error);
+                handleApiError(error);
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

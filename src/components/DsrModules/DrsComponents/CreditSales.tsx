@@ -85,7 +85,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         validationSchema,
         onSubmit: (values) => {
             handleFormSubmit(values);
-            console.log(values, "values");
+          
         },
     });
 

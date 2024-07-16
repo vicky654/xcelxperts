@@ -54,7 +54,7 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
         payments: []
     });
     const handleApiError = useErrorHandler();
-    console.log(isOpen, "isOpen");
+
 
     useEffect(() => {
         if (isOpen) {
@@ -71,7 +71,6 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
             if (response && response.data) {
                 setSelectedTab(tabName);
                 setTabData(response.data?.data);
-                console.log(response.data?.data?.labels, "columnIndex");
                 setLabels(Array.isArray(response.data?.data?.labels) ? response.data?.data?.labels : []);
                 setData(Array.isArray(response.data?.data) ? response.data?.data : []);
                 setTotal(typeof response.data?.data?.total === 'number' ? response.data?.data?.total : 0);
@@ -87,7 +86,6 @@ const DataEntryStats: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
 
 
     const salesByCategory = tabData;
-    console.log(tabData, "tabData?.payments");
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">

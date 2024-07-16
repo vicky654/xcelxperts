@@ -137,7 +137,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 
@@ -181,7 +181,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                 fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 

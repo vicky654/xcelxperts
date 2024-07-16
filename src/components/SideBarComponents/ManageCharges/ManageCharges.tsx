@@ -66,7 +66,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const { toggleStatus } = useToggleStatus();

@@ -53,8 +53,7 @@ interface CardRow {
     drs_card_name: string;
     fuel_name: string;
     report_name: string;
-    // Add other properties as needed
-    // e.g., id: number;
+
 }
 
 interface Card {
@@ -182,7 +181,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
 

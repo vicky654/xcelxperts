@@ -108,7 +108,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -141,7 +141,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             //     setEditUserData(response.data);
             // }
         } catch (error) {
-            console.error('Error fetching user details:', error);
+            handleApiError(error);
         }
     };
 
@@ -230,7 +230,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
             } catch (error) {
-                console.log(error);
+                handleApiError(error);
                 // Set the submission state to false if an error occurs
             }
         },
@@ -268,7 +268,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 // setReportList(response?.data);
             }
         } catch (error) {
-            console.error("API error:", error);
+            handleApiError(error);
         }
     };
 
@@ -292,7 +292,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 fetchEntityList(userData?.client_id)
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 

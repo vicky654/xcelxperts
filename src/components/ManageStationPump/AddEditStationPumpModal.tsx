@@ -137,7 +137,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 
@@ -177,7 +177,7 @@ const AddEditStationPumpModal: React.FC<AddEditStationPumpModalProps> = ({ isOpe
                 formik.setValues(userData)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 

@@ -57,9 +57,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
   const isSummaryRemarksNull = summaryRemarks === null;
 
-  console.log(summaryRemarks, "summaryRemarks");
 
-  console.log(isSummaryRemarksNull, "summaryRemarks");
 
   const submitsummary = async (values: any) => {
     try {
@@ -208,7 +206,6 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     })}
                     onSubmit={(values) => {
                       submitsummary(values);
-                      console.log(values, 'columnIndex');
                     }}
                   >
                     <Form>

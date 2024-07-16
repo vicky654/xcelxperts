@@ -111,7 +111,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     }
   };
   const handleApplyFilterss = async (values: any) => {
-    console.log(values, "values");
+  
 
     try {
         // Simulate an API call with a dummy response
@@ -122,9 +122,9 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             }
         };
 
-        console.log(response, "response");
+    
     } catch (error) {
-        console.error(error, "error");
+      handleApiError(error);
     }
 };
 

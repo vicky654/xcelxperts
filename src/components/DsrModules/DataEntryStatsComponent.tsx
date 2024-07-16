@@ -177,7 +177,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     if (!isCurrentlyActive) {
       await GetSubData(date, selectedTab);
       // Log the ID to the console
-      console.log(id, "handleToggle");
+  
     }
   };
   const formatKey = (key: string) => key.replace(/\s+/g, '');
@@ -198,7 +198,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       const response = await getData(`/daily-stats/${formattedTab}?station_id=${stationId}&drs_date=${formattedDate}`);
       if (response && response.data && response.data.data) {
         setSubData(response.data?.data?.listing);
-        console.log(response.data.data, "columnIndex");
       } else {
 
         throw new Error('No data available in the response');

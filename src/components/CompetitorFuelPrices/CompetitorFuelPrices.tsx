@@ -213,7 +213,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             setUserId(id);
 
         } catch (error) {
-            console.error('Error fetching user details:', error);
+            handleApiError(error);
         }
     };
 

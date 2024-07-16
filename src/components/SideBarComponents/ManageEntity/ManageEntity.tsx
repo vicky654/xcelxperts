@@ -78,7 +78,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
     const { toggleStatus } = useToggleStatus();
@@ -230,7 +230,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             setclientId(EditclientId)
 
         } catch (error) {
-            console.error('Error fetching user details:', error);
+               handleApiError(error);
         }
     };
 

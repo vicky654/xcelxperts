@@ -246,7 +246,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             setUserId(id);
 
         } catch (error) {
-            console.error('Error fetching user details:', error);
+               handleApiError(error);
         }
     };
 

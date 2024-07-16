@@ -74,7 +74,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({isLoading, stationId
 
     const handleChange = (value: string, row: any, field: keyof ChargesDeductionsData) => {
 
-        console.log(field, "field");
+    
 
         // Update charges or deductions based on the field
         if (row?.type === 'charge') {

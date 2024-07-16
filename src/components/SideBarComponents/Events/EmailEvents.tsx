@@ -57,7 +57,7 @@ const EmailLogs: React.FC<EmailLogsProps> = ({ postData, getData, isLoading }) =
             }
         } catch (error) {
             handleApiError(error);
-            // console.error('API error:', error);
+            //   handleApiError(error);
         }
     };
 

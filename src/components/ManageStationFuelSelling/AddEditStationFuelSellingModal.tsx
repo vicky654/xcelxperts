@@ -116,7 +116,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 
@@ -158,7 +158,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
                 fetchEntityList(userData?.client_id)
             }
         } catch (error) {
-            console.error('API error:', error);
+              handleApiError(error);
         }
     };
 

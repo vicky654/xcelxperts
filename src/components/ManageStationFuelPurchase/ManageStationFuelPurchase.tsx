@@ -492,7 +492,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
             await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
         } catch (error) {
-            console.log(error); // Set the submission state to false if an error occurs
+            handleApiError(error); // Set the submission state to false if an error occurs
         }
     };
     const [selected, setSelected] = useState<any>([]);

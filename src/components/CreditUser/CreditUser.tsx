@@ -212,7 +212,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-            console.error('Error fetching user details:', error);
+            handleApiError(error);
         }
     };
 
@@ -258,7 +258,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 throw new Error('No data available in the response');
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 
@@ -279,7 +279,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 GetUserList(values?.client_id);
 
             } catch (error) {
-                console.error('Submit error:', error);
+                handleApiError(error);
                 throw error; // Rethrow the error to be handled by the caller
             }
         },
@@ -296,7 +296,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 throw new Error('No data available in the response');
             }
         } catch (error) {
-            console.error('API error:', error);
+            handleApiError(error);
         }
     };
 
