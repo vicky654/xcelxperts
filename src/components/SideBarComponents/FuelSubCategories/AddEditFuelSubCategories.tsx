@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
 import { fuelsubcategoryValidation } from '../../FormikFormTools/ValidationSchema';
 import FormikInput from '../../FormikFormTools/FormikInput';
 import { fuelcategoryInitialValues, fuelsubcategoryInitialValues } from '../../FormikFormTools/InitialValues';
+import FormikSelect from '../../FormikFormTools/FormikSelect';
 
 interface RowData {
     code: string;
@@ -29,10 +30,36 @@ interface UserData {
     sub_category_name: string;
     fuel_category_id: string;
 }
+interface RoleItem {
+    id: number;
+    category_name: string;
+    code: string;
+    created_date: string;
+    status: string;
+}
 
 const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+  
+    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
+
+    const fetchfeulList = async () => {
+        try {
+            const response = await getData(`/fuel/category`);
+            if (response && response.data) {
+                const userData: UserData = response.data?.data;
+                console.log(userData, "userData");
+                setRoleList(response.data?.data);
+            }
+        } catch (error) {
+            console.error('API error:', error);
+        }
+    };
     useEffect(() => {
+
         formik.resetForm()
+        if(isOpen){
+            fetchfeulList()
+        }
         if (isEditMode) {
             fetchUserDetails(userId ? userId : '');
         }
@@ -54,6 +81,8 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
             console.error('API error:', error);
         }
     };
+
+
     const formik = useFormik({
         initialValues: fuelsubcategoryInitialValues,
         validationSchema: fuelsubcategoryValidation(isEditMode),
@@ -76,15 +105,22 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Fuel Category' : 'Add Fuel Category'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit  Fuel  Sub Category' : 'Add  Fuel  Sub Category'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                            <FormikInput formik={formik} type="text" name="sub_category_name" />
+                                            <FormikSelect
+                                                    formik={formik}
+                                                    name="fuel_category_id"
+                                                    label="Fuel  Category"
+                                                    options={RoleList.map((item) => ({ id: item.id, name: item.category_name }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                <FormikInput formik={formik} type="text" name="sub_category_name" />
 
                                                 <FormikInput formik={formik} type="text" name="code" readOnly={isEditMode ? true : false} />
-                                               
+
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
                                                         {isEditMode ? 'Update' : 'Save'}

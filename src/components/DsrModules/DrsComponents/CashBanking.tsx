@@ -11,25 +11,47 @@ import Tippy from '@tippyjs/react';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
+import FormikSelect from '../../FormikFormTools/FormikSelect';
 interface CashBankingItem {
     id: string;
     reference: string;
     amount: string;
+    bank: string;
     type: string;
     created_date: string;
     update_amount: boolean;
 }
 
-
+interface RoleItem {
+    id: number;
+    bank_name: string;
+    account_no: string;
+}
 const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [cashBankingData, setCashBankingData] = useState<CashBankingItem[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedCashBanking, setSelectedCashBanking] = useState<CashBankingItem | null>(null);
+    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
+    const FetchRoleList = async () => {
+        try {
+            const response = await getData(`/station/bank/list?drs_date=${startDate}&station_id=${stationId}`);
+            
+            if (response && response.data && response.data.data) {
+                console.log(response.data.data, "bankLists");
+                setRoleList(response.data.data);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            console.error('API error:', error);
+        }
+    };
 
     useEffect(() => {
         if (stationId && startDate) {
+            FetchRoleList()
             handleApplyFilters(stationId, startDate);
         }
     }, [stationId, startDate]);
@@ -39,7 +61,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             setLoading(true);
             const response = await getData(`/data-entry/cash-banking?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-             
+
                 const { listing, is_editable } = response.data.data;
                 formik.setFieldValue("amount", response.data?.data?.cash_value)
                 setCashBankingData(listing);
@@ -65,7 +87,8 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     };
 
     const validationSchema = Yup.object({
-        reference: Yup.string().required('Reference is required'),
+        reference: Yup.string().required('Notes is required'),
+        // bank: Yup.string().required('Bank is required'),
         amount: Yup.string().required('Amount is required'),
     });
 
@@ -73,6 +96,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         initialValues: {
             id: '',
             reference: '',
+            bank: '',
             amount: '',
             update_amount: true,
         },
@@ -82,6 +106,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 const formData = new FormData();
                 formData.append('reference', values.reference);
                 formData.append('amount', values.amount);
+                formData.append('station_bank_id', values.bank);
 
                 if (selectedCashBanking) {
                     if (stationId && startDate) {
@@ -124,13 +149,14 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     });
 
     const columns: TableColumn<CashBankingItem>[] = [
-        { name: 'Reference', selector: (row) => row.reference, sortable: true },
+        { name: 'Bank', selector: (row) => row.bank, sortable: true },
+        { name: 'Notes', selector: (row) => row.reference, sortable: true },
         {
             name: 'Amount',
             selector: (row) => `${currency} ${row.amount} `,
             sortable: true
-          }
-,          
+        }
+        ,
         // { name: 'Type', selector: (row) => row.type, sortable: true },
         { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
     ];
@@ -166,123 +192,141 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         formData.append('id', id?.id);
         customDelete(postData, 'data-entry/cash-banking/delete', formData, handleSuccess);
     };
-
+console.log(RoleList, "RoleList");
     return (
         <div >
             <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1>
             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
-            
-                            <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
-                            <form onSubmit={formik.handleSubmit} className="space-y-4">
-                                <div className="grid grid-cols-12 gap-4">
-                                    <div className="col-span-12 md:col-span-4">
-                                        <label className="block text-sm font-medium text-gray-700">Reference <span className="text-danger">*</span></label>
-                                        <input
-                                            type="text"
-                                            name="reference"
-                                            placeholder="Reference"
-                                            value={formik.values.reference}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                        {formik.touched.reference && formik.errors.reference ? (
-                                            <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                        ) : null}
-                                    </div>
-                                    <div className="col-span-12 md:col-span-4">
-                                        <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
-                                        <input
-                                            type="text"
-                                            name="amount"
-                                            placeholder="Amount"
-                                            value={formik.values.amount}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                        {formik.touched.amount && formik.errors.amount ? (
-                                            <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                                        ) : null}
-                                    </div>
-                                    <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
-                                        <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
-                                        <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
-                                    </div>
-                                </div>
-                            </form>
-                  
+
+                    <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
+                    <form onSubmit={formik.handleSubmit} className="space-y-4">
+                        <div className="grid grid-cols-12 gap-4">
+                            <div className="col-span-12 md:col-span-4">
+                                <FormikSelect
+                                    formik={formik}
+                                    name="bank"
+                                    label="Bank"
+                                    options={RoleList?.map((item) => ({ id: item.id,  name: `${item.bank_name} - ${item.account_no}`}))}
+                                    className="form-select text-white-dark"
+                                />
+                            </div>
+                            <div className="col-span-12 md:col-span-4">
+                                <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    name="reference"
+                                    placeholder="Notes"
+                                    value={formik.values.reference}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                />
+                                {formik.touched.reference && formik.errors.reference ? (
+                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                ) : null}
+                            </div>
+                            <div className="col-span-12 md:col-span-4">
+                                <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    name="amount"
+                                    placeholder="Amount"
+                                    value={formik.values.amount}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                />
+                                {formik.touched.amount && formik.errors.amount ? (
+                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                ) : null}
+                            </div>
+                            <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
+                                <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
+                                <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             )}
 
             {!selectedCashBanking && isEditable && (
                 <div className="mb-3">
-                  
-                            <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
-                            <form onSubmit={formik.handleSubmit} className="space-y-4">
-                                <div className="grid grid-cols-12 gap-4">
-                                    <div className="col-span-12 md:col-span-4">
-                                        <label className="block text-sm font-medium text-gray-700">Reference <span className="text-danger">*</span></label>
-                                        <input
-                                            type="text"
-                                            name="reference"
-                                            placeholder="Reference"
-                                            value={formik.values.reference}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                        {formik.touched.reference && formik.errors.reference ? (
-                                            <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                        ) : null}
-                                    </div>
-                                    <div className="col-span-12 md:col-span-4">
-                                        <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
-                                        <input
-                                            type="text"
-                                            name="amount"
-                                            placeholder="Amount"
-                                            value={formik.values.amount}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                        {formik.touched.amount && formik.errors.amount ? (
-                                            <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                                        ) : null}
-                                    </div>
-                                    <div className="col-span-12 md:col-span-4 flex items-end">
-                                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
-                                    </div>
-                                </div>
-                            </form>
-                      
+
+                    <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
+                    <form onSubmit={formik.handleSubmit} className="space-y-4">
+                        <div className="grid grid-cols-12 gap-4">
+                        <div className="col-span-12 md:col-span-4">
+                                <FormikSelect
+                                    formik={formik}
+                                    name="bank"
+                                    label="Bank"
+                                    options={RoleList?.map((item) => ({ id: item.id, name: item.bank_name }))}
+                                    className="form-select text-white-dark"
+                                />
+                            </div>
+                            <div className="col-span-12 md:col-span-4">
+                                <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    name="reference"
+                                    placeholder="Notes"
+                                    value={formik.values.reference}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                />
+                                {formik.touched.reference && formik.errors.reference ? (
+                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                ) : null}
+                            </div>
+                            <div className="col-span-12 md:col-span-4">
+                                <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    name="amount"
+                                    placeholder="Amount"
+                                    value={formik.values.amount}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                />
+                                {formik.touched.amount && formik.errors.amount ? (
+                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                ) : null}
+                            </div>
+                            <div className="col-span-12 md:col-span-4 flex items-end">
+                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             )}
 
 
-                    {loading ? (
-                          <>
-                          {LoaderImg}
-                      </>
-                    ) : (
-                        cashBankingData?.length === 0 ? (
-                            <img
-                                src={noDataImage} // Use the imported image directly as the source
-                                alt="no data found"
-                                className="all-center-flex nodata-image"
-                            />
-                        ) : (
+            {loading ? (
+                <>
+                    {LoaderImg}
+                </>
+            ) : (
+                cashBankingData?.length === 0 ? (
+                    <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="all-center-flex nodata-image"
+                    />
+                ) : (
 
-                            <DataTable
-                                columns={columns}
-                                data={cashBankingData}
-                            // pagination
-                            />
-                        )
-                    )}
-             
+                    <DataTable
+                        columns={columns}
+                        data={cashBankingData}
+                    // pagination
+                    />
+                )
+            )}
+
         </div>
     );
 };

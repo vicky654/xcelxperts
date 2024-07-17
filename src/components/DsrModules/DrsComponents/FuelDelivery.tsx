@@ -162,17 +162,18 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 <>
                     <Field name={`data[${index}].opening`}>
                         {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
-                            <input
-                                type="number"
-                                {...field}
-                                className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
-                                readOnly={!row.update_opening}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
+                                    readOnly={!row.update_opening}
+                                    onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
+                                />
+                                <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
                         )}
                     </Field>
-                    <br></br>
-                    <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1" />
                 </>
             ),
         },
@@ -182,17 +183,18 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 <>
                     <Field name={`data[${index}].delivery_volume`}>
                         {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
-                            <input
-                                type="number"
-                                {...field}
-                                className={`form-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
-                                readOnly={!row.update_delivery_volume}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className={`form-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
+                                    readOnly={!row.update_delivery_volume}
+                                    onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
+                                />
+                                <ErrorMessage name={`data[${index}].delivery_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
                         )}
                     </Field>
-                    <br></br>
-                    <ErrorMessage name={`data[${index}].delivery_volume`} component="div" className="text-red-500 text-xs mt-1" />
                 </>
             ),
         },
@@ -202,17 +204,18 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 <>
                     <Field name={`data[${index}].sales_volume`}>
                         {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
-                            <input
-                                type="number"
-                                {...field}
-                                className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
-                                readOnly={!row.update_sales_volume}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
+                                    readOnly={!row.update_sales_volume}
+                                    onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
+                                />
+                                <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
                         )}
                     </Field>
-                    <br></br>
-                    <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1" />
                 </>
             ),
         },
@@ -222,16 +225,17 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 <>
                     <Field name={`data[${index}].book_stock`}>
                         {({ field }: FieldProps<any>) => (
-                            <input
-                                type="number"
-                                {...field}
-                                className="form-input readonly"
-                                readOnly
-                            />
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className="form-input readonly"
+                                    readOnly
+                                />
+                                <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
                         )}
                     </Field>
-                    <br></br>
-                    <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1" />
                 </>
             ),
         },
@@ -241,17 +245,18 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 <>
                     <Field name={`data[${index}].dips_stock`}>
                         {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
-                            <input
-                                type="number"
-                                {...field}
-                                className={`form-input ${!row.update_dips_stock ? 'readonly' : ''}`}
-                                readOnly={!row.update_dips_stock}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className={`form-input ${!row.update_dips_stock ? 'readonly' : ''}`}
+                                    readOnly={!row.update_dips_stock}
+                                    onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
+                                />
+                                <ErrorMessage name={`data[${index}].dips_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
                         )}
                     </Field>
-                    <br></br>
-                    <ErrorMessage name={`data[${index}].dips_stock`} component="div" className="text-red-500 text-xs mt-1" />
                 </>
             ),
         },
@@ -261,16 +266,17 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 <>
                     <Field name={`data[${index}].variance`}>
                         {({ field }: FieldProps<any>) => (
-                            <input
-                                type="number"
-                                {...field}
-                                className="form-input readonly"
-                                readOnly
-                            />
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className="form-input readonly"
+                                    readOnly
+                                />
+                                <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
                         )}
                     </Field>
-                    <br></br>
-                    <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1" />
                 </>
             ),
         },
@@ -309,7 +315,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                         />
                                     )}
                                 />
-                                <button type="submit" className="submit-button">
+                                <button type="submit" className=" btn btn-primary submit-button">
                                     Submit
                                 </button>
                             </Form>

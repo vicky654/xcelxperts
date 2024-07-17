@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
-import { BankValidation, chargestValidationSchema, fuelcategoryValidation, lubricantValidation } from '../../FormikFormTools/ValidationSchema';
+import { lubricantValidation } from '../../FormikFormTools/ValidationSchema';
 import FormikInput from '../../FormikFormTools/FormikInput';
-import { BankInitialValues, chargesInitialValues, fuelcategoryInitialValues, lubricantInitialValues } from '../../FormikFormTools/InitialValues';
+import { lubricantInitialValues } from '../../FormikFormTools/InitialValues';
 
 interface RowData {
     size: string;
@@ -73,7 +73,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Bank' : 'Add Bank'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Lubricant' : 'Add Lubricant'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">

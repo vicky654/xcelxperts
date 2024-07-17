@@ -12,7 +12,7 @@ interface ChargesDeductionsData {
     id: string;
     name: string;
     amount: string;
-    note: string;
+    notes: string;
     update_amount: boolean;
     type: 'charge' | 'deduction'; // Added type to differentiate between charges and deductions
 }
@@ -48,26 +48,35 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const handleSubmit = async () => {
         try {
             const formData = new FormData();
-console.log(charges, "charges");
-console.log(deductions, "deductions");
+            console.log(charges, "charges");
+            console.log(deductions, "deductions");
+    
             charges.forEach(charge => {
-                formData.append(`charge[${charge.id}][amount]`, charge.amount);
-                formData.append(`charge[${charge.id}][note]`, charge.note);
+                if (charge.amount !== null && charge.amount !== undefined && charge.amount !== "") {
+                    formData.append(`charge[${charge.id}]`, charge.amount);
+                }
+                if (charge.notes !== null && charge.notes !== undefined && charge.notes !== "") {
+                    formData.append(`charge[${charge.id}]`, charge.notes);
+                }
             });
-
+    
             deductions.forEach(deduction => {
-                formData.append(`deduction[${deduction.id}][amount]`, deduction.amount);
-                formData.append(`deduction[${deduction.id}][note]`, deduction.note);
+                if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== "") {
+                    formData.append(`deduction[${deduction.id}]`, deduction.amount);
+                }
+                if (deduction.notes !== null && deduction.notes !== undefined && deduction.notes !== "") {
+                    formData.append(`deduction[${deduction.id}]`, deduction.notes);
+                }
             });
-
+    
             if (stationId && startDate) {
                 formData.append('drs_date', startDate);
                 formData.append('station_id', stationId);
             }
-
+    
             const url = 'data-entry/charge-deduction/update';
             const isSuccess = await postData(url, formData);
-
+    
             if (isSuccess) {
                 applyFilters({ station_id: stationId, start_date: startDate });
                 fetchData();
@@ -76,7 +85,9 @@ console.log(deductions, "deductions");
             handleApiError(error);
         }
     };
-
+    
+    
+    
     const handleAmountChange = (value: string, row: ChargesDeductionsData) => {
         if (row.type === 'charge') {
             const updatedCharges = charges.map(charge =>
@@ -92,14 +103,17 @@ console.log(deductions, "deductions");
     };
 
     const handleNoteChange = (value: string, row: ChargesDeductionsData) => {
+
+        console.log(value, "handleNoteChange");
         if (row.type === 'charge') {
             const updatedCharges = charges.map(charge =>
-                charge.id === row.id ? { ...charge, note: value } : charge
+                charge.id === row.id ? { ...charge, notes: value } : charge
             );
+            console.log(updatedCharges, "updatedCharges");
             setCharges(updatedCharges);
         } else {
             const updatedDeductions = deductions.map(deduction =>
-                deduction.id === row.id ? { ...deduction, note: value } : deduction
+                deduction.id === row.id ? { ...deduction, notes: value } : deduction
             );
             setDeductions(updatedDeductions);
         }
@@ -114,12 +128,13 @@ console.log(deductions, "deductions");
         },
         {
             name: 'Note',
-            selector: (row) => row.note,
+            selector: (row) => row.notes,
             sortable: true,
             cell: (row) => (
                 <Form.Control
                     type="text"
-                    value={row.note}
+                    value={row.notes}
+                    placeholder='Notes'
                     className={`form-input ${row.update_amount ? '' : 'readonly'}`}
                     onChange={(e) => handleNoteChange(e.target.value, row)}
                     readOnly={!row.update_amount}

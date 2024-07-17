@@ -81,7 +81,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'fuel/category/delete', formData, handleSuccess);
+        customDelete(postData, 'fuel/subcategory/delete', formData, handleSuccess);
     };
 
 
@@ -217,8 +217,9 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         try {
             const formData = new FormData();
 
-            formData.append('category_name', values.category_name);
+            formData.append('sub_category_name', values.sub_category_name);
             formData.append('code', values.code);
+            formData.append('fuel_category_id', values.fuel_category_id);
 
             if (userId) {
                 formData.append('id', userId);
