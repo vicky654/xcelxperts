@@ -48,8 +48,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const handleSubmit = async () => {
         try {
             const formData = new FormData();
-            console.log(charges, "charges");
-            console.log(deductions, "deductions");
+    
     
             charges.forEach(charge => {
                 if (charge.amount !== null && charge.amount !== undefined && charge.amount !== "") {
@@ -109,7 +108,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const updatedCharges = charges.map(charge =>
                 charge.id === row.id ? { ...charge, notes: value } : charge
             );
-            console.log(updatedCharges, "updatedCharges");
+  
             setCharges(updatedCharges);
         } else {
             const updatedDeductions = deductions.map(deduction =>

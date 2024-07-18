@@ -41,7 +41,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-    const navigate = useNavigate();
+  
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));

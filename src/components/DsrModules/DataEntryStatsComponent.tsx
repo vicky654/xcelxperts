@@ -13,6 +13,7 @@ import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import axios from 'axios';
+import StatsBarChart from './StatsBarChart';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -46,7 +47,12 @@ interface TabData {
     balance: string;
   }[];
 }
-
+interface ApexData {
+  name: string;
+  data: number[];
+  type: string;
+  color: string;
+}
 
 const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
@@ -88,8 +94,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Varience-accumulation',
     'Fuel Sales',
     'Lube Sales',
-    'Income',
-    'Expenses',
+    'Charges',
+    'Deductions',
     'Payments',
     'Credit Sales',
 
@@ -100,8 +106,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Varience-accumulation': 'varience-accumulation',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
-    'Income': 'charges',
-    'Expenses': 'deductions',
+    'Charges': 'charges',
+    'Deductions': 'deductions',
     'Payments': 'payments',
     'Credit Sales': 'credit-sales',
 
@@ -118,6 +124,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       const key = tabKeyMap[tabName];
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
       if (response && response.data) {
+
+        console.log(response.data, "response.data?.barData");
+        setBarData(response.data?.data?.barData);
+        setDates(response.data?.data?.dates);
         setSelectedTab(tabName);
         setTabData(response.data?.data);
         setActiveAccordion(null);
@@ -179,7 +189,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     if (!isCurrentlyActive) {
       await GetSubData(date, selectedTab);
       // Log the ID to the console
-  
+
     }
   };
   const formatKey = (key: string) => key.replace(/\s+/g, '');
@@ -242,6 +252,80 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       },
     },
   };
+
+
+  const chartSeriesd = [
+    {
+      name: 'Net Profit',
+      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+      color: '#687ffb',
+    },
+    {
+      name: 'Revenue',
+      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+      color: '#fdd56c',
+    },
+    {
+      name: 'Free Cash Flow',
+      data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+      color: '#62c6b7',
+    },
+  ];
+
+
+  const chartSeries = [
+    {
+      "name": "Total Volume",
+      "data": [
+        "100.00"
+      ],
+      "type": "column",
+      "color": "#687ffb"
+    },
+    {
+      "name": "Total Amount",
+      "data": [
+        "4500.00"
+      ],
+      "type": "column",
+      "color": "#fdd56c"
+    }
+  ]
+  const categories = ["02 July 2024"]
+  // const categories = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  const initialData = {
+    labels: ["Diesel"],
+    data: ["4500.00"],
+    total: "4500.00",
+    listing: [
+      {
+        id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+        date: "02 July 2024",
+        amount: "4500.00"
+      }
+    ],
+    barData: [
+      {
+        name: "Total Volume",
+        data: ["100.00"],
+        type: "column",
+        color: "#687ffb"
+      },
+      {
+        name: "Total Amount",
+        data: ["4500.00"],
+        type: "column",
+        color: "#fdd56c"
+      }
+    ],
+    dates: ["02 July 2024"]
+  };
+
+  // State to store barData and dates
+  const [barData, setBarData] = useState<ApexData[]>([]);
+  const [dates, setDates] = useState<string[]>([]);
+
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -324,31 +408,31 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 tabData?.listing.length > 0 ? (
                   <ul className="divide-y p-2 b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/6">Date</p>
-                              <p className="font-semibold w-1/6">Balance</p>
-                              <p className="font-semibold w-1/6">Cash Deposited</p>
-                              <p className="font-semibold w-1/6">Income</p>
-                              <p className="font-semibold w-1/6">Credit Card</p>
-                              <p className="font-semibold w-1/6">Credit Sales</p>
-                              <p className="font-semibold w-1/6">Expenses</p>
-                              <p className="font-semibold w-1/6">Fuel Sales</p>
-                              <p className="font-semibold w-1/6">Total Sales</p>
-                              <p className="font-semibold w-1/6">variance</p>
-                            </li>
+                      <p className="font-semibold w-1/6">Date</p>
+                      <p className="font-semibold w-1/6">Balance</p>
+                      <p className="font-semibold w-1/6">Cash Deposited</p>
+                      <p className="font-semibold w-1/6">Income</p>
+                      <p className="font-semibold w-1/6">Credit Card</p>
+                      <p className="font-semibold w-1/6">Credit Sales</p>
+                      <p className="font-semibold w-1/6">Expenses</p>
+                      <p className="font-semibold w-1/6">Fuel Sales</p>
+                      <p className="font-semibold w-1/6">Total Sales</p>
+                      <p className="font-semibold w-1/6">variance</p>
+                    </li>
                     {tabData?.listing?.map((item, index) => (
-                     <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
-                     <p className="w-1/6">{item?.date}</p>
-                     <p className="w-1/6">{item?.balance}</p>
-                     <p className="w-1/6">{item?.cash_deposited}</p>
-                     <p className="w-1/6">{item?.charges}</p>
-                     <p className="w-1/6">{item?.credit_card}</p>
-                     <p className="w-1/6">{currency} {item?.credit_sales}</p>
-                     <p className="w-1/6">{item?.deductions}</p>
-                     <p className="w-1/6">{item?.fuel_sales}</p>
-                     <p className="w-1/6">{item?.total_sales}</p>
-                     <p className="w-1/6">{item?.variance}</p>
-                   
-                   </li>
+                      <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
+                        <p className="w-1/6">{item?.date}</p>
+                        <p className="w-1/6">{item?.balance}</p>
+                        <p className="w-1/6">{item?.cash_deposited}</p>
+                        <p className="w-1/6">{item?.charges}</p>
+                        <p className="w-1/6">{item?.credit_card}</p>
+                        <p className="w-1/6">{currency} {item?.credit_sales}</p>
+                        <p className="w-1/6">{item?.deductions}</p>
+                        <p className="w-1/6">{item?.fuel_sales}</p>
+                        <p className="w-1/6">{item?.total_sales}</p>
+                        <p className="w-1/6">{item?.variance}</p>
+
+                      </li>
                     ))}
                   </ul>
                 ) : (
@@ -429,28 +513,44 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-            {stationId && selectedTab !== 'Varience-accumulation' && (
-              tabData?.listing.length > 0 ? (
-                <div className="panel h-full mt-4">
-                  <div className="flex items-center mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+            <div className="container mx-auto">
+              {stationId && selectedTab !== 'Varience-accumulation' && (
+                tabData?.listing.length > 0 ? (
+                  <div className="panel h-full mt-4">
+                    <div className="flex items-center mb-5">
+                      <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                      <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Pie Graph Stats</h5>
+                        <ReactApexChart
+                          series={pieChart.series}
+                          options={pieChart.options}
+                          className="rounded-lg bg-white dark:bg-black overflow-hidden"
+                          type="pie"
+                          height={300}
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                      <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats</h5>
+                        
+                        <StatsBarChart
+                          series={barData}
+                          categories={dates}
+                        // title="Financial Overview"
+                        // subtitle="Monthly Data"
+                        // yaxisTitle="Values (in thousands)"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <ReactApexChart
-                      series={pieChart.series}
-                      options={pieChart.options}
-                      className="rounded-lg bg-white dark:bg-black overflow-hidden"
-                      type="pie"
-                      height={300}
-                    />
+                ) : (
+                  <div className="flex justify-center items-center">
+                    ""
                   </div>
-                </div>
-              ) : (
-                <div className="flex justify-center items-center">
-                  ""
-                </div>
-              )
-            )}
+                )
+              )}
+            </div>
 
 
           </div>
