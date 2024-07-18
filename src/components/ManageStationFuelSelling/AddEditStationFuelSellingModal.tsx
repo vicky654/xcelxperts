@@ -5,7 +5,6 @@ import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
 import useErrorHandler from '../../hooks/useHandleError';
 import { stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
 
 
 interface Client {
@@ -238,7 +237,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
 
     const formik = useFormik({
         initialValues: stationTankInitialValues,
-        validationSchema: getStationTankValidationSchema(isEditMode),
+        // validationSchema: getStationTankValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
@@ -262,7 +261,7 @@ const AddEditStationFuelSellingModal: React.FC<AddEditStationFuelSellingModalPro
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Station' : 'Add Station'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Stationd' : 'Add Stdation'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">

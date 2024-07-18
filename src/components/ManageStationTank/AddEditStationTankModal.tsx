@@ -5,7 +5,7 @@ import FormikSelect from '../FormikFormTools/FormikSelect';
 import FormikInput from '../FormikFormTools/FormikInput';
 import useErrorHandler from '../../hooks/useHandleError';
 import { stationTankInitialValues } from '../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { StationTankValidationSchema } from '../FormikFormTools/ValidationSchema';
 
 interface Client {
     id: string;
@@ -240,7 +240,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const formik = useFormik({
         initialValues: stationTankInitialValues,
-        validationSchema: getStationTankValidationSchema(isEditMode),
+        validationSchema: StationTankValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);

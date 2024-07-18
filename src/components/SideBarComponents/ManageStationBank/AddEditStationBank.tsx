@@ -3,8 +3,8 @@ import { useFormik } from 'formik';
 import AddModalHeader from '../../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import FormikInput from '../../FormikFormTools/FormikInput';
-import { stationBankInitialValues, stationTankInitialValues } from '../../FormikFormTools/InitialValues';
-import { getStationTankValidationSchema } from '../../FormikFormTools/ValidationSchema';
+import { stationBankInitialValues } from '../../FormikFormTools/InitialValues';
+import { stationBankValidation } from '../../FormikFormTools/ValidationSchema';
 import useErrorHandler from '../../../hooks/useHandleError';
 
 interface Client {
@@ -237,7 +237,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const formik = useFormik({
         initialValues: stationBankInitialValues,
-        validationSchema: getStationTankValidationSchema(isEditMode),
+        validationSchema: stationBankValidation(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);

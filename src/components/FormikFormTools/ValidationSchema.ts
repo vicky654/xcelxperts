@@ -174,7 +174,6 @@ export const BankValidation = (isEditMode: boolean) => {
         name: Yup.string()
             .required(' Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-     
     });
 };
 export const lubricantValidation = (isEditMode: boolean) => {
@@ -185,7 +184,6 @@ export const lubricantValidation = (isEditMode: boolean) => {
         size: Yup.string()
             .required(' Size is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-     
     });
 };
 export const fuelsubcategoryValidation = (isEditMode: boolean) => {
@@ -193,7 +191,7 @@ export const fuelsubcategoryValidation = (isEditMode: boolean) => {
         sub_category_name: Yup.string()
             .required('Fuel Sub category Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-            fuel_category_id: Yup.string()
+        fuel_category_id: Yup.string()
             .required('Fuel  category  is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
         code: Yup.string()
@@ -232,7 +230,7 @@ export const deductionstValidationSchema = (isEditMode: boolean) => {
     });
 };
 
-export const getStationTankValidationSchema = (isEditMode: boolean) => {
+export const stationBankValidation = (isEditMode: boolean) => {
     return Yup.object().shape({
         client_id: isEditMode
             ? Yup.string()
@@ -249,13 +247,13 @@ export const getStationTankValidationSchema = (isEditMode: boolean) => {
             : Yup.string()
                   .required('Station is required')
                   .matches(/^[^\s]/, 'cannot start with a space'),
-                  account_no: Yup.string()
+        account_no: Yup.string()
             .required('Account Number is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-        
-            bank_id : Yup.string()
-                  .required('Bank is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
+
+        bank_id: Yup.string()
+            .required('Bank is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };
 
@@ -336,6 +334,39 @@ export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
             .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };
+export const StationTankValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        client_id: isEditMode
+            ? Yup.string()
+            : Yup.string()
+                  .required('Client is required')
+                  .matches(/^[^\s]/, 'cannot start with a space'),
+        entity_id: isEditMode
+            ? Yup.string()
+            : Yup.string()
+                  .required('Entity is required')
+                  .matches(/^[^\s]/, 'cannot start with a space'),
+        station_id: isEditMode
+            ? Yup.string()
+            : Yup.string()
+                  .required('Station is required')
+                  .matches(/^[^\s]/, 'cannot start with a space'),
+        fuel_id: isEditMode
+            ? Yup.string()
+            : Yup.string()
+                  .required('Station Fuel is required')
+                  .matches(/^[^\s]/, 'cannot start with a space'),
+                  capacity: Yup.string()
+            .required('Capacity is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+            tank_name: Yup.string()
+            .required('Tank Name is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+            tank_code: Yup.string()
+            .required('Tank Code is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+    });
+};
 export const CardValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         card_name: Yup.string().required('Card Name is required'),
@@ -366,11 +397,12 @@ export default {
     getEntitiesValidationSchema,
     chargestValidationSchema,
     supplierValidationSchema,
-    getStationTankValidationSchema,
+    stationBankValidation,
     getStationFuelPurchaseValidationSchema,
     CardValidationSchema,
     credituserValidationSchema,
     fuelcategoryValidation,
     BankValidation,
     lubricantValidation,
+    StationTankValidationSchema,
 };
