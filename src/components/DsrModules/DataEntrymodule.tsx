@@ -111,28 +111,9 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
-  const handleApplyFilterss = async (values: any) => {
-  
 
-    try {
-        // Simulate an API call with a dummy response
-        const response = {
-            data: {
-                message: "Dummy response data",
-                values: values,
-            }
-        };
-
-    
-    } catch (error) {
-      handleApiError(error);
-    }
-};
 
   const { customDelete } = useCustomDelete();
-
-
-
   const handleSuccess = () => {
     if (stationId && startDate) {
       const values = {
@@ -199,10 +180,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       setSelectedCardName(cards[0].name);
     }
   }, [cards]);
-  const openUserAddonModal = () => {
-    setIsUserAddonModalOpen(true);
 
-  };
   const closeUserAddonModal = () => {
     setIsUserAddonModalOpen(false);
   };
@@ -242,6 +220,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             onClose={() => { }}
             fullWidthButton={true}
             showDateInput={true}
+            // showDateInput={true}
             storedKeyName={storedKeyName}
           />
 

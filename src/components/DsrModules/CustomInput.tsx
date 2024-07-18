@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import { useFormik } from 'formik';
@@ -42,10 +42,8 @@ interface CustomInputProps {
     layoutClasses: any;
     storedKeyName?: any;
     fullWidthButton?: boolean;
+    showMonthInput?: boolean; // New prop
 }
-
-
-
 
 const CustomInput: React.FC<CustomInputProps> = ({
     getData,
@@ -56,19 +54,17 @@ const CustomInput: React.FC<CustomInputProps> = ({
     showStationInput = true,
     showStationValidation,
     showDateInput = true,
+    fullWidthButton = true,
     validationSchema,
     storedKeyName,
-    // layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2',
-    layoutClasses = `flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5`,
+    layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5',
+    showMonthInput = false, // Default to false
 }) => {
     const { data } = useSelector((state: IRootState) => state.data);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const auth = useSelector((state: IRootState) => state.auth);
-
     const handleApiError = useErrorHandler();
     const navigate = useNavigate();
-
-
 
     const formik = useFormik({
         initialValues: {
@@ -77,6 +73,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             entity_id: "",
             company_name: "",
             start_date: "",
+            start_month: "",
             station_id: "",
             site_name: "",
             clients: [] as Client[],
@@ -98,37 +95,18 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
-        // Check if there is any stored data
         if (storedData) {
-            // Parse the stored data into an object
             const parsedData = JSON.parse(storedData);
-            // Set the parsed data into Formik
             formik.setValues(parsedData);
         }
 
         if (!storedData && localStorage.getItem("superiorRole") === "Client") {
             const clientId = localStorage.getItem("superiorId");
             if (clientId) {
-                // Simulate the change event to call handleClientChange
                 handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
             }
         }
-        // if (localStorage.getItem("superiorRole") == "Client") {
-        //     const clientId = localStorage.getItem("superiorId");
-        //     fetchCompanyList(clientId)
-
-        //     formik.setFieldValue("client_id", clientId)
-        //     // if (localStorage.getItem("superiorRole") !== "Client") {
-        //     //     fetchClientList()
-        //     // } else {
-        //     //     setSelectedClientId(clientId);
-
-        //     // }
-        // }
     }, []);
-
-
-
 
     const fetchClientList = async () => {
         try {
@@ -160,8 +138,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
-
-
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);
@@ -208,15 +184,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
         }
     };
 
-
-
-
     return (
         <div className="">
             <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col sm:flex-row">
-                    {/* <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"> */}
                     <div className={`${layoutClasses}`}>
                         {showClientInput && localStorage.getItem("superiorRole") !== "Client" && (
                             <div className={formik.submitCount ? (formik.errors.client_id ? 'has-error' : 'has-success') : ''}>
@@ -251,7 +223,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     onBlur={formik.handleBlur}
                                     value={formik.values.entity_id}
                                     className="form-select text-white-dark">
-                                    <option value="">Select a Entity</option>
+                                    <option value="">Select an Entity</option>
                                     {formik.values.companies.length > 0 ? (
                                         formik.values.companies.map(company => (
                                             <option key={company.id} value={company.id}>
@@ -268,11 +240,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
                         {showStationInput && (
                             <div className={formik.submitCount ? (formik.errors.station_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="station_id">Station{showStationValidation && <span className="text-danger">*</span>}</label>
+                                <label htmlFor="station_id">Station <span className="text-danger">{showStationValidation ? '*' : ''}</span></label>
                                 <select
                                     id="station_id"
-                                    onChange={handleSiteChange}
                                     value={formik.values.station_id}
+                                    onChange={handleSiteChange}
                                     onBlur={formik.handleBlur}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Station</option>
@@ -291,22 +263,39 @@ const CustomInput: React.FC<CustomInputProps> = ({
                         )}
 
                         {showDateInput && (
-                            <FormikInput formik={formik} type="date" label="Start Date" name="start_date" />
+                            <FormikInput
+                                label="Date"
+                                name="start_date"
+                                type="date"
+                                placeholder="Select a Date"
+                                className="form-select text-white-dark"
+                                formik={formik}
+                            />
                         )}
 
-
-                        <div
-                            className="w-100"
-                        >
-                            <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
-                                Apply
-                            </button>
-                        </div>
+                        {showMonthInput && (
+                            <FormikInput
+                                label="Month"
+                                name="start_month"
+                                type="month"
+                                placeholder="Select a Month"
+                                className="form-select text-white-dark"
+                                formik={formik}
+                            />
+                        )}
                     </div>
                 </div>
-            </form >
-        </div >
+                <div className={`btn-group mt-4 w-full ${fullWidthButton ? 'w-full' : ''}`}>
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="btn btn-primary  w-full">
+                        Apply
+                    </button>
+                </div>
+            </form>
+        </div>
     );
-}
+};
 
 export default CustomInput;
