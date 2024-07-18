@@ -95,6 +95,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             data.services.forEach((service: any, index: number) => {
                 formData.append(`credit_user_id[${index}]`, service.credit_user_id);
                 formData.append(`amount[${index}]`, service.amount);
+                formData.append(`quantity[${index}]`, service.quantity);
                 formData.append(`fuel_sub_category_id[${index}]`, service.fuel_sub_category_id);
             });
 

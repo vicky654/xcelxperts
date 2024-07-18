@@ -16,7 +16,8 @@ interface CashBankingItem {
     id: string;
     reference: string;
     amount: string;
-    bank: string;
+    station_bank_id: string;
+    bank_name: string;
     type: string;
     created_date: string;
     update_amount: boolean;
@@ -78,6 +79,8 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     const handleEdit = (cashBanking: CashBankingItem) => {
         setSelectedCashBanking(cashBanking);
+
+        console.log(cashBanking, "cashBanking");
         formik.setValues(cashBanking);
     };
 
@@ -88,7 +91,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     const validationSchema = Yup.object({
         reference: Yup.string().required('Notes is required'),
-        // bank: Yup.string().required('Bank is required'),
+        station_bank_id: Yup.string().required('Bank is required'),
         amount: Yup.string().required('Amount is required'),
     });
 
@@ -96,7 +99,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         initialValues: {
             id: '',
             reference: '',
-            bank: '',
+            station_bank_id: '',
             amount: '',
             update_amount: true,
         },
@@ -106,7 +109,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 const formData = new FormData();
                 formData.append('reference', values.reference);
                 formData.append('amount', values.amount);
-                formData.append('station_bank_id', values.bank);
+                formData.append('station_bank_id', values.station_bank_id);
 
                 if (selectedCashBanking) {
                     if (stationId && startDate) {
@@ -149,7 +152,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     });
 
     const columns: TableColumn<CashBankingItem>[] = [
-        { name: 'Bank', selector: (row) => row.bank, sortable: true },
+        { name: 'Bank', selector: (row) => row.bank_name, sortable: true },
         { name: 'Notes', selector: (row) => row.reference, sortable: true },
         {
             name: 'Amount',
@@ -205,7 +208,7 @@ console.log(RoleList, "RoleList");
                             <div className="col-span-12 md:col-span-4">
                                 <FormikSelect
                                     formik={formik}
-                                    name="bank"
+                                    name="station_bank_id"
                                     label="Bank"
                                     options={RoleList?.map((item) => ({ id: item.id,  name: `${item.bank_name} - ${item.account_no}`}))}
                                     className="form-select text-white-dark"
@@ -260,9 +263,9 @@ console.log(RoleList, "RoleList");
                         <div className="col-span-12 md:col-span-4">
                                 <FormikSelect
                                     formik={formik}
-                                    name="bank"
+                                    name="station_bank_id"
                                     label="Bank"
-                                    options={RoleList?.map((item) => ({ id: item.id, name: item.bank_name }))}
+                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}`}))}
                                     className="form-select text-white-dark"
                                 />
                             </div>
