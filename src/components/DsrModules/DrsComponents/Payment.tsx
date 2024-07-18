@@ -107,7 +107,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 const isSuccess = await postData(url, formData);
                 if (isSuccess) {
                     if (stationId && startDate) {
-                        applyFilters({ station_id: stationId, start_date: startDate });
+                        applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Payments" });
                         handleApplyFilters(stationId, startDate);
                     }
                 }

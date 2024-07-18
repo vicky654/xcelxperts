@@ -97,7 +97,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
             if (isSuccess) {
                 handleApplyFilters(stationId, startDate);
-                applyFilters({ station_id: stationId, start_date: startDate });
+                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Lubes Sales" });
             }
         } catch (error) {
             handleApiError(error);

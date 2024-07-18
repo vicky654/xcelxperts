@@ -38,7 +38,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading,applyFilters  }) => {
+const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
     const [iseditable, setIsEditable] = useState(true);
 
@@ -46,7 +46,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
     useEffect(() => {
         if (stationId && startDate) {
-            handleApplyFilters(stationId, startDate);
+            handleApplyFilters(stationId, startDate,);
         }
     }, [stationId, startDate]);
 
@@ -54,7 +54,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         try {
             const response = await getData(`/data-entry/fuel-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-             
+
                 setData(response.data.data?.listing);
                 setIsEditable(response.data.data?.is_editable);
             } else {
@@ -93,10 +93,10 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             const url = `data-entry/fuel-sale/update`;
 
             const isSuccess = await postData(url, formData);
-         if (isSuccess) {
+            if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
-                    applyFilters({ station_id: stationId, start_date: startDate });
+                    applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Fuel Sales" });
                 }
             }
         } catch (error) {
@@ -217,46 +217,46 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
     return (
         <>
-      {isLoading && <LoaderImg />}
-        <div>
-            <h1 className="text-lg font-semibold mb-4 ">{`Fuel Sales`} {startDate ? `(${startDate})` : ''}</h1>
-            {data.length > 0 ? (
-                <Formik
-                    initialValues={{ data }}
-                    enableReinitialize
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                >
-                    {({ values }) => (
-                        <Form>
-                            <FieldArray name="data">
-                                {() => (
-                                    <DataTable
-                                        columns={columns}
-                                        data={values.data}
-                                        noHeader
-                                        defaultSortAsc={false}
-                                        striped
-                                        persistTableHead
-                                        highlightOnHover
+            {isLoading && <LoaderImg />}
+            <div>
+                <h1 className="text-lg font-semibold mb-4 ">{`Fuel Sales`} {startDate ? `(${startDate})` : ''}</h1>
+                {data.length > 0 ? (
+                    <Formik
+                        initialValues={{ data }}
+                        enableReinitialize
+                        validationSchema={validationSchema}
+                        onSubmit={handleSubmit}
+                    >
+                        {({ values }) => (
+                            <Form>
+                                <FieldArray name="data">
+                                    {() => (
+                                        <DataTable
+                                            columns={columns}
+                                            data={values.data}
+                                            noHeader
+                                            defaultSortAsc={false}
+                                            striped
+                                            persistTableHead
+                                            highlightOnHover
 
-                                    />
-                                )}
-                            </FieldArray>
-                            <hr></hr>
-                            <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
-                           
-                        </Form>
-                    )}
-                </Formik>
-               ) : (
-                <img
-                            src={noDataImage} // Use the imported image directly as the source
-                            alt="no data found"
-                            className="all-center-flex nodata-image"
-                        />
-            )}
-        </div>
+                                        />
+                                    )}
+                                </FieldArray>
+                                <hr></hr>
+                                <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
+
+                            </Form>
+                        )}
+                    </Formik>
+                ) : (
+                    <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="all-center-flex nodata-image"
+                    />
+                )}
+            </div>
         </>
     );
 };

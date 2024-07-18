@@ -315,9 +315,9 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                         />
                                     )}
                                 />
-                                <button type="submit" className=" btn btn-primary submit-button">
+                               <footer> {isEditable &&     <button type="submit" className=" btn btn-primary submit-button">
                                     Submit
-                                </button>
+                                </button>}</footer>
                             </Form>
                         )}
                     </Formik>

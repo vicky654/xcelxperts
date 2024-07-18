@@ -77,7 +77,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const isSuccess = await postData(url, formData);
     
             if (isSuccess) {
-                applyFilters({ station_id: stationId, start_date: startDate });
+                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Income & Expenses" });
                 fetchData();
             }
         } catch (error) {

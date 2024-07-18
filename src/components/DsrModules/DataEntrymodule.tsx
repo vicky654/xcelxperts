@@ -78,22 +78,68 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     }>
   } = {
     'Fuel Sales': FuelSales,
-    'Fuel Inventory': FuelInventory,
     'Fuel Delivery': FuelDelivery,
-    // 'Shop Sales': ShopSales,
     'Lubes Sales': ShopSales,
     'Income & Expenses': ChargesDeductions,
     'Credit Sales': CreditSales,
     'Payments': Payment,
     'Cash Deposited': CashBanking,
     'Summary': Summary,
+    'Fuel Inventory': FuelInventory,
+  
+    // 'Shop Sales': ShopSales,
+  
+  
+   
+   
+  
+   
   };
-
+  function getNextComponentName(currentName: string): string | null {
+    const keys = Object.keys(componentMap);
+    const currentIndex = keys.indexOf(currentName);
+  
+    if (currentIndex === -1 || currentIndex === keys.length - 1) {
+      // If the current name is not found or it is the last item in the array
+      return null;
+    }
+  
+    return keys[currentIndex + 1];
+  }
+  
   const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
   const handleApplyFilters = async (values: any) => {
     try {
       const response = await getData(`/data-entry/cards?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
       if (response && response.data && response.data.data) {
+        setData(response.data?.data);
+        setSelectedCardName(response.data.data?.cards[0].name);
+        setCards(response.data.data?.cards);
+        setStationId(values?.station_id);
+        setStartDate(values?.start_date);
+      } else {
+        setData([])
+        setCards([])
+        setSelectedCardName(null)
+        throw new Error('No data available in the response');
+      }
+    } catch (error) {
+      setData([])
+      setCards([])
+      setSelectedCardName(null)
+      handleApiError(error);
+    }
+  };
+  const ApplyFilterNext = async (values: any) => {
+    try {
+      const response = await getData(`/data-entry/cards?station_id=${values?.station_id}&drs_date=${values?.start_date}`);
+      if (response && response.data && response.data.data) {
+
+        const nextComponentName = getNextComponentName(values?.selectedCardName);
+        if (nextComponentName) {
+          console.log(nextComponentName, "nextComponentName");
+          toggleTabs(nextComponentName);
+        }
         setData(response.data?.data);
         setCards(response.data.data?.cards);
         setStationId(values?.station_id);
@@ -117,7 +163,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const handleSuccess = () => {
     if (stationId && startDate) {
       const values = {
-        station_id: stationId, 
+        station_id: stationId,
         start_date: startDate
       };
       handleApplyFilters(values);
@@ -174,12 +220,12 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     station_id: Yup.string().required('Station is required'),
     start_date: Yup.string().required('Date is required'),
   });
-  useEffect(() => {
-    // Select the first card by default if cards have data
-    if (cards.length > 0) {
-      setSelectedCardName(cards[0].name);
-    }
-  }, [cards]);
+  // useEffect(() => {
+  //   // Select the first card by default if cards have data
+  //   if (cards.length > 0) {
+  //     setSelectedCardName(cards[0].name);
+  //   }
+  // }, [cards]);
 
   const closeUserAddonModal = () => {
     setIsUserAddonModalOpen(false);
@@ -265,7 +311,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               ))}
             </ul>
             <div>
-              {SelectedComponent ? <SelectedComponent applyFilters={handleApplyFilters} stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
+              {SelectedComponent ? <SelectedComponent applyFilters={ApplyFilterNext} stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
                 src={noDataImage} // Use the imported image directly as the source
                 alt="no data found"
                 className="all-center-flex nodata-image"

@@ -113,7 +113,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
-                    applyFilters({ station_id: stationId, start_date: startDate });
+                    applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Credit Sales" });
                 }
             }
         } catch (error) {
@@ -208,8 +208,10 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             disabled={!iseditable}
-                                            className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                        >
+                                            className={`form-input form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
+
+                                       
+                                       >
                                             <option value="">Select User</option>
                                             {commonListData?.users?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -234,8 +236,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             onChange={(e) => handleFuelChange(e, index)}
                                             onBlur={formik.handleBlur}
                                             disabled={!iseditable}
-                                            className="form-select form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                        >
+                                            className={`form-input  text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
+                                            >
                                             <option value="">Select Fuel</option>
                                             {commonListData?.fuels?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.sub_category_name} ({currency}{item.price})</option>
@@ -262,7 +264,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             onChange={(e) => handleQuantityChange(e, index)}
                                             onBlur={formik.handleBlur}
                                             disabled={!iseditable}
-                                            className="form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            className={`form-input  text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
+
                                         />
                                         {formik.errors.services?.[index]?.quantity && formik.touched.services?.[index]?.quantity && (
                                             <div className="text-red-500 text-sm mt-1">
@@ -286,7 +289,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                              placeholder='Amount'
                                             disabled
                                             readOnly
-                                            className="readonly form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            className="readonly form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         />
                                     </div>
 

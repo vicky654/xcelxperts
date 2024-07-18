@@ -122,7 +122,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     const isSuccess = await postData(url, formData);
                     if (isSuccess) {
                         if (stationId && startDate) {
-                            applyFilters({ station_id: stationId, start_date: startDate });
+                            applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Cash Deposited" });
                             handleApplyFilters(stationId, startDate);
                         }
                         setSelectedCashBanking(null);

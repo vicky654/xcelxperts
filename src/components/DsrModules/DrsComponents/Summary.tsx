@@ -90,7 +90,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       const isSuccess = await postData(url, formData);
       if (isSuccess) {
         if (stationId && startDate) {
-          applyFilters({ station_id: stationId, start_date: startDate });
+          applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Summary" });
           handleApplyFilters(stationId, startDate);
         }
       }
