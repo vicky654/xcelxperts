@@ -87,8 +87,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const staticTabs = [
     'Varience-accumulation',
     'Fuel Sales',
-    'Charges',
-    'Deductions',
+    'Lube Sales',
+    'Income',
+    'Expenses',
     'Payments',
     'Credit Sales',
 
@@ -98,8 +99,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const tabKeyMap: { [key: string]: string } = {
     'Varience-accumulation': 'varience-accumulation',
     'Fuel Sales': 'fuel-sales',
-    'Charges': 'charges',
-    'Deductions': 'deductions',
+    'Lube Sales': 'lube-sales',
+    'Income': 'charges',
+    'Expenses': 'deductions',
     'Payments': 'payments',
     'Credit Sales': 'credit-sales',
 
@@ -325,10 +327,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                               <p className="font-semibold w-1/6">Date</p>
                               <p className="font-semibold w-1/6">Balance</p>
                               <p className="font-semibold w-1/6">Cash Deposited</p>
-                              <p className="font-semibold w-1/6">Charges</p>
+                              <p className="font-semibold w-1/6">Income</p>
                               <p className="font-semibold w-1/6">Credit Card</p>
                               <p className="font-semibold w-1/6">Credit Sales</p>
-                              <p className="font-semibold w-1/6">Deductions</p>
+                              <p className="font-semibold w-1/6">Expenses</p>
                               <p className="font-semibold w-1/6">Fuel Sales</p>
                               <p className="font-semibold w-1/6">Total Sales</p>
                               <p className="font-semibold w-1/6">variance</p>

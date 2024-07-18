@@ -67,6 +67,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('drs_date', startDate || '');
       formData.append('station_id', stationId || '');
       formData.append('total_fuel_sales', data?.takings?.total_fuel_sales || '');
+      formData.append('total_lubes_sales', data?.takings?.total_lubes_sales || '');
       formData.append('total_deductions', data?.takings?.deductions || '');
       formData.append('total_charges', data?.takings?.total_charges || '');
       formData.append('total_sales', data?.takings.total_sales_value || ''); // Assuming total_sales is available in takings

@@ -32,7 +32,7 @@ interface UserData {
 }
 interface RoleItem {
     id: number;
-    category_name: string;
+    name: string;
     code: string;
     created_date: string;
     status: string;
@@ -44,7 +44,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
 
     const fetchfeulList = async () => {
         try {
-            const response = await getData(`/fuel/category`);
+            const response = await getData(`/getFuels`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
                 console.log(userData, "userData");
@@ -114,7 +114,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                                                     formik={formik}
                                                     name="fuel_category_id"
                                                     label="Fuel  Category"
-                                                    options={RoleList.map((item) => ({ id: item.id, name: item.category_name }))}
+                                                    options={RoleList.map((item) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                 />
                                                 <FormikInput formik={formik} type="text" name="sub_category_name" />
