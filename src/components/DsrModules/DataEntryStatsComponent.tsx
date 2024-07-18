@@ -513,44 +513,47 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-            <div className="container mx-auto">
-              {stationId && selectedTab !== 'Varience-accumulation' && (
-                tabData?.listing.length > 0 ? (
-                  <div className="panel h-full mt-4">
-                    <div className="flex items-center mb-5">
-                      <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+
+            {stationId && selectedTab !== 'Varience-accumulation' && (
+              tabData?.listing.length > 0 ? (
+                <div className="panel h-full mt-4">
+                  <div className="flex items-center mb-5">
+                    <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
                       <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Pie Graph Stats</h5>
-                        <ReactApexChart
-                          series={pieChart.series}
-                          options={pieChart.options}
-                          className="rounded-lg bg-white dark:bg-black overflow-hidden"
-                          type="pie"
-                          height={300}
-                        />
-                      </div>
-                      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                      <ReactApexChart
+                        series={pieChart.series}
+                        options={pieChart.options}
+                        className="rounded-lg bg-white dark:bg-black overflow-hidden"
+                        type="pie"
+                        height={300}
+                      />
+                    </div>
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
                       <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats</h5>
-                        
-                        <StatsBarChart
-                          series={barData}
-                          categories={dates}
-                        // title="Financial Overview"
-                        // subtitle="Monthly Data"
-                        // yaxisTitle="Values (in thousands)"
-                        />
-                      </div>
+
+                      <StatsBarChart
+                        series={barData}
+                        categories={dates}
+                      // title="Financial Overview"
+                      // subtitle="Monthly Data"
+                      // yaxisTitle="Values (in thousands)"
+                      />
                     </div>
                   </div>
-                ) : (
-                  <div className="flex justify-center items-center">
-                    ""
-                  </div>
-                )
-              )}
-            </div>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center">
+                  <img
+                    src={noDataImage} // Use the imported image directly as the source
+                    alt="no data found"
+                    className="all-center-flex nodata-image"
+                  />
+                </div>
+              )
+            )}
 
 
           </div>
