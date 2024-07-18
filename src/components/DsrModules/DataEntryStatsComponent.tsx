@@ -12,7 +12,6 @@ import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
 import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
-import axios from 'axios';
 import StatsBarChart from './StatsBarChart';
 
 interface ManageSiteProps {
