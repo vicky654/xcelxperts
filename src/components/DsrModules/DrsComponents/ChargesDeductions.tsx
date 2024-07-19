@@ -55,7 +55,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     formData.append(`charge[${charge.id}]`, charge.amount);
                 }
                 if (charge.notes !== null && charge.notes !== undefined && charge.notes !== "") {
-                    formData.append(`charge[${charge.id}]`, charge.notes);
+                    formData.append(`charge_notes[${charge.id}]`, charge.notes);
                 }
             });
     
@@ -64,7 +64,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     formData.append(`deduction[${deduction.id}]`, deduction.amount);
                 }
                 if (deduction.notes !== null && deduction.notes !== undefined && deduction.notes !== "") {
-                    formData.append(`deduction[${deduction.id}]`, deduction.notes);
+                    formData.append(`deduction_notes[${deduction.id}]`, deduction.notes);
                 }
             });
     

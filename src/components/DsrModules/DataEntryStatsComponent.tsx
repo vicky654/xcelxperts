@@ -409,28 +409,37 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <ul className="divide-y p-2 b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
-                      <p className="font-semibold w-1/6">Balance</p>
+                        
+                      <p className="font-semibold w-1/6">Total Sales</p>
+                      <p className="font-semibold w-1/6">Fuel Sales</p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
-                      <p className="font-semibold w-1/6">Income</p>
+                      <p className="font-semibold w-1/6">variance</p>
+                      <p className="font-semibold w-1/6">Balance</p>
+                  
+                      {/* <p className="font-semibold w-1/6">Income</p>
                       <p className="font-semibold w-1/6">Credit Card</p>
                       <p className="font-semibold w-1/6">Credit Sales</p>
                       <p className="font-semibold w-1/6">Expenses</p>
-                      <p className="font-semibold w-1/6">Fuel Sales</p>
-                      <p className="font-semibold w-1/6">Total Sales</p>
-                      <p className="font-semibold w-1/6">variance</p>
+                   
+                      <p className="font-semibold w-1/6">Total Sales</p> */}
+              
                     </li>
                     {tabData?.listing?.map((item, index) => (
                       <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
                         <p className="w-1/6">{item?.date}</p>
-                        <p className="w-1/6">{item?.balance}</p>
+                        <p className="w-1/6">{item?.total_sales}</p>
+                        <p className="w-1/6">{item?.fuel_sales}</p>
                         <p className="w-1/6">{item?.cash_deposited}</p>
-                        <p className="w-1/6">{item?.charges}</p>
+                        <p className="w-1/6">{item?.variance}</p>
+                        <p className="w-1/6">{item?.balance}</p>
+                     
+                        {/* <p className="w-1/6">{item?.charges}</p>
                         <p className="w-1/6">{item?.credit_card}</p>
                         <p className="w-1/6">{currency} {item?.credit_sales}</p>
-                        <p className="w-1/6">{item?.deductions}</p>
-                        <p className="w-1/6">{item?.fuel_sales}</p>
-                        <p className="w-1/6">{item?.total_sales}</p>
-                        <p className="w-1/6">{item?.variance}</p>
+                        <p className="w-1/6">{item?.deductions}</p> */}
+                       
+                   
+                    
 
                       </li>
                     ))}
@@ -520,7 +529,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <div className="flex items-center mb-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                     <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
                       <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Pie Graph Stats</h5>
                       <ReactApexChart
