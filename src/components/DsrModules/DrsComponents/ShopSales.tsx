@@ -144,7 +144,7 @@ console.log(sale, "sale");
 
     const columns = [
         {
-            name: 'ITem',
+            name: 'Item',
             selector: (row: ShopSalesData) => row.lubricant_name,
             cell: (row: ShopSalesData) => <span>{row.lubricant_name}</span>,
         },
@@ -218,7 +218,7 @@ console.log(sale, "sale");
             ),
         },
         {
-            name: 'closing',
+            name: 'Closing',
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].closing`}>
@@ -287,7 +287,12 @@ console.log(sale, "sale");
     }
 
     return (
-        <div className="container mx-auto">
+        <>
+        {isLoading && <LoaderImg />}
+
+        <div>
+            <h1 className="text-lg font-semibold mb-4 ">{`Lube Sale `} {startDate ? `(${startDate})` : ''}</h1>
+
             <Formik
                 initialValues={{ data }}
                 validationSchema={validationSchema}
@@ -296,7 +301,6 @@ console.log(sale, "sale");
             >
                 {({ values, setFieldValue }) => (
                     <Form>
-                        <div className="shadow overflow-hidden sm:rounded-md bg-white mt-4 p-4">
                             <FieldArray
                                 name="data"
                                 render={() => (
@@ -318,7 +322,7 @@ console.log(sale, "sale");
                                     Submit
                                 </button>}</footer>
                      
-                        </div>
+                     
                     </Form>
                 )}
             </Formik>
@@ -331,6 +335,7 @@ console.log(sale, "sale");
               />
             )} */}
         </div>
+        </>
     );
 };
 

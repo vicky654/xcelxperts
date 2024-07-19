@@ -104,7 +104,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
-                    applyFilters({ station_id: stationId, start_date: startDate });
+                    applyFilters({ station_id: stationId, start_date: startDate,selectedCardName: "Fuel Delivery"  });
                 }
             }
         } catch (error) {

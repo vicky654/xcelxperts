@@ -256,7 +256,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             Quantity <span className="text-red-500">*</span>
                                         </label>
                                         <input
-                                            type="text"
+                                            type="number"
                                             id={`services[${index}].quantity`}
                                             name={`services[${index}].quantity`}
                                             value={formik.values.services[index].quantity}
