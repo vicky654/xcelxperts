@@ -33,19 +33,7 @@ interface RowData {
     phone_number: string;
     role: any;
 }
-interface UserData {
-    id: string;
-    client_id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    role: string;
-    role_id: string;
-    status: number;
-    work_flow: number;
-    clients: any[];
-}
+
 
 interface AddEditStationModalProps {
     isOpen: boolean;
@@ -201,7 +189,11 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             }
         },
     });
-
+    const options = [
+        { value: '0', label: 'Summery Only' },
+        { value: '1', label: 'All' },
+    
+    ];
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -267,6 +259,13 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     name="data_import_type_id"
                                                     label="Data Import Types"
                                                     options={commonDataList?.data_import_types?.map((item: any) => ({ id: item?.id, name: item?.name }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="show_summery"
+                                                    label="Show Summary"
+                                                    options={options?.map((item: any) => ({ id: item?.value, name: item?.label }))}
                                                     className="form-select text-white-dark"
                                                 />
 

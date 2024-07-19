@@ -322,6 +322,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         try {
             const formData = new FormData();
 
+            formData.append('show_summery', values.show_summery);
             formData.append('client_id', values.client_id);
             formData.append('entity_id', values.entity_id);
             formData.append('data_import_type_id', values.data_import_type_id);
