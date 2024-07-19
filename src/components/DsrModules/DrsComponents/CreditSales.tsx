@@ -319,10 +319,11 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         )}
                     </form>
                     {!isLoading && commonListData?.listing?.length === 0 && (
-                        <div className="text-center mt-5">
-                            <img src={noDataImage} alt="No data found" className="mx-auto " />
-                            <p className="text-gray-500">No data found.</p>
-                        </div>
+                         <img
+                         src={noDataImage} // Use the imported image directly as the source
+                         alt="no data found"
+                         className="all-center-flex nodata-image"
+                     />
                     )}
                 </div>
             )}

@@ -79,20 +79,18 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             const formData = new FormData();
 
             values.data.forEach((obj) => {
-                formData.append(`purchage_price[${obj.id}]`, obj.purchage_price.toString());
                 formData.append(`opening[${obj.id}]`, obj.opening.toString());
+                formData.append(`purchage_price[${obj.id}]`, obj.purchage_price.toString());
                 formData.append(`sale[${obj.id}]`, obj.sale.toString());
-                formData.append(`closing[${obj.id}]`, obj.closing.toString());
                 formData.append(`sale_price[${obj.id}]`, obj.sale_price.toString());
-                formData.append(`sale_amount[${obj.id}]`, obj.sale_amount.toString());
-            });
+          });
 
             if (stationId && startDate) {
                 formData.append('drs_date', startDate);
                 formData.append('station_id', stationId);
             }
 
-            const url = `data-entry/shop-sales/update`;
+            const url = `data-entry/lube-sale/update`;
             const isSuccess = await postData(url, formData);
 
             if (isSuccess) {
@@ -108,37 +106,52 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
         values: FormValues,
         index: number,
-        fieldName: string,
+        field: string,
         value: any,
         row: ShopSalesData
     ) => {
         // Convert empty string to 0 or keep it as-is if it's already a number
         const numericValue = parseFloat(value);
-    
+        console.log(numericValue, "numericValue");
         // Update the field value in the form values
-        setFieldValue(`data[${index}].${fieldName}`, numericValue);
-    
-        // Perform calculations based on field changes
-        if (fieldName === 'opening' || fieldName === 'sale' || fieldName === 'sale_price') {
-            const opening = Number(values.data[index].opening || 0);
-            const sale = Number(values.data[index].sale || 0);
-            const salePrice = Number(values.data[index].sale_price || 0);
-    
-            // Calculate 'closing' as 'opening - sale'
+        setFieldValue(`data[${index}].${field}`, numericValue);
+        if (field == 'opening' || field === 'sale' || field === 'sale_price') {
+            // const opening = values.data[index].opening ;
+            // const sale = values.data[index].sale ;
+            // const salePrice = values.data[index].sale_price ;
+            // console.log(opening, sale, salePrice, "opening");
+
+            const opening = field === 'opening' ? numericValue : values.data[index].opening;
+            const sale = field === 'sale' ? numericValue : values.data[index].sale;
+            const salePrice = field === 'sale_price' ? numericValue : values.data[index].sale_price;
+console.log(opening, "opening");
+console.log(sale, "sale");
             const closing = opening - sale;
+            console.log(closing, "closing");
             setFieldValue(`data[${index}].closing`, closing);
-    
+
+
+
+            // // Calculate 'closing' as 'opening - sale'
+            // const closing = opening - sale;
+            // setFieldValue(`data[${index}].closing`, closing);
+
             // Calculate 'sale_amount' as '(opening - sale) * sale_price'
-            const saleAmount = closing * salePrice;
+            const saleAmount = sale * salePrice;
             setFieldValue(`data[${index}].sale_amount`, saleAmount);
         }
     };
 
     const columns = [
         {
-            name: 'Name',
+            name: 'ITem',
             selector: (row: ShopSalesData) => row.lubricant_name,
             cell: (row: ShopSalesData) => <span>{row.lubricant_name}</span>,
+        },
+        {
+            name: 'Size',
+            selector: (row: ShopSalesData) => row.lubricant_size,
+            cell: (row: ShopSalesData) => <span>{row.lubricant_size}</span>,
         },
         {
             name: 'Purchase Price',
@@ -247,7 +260,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
         },
         {
-            name: 'sales_amount',
+            name: ' Amount',
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_amount`}>
@@ -301,27 +314,22 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     />
                                 )}
                             />
-
-                            <div className="flex justify-end mt-4">
-                                {isEditable && (
-                                    <button
-                                        type="submit"
-                                        className="btn-primary"
-                                    >
-                                        Save
-                                    </button>
-                                )}
-                            </div>
+      <footer> {isEditable &&     <button type="submit" className=" btn btn-primary submit-button">
+                                    Submit
+                                </button>}</footer>
+                     
                         </div>
                     </Form>
                 )}
             </Formik>
 
-            {data.length === 0 && (
-                <div className="flex justify-center items-center mt-4">
-                    <img src={noDataImage} alt="No Data Found" />
-                </div>
-            )}
+            {/* {data.length !== 0 && (
+                  <img
+                  src={noDataImage} // Use the imported image directly as the source
+                  alt="no data found"
+                  className="all-center-flex nodata-image"
+              />
+            )} */}
         </div>
     );
 };
