@@ -118,7 +118,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             const response = await getData(`/station/detail?id=${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
-
+formik.setFieldValue('show_summary', userData?.show_summary)
                 formik.setValues(userData)
                 FetchClientList()
                 fetchEntityList(userData?.client_id)
@@ -263,7 +263,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                 />
                                                 <FormikSelect
                                                     formik={formik}
-                                                    name="show_summery"
+                                                    name="show_summary"
                                                     label="Show Summary"
                                                     options={options?.map((item: any) => ({ id: item?.value, name: item?.label }))}
                                                     className="form-select text-white-dark"

@@ -97,7 +97,7 @@ export const deductionsInitialValues = {
 
 export const stationInitialValues = {
   first_name: '',
-  show_summery: '0',
+  show_summery: '',
   data_import_types: '',
   drs_upload_status: '',
   client_id: '',
