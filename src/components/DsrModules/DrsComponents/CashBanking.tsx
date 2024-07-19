@@ -12,6 +12,7 @@ import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
+import { handleDownloadPdf } from '../../CommonFunctions';
 interface CashBankingItem {
     id: string;
     reference: string;
@@ -198,7 +199,21 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 console.log(RoleList, "RoleList");
     return (
         <div >
-            <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1>
+            {/* <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1> */}
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 className="text-lg font-semibold mb-4">
+                        {`Cash Deposit`} {startDate ? `(${startDate})` : ''}
+                    </h1>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>
+                </div>
+
+
             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
 

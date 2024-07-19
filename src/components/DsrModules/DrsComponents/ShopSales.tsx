@@ -8,6 +8,7 @@ import DataTable from 'react-data-table-component';
 
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
+import { handleDownloadPdf } from '../../CommonFunctions';
 
 interface ShopSalesData {
     id: string;
@@ -289,10 +290,19 @@ console.log(sale, "sale");
     return (
         <>
         {isLoading && <LoaderImg />}
-
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 className="text-lg font-semibold mb-4">
+                        {`Lubes Sales`} {startDate ? `(${startDate})` : ''}
+                    </h1>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>
+                </div>
         <div>
-            <h1 className="text-lg font-semibold mb-4 ">{`Lube Sale `} {startDate ? `(${startDate})` : ''}</h1>
-
+   
             <Formik
                 initialValues={{ data }}
                 validationSchema={validationSchema}

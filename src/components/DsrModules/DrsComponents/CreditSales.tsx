@@ -8,6 +8,7 @@ import { currency } from '../../../utils/CommonData';
 
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
+import { handleDownloadPdf } from '../../CommonFunctions';
 
 interface Service {
     credit_user_id: string;
@@ -186,8 +187,21 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 </>
             ) : (
                 <div>
-                    <div className='spacebetween'>
-                        <h1 className="text-lg font-semibold  ">Credit Sales {startDate ? `(${startDate})` : ''}</h1>
+                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 className="text-lg font-semibold mb-4">
+                        {`Credit Sales`} {startDate ? `(${startDate})` : ''}
+                    </h1>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>
+                </div>
+                    <div className=' mt-4 text-end'>
+                      
+                 
+                       
                         {iseditable ? (
                             <button className='btn btn-primary mb-3' onClick={addRow}>Add</button>
                         ) : null}

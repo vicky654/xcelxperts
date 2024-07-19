@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
+import { handleDownloadPdf } from '../../CommonFunctions';
 
 interface FuelSalesData {
     id: number;
@@ -57,6 +58,20 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
                 setData(response.data.data?.listing);
                 setIsEditable(response.data.data?.is_editable);
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+    const DownloadPdf = async (stationId: string | null, startDate: string | null) => {
+        try {
+            const response = await getData(`/pdf/fuel-sales?drs_date=${startDate}&station_id=${stationId}`);
+            if (response && response.data && response.data.data) {
+                console.log(response.data.data, "response.data.data");
+                // setData(response.data.data?.listing);
+                // setIsEditable(response.data.data?.is_editable);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -219,7 +234,20 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         <>
             {isLoading && <LoaderImg />}
             <div>
-                <h1 className="text-lg font-semibold mb-4 ">{`Fuel Sales`} {startDate ? `(${startDate})` : ''}</h1>
+
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 className="text-lg font-semibold mb-4">
+                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}
+                    </h1>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>
+                </div>
+
                 {data.length > 0 ? (
                     <Formik
                         initialValues={{ data }}

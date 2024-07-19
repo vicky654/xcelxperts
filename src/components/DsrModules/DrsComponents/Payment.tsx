@@ -4,6 +4,7 @@ import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { currency } from '../../../utils/CommonData'
+import { handleDownloadPdf } from '../../CommonFunctions';
 interface PaymentItem {
     id: string;
     card_name: string;
@@ -138,7 +139,18 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
 
     return (
         <div>
-            <h1 className="text-lg font-semibold mb-4">Payments {startDate ? `(${startDate})` : ''} </h1>
+          
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 className="text-lg font-semibold mb-4">
+                        {`Payments`} {startDate ? `(${startDate})` : ''}
+                    </h1>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>
+                </div>
             <form onSubmit={handleFormSubmit}>
                 {loading ? (
                     <p>Loading...</p>

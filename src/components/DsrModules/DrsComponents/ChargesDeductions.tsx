@@ -7,6 +7,7 @@ import { Button, Form } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import { handleDownloadPdf } from '../../CommonFunctions';
 
 interface ChargesDeductionsData {
     id: string;
@@ -160,9 +161,18 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         <>
             {isLoading && <LoaderImg />}
             <div>
-                <h1 className="text-lg font-semibold mb-4">
-                    Income and Expenses {startDate ? `(${startDate})` : ''}
-                </h1>
+             
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 className="text-lg font-semibold mb-4">
+                        {`Income and Expenses`} {startDate ? `(${startDate})` : ''}
+                    </h1>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>
+                </div>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 md:col-span-6">
                         <h2 className="text-lg font-semibold mb-4">Income</h2>
