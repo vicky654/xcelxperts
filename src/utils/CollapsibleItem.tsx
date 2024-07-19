@@ -14,10 +14,11 @@ interface CollapsibleItemProps {
 
 const CollapsibleItem: React.FC<CollapsibleItemProps> = ({ id, title, subtitle, isActive, onToggle, children }) => {
   return (
-    <div className="border border-[#d3d3d3] dark:border-[#1b2e4b] rounded mt-4 hover:bg-gray-100 dark:hover:bg-gray-800 " style={{border:"1px solid #ddd"}}>
+    <div className="border border-[#d3d3d3] dark:border-[#1b2e4b] rounded mt-4  " style={{border:"1px solid #ddd"}}>
       <button
         type="button"
-        className={`p-4 w-full flex items-center text-white-dark dark:bg-[#1b2e4b] ${isActive ? '!text-primary' : ''}`}
+        className={`p-4 w-full flex items-center text-white-dark dark:bg-[#1b2e4b] ${isActive ? '!text-primary bg-[#e5e7eb]' : ''}`}
+
         onClick={() => onToggle(id)}
       >
 
