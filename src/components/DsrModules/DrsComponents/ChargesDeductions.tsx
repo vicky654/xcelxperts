@@ -166,12 +166,15 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     <h1 className="text-lg font-semibold mb-4">
                         {`Income and Expenses`} {startDate ? `(${startDate})` : ''}
                     </h1>
+                     
+                    {charges?.length > 0 && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
                     </button>
+                       )}
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 md:col-span-6">

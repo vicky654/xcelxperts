@@ -191,12 +191,14 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     <h1 className="text-lg font-semibold mb-4">
                         {`Credit Sales`} {startDate ? `(${startDate})` : ''}
                     </h1>
+                     
+                    {formik.values.services.length > 0 && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>
+                    </button>   )}
                 </div>
                     <div className=' mt-4 text-end'>
                       

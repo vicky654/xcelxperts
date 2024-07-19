@@ -205,12 +205,14 @@ console.log(RoleList, "RoleList");
                     <h1 className="text-lg font-semibold mb-4">
                         {`Cash Deposit`} {startDate ? `(${startDate})` : ''}
                     </h1>
+                     
+                    {stationId && startDate && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>
+                    </button>   )}
                 </div>
 
 

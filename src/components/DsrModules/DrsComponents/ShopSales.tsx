@@ -84,7 +84,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                 formData.append(`purchage_price[${obj.id}]`, obj.purchage_price.toString());
                 formData.append(`sale[${obj.id}]`, obj.sale.toString());
                 formData.append(`sale_price[${obj.id}]`, obj.sale_price.toString());
-          });
+            });
 
             if (stationId && startDate) {
                 formData.append('drs_date', startDate);
@@ -125,8 +125,8 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const sale = field === 'sale' ? numericValue : values.data[index].sale;
             const salePrice = field === 'sale_price' ? numericValue : values.data[index].sale_price;
-console.log(opening, "opening");
-console.log(sale, "sale");
+            console.log(opening, "opening");
+            console.log(sale, "sale");
             const closing = opening - sale;
             console.log(closing, "closing");
             setFieldValue(`data[${index}].closing`, closing);
@@ -289,28 +289,29 @@ console.log(sale, "sale");
 
     return (
         <>
-        {isLoading && <LoaderImg />}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold mb-4">
-                        {`Lubes Sales`} {startDate ? `(${startDate})` : ''}
-                    </h1>
+            {isLoading && <LoaderImg />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h1 className="text-lg font-semibold mb-4">
+                    {`Lubes Sales`} {startDate ? `(${startDate})` : ''}
+                </h1>
+                {data?.length > 0 && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}
                     >
-                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>
-                </div>
-        <div>
-   
-            <Formik
-                initialValues={{ data }}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-                enableReinitialize={true}
-            >
-                {({ values, setFieldValue }) => (
-                    <Form>
+                        Download Pdf   <i className="fi fi-tr-file-download"></i>
+                    </button>)}
+            </div>
+            <div>
+
+                <Formik
+                    initialValues={{ data }}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                    enableReinitialize={true}
+                >
+                    {({ values, setFieldValue }) => (
+                        <Form>
                             <FieldArray
                                 name="data"
                                 render={() => (
@@ -328,23 +329,23 @@ console.log(sale, "sale");
                                     />
                                 )}
                             />
-      <footer> {isEditable &&     <button type="submit" className=" btn btn-primary submit-button">
-                                    Submit
-                                </button>}</footer>
-                     
-                     
-                    </Form>
-                )}
-            </Formik>
+                            <footer> {isEditable && <button type="submit" className=" btn btn-primary submit-button">
+                                Submit
+                            </button>}</footer>
 
-            {/* {data.length !== 0 && (
+
+                        </Form>
+                    )}
+                </Formik>
+
+                {/* {data.length !== 0 && (
                   <img
                   src={noDataImage} // Use the imported image directly as the source
                   alt="no data found"
                   className="all-center-flex nodata-image"
               />
             )} */}
-        </div>
+            </div>
         </>
     );
 };

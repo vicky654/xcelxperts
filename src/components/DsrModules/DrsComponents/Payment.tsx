@@ -144,12 +144,14 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                     <h1 className="text-lg font-semibold mb-4">
                         {`Payments`} {startDate ? `(${startDate})` : ''}
                     </h1>
+                     
+                    { paymentData && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>
+                    </button>   )}
                 </div>
             <form onSubmit={handleFormSubmit}>
                 {loading ? (
