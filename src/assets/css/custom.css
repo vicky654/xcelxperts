@@ -637,3 +637,6 @@ li.flexcenter.dataentrytab {
     --tw-border-opacity: 1;
     border-color: #b7b7b7 !important;
 }
+.errorborder{
+    border: 2px solid red !important;
+}
