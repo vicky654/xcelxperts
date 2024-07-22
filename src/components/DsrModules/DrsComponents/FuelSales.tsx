@@ -42,6 +42,7 @@ const validationSchema = Yup.object({
 const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
     const [iseditable, setIsEditable] = useState(true);
+    const [isdownloadpdf, setIsdownloadpdf] = useState(true);
 
     const handleApiError = useErrorHandler();
 
@@ -58,6 +59,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
                 setData(response.data.data?.listing);
                 setIsEditable(response.data.data?.is_editable);
+                setIsdownloadpdf(response.data.data?.download_pdf);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -241,7 +243,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         {`Fuel Sales`} {startDate ? `(${startDate})` : ''}
                     </h1>
                     
-                    {data?.length > 0 && (
+                    {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}

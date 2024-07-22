@@ -33,6 +33,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const handleApiError = useErrorHandler();
     const [cashBankingData, setCashBankingData] = useState<CashBankingItem[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
+    const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedCashBanking, setSelectedCashBanking] = useState<CashBankingItem | null>(null);
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
@@ -67,6 +68,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 const { listing, is_editable } = response.data.data;
                 formik.setFieldValue("amount", response.data?.data?.cash_value)
                 setCashBankingData(listing);
+                setIsdownloadpdf(response.data.data?.download_pdf);
                 setIsEditable(is_editable);
             } else {
                 throw new Error('No data available in the response');
@@ -206,7 +208,7 @@ console.log(RoleList, "RoleList");
                         {`Cash Deposit`} {startDate ? `(${startDate})` : ''}
                     </h1>
                      
-                    {stationId && startDate && (
+                    {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}

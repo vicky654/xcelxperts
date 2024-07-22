@@ -22,6 +22,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [isEditable, setIsEditable] = useState<boolean>(false);
+    const [isdownloadpdf, setIsdownloadpdf] = useState(true);
 // Default to 'USD' if not set
 
     useEffect(() => {
@@ -39,6 +40,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
              
                 const data = response.data.data;
                 setIsEditable(data?.is_editable);
+                setIsdownloadpdf(response.data.data?.download_pdf);
                 const totalAmount = calculateTotalAmount(data?.listing);
                 data.listing = updateTotalInListing(data?.listing, totalAmount, data?.is_editable);
                 setPaymentData(data);
@@ -145,7 +147,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                         {`Payments`} {startDate ? `(${startDate})` : ''}
                     </h1>
                      
-                    { paymentData && (
+                    {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}

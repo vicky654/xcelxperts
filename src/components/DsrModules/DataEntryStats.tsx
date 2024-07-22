@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import useErrorHandler from '../../hooks/useHandleError';
 import ReactApexChart from 'react-apexcharts';
-import { useSelector } from 'react-redux';
-import { IRootState } from '../../store';
+
 import { currency } from '../../utils/CommonData';
 
 interface AddonsModalProps {

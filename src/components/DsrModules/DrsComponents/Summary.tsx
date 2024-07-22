@@ -7,6 +7,7 @@ import { CommonDataEntryProps } from '../../commonInterfaces';
 import LoaderImg from '../../../utils/Loader';
 import { currency } from '../../../utils/CommonData';
 import DataEntryStats from '../DataEntryStats';
+import { handleDownloadPdf } from '../../CommonFunctions';
 
 interface SummaryProps {
   stationId: string | null;
@@ -23,7 +24,7 @@ interface SummaryRemarks {
 const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
   const [data, setData] = useState<any>({ takings: {}, banking: {}, charges: {} });
   const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
-
+  const [isdownloadpdf, setIsdownloadpdf] = useState(true);
   const [summaryRemarks, setSummaryRemarks] = useState<SummaryRemarks | null>(null);
   const navigate = useNavigate();
   const handleApiError = useErrorHandler();
@@ -44,7 +45,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
     try {
       const response = await getData(`/data-entry/summary?drs_date=${startDate}&station_id=${stationId}`);
       if (response && response.data && response.data.data) {
-
+        setIsdownloadpdf(response.data.data?.download_pdf);
         setData(response.data?.data);
         setSummaryRemarks(response.data.data?.remark);
       } else {
@@ -109,12 +110,23 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       {isLoading && <LoaderImg />}
       <div >
 
-        <div className='spacebetween'>
+        {/* <div className='spacebetween'>
           <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
 
-          {/* <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button> */}
+          <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
 
-        </div>
+        </div> */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''}</h1>
+                     
+                    {isdownloadpdf  && (
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => handleDownloadPdf('summary', stationId, startDate, getData, handleApiError)}
+                    >
+                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
+                    </button>   )}
+                </div>
         <div className="flex justify-center">
           <div className="w-full">
             {data?.charges && (

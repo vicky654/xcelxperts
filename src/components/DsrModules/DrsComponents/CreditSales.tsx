@@ -26,7 +26,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const [commonListData, setCommonListData] = useState<any>(null);
     const [iseditable, setIsEditable] = useState(true);
     const [totalAmount, setTotalAmount] = useState<number>(0); // State to hold total amount
-
+    const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
@@ -39,6 +39,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             if (response && response.data && response.data.data) {
 
                 setCommonListData(response.data.data);
+                setIsdownloadpdf(response.data.data?.download_pdf);
                 setIsEditable(response.data.data?.is_editable);
                 if (response.data.data.listing) {
                     formik.setValues({ services: response.data.data.listing });
@@ -192,7 +193,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         {`Credit Sales`} {startDate ? `(${startDate})` : ''}
                     </h1>
                      
-                    {formik.values.services.length > 0 && (
+                    {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}

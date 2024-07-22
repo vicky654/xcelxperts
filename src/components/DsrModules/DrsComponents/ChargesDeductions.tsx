@@ -23,13 +23,14 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const [charges, setCharges] = useState<ChargesDeductionsData[]>([]);
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
-
+    const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const fetchData = async () => {
         try {
             if (stationId && startDate) {
                 const response = await getData(`data-entry/charge-deduction/list?drs_date=${startDate}&station_id=${stationId}`);
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
+                    setIsdownloadpdf(response.data.data?.download_pdf);
                     setCharges(charges);
                     setDeductions(deductions);
                     setIsEditable(is_editable);
@@ -167,7 +168,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                         {`Income and Expenses`} {startDate ? `(${startDate})` : ''}
                     </h1>
                      
-                    {charges?.length > 0 && (
+                    {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}
