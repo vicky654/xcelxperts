@@ -95,8 +95,8 @@ console.log(storedData, "storedData");
     'Varience-accumulation',
     'Fuel Sales',
     'Lube Sales',
-    'Charges',
-    'Deductions',
+    'Incomes',
+    'Expenses',
     'Payments',
     'Credit Sales',
 
@@ -107,8 +107,8 @@ console.log(storedData, "storedData");
     'Varience-accumulation': 'varience-accumulation',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
-    'Charges': 'charges',
-    'Deductions': 'deductions',
+    'Incomes': 'charges',
+    'Expenses': 'deductions',
     'Payments': 'payments',
     'Credit Sales': 'credit-sales',
 

@@ -53,7 +53,7 @@ const menuItems: MenuItem[] = [
         key: 'Manage',
         title: 'Manage',
         icon: "lead-management",
-        link: '/manage-charges/charges', // Single link for the dashboard
+        link: '/manage-Incomes/Incomes', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'user-list', // Permission associated with the dashboard
         subMenu: [
@@ -79,8 +79,8 @@ const menuItems: MenuItem[] = [
             { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'user-list', visibility: false },
             { title: 'Fuel Sub Categories', link: '/manage-others/fuelsubcategories', permission: 'user-list', visibility: false },
             { title: 'Lubricant', link: '/manage-others/lubricant', permission: 'lubricant-list', visibility: false },
-            { title: 'Incomes', link: '/manage-charges/charges', permission: 'charges-list', visibility: false },
-            { title: 'Expenses', link: '/manage-deductions/deductions', permission: 'deduction-list', visibility: false },
+            { title: 'Incomes', link: '/manage-Incomes/Incomes', permission: 'charges-list', visibility: false },
+            { title: 'Expenses', link: '/manage-expenses/expenses', permission: 'deduction-list', visibility: false },
             { title: 'Suppliers', link: '/manage-supplier/supplier', permission: 'supplier-list', visibility: false },
            
             { title: 'Bank', link: '/manage-others/bank', permission: 'bank-list', visibility: false },
@@ -169,7 +169,7 @@ const menuItems: MenuItem[] = [
         key: 'PaidOuts',
         title: 'PaidOuts',
         icon: "briefcase",
-        link: '/manage-charges/charges', // Single link for the dashboard
+        link: '/manage-Incomes/Incomes', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
         subMenu: [
@@ -181,7 +181,7 @@ const menuItems: MenuItem[] = [
     //     key: 'Charges',
     //     title: 'Charges',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-charges/charges', // Single link for the dashboard
+    //     link: '/manage-Incomes/Incomes', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -189,7 +189,7 @@ const menuItems: MenuItem[] = [
     //     key: 'deductions',
     //     title: 'Deductions',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-deductions/deductions', // Single link for the dashboard
+    //     link: '/manage-expenses/expenses', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },

@@ -192,7 +192,7 @@ const routes = [
     element: <ManageStationBank />,
   },
   {
-    path: 'manage-charges/charges',
+    path: 'manage-Incomes/Incomes',
     element: <ManageCharges />,
   },
   {
@@ -212,7 +212,7 @@ const routes = [
     element: <Lubricant />,
   },
   {
-    path: 'manage-deductions/deductions',
+    path: 'manage-expenses/expenses',
     element: <ManageDeduction />,
   },
   {

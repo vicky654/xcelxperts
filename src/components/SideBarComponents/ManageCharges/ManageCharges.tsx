@@ -100,7 +100,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const columns: any = [
         // Other columns
         {
-            name: 'Charges Name',
+            name: 'Income ',
             selector: (row: RowData) => row.charge_name,
             sortable: false,
             width: '20%',
@@ -113,7 +113,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             ),
         },
         {
-            name: 'Charges Code',
+            name: 'Income Code',
             selector: (row: RowData) => row.charge_code,
             sortable: false,
             width: '20%',
@@ -248,13 +248,13 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Charges</span>
+                        <span>Incomes</span>
                     </li>
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Charge
+                        Add Income
                     </button>
                 </>}
 
@@ -263,7 +263,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Charges</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Incomes</h5>
                 </div>
 
                 {data?.length > 0 ? (

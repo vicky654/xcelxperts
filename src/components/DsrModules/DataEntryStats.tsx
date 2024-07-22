@@ -16,7 +16,7 @@ interface AddonsModalProps {
 const staticTabs = [
     'Varience-accumulation',
     'Fuel Sales',
-    'Charges',
+    'Incomes',
     'Deductions',
     'Payments',
     'Credit Sales',
@@ -27,8 +27,8 @@ const staticTabs = [
 const tabKeyMap: { [key: string]: string } = {
     'Varience-accumulation': 'varience-accumulation',
     'Fuel Sales': 'fuel-sales',
-    'Charges': 'charges',
-    'Deductions': 'deductions',
+    'Incomes': 'charges',
+    'Expenses': 'deductions',
     'Payments': 'payments',
     'Credit Sales': 'credit-sales',
 

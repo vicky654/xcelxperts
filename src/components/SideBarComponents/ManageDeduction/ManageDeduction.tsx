@@ -242,12 +242,12 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Deductions</span>
+                        <span>Expenses</span>
                     </li>
                 </ul>
                 {isAddPermissionAvailable && (
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Deduction
+                        Add Expense
                     </button>
                 )}
 
@@ -256,7 +256,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Deductions</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Expenses</h5>
                 </div>
 
                 {data?.length > 0 ? (
