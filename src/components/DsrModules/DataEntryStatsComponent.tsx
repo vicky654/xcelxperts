@@ -272,59 +272,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   ];
 
 
-  const chartSeries = [
-    {
-      "name": "Total Volume",
-      "data": [
-        "100.00"
-      ],
-      "type": "column",
-      "color": "#687ffb"
-    },
-    {
-      "name": "Total Amount",
-      "data": [
-        "4500.00"
-      ],
-      "type": "column",
-      "color": "#fdd56c"
-    }
-  ]
-  const categories = ["02 July 2024"]
-  // const categories = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-  const initialData = {
-    labels: ["Diesel"],
-    data: ["4500.00"],
-    total: "4500.00",
-    listing: [
-      {
-        id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        date: "02 July 2024",
-        amount: "4500.00"
-      }
-    ],
-    barData: [
-      {
-        name: "Total Volume",
-        data: ["100.00"],
-        type: "column",
-        color: "#687ffb"
-      },
-      {
-        name: "Total Amount",
-        data: ["4500.00"],
-        type: "column",
-        color: "#fdd56c"
-      }
-    ],
-    dates: ["02 July 2024"]
-  };
 
   // State to store barData and dates
   const [barData, setBarData] = useState<ApexData[]>([]);
   const [dates, setDates] = useState<string[]>([]);
+  const graphstaticTabs = ["Bar Chart", "Pie Chart"];
+  const [graphselectedTab, graphsetSelectedTab] = useState(graphstaticTabs[0]);
 
+  const handleGraphTabClick = (tabName: any) => {
+    graphsetSelectedTab(tabName);
+  };
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -381,7 +338,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       onClick={() => handleTabClick(tabName)}
                       className={`
                         flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
-                  ${selectedTab === tabName ? 'border-primary c-border-primary' : ''}`}
+                        
+                  ${selectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700 p-0 ' : ''}`}
+
 
 
                       style={{ color: 'currentColor' }}
@@ -409,20 +368,20 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <ul className="divide-y p-2 b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
-                        
+
                       <p className="font-semibold w-1/6">Total Sales</p>
                       <p className="font-semibold w-1/6">Fuel Sales</p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
                       <p className="font-semibold w-1/6">variance</p>
                       <p className="font-semibold w-1/6">Balance</p>
-                  
+
                       {/* <p className="font-semibold w-1/6">Income</p>
                       <p className="font-semibold w-1/6">Credit Card</p>
                       <p className="font-semibold w-1/6">Credit Sales</p>
                       <p className="font-semibold w-1/6">Expenses</p>
                    
                       <p className="font-semibold w-1/6">Total Sales</p> */}
-              
+
                     </li>
                     {tabData?.listing?.map((item, index) => (
                       <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
@@ -432,14 +391,14 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                         <p className="w-1/6">{item?.cash_deposited}</p>
                         <p className="w-1/6">{item?.variance}</p>
                         <p className="w-1/6">{item?.balance}</p>
-                     
+
                         {/* <p className="w-1/6">{item?.charges}</p>
                         <p className="w-1/6">{item?.credit_card}</p>
                         <p className="w-1/6">{currency} {item?.credit_sales}</p>
                         <p className="w-1/6">{item?.deductions}</p> */}
-                       
-                   
-                    
+
+
+
 
                       </li>
                     ))}
@@ -523,46 +482,125 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-            {stationId && selectedTab !== 'Varience-accumulation' && (
-              tabData?.listing.length > 0 ? (
-                <div className="panel h-full mt-4">
-                  <div className="flex items-center mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                      <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Pie Graph Stats</h5>
-                      <ReactApexChart
-                        series={pieChart.series}
-                        options={pieChart.options}
-                        className="rounded-lg bg-white dark:bg-black overflow-hidden"
-                        type="pie"
-                        height={300}
-                      />
-                    </div>
-                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                      <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats</h5>
 
-                      <StatsBarChart
-                        series={barData}
-                        categories={dates}
-                      // title="Financial Overview"
-                      // subtitle="Monthly Data"
-                      // yaxisTitle="Values (in thousands)"
-                      />
-                    </div>
+            {/* {stationId && selectedTab !== 'Varience-accumulation' && (
+              <>
+                <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
+                  {graphstaticTabs.map((tabName) => (
+                    <li key={tabName} className="w-1/8 inline-block" style={{ minWidth: "100px" }}>
+                      <button
+                        onClick={() => handleGraphTabClick(tabName)}
+                        className={`
+                    flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
+                    ${graphselectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700' : ''}`}
+                        style={{ color: 'currentColor' }}
+                      >
+                        <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
+                        {tabName}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {graphselectedTab === "Bar Chart" && (
+                  <div>
+
+             
+                    <StatsBarChart
+                      series={barData}
+                      categories={dates}
+                    // title="Financial Overview"
+                    // subtitle="Monthly Data"
+                    // yaxisTitle="Values (in thousands)"
+                    />
                   </div>
-                </div>
-              ) : (
-                <div className="flex justify-center items-center">
-                  <img
-                    src={noDataImage} // Use the imported image directly as the source
-                    alt="no data found"
-                    className="all-center-flex nodata-image"
-                  />
-                </div>
-              )
+                )}
+                {graphselectedTab === "Pie Chart" && (
+                  <div>
+             
+                    <ReactApexChart
+                      series={pieChart.series}
+                      options={pieChart.options}
+                      className="rounded-lg bg-white dark:bg-black overflow-hidden"
+                      type="pie"
+                      height={300}
+                    />
+                  </div>
+                )}</>
+            )} */}
+
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+        <div className='panel h-full ' style={{ background: "none" }}>
+        </div>
+
+        <div className='panel h-full xl:col-span-3'>
+          <div className="flex justify-between  ">
+            <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+
+
+            <hr></hr>
+          </div>
+
+          <div className="p-2" style={{ padding: "10px" }}>
+
+
+
+
+
+            {stationId && selectedTab !== 'Varience-accumulation' && (
+              <>
+                <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
+                  {graphstaticTabs.map((tabName) => (
+                    <li key={tabName} className="w-1/8 inline-block" style={{ minWidth: "100px" }}>
+                      <button
+                        onClick={() => handleGraphTabClick(tabName)}
+                        className={`
+                    flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
+                    ${graphselectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700' : ''}`}
+                        style={{ color: 'currentColor' }}
+                      >
+                        <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
+                        {tabName}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {graphselectedTab === "Bar Chart" && (
+                  <div>
+
+
+                    <StatsBarChart
+                      series={barData}
+                      categories={dates}
+                    // title="Financial Overview"
+                    // subtitle="Monthly Data"
+                    // yaxisTitle="Values (in thousands)"
+                    />
+                  </div>
+                )}
+                {graphselectedTab === "Pie Chart" && (
+                  <div>
+
+                    <ReactApexChart
+                      series={pieChart.series}
+                      options={pieChart.options}
+                      className="rounded-lg bg-white dark:bg-black overflow-hidden"
+                      type="pie"
+                      height={300}
+                    />
+                  </div>
+                )}</>
             )}
+
+
+
 
 
           </div>
