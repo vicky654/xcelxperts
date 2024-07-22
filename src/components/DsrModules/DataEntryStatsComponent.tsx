@@ -536,6 +536,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </div>
 
       </div>
+      {stationId && selectedTab !== 'Varience-accumulation' && (
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
         <div className='panel h-full ' style={{ background: "none" }}>
         </div>
@@ -554,7 +555,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-            {stationId && selectedTab !== 'Varience-accumulation' && (
+
               <>
                 <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
                   {graphstaticTabs.map((tabName) => (
@@ -597,7 +598,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     />
                   </div>
                 )}</>
-            )}
+          
 
 
 
@@ -607,6 +608,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </div>
 
       </div>
+        )}
     </div>
   </>;
 };
