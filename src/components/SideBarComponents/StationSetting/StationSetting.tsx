@@ -228,7 +228,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Assign Card Model",
+            name: "Name",
             selector: (row: CardRow) => row.card_name,
             sortable: false,
             width: "80%",
@@ -266,7 +266,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Assign Card Model",
+            name: "Name",
             selector: (row: LubricantsRow) => row.lubricant_name,
             sortable: false,
             width: "80%",
@@ -303,7 +303,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Data Entry Card Model",
+            name: "Name",
             selector: (row: CardRow) => row.drs_card_name,
             sortable: false,
             width: "80%",
@@ -340,7 +340,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Fuels Card Model",
+            name: "Name",
             selector: (row: CardRow) => row.fuel_name,
             sortable: false,
             width: "80%",
@@ -377,7 +377,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Reports Card Model",
+            name: "Name",
             selector: (row: CardRow) => row.report_name,
             sortable: false,
             width: "80%",
@@ -417,7 +417,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Charges Card Modal",
+            name: "Name",
             width: "40%",
             selector: (row: CardRow,) => row.charge_name,
             sortable: false,
@@ -476,7 +476,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
             ),
         },
         {
-            name: "Deductions Card Modal",
+            name: "Name",
             width: "40%",
             selector: (row: CardRow,) => row.deduction_name,
             sortable: false,
@@ -523,7 +523,13 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations</span>
+                    <Link to="/manage-stations/station" className="text-primary hover:underline">
+                    Stations
+                        </Link>
+                      
+                    </li>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Stations Settings</span>
                     </li>
                 </ul>
 
@@ -532,7 +538,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light "> {formik?.values?.station_name} Station</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light "> {formik?.values?.station_name}  Settings</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
@@ -545,7 +551,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                     >
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4 ">Assign Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4 ">Assign Cards</h6>
                             {formik?.values?.cards?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -602,7 +608,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Data Entry Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4"> Assign Data Entry Cards </h6>
                             {formik?.values?.dataEntryCard?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -631,7 +637,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                         </div>
                         <div
                             className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Fuels Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4"> Assign Fuels </h6>
                             {formik?.values?.fuels?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -658,36 +664,9 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                 </>
                             )}
                         </div>
+                 
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Reports Card</h6>
-                            {formik?.values?.reports?.length > 0 ? (
-                                <>
-                                    <div className="module-height">
-                                        <DataTable
-                                            className=" table-striped table-hover table-bordered table-compact"
-                                            columns={reportsColumn}
-                                            data={formik?.values?.reports}
-                                            noHeader
-                                            defaultSortAsc={false}
-                                            striped={true}
-                                            persistTableHead
-                                            highlightOnHover
-                                            responsive={true}
-                                        />
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <img
-                                        src={noDataImage} // Use the imported image directly as the source
-                                        alt="no data found"
-                                        className="all-center-flex nodata-image"
-                                    />
-                                </>
-                            )}
-                        </div>
-                        <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Charges Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4"> Assign Incomes </h6>
                             {formik?.values?.cards?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -715,7 +694,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                             )}
                         </div>
                         <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
-                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4">Deductions Card</h6>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4"> Assign Expenses </h6>
                             {formik?.values?.deductions?.length > 0 ? (
                                 <>
                                     <div className="module-height">
@@ -723,6 +702,34 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                                             className=" table-striped table-hover table-bordered table-compact"
                                             columns={deductionsColumns}
                                             data={formik?.values?.deductions}
+                                            noHeader
+                                            defaultSortAsc={false}
+                                            striped={true}
+                                            persistTableHead
+                                            highlightOnHover
+                                            responsive={true}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <img
+                                        src={noDataImage} // Use the imported image directly as the source
+                                        alt="no data found"
+                                        className="all-center-flex nodata-image"
+                                    />
+                                </>
+                            )}
+                        </div>
+                        <div className='panel h-full xl:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
+                            <h6 className="px-3 mb-3 font-semibold text-md dark:text-white-light bg-gray-100 py-4"> Assign Reports </h6>
+                            {formik?.values?.reports?.length > 0 ? (
+                                <>
+                                    <div className="module-height">
+                                        <DataTable
+                                            className=" table-striped table-hover table-bordered table-compact"
+                                            columns={reportsColumn}
+                                            data={formik?.values?.reports}
                                             noHeader
                                             defaultSortAsc={false}
                                             striped={true}

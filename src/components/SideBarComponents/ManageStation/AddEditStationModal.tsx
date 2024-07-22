@@ -98,7 +98,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-              handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -118,13 +118,13 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             const response = await getData(`/station/detail?id=${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
-formik.setFieldValue('show_summary', userData?.show_summary)
+                formik.setFieldValue('show_summary', userData?.show_summary)
                 formik.setValues(userData)
                 FetchClientList()
                 fetchEntityList(userData?.client_id)
             }
         } catch (error) {
-              handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -190,9 +190,9 @@ formik.setFieldValue('show_summary', userData?.show_summary)
         },
     });
     const options = [
-        { value: '0', label: 'Summery Only' },
+        { value: '0', label: 'Summary Only' },
         { value: '1', label: 'All' },
-    
+
     ];
 
     return (
@@ -264,7 +264,7 @@ formik.setFieldValue('show_summary', userData?.show_summary)
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="show_summary"
-                                                    label="Show Summary"
+                                                    label="Pdf Show Summary"
                                                     options={options?.map((item: any) => ({ id: item?.value, name: item?.label }))}
                                                     className="form-select text-white-dark"
                                                 />
