@@ -630,3 +630,10 @@ li.flexcenter.dataentrytab {
     background: #aa1f1f;
     color: #fff;
 }
+.c-border-primary {
+    border-color: #b7b7b7 !important;
+}
+.hover\:border-primary:hover {
+    --tw-border-opacity: 1;
+    border-color: #b7b7b7 !important;
+}

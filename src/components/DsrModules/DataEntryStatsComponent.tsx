@@ -345,7 +345,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
                       style={{ color: 'currentColor' }}
                     >
-                      <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
+
                       {tabName}
                     </button>
                   </li>
@@ -386,11 +386,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     {tabData?.listing?.map((item, index) => (
                       <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
                         <p className="w-1/6">{item?.date}</p>
-                        <p className="w-1/6">{item?.total_sales}</p>
-                        <p className="w-1/6">{item?.fuel_sales}</p>
-                        <p className="w-1/6">{item?.cash_deposited}</p>
-                        <p className="w-1/6">{item?.variance}</p>
-                        <p className="w-1/6">{item?.balance}</p>
+                        <p className="w-1/6">{currency} {item?.total_sales}</p>
+                        <p className="w-1/6">{currency} {item?.fuel_sales}</p>
+                        <p className="w-1/6">{currency} {item?.cash_deposited}</p>
+                        <p className="w-1/6">{currency} {item?.variance}</p>
+                        <p className="w-1/6">{currency} {item?.balance}</p>
 
                         {/* <p className="w-1/6">{item?.charges}</p>
                         <p className="w-1/6">{item?.credit_card}</p>
@@ -440,11 +440,33 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                               <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                 <p className="w-1/6">{subItem?.name}</p>
-                                <p className="w-1/6">{subItem?.price}</p>
-                                <p className="w-1/6">{subItem?.volume}</p>
-                                <p className="w-1/6">{subItem?.gross_value}</p>
-                                <p className="w-1/6">{subItem?.discount}</p>
+                                <p className="w-1/6"> {currency} {subItem?.price}</p>
+                                <p className="w-1/6"> {subItem?.volume}</p>
+                                <p className="w-1/6">{currency} {subItem?.gross_value}</p>
+                                <p className="w-1/6">{currency} {subItem?.discount}</p>
                                 <p className="w-1/6">{currency} {subItem?.amount}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : selectedTab === "Lube Sales" ? (
+                          <ul className="divide-y divide-gray-200 w-full">
+                            <li className="flex justify-between p-2 bg-gray-200">
+                              <p className="font-semibold w-1/5">Name</p>
+                              <p className="font-semibold w-1/5">Size</p>
+                           
+                              <p className="font-semibold w-1/5">Opening</p>
+                              <p className="font-semibold w-1/5">Closing</p>
+                              <p className="font-semibold w-1/5">Sale Quantity</p>
+                              <p className="font-semibold w-1/5">Amount</p>
+                            </li>
+                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                <p className="w-1/5">{subItem?.lubricant_name}</p>
+                                <p className="w-1/5">{subItem?.lubricant_size}</p>
+                                <p className="w-1/5">{currency} {subItem?.opening}</p>
+                                <p className="w-1/5">{currency} {subItem?.closing}</p>
+                                <p className="w-1/5">{subItem?.sale}</p>
+                                <p className="w-1/5">{currency}{subItem?.sale_amount}</p>
                               </li>
                             ))}
                           </ul>
@@ -495,7 +517,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     ${graphselectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700' : ''}`}
                         style={{ color: 'currentColor' }}
                       >
-                        <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
+                       
                         {tabName}
                       </button>
                     </li>
@@ -537,19 +559,19 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
       </div>
       {stationId && selectedTab !== 'Varience-accumulation' && (
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
-        <div className='panel h-full ' style={{ background: "none" }}>
-        </div>
-
-        <div className='panel h-full xl:col-span-3'>
-          <div className="flex justify-between  ">
-            <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
-
-
-            <hr></hr>
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+          <div className='panel h-full ' style={{ background: "none" }}>
           </div>
 
-          <div className="p-2" style={{ padding: "10px" }}>
+          <div className='panel h-full xl:col-span-3'>
+            <div className="flex justify-between  ">
+              <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+
+
+              <hr></hr>
+            </div>
+
+            <div className="p-2" style={{ padding: "10px" }}>
 
 
 
@@ -567,7 +589,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     ${graphselectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700' : ''}`}
                         style={{ color: 'currentColor' }}
                       >
-                        <i className={`fi fi-rr-${tabName.toLowerCase().replace(/\s/g, '-')}`}></i>
+
                         {tabName}
                       </button>
                     </li>
@@ -598,17 +620,17 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     />
                   </div>
                 )}</>
-          
 
 
 
 
 
+
+            </div>
           </div>
-        </div>
 
-      </div>
-        )}
+        </div>
+      )}
     </div>
   </>;
 };
