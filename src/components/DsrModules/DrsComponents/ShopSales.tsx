@@ -43,6 +43,7 @@ const validationSchema = Yup.object().shape({
             opening: Yup.number().required('Opening is required'),
             sale: Yup.number().required('Sale is required'),
             sale_price: Yup.number().required('Sale Price is required'),
+            profit: Yup.number().required('Sale Price is required'),
             closing: Yup.number().required('Closing is required'),
             sale_amount: Yup.number().required('Sale Amount is required'),
         })
@@ -177,7 +178,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
         },
         {
-            name: 'Opening',
+            name: 'Opening Qty',
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
@@ -199,7 +200,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         },
 
         {
-            name: 'Sales ',
+            name: 'Sale Qty ',
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale`}>
@@ -220,7 +221,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
         },
         {
-            name: 'Closing',
+            name: 'Closing Qty',
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].closing`}>
@@ -255,6 +256,27 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_price', e.target.value, row)}
                                 />
                                 <ErrorMessage name={`data[${index}].sale_price`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                            </div>
+                        )}
+                    </Field>
+                </>
+            ),
+        },
+        {
+            name: 'Profit',
+            cell: (row: ShopSalesData, index: number) => (
+                <>
+                    <Field name={`data[${index}].profit`}>
+                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    {...field}
+                                    className={`form-input ${!row.update_profit ? 'readonly' : ''}`}
+                                    readOnly={!row.update_profit}
+                                    onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'profit', e.target.value, row)}
+                                />
+                                <ErrorMessage name={`data[${index}].profit`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
                             </div>
                         )}
                     </Field>
