@@ -27,7 +27,7 @@ interface ManageSiteProps {
 
 interface RowData {
     id: string; // Change type from number to string
-    full_name: string;
+    skip_date: string;
     client_name: string;
     entity_name: string;
     role: string;
@@ -67,7 +67,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     const fetchData = async (id: any) => {
         try {
             // const response = await getData(`/skip-date/list?station_id=${id}&page=${currentPage}`);
-            const response = await getData(`station/skip-date/list?station_id=${id}`);
+            const response = await getData(`station/skip-date/list?station_id=${id}&page=${currentPage}`);
             // station/skip-date/list?station_id=VEttejdBRlRMWDRnUTdlRkdLK1hrZz0
 
             if (response && response.data && response.data.data) {
@@ -83,18 +83,13 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
         }
     };
     const { toggleStatus } = useToggleStatus();
-    const toggleActive = (row: RowData) => {
-        const formData = new FormData();
-        formData.append('id', row.id.toString());
-        formData.append('station_status', (row.station_status === 1 ? 0 : 1).toString());
-        toggleStatus(postData, '/station/update-status', formData, handleSuccess);
-    };
+
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
+        customDelete(postData, 'station/skip-date/delete', formData, handleSuccess);
     };
     const handleNavigateStationSetting = (id: any) => {
         const formData = new FormData();
@@ -110,87 +105,35 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     // "skipdate-edit",
     // "skipdate-list",
 
-    const isAddPermissionAvailable = UserPermissions?.includes("station-create");
-    const isEditPermissionAvailable = UserPermissions?.includes("station-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("station-setting");
+    const isAddPermissionAvailable = UserPermissions?.includes("skipdate-create");
+    const isEditPermissionAvailable = UserPermissions?.includes("skipdate-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("skipdate-setting");
     const isSkipPermissionAvailable = UserPermissions?.includes("skipdate-list");
-    const isDeletePermissionAvailable = UserPermissions?.includes("station-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("station-assign-permission");
+    const isDeletePermissionAvailable = UserPermissions?.includes("skipdate-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("skipdate-assign-permission");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
     const columns: any = [
         {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station_name,
+            name: 'Skip Date',
+            selector: (row: RowData) => row.skip_date,
             sortable: false,
-            width: '13%',
+            width: '35%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.skip_date}</h6>
                     </div>
                 </div>
             ),
         },
-        {
-            name: 'Client Name',
-            selector: (row: RowData) => row.client_name,
-            sortable: false,
-            width: '14%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.client_name}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: 'Entity Name',
-            selector: (row: RowData) => row.entity_name,
-            sortable: false,
-            width: '13%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.entity_name}</h6>
-                    </div>
-                </div>
-            ),
-        },
-
-        {
-            name: 'Station Code',
-            selector: (row: RowData) => row.station_code,
-            sortable: false,
-            width: '15%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: 'Station Address',
-            selector: (row: RowData) => row.station_address,
-            sortable: false,
-            width: '15%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
-                    </div>
-                </div>
-            ),
-        },
+   
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '10%',
+            width: '35%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -199,124 +142,31 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
                 </div>
             ),
         },
-        {
-            name: 'Status',
-            selector: (row: RowData) => row.station_status,
-            sortable: false,
-            width: '10%',
-            cell: (row: RowData) => (
-
-                <>
-                    {isEditPermissionAvailable && (
-
-                        <Tippy content={<div>Status</div>} placement="top">
-                            {row.station_status === 1 || row.station_status === 0 ? (
-                                <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
-                            ) : (
-                                <div className="pointer" onClick={() => toggleActive(row)}>
-                                    Unknown
-                                </div>
-                            )}
-                        </Tippy>
-                    )}
-                </>
-            ),
-        },
+     
         anyPermissionAvailable
-            ? {
-                name: 'Actions',
-                selector: (row: RowData) => row.id,
-                sortable: false,
-                width: '10%',
-                cell: (row: RowData) => (
-                    <span className="text-center">
-                        <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-
-                                <div className="dropdown">
-                                    <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
-                                        <ul>
-
-                                            <li>
-                                                {isEditPermissionAvailable && (
-
-                                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                                        <i className="pencil-icon fi fi-rr-file-edit"></i>Edit
-                                                    </button>
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {isDeletePermissionAvailable && (
-
-                                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                                        Delete
-                                                    </button>
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {isEditSettingPermissionAvailable && (
-
-                                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i> Station Setting
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {isSkipPermissionAvailable && (
-
-                                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i> Station Setting
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
-
-                                        </ul>
-                                    </Dropdown>
-                                </div>
-
-
-                                {/* {isEditPermissionAvailable && (
-                                    <Tippy content="Edit">
-                                        <button type="button" onClick={() => openModal(row?.id)}>
-                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                        </button>
-                                    </Tippy>
-                                )}
-                                {isDeletePermissionAvailable && (<>
-                                    <Tippy content="Delete">
-                                        <button onClick={() => handleDelete(row.id)} type="button">
-                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                        </button>
-                                    </Tippy>
-                                </>)}
-                                {isEditSettingPermissionAvailable && (
-
-                                    <>
-                                        <Tippy content="Station Settings">
-                                            <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                <i className="fi fi-rr-settings"></i>
-                                            </button>
-                                        </Tippy>
-                                    </>
-                                )} */}
-
-
-
-                            </div>
+        ? {
+            name: 'Actions',
+            selector: (row: RowData) => row.id,
+            sortable: false,
+            width: '30%',
+            cell: (row: RowData) => (
+                <span className="text-center">
+                    <div className="flex items-center justify-center">
+                        <div className="inline-flex">
+                        
+                            {isDeletePermissionAvailable && <>
+                                <Tippy content="Delete">
+                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                    </button>
+                                </Tippy>
+                            </>}
                         </div>
-                    </span>
-                ),
-            }
-            : null,
+                    </div>
+                </span>
+            ),
+        }
+        : null,
     ];
     // station/detail?id=${selectedRowId}
     const openModal = async (id: string) => {
