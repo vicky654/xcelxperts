@@ -356,6 +356,14 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formData.append('station_display_name', values.station_display_name);
             formData.append('station_name', values.station_name);
             formData.append('supplier_id', values.supplier_id);
+            formData.append('station_name', values.station_name);
+            formData.append('supplier_id', values.supplier_id);
+            if (values.file) {
+                formData.append('logo', values.file);
+            }
+            formData.append('contact_person', values.contact_person);
+            formData.append('consider_fuel_sale', 'Nozzle');
+      
             if (userId) {
                 formData.append('id', userId);
             }

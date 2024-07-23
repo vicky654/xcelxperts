@@ -132,7 +132,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const FetchCommonDataList = async () => {
         try {
-            const response = await getData('/getStation/data');
+            const response = await getData('/station/tank/list?station_id=${companyId}');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
             }
@@ -339,7 +339,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="fuel_id"
-                                                    label=" Station Fuel"
+                                                    label=" Station Tank"
                                                     options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
@@ -347,14 +347,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
 
 
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="station_pump_id"
-                                                    label="Station Pump  Name"
-                                                    options={formik.values.tankList?.pumps?.map((item: any) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                // onChange={handleSiteChange}
-                                                />
+                                            
 
                                                 <FormikInput formik={formik} type="text" name="code" label="Nozzle Code" placeholder="Nozzle Code"
 

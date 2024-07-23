@@ -194,7 +194,18 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         { value: '1', label: 'All' },
 
     ];
+    const opconsiderfuelsaleoptionstions = [
+        { id: 'Nozzle', value: '0', label: 'Nozzle' },
+        { id: 'Tank', value: '1', label: 'Tank' },
 
+    ];
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.currentTarget.files?.[0];
+        formik.setFieldValue('file', file);
+        if (file) {
+            formik.setFieldValue('file', file);
+        }
+    };
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -268,7 +279,21 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     options={options?.map((item: any) => ({ id: item?.value, name: item?.label }))}
                                                     className="form-select text-white-dark"
                                                 />
-
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="consider_fuel_sale "
+                                                    label="Consider Fuel Sale"
+                                                    options={opconsiderfuelsaleoptionstions?.map((item: any) => ({ id: item?.value, name: item?.label }))}
+                                                    isRequired={false}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                <FormikInput formik={formik} type="text" name="contact_person" label="Contact Person " placeholder="Contact Person " isRequired={false} />
+                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number"  isRequired={false}/>
+                                                <div>
+                                                    <label htmlFor="file">File</label>
+                                                    <input type="file" id="file" name="file" onChange={handleFileChange} />
+                                                    {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
+                                                </div>
                                                 <FormikInput formik={formik} type="number" name="security_amount" label="Security Amount" placeholder="Security Amount" />
 
                                                 <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
