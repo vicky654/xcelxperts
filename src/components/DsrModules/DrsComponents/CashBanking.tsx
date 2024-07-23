@@ -83,7 +83,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const handleEdit = (cashBanking: CashBankingItem) => {
         setSelectedCashBanking(cashBanking);
 
-        console.log(cashBanking, "cashBanking");
+     
         formik.setValues(cashBanking);
     };
 

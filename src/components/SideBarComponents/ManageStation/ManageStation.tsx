@@ -271,7 +271,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                 {isSkipPermissionAvailable && (
 
                                                     <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i>Skip Date
+                                                        <i className="fi fi-tr-calendar-clock"></i>Skip Date
                                                     </button>
 
 

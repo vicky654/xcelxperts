@@ -137,7 +137,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         const nextComponentName = getNextComponentName(values?.selectedCardName);
         if (nextComponentName) {
-          console.log(nextComponentName, "nextComponentName");
+       
           toggleTabs(nextComponentName);
         }
         setData(response.data?.data);

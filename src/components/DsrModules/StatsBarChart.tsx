@@ -26,8 +26,7 @@ const StatsBarChart: React.FC<BarChartProps> = ({
   yaxisTitle = 'Value',
 }) => {
 
-console.log(series, "series");
-console.log(categories, "series");
+
 
   const chartOptions: ApexOptions = {
     chart: {

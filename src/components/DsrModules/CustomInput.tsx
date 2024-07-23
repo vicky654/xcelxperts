@@ -83,7 +83,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values);
-            console.log(values, "values");
+     
             localStorage.setItem(storedKeyName, JSON.stringify(values));
         },
         validateOnChange: true,

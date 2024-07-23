@@ -12,11 +12,11 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import AddEditStationModal from './AddEditStationModal';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';
+import SkipStationModal from './SkipStationModal';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -55,7 +55,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     useEffect(() => {
         fetchData(id);
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage,id]);
+    }, [dispatch, currentPage, id]);
     const handleSuccess = () => {
         fetchData(id);
     };
@@ -64,13 +64,14 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
         setCurrentPage(newPage);
     };
 
-    const fetchData = async (id:any) => {
+    const fetchData = async (id: any) => {
         try {
             // const response = await getData(`/skip-date/list?station_id=${id}&page=${currentPage}`);
-            const response = await getData(`/skip-date/list?station_id=${id}`);
-  
+            const response = await getData(`station/skip-date/list?station_id=${id}`);
+            // station/skip-date/list?station_id=VEttejdBRlRMWDRnUTdlRkdLK1hrZz0
+
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.stations);
+                setData(response.data.data?.skipDates);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -102,7 +103,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-    console.log(UserPermissions, );
+    console.log(UserPermissions,);
 
     // "skipdate-create",
     // "skipdate-delete",
@@ -330,7 +331,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
             //     setEditUserData(response.data);
             // }
         } catch (error) {
-               handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -339,29 +340,39 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
         setIsEditMode(false);
         setEditUserData(null);
     };
-
-    const handleFormSubmit = async (values: any) => {
+    const handleFormSubmit = async (selectedDates:any, values:any) => {
         try {
             const formData = new FormData();
+            console.log(selectedDates, "handleFormSubmit");
 
-            formData.append('show_summary', values.show_summary);
-            formData.append('client_id', values.client_id);
-            formData.append('entity_id', values.entity_id);
-            formData.append('data_import_type_id', values.data_import_type_id);
-            formData.append('security_amount', values.security_amount);
-            formData.append('start_date', values.start_date);
-            formData.append('station_address', values.station_address);
-            formData.append('station_code', values.station_code);
-            formData.append('station_display_name', values.station_display_name);
-            formData.append('station_name', values.station_name);
-            formData.append('supplier_id', values.supplier_id);
-            if (userId) {
-                formData.append('id', userId);
+            // Extract skip_date from selectedDates and check if it's not empty
+            const skipDates = selectedDates || [];
+            console.log(skipDates, "skipDates");
+            if (skipDates.length === 0) {
+                console.error('No skip dates provided.');
+                return; // Early exit if skip_date is empty
             }
 
-            const url = isEditMode && userId ? `/station/update` : `/station/create`;
+            // Convert skip_dates to ISO string format if not already
+            skipDates.forEach((dateString: string, index: number) => {
+                // Convert to ISO string if necessary
+                const date = new Date(dateString).toISOString().split('T')[0]; // Keep only the date part
+                formData.append(`skip_date[${index}]`, date);
+            });
+
+            // Append userId if available
+            if (id) {
+                formData.append('station_id', id);
+            }
+
+            // Determine the URL for submission
+            // const url = isEditMode && userId ? `/station/update` : `/station/create`;
+            const url = `/station/skip-date/create`;
+
+            // Submit the form data using your postData function
             const response = await postData(url, formData);
 
+            // Handle the response
             if (response) {
                 handleSuccess();
                 closeModal();
@@ -384,18 +395,24 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations</span>
+                        <Link to="/manage-stations/station" className="text-primary hover:underline">
+                            Stations
+                        </Link>
+
+                    </li>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Skip Date</span>
                     </li>
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Station
+                        Add Skip Dates
                     </button>
 
                 </>}
             </div>
-            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
+            <SkipStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
 
             />
 

@@ -640,3 +640,18 @@ li.flexcenter.dataentrytab {
 .errorborder{
     border: 2px solid red !important;
 }
+.react-datepicker-wrapper {
+width: 100%;
+}
+.rmdp-input {
+    border: 1px solid black;
+    border-radius: 2px;
+    height: 53px !important;
+    margin: 1px 0;
+    padding: 2px 5px;
+    width: 100%;
+}
+
+.rmdp-container {
+    width: 100%;
+}
