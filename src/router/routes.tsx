@@ -135,6 +135,7 @@ import Managecards from '../components/SideBarComponents/Managecards/Managecards
 import DataEntruModules from '../components/DsrModules/DataEntrymodule';
 import DataEntryStatsComponent from '../components/DsrModules/DataEntryStatsComponent';
 import ManageStationBank from '../components/SideBarComponents/ManageStationBank/ManageStationBank';
+import SkipDate from '../components/SideBarComponents/ManageStation/SkipDateStation';
 
 const routes = [
   {
@@ -143,11 +144,11 @@ const routes = [
   },
   {
     path: '/data-entry',
-    element: <DataEntruModules   />,
+    element: <DataEntruModules />,
   },
   {
     path: '/data-entry-stats',
-    element: <DataEntryStatsComponent   />,
+    element: <DataEntryStatsComponent />,
   },
   {
     path: '/dashboard/overview',
@@ -186,6 +187,11 @@ const routes = [
   {
     path: 'manage-stations/station',
     element: <ManageStation />,
+  },
+  {
+
+    path: '/manage-stations/skipdate/:id',
+    element: <SkipDate />,
   },
   {
     path: 'manage-bank/bank',

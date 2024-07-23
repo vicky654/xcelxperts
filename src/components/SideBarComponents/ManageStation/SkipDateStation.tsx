@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
@@ -40,7 +40,7 @@ interface RowData {
     station_address: string;
 }
 
-const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
@@ -51,21 +51,24 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const { id } = useParams();
     useEffect(() => {
-        fetchData();
+        fetchData(id);
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage,id]);
     const handleSuccess = () => {
-        fetchData();
+        fetchData(id);
     };
 
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
 
-    const fetchData = async () => {
+    const fetchData = async (id:any) => {
         try {
-            const response = await getData(`/station/list?page=${currentPage}`);
+            // const response = await getData(`/skip-date/list?station_id=${id}&page=${currentPage}`);
+            const response = await getData(`/skip-date/list?station_id=${id}`);
+  
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.stations);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -96,11 +99,6 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         const formData = new FormData();
         formData.append('id', id);
         navigate(`/manage-stations/setting/${id}`)
-    };
-    const handleNavigateStationSkipDate = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        navigate(`/manage-stations/skipdate/${id}`)
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
@@ -259,8 +257,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                             </li>
                                             <li>
                                                 {isEditSettingPermissionAvailable && (
+
                                                     <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i> Station Settings
+                                                        <i className="fi fi-rr-settings"></i> Station Setting
                                                     </button>
 
 
@@ -270,8 +269,8 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                             <li>
                                                 {isSkipPermissionAvailable && (
 
-                                                    <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i>Skip Date
+                                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
+                                                        <i className="fi fi-rr-settings"></i> Station Setting
                                                     </button>
 
 
@@ -438,4 +437,4 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     );
 };
 
-export default withApiHandler(ManageStation);
+export default withApiHandler(SkipDate);
