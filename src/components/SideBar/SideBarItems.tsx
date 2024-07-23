@@ -76,8 +76,8 @@ const menuItems: MenuItem[] = [
         subMenu: [
             { title: 'Cards', link: '/manage-cards/cards', permission: 'card-list', visibility: false },
             
-            { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'user-list', visibility: false },
-            { title: 'Fuel Sub Categories', link: '/manage-others/fuelsubcategories', permission: 'user-list', visibility: false },
+            { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'fuel-category-list', visibility: false },
+            { title: 'Fuel Sub Categories', link: '/manage-others/fuelsubcategories', permission: 'fuel-subcategory-list', visibility: false },
             { title: 'Lubricant', link: '/manage-others/lubricant', permission: 'lubricant-list', visibility: false },
             { title: 'Incomes', link: '/manage-Incomes/Incomes', permission: 'charges-list', visibility: false },
             { title: 'Expenses', link: '/manage-expenses/expenses', permission: 'deduction-list', visibility: false },
@@ -171,7 +171,7 @@ const menuItems: MenuItem[] = [
         icon: "briefcase",
         link: '/manage-Incomes/Incomes', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
+        permission: 'report-generate', // Permission associated with the dashboard
         subMenu: [
          { title: 'Reports', link: '/manage-reports/reports', permission: 'report-generate', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
