@@ -93,7 +93,7 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
                                                 <FormikInput formik={formik} type="text" name="supplier_name" />
                                                 <div>
                                                     <label htmlFor="file">File</label>
-                                                    <input type="file" id="file" name="file" onChange={handleFileChange} />
+                                                    <input type="file" id="file" name="file" className='form-input' onChange={handleFileChange} />
                                                     {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
                                                 </div>
                                                 <div className="sm:col-span-2 mt-3">

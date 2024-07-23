@@ -132,12 +132,12 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const FetchCommonDataList = async () => {
         try {
-            const response = await getData('/station/tank/list?station_id=${companyId}');
+            const response = await getData('/getStation/data');
             if (response && response.data && response.data.data) {
                 setCommonDataList(response.data.data)
             }
         } catch (error) {
-              handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -181,7 +181,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                 fetchFuelNameList(userData?.station_id)
             }
         } catch (error) {
-              handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -266,8 +266,10 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`station/fuel/list?station_id=${siteId}`);
-            formik.setFieldValue('tankList', response.data.data);
+            const response = await getData(`getTanks?station_id=${siteId}`);
+            console.log(response.data.data, "response.data.data");
+
+            formik.setFieldValue('tankList', response?.data);
         } catch (error) {
             handleApiError(error)
         }
@@ -340,14 +342,13 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                                     formik={formik}
                                                     name="fuel_id"
                                                     label=" Station Tank"
-                                                    options={formik.values.tankList?.fuels?.map((item: any) => ({ id: item.id, name: item.name }))}
+                                                    options={formik.values.tankList?.data?.map((item: any) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />
 
 
 
-                                            
 
                                                 <FormikInput formik={formik} type="text" name="code" label="Nozzle Code" placeholder="Nozzle Code"
 

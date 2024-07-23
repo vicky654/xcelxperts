@@ -131,7 +131,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             ),
         },
         {
-            name: 'Fuel Name',
+            name: 'Tank Name',
             selector: (row: RowData) => row.fuel_name,
             sortable: false,
             width: '20%',
@@ -253,8 +253,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             formData.append('station_id', values.station_id);
             formData.append('client_id', values.client_id);
             formData.append('entity_id', values.entity_id);
-            formData.append('station_pump_id', values.station_pump_id);
-            formData.append('fuel_id', values.fuel_id);
+            formData.append('tank_id', values.fuel_id);
 
             if (userId) {
                 formData.append('id', userId);

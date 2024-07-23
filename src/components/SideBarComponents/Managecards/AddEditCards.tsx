@@ -101,7 +101,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
                                                 {/* <input type="text" name="logo" value={formik.values.logo} onChange={formik.handleChange} placeholder="Logo" className="input-field" /> */}
                                                 <div>
                                                     <label htmlFor="file">File</label>
-                                                    <input type="file" id="file" name="file" onChange={handleFileChange} />
+                                                    <input type="file"  className='form-input'id="file" name="file" onChange={handleFileChange} />
                                                     {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
                                                 </div>
 

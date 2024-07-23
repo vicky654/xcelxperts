@@ -291,7 +291,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                 <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number"  isRequired={false}/>
                                                 <div>
                                                     <label htmlFor="file">File</label>
-                                                    <input type="file" id="file" name="file" onChange={handleFileChange} />
+                                                    <input type="file" id="file" name="file" onChange={handleFileChange} className='form-input' />
                                                     {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
                                                 </div>
                                                 <FormikInput formik={formik} type="number" name="security_amount" label="Security Amount" placeholder="Security Amount" />

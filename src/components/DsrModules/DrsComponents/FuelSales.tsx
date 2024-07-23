@@ -42,6 +42,7 @@ const validationSchema = Yup.object({
 const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
     const [iseditable, setIsEditable] = useState(true);
+    const [isconsiderNozzle, setconsiderNozzle] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
 
     const handleApiError = useErrorHandler();
@@ -59,6 +60,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
                 setData(response.data.data?.listing);
                 setIsEditable(response.data.data?.is_editable);
+                setconsiderNozzle(response.data.data?.considerNozzle);
                 setIsdownloadpdf(response.data.data?.download_pdf);
             } else {
                 throw new Error('No data available in the response');
@@ -242,53 +244,68 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <h1 className="text-lg font-semibold mb-4">
                         {`Fuel Sales`} {startDate ? `(${startDate})` : ''}
                     </h1>
-                    
-                    {isdownloadpdf  && (
-                    <button
-                        className='btn btn-primary'
-                        onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}
-                    >
-                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>
-                       )}
+
+                    {isdownloadpdf && (
+                        <button
+                            className='btn btn-primary'
+                            onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}
+                        >
+                            Download Pdf   <i className="fi fi-tr-file-download"></i>
+                        </button>
+                    )}
                 </div>
 
-                {data.length > 0 ? (
-                    <Formik
-                        initialValues={{ data }}
-                        enableReinitialize
-                        validationSchema={validationSchema}
-                        onSubmit={handleSubmit}
-                    >
-                        {({ values }) => (
-                            <Form>
-                                <FieldArray name="data">
-                                    {() => (
-                                        <DataTable
-                                            columns={columns}
-                                            data={values.data}
-                                            noHeader
-                                            defaultSortAsc={false}
-                                            striped
-                                            persistTableHead
-                                            highlightOnHover
-
-                                        />
-                                    )}
-                                </FieldArray>
-                                <hr></hr>
-                                <footer> {iseditable && <button className="btn btn-primary mt-3" type="submit">Submit</button>}</footer>
-
-                            </Form>
-                        )}
-                    </Formik>
+                {!isconsiderNozzle ? (
+                    data.length > 0 ? (
+                        <Formik
+                            initialValues={{ data }}
+                            enableReinitialize
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ values }) => (
+                                <Form>
+                                    <FieldArray name="data">
+                                        {() => (
+                                            <DataTable
+                                                columns={columns}
+                                                data={values.data}
+                                                noHeader
+                                                defaultSortAsc={false}
+                                                striped
+                                                persistTableHead
+                                                highlightOnHover
+                                            />
+                                        )}
+                                    </FieldArray>
+                                    <hr></hr>
+                                    <footer>
+                                        {iseditable && (
+                                            <button className="btn btn-primary mt-3" type="submit">Submit</button>
+                                        )}
+                                    </footer>
+                                </Form>
+                            )}
+                        </Formik>
+                    ) : (
+                        <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+                    )
                 ) : (
-                    <img
-                        src={noDataImage} // Use the imported image directly as the source
-                        alt="no data found"
-                        className="all-center-flex nodata-image"
-                    />
+                    data.length > 0 ? (
+                        <h1>DSDASDASD</h1>
+                    ) : (
+                        <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+                    )// Replace this with the text or component you want to display
                 )}
+
             </div>
         </>
     );

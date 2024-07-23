@@ -16,7 +16,7 @@ const FileInput: React.FC<FileInputProps> = ({ name, label, onChange, error }) =
     return (
         <div>
             <label htmlFor={name}>{label}</label>
-            <input type="file" id={name} name={name} onChange={handleChange} />
+            <input type="file" id={name} name={name} onChange={handleChange}  className='form-input'/>
             {error && <div className="error">{error}</div>}
         </div>
     );
