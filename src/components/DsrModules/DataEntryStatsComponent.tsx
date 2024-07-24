@@ -83,7 +83,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   useEffect(() => {
     const storedData = localStorage.getItem(storedKeyName);
     if (storedData) {
-console.log(storedData, "storedData");
+      console.log(storedData, "storedData");
 
       handleApplyFilters(JSON.parse(storedData));
     }
@@ -126,7 +126,6 @@ console.log(storedData, "storedData");
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
       if (response && response.data) {
 
-        console.log(response.data, "response.data?.barData");
         setBarData(response.data?.data?.barData);
         setDates(response.data?.data?.dates);
         setSelectedTab(tabName);
@@ -438,7 +437,7 @@ console.log(storedData, "storedData");
                             <li className="flex justify-between p-2 bg-gray-200">
                               <p className="font-semibold w-1/5">Name</p>
                               <p className="font-semibold w-1/5">Size</p>
-                           
+
                               <p className="font-semibold w-1/5">Opening</p>
                               <p className="font-semibold w-1/5">Closing</p>
                               <p className="font-semibold w-1/5">Sale Quantity</p>

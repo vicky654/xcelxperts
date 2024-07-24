@@ -116,7 +116,7 @@ export const stationInitialValues = {
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],
-  consider_fuel_sale: '',
+  consider_fuel_sale:'',
   contact_person : '',
   logo: '',
   file: null as File | null,

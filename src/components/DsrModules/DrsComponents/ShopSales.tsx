@@ -115,7 +115,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     ) => {
         // Convert empty string to 0 or keep it as-is if it's already a number
         const numericValue = parseFloat(value);
-        console.log(numericValue, "numericValue");
+
         // Update the field value in the form values
         setFieldValue(`data[${index}].${field}`, numericValue);
         if (field == 'opening' || field === 'sale' || field === 'sale_price') {

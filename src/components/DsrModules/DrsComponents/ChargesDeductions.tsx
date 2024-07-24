@@ -104,8 +104,6 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     };
 
     const handleNoteChange = (value: string, row: ChargesDeductionsData) => {
-
-        console.log(value, "handleNoteChange");
         if (row.type === 'charge') {
             const updatedCharges = charges.map(charge =>
                 charge.id === row.id ? { ...charge, notes: value } : charge

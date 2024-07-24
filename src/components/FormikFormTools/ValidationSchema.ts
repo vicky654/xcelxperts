@@ -104,10 +104,13 @@ export const getStationValidationSchema = (isEditMode: boolean) => {
         station_address: Yup.string()
             .required('Station Address is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-            // consider_fuel_sale: Yup.string()
-            // .required('Client is required')
-            // .matches(/^[^\s]/, 'cannot start with a space'),
-        // consider_fuel_sale: Yup.string().required('Consider Fuel Sale is required'),
+        // consider_fuel_sale: Yup.string()
+        // .show_summaryrequired('Client is required')
+        // .matches(/^[^\s]/, 'cannot start with a space'),
+        consider_fuel_sale: Yup.string().required('Consider Fuel Sale is required'),
+        file: Yup.string().required('Logo is required'),
+        show_summary: Yup.string().required('PDF Show Summary is required'),
+        // phone_number: Yup.string().required('Consider Fuel Sale is required'),
         security_amount: Yup.string()
             .matches(/^\d+(\.\d{1,2})?$/, 'Security amount must be a valid number with up to two decimal places')
             .test('is-positive', 'Security amount cannot be negative', (value) => {
@@ -327,7 +330,7 @@ export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
             : Yup.string()
                   .required('Station Tank is required')
                   .matches(/^[^\s]/, 'cannot start with a space'),
-   
+
         name: Yup.string()
             .required('Nozzle Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),

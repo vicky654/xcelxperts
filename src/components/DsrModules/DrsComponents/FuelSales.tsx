@@ -69,20 +69,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             handleApiError(error);
         }
     };
-    const DownloadPdf = async (stationId: string | null, startDate: string | null) => {
-        try {
-            const response = await getData(`/pdf/fuel-sales?drs_date=${startDate}&station_id=${stationId}`);
-            if (response && response.data && response.data.data) {
-                console.log(response.data.data, "response.data.data");
-                // setData(response.data.data?.listing);
-                // setIsEditable(response.data.data?.is_editable);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
+
 
 
 
@@ -295,15 +282,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         />
                     )
                 ) : (
-                    data.length > 0 ? (
-                        <h1>DSDASDASD</h1>
-                    ) : (
-                        <img
-                            src={noDataImage} // Use the imported image directly as the source
-                            alt="no data found"
-                            className="all-center-flex nodata-image"
-                        />
-                    )// Replace this with the text or component you want to display
+                    <p>Nozzle consideration is false, displaying simple text here.</p> // Replace this with the text or component you want to display
                 )}
 
             </div>

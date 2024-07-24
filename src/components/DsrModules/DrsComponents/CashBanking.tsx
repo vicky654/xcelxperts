@@ -42,7 +42,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             const response = await getData(`/station/bank/list?drs_date=${startDate}&station_id=${stationId}`);
             
             if (response && response.data && response.data.data) {
-                console.log(response.data.data, "bankLists");
+
                 setRoleList(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -198,7 +198,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         formData.append('id', id?.id);
         customDelete(postData, 'data-entry/cash-banking/delete', formData, handleSuccess);
     };
-console.log(RoleList, "RoleList");
+
     return (
         <div >
             {/* <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1> */}

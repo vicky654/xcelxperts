@@ -362,7 +362,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 formData.append('logo', values.file);
             }
             formData.append('contact_person', values.contact_person);
-            formData.append('consider_fuel_sale', '1');
+            formData.append('consider_fuel_sale', values.consider_fuel_sale);
       
             if (userId) {
                 formData.append('id', userId);
