@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
@@ -57,7 +57,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const isAddPermissionAvailable = UserPermissions?.includes('credituser-create');
     const isListPermissionAvailable = UserPermissions?.includes('credituser-list');
     const isEditPermissionAvailable = UserPermissions?.includes('credituser-edit');
-    const isEditSettingPermissionAvailable = UserPermissions?.includes('credituser-setting');
+    const isHistorySettingPermissionAvailable = UserPermissions?.includes('credituser-history');
     const isDeletePermissionAvailable = UserPermissions?.includes('credituser-delete');
     const isAssignAddPermissionAvailable = UserPermissions?.includes('credituser-assign-permission');
 
@@ -198,6 +198,15 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                                         </Tippy>
                                     </>
                                 )}
+                                {isHistorySettingPermissionAvailable && (
+                                    <>
+                                        <Tippy content="History">
+                                            <button onClick={() => handleHistory(row.id)} type="button">
+                                            <i className="fi fi-tr-rectangle-history-circle-plus"></i>
+                                            </button>
+                                        </Tippy>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </span>
@@ -299,6 +308,13 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             handleApiError(error);
         }
     };
+
+    const navigate = useNavigate();
+    const handleHistory = (id: any) => {
+        navigate(`/manage-users/credit-usersHistory/${id}`);
+
+    };
+
 
     return (
         <>

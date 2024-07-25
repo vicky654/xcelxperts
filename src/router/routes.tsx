@@ -136,6 +136,7 @@ import DataEntruModules from '../components/DsrModules/DataEntrymodule';
 import DataEntryStatsComponent from '../components/DsrModules/DataEntryStatsComponent';
 import ManageStationBank from '../components/SideBarComponents/ManageStationBank/ManageStationBank';
 import SkipDate from '../components/SideBarComponents/ManageStation/SkipDateStation';
+import ManageCreditUserHistory from '../components/CreditUser/ManageCreditUserHistory';
 
 const routes = [
   {
@@ -228,6 +229,10 @@ const routes = [
   {
     path: 'manage-users/credit-users',
     element: <ManageCreditUser />,
+  },
+  {
+    path: 'manage-users/credit-usersHistory/:id',
+    element: <ManageCreditUserHistory />,
   },
   {
     path: 'manage-stations/nozzle',
