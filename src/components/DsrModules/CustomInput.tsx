@@ -269,7 +269,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                 name="start_date"
                                 type="date"
                                 placeholder="Select a Date"
-                                className="form-select text-white-dark"
+                                className="form-input text-white-dark"
                                 formik={formik}
                             />
                         )}
@@ -280,7 +280,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                 name="start_month"
                                 type="month"
                                 placeholder="Select a Month"
-                                className="form-select text-white-dark"
+                                className="form-input text-white-dark"
                                 formik={formik}
                             />
                         )}
