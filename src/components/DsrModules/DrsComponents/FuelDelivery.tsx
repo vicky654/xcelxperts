@@ -104,7 +104,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
-                    applyFilters({ station_id: stationId, start_date: startDate,selectedCardName: "Fuel Delivery"  });
+                    applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Fuel Delivery" });
                 }
             }
         } catch (error) {
@@ -315,7 +315,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                         />
                                     )}
                                 />
-                               <footer> {isEditable &&     <button type="submit" className=" btn btn-primary submit-button">
+                                <footer> {isEditable && <button type="submit" className=" btn btn-primary submit-button">
                                     Submit
                                 </button>}</footer>
                             </Form>
@@ -323,10 +323,10 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                     </Formik>
                 ) : (
                     <img
-                                src={noDataImage} // Use the imported image directly as the source
-                                alt="no data found"
-                                className="all-center-flex nodata-image"
-                            />
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="all-center-flex nodata-image"
+                    />
                 )}
 
             </div>

@@ -655,3 +655,10 @@ width: 100%;
 .rmdp-container {
     width: 100%;
 }
+
+/* GenericTableForm.css */
+.custom-table-body .rdt_TableBody {
+    height: auto; /* Set your desired height */
+    overflow-y: auto; /* Add scroll if content exceeds height */
+  }
+  

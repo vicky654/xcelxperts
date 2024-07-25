@@ -8,6 +8,7 @@ import DataTable from 'react-data-table-component';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
+import GenericTableForm from './GenericTableForm';
 
 interface FuelSalesData {
     id: number;
@@ -41,6 +42,7 @@ const validationSchema = Yup.object({
 
 const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
+    const [Nozzledata, setNozzleData] = useState<any[]>([]);
     const [iseditable, setIsEditable] = useState(true);
     const [isconsiderNozzle, setconsiderNozzle] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
@@ -49,7 +51,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
     useEffect(() => {
         if (stationId && startDate) {
-            handleApplyFilters(stationId, startDate,);
+            handleApplyFilters(stationId, startDate);
         }
     }, [stationId, startDate]);
 
@@ -57,11 +59,11 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         try {
             const response = await getData(`/data-entry/fuel-sale/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-
-                setData(response.data.data?.listing);
-                setIsEditable(response.data.data?.is_editable);
-                setconsiderNozzle(response.data.data?.considerNozzle);
-                setIsdownloadpdf(response.data.data?.download_pdf);
+                setData(response.data.data.listing);
+                setNozzleData(response.data.data.listing);
+                setIsEditable(response.data.data.is_editable);
+                setconsiderNozzle(response.data.data.considerNozzle);
+                setIsdownloadpdf(response.data.data.download_pdf);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -70,18 +72,12 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         }
     };
 
-
-
-
     const handleSubmit = async (values: FormValues) => {
         try {
             const formData = new FormData();
-
             values.data.forEach((obj) => {
                 if (obj.id !== undefined) {
                     const id = obj.id;
-
-                    // Append each field with its corresponding id as part of the key
                     formData.append(`gross_value[${id}]`, obj.gross_value.toString());
                     formData.append(`discount[${id}]`, obj.discount.toString());
                     formData.append(`nett_value[${id}]`, obj.nett_value.toString());
@@ -91,18 +87,16 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
             if (stationId && startDate) {
                 formData.append('drs_date', startDate);
-
                 formData.append('station_id', stationId);
             }
 
-
             const url = `data-entry/fuel-sale/update`;
-
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
                     applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Fuel Sales" });
+               
                 }
             }
         } catch (error) {
@@ -110,9 +104,8 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         }
     };
 
-
     const handleFieldChange = (
-        setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
+        setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
         values: FormValues,
         index: number,
         field: string,
@@ -132,8 +125,6 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         setFieldValue(`data[${index}].gross_value`, gross_value);
         setFieldValue(`data[${index}].nett_value`, nett_value);
     };
-
-
 
     const columns = [
         {
@@ -225,23 +216,19 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         <>
             {isLoading && <LoaderImg />}
             <div>
-
-
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
                         {`Fuel Sales`} {startDate ? `(${startDate})` : ''}
                     </h1>
-
                     {isdownloadpdf && (
                         <button
                             className='btn btn-primary'
                             onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}
                         >
-                            Download Pdf   <i className="fi fi-tr-file-download"></i>
+                            Download Pdf <i className="fi fi-tr-file-download"></i>
                         </button>
                     )}
                 </div>
-
                 {!isconsiderNozzle ? (
                     data.length > 0 ? (
                         <Formik
@@ -257,34 +244,26 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                             <DataTable
                                                 columns={columns}
                                                 data={values.data}
-                                                noHeader
-                                                defaultSortAsc={false}
-                                                striped
-                                                persistTableHead
+                                                pagination
                                                 highlightOnHover
+                                                pointerOnHover
                                             />
                                         )}
                                     </FieldArray>
-                                    <hr></hr>
-                                    <footer>
-                                        {iseditable && (
-                                            <button className="btn btn-primary mt-3" type="submit">Submit</button>
-                                        )}
-                                    </footer>
+                                    <button type="submit" className='btn btn-primarry'>
+                                        Save
+                                    </button>
                                 </Form>
                             )}
                         </Formik>
                     ) : (
-                        <img
-                            src={noDataImage} // Use the imported image directly as the source
-                            alt="no data found"
-                            className="all-center-flex nodata-image"
-                        />
+                        <div className="flex justify-center items-center">
+                            <img src={noDataImage} alt="No Data" className="w-1/3" />
+                        </div>
                     )
                 ) : (
-                    <p>Nozzle consideration is false, displaying simple text here.</p> // Replace this with the text or component you want to display
+                    <GenericTableForm data={Nozzledata} stationId={stationId} startDate={startDate}  postData={postData}   applyFilters={applyFilters}  />
                 )}
-
             </div>
         </>
     );

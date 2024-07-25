@@ -198,12 +198,12 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
     const considerfuelsaleoptionstions = [
         {
             "id": "0",
-       
+
             "name": "Nozzle"
         },
         {
             "id": "1",
-       
+
             "name": "Tank"
         },
 
@@ -300,17 +300,19 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.id, name: item?.name }))}
                                                     className="form-select text-white-dark"
                                                 />
-                                                <FormikInput formik={formik} type="text" name="contact_person" label="Contact Person " placeholder="Contact Person " isRequired={false} />
-                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" isRequired={false} />
                                                 <div>
-                                                    <label htmlFor="file">File <span className="text-danger">*</span></label>
+                                                    <label htmlFor="file">Site Logo <span className="text-danger">*</span></label>
                                                     <input type="file" id="file" name="file" onChange={handleFileChange} className='form-input' />
-                                                    {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null}
+                                                    {/* {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null} */}
+                                                    {formik.touched.file && formik.errors.file && <div className="text-red-600 mt-1">{formik.errors.file}</div>}
+
                                                 </div>
                                                 <FormikInput formik={formik} type="number" name="security_amount" label="Security Amount" placeholder="Security Amount" />
 
-                                                <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
+                                                <FormikInput formik={formik} type="text" name="contact_person" label="Contact Person " placeholder="Contact Person " isRequired={false} />
+                                                <FormikInput formik={formik} type="number" name="phone_number" label="Phone Number" placeholder="Phone Number" isRequired={false} />
 
+                                                <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
 
 
                                                 <div className="sm:col-span-2 mt-3">
