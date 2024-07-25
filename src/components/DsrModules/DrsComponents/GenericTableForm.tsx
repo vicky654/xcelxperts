@@ -39,6 +39,7 @@ interface FormValues {
 interface GenericTableFormProps {
     stationId: string | null;
     startDate: string | null;
+    iseditable: boolean | null;
 
     applyFilters: (values: any) => Promise<void>;
     postData: (url: string, body: any) => Promise<any>;
@@ -64,8 +65,8 @@ const validationSchema = Yup.object({
     ),
 });
 
-const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters, stationId, startDate, postData }) => {
-
+const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters, stationId, startDate, postData, iseditable }) => {
+    console.log(data, "data");
     const handleFieldChange = (
         setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
         values: FormValues,
@@ -99,14 +100,16 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
     };
 
     const columns = (tankIndex: number) => [
+
         {
-            name: 'Nozzle Name',
+            name: 'Nozzle ',
             selector: (row: NozzleData) => row.nozzle_name,
-            width: '15%',
+            width: '10%',
             cell: (row: NozzleData) => <span>{row.nozzle_name}</span>,
         },
         {
-            name: 'Fuel Name',
+            name: 'Fuel ',
+            width: '10%',
             selector: (row: NozzleData) => row.fuel_name,
             cell: (row: NozzleData) => <span>{row.fuel_name}</span>,
         },
@@ -286,8 +289,8 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                 <Form>
                     {values.data.map((tank, tankIndex) => (
                         <div key={tank.id}>
-                            <div className='displayflex'>
-                                <h3>{tank.tank_name}</h3>
+                            <div className='flex'>
+                                <h3 className='FuelSaleContainer'>{tank.tank_name}</h3>
                                 <DataTable
                                     columns={columns(tankIndex)}
                                     className="custom-table-body"
@@ -298,7 +301,12 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             </div>
                         </div>
                     ))}
-                    <button className='btn btn-primary' type="submit">Submit</button>
+
+
+                    {iseditable && (
+                        <button className='btn btn-primary' type="submit">Submit</button>
+                    )}
+
                 </Form>
             )}
         </Formik>

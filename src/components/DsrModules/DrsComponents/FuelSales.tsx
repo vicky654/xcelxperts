@@ -96,7 +96,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
                     applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Fuel Sales" });
-               
+
                 }
             }
         } catch (error) {
@@ -250,9 +250,13 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                             />
                                         )}
                                     </FieldArray>
-                                    <button type="submit" className='btn btn-primarry'>
-                                        Save
-                                    </button>
+
+                                    {iseditable && (
+                                        <button type="submit" className='btn btn-primarry'>
+                                            Save
+                                        </button>
+                                    )}
+
                                 </Form>
                             )}
                         </Formik>
@@ -262,7 +266,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         </div>
                     )
                 ) : (
-                    <GenericTableForm data={Nozzledata} stationId={stationId} startDate={startDate}  postData={postData}   applyFilters={applyFilters}  />
+                    <GenericTableForm data={Nozzledata} stationId={stationId} startDate={startDate} postData={postData} applyFilters={applyFilters} iseditable={iseditable} />
                 )}
             </div>
         </>

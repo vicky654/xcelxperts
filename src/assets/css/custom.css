@@ -118,7 +118,6 @@
 }
 
 @keyframes l10-0 {
-
     0%,
     49.99% {
         transform: scaleX(1);
@@ -395,7 +394,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     width: 100% !important;
 }
 
-.swal2-container.swal2-top>.swal2-popup {
+.swal2-container.swal2-top > .swal2-popup {
     grid-column: 2;
     align-self: start;
     justify-self: auto !important;
@@ -463,7 +462,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     background-color: #fff !important;
 }
 
-.swal2-container.swal2-top>.swal2-popup {
+.swal2-container.swal2-top > .swal2-popup {
     border-radius: 0px;
 }
 
@@ -521,7 +520,6 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     justify-content: end;
 }
 
-
 @media only screen and (min-width: 600px) {
     .c-head-icon {
         display: none;
@@ -567,7 +565,6 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     /* This is an alias for word-wrap and ensures compatibility */
 }
 
-
 .dropdown ul {
     min-width: 195px !important;
 }
@@ -594,7 +591,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     --tw-shadow: 0 0 #0000;
 }
 
-.multi-select>.dropdown-container {
+.multi-select > .dropdown-container {
     padding-right: 0.25rem;
     padding-bottom: 0.15rem;
     border-color: #6b7280 !important;
@@ -619,7 +616,7 @@ li.flexcenter.dataentrytab {
 .c-border-primary {
     border-color: #4361ee !important;
 }
-.spacebetween{
+.spacebetween {
     display: flex;
     justify-content: space-between;
 }
@@ -637,11 +634,11 @@ li.flexcenter.dataentrytab {
     --tw-border-opacity: 1;
     border-color: #b7b7b7 !important;
 }
-.errorborder{
+.errorborder {
     border: 2px solid red !important;
 }
 .react-datepicker-wrapper {
-width: 100%;
+    width: 100%;
 }
 .rmdp-input {
     border: 1px solid black;
@@ -655,10 +652,17 @@ width: 100%;
 .rmdp-container {
     width: 100%;
 }
+.FuelSaleContainer {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+}
 
 /* GenericTableForm.css */
 .custom-table-body .rdt_TableBody {
     height: auto; /* Set your desired height */
     overflow-y: auto; /* Add scroll if content exceeds height */
-  }
-  
+}
