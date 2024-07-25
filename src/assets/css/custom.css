@@ -679,3 +679,27 @@ li.flexcenter.dataentrytab {
     overflow-y: auto;
     /* Add scroll if content exceeds height */
 }
+
+/* styles.css or App.css */
+.custom-tooltip {
+    background-color: black !important;
+    color: white; /* Optional: to ensure text contrast */
+    border-radius: 4px; /* Optional: adds a border-radius for a smooth appearance */
+    padding: 5px; /* Optional: adds some padding */
+    max-width: 200px; /* Optional: sets a max-width to control the size */
+    font-size: 14px; /* Optional: sets font size */
+  }
+  
+
+  .tank_name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+  }
+  .tablecardHeight{
+    height: auto;
+    min-height: 200px !important;
+    max-height: 100px !important;
+    overflow-y: auto;
+  }

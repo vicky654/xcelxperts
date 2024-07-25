@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import useErrorHandler from '../../../hooks/useHandleError';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 // Define your interfaces
 interface NozzleData {
@@ -99,13 +100,34 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].nett_value`, nettvalue);
     };
 
-    const columns = (tankIndex: number) => [
+    const characterLimit = 20; // Set the character limit for the tooltip
 
+    const columns = (tankIndex: number) => [
         {
-            name: 'Nozzle ',
+            name: 'Nozzle',
             selector: (row: NozzleData) => row.nozzle_name,
-            width: '10%',
-            cell: (row: NozzleData) => <span>{row.nozzle_name}</span>,
+            width: '15%',
+            cell: (row: NozzleData) => {
+                const isTextLong = row.nozzle_name.length > characterLimit;
+                const displayText = isTextLong
+                    ? row.nozzle_name.slice(0, characterLimit) + '...'
+                    : row.nozzle_name;
+
+                return (
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={
+                            isTextLong ? (
+                                <Tooltip className="custom-tooltip">{row.nozzle_name}</Tooltip>
+                            ) : (
+                                <span />
+                            )
+                        }
+                    >
+                        <span>{displayText}</span>
+                    </OverlayTrigger>
+                );
+            },
         },
         {
             name: 'Fuel ',
@@ -293,8 +315,8 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                 <h3 className='FuelSaleContainer '>
                                     <div className=' flex flex-col'>
 
-                                        <span>Tank Name -</span>
-                                        <span> {tank.tank_name}</span>
+                                        <span className='' style={{background:"#f6f8fa",padding:"15px 46px",borderBottom:"1px solid #d8dadc"}}>Tank  </span>
+                                        <span className='tank_name'> {tank.tank_name}</span>
                                     </div>
 
                                 </h3>

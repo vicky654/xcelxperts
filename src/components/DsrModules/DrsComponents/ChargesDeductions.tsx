@@ -3,7 +3,7 @@ import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
@@ -50,8 +50,8 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const handleSubmit = async () => {
         try {
             const formData = new FormData();
-    
-    
+
+
             charges.forEach(charge => {
                 if (charge.amount !== null && charge.amount !== undefined && charge.amount !== "") {
                     formData.append(`charge[${charge.id}]`, charge.amount);
@@ -60,7 +60,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     formData.append(`charge_notes[${charge.id}]`, charge.notes);
                 }
             });
-    
+
             deductions.forEach(deduction => {
                 if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== "") {
                     formData.append(`deduction[${deduction.id}]`, deduction.amount);
@@ -69,15 +69,15 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     formData.append(`deduction_notes[${deduction.id}]`, deduction.notes);
                 }
             });
-    
+
             if (stationId && startDate) {
                 formData.append('drs_date', startDate);
                 formData.append('station_id', stationId);
             }
-    
+
             const url = 'data-entry/charge-deduction/update';
             const isSuccess = await postData(url, formData);
-    
+
             if (isSuccess) {
                 applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Income & Expenses" });
                 fetchData();
@@ -86,9 +86,9 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             handleApiError(error);
         }
     };
-    
-    
-    
+
+
+
     const handleAmountChange = (value: string, row: ChargesDeductionsData) => {
         if (row.type === 'charge') {
             const updatedCharges = charges.map(charge =>
@@ -108,7 +108,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const updatedCharges = charges.map(charge =>
                 charge.id === row.id ? { ...charge, notes: value } : charge
             );
-  
+
             setCharges(updatedCharges);
         } else {
             const updatedDeductions = deductions.map(deduction =>
@@ -160,13 +160,20 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         <>
             {isLoading && <LoaderImg />}
             <div>
-             
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
-                        {`Income and Expenses`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
-                   
+                        {`Income and Expenses`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
+
+
+                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                            </OverlayTrigger>
+
+                        </span>)}
+
                     </h1>
-                     
+
                     {/* {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
@@ -183,9 +190,8 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                             <DataTable
                                 columns={columns}
                                 data={charges}
-                                noHeader
-                                striped
-                                highlightOnHover
+                                className="tablecardHeight"
+
                             />
                         ) : (
                             <div className="all-center-flex">
@@ -203,9 +209,10 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                             <DataTable
                                 columns={columns}
                                 data={deductions}
-                                noHeader
-                                striped
-                                highlightOnHover
+
+                                className="tablecardHeight"
+
+
                             />
                         ) : (
                             <div className="all-center-flex">

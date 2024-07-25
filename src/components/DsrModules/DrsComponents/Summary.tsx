@@ -8,6 +8,7 @@ import LoaderImg from '../../../utils/Loader';
 import { currency } from '../../../utils/CommonData';
 import DataEntryStats from '../DataEntryStats';
 import { handleDownloadPdf } from '../../CommonFunctions';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface SummaryProps {
   stationId: string | null;
@@ -117,17 +118,21 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
         </div> */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('summary', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
-        </h1>
-                     
-                    {/* {isdownloadpdf  && (
+          <h1 className="text-lg font-semibold mb-4">Summary{startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('summary', stationId, startDate, getData, handleApiError)}>
+            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+              <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+            </OverlayTrigger>
+          </span>)}
+          </h1>
+
+          {/* {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('summary', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
                     </button>   )} */}
-                </div>
+        </div>
         <div className="flex justify-center">
           <div className="w-full">
             {data?.charges && (

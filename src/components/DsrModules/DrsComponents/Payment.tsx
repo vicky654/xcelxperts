@@ -5,6 +5,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { currency } from '../../../utils/CommonData'
 import { handleDownloadPdf } from '../../CommonFunctions';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 interface PaymentItem {
     id: string;
     card_name: string;
@@ -144,7 +145,12 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
           
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
-                        {`Payments`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
+                        {`Payments`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
+                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                </OverlayTrigger>
+                            
+                            </span> )}
                    
                     </h1>
 {/*                      

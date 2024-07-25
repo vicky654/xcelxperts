@@ -9,6 +9,7 @@ import { currency } from '../../../utils/CommonData';
 import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface Service {
     credit_user_id: string;
@@ -190,7 +191,13 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 <div>
                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
-                        {`Credit Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
+                        {`Credit Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}>
+                            
+                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                </OverlayTrigger>
+                            
+                            </span> )}
                    
                     </h1>
                      

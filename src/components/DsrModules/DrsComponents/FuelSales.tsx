@@ -9,6 +9,7 @@ import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import GenericTableForm from './GenericTableForm';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface FuelSalesData {
     id: number;
@@ -212,14 +213,23 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         },
     ];
 
+    const characterLimit = 20; // Set the character limit for the tooltip
+
     return (
         <>
             {isLoading && <LoaderImg />}
             <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
-                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
-                    </h1>    
+                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf &&
+                            (<span onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}>
+
+                                <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                </OverlayTrigger>
+
+                            </span>)}
+                    </h1>
                     {/* {isdownloadpdf && (
                         <button
                             className='btn btn-primary'
