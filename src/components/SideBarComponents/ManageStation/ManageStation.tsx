@@ -38,6 +38,8 @@ interface RowData {
     station_name: string;
     station_code: string;
     station_address: string;
+    supplier_code: string;
+    supplier_logo: string;
 }
 
 const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
@@ -104,7 +106,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-    console.log(UserPermissions, );
+    console.log(UserPermissions,);
 
     // "skipdate-create",
     // "skipdate-delete",
@@ -156,6 +158,23 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.entity_name}</h6>
+                    </div>
+                </div>
+            ),
+        },
+
+        {
+            name: 'Supplier Logo',
+            selector: (row: RowData) => row.supplier_code,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className="mt-0 mt-sm-2 d-block">
+                        {/* Assuming row.logo contains the URL of the image */}
+                        <img style={{ width: "50px", height: "40px" }} src={row.supplier_logo} alt="Logo" className="img-fluid" />
+                        {/* If you want to display the URL as text */}
+                        {/* <h6 className="mb-0 fs-14 fw-semibold">{row.logo}</h6> */}
                     </div>
                 </div>
             ),
@@ -331,7 +350,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             //     setEditUserData(response.data);
             // }
         } catch (error) {
-               handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -363,7 +382,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             }
             formData.append('contact_person', values.contact_person);
             formData.append('consider_fuel_sale', values.consider_fuel_sale);
-      
+
             if (userId) {
                 formData.append('id', userId);
             }

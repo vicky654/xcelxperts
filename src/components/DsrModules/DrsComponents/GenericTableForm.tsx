@@ -290,7 +290,14 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {values.data.map((tank, tankIndex) => (
                         <div key={tank.id}>
                             <div className='flex'>
-                                <h3 className='FuelSaleContainer'>{tank.tank_name}</h3>
+                                <h3 className='FuelSaleContainer '>
+                                    <div className=' flex flex-col'>
+
+                                        <span>Tank Name -</span>
+                                        <span> {tank.tank_name}</span>
+                                    </div>
+
+                                </h3>
                                 <DataTable
                                     columns={columns(tankIndex)}
                                     className="custom-table-body"
