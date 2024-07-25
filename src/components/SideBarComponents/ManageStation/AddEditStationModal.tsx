@@ -217,8 +217,6 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             formik.setFieldValue('file', file);
         }
     };
-    console.log(considerfuelsaleoptionstions, "considerfuelsaleoptionstions");
-    console.log(formik.values, "considerfuelsaleoptionstions");
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>

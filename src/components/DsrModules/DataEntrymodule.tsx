@@ -72,19 +72,19 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     console.log(storedDataString, "storedDataString");
 
     if (storedDataString) {
-        try {
-            const storedData = JSON.parse(storedDataString);
-            console.log(storedData, "storedData");
+      try {
+        const storedData = JSON.parse(storedDataString);
+        console.log(storedData, "storedData");
 
-            // Check for the existence of `start_month` or other necessary properties
-            if (storedData.start_date) {
-                handleApplyFilters(storedData);
-            }
-        } catch (error) {
-            console.error("Error parsing stored data", error);
+        // Check for the existence of `start_month` or other necessary properties
+        if (storedData.start_date) {
+          handleApplyFilters(storedData);
         }
+      } catch (error) {
+        console.error("Error parsing stored data", error);
+      }
     }
-}, [dispatch]);
+  }, [dispatch]);
 
   const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
@@ -107,28 +107,28 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Payments': Payment,
     'Cash Deposited': CashBanking,
     'Summary': Summary,
-   
-  
+
+
     // 'Shop Sales': ShopSales,
-  
-  
-   
-   
-  
-   
+
+
+
+
+
+
   };
   function getNextComponentName(currentName: string): string | null {
     const keys = Object.keys(componentMap);
     const currentIndex = keys.indexOf(currentName);
-  
+
     if (currentIndex === -1 || currentIndex === keys.length - 1) {
       // If the current name is not found or it is the last item in the array
       return null;
     }
-  
+
     return keys[currentIndex + 1];
   }
-  
+
   const SelectedComponent = selectedCardName ? componentMap[selectedCardName] : null;
   const handleApplyFilters = async (values: any) => {
     try {
@@ -159,7 +159,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         const nextComponentName = getNextComponentName(values?.selectedCardName);
         if (nextComponentName) {
-       
+
           toggleTabs(nextComponentName);
         }
         setData(response.data?.data);
@@ -323,7 +323,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                 <li key={card.id} className="w-1/8 inline-block">
                   <button
                     onClick={() => toggleTabs(card.name)}
-                    className={`flex gap-2 p-2 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary' : ''}`}
+                    className={`flex  p-2 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary bg-gray-200' : ''}`}
                     style={{ color: card.bgColor }}
                   >
                     <i className={`fi fi-rr-${card?.name.toLowerCase().replace(/\s/g, '-')}`}></i>
