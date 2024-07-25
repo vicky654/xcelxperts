@@ -315,15 +315,16 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             {isLoading && <LoaderImg />}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 className="text-lg font-semibold mb-4">
-                    {`Lubes Sales`} {startDate ? `(${startDate})` : ''}
+                    {`Lubes Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
+                   
                 </h1>
-                {isdownloadpdf  && (
+                {/* {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}
                     >
                         Download Pdf   <i className="fi fi-tr-file-download"></i>
-                    </button>)}
+                    </button>)} */}
             </div>
             <div>
 

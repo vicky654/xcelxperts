@@ -218,16 +218,16 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
-                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}
-                    </h1>
-                    {isdownloadpdf && (
+                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
+                    </h1>    
+                    {/* {isdownloadpdf && (
                         <button
                             className='btn btn-primary'
                             onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}
                         >
                             Download Pdf <i className="fi fi-tr-file-download"></i>
                         </button>
-                    )}
+                    )} */}
                 </div>
                 {!isconsiderNozzle ? (
                     data.length > 0 ? (

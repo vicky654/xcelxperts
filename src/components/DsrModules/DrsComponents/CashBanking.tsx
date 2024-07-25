@@ -205,16 +205,17 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
-                        {`Cash Deposit`} {startDate ? `(${startDate})` : ''}
+                        {`Cash Deposit`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}><i style={{fontSize:"20px" ,cursor:"pointer"}} className="fi fi-tr-file-pdf"></i></span> )}
+                   
                     </h1>
                      
-                    {isdownloadpdf  && (
+                    {/* {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>   )}
+                    </button>   )} */}
                 </div>
 
 
