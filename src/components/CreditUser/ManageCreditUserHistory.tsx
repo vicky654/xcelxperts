@@ -18,6 +18,7 @@ import { IRootState } from '../../store';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import { useFormik } from 'formik';
 import AddEditHistoryTankModal from './AddEditHistoryTankModal';
+import { currency } from '../../utils/CommonData';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -29,6 +30,10 @@ interface RowData {
     id: string; // Change type from number to string
     name: string;
     phone: string;
+    t_type: string;
+    balance: string;
+    debit: string;
+    credit: string;
 
     amount: string;
     notes: string;
@@ -45,6 +50,7 @@ interface RoleItem {
 
 const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
+    const [hirstoryData, sethirstoryData] = useState<any>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,7 +107,15 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.amount}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.amount}
+
+                            {row?.t_type === "Credit" && (<>
+                                <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr.</span>
+                            </>)}
+                            {row?.t_type === "Debit" && (<>
+                                <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr.</span>
+                            </>)}
+                        </h6>
                     </div>
                 </div>
             ),
@@ -262,6 +276,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.history?.listing);
+                sethirstoryData(response.data.data);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -269,6 +284,9 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             handleApiError(error);
         }
     };
+
+    console.log(data, "data");
+
 
     return (
         <>
@@ -303,6 +321,15 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users</h5>
                         <div className="ltr:ml-auto rtl:mr-auto">
+                            {hirstoryData?.balance && (<>
+                                <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal. {currency}{hirstoryData?.balance} </span>
+                            </>)}
+                            {hirstoryData?.credit && (<>
+                                <span className="badge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr.{currency} {hirstoryData?.credit}</span>
+                            </>)}
+                            {hirstoryData?.debit && (<>
+                                <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr.{currency} {hirstoryData?.debit} </span>
+                            </>)}
                             {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                         </div>
                     </div>

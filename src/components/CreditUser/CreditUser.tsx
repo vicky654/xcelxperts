@@ -17,6 +17,7 @@ import * as Yup from 'yup';
 import { IRootState } from '../../store';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import { useFormik } from 'formik';
+import { Badge } from 'react-bootstrap';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -28,6 +29,7 @@ interface RowData {
     id: string; // Change type from number to string
     name: string;
     phone: string;
+    t_type: string;
 
     created_date: string;
     status: number;
@@ -108,7 +110,8 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}
+                        </h6>
                     </div>
                 </div>
             ),
@@ -202,7 +205,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                                     <>
                                         <Tippy content="History">
                                             <button onClick={() => handleHistory(row.id)} type="button">
-                                            <i className="fi fi-tr-rectangle-history-circle-plus"></i>
+                                                <i className="fi fi-tr-rectangle-history-circle-plus"></i>
                                             </button>
                                         </Tippy>
                                     </>
