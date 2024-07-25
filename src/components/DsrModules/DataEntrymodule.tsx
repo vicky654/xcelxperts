@@ -323,7 +323,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                 <li key={card.id} className="w-1/8 inline-block">
                   <button
                     onClick={() => toggleTabs(card.name)}
-                    className={`flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary' : ''}`}
+                    className={`flex gap-2 p-2 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary' : ''}`}
                     style={{ color: card.bgColor }}
                   >
                     <i className={`fi fi-rr-${card?.name.toLowerCase().replace(/\s/g, '-')}`}></i>

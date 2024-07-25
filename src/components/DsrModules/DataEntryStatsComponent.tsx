@@ -95,19 +95,19 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     console.log(storedDataString, "storedDataString");
 
     if (storedDataString) {
-        try {
-            const storedData = JSON.parse(storedDataString);
-            console.log(storedData, "storedData");
+      try {
+        const storedData = JSON.parse(storedDataString);
+        console.log(storedData, "storedData");
 
-            // Check for the existence of `start_month` or other necessary properties
-            if (storedData.start_month) {
-                handleApplyFilters(storedData);
-            }
-        } catch (error) {
-            console.error("Error parsing stored data", error);
+        // Check for the existence of `start_month` or other necessary properties
+        if (storedData.start_month) {
+          handleApplyFilters(storedData);
         }
+      } catch (error) {
+        console.error("Error parsing stored data", error);
+      }
     }
-}, [dispatch]);
+  }, [dispatch]);
 
 
 
@@ -141,6 +141,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     }
   }, [cards]);
   const handleTabClick = async (tabName: string) => {
+    console.log(tabName, "tabName");
     try {
       const key = tabKeyMap[tabName];
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
@@ -207,7 +208,17 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
     // If the accordion is being opened, make the API call
     if (!isCurrentlyActive) {
-      await GetSubData(date, selectedTab);
+      console.log(selectedTab, "selectedTab");
+      if (selectedTab === 'Expenses') {
+        // Pass deductions if selectedTab is Expenses
+        await GetSubData(date, "deductions");
+      } else if (selectedTab === 'Incomes') {
+        // Pass charges if selectedTab is Incomes
+        await GetSubData(date, "charges");
+      } else {
+        // Call without additional parameters
+        await GetSubData(date, selectedTab);
+      }
       // Log the ID to the console
 
     }
