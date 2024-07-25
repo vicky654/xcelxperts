@@ -57,13 +57,35 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
 
-  useEffect(() => {
-    const storedData = localStorage.getItem(storedKeyName);
-    if (storedData) {
-      handleApplyFilters(JSON.parse(storedData));
-    }
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem(storedKeyName);
+  //   if (storedData) {
+  //     handleApplyFilters(JSON.parse(storedData));
+  //   }
 
-  }, [dispatch]);
+  // }, [dispatch]);
+
+
+
+  useEffect(() => {
+    const storedDataString = localStorage.getItem(storedKeyName);
+    console.log(storedDataString, "storedDataString");
+
+    if (storedDataString) {
+        try {
+            const storedData = JSON.parse(storedDataString);
+            console.log(storedData, "storedData");
+
+            // Check for the existence of `start_month` or other necessary properties
+            if (storedData.start_date) {
+                handleApplyFilters(storedData);
+            }
+        } catch (error) {
+            console.error("Error parsing stored data", error);
+        }
+    }
+}, [dispatch]);
+
   const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
   const isDeletePermissionAvailable = UserPermissions?.includes('dataentry-delete-data');

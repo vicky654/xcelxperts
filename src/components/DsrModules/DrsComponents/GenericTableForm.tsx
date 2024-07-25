@@ -304,7 +304,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
 
                     {iseditable && (
-                        <button className='btn btn-primary' type="submit">Submit</button>
+                        <button className='btn btn-primary mt-4' type="submit">Submit</button>
                     )}
 
                 </Form>

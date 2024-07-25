@@ -80,15 +80,35 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
 
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem(storedKeyName);
+  //   console.log(storedData, "storedDastoredKeyNameta");
+  //   if (storedData) {
+  //     console.log(storedData, "storedData");
+
+  //     handleApplyFilters(JSON.parse(storedData));
+  //   }
+
+  // }, [dispatch]);
   useEffect(() => {
-    const storedData = localStorage.getItem(storedKeyName);
-    if (storedData) {
-      console.log(storedData, "storedData");
+    const storedDataString = localStorage.getItem(storedKeyName);
+    console.log(storedDataString, "storedDataString");
 
-      handleApplyFilters(JSON.parse(storedData));
+    if (storedDataString) {
+        try {
+            const storedData = JSON.parse(storedDataString);
+            console.log(storedData, "storedData");
+
+            // Check for the existence of `start_month` or other necessary properties
+            if (storedData.start_month) {
+                handleApplyFilters(storedData);
+            }
+        } catch (error) {
+            console.error("Error parsing stored data", error);
+        }
     }
+}, [dispatch]);
 
-  }, [dispatch]);
 
 
   const staticTabs = [
