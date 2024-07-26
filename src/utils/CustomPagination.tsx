@@ -44,8 +44,8 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
     }
 
     return (
-        <div className="panel" id="rounded">
-            <div className="mb-5 flex justify-end items-center">
+        <div className="panel p-2" id="rounded">
+            <div className=" flex justify-end items-center">
                 <ul className="inline-flex items-center space-x-1 rtl:space-x-reverse mb-4">
                     <li>
                         <button
