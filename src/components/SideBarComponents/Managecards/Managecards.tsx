@@ -129,7 +129,7 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
                 <div className="d-flex">
                     <div className="mt-0 mt-sm-2 d-block">
                         {/* Assuming row.logo contains the URL of the image */}
-                        <img style={{ width: "50px", height: "40px" }} src={row.logo} alt="Logo" className="img-fluid" />
+                        <img style={{ width: "60px", height: "40px" }} src={row.logo} alt="Logo" className="img-fluid" />
                         {/* If you want to display the URL as text */}
                         {/* <h6 className="mb-0 fs-14 fw-semibold">{row.logo}</h6> */}
                     </div>
