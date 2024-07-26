@@ -12,7 +12,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import AddEditManagecard from './AddEditCards';
 import { IRootState } from '../../../store';
 interface ManagecardProps {

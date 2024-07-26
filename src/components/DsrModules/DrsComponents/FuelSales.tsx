@@ -5,7 +5,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import GenericTableForm from './GenericTableForm';

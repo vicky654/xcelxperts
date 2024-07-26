@@ -12,7 +12,7 @@ import 'tippy.js/dist/tippy.css';
 import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import IconTrendingUp from '../../../components/Icon/IconTrendingUp';
 
 

@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage, FieldProps, FieldArray } from 'formi
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';

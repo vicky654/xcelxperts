@@ -13,7 +13,7 @@ import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddClientModal from './AddClientModal';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import showMessage from '../../../hooks/showMessage';
 import { fetchStoreData } from '../../../store/dataSlice';
 import { IRootState } from '../../../store';

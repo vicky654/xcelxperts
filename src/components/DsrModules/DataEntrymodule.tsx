@@ -7,7 +7,7 @@ import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import FuelSales from './DrsComponents/FuelSales';
 import FuelInventory from './DrsComponents/FuelInventory';
 import FuelDelivery from './DrsComponents/FuelDelivery';

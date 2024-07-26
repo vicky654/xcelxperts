@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import noDataImage from '../../assets/AuthImages/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
 import useToggleStatus from '../../utils/ToggleStatus';
 import useCustomDelete from '../../utils/customDelete';

@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
 
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';

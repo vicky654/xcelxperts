@@ -8,7 +8,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';

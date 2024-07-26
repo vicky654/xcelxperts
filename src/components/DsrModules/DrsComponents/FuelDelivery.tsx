@@ -6,7 +6,7 @@ import { Formik, Form, Field, FieldArray, ErrorMessage, FieldProps } from 'formi
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 
 interface FuelDeliveryData {

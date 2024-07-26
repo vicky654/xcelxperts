@@ -13,7 +13,7 @@ import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import AddEditStationModal from './AddEditStationModal';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';

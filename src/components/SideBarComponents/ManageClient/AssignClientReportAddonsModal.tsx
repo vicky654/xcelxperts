@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
 import useErrorHandler from '../../../hooks/useHandleError';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import { string } from 'yup';
 
 interface AddonsModalProps {

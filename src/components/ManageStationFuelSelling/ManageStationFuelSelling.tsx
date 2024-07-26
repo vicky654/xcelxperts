@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'tippy.js/dist/tippy.css';
-import noDataImage from '../../assets/noDataFoundImage/noDataFound.png'; // Import the image
+import noDataImage from '../../assets/AuthImages/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
 import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';

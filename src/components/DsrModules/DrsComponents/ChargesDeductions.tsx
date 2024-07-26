@@ -6,7 +6,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
-import noDataImage from '../../../assets/noDataFoundImage/noDataFound.png';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import { handleDownloadPdf } from '../../CommonFunctions';
 
 interface ChargesDeductionsData {
