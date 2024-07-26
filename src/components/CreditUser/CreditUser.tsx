@@ -76,10 +76,22 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 // handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
             }
         }
+
         FetchRoleList();
-    }, []);
+    }, [currentPage]);
+    useEffect(() => {
+        if (localStorage.getItem("CreditUserID")) {
+            const clientId = localStorage.getItem("CreditUserID");
+            if (clientId) {
+                formik.setFieldValue("client_id", clientId)
+                GetUserList(clientId)
+            }
+        }
+
+    }, [currentPage]);
 
     const handleSuccess = () => {
+        localStorage.setItem("CreditUserID", formik?.values?.client_id)
         GetUserList(formik?.values?.client_id);
     };
 
@@ -265,6 +277,8 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         try {
             const response = await getData('/getClients');
             if (response && response.data && response.data.data) {
+
+             
                 setRoleList(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -299,10 +313,12 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const GetUserList = async (id: any) => {
 
         try {
-            const response = await getData(`credit-user/list?client_id=${id}`);
+            const response = await getData(`credit-user/list?client_id=${id}&page=${currentPage}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
-
+                localStorage.setItem("CreditUserID", id)
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
                 setData(response.data.data?.creditUsers);
             } else {
                 throw new Error('No data available in the response');
@@ -342,16 +358,16 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
-            <div className=" mt-6">
+            <div className=" mt-6 ">
                 <div
                     className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6'
                 >
                     {
                         localStorage.getItem("superiorRole") !== "Client" && (
-                            <div>
+                            <div className="panel h-full flex flex-col justify-between">
                                 {/* className="panel h-full " */}
-                                <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
-                                    <div className="flex flex-col sm:flex-row">
+                                <form onSubmit={formik.handleSubmit} className="flex-1 flex flex-col justify-between">
+                                    <div className="flex flex-col sm:flex-row flex-1">
                                         <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
                                             <FormikSelect
                                                 formik={formik}
@@ -360,27 +376,22 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                                                 options={RoleList.map((item) => ({ id: item.id, name: item.client_name }))}
                                                 className="form-select text-white-dark"
                                             />
-
-                                            <div className="sm:col-span-2 mt-6">
-                                                <button type="submit" className="btn btn-primary">
-                                                    Filter
-                                                </button>
-                                            </div>
                                         </div>
+                                    </div>
+                                    <div className="sm:col-span-2 mt-6 flex justify-end ">
+                                        <button type="submit" className="btn btn-primary ">
+                                            Apply
+                                        </button>
                                     </div>
                                 </form>
                             </div>
                         )
                     }
 
-
-
                     <div className="panel h-full xl:col-span-3">
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users</h5>
-                            <div className="ltr:ml-auto rtl:mr-auto">
-                                {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                            </div>
+
                         </div>
                         {data?.length > 0 ? (
                             <>

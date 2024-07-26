@@ -373,19 +373,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                       />
                   </div>
                   </>
-                    // <div className="datatables">
-                    //     <DataTable
-                    //         className=" table-striped table-hover table-bordered table-compact"
-                    //         columns={columns}
-                    //         data={data}
-                    //         noHeader
-                    //         defaultSortAsc={false}
-                    //         striped
-                    //         persistTableHead
-                    //         highlightOnHover
-                    //         responsive
-                    //     />
-                    // </div>
+           
                 ) : (
                     <div className="all-center-flex">
                         <img src={noDataImage} alt="No data found" className="nodata-image" />
