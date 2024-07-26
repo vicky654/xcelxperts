@@ -254,16 +254,14 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                             <DataTable
                                                 columns={columns}
                                                 data={values.data}
-                                                pagination
-                                                highlightOnHover
-                                                pointerOnHover
+                                         
                                             />
                                         )}
                                     </FieldArray>
 
                                     {iseditable && (
-                                        <button type="submit" className='btn btn-primarry'>
-                                            Save
+                                        <button type="submit" className='btn btn-primary'>
+                                            Submit
                                         </button>
                                     )}
 

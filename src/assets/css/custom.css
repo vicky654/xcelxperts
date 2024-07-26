@@ -696,13 +696,19 @@ li.flexcenter.dataentrytab {
     height: 50%;
 }
 .tablecardHeight {
-    height: auto;
-    min-height: 200px !important;
-    max-height: 100px !important;
-    overflow-y: auto;
+    height: auto; /* or set a specific height if needed */
+    min-height: 200px;
+    max-height: 300px; /* increased max-height to allow space for scroll */
+    overflow-y: auto; /* allows scrolling when content exceeds max-height */
 }
+
 /* .datatables {
     min-height: 400px !important;
     max-height: 400px !important;
     overflow-y: auto;
 } */
+
+.hover\:bg-primary:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(9 70 159);
+}
