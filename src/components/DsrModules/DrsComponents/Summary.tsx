@@ -76,7 +76,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('total_credit_sales', data?.takings.total_credit_sales || '');
       formData.append('total_credit_card', data?.takings.total_credit_card || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
-      formData.append('cash_operator', data?.banking?.cash_commited_by_operator || '');
+      formData.append('cash_operator', data?.banking?.cash_deposited || '');
       formData.append('varience_accumulation', data?.banking.varience_accumulation || '');
       // formData.append('varience_accumulation', data?.banking.variance_difference || '');
       formData.append('variance', data?.variance || '');
@@ -137,7 +137,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
           <div className="w-full">
             {data?.charges && (
               <div className="mb-8  ">
-                <h1 className="text-lg font-bold">SUMMARY OF CHARGES</h1>
+                <h1 className="text-lg font-bold">SUMMARY OF INCOME</h1>
 
                 <div className="p-2">
                   <ul className="divide-y divide-gray-200">
@@ -155,7 +155,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
             )}
             {data?.deductions && (
               <div className="mb-8  ">
-                <h1 className="text-lg font-bold">SUMMARY OF DEDUCTIONS</h1>
+                <h1 className="text-lg font-bold">SUMMARY OF EXPENSES</h1>
 
                 <div className="p-2">
                   <ul className="divide-y divide-gray-200">

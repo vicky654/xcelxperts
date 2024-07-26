@@ -66,6 +66,8 @@ const validationSchema = Yup.object({
     ),
 });
 
+
+
 const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters, stationId, startDate, postData, iseditable }) => {
     console.log(data, "data");
     const handleFieldChange = (
@@ -79,6 +81,9 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         const numericValue = parseFloat(value);
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].${field}`, numericValue);
 
+
+
+
         const nozzle = values.data[tankIndex].nozzles[nozzleIndex];
         const sales_volume = field === 'sales_volume' ? numericValue : nozzle.sales_volume;
         const fuel_price = field === 'fuel_price' ? numericValue : parseFloat(nozzle.fuel_price);
@@ -90,14 +95,20 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         if (sales_volume) {
             const grossvalue = sales_volume * fuel_price;
         }
-        // console.log(grossvalue, "gross_value");
+
         const salesvolume = closing - opening;
         const gross_value = salesvolume * fuel_price;
-        const nettvalue = grossvalue - discount;
+        const nettvalue = gross_value - discount;
+
+
+        console.log(grossvalue, "gross_value");
+        console.log(discount, "discount");
 
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].gross_value`, gross_value);
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].sales_volume`, salesvolume);
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].nett_value`, nettvalue);
+
+
     };
 
     const characterLimit = 20; // Set the character limit for the tooltip
@@ -313,7 +324,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                 <h3 className='FuelSaleContainer '>
                                     <div className=' flex flex-col'>
 
-                                        <span className='' style={{background:"#f6f8fa",padding:"15px 46px",borderBottom:"1px solid #d8dadc"}}>Tank  </span>
+                                        <span className='' style={{ background: "#f6f8fa", padding: "15px 46px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
                                         <span className='tank_name'> {tank.tank_name}</span>
                                     </div>
 
