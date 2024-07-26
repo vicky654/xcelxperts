@@ -72,7 +72,7 @@ const menuItems: MenuItem[] = [
         icon: "handshake",
         link: '/manage-categories/fuelcategories', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'user-list', // Permission associated with the dashboard
+        permission: 'card-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'Cards', link: '/manage-cards/cards', permission: 'card-list', visibility: false },
             
@@ -113,7 +113,7 @@ const menuItems: MenuItem[] = [
         icon: "dice-d6",
         link: '/manage-roles/roles', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
-        permission: 'dashboard-view', // Permission associated with the dashboard
+        permission: 'role-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'Roles', link: '/manage-roles/roles', permission: 'role-list', visibility: false },
             { title: 'Addons', link: '/manage-addons/addons', permission: 'addons-list', visibility: false },

@@ -55,8 +55,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     useEffect(() => {
         fetchData();
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [ currentPage]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -69,7 +68,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         try {
             const response = await getData(`/deduction/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.deductions);
+               setData(response.data.data?.deductions);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -230,7 +229,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             handleApiError(error);
         }
     };
-
+    console.log(data?.length, "data?.length");
     return (
         <>
             {isLoading && <LoaderImg />}

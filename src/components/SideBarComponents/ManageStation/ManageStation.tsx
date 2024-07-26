@@ -127,7 +127,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Station Name',
             selector: (row: RowData) => row.station_name,
             sortable: false,
-            width: '13%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -140,7 +140,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Client Name',
             selector: (row: RowData) => row.client_name,
             sortable: false,
-            width: '14%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -153,7 +153,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Entity Name',
             selector: (row: RowData) => row.entity_name,
             sortable: false,
-            width: '13%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -167,7 +167,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Supplier Logo',
             selector: (row: RowData) => row.supplier_code,
             sortable: false,
-            width: '15%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className="mt-0 mt-sm-2 d-block">
@@ -184,7 +184,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             name: 'Station Code',
             selector: (row: RowData) => row.station_code,
             sortable: false,
-            width: '15%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
