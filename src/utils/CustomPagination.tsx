@@ -31,7 +31,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
             <li key={i}>
                 <button
                     type="button"
-                    className={`flex justify-center font-semibold px-3.5 py-2 rounded-full transition ${i === currentPage
+                    className={`flex justify-center font-semibold px-3.5 py-2  transition ${i === currentPage
                         ? 'bg-primary text-white dark:text-white-light dark:bg-primary'
                         : 'bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary'
                         }`}
@@ -50,7 +50,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                     <li>
                         <button
                             type="button"
-                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark   dark:text-white-light dark:bg-[#191e3a]  ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
+                            className={`flex justify-center font-semibold p-2  transition bg-white-light text-dark   dark:text-white-light dark:bg-[#191e3a]  ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
                             onClick={() => handlePageChange(1)}
                             disabled={currentPage === 1}
                         >
@@ -60,7 +60,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                     <li>
                         <button
                             type="button"
-                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark dark:text-white-light dark:bg-[#191e3a]  ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
+                            className={`flex justify-center font-semibold p-2  transition bg-white-light text-dark dark:text-white-light dark:bg-[#191e3a]  ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
@@ -71,7 +71,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                         <li>
                             <button
                                 type="button"
-                                className="flex justify-center font-semibold px-3.5 py-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
+                                className="flex justify-center font-semibold px-3.5 py-2  transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
                                 onClick={() => handlePageChange(startPage - 1)}
                             >
                                 ...
@@ -83,7 +83,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                         <li>
                             <button
                                 type="button"
-                                className="flex justify-center font-semibold px-3.5 py-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
+                                className="flex justify-center font-semibold px-3.5 py-2  transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
                                 onClick={() => handlePageChange(endPage + 1)}
                             >
                                 ...
@@ -94,7 +94,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                         <button
                             type="button"
 
-                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark  dark:text-white-light dark:bg-[#191e3a] ${currentPage === lastPage ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
+                            className={`flex justify-center font-semibold p-2  transition bg-white-light text-dark  dark:text-white-light dark:bg-[#191e3a] ${currentPage === lastPage ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary  hover:text-white"}`}
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === lastPage}
                         >
@@ -105,7 +105,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                     <li>
                         <button
                             type="button"
-                            className={`flex justify-center font-semibold p-2 rounded-full transition bg-white-light text-dark hover:text-white dark:text-white-light dark:bg-[#191e3a] ${currentPage === lastPage ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary"}`}
+                            className={`flex justify-center font-semibold p-2  transition bg-white-light text-dark hover:text-white dark:text-white-light dark:bg-[#191e3a] ${currentPage === lastPage ? "text-gray-400 cursor-not-allowed" : "dark:hover:bg-primary hover:bg-primary"}`}
                             onClick={() => handlePageChange(lastPage)}
                             disabled={currentPage === lastPage}
                         >

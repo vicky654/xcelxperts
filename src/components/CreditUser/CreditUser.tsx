@@ -18,6 +18,8 @@ import { IRootState } from '../../store';
 import FormikSelect from '../FormikFormTools/FormikSelect';
 import { useFormik } from 'formik';
 import { Badge } from 'react-bootstrap';
+import Dropdown from '../Dropdown';
+import IconHorizontalDots from '../Icon/IconHorizontalDots';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -115,10 +117,10 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
     const columns: any = [
         {
-            name: 'Credit User Name',
+            name: 'User Name',
             selector: (row: RowData) => row.name,
             sortable: false,
-            width: '30%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -128,19 +130,19 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 </div>
             ),
         },
-        // {
-        //     name: 'Max Amount',
-        //     selector: (row: RowData) => row.name,
-        //     sortable: false,
-        //     width: '20%',
-        //     cell: (row: RowData) => (
-        //         <div className="d-flex">
-        //             <div className=" mt-0 mt-sm-2 d-block">
-        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
-        //             </div>
-        //         </div>
-        //     ),
-        // },
+        {
+            name: 'Max Amount',
+            selector: (row: RowData) => row.name,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+                    </div>
+                </div>
+            ),
+        },
         {
             name: 'Phone Number',
             selector: (row: RowData) => row.phone,
@@ -172,7 +174,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             name: 'Status',
             selector: (row: RowData) => row.status,
             sortable: false,
-            width: '10%',
+            width: '15%',
             cell: (row: RowData) => (
                 <>
                     {isEditPermissionAvailable && (
@@ -194,40 +196,48 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-                                {isEditPermissionAvailable && (
-                                    <>
-                                        <Tippy content="Edit">
-                                            <button type="button" onClick={() => openModal(row?.id)}>
-                                                <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                            </button>
-                                        </Tippy>
-                                    </>
-                                )}
-                                {isDeletePermissionAvailable && (
-                                    <>
-                                        <Tippy content="Delete">
-                                            <button onClick={() => handleDelete(row.id)} type="button">
-                                                <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                            </button>
-                                        </Tippy>
-                                    </>
-                                )}
-                                {isHistorySettingPermissionAvailable && (
-                                    <>
-                                        <Tippy content="History">
-                                            <button onClick={() => handleHistory(row.id)} type="button">
-                                                <i className="fi fi-tr-rectangle-history-circle-plus"></i>
-                                            </button>
-                                        </Tippy>
-                                    </>
-                                )}
+
+                            <div className="dropdown">
+                                <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
+                                    <ul>
+
+                                        <li>
+                                            {isEditPermissionAvailable && (
+
+                                                <button type="button" onClick={() => openModal(row?.id)}>
+                                                    <i className="setting-icon fi fi-rr-file-edit "></i> Edit
+                                                </button>
+
+                                            )}
+                                        </li>
+                                        <li>
+                                            {isDeletePermissionAvailable && (
+
+                                                <button onClick={() => handleDelete(row.id)} type="button">
+                                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i> Delete
+                                                </button>
+
+                                            )}
+                                        </li>
+                                        <li>
+                                            {isHistorySettingPermissionAvailable && (
+
+                                                <button onClick={() => handleHistory(row?.id)} type="button">
+                                                    <i className="fi fi-ts-file-medical-alt"></i>Check History
+                                                </button>
+
+                                            )}
+                                        </li>
+
+                                    </ul>
+                                </Dropdown>
                             </div>
                         </div>
                     </span>
                 ),
             }
             : null,
+
     ];
 
     const openModal = async (id: string) => {
@@ -278,7 +288,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             const response = await getData('/getClients');
             if (response && response.data && response.data.data) {
 
-             
+
                 setRoleList(response.data.data);
             } else {
                 throw new Error('No data available in the response');

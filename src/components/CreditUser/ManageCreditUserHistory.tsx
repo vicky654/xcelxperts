@@ -2,21 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import noDataImage from '../../assets/AuthImages/noDataFound.png'; // Import the image
 import useErrorHandler from '../../hooks/useHandleError';
-import useToggleStatus from '../../utils/ToggleStatus';
-import useCustomDelete from '../../utils/customDelete';
-import CustomSwitch from '../FormikFormTools/CustomSwitch';
 import LoaderImg from '../../utils/Loader';
 import CustomPagination from '../../utils/CustomPagination';
 import withApiHandler from '../../utils/withApiHandler';
-import AddEditStationTankModal from './AddEditCreditUser';
-import * as Yup from 'yup';
 import { IRootState } from '../../store';
-import FormikSelect from '../FormikFormTools/FormikSelect';
-import { useFormik } from 'formik';
 import AddEditHistoryTankModal from './AddEditHistoryTankModal';
 import { currency } from '../../utils/CommonData';
 
@@ -33,6 +25,7 @@ interface RowData {
     t_type: string;
     balance: string;
     debit: string;
+    creator: string;
     credit: string;
 
     amount: string;
@@ -60,26 +53,18 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
 
-    const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
     const isAddPermissionAvailable = UserPermissions?.includes('credituser-update');
-    const isListPermissionAvailable = UserPermissions?.includes('credituser-list');
     const isEditPermissionAvailable = UserPermissions?.includes('credituser-edit');
-    const isHistorySettingPermissionAvailable = UserPermissions?.includes('credituser-history');
     const isDeletePermissionAvailable = UserPermissions?.includes('credituser-delete');
     const isAssignAddPermissionAvailable = UserPermissions?.includes('credituser-assign-permission');
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
     const { id } = useParams<{ id: string }>();
     useEffect(() => {
-
-
         GetUserList(id)
 
-
-    }, []);
+    }, [currentPage]);
 
     const handleSuccess = () => {
         GetUserList(id);
@@ -88,44 +73,81 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
-    const { toggleStatus } = useToggleStatus();
-
-
-    const { customDelete } = useCustomDelete();
-    // const handleDelete = (id: any) => {
-    //     const formData = new FormData();
-    //     formData.append('id', id);
-    //     customDelete(postData, 'credit-user/delete', formData, handleSuccess);
-    // };
 
     const columns: any = [
+        {
+            name: 'Creator',
+            selector: (row: RowData) => row.creator,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex" style={{ cursor: 'default' }}>
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: 'Transaction Date',
+            selector: (row: RowData) => row.t_date,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex" style={{ cursor: 'default' }}>
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.t_date}</h6>
+                    </div>
+                </div>
+            ),
+        },
         {
             name: 'Amount',
             selector: (row: RowData) => row.amount,
             sortable: false,
-            width: '30%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.amount}
+                        <h6 className="mb-0 fs-14 fw-semibold">{currency}{row.amount}
 
-                            {row?.t_type === "Credit" && (<>
-                                <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr.</span>
-                            </>)}
-                            {row?.t_type === "Debit" && (<>
-                                <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr.</span>
-                            </>)}
                         </h6>
                     </div>
                 </div>
             ),
         },
+        {
+            name: 'Type',
+            selector: (row: RowData) => row.amount,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+
+                        {row?.t_type === "Credit" && (<>
+                            <span className="badge bg-primary my-auto  hover:top-0">{row?.t_type}</span>
+                        </>)}
+                        {row?.t_type === "Debit" && (<>
+                            <span className="badge bg-danger my-auto  hover:top-0">{row?.t_type}</span>
+                        </>)}
+
+
+
+                    </div>
+                </div>
+
+            ),
+        },
+  
+   
+   
 
         {
             name: 'Notes',
             selector: (row: RowData) => row.notes,
             sortable: false,
-            width: '20%',
+            width: '25%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -135,19 +157,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             ),
         },
 
-        {
-            name: 'Transaction Date',
-            selector: (row: RowData) => row.t_date,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex" style={{ cursor: 'default' }}>
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.t_date}</h6>
-                    </div>
-                </div>
-            ),
-        },
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -223,15 +233,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
         //     : null,
     ];
 
-    const openModal = async (id: string) => {
-        try {
-            setIsModalOpen(true);
-            setIsEditMode(true);
-            setUserId(id);
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
+    console.log(hirstoryData?.history, "hirstoryData");
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -272,10 +274,13 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const GetUserList = async (id: any) => {
 
         try {
-            const response = await getData(`credit-user/history?credit_user_id=${id}`);
+            const response = await getData(`credit-user/history?credit_user_id=${id}&page=${currentPage}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
+                console.log(response.data.data?.history?.lastPage, "response.data.data?.lastPage");
                 setData(response.data.data?.history?.listing);
+                setCurrentPage(response.data.data?.history?.currentPage || 1);
+                setLastPage(response.data.data?.history?.lastPage || 1);
                 sethirstoryData(response.data.data);
             } else {
                 throw new Error('No data available in the response');
@@ -285,7 +290,6 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
         }
     };
 
-    console.log(data, "data");
 
 
     return (
@@ -319,16 +323,16 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             <div className=" mt-6">
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users</h5>
+                        <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users History</h5>
                         <div className="ltr:ml-auto rtl:mr-auto">
                             {hirstoryData?.balance && (<>
-                                <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal. {currency}{hirstoryData?.balance} </span>
+                                <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
                             </>)}
                             {hirstoryData?.credit && (<>
-                                <span className="badge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr.{currency} {hirstoryData?.credit}</span>
+                                <span className="badge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
                             </>)}
                             {hirstoryData?.debit && (<>
-                                <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr.{currency} {hirstoryData?.debit} </span>
+                                <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
                             </>)}
                             {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                         </div>
@@ -361,7 +365,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                 </div>
 
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+            {hirstoryData?.history?.listing?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
         </>
     );
 };

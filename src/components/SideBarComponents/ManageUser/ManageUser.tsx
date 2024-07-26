@@ -188,29 +188,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
-                            {/* <div className="inline-flex">
-                                  {isEditPermissionAvailable && (
-                                      <Tippy content="Edit">
-                                          <button type="button" onClick={() => openEditModal(row?.id)}>
-                                              <i className="setting-icon fi fi-rr-file-edit "></i>
-                                          </button>
-                                      </Tippy>
-                                  )}
-                                  {isDeletePermissionAvailable && (
-                                      <Tippy content="Delete">
-                                          <button onClick={() => handleDelete(row.id)} type="button">
-                                              <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                          </button>
-                                      </Tippy>
-                                  )}
-                                  {isAssignAddPermissionAvailable && (
-                                      <Tippy content="Assign Addon">
-                                          <button onClick={() => openUserAddonModal(row?.id)} type="button">
-                                              <i className="fi fi-rr-user-add"></i>
-                                          </button>
-                                      </Tippy>
-                                  )}
-                              </div> */}
+                      
                             <div className="dropdown">
                                 <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
                                     <ul>
