@@ -621,6 +621,11 @@ li.flexcenter.dataentrytab {
     display: flex;
     justify-content: space-between;
 }
+.displaycanter {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
 
 .tabletext-red-500 {
     --tw-text-opacity: 1;

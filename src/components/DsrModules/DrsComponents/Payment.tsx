@@ -144,9 +144,9 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         <div>
           
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold mb-4">
+                    <h1 className="text-lg font-semibold mb-4 displaycanter">
                         {`Payments`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
-                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>
                             

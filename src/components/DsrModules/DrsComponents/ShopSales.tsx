@@ -315,9 +315,9 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         <>
             {isLoading && <LoaderImg />}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1 className="text-lg font-semibold mb-4">
+                <h1 className="text-lg font-semibold mb-4 displaycanter">
                     {`Lubes Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}>
-                    <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                    <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>
                         

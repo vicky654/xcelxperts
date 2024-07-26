@@ -193,7 +193,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     <h1 className="text-lg font-semibold mb-4">
                         {`Credit Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}>
                             
-                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >PDF Download</Tooltip>}>
+                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>
                             
