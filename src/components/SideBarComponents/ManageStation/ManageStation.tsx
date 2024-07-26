@@ -39,7 +39,7 @@ interface RowData {
     station_code: string;
     station_address: string;
     supplier_code: string;
-    supplier_logo: string;
+    logo: string;
 }
 
 const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
@@ -164,7 +164,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         },
 
         {
-            name: 'Supplier Logo',
+            name: 'Station Logo',
             selector: (row: RowData) => row.supplier_code,
             sortable: false,
             width: '10%',
@@ -172,7 +172,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 <div className="d-flex">
                     <div className="mt-0 mt-sm-2 d-block">
                         {/* Assuming row.logo contains the URL of the image */}
-                        <img style={{ width: "50px", height: "40px" }} src={row.supplier_logo} alt="Logo" className="img-fluid" />
+                        <img style={{ width: "50px", height: "40px" }} src={row.logo} alt="Logo" className="img-fluid" />
                         {/* If you want to display the URL as text */}
                         {/* <h6 className="mb-0 fs-14 fw-semibold">{row.logo}</h6> */}
                     </div>

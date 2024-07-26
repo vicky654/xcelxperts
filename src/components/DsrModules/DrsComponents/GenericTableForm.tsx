@@ -106,7 +106,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         {
             name: 'Nozzle',
             selector: (row: NozzleData) => row.nozzle_name,
-            width: '15%',
+            width: '7%',
             cell: (row: NozzleData) => {
                 const isTextLong = row.nozzle_name.length > characterLimit;
                 const displayText = isTextLong
@@ -296,8 +296,6 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             handleApiError(error);
         }
     };
-
-
 
 
     return (

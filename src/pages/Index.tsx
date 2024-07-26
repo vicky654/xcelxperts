@@ -14,6 +14,7 @@ import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import showMessage from '../hooks/showMessage';
+import { currency } from '../utils/CommonData';
 
 interface FilterValues {
     client_id: string;
@@ -582,7 +583,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                             <p className="text-lg dark:text-white-light/90">
-                                Total Profit <span className="text-primary ml-2">$10,840</span>
+                                Total Profit <span className="text-primary ml-2">{currency}10,840</span>
                             </p>
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
