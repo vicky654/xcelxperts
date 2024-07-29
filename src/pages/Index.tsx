@@ -489,27 +489,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         )}
                     </div>
                 </div>
-                {/* <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
 
-                    <VerticalProgressBarWithWave
-                        percentage={75}
-                        width={60}
-                        height={350}
-                        color="#ddd"
-                    />
-                    <VerticalProgressBarWithWave
-                        percentage={50}
-                        width={60}
-                        height={350}
-                        color="#ddd "
-                    />
-                    <VerticalProgressBarWithWave
-                        percentage={90}
-                        width={60}
-                        height={350}
-                        color="#ddd"
-                    />
-                </div> */}
 
 
                 <div className="pt-5 ">
@@ -637,6 +617,27 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
+
+                        <VerticalProgressBarWithWave
+                            percentage={75}
+                            width={60}
+                            height={350}
+                            color="#ddd"
+                        />
+                        <VerticalProgressBarWithWave
+                            percentage={50}
+                            width={60}
+                            height={350}
+                            color="#ddd "
+                        />
+                        <VerticalProgressBarWithWave
+                            percentage={90}
+                            width={60}
+                            height={350}
+                            color="#ddd"
+                        />
                     </div>
                 </div>
             </div>

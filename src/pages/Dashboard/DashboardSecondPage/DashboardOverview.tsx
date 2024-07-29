@@ -166,12 +166,16 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
 
+    // const handleNavigateToNextPage = (item: any) => {
+    //     if (!isSitePermissionAvailable) {
+    //         navigate(`/dashboard/station/${item?.id}`)
+    //     }
+    // }
     const handleNavigateToNextPage = (item: any) => {
         if (!isSitePermissionAvailable) {
-            navigate(`/dashboard/station/${item?.id}`)
+            navigate(`/data-entry-stats`)
         }
     }
-
 
 
     return (
@@ -308,6 +312,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         key={item?.id}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
                                             }`}
+                                        style={{ cursor: "pointer" }}
                                         onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
                                         <div className="flex items-center mb-4">

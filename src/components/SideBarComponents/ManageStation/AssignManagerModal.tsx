@@ -161,7 +161,17 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
                                     >
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <Col lg={4} md={6}>
+                                                <Col lg={6} md={6}>
+                                                    <FormikSelect
+                                                        formik={formik}
+                                                        name="user_id"
+                                                        label="User"
+                                                        options={formik.values?.users?.map((item: any) => ({ id: item.id, name: item.user_name }))}
+                                                        className="form-select text-white-dark"
+                                                    // onChange={handleSiteChange}
+                                                    />
+                                                </Col>
+                                                <Col lg={6} md={6}>
                                                     <label className="form-label ">
                                                         Select Stations
                                                         <span className="text-danger">*</span>
@@ -179,16 +189,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
                                                         <div className="text-danger">{formik?.errors?.selectedStations}</div>
                                                     )}
                                                 </Col>
-                                                <Col lg={4} md={6}>
-                                                    <FormikSelect
-                                                        formik={formik}
-                                                        name="user_id"
-                                                        label="User"
-                                                        options={formik.values?.users?.map((item: any) => ({ id: item.id, name: item.user_name }))}
-                                                        className="form-select text-white-dark"
-                                                    // onChange={handleSiteChange}
-                                                    />
-                                                </Col>
+
                                             </div>
                                         </div>
 

@@ -597,13 +597,13 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     };
 
 
-    const handleNavigateToNextPage = (item: any) => {
+    // const handleNavigateToNextPage = (item: any) => {
 
 
-        if (isSitePermissionAvailable) {
-            navigate(`/dashboard/station/${item?.id}`)
-        }
-    }
+    //     if (isSitePermissionAvailable) {
+    //         navigate(`/dashboard/station/${item?.id}`)
+    //     }
+    // }
 
     // '#5c1ac3', '#ffbb44', '#00ab55'
     const dataaa = [
