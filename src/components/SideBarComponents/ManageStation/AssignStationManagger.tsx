@@ -5,7 +5,6 @@ import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
 import Tippy from '@tippyjs/react';
@@ -14,9 +13,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
-import Dropdown from '../../Dropdown';
-import IconHorizontalDots from '../../Icon/IconHorizontalDots';
-import SkipStationModal from './SkipStationModal';
+import AssignManagerModal from './AssignManagerModal';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -27,8 +24,8 @@ interface ManageSiteProps {
 
 interface RowData {
     id: string; // Change type from number to string
-    skip_date: string;
-    client_name: string;
+    reports: string;
+    manager_name: string;
     entity_name: string;
     role: string;
     addons: string;
@@ -40,8 +37,9 @@ interface RowData {
     station_address: string;
 }
 
-const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
+    const [dataList, setdataList] = useState<any[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,11 +65,12 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     const fetchData = async (id: any) => {
         try {
             // const response = await getData(`/skip-date/list?station_id=${id}&page=${currentPage}`);
-            const response = await getData(`station/skip-date/list?station_id=${id}&page=${currentPage}`);
+            const response = await getData(`/station/manager/${id}?page=${currentPage}`);
             // station/skip-date/list?station_id=VEttejdBRlRMWDRnUTdlRkdLK1hrZz0
 
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.skipDates);
+                setdataList(response.data.data || []);
+                setData(response.data.data?.managers || []);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -79,23 +78,19 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
             }
         } catch (error) {
             handleApiError(error);
-            //   handleApiError(error);
         }
     };
-    const { toggleStatus } = useToggleStatus();
+
+
 
     const { customDelete } = useCustomDelete();
 
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'station/skip-date/delete', formData, handleSuccess);
+        customDelete(postData, 'station/manager/delete', formData, handleSuccess);
     };
-    const handleNavigateStationSetting = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        navigate(`/manage-stations/setting/${id}`)
-    };
+
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
     console.log(UserPermissions,);
@@ -113,96 +108,141 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     const isAssignAddPermissionAvailable = UserPermissions?.includes("skipdate-assign-permission");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
+    const openModal = async (id: string) => {
+        try {
+            setIsModalOpen(true);
+            setIsEditMode(true);
+            setUserId(id);
 
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
     const columns: any = [
         {
-            name: 'Skip Date',
-            selector: (row: RowData) => row.skip_date,
+            name: 'Manager',
+            selector: (row: RowData) => row.manager_name,
             sortable: false,
-            width: '35%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.skip_date}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.manager_name}</h6>
                     </div>
                 </div>
             ),
         },
-   
         {
-            name: 'Created Date',
-            selector: (row: RowData) => row.created_date,
+            name: 'Role',
+            selector: (row: RowData) => row.role,
             sortable: false,
-            width: '35%',
+            width: '20%',
             cell: (row: RowData) => (
-                <div className="d-flex" style={{ cursor: 'default' }}>
+                <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
                     </div>
                 </div>
             ),
         },
-     
-        anyPermissionAvailable
-        ? {
-            name: 'Actions',
-            selector: (row: RowData) => row.id,
+        {
+            name: 'Reports',
+            selector: (row: RowData) => row.reports,
             sortable: false,
-            width: '30%',
+            width: '50%',
             cell: (row: RowData) => (
-                <span className="text-center">
-                    <div className="flex items-center justify-center">
-                        <div className="inline-flex">
-                        
-                            {isDeletePermissionAvailable && <>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
-                            </>}
-                        </div>
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.reports}</h6>
                     </div>
-                </span>
+                </div>
             ),
-        }
-        : null,
+        },
+
+        // {
+        //     name: 'Created Date',
+        //     selector: (row: RowData) => row.created_date,
+        //     sortable: false,
+        //     width: '35%',
+        //     cell: (row: RowData) => (
+        //         <div className="d-flex" style={{ cursor: 'default' }}>
+        //             <div className=" mt-0 mt-sm-2 d-block">
+        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+        //             </div>
+        //         </div>
+        //     ),
+        // },
+
+        anyPermissionAvailable
+            ? {
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '10%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+                                {isEditPermissionAvailable && <>
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+
+                                </>}
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+                            </div>
+                        </div>
+                    </span>
+                ),
+            }
+            : null,
     ];
- 
+
 
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
     };
-    const handleFormSubmit = async (selectedDates:any, values:any) => {
+    const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(selectedDates, "handleFormSubmit");
+            console.log(values, "values");
 
-            // Extract skip_date from selectedDates and check if it's not empty
-            const skipDates = selectedDates || [];
-            console.log(skipDates, "skipDates");
-            if (skipDates.length === 0) {
-                console.error('No skip dates provided.');
-                return; // Early exit if skip_date is empty
-            }
+            // Extract skip_date from values?.selectedStations and check if it's not empty
 
-            // Convert skip_dates to ISO string format if not already
-            skipDates.forEach((dateString: string, index: number) => {
-                // Convert to ISO string if necessary
-                const date = new Date(dateString).toISOString().split('T')[0]; // Keep only the date part
-                formData.append(`skip_date[${index}]`, date);
-            });
-
+            formData.append('user_id', values?.user_id);
             // Append userId if available
             if (id) {
                 formData.append('station_id', id);
             }
+            console.log(values?.selectedStations, "values?.selectedStations");
+
+            const skipDates = values?.selectedStations || [];
+            console.log(skipDates, "skipDates");
+            if (skipDates.length === 0) {
+                console.error("No skip dates provided.");
+                return; // Early exit if skip_date is empty
+            }
+
+
+
+            // Convert skipDates to the desired format and append to formData
+            skipDates.forEach((selectedItem: any, index: any) => {
+                formData.append(`reports[${index}]`, selectedItem.value);
+            });
 
             // Determine the URL for submission
             // const url = isEditMode && userId ? `/station/update` : `/station/create`;
-            const url = `/station/skip-date/create`;
+            const url = `/station/manager/assign`;
 
             // Submit the form data using your postData function
             const response = await postData(url, formData);
@@ -236,24 +276,24 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
 
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Skip Date</span>
+                        <span> Station Manager</span>
                     </li>
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Skip Dates
+                        Assign Station Mannager
                     </button>
 
                 </>}
             </div>
-            <SkipStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
+            <AssignManagerModal getData={getData} dataList={dataList} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
 
             />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Stations</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Station Managers</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>
@@ -289,4 +329,4 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     );
 };
 
-export default withApiHandler(SkipDate);
+export default withApiHandler(AssignStationManagger);

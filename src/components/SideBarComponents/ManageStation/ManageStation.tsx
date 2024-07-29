@@ -105,9 +105,13 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         formData.append('id', id);
         navigate(`/manage-stations/skipdate/${id}`)
     };
+    const NavigateToAssignMannager = (id: any) => {
+
+        navigate(`/manage-stations/mannagers/${id}`)
+    };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
- 
+
 
     // "skipdate-create",
     // "skipdate-delete",
@@ -120,8 +124,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const isSkipPermissionAvailable = UserPermissions?.includes("skipdate-list");
     const isDeletePermissionAvailable = UserPermissions?.includes("station-delete");
     const isAssignAddPermissionAvailable = UserPermissions?.includes("station-assign-permission");
+    const AssignMannagerPermissionAvailable = UserPermissions?.includes("station-assign-manager");
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable || AssignMannagerPermissionAvailable;
 
     const columns: any = [
         {
@@ -292,6 +297,17 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                     <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
                                                         <i className="fi fi-tr-calendar-clock"></i>Skip Date
+                                                    </button>
+
+
+
+                                                )}
+                                            </li>
+                                            <li>
+                                                {AssignMannagerPermissionAvailable && (
+
+                                                    <button onClick={() => NavigateToAssignMannager(row.id)} type="button">
+                                                        <i className="fi fi-tr-calendar-clock"></i>Assign Mannager
                                                     </button>
 
 

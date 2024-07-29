@@ -64,8 +64,8 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('company_id', company_id);
-            if (id) queryParams.append('site_id', id);
+            if (company_id) queryParams.append('station_id', company_id);
+            if (id) queryParams.append('entity_id', id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-site-details?${queryString}`);
@@ -83,8 +83,8 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('company_id', company_id);
-            if (id) queryParams.append('site_id', id);
+            if (company_id) queryParams.append('station_id', company_id);
+            if (id) queryParams.append('entity_id', id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-site-stats?${queryString}`);
@@ -103,8 +103,8 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('company_id', company_id);
-            if (id) queryParams.append('site_id', id);
+            if (company_id) queryParams.append('station_id', company_id);
+            if (id) queryParams.append('entity_id', id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-site-shop-details?${queryString}`);
@@ -123,7 +123,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
             // if (client_id) queryParams.append('client_id', client_id);
             // if (company_id) queryParams.append('company_id', company_id);
-            if (id) queryParams.append('site_id', id);
+            if (id) queryParams.append('entity_id', id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-site-fuel-performance?${queryString}`);

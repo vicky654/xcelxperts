@@ -47,8 +47,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('company_id', company_id);
-            if (site_id) queryParams.append('site_id', site_id);
+            if (company_id) queryParams.append('station_id', company_id);
+            if (site_id) queryParams.append('entity_id', site_id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
