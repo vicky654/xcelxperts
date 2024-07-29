@@ -263,19 +263,20 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
 
                         </div>
                         <div className="text-end mt-4">
-                            <button
-                                type="submit"
-                                className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                {id ? 'Update Role' : 'Add Role'}
-                            </button>
-                            <button
+                        <button
                                 type="button"
-                                className="bg-red-600 text-white px-4 py-2 ml-4 rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                className="bg-red-600 text-white px-4 py-2  rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                 onClick={handleClearForm}
                             >
                                 Clear
                             </button>
+                            <button
+                                type="submit"
+                                className="bg-indigo-600 text-white px-4 ml-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                {id ? 'Update Role' : 'Add Role'}
+                            </button>
+                        
                         </div>
                     </form>
                 </div>

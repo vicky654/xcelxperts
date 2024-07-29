@@ -15,6 +15,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import showMessage from '../hooks/showMessage';
 import { currency } from '../utils/CommonData';
+import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
 
 interface FilterValues {
     client_id: string;
@@ -488,6 +489,28 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         )}
                     </div>
                 </div>
+                {/* <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
+
+                    <VerticalProgressBarWithWave
+                        percentage={75}
+                        width={60}
+                        height={350}
+                        color="#ddd"
+                    />
+                    <VerticalProgressBarWithWave
+                        percentage={50}
+                        width={60}
+                        height={350}
+                        color="#ddd "
+                    />
+                    <VerticalProgressBarWithWave
+                        percentage={90}
+                        width={60}
+                        height={350}
+                        color="#ddd"
+                    />
+                </div> */}
+
 
                 <div className="pt-5 ">
 
