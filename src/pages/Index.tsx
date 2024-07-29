@@ -28,12 +28,29 @@ interface IndexProps {
     fetchedData: any; // Define the type of the fetchedData prop
     getData: (url: string, id?: string, params?: any) => Promise<any>;
 }
+interface FuelStatsData {
+    dates: string[];
+    stock_alert: Record<string, any[]>;
+    station_name: string;
+    station_image: string;
+    last_dayend: string;
+}
+
+// Initialize the state with an empty object
+
 
 const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
     const navigate = useNavigate();
+    const [fuelStats, setFuelStats] = useState<FuelStatsData>({
+        dates: [],
+        stock_alert: {},
+        station_name: '',
+        station_image: '',
+        last_dayend: ''
+    });
     const [filters, setFilters] = useState({
         client_id: localStorage.getItem('client_id') || '',
         company_id: localStorage.getItem('company_id') || '',
@@ -56,6 +73,36 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 setFilterData(response.data.data);
             }
             // setData(response.data);
+        } catch (error) {
+            console.error('Failed to fetch data', error);
+        } finally {
+        }
+    };
+
+
+    const GetFuelStats = async (item: any) => {
+        try {
+            // dashboard/station-stock?station_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09
+
+            const response = await getData(`dashboard/station-stock?station_id=${item}`);
+
+
+
+            if (response && response.data && response.data.data) {
+                // Extract data from the response
+                const { dates, stock_alert, station_name, station_image, last_dayend } = response.data?.data;
+
+                // Update state with the fetched data
+                setFuelStats({
+                    dates,
+                    stock_alert,
+                    station_name,
+                    station_image,
+                    last_dayend
+                });
+
+                console.log(response.data, "columnIndex");
+            }
         } catch (error) {
             console.error('Failed to fetch data', error);
         } finally {
@@ -98,6 +145,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         if (clientId && companyId) {
             // Fetch data only if both client_id and company_id are present
             callFetchFilterData(filters);
+        }
+        if (clientId && companyId && filters?.site_id) {
+            // Fetch data only if both client_id and company_id are present
+            GetFuelStats(filters?.site_id);
         }
     }, [filters]);
 
@@ -395,11 +446,28 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const handleErrorClick = () => {
         showMessage('Error: Something went wrong.', 'error');
     };
-    const revenueChartRef = useRef(null);
-    const salesByCategoryChartRef = useRef(null);
+
+    const { dates } = fuelStats; // Extract dates from fuelStats
+    const [selectedDate, setSelectedDate] = useState(dates[0]); // Initial state
+    const [filteredStockAlerts, setFilteredStockAlerts] = useState<{ [key: string]: any[] }>({});
 
 
+    const handleDateClick = (date: string) => {
+        setSelectedDate(date);
 
+        // Filter the stock_alert data based on the selected date
+        const filteredStockAlerts = Object.keys(fuelStats?.stock_alert).reduce((acc, tankName) => {
+            acc[tankName] = fuelStats?.stock_alert[tankName].filter((item: any) => item.date === date);
+            return acc;
+        }, {} as { [key: string]: any[] });
+
+        console.log('Filtered stock alerts:', filteredStockAlerts);
+        setFilteredStockAlerts(filteredStockAlerts);
+
+        // Optionally, you can update the state or handle the filtered data as needed
+    };
+
+    console.log(filteredStockAlerts, "filteredStockAlerts");
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
@@ -618,7 +686,92 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div>
                     </div>
-                    <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
+                    <div className="grid grid-cols-12 gap-6 mb-6">
+                        <div className="col-span-7">
+                            <div className="panel h-full">
+                                <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                    <h5 className="font-semibold text-lg">Station: {fuelStats?.station_name}</h5>
+                                    <div className="selected-date">
+                                        <p>Selected Date: {selectedDate}</p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap gap-6">
+                                    {Object.keys(filteredStockAlerts)?.map(tankName => (
+                                        <div key={tankName} className="flex flex-col gap-6">
+                                            <h3 className="font-bold">{tankName}</h3>
+                                            <div className="flex flex-wrap gap-6">
+                                                {filteredStockAlerts[tankName]?.map((alert, index) => (
+                                                    <div key={index} className="flex items-center gap-4 mb-6">
+                                                        <VerticalProgressBarWithWave
+                                                            percentage={parseFloat(alert?.ullage_percentage)} // Convert percentage to number
+                                                            width={150}
+                                                            height={350}
+                                                            color={alert?.bg_color} // Use tank's bg color if desired
+                                                            data-tip
+                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
+                                                        />
+                                                        
+                                                        <div
+                                                            className="flex-1"
+                                                            data-tip
+                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
+                                                        >
+                                                            {/* <div className="flex items-center justify-between">
+                                                                <div className="text-sm">
+                                                                    <strong>Date:</strong> {alert?.date}
+                                                                </div>
+                                                                <div className="text-sm">
+                                                                    <strong>Capacity:</strong> {alert?.capacity}
+                                                                </div>
+                                                                <div className="text-sm">
+                                                                    <strong>Ullage:</strong> {alert?.ullage}
+                                                                </div>
+                                                                <div className="text-sm">
+                                                                    <strong>Fuel Left:</strong> {alert?.fuel_left}
+                                                                </div>
+                                                                <div className="text-sm">
+                                                                    <strong>Ullage Percentage:</strong> {alert?.ullage_percentage}%
+                                                                </div>
+                                                            </div> */}
+                                                            {/* <ReactTooltip id={`tooltip-${tankName}-${index}`} place="top" effect="solid"> */}
+                                                              
+                                                            {/* </ReactTooltip> */}
+                                                        </div>
+                                                        <div>
+                                                                    <strong>Date:</strong> {alert?.date}<br />
+                                                                    <strong>Capacity:</strong> {alert?.capacity}<br />
+                                                                    <strong>Ullage:</strong> {alert?.ullage}<br />
+                                                                    <strong>Fuel Left:</strong> {alert?.fuel_left}<br />
+                                                                    <strong>Ullage Percentage:</strong> {alert?.ullage_percentage}%
+                                                                </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-span-5">
+                            <div className="fuel-stats-buttons panel h-full">
+                                <div className="buttons-container">
+                                    {fuelStats?.dates.map((date, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handleDateClick(date)}
+                                            className={`date-button btn btn-primary mb-2 ${date === selectedDate ? 'selected' : ''}`}
+                                        >
+                                            {date}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {/* <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
 
                         <VerticalProgressBarWithWave
                             percentage={75}
@@ -638,7 +791,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             height={350}
                             color="#ddd"
                         />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

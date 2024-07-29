@@ -128,7 +128,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
                 </div>
             ),
         },
-   
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -142,40 +142,40 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
                 </div>
             ),
         },
-     
+
         anyPermissionAvailable
-        ? {
-            name: 'Actions',
-            selector: (row: RowData) => row.id,
-            sortable: false,
-            width: '30%',
-            cell: (row: RowData) => (
-                <span className="text-center">
-                    <div className="flex items-center justify-center">
-                        <div className="inline-flex">
-                        
-                            {isDeletePermissionAvailable && <>
-                                <Tippy content="Delete">
-                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                    </button>
-                                </Tippy>
-                            </>}
+            ? {
+                name: 'Actions',
+                selector: (row: RowData) => row.id,
+                sortable: false,
+                width: '30%',
+                cell: (row: RowData) => (
+                    <span className="text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="inline-flex">
+
+                                {isDeletePermissionAvailable && <>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>}
+                            </div>
                         </div>
-                    </div>
-                </span>
-            ),
-        }
-        : null,
+                    </span>
+                ),
+            }
+            : null,
     ];
- 
+
 
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
     };
-    const handleFormSubmit = async (selectedDates:any, values:any) => {
+    const handleFormSubmit = async (selectedDates: any, values: any) => {
         try {
             const formData = new FormData();
             console.log(selectedDates, "handleFormSubmit");
@@ -253,7 +253,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Stations</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Station Skip Dates</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>

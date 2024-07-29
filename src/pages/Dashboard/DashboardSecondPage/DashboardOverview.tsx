@@ -143,6 +143,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         // Dispatch action to set applyFilter to false
     };
     const handleApplyFilters = (values: FilterValues) => {
+
         const updatedFilters = {
             client_id: values.client_id,
             company_id: values.company_id,
@@ -171,11 +172,45 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     //         navigate(`/dashboard/station/${item?.id}`)
     //     }
     // }
+    // Function to get the current month in "YYYY-MM" format
+    const getCurrentMonth = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() returns month index (0-11), so add 1 and pad with zero if needed
+
+        return `${year}-${month}`;
+    };
+
+    // Function to store the current month in localStorage
+    const storeCurrentMonth = () => {
+        const currentMonth = getCurrentMonth();
+        localStorage.setItem('start_month', currentMonth);
+        console.log(`Current month stored: ${currentMonth}`);
+    };
+
     const handleNavigateToNextPage = (item: any) => {
+        // Store the current month in localStorage
+        storeCurrentMonth();
+
+        const clientId = localStorage.getItem('client_id');
+        const companyId = localStorage.getItem('company_id');
+        const currentMonth = getCurrentMonth(); // Get the current month to include in filters
+
+        // Create the updated filters object
+        const updatedFilterss = {
+            client_id: clientId,
+            company_id: companyId,
+            site_id: item.id,
+            start_month: currentMonth // Include the current month in the filters
+        };
+
+        // Store the updated filters object in localStorage
+        localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
+
         if (!isSitePermissionAvailable) {
-            navigate(`/data-entry-stats`)
+            navigate(`/data-entry-stats`);
         }
-    }
+    };
 
 
     return (

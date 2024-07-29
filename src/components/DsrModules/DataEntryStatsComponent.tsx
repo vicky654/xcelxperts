@@ -79,6 +79,27 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
+  const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
+
+  useEffect(() => {
+    const storedDataString = localStorage.getItem(DashboardstoredKeyName);
+    console.log(storedDataString, "storedDataString");
+
+    if (storedDataString) {
+      try {
+        // Parse the JSON string to get the stored data
+        const storedData = JSON.parse(storedDataString);
+        console.log(storedData, "storedData");
+
+        // Check for the existence of `start_month` or other necessary properties
+        if (storedData.start_month) {
+          handleApplyFilters(storedData);
+        }
+      } catch (error) {
+        console.error("Error parsing stored data", error);
+      }
+    }
+  }, [dispatch]);
 
   // useEffect(() => {
   //   const storedData = localStorage.getItem(storedKeyName);
@@ -90,6 +111,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   //   }
 
   // }, [dispatch]);
+  
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
     console.log(storedDataString, "storedDataString");
@@ -101,6 +123,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
         // Check for the existence of `start_month` or other necessary properties
         if (storedData.start_month) {
+          console.log(storedData, "storedDatastoredData");
           handleApplyFilters(storedData);
         }
       } catch (error) {
