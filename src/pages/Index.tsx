@@ -695,20 +695,22 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     </div>
                     {
                         filters?.site_id ? <div className="grid grid-cols-12 gap-6 mb-6">
-                            <div className="col-span-2">
-                                <div className="panel h-full">
-                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                            <div className="col-span-2 w-full">
+                                <div className="panel h-full  w-full">
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5  w-full">
                                         <h5 className="font-semibold text-lg">Forecasting  </h5>
 
                                     </div>
-                                    <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter">
-                                        <div className="buttons-container">
+                                    <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
+                                        <div className="buttons-container  w-full">
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
                                                 fuelStats.dates.map((date, index) => (
                                                     <button
                                                         key={index}
                                                         onClick={() => handleDateClick(date)}
-                                                        className={`date-button btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
+                                                        className={`date-button  w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
+                                                        style={{ borderBottom: '1px solid #ddd' }}
+
                                                     >
                                                         {date}
                                                     </button>
