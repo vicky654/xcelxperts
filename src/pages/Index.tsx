@@ -474,7 +474,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             handleDateClick(defaultDate);
         }
     }, [fuelStats]);
-    console.log(filterData, "filterData");
+    console.log(filterData?.basic_details, "basic_details");
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
@@ -512,19 +512,19 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client </span> {filters.client_id}
+                                            <span className="font-semibold">Client :</span> {filterData?.basic_details?.client_name}
                                         </div>
                                     )}
 
                                     {filters?.company_id && (
                                         <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity </span> {filters.company_id}
+                                            <span className="font-semibold">Entity : </span> {filterData?.basic_details?.station_name} 
                                         </div>
                                     )}
 
                                     {filters?.site_id && (
                                         <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station </span> {filters.site_id}
+                                            <span className="font-semibold">Station :</span> {filterData?.basic_details?.entity_name}  
                                         </div>
                                     )}
                                 </div>

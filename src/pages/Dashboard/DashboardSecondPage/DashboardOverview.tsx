@@ -212,7 +212,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         }
     };
 
-
+console.log(filterData?.basic_details, "filterData");
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -533,3 +533,72 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 const enhanceDashboardOverview = DashboardOverview
 
 export default withApiHandler(enhanceDashboardOverview);
+
+// {
+//     "basic_details": {
+//         "station_name": "Test Station",
+//         "client_name": "Test Client",
+//         "entity_name": "Test Company"
+//     },
+//     "sales_volume": {
+//         "sales_volume": 10,
+//         "status": "up",
+//         "percentage": 10.1
+//     },
+//     "sales_value": {
+//         "sales_value": 100,
+//         "status": "up",
+//         "percentage": 10.1
+//     },
+//     "profit": {
+//         "profit": 10,
+//         "status": "up",
+//         "percentage": 10.1
+//     },
+//     "line_graph": {
+//         "labels": [
+//             "Jun 2024",
+//             "Jul 2024"
+//         ],
+//         "datasets": [
+//             {
+//                 "label": "Fuel Volume (ℓ)",
+//                 "data": [
+//                     1600,
+//                     0
+//                 ],
+//                 "borderColor": "rgba(255, 99, 132, 1)",
+//                 "backgroundColor": "rgba(255, 99, 132, 0.5)",
+//                 "type": "line",
+//                 "yAxisID": "y1"
+//             },
+//             {
+//                 "label": "Fuel Value (₹)",
+//                 "data": [
+//                     152105,
+//                     0
+//                 ],
+//                 "borderColor": "rgba(54, 162, 235, 1)",
+//                 "backgroundColor": "rgba(54, 162, 235, 0.5)",
+//                 "type": "bar",
+//                 "yAxisID": "y"
+//             },
+//             {
+//                 "label": "Profit (₹)",
+//                 "data": [
+//                     "0.00",
+//                     "0.00"
+//                 ],
+//                 "borderColor": "rgba(154, 62, 251, 1)",
+//                 "backgroundColor": "rgba(154, 62, 251, 0.5)",
+//                 "type": "line",
+//                 "yAxisID": "y1"
+//             }
+//         ]
+//     },
+//     "pi_graph": {
+//         "sales_volume": 1600,
+//         "sales_value": 152105,
+//         "profit": 0
+//     }
+// }
