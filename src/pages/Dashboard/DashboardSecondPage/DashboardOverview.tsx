@@ -46,6 +46,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     });
     const [filterData, setFilterData] = useState<any>(null);
     const [detailsData, setDetailsData] = useState<any>([]);
+    const [secondApiResponse, setsecondApiResponse] = useState<any>([]);
 
 
     const callFetchFilterData = async (filters: FilterValues) => {
@@ -54,8 +55,8 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('station_id', company_id);
-            if (site_id) queryParams.append('entity_id', site_id);
+            if (company_id) queryParams.append('entity_id', company_id);
+            if (site_id) queryParams.append('station_id', site_id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
@@ -74,12 +75,15 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('station_id', company_id);
-            if (site_id) queryParams.append('entity_id', site_id);
+            if (company_id) queryParams.append('entity_id', company_id);
+            if (site_id) queryParams.append('station_id', site_id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-details?${queryString}`);
             if (response && response.data && response.data.data) {
+
+                setsecondApiResponse(response.data.data)
+
                 setDetailsData(response.data.data?.station)
             }
             // setData(response.data);
@@ -189,6 +193,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     };
 
     const handleNavigateToNextPage = (item: any) => {
+        console.log(item, "item");
         // Store the current month in localStorage
         storeCurrentMonth();
 
@@ -207,12 +212,12 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         // Store the updated filters object in localStorage
         localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
 
-        if (!isSitePermissionAvailable) {
-            navigate(`/data-entry-stats/${filters?.site_id}`);
-        }
+        // if (!isSitePermissionAvailable) {
+        //     navigate(`/data-entry-stats/${filters?.site_id}`);
+        // }
     };
 
-console.log(filterData?.basic_details, "filterData");
+    console.log(secondApiResponse, "site_id");
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -236,19 +241,19 @@ console.log(filterData?.basic_details, "filterData");
                                 <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client </span> {filters.client_id}
+                                            <span className="font-semibold">Client : </span> {secondApiResponse?.basic_details?.client_name}
                                         </div>
                                     )}
 
                                     {filters?.company_id && (
                                         <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity </span> {filters.company_id}
+                                            <span className="font-semibold">Entity : </span> {secondApiResponse?.basic_details?.entity_name}
                                         </div>
                                     )}
 
                                     {filters?.site_id && (
                                         <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station </span> {filters.site_id}
+                                            <span className="font-semibold">Station : </span> {secondApiResponse?.basic_details?.station_name}
                                         </div>
                                     )}
                                 </div>
@@ -270,8 +275,72 @@ console.log(filterData?.basic_details, "filterData");
                 </div>
 
                 <div className="pt-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 text-white">
+                        <div className={`panel  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
+                                </div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{secondApiResponse?.sales_volume?.sales_volume} </div>
+                                <div className="badge bg-white/30">
+                                    {secondApiResponse?.gross_volume?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_volume?.percentage}%{' '}
+                                </div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                {secondApiResponse?.sales_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month {secondApiResponse?.sales_volume?.percentage}
+                            </div>
+                        </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                        {/* Sessions */}
+                        <div className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{secondApiResponse?.sales_value?.sales_value} </div>
+                                <div className="badge bg-white/30"> {secondApiResponse?.sales_value?.percentage}%</div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                {secondApiResponse?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month {secondApiResponse?.sales_value?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_value?.percentage}
+                            </div>
+                        </div>
+
+                        {/*  Time On-Site */}
+                        <div className={`panel thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{secondApiResponse?.profit?.profit} </div>
+                                <div className="badge bg-white/30"> {secondApiResponse?.profit?.percentage}%</div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                {secondApiResponse?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month{secondApiResponse?.profit?.percentage}
+                            </div>
+                        </div>
+
+                        {/* Bounce Rate */}
+                        {/* <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} >
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
+                                <div className="badge bg-white/30">
+                                    {filterData?.shop_sales?.status === 'up' ? '+' : ''} {filterData?.shop_sales?.percentage}%{' '}
+                                </div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                                PPL ℓ{filterData?.shop_sales?.shop_margin}
+                            </div>
+                        </div> */}
+                    </div>
+                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                         <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
@@ -288,7 +357,7 @@ console.log(filterData?.basic_details, "filterData");
                             </div>
                         </div>
 
-                        {/* Sessions */}
+                      
                         <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
@@ -303,7 +372,7 @@ console.log(filterData?.basic_details, "filterData");
                             </div>
                         </div>
 
-                        {/*  Time On-Site */}
+                    
                         <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
@@ -320,7 +389,7 @@ console.log(filterData?.basic_details, "filterData");
                             </div>
                         </div>
 
-                        {/* Bounce Rate */}
+                   
                         <div className={`panel forthbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
@@ -336,20 +405,20 @@ console.log(filterData?.basic_details, "filterData");
                                 PPL ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
 
-                    {detailsData?.length > 0 ? (
+                    {secondApiResponse?.stations?.length > 0 ? (
                         <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                {detailsData?.map((item: any) => (
+                                {secondApiResponse?.stations?.map((item:any) => (
                                     <div
-                                        key={item?.id}
+                                        key={item?.station_id}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
                                             }`}
-                                        style={{ cursor: "pointer" }}
                                         onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
+                                        {/* Header with Image and Name */}
                                         <div className="flex items-center mb-4">
                                             <img
                                                 className="w-10 h-10 rounded-full object-cover"
@@ -359,150 +428,192 @@ console.log(filterData?.basic_details, "filterData");
                                             <h5 className="ml-4 font-semibold">{item?.name}</h5>
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-4 my-3">
-                                            <div>
-                                                <h6 className="font-semibold">Gross Volume</h6>
-                                                <p className="text-lg">
-                                                    ℓ{item.fuel_volume?.gross_volume}
-                                                    <span
-                                                        className={`ml-2 ${item.fuel_volume?.status === "up" ? "text-green-500" : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {item?.fuel_volume?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i> {item?.fuel_volume?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i> {item?.fuel_volume?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
+                                        {/* Fuel Stats */}
+                                        {item?.fuels_stats.map((stats:any, index:any) => (
+                                            <div key={index}>
+                                                <div className="grid grid-cols-2 gap-4 my-3">
+                                                    {/* Sales Volume */}
+                                                    <div>
+                                                        <h6 className="font-semibold">Gross Volume</h6>
+                                                        <p className="text-lg">
+                                                            ℓ{stats.sales_volume.sales_volume}
+                                                            <span
+                                                                className={`ml-2 ${stats.sales_volume.status === "up"
+                                                                    ? "text-green-500"
+                                                                    : "text-red-500"
+                                                                    }`}
+                                                            >
+                                                                {stats.sales_volume.status === "up" ? (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                        {stats.sales_volume.percentage}%
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                        {stats.sales_volume.percentage}%
+                                                                    </>
+                                                                )}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+
+                                                    {/* Sales Value */}
+                                                    <div>
+                                                        <h6 className="font-semibold">Gross Value</h6>
+                                                        <p className="text-lg">
+                                                            ₹{stats.sales_value.sales_value}
+                                                            <span
+                                                                className={`ml-2 ${stats.sales_value.status === "up"
+                                                                    ? "text-green-500"
+                                                                    : "text-red-500"
+                                                                    }`}
+                                                            >
+                                                                {stats.sales_value.status === "up" ? (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                        {stats.sales_value.percentage}%
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                        {stats.sales_value.percentage}%
+                                                                    </>
+                                                                )}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+
+                                                <div className="grid grid-cols-2 gap-4 my-3">
+                                                    {/* Profit */}
+                                                    <div>
+                                                        <h6 className="font-semibold"> Gross Profit</h6>
+                                                        <p className="text-lg">
+                                                            ₹{stats.profit.profit}
+                                                            <span
+                                                                className={`ml-2 ${stats.profit.status === "up"
+                                                                    ? "text-green-500"
+                                                                    : "text-red-500"
+                                                                    }`}
+                                                            >
+                                                                {stats.profit.status === "up" ? (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                        {stats.profit.percentage}%
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                        {stats.profit.percentage}%
+                                                                    </>
+                                                                )}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+
+                                                    {/* Gross Margin */}
+                                                    <div>
+                                                        <h6 className="font-semibold">Gross Margin</h6>
+                                                        <p className="text-lg">
+                                                            {item?.gross_margin?.gross_margin} ppl
+                                                            {item?.gross_margin?.is_ppl == 1 && (
+                                                                <Tippy content={`${item?.gross_margin?.ppl_msg}%`}>
+                                                                    <button type="button" className="ml-2">
+                                                                        <IconInfoCircle fill={true} className="w-4 h-4" />
+                                                                    </button>
+                                                                </Tippy>
+                                                            )}
+                                                            <span
+                                                                className={`ml-2 ${item?.gross_margin?.status === "up"
+                                                                    ? "text-green-500"
+                                                                    : "text-red-500"
+                                                                    }`}
+                                                            >
+                                                                {item?.gross_margin?.status === "up" ? (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                        {item?.gross_margin?.percentage}%
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                        {item?.gross_margin?.percentage}%
+                                                                    </>
+                                                                )}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+
+                                                {/* <div className="grid grid-cols-2 gap-4 my-3">
+                                                   
+                                                    <div>
+                                                        <h6 className="font-semibold">Shop Sales</h6>
+                                                        <p className="text-lg">
+                                                            ₹
+                                                            {item?.shop_sales?.shop_sales
+                                                                ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString()
+                                                                : ""}
+                                                            <span
+                                                                className={`ml-2 ${item?.shop_sales?.status === "up"
+                                                                    ? "text-green-500"
+                                                                    : "text-red-500"
+                                                                    }`}
+                                                            >
+                                                                {item?.shop_sales?.status === "up" ? (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                        {item?.shop_sales?.percentage}%
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                        {item?.shop_sales?.percentage}%
+                                                                    </>
+                                                                )}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+
+                                               
+                                                    <div>
+                                                        <h6 className="font-semibold">Shop Profit</h6>
+                                                        <p className="text-lg">
+                                                            ₹
+                                                            {item?.shop_profit?.shop_profit
+                                                                ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString()
+                                                                : "0.00"}
+                                                            <span
+                                                                className={`ml-2 ${item?.shop_profit?.status === "up"
+                                                                    ? "text-green-500"
+                                                                    : "text-red-500"
+                                                                    }`}
+                                                            >
+                                                                {item?.shop_profit?.status === "up" ? (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                        {item?.shop_profit?.percentage}%
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                        {item?.shop_profit?.percentage}%
+                                                                    </>
+                                                                )}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div> */}
+
+
                                             </div>
-
-                                            <div>
-                                                <h6 className="font-semibold">Fuel Sales</h6>
-                                                <p className="text-lg">
-                                                    ₹{item?.fuel_sales?.gross_value}
-                                                    <span
-                                                        className={`ml-2 ${item?.fuel_sales?.status === "up" ? "text-green-500" : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {item?.fuel_sales?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i> {item?.fuel_sales?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i> {item?.fuel_sales?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <hr />
-
-                                        <div className="grid grid-cols-2 gap-4 my-3">
-                                            <div>
-                                                <h6 className="font-semibold">Gross Profit</h6>
-                                                <p className="text-lg">
-                                                    ₹{item?.gross_profit?.gross_profit}
-                                                    <span
-                                                        className={`ml-2 ${item?.gross_profit?.status === "up" ? "text-green-500" : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {item?.gross_profit?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i> {item?.gross_profit?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i> {item?.gross_profit?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
-
-                                            <div>
-                                                <h6 className="font-semibold">Gross Margin</h6>
-                                                <p className="text-lg">
-                                                    {item?.gross_margin?.gross_margin} ppl
-                                                    {item?.gross_margin?.is_ppl == 1 && (
-                                                        <Tippy content={`${item?.gross_margin?.ppl_msg}%`}>
-                                                            <button type="button" className="ml-2">
-                                                                <IconInfoCircle fill={true} className="w-4 h-4" />
-                                                            </button>
-                                                        </Tippy>
-                                                    )}
-                                                    <span
-                                                        className={`ml-2 ${item?.gross_margin?.status === "up" ? "text-green-500" : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {item?.gross_margin?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i> {item?.gross_margin?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i> {item?.gross_margin?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <hr />
-
-                                        <div className="grid grid-cols-2 gap-4 my-3">
-                                            <div>
-                                                <h6 className="font-semibold">Shop Sales</h6>
-                                                <p className="text-lg">
-                                                    ₹{item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
-                                                    <span
-                                                        className={`ml-2 ${item?.shop_sales?.status === "up" ? "text-green-500" : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {item?.shop_sales?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i> {item?.shop_sales?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i> {item?.shop_sales?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
-
-                                            <div>
-                                                <h6 className="font-semibold">Shop Profit</h6>
-                                                <p className="text-lg">
-                                                    ₹{item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
-                                                    <span
-                                                        className={`ml-2 ${item?.shop_profit?.status === "up" ? "text-green-500" : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {item?.shop_profit?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i> {item?.shop_profit?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i> {item?.shop_profit?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
-
                                 ))}
                             </div>
                         </>

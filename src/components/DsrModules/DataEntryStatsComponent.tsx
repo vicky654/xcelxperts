@@ -13,6 +13,7 @@ import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
+import IconEye from '../Icon/IconEye';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -91,7 +92,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   //   }
 
   // }, [dispatch]);
-  
+
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
     console.log(storedDataString, "storedDataString");
@@ -345,6 +346,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
 
+
             <hr></hr>
           </div>
           <div>
@@ -378,7 +380,28 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           </div>
           <div className="p-2" style={{ padding: "10px" }}>
-            {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
+            {stationId && 
+            
+            <div className='grid xl:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 p-3'>
+            <div className=" p-3  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+                <div className="flex justify-between">
+                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+                   
+                </div>
+                <div className="flex items-center mt-2">
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> $170.46 </div>
+                    <div className="badge bg-white/30">+ 2.35% </div>
+                </div>
+                <div className="flex items-center font-semibold mt-2">
+                    <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                    Last Week 44,700
+                </div>
+            </div>
+        </div>
+            
+            
+            // <h2 className="text-lg font-semibold">{selectedTab}</h2>
+            }
             <div className="">
 
               {stationId && selectedTab === 'Varience-accumulation' ? (

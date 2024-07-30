@@ -18,6 +18,7 @@ import { currency } from '../utils/CommonData';
 import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
 
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
+import IconEye from '../components/Icon/IconEye';
 interface FilterValues {
     client_id: string;
     company_id: string;
@@ -65,8 +66,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('station_id', company_id);
-            if (site_id) queryParams.append('entity_id', site_id);
+            if (company_id) queryParams.append('entity_id', company_id);
+            if (site_id) queryParams.append('station_id', site_id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
@@ -480,7 +481,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             handleDateClick(defaultDate);
         }
     }, [fuelStats]);
-    console.log(filterData?.line_graph, "line_graph");
+    console.log(filterData, "line_graph");
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
@@ -572,61 +573,59 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 </div>
 
 
-
+           
                 <div className="pt-5 ">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 text-white">
                         <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
                                 </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.sales_volume?.sales_volume} </div>
                                 <div className="badge bg-white/30">
-                                    {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.gross_volume?.percentage}%{' '}
+                                    {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.sales_volume?.percentage}%{' '}
                                 </div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Month ℓ{filterData?.gross_volume?.gross_volume}
+                                {filterData?.gross_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month {filterData?.sales_volume?.percentage}
                             </div>
                         </div>
 
                         {/* Sessions */}
                         <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.gross_profit?.gross_profit} </div>
-                                <div className="badge bg-white/30"> {filterData?.gross_profit?.percentage}%</div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.sales_value?.sales_value} </div>
+                                <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : ''} {filterData?.gross_profit?.gross_margin}
+                                {filterData?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month {filterData?.sales_value?.status === 'up' ? '+' : ''} {filterData?.sales_value?.percentage}
                             </div>
                         </div>
 
                         {/*  Time On-Site */}
                         <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_margin_?.gross_margin} </div>
-                                <div className="badge bg-white/30">
-                                    {filterData?.gross_margin_?.status === 'up' ? '+' : ''} {filterData?.gross_margin_?.percentage}%{' '}
-                                </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.profit?.profit} </div>
+                                <div className="badge bg-white/30"> {filterData?.profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL ℓ{filterData?.gross_margin_?.is_ppl}
+                                {filterData?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month{filterData?.profit?.percentage}
                             </div>
                         </div>
 
                         {/* Bounce Rate */}
-                        <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        {/* <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
                             </div>
@@ -640,13 +639,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
                                 PPL ℓ{filterData?.shop_sales?.shop_margin}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-6 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg">Revenue</h5>
-                                <div className="dropdown">
+                                {/* <div className="dropdown">
                                     <Dropdown
                                         offset={[0, 1]}
                                         placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
@@ -664,7 +663,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                             </li>
                                         </ul>
                                     </Dropdown>
-                                </div>
+                                </div> */}
                             </div>
                             <p className="text-lg dark:text-white-light/90">
                                 Total Profit <span className="text-primary ml-2">{currency}10,840</span>
@@ -699,6 +698,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div>
                     </div>
+
                     {
                         filters?.site_id ? <div className="grid grid-cols-12 gap-6 mb-6">
                             <div className="col-span-2 w-full">

@@ -63,7 +63,8 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
 
     const validationSchema = Yup.object({
-        company_id: Yup.string().required("Station is required"),
+        company_id: Yup.string().required("Entity is required"),
+
         client_id: isNotClient
             ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
