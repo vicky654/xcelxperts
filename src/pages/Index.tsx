@@ -189,20 +189,21 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     //Revenue Chart
     const revenueChart: any = {
-        series: [
-            {
-                name: 'Fuel Volume',
-                data: [12000, 13000, 12500, 14000, 13500, 14500, 15000, 15500, 16000, 16500, 17000, 17500], // Dummy data
-            },
-            {
-                name: 'Gross Margin',
-                data: [8000, 8500, 8200, 8700, 8300, 8900, 9000, 9200, 9500, 9800, 10000, 10200], // Dummy data
-            },
-            {
-                name: 'Shop Sale',
-                data: [5000, 5500, 5200, 5700, 5300, 5900, 6000, 6200, 6500, 6800, 7000, 7200], // Dummy data
-            },
-        ],
+        // series: [
+        //     {
+        //         name: 'Fuel Volume',
+        //         data: [12000, 13000, 12500, 14000, 13500, 14500, 15000, 15500, 16000, 16500, 17000, 17500], // Dummy data
+        //     },
+        //     {
+        //         name: 'Gross Margin',
+        //         data: [8000, 8500, 8200, 8700, 8300, 8900, 9000, 9200, 9500, 9800, 10000, 10200], // Dummy data
+        //     },
+        //     {
+        //         name: 'Shop Sale',
+        //         data: [5000, 5500, 5200, 5700, 5300, 5900, 6000, 6200, 6500, 6800, 7000, 7200], // Dummy data
+        //     },
+        // ],
+        series: filterData?.line_graph?.series,
         options: {
             chart: {
                 height: 325,
@@ -231,7 +232,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 left: -7,
                 top: 22,
             },
-            colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
+            // colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
+            series: filterData?.line_graph?.colors,
             markers: {
                 discrete: [
                     {
@@ -250,7 +252,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     },
                 ],
             },
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: filterData?.line_graph?.labels,
+            // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             xaxis: {
                 axisBorder: {
                     show: false,
@@ -342,7 +345,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     //Sales By Category
     const salesByCategory: any = {
-        series: [985, 737, 270],
+        // series: [985, 737, 270],
+        series: filterData?.pi_graph?.series,
         options: {
             chart: {
                 type: 'donut',
@@ -357,7 +361,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 width: 25,
                 colors: isDark ? '#0e1726' : '#fff',
             },
-            colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
+            // colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
+            colors: filterData?.pi_graph?.colors,
             legend: {
                 position: 'bottom',
                 horizontalAlign: 'center',
@@ -406,7 +411,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     },
                 },
             },
-            labels: ['Volume', 'Gross Margin', 'Others'],
+            // labels: ['Volume', 'Gross Margin', 'Others'],
+            labels: filterData?.pi_graph?.labels,
             states: {
                 hover: {
                     filter: {
@@ -474,7 +480,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             handleDateClick(defaultDate);
         }
     }, [fuelStats]);
-    console.log(filterData?.basic_details, "basic_details");
+    console.log(filterData?.line_graph, "line_graph");
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
@@ -518,13 +524,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                                     {filters?.company_id && (
                                         <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity : </span> {filterData?.basic_details?.station_name} 
+                                            <span className="font-semibold">Entity : </span> {filterData?.basic_details?.station_name}
                                         </div>
                                     )}
 
                                     {filters?.site_id && (
                                         <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station :</span> {filterData?.basic_details?.entity_name}  
+                                            <span className="font-semibold">Station :</span> {filterData?.basic_details?.entity_name}
                                         </div>
                                     )}
                                 </div>
@@ -665,12 +671,12 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </p>
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {loading ? (
+                                    {!filterData?.line_graph?.series ? (
                                         <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
                                             <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
                                         </div>
                                     ) : (
-                                        <ReactApexChart series={revenueChart.series} options={revenueChart.options} type="area" height={325} />
+                                        <ReactApexChart series={filterData?.line_graph?.series} options={revenueChart?.options} type="area" height={325} />
                                     )}
                                 </div>
                             </div>
@@ -682,7 +688,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                             <div>
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {loading ? (
+                                    {!filterData?.pi_graph?.labels ? (
                                         <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
                                             <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
                                         </div>
@@ -716,7 +722,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                                     </button>
                                                 ))
                                             ) : (
-                                                <p>No dates available.</p>
+                                                <div className="flex justify-center items-center h-full p-4">
+                                                    <img
+                                                        src={noDataImage} // Use the imported image directly as the source
+                                                        alt="No data found"
+                                                        className="w-1/2 max-w-xs" // Adjust the width as needed
+                                                    />
+                                                </div>
                                             )}
 
                                         </div>
@@ -732,6 +744,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                         </div> */}
                                     </div>
                                     <div className='spacebetween'>
+                                        {/* <div className='displaycanter'> */}
                                         <div className="flex flex-wrap gap-6 col-span-8">
 
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
@@ -749,7 +762,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                                                     <div key={index} className="flex items-center gap-4 mb-6">
                                                                         <VerticalProgressBarWithWave
                                                                             percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
-                                                                            width={170}
+                                                                            width={200}
                                                                             height={350}
                                                                             alert={alert}
                                                                             color="#ddd" // Use tank's bg color if desired
