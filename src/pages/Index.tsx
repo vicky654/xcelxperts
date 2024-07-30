@@ -736,36 +736,40 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
                                                 Object.keys(filteredStockAlerts).map(tankName => (
-                                                    <div key={tankName} className="flex flex-col gap-6">
-                                                        <h3 className="font-bold displaycanter">{tankName}</h3>
-                                                        <div className="flex flex-wrap gap-6">
-                                                            {filteredStockAlerts[tankName]?.map((alert, index) => (
-                                                                <div key={index} className="flex items-center gap-4 mb-6">
-                                                                    <VerticalProgressBarWithWave
-                                                                        percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
-                                                                        width={170}
-                                                                        height={350}
-                                                                        alert={alert}
-                                                                        color="#ddd" // Use tank's bg color if desired
-                                                                        data-tip
-                                                                        data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
-                                                                    />
-                                                                </div>
-                                                            ))}
+                                                    <div key={tankName} className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white">
+                                                        {/* Card Header */}
+                                                        <div className="card-header flex items-center justify-between p-4 border-b dark:border-gray-700">
+                                                            <h3 className="text-lg font-bold">{tankName}</h3>
+                                                        </div>
+
+                                                        {/* Card Body */}
+                                                        <div className="card-body p-4">
+                                                            <div className="flex flex-wrap gap-6">
+                                                                {filteredStockAlerts[tankName]?.map((alert, index) => (
+                                                                    <div key={index} className="flex items-center gap-4 mb-6">
+                                                                        <VerticalProgressBarWithWave
+                                                                            percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
+                                                                            width={170}
+                                                                            height={350}
+                                                                            alert={alert}
+                                                                            color="#ddd" // Use tank's bg color if desired
+                                                                            data-tip
+                                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ))
                                             ) : (
-                                                <div className='displaycanter' >
+                                                <div className="flex justify-center items-center h-full p-4">
                                                     <img
                                                         src={noDataImage} // Use the imported image directly as the source
-                                                        alt="no data found"
-                                                        className="all-center-flex nodata-image"
+                                                        alt="No data found"
+                                                        className="w-1/2 max-w-xs" // Adjust the width as needed
                                                     />
-
                                                 </div>
-
-
                                             )}
 
 
