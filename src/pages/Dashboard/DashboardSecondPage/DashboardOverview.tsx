@@ -212,9 +212,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         // Store the updated filters object in localStorage
         localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
 
-        // if (!isSitePermissionAvailable) {
-        //     navigate(`/data-entry-stats/${filters?.site_id}`);
-        // }
+        if (!isSitePermissionAvailable) {
+            navigate(`/data-entry-stats/${item?.id}`);
+        }
     };
 
     console.log(secondApiResponse, "site_id");
@@ -411,7 +411,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                     {secondApiResponse?.stations?.length > 0 ? (
                         <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                {secondApiResponse?.stations?.map((item:any) => (
+                                {secondApiResponse?.stations?.map((item: any) => (
                                     <div
                                         key={item?.station_id}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
@@ -429,7 +429,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         </div>
 
                                         {/* Fuel Stats */}
-                                        {item?.fuels_stats.map((stats:any, index:any) => (
+                                        {item?.fuels_stats.map((stats: any, index: any) => (
                                             <div key={index}>
                                                 <div className="grid grid-cols-2 gap-4 my-3">
                                                     {/* Sales Volume */}
