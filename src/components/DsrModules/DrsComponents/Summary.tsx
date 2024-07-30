@@ -6,7 +6,7 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import LoaderImg from '../../../utils/Loader';
 import { currency } from '../../../utils/CommonData';
-import DataEntryStats from '../DataEntryStats';
+import DataEntryStats from '../DashDataEntryStats';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 

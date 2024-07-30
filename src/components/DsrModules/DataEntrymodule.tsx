@@ -18,7 +18,7 @@ import Payment from './DrsComponents/Payment';
 import CashBanking from './DrsComponents/CashBanking';
 import Summary from './DrsComponents/Summary';
 import { languageContent } from '../../utils/Languages/LanguageTextComponent';
-import DataEntryStats from './DataEntryStats';
+import DataEntryStats from './DashDataEntryStats';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { IRootState } from '../../store';
 import useCustomDelete from '../../utils/customDelete';
@@ -268,7 +268,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         </li>
       </ul>
     </div>
-    <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
+
 
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">

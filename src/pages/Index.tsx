@@ -17,6 +17,7 @@ import showMessage from '../hooks/showMessage';
 import { currency } from '../utils/CommonData';
 import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
 
+import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 interface FilterValues {
     client_id: string;
     company_id: string;
@@ -466,8 +467,14 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
         // Optionally, you can update the state or handle the filtered data as needed
     };
-
-    console.log(filteredStockAlerts, "filteredStockAlerts");
+    useEffect(() => {
+        if (fuelStats?.dates?.length > 0) {
+            const defaultDate = fuelStats?.dates[0]; // Select the first date by default
+            setSelectedDate(defaultDate);
+            handleDateClick(defaultDate);
+        }
+    }, [fuelStats]);
+    console.log(filterData, "filterData");
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
@@ -686,89 +693,93 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-12 gap-6 mb-6">
-                        <div className="col-span-7">
-                            <div className="panel h-full">
-                                <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                    <h5 className="font-semibold text-lg">Station: {fuelStats?.station_name}</h5>
-                                    <div className="selected-date">
-                                        <p>Selected Date: {selectedDate}</p>
+                    {
+                        filters?.site_id ? <div className="grid grid-cols-12 gap-6 mb-6">
+                            <div className="col-span-2">
+                                <div className="panel h-full">
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-semibold text-lg">Forecasting  </h5>
+
+                                    </div>
+                                    <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter">
+                                        <div className="buttons-container">
+                                            {fuelStats?.dates && fuelStats.dates.length > 0 ? (
+                                                fuelStats.dates.map((date, index) => (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => handleDateClick(date)}
+                                                        className={`date-button btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
+                                                    >
+                                                        {date}
+                                                    </button>
+                                                ))
+                                            ) : (
+                                                <p>No dates available.</p>
+                                            )}
+
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-wrap gap-6">
-                                    {Object.keys(filteredStockAlerts)?.map(tankName => (
-                                        <div key={tankName} className="flex flex-col gap-6">
-                                            <h3 className="font-bold">{tankName}</h3>
-                                            <div className="flex flex-wrap gap-6">
-                                                {filteredStockAlerts[tankName]?.map((alert, index) => (
-                                                    <div key={index} className="flex items-center gap-4 mb-6">
-                                                        <VerticalProgressBarWithWave
-                                                            percentage={parseFloat(alert?.ullage_percentage)} // Convert percentage to number
-                                                            width={150}
-                                                            height={350}
-                                                            color={alert?.bg_color} // Use tank's bg color if desired
-                                                            data-tip
-                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
-                                                        />
-                                                        
-                                                        <div
-                                                            className="flex-1"
-                                                            data-tip
-                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
-                                                        >
-                                                            {/* <div className="flex items-center justify-between">
-                                                                <div className="text-sm">
-                                                                    <strong>Date:</strong> {alert?.date}
-                                                                </div>
-                                                                <div className="text-sm">
-                                                                    <strong>Capacity:</strong> {alert?.capacity}
-                                                                </div>
-                                                                <div className="text-sm">
-                                                                    <strong>Ullage:</strong> {alert?.ullage}
-                                                                </div>
-                                                                <div className="text-sm">
-                                                                    <strong>Fuel Left:</strong> {alert?.fuel_left}
-                                                                </div>
-                                                                <div className="text-sm">
-                                                                    <strong>Ullage Percentage:</strong> {alert?.ullage_percentage}%
-                                                                </div>
-                                                            </div> */}
-                                                            {/* <ReactTooltip id={`tooltip-${tankName}-${index}`} place="top" effect="solid"> */}
-                                                              
-                                                            {/* </ReactTooltip> */}
-                                                        </div>
-                                                        <div>
-                                                                    <strong>Date:</strong> {alert?.date}<br />
-                                                                    <strong>Capacity:</strong> {alert?.capacity}<br />
-                                                                    <strong>Ullage:</strong> {alert?.ullage}<br />
-                                                                    <strong>Fuel Left:</strong> {alert?.fuel_left}<br />
-                                                                    <strong>Ullage Percentage:</strong> {alert?.ullage_percentage}%
-                                                                </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
                             </div>
-                        </div>
+                            <div className="col-span-10">
+                                <div className="panel h-full">
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-semibold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
+                                        {/* <div className="selected-date">
+                                            <p>Selected Date: {selectedDate}</p>
+                                        </div> */}
+                                    </div>
+                                    <div className='spacebetween'>
+                                        <div className="flex flex-wrap gap-6 col-span-8">
 
-                        <div className="col-span-5">
-                            <div className="fuel-stats-buttons panel h-full">
-                                <div className="buttons-container">
-                                    {fuelStats?.dates.map((date, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => handleDateClick(date)}
-                                            className={`date-button btn btn-primary mb-2 ${date === selectedDate ? 'selected' : ''}`}
-                                        >
-                                            {date}
-                                        </button>
-                                    ))}
+                                            {fuelStats?.dates && fuelStats.dates.length > 0 ? (
+                                                Object.keys(filteredStockAlerts).map(tankName => (
+                                                    <div key={tankName} className="flex flex-col gap-6">
+                                                        <h3 className="font-bold displaycanter">{tankName}</h3>
+                                                        <div className="flex flex-wrap gap-6">
+                                                            {filteredStockAlerts[tankName]?.map((alert, index) => (
+                                                                <div key={index} className="flex items-center gap-4 mb-6">
+                                                                    <VerticalProgressBarWithWave
+                                                                        percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
+                                                                        width={170}
+                                                                        height={350}
+                                                                        alert={alert}
+                                                                        color="#ddd" // Use tank's bg color if desired
+                                                                        data-tip
+                                                                        data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
+                                                                    />
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className='displaycanter' >
+                                                    <img
+                                                        src={noDataImage} // Use the imported image directly as the source
+                                                        alt="no data found"
+                                                        className="all-center-flex nodata-image"
+                                                    />
+
+                                                </div>
+
+
+                                            )}
+
+
+
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
+
+
+                        </div> : ""
+                    }
+
+
 
 
                     {/* <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
@@ -793,7 +804,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         />
                     </div> */}
                 </div>
-            </div>
+            </div >
         </>
     );
 };

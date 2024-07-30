@@ -45,7 +45,7 @@
         "react-bootstrap": "^2.10.2",
         "react-click-away-listener": "^2.2.2",
         "react-copy-to-clipboard": "^5.1.0",
-        "react-countup": "^6.3.2",
+        "react-countup": "^6.5.3",
         "react-data-table-component": "^7.6.2",
         "react-datepicker": "^7.3.0",
         "react-dom": "^18.2.0",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 import useErrorHandler from '../../hooks/useHandleError';
@@ -13,6 +13,7 @@ import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
+import DashboardFilter from './DashboardFilter';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -53,7 +54,7 @@ interface ApexData {
   color: string;
 }
 
-const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
+const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
   const [cards, setCards] = useState<CardData[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>('Varience-accumulation');
@@ -79,7 +80,29 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
+  const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
+  const id = useParams()
 
+  useEffect(() => {
+    const storedDataString = localStorage.getItem(DashboardstoredKeyName);
+    console.log(storedDataString, "storedDataString");
+    console.log(id, "storedDataString");
+
+    if (storedDataString) {
+      try {
+        // Parse the JSON string to get the stored data
+        const storedData = JSON.parse(storedDataString);
+        console.log(storedData, "storedData");
+
+        // Check for the existence of `start_month` or other necessary properties
+        if (storedData.start_month) {
+          handleApplyFilters(storedData);
+        }
+      } catch (error) {
+        console.error("Error parsing stored data", error);
+      }
+    }
+  }, [dispatch]);
 
   // useEffect(() => {
   //   const storedData = localStorage.getItem(storedKeyName);
@@ -91,26 +114,26 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   //   }
 
   // }, [dispatch]);
-  
-  useEffect(() => {
-    const storedDataString = localStorage.getItem(storedKeyName);
-    console.log(storedDataString, "storedDataString");
 
-    if (storedDataString) {
-      try {
-        const storedData = JSON.parse(storedDataString);
-        console.log(storedData, "storedData");
+  // useEffect(() => {
+  //   const storedDataString = localStorage.getItem(storedKeyName);
 
-        // Check for the existence of `start_month` or other necessary properties
-        if (storedData.start_month) {
-          console.log(storedData, "storedDatastoredData");
-          handleApplyFilters(storedData);
-        }
-      } catch (error) {
-        console.error("Error parsing stored data", error);
-      }
-    }
-  }, [dispatch]);
+
+  //   if (storedDataString) {
+  //     try {
+  //       const storedData = JSON.parse(storedDataString);
+  //       console.log(storedData, "storedData");
+
+  //       // Check for the existence of `start_month` or other necessary properties
+  //       if (storedData.start_month) {
+  //         console.log(storedData, "storedDatastoredData");
+  //         handleApplyFilters(storedData);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error parsing stored data", error);
+  //     }
+  //   }
+  // }, [dispatch]);
 
 
 
@@ -320,7 +343,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
         <div className='panel h-full '>
-          <CustomInput
+          <DashboardFilter
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
@@ -335,7 +358,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             onClose={() => { }}
             showDateInput={false}
             showMonthInput={true}
-            storedKeyName={storedKeyName}
+            storedKeyName={DashboardstoredKeyName}
           />
 
 
@@ -653,4 +676,4 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   </>;
 };
 
-export default withApiHandler(DataEntryStatsComponent);
+export default withApiHandler(DashDataEntryStats);

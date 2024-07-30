@@ -208,7 +208,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
 
         if (!isSitePermissionAvailable) {
-            navigate(`/data-entry-stats`);
+            navigate(`/data-entry-stats/${filters?.site_id}`);
         }
     };
 

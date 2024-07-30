@@ -134,6 +134,7 @@ import AssignClientReports from '../components/SideBarComponents/ManageClient/As
 import Managecards from '../components/SideBarComponents/Managecards/Managecards';
 import DataEntruModules from '../components/DsrModules/DataEntrymodule';
 import DataEntryStatsComponent from '../components/DsrModules/DataEntryStatsComponent';
+import DashDataEntryStats from '../components/DsrModules/DashDataEntryStats';
 import ManageStationBank from '../components/SideBarComponents/ManageStationBank/ManageStationBank';
 import SkipDate from '../components/SideBarComponents/ManageStation/SkipDateStation';
 import AssignStationManagger from '../components/SideBarComponents/ManageStation/AssignStationManagger';
@@ -151,6 +152,10 @@ const routes = [
   {
     path: '/data-entry-stats',
     element: <DataEntryStatsComponent />,
+  },
+  {
+    path: '/data-entry-stats/:id',
+    element: <DashDataEntryStats />,
   },
   {
     path: '/dashboard/overview',
