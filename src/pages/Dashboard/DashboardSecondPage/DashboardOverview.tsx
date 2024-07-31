@@ -3,9 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import useHandleError from '../../../hooks/useHandleError';
 import { fetchStoreData } from '../../../store/dataSlice';
-import useApiErrorHandler from '../../../hooks/useHandleError';
 import LoaderImg from '../../../utils/Loader';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -13,7 +11,6 @@ import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
-import IconTrendingUp from '../../../components/Icon/IconTrendingUp';
 
 
 
@@ -92,12 +89,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         } finally {
         }
     };
-
-
-
-
-
-
 
     // Using useSelector to extract the data from the Redux store
     const { data, error } = useSelector((state: IRootState) => state?.data);

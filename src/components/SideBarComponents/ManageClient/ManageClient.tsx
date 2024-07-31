@@ -21,6 +21,7 @@ import UserAddonModal from '../ManageUser/UserAddonModal';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';
 import AssignClientReportAddonsModal from './AssignClientReportAddonsModal';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -56,11 +57,27 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
     const navigate = useNavigate();
     const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
     const [isAssignReportAddonModalOpen, setIsAssignReportAddonModalOpen] = useState(false);
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    // useEffect(() => {
+    //     fetchData();
 
+    // }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage,searchTerm]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -71,7 +88,14 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/client/list?page=${currentPage}`);
+
+            
+            let apiUrl = `/client/list?page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+            // const response = await getData(`/client/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.clients);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -412,11 +436,17 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             <AssignClientReportAddonsModal getData={getData} isOpen={isAssignReportAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAssignReportAddon} userId={userId} />
 
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Clients</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
+             
+                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                    <h5 className="font-semibold text-lg dark:text-white-light">Clients</h5>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
 
                 {data?.length > 0 ? (

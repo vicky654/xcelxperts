@@ -380,33 +380,48 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           </div>
           <div className="p-2" style={{ padding: "10px" }}>
-            {stationId && 
-            
-            <div className='grid xl:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 p-3'>
-            <div className=" p-3  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
-                <div className="flex justify-between">
-                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
-                   
-                </div>
-                <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> $170.46 </div>
-                    <div className="badge bg-white/30">+ 2.35% </div>
-                </div>
-                <div className="flex items-center font-semibold mt-2">
-                    <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                    Last Week 44,700
-                </div>
-            </div>
-        </div>
-            
-            
-            // <h2 className="text-lg font-semibold">{selectedTab}</h2>
-            }
-            <div className="">
+      
+          {stationId &&
+
+<div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
+  <div className=" p-3  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+    <div className="flex justify-between">
+      <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+
+    </div>
+    <div className="flex items-center mt-2">
+      <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> $170.46 </div>
+      <div className="badge bg-white/30">+ 2.35% </div>
+    </div>
+    <div className="flex items-center font-semibold mt-2">
+      <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+      Last Week 44,700
+    </div>
+  </div>
+  <div className=" p-3 ms-2  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+    <div className="flex justify-between">
+      <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+
+    </div>
+    <div className="flex items-center mt-2">
+      <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> $170.46 </div>
+      <div className="badge bg-white/30">+ 2.35% </div>
+    </div>
+    <div className="flex items-center font-semibold mt-2">
+      <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+      Last Week 44,700
+    </div>
+  </div>
+</div>
+
+
+// <h2 className="text-lg font-semibold">{selectedTab}</h2>
+}
+            <div className="mt-3">
 
               {stationId && selectedTab === 'Varience-accumulation' ? (
                 tabData?.listing.length > 0 ? (
-                  <ul className="divide-y p-2 b divide-gray-200">
+                  <ul className="divide-y  b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
 

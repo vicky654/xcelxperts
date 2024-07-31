@@ -83,7 +83,7 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
         validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values);
-     
+
             localStorage.setItem(storedKeyName, JSON.stringify(values));
         },
         validateOnChange: true,
@@ -92,6 +92,40 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
 
     useEffect(() => {
         if (showClientInput) fetchClientList();
+        const storedDataString = localStorage.getItem(storedKeyName);
+
+
+        if (storedDataString) {
+            try {
+                // Parse the JSON string to get the stored data
+                const storedData = JSON.parse(storedDataString);
+                console.log(storedData, "useEffect");
+
+                // Check for the existence of `start_month` or other necessary properties
+                if (storedData.client_id && storedData.site_id && storedData.company_id && storedData.start_month) {
+                    if (storedData.client_id) {
+                        handleClientChange({ target: { value: storedData.client_id } } as React.ChangeEvent<HTMLSelectElement>);
+                    }
+                    if (storedData.company_id) {
+                        handleCompanyChange({ target: { value: storedData.company_id } } as React.ChangeEvent<HTMLSelectElement>);
+                        formik.setFieldValue('entity_id', storedData.company_id);
+                    }
+                    if (storedData.site_id) {
+                        handleSiteChange({ target: { value: storedData.site_id } } as React.ChangeEvent<HTMLSelectElement>);
+                        formik.setFieldValue("station_id", storedData.site_id);
+                    }
+                    // fetchSiteList(storedData?.site_id)
+                    // fetchCompanyList(storedData.company_id)
+                    // console.log(storedData, "existence");
+                    //   handleApplyFilters(storedData);
+                }
+            } catch (error) {
+                console.error("Error parsing stored data", error);
+            }
+        }
+
+
+
     }, [showClientInput]);
 
     useEffect(() => {
@@ -106,7 +140,8 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
             if (clientId) {
                 handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
             }
-        }    }, []);
+        }
+    }, []);
 
     const fetchClientList = async () => {
         try {

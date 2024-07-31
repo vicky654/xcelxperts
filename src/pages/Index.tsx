@@ -525,13 +525,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                                     {filters?.company_id && (
                                         <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity : </span> {filterData?.basic_details?.station_name}
+                                            <span className="font-semibold">Entity : </span> {filterData?.basic_details?.entity_name}
                                         </div>
                                     )}
 
                                     {filters?.site_id && (
                                         <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station :</span> {filterData?.basic_details?.entity_name}
+                                            <span className="font-semibold">Station :</span> {filterData?.basic_details?.station_name}
                                         </div>
                                     )}
                                 </div>
@@ -665,15 +665,17 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                     </Dropdown>
                                 </div> */}
                             </div>
-                            <p className="text-lg dark:text-white-light/90">
-                                Total Profit <span className="text-primary ml-2">{currency}10,840</span>
-                            </p>
+                         
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
                                     {!filterData?.line_graph?.series ? (
-                                        <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
-                                        </div>
+                                        <div className="flex justify-center items-center h-full p-4">
+                                        <img
+                                            src={noDataImage} // Use the imported image directly as the source
+                                            alt="No data found"
+                                            className="w-1/2 max-w-xs" // Adjust the width as needed
+                                        />
+                                    </div>
                                     ) : (
                                         <ReactApexChart series={filterData?.line_graph?.series} options={revenueChart?.options} type="area" height={325} />
                                     )}
@@ -688,9 +690,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             <div>
                                 <div className="bg-white dark:bg-black  overflow-hidden">
                                     {!filterData?.pi_graph?.labels ? (
-                                        <div className="min-h-[325px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                                            <span className="animate-spin border-2 border-black dark:border-white !border-l-transparent  w-5 h-5 inline-flex"></span>
-                                        </div>
+                                       <div className="flex justify-center items-center h-full p-4">
+                                       <img
+                                           src={noDataImage} // Use the imported image directly as the source
+                                           alt="No data found"
+                                           className="w-1/2 max-w-xs" // Adjust the width as needed
+                                       />
+                                   </div>
                                     ) : (
                                         <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
                                     )}

@@ -18,6 +18,7 @@ import { IRootState } from '../../../store';
 import UserAddonModal from './UserAddonModal';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -71,7 +72,14 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
     const fetchData = async () => {
         try {
-            const response = await getData(`/user/list?page=${currentPage}`);
+
+            let apiUrl = `/user/list?page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
+            // const response = await getData(`/user/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.users);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -188,7 +196,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
-                      
+
                             <div className="dropdown">
                                 <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
                                     <ul>
@@ -306,6 +314,23 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             handleApiError(error);
         }
     };
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    useEffect(() => {
+        fetchData();
+
+    }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
 
     return (
         <>
@@ -331,27 +356,35 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             <AddUserModals getData={getData} isOpen={isAddUserModalOpen} onClose={closeAddUserModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
             <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
-
+             
                 {data?.length > 0 ? (
-                        <>
-                      <div className="datatables">
-                      <DataTable
-                          className=" table-striped table-hover table-bordered table-compact"
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          responsive={true}
-                      />
-                  </div>
-                  </>
-           
+                    <>
+                        <div className="datatables">
+                            <DataTable
+                                className=" table-striped table-hover table-bordered table-compact"
+                                columns={columns}
+                                data={data}
+                                noHeader
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                responsive={true}
+                            />
+                        </div>
+                    </>
+
                 ) : (
                     <div className="all-center-flex">
                         <img src={noDataImage} alt="No data found" className="nodata-image" />

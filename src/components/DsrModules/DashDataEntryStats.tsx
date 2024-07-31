@@ -14,6 +14,7 @@ import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
 import DashboardFilter from './DashboardFilter';
+import IconEye from '../Icon/IconEye';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -31,6 +32,10 @@ interface CardData {
 interface TabData {
   labels: string[];
   data: string[];
+  currentMonth: string;
+  prevMonth: string;
+  profit: string;
+  symbol: string;
   total: string;
   listing: {
     id: string;
@@ -63,6 +68,10 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     labels: [],
     data: [],
     total: '0.00',
+    currentMonth: '0.00',
+    prevMonth: '0.00',
+    profit: '0.00',
+    symbol: '0.00',
     listing: []
   });
   const dispatch = useDispatch();
@@ -189,11 +198,13 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
   const handleApplyFilters = async (values: any) => {
+    console.log(values, "values");
+
     try {
-      const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
+      const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
         setTabData(response.data?.data);
-        setStationId(values?.station_id);
+        setStationId(values?.station_id || values?.site_id);
         setStartDate(values?.start_month);
       } else {
 
@@ -401,12 +412,51 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
           </div>
           <div className="p-2" style={{ padding: "10px" }}>
-            {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
-            <div className="">
+            {/* {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
+             */}
+
+
+            {stationId &&
+
+              <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
+                <div className=" p-3  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+                  <div className="flex justify-between">
+                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency}170.46 </div>
+                    <div className="badge bg-white/30">+ 2.35% </div>
+                  </div>
+                  <div className="flex items-center font-semibold mt-2">
+                    <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                    Last Week 44,700
+                  </div>
+                </div>
+                <div className=" p-3 ms-2  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+                  <div className="flex justify-between">
+                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">{currency} 170.46 </div>
+                    <div className="badge bg-white/30">+ 2.35% </div>
+                  </div>
+                  <div className="flex items-center font-semibold mt-2">
+                    <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                    Last Week 44,700
+                  </div>
+                </div>
+              </div>
+
+
+              // <h2 className="text-lg font-semibold">{selectedTab}</h2>
+            }
+            <div className="mt-3">
 
               {stationId && selectedTab === 'Varience-accumulation' ? (
                 tabData?.listing.length > 0 ? (
-                  <ul className="divide-y p-2 b divide-gray-200">
+                  <ul className="divide-y  b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
 
