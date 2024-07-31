@@ -404,7 +404,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
                       {tabData.symbol !== "SAME" && (
                         <>
-                          {tabData.symbol === 'up' ? (
+                          {tabData.symbol === 'UP' ? (
                             <i className="fi fi-tr-chart-line-up"></i>
                           ) : (
                             <i className="fi fi-tr-chart-arrow-down"></i>

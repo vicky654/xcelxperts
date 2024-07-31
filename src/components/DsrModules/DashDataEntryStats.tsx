@@ -91,7 +91,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   const storedKeyName = "stationTank";
   const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
   const id = useParams()
-
+console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
   useEffect(() => {
     const storedDataString = localStorage.getItem(DashboardstoredKeyName);
     console.log(storedDataString, "storedDataString");
@@ -449,7 +449,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
                       {tabData.symbol !== "SAME" && (
                         <>
-                          {tabData.symbol === 'up' ? (
+                          {tabData.symbol === 'UP' ? (
                             <i className="fi fi-tr-chart-line-up"></i>
                           ) : (
                             <i className="fi fi-tr-chart-arrow-down"></i>

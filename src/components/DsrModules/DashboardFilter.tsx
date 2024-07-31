@@ -93,7 +93,7 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
     useEffect(() => {
         if (showClientInput) fetchClientList();
         const storedDataString = localStorage.getItem(storedKeyName);
-
+        console.log(storedDataString, "fetchClientList");
 
         if (storedDataString) {
             try {
@@ -114,6 +114,10 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
                         handleSiteChange({ target: { value: storedData.site_id } } as React.ChangeEvent<HTMLSelectElement>);
                         formik.setFieldValue("station_id", storedData.site_id);
                     }
+                    if (storedData.start_month) {
+                        // handleSiteChange({ target: { value: storedData.site_id } } as React.ChangeEvent<HTMLSelectElement>);
+                        formik.setFieldValue("start_month", storedData.start_month);
+                    }
                     // fetchSiteList(storedData?.site_id)
                     // fetchCompanyList(storedData.company_id)
                     // console.log(storedData, "existence");
@@ -128,20 +132,20 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
 
     }, [showClientInput]);
 
-    useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
-        if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            formik.setValues(parsedData);
-        }
+    // useEffect(() => {
+    //     const storedData = localStorage.getItem(storedKeyName);
+    //     if (storedData) {
+    //         const parsedData = JSON.parse(storedData);
+    //         formik.setValues(parsedData);
+    //     }
 
-        if (!storedData && localStorage.getItem("superiorRole") === "Client") {
-            const clientId = localStorage.getItem("superiorId");
-            if (clientId) {
-                handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
-            }
-        }
-    }, []);
+    //     if (!storedData && localStorage.getItem("superiorRole") === "Client") {
+    //         const clientId = localStorage.getItem("superiorId");
+    //         if (clientId) {
+    //             handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+    //         }
+    //     }
+    // }, []);
 
     const fetchClientList = async () => {
         try {
