@@ -407,6 +407,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         key={item?.station_id}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
                                             }`}
+                                            style={{cursor: "pointer"}}
                                         onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
                                         {/* Header with Image and Name */}
@@ -506,7 +507,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     </div>
 
                                                     {/* Gross Margin */}
-                                                    <div>
+                                                    {/* <div>
                                                         <h6 className="font-semibold">Gross Margin</h6>
                                                         <p className="text-lg">
                                                             {item?.gross_margin?.gross_margin} ppl
@@ -536,7 +537,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                                 )}
                                                             </span>
                                                         </p>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
 
                                                 <hr />

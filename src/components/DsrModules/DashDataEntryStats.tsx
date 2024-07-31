@@ -334,10 +334,13 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   const handleGraphTabClick = (tabName: any) => {
     graphsetSelectedTab(tabName);
   };
+
+  console.log(tabData, "tabData");
+
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
-      <ul className="flex space-x-2 rtl:space-x-reverse">
+      {/* <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
           <Link to="/" className="text-primary hover:underline">
             Dashboard
@@ -346,7 +349,22 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
           <span>  Data Entry Stats </span>
 
-          {/* {languageContent[currentLanguage as keyof typeof languageContent].dashboardLink} */}
+  
+        </li>
+      </ul> */}
+      <ul className="flex space-x-2 rtl:space-x-reverse my-2">
+        <li>
+          <Link to="/" className="text-primary hover:underline">
+            Dashboard
+          </Link>
+        </li>
+        <li  className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline" >
+          <Link to="/dashboard/overview" className="text-primary hover:underline">
+            Dashboard Overview
+          </Link>
+        </li>
+        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+          <span>Dashboard Stats</span>
         </li>
       </ul>
     </div>
@@ -425,27 +443,39 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
                   </div>
                   <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency}170.46 </div>
-                    <div className="badge bg-white/30">+ 2.35% </div>
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency}{tabData?.currentMonth} </div>
+                    <div className="badge bg-white/30">
+
+
+                      {tabData.symbol !== "SAME" && (
+                        <>
+                          {tabData.symbol === 'up' ? (
+                            <i className="fi fi-tr-chart-line-up"></i>
+                          ) : (
+                            <i className="fi fi-tr-chart-arrow-down"></i>
+                          )}
+                        </>
+                      )}
+
+                      {tabData?.profit}%</div>
                   </div>
-                  <div className="flex items-center font-semibold mt-2">
+                  {/* <div className="flex items-center font-semibold mt-2">
                     <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
                     Last Week 44,700
-                  </div>
+                  </div> */}
                 </div>
-                <div className=" p-3 ms-2  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+                <div className=" p-3  ms-2 bg-gradient-to-r from-cyan-500 to-cyan-400 ">
                   <div className="flex justify-between">
                     <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
-
                   </div>
                   <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">{currency} 170.46 </div>
-                    <div className="badge bg-white/30">+ 2.35% </div>
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency}{tabData?.prevMonth} </div>
+                    {/* <div className="badge bg-white/30">{tabData?.profit}%</div> */}
                   </div>
-                  <div className="flex items-center font-semibold mt-2">
+                  {/* <div className="flex items-center font-semibold mt-2">
                     <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
                     Last Week 44,700
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
