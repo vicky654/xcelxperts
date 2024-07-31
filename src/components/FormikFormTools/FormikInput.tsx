@@ -60,7 +60,14 @@ const FormikInput: React.FC<FormikInputProps> = ({
                 onBlur={handleBlur}
                 value={formik.values[name]}
                 autoComplete={autoComplete}
-                onClick={type === 'date' ? handleShowDate : undefined} // Conditionally add onClick
+                // onClick={type === 'date' ? handleShowDate : undefined} // Conditionally add onClick
+                onClick={
+                    type === 'date'
+                      ? handleShowDate
+                      : type === 'month'
+                      ? handleShowDate
+                      : undefined
+                  }
                 style={{ cursor: type === 'date' ? 'pointer' : 'auto' }} 
             />
             {formik.submitCount > 0 && formik.errors[name] && formik.touched[name] && (

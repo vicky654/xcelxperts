@@ -358,7 +358,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
             Dashboard
           </Link>
         </li>
-        <li  className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline" >
+        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline" >
           <Link to="/dashboard/overview" className="text-primary hover:underline">
             Dashboard Overview
           </Link>
