@@ -17,6 +17,7 @@ import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import 
 import { IRootState } from '../../../store';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -53,11 +54,27 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    // useEffect(() => {
+    //     fetchData();
+
+    // }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
-        console.clear()
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage, searchTerm]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -66,9 +83,16 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         setCurrentPage(newPage);
     };
 
+
     const fetchData = async () => {
         try {
-            const response = await getData(`/station/list?page=${currentPage}`);
+            // const response = await getData(`/station/list?page=${currentPage}`);
+            let apiUrl = `/station/list?page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.stations);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -445,12 +469,20 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             />
 
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Stations</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
+
+
+                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                    <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
+
                 {data?.length > 0 ? (
                     <>
                         <div className="datatables">

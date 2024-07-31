@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
-import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
 import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
@@ -15,6 +14,7 @@ import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import AddEditManageCharges from './AddEditManageDeduction'; // Import the image
 import { IRootState } from '../../../store';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -52,10 +52,27 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    // useEffect(() => {
+    //     fetchData();
 
+    // }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     useEffect(() => {
         fetchData();
-    }, [ currentPage]);
+
+    }, [dispatch, currentPage, searchTerm]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -64,11 +81,20 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
         setCurrentPage(newPage);
     };
 
+
     const fetchData = async () => {
         try {
-            const response = await getData(`/deduction/list?page=${currentPage}`);
+
+            let apiUrl = `/deduction/list?page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
+
+            // const response = await getData(`/deduction/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
-               setData(response.data.data?.deductions);
+                setData(response.data.data?.deductions);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -254,9 +280,22 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             <AddEditManageCharges getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+                {/* <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                     <h5 className="font-semibold text-lg dark:text-white-light"> Expenses</h5>
+                </div> */}
+
+                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                    <h5 className="font-semibold text-lg dark:text-white-light">Expenses</h5>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
+
 
                 {data?.length > 0 ? (
                     <>

@@ -15,6 +15,7 @@ import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import AddEditManageCharges from './AddEditFuelSubCategories'; // Import the image
 import { IRootState } from '../../../store';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -42,10 +43,27 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    // useEffect(() => {
+    //     fetchData();
+
+    // }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage,searchTerm]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -53,10 +71,18 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
-
     const fetchData = async () => {
         try {
-            const response = await getData(`/fuel/subcategory?page=${currentPage}`);
+
+
+            let apiUrl = `/fuel/subcategory?page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
+
+            // const response = await getData(`/fuel/subcategory?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -87,12 +113,12 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("charges-create");
-    const isListPermissionAvailable = UserPermissions?.includes("charges-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("charges-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("charges-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("charges-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("charges-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes("fuel-subcategory-create");
+    const isListPermissionAvailable = UserPermissions?.includes("fuel-subcategory-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("fuel-subcategory-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("fuel-subcategory-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("fuel-subcategory-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("fuel-subcategory-assign-permission");
 
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
@@ -263,8 +289,17 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             <AddEditManageCharges getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Fuel  Sub Categories</h5>
+        
+                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                    <h5 className="font-semibold text-lg dark:text-white-light">Fuel  Sub Categories</h5>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
 
                 {data?.length > 0 ? (

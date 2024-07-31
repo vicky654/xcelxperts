@@ -12,6 +12,7 @@ import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageRolesProps {
     isLoading: boolean;
@@ -37,10 +38,27 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    // useEffect(() => {
+    //     fetchData();
+
+    // }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     useEffect(() => {
         fetchData();
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage, searchTerm]);
     const handleSuccess = () => {
         fetchData();
     };
@@ -49,9 +67,18 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
         setCurrentPage(newPage);
     };
 
+
     const fetchData = async () => {
         try {
-            const response = await getData(`/addon/list?page=${currentPage}`);
+
+            let apiUrl = `/addon/list?page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
+
+            // const response = await getData(`/addon/list?page=${currentPage}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.addons);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -173,12 +200,20 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
             </div>
 
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+
+
+                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">Addons</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
-                        {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                    </div>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
+
 
                 {data?.length > 0 ? (
                     <>
