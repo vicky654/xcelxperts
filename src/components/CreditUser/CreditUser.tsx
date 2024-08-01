@@ -20,6 +20,7 @@ import { useFormik } from 'formik';
 import { Badge } from 'react-bootstrap';
 import Dropdown from '../Dropdown';
 import IconHorizontalDots from '../Icon/IconHorizontalDots';
+import SearchBar from '../../utils/SearchBar';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -57,6 +58,13 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    // useEffect(() => {
+    //     fetchData();
+
+    // }, [searchTerm, currentPage]);
 
     const isAddPermissionAvailable = UserPermissions?.includes('credituser-create');
     const isListPermissionAvailable = UserPermissions?.includes('credituser-list');
@@ -320,10 +328,43 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             }
         },
     });
+
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
+    useEffect(() => {
+        const ID = localStorage.setItem("CreditUserID", formik?.values?.client_id)
+
+
+        if (formik?.values?.client_id) {
+            GetUserList(formik?.values?.client_id);
+        }
+
+
+    }, [searchTerm]);
+
+
+
     const GetUserList = async (id: any) => {
 
         try {
-            const response = await getData(`credit-user/list?client_id=${id}&page=${currentPage}`);
+
+
+            let apiUrl = `/credit-user/list?client_id=${id}&page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
+            // const response = await getData(`credit-user/list?client_id=${id}&page=${currentPage}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
                 localStorage.setItem("CreditUserID", id)
@@ -399,10 +440,20 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     }
 
                     <div className="panel h-full xl:col-span-3">
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users</h5>
-
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                            <h5 className="font-semibold text-lg dark:text-white-light">Credit Users</h5>
+                            {showFilterOptions && (
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    onReset={handleReset}
+                                    hideReset={Boolean(searchTerm)}
+                                    placeholder="Enter search term..."
+                                />
+                            )}
                         </div>
+
+
+
                         {data?.length > 0 ? (
                             <>
                                 <div className="datatables">
