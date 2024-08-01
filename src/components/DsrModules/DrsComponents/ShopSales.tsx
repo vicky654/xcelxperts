@@ -167,7 +167,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_purchage_price ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_purchage_price ? 'readonly' : ''}`}
                                     readOnly={!row.update_purchage_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'purchage_price', e.target.value, row)}
                                 />
@@ -188,7 +188,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
                                 />
@@ -210,7 +210,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_sale ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sale ? 'readonly' : ''}`}
                                     readOnly={!row.update_sale}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale', e.target.value, row)}
                                 />
@@ -231,7 +231,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_closing ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
                                     readOnly={!row.update_closing}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'closing', e.target.value, row)}
                                 />
@@ -252,7 +252,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_sale_price ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sale_price ? 'readonly' : ''}`}
                                     readOnly={!row.update_sale_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_price', e.target.value, row)}
                                 />
@@ -273,7 +273,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_profit ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_profit ? 'readonly' : ''}`}
                                     readOnly={!row.update_profit}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'profit', e.target.value, row)}
                                 />
@@ -294,7 +294,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_sale_amount ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sale_amount ? 'readonly' : ''}`}
                                     readOnly={!row.update_sale_amount}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_amount', e.target.value, row)}
                                 />

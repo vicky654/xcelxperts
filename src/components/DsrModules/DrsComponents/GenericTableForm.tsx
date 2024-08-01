@@ -154,7 +154,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_price ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_price ? 'readonly' : ''}`}
                             readOnly={!row.update_price}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'fuel_price', e.target.value)}
                         />
@@ -170,7 +170,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
                             readOnly={!row.update_opening}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'opening', e.target.value)}
                         />
@@ -186,7 +186,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_closing ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
                             readOnly={!row.update_closing}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'closing', e.target.value)}
                         />
@@ -202,7 +202,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''}`}
                             readOnly={!row.update_sales_volume}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'sales_volume', e.target.value)}
                         />
@@ -218,7 +218,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_gross_value ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_gross_value ? 'readonly' : ''}`}
                             readOnly={!row.update_gross_value}
                         />
                     )}
@@ -233,7 +233,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_discount ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_discount ? 'readonly' : ''}`}
                             readOnly={!row.update_discount}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'discount', e.target.value)}
                         />
@@ -249,7 +249,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         <input
                             type="number"
                             {...field}
-                            className={`form-input ${!row.update_nett_value ? 'readonly' : ''}`}
+                            className={`form-input workflorform-input ${!row.update_nett_value ? 'readonly' : ''}`}
                             readOnly={!row.update_nett_value}
                         />
                     )}

@@ -166,7 +166,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_opening ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
                                 />
@@ -187,7 +187,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
                                     readOnly={!row.update_delivery_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
                                 />
@@ -208,7 +208,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_sales_volume ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''}`}
                                     readOnly={!row.update_sales_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
                                 />
@@ -229,7 +229,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 <input
                                     type="number"
                                     {...field}
-                                    className="form-input readonly"
+                                    className="form-input workflorform-input readonly"
                                     readOnly
                                 />
                                 <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
@@ -249,7 +249,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 <input
                                     type="number"
                                     {...field}
-                                    className={`form-input ${!row.update_dips_stock ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_dips_stock ? 'readonly' : ''}`}
                                     readOnly={!row.update_dips_stock}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
                                 />
@@ -270,7 +270,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 <input
                                     type="number"
                                     {...field}
-                                    className="form-input readonly"
+                                    className="form-input workflorform-input readonly"
                                     readOnly
                                 />
                                 <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
