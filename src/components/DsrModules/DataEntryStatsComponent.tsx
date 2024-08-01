@@ -32,10 +32,13 @@ interface TabData {
   labels: string[];
   data: string[];
   currentMonth: string;
+  prevLabel: string;
   prevMonth: string;
   profit: string;
   symbol: string;
   total: string;
+  currentLabel: string;
+
   listing: {
     id: string;
     date: string;
@@ -68,6 +71,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     data: [],
     total: '0.00',
     currentMonth: '0.00',
+    prevLabel: '0.00',
+    currentLabel: '0.00',
     prevMonth: '0.00',
     profit: '0.00',
     symbol: '0.00',
@@ -148,8 +153,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   };
   useEffect(() => {
     // Select the first card by default if cards have data
-    if (cards.length > 0) {
-      setSelectedCardName(cards[0].name);
+    if (cards?.length > 0) {
+      setSelectedCardName(cards[0]?.name);
     }
   }, [cards]);
   const handleTabClick = async (tabName: string) => {
@@ -302,13 +307,17 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   // State to store barData and dates
   const [barData, setBarData] = useState<ApexData[]>([]);
-  const [dates, setDates] = useState<string[]>([]);
+  const [dates, setDates] = useState<any[]>([]);
   const graphstaticTabs = ["Bar Chart", "Pie Chart"];
   const [graphselectedTab, graphsetSelectedTab] = useState(graphstaticTabs[0]);
 
   const handleGraphTabClick = (tabName: any) => {
     graphsetSelectedTab(tabName);
   };
+
+
+  console.log(barData, dates, "dates");
+
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
@@ -393,54 +402,52 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             {stationId &&
 
               <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
-                <div className=" p-3  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+                <div className=" p-3  firstbox ">
                   <div className="flex justify-between">
-                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab} (Current Month)</div>
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 
                   </div>
                   <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
-                    <div className="badge bg-white/30">
-
-
+                    <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
+                    <div
+                      className={`badge ${tabData.symbol === 'UP' ? 'bg-green-500' :
+                        tabData.symbol === 'DOWN' ? 'bg-red-500' :
+                          'bg-white/30'
+                        }`}
+                    >
                       {tabData.symbol !== "SAME" && (
                         <>
                           {tabData.symbol === 'UP' ? (
-                            <i className="fi fi-tr-chart-line-up"></i>
+                            <span>    <i className="fi fi-tr-caret-up "></i></span>
                           ) : (
-                            <i className="fi fi-tr-chart-arrow-down"></i>
+                            <span>          <i className="fi fi-tr-caret-down "></i></span>
+
                           )}
                         </>
                       )}
+                      {tabData?.profit}%
+                    </div>
 
-                      {tabData?.profit}%</div>
                   </div>
-                  {/* <div className="flex items-center font-semibold mt-2">
-      <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-      Last Week 44,700
-    </div> */}
+
                 </div>
-                <div className=" p-3  ms-2 bg-gradient-to-r from-cyan-500 to-cyan-400 ">
+                <div className=" p-3  ms-2 firstbox ">
                   <div className="flex justify-between">
-                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}  (Previous Month)</div>
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
-                    {/* <div className="badge bg-white/30">{tabData?.profit}%</div> */}
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
+
                   </div>
-                  {/* <div className="flex items-center font-semibold mt-2">
-      <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-      Last Week 44,700
-    </div> */}
+
                 </div>
               </div>
 
 
-              // <h2 className="text-lg font-semibold">{selectedTab}</h2>
             }
             <div className="mt-3">
 
-              {stationId && selectedTab === 'variance-accumulation' ? (
+              {stationId && selectedTab === 'Variance-accumulation' ? (
                 tabData?.listing?.length > 0 ? (
                   <ul className="divide-y  b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
@@ -492,7 +499,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               ) : null}
 
 
-              {stationId && selectedTab !== 'variance-accumulation' && (
+              {stationId && selectedTab !== 'Variance-accumulation' && (
                 tabData?.listing?.length > 0 ? (
                   <ul className="divide-y divide-gray-200">
                     {tabData?.listing?.map((item, index) => (
@@ -582,51 +589,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-            {/* {stationId && selectedTab !== 'variance-accumulation' && (
-              <>
-                <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
-                  {graphstaticTabs.map((tabName) => (
-                    <li key={tabName} className="w-1/8 inline-block" style={{ minWidth: "100px" }}>
-                      <button
-                        onClick={() => handleGraphTabClick(tabName)}
-                        className={`
-                    flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
-                    ${graphselectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700' : ''}`}
-                        style={{ color: 'currentColor' }}
-                      >
-                       
-                        {tabName}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                {graphselectedTab === "Bar Chart" && (
-                  <div>
-
-             
-                    <StatsBarChart
-                      series={barData}
-                      categories={dates}
-                    // title="Financial Overview"
-                    // subtitle="Monthly Data"
-                    // yaxisTitle="Values (in thousands)"
-                    />
-                  </div>
-                )}
-                {graphselectedTab === "Pie Chart" && (
-                  <div>
-             
-                    <ReactApexChart
-                      series={pieChart.series}
-                      options={pieChart.options}
-                      className="rounded-lg bg-white dark:bg-black overflow-hidden"
-                      type="pie"
-                      height={300}
-                    />
-                  </div>
-                )}</>
-            )} */}
-
 
 
 
@@ -635,7 +597,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </div>
 
       </div>
-      {stationId && selectedTab !== 'variance-accumulation' && (
+      {stationId && selectedTab !== 'Variance-accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
           <div className='panel h-full ' style={{ background: "none" }}>
           </div>
@@ -689,20 +651,14 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <div>
 
                     <ReactApexChart
-                      series={pieChart.series}
-                      options={pieChart.options}
+                      series={pieChart?.series}
+                      options={pieChart?.options}
                       className="rounded-lg bg-white dark:bg-black overflow-hidden"
                       type="pie"
                       height={300}
                     />
                   </div>
                 )}</>
-
-
-
-
-
-
             </div>
           </div>
 

@@ -166,17 +166,25 @@ const menuItems: MenuItem[] = [
         ],
     },
     {
-        key: 'PaidOuts',
-        title: 'PaidOuts',
+        key: 'Reports',
+        title: 'Reports',
         icon: "briefcase",
-        link: '/manage-Incomes/Incomes', // Single link for the dashboard
+        link: '/manage-reports/reports', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'report-generate', // Permission associated with the dashboard
-        subMenu: [
-         { title: 'Reports', link: '/manage-reports/reports', permission: 'report-generate', visibility: false },
-            // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
-        ],
     },
+    // {
+    //     key: 'PaidOuts',
+    //     title: 'PaidOuts',
+    //     icon: "briefcase",
+    //     link: '/manage-Incomes/Incomes', // Single link for the dashboard
+    //     visibility: false, // Example of setting visibility to false
+    //     permission: 'report-generate', // Permission associated with the dashboard
+    //     subMenu: [
+    //      { title: 'Reports', link: '/manage-reports/reports', permission: 'report-generate', visibility: false },
+    //         // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
+    //     ],
+    // },
     // {
     //     key: 'Charges',
     //     title: 'Charges',

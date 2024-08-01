@@ -14,6 +14,7 @@ import showMessage from '../hooks/showMessage';
 import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
 
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
+import { currency } from '../utils/CommonData';
 interface FilterValues {
     client_id: string;
     company_id: string;
@@ -476,7 +477,24 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             handleDateClick(defaultDate);
         }
     }, [fuelStats]);
-    console.log(filterData, "line_graph");
+ 
+
+let employee = {
+    eid: "E102",
+    ename: "Jack",
+    eaddress: "New York",
+    salary: 50000
+}
+ 
+console.log("Employee=> ", employee);
+let newEmployee = employee;    // Shallow copy
+console.log("New Employee=> ", newEmployee);
+ 
+console.log("---------After modification----------");
+newEmployee.ename = "Beck";
+console.log("Employee=> ", employee);
+console.log("New Employee=> ", newEmployee);
+// Name of the employee as well as 
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
@@ -610,7 +628,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.profit?.profit} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.profit?.profit} </div>
                                 <div className="badge bg-white/30"> {filterData?.profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">

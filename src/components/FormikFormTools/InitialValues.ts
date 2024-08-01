@@ -233,6 +233,8 @@ export const ReportsTankInitialValues = {
   client_id: '',
   entity_id: '',
   station_id: '',
+  from_date: '',
+  to_date: '',
   tank_name: '',
   tank_code: '',
   fuel_id: '',
