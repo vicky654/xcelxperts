@@ -1,24 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import ReactApexChart from 'react-apexcharts';
-import Dropdown from '../components/Dropdown';
 import { setPageTitle } from '../store/themeConfigSlice';
-import IconHorizontalDots from '../components/Icon/IconHorizontalDots';
 import withApiHandler from '../utils/withApiHandler';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import LoaderImg from '../utils/Loader';
-import IconTrendingUp from '../components/Icon/IconTrendingUp';
 import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import showMessage from '../hooks/showMessage';
-import { currency } from '../utils/CommonData';
 import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
 
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
-import IconEye from '../components/Icon/IconEye';
 interface FilterValues {
     client_id: string;
     company_id: string;

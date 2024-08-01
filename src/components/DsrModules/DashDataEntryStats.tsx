@@ -31,6 +31,7 @@ interface CardData {
 }
 interface TabData {
   labels: string[];
+  
   data: string[];
   currentMonth: string;
   prevMonth: string;
@@ -62,7 +63,7 @@ interface ApexData {
 const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
   const [cards, setCards] = useState<CardData[]>([]);
-  const [selectedTab, setSelectedTab] = useState<string>('Varience-accumulation');
+  const [selectedTab, setSelectedTab] = useState<string>('Variance-accumulation');
   const [subData, setSubData] = useState<any[]>([]);
   const [tabData, setTabData] = useState<TabData>({
     labels: [],
@@ -147,7 +148,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
 
 
   const staticTabs = [
-    'Varience-accumulation',
+    'Variance-accumulation',
     'Fuel Sales',
     'Lube Sales',
     'Incomes',
@@ -159,7 +160,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
 
   ];
   const tabKeyMap: { [key: string]: string } = {
-    'Varience-accumulation': 'varience-accumulation',
+    'Variance-accumulation': 'variance-accumulation',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
@@ -201,7 +202,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
     console.log(values, "values");
 
     try {
-      const response = await getData(`/stats/varience-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
+      const response = await getData(`/stats/Variance-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
         setTabData(response.data?.data);
         setStationId(values?.station_id || values?.site_id);
@@ -484,7 +485,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
             }
             <div className="mt-3">
 
-              {stationId && selectedTab === 'Varience-accumulation' ? (
+              {stationId && selectedTab === 'Variance-accumulation' ? (
                 tabData?.listing.length > 0 ? (
                   <ul className="divide-y  b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
@@ -536,7 +537,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
               ) : null}
 
 
-              {stationId && selectedTab !== 'Varience-accumulation' && (
+              {stationId && selectedTab !== 'Variance-accumulation' && (
                 tabData?.listing.length > 0 ? (
                   <ul className="divide-y divide-gray-200">
                     {tabData?.listing?.map((item, index) => (
@@ -626,7 +627,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
 
 
 
-            {/* {stationId && selectedTab !== 'Varience-accumulation' && (
+            {/* {stationId && selectedTab !== 'Variance-accumulation' && (
               <>
                 <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
                   {graphstaticTabs.map((tabName) => (
@@ -679,7 +680,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
         </div>
 
       </div>
-      {stationId && selectedTab !== 'Varience-accumulation' && (
+      {stationId && selectedTab !== 'Variance-accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
           <div className='panel h-full ' style={{ background: "none" }}>
           </div>

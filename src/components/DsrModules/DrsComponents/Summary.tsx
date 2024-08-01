@@ -171,7 +171,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
               </div>
             )}
-            <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} />
+            {/* <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} /> */}
             {data?.takings && (
               <div className="mb-8">
                 <h1 className="text-lg font-bold">SUMMARY OF TAKINGS</h1>

@@ -3,6 +3,8 @@ import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import CountUp from "react-countup";
 import Wavify from "react-wavify";
 import IconRefresh from "../../components/Icon/IconRefresh";
+import { curryGetDefaultMiddleware } from "@reduxjs/toolkit/dist/getDefaultMiddleware";
+import { currency } from "../../utils/CommonData";
 
 interface VerticalProgressBarWithWaveProps {
   percentage: number; // The percentage to fill the progress bar
@@ -51,6 +53,28 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
   const labelStyle: React.CSSProperties = {
     position: "absolute",
     top: 0,
+    left: 0,
+    width: "100%",
+    textAlign: "center",
+    color: "#000",
+    fontWeight: "bold",
+    padding: "5px 0",
+    zIndex: 10, // Ensure the label is above the wave
+  };
+  const d: React.CSSProperties = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    textAlign: "center",
+    color: "#000",
+    fontWeight: "bold",
+    padding: "5px 0",
+    zIndex: 10, // Ensure the label is above the wave
+  };
+  const PercentagelabelStyle: React.CSSProperties = {
+    position: "absolute",
+    top: "50%",
     left: 0,
     width: "100%",
     textAlign: "center",
@@ -116,7 +140,9 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
             }}
             style={waveStyle}
           />
-          <span style={labelStyle}>
+      
+        </div>
+        <span style={PercentagelabelStyle}>
             <CountUp
               end={percentage}
               separator=","
@@ -126,7 +152,6 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
 
             %
           </span>
-        </div>
       </div>
       <ul style={detailsStyle}>
 
@@ -134,11 +159,11 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
           <strong className="ms-2 mr-1">Capacity:</strong>
 
           <OverlayTrigger
-            placement="top" // Tooltip placement
+            placement="top" 
             delay={{ show: 250, hide: 400 }} // Optional delay settings
             overlay={
               <Tooltip className="custom-tooltip"> {/* Optional custom class for styling */}
-                {alert?.capacity} liters {/* Tooltip content */}
+                 {alert?.average_sale}  {/* Tooltip content */}
               </Tooltip>
             }
           >
@@ -150,8 +175,8 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
                 duration={2.94}
               />
               {/* <IconRefresh className="w-6 h-6" /> */}
-              <i style={{fontWeight:"bold"}} className="fi fi-br-info"></i>
-              
+              <i style={{ fontWeight: "bold" }} className="fi fi-br-info"></i>
+
 
               {/* <FontAwesomeIcon icon={faInfoCircle} style={iconStyle} /> */}
             </span>

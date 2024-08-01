@@ -28,6 +28,7 @@ interface ManageUserProps {
 
 interface RowData {
     id: string;
+    email: string;
     full_name: string;
     role: string;
     addons: string;
@@ -112,7 +113,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'User Name',
             selector: (row: RowData) => row.full_name,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -125,7 +126,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Role',
             selector: (row: RowData) => row.role,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -135,10 +136,23 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             ),
         },
         {
+            name: 'Email',
+            selector: (row: RowData) => row.email,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.email}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
             name: 'Addons',
             selector: (row: RowData) => row.addons,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">

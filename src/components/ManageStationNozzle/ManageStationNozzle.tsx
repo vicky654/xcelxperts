@@ -28,6 +28,7 @@ interface ManageStationNozzleProps {
 interface RowData {
     id: string; // Change type from number to string
     full_name: string;
+    tank: string;
     role: string;
     addons: string;
     created_date: string;
@@ -132,13 +133,13 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         },
         {
             name: 'Tank Name',
-            selector: (row: RowData) => row.fuel_name,
+            selector: (row: RowData) => row.tank,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.tank}</h6>
                     </div>
                 </div>
             ),

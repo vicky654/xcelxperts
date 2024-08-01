@@ -214,17 +214,17 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     ];
 
     const characterLimit = 20; // Set the character limit for the tooltip
-
+    console.log(data, "data");
     return (
         <>
             {isLoading && <LoaderImg />}
             <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4  displaycanter">
-                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf &&
+                        {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && data.length > 0 &&
                             (<span onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}>
 
-                                <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>
 
@@ -239,8 +239,11 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         </button>
                     )} */}
                 </div>
-                {!isconsiderNozzle ? (
-                    data.length > 0 ? (
+
+                { }
+
+                {data.length > 0 ? (
+                    !isconsiderNozzle ? (
                         <Formik
                             initialValues={{ data }}
                             enableReinitialize
@@ -254,7 +257,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                             <DataTable
                                                 columns={columns}
                                                 data={values.data}
-                                         
+
                                             />
                                         )}
                                     </FieldArray>
@@ -269,13 +272,24 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                             )}
                         </Formik>
                     ) : (
-                        <div className="flex justify-center items-center">
-                            <img src={noDataImage} alt="No Data" className="w-1/3" />
-                        </div>
+                        <GenericTableForm data={Nozzledata} stationId={stationId} startDate={startDate} postData={postData} applyFilters={applyFilters} iseditable={iseditable} />
+
                     )
                 ) : (
-                    <GenericTableForm data={Nozzledata} stationId={stationId} startDate={startDate} postData={postData} applyFilters={applyFilters} iseditable={iseditable} />
+                    <div className="flex justify-center items-center">
+                        <img src={noDataImage} alt="No Data" className="w-1/3" />
+                    </div>
+
+
                 )}
+
+
+
+
+
+
+
+
             </div>
         </>
     );

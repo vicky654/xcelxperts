@@ -156,7 +156,7 @@ const menuItems: MenuItem[] = [
             { title: 'Stations', link: '/manage-stations/station', permission: 'station-list', visibility: false },
             { title: 'Station Bank', link: '/manage-bank/bank', permission: 'station-bank-create', visibility: false },
             { title: 'Tanks', link: '/manage-stations/tank', permission: 'tank-list', visibility: false },
-            { title: 'Pumps', link: '/manage-stations/pump', permission: 'pump-list', visibility: false },
+            // { title: 'Pumps', link: '/manage-stations/pump', permission: 'pump-list', visibility: false },
             { title: 'Nozzles', link: '/manage-stations/nozzle', permission: 'nozzle-list', visibility: false },
            // { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dashboard-view', visibility: false },
             { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'fuel-price-update', visibility: false },

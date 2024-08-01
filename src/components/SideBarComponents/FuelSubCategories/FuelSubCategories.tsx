@@ -25,6 +25,7 @@ interface ManageUserProps {
 }
 
 interface RowData {
+    fuel_category: any;
     id: string;
     sub_category_name: string;
     code: string;
@@ -126,10 +127,10 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const columns: any = [
         // Other columns
         {
-            name: 'Fuel  Sub Categories Name',
+            name: ' Name',
             selector: (row: RowData) => row.sub_category_name,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -139,14 +140,27 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             ),
         },
         {
-            name: 'Fuel  Sub Categories Code',
+            name: ' Code',
             selector: (row: RowData) => row.code,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{`${row.code}`}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: ' Fuel Category',
+            selector: (row: RowData) => row.fuel_category,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{`${row.fuel_category}`}</h6>
                     </div>
                 </div>
             ),
@@ -169,7 +183,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             name: 'Status',
             selector: (row: RowData) => row.status,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
 
                 <>

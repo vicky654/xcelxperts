@@ -318,7 +318,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         >
             {({ values, handleChange, setFieldValue }) => (
                 <Form>
-                    {values.data.map((tank, tankIndex) => (
+                    {values?.data.map((tank, tankIndex) => (
                         <div key={tank.id}>
                             <div className='flex'>
                                 <h3 className='FuelSaleContainer '>
@@ -341,7 +341,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     ))}
 
 
-                    {iseditable && (
+                    {iseditable && values?.data?.length>0 && (
                         <button className='btn btn-primary mt-4' type="submit">Submit</button>
                     )}
 
