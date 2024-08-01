@@ -56,7 +56,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     let storedKeyItems: any = localStorage.getItem("stationNozzle") || '[]';
-    let storedKeyName: any = "stationNozzle";
+    let storedKeyName: any = "stationTank";
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {

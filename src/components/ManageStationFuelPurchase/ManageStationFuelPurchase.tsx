@@ -67,7 +67,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-    let storedKeyName = "stationPurchase";
+    let storedKeyName = "stationTank";
 
 
 

@@ -74,6 +74,8 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const isAssignAddPermissionAvailable = UserPermissions?.includes('credituser-assign-permission');
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
+    const storedKeyName = "stationTank";
+
 
     useEffect(() => {
 
@@ -89,16 +91,46 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
         FetchRoleList();
     }, [currentPage]);
-    useEffect(() => {
-        if (localStorage.getItem("CreditUserID")) {
-            const clientId = localStorage.getItem("CreditUserID");
-            if (clientId) {
-                formik.setFieldValue("client_id", clientId)
-                GetUserList(clientId)
-            }
-        }
+    // useEffect(() => {
+    //     const storedKeyName = localStorage.getItem("stationTank");
+      
 
-    }, [currentPage]);
+    //     if (localStorage.getItem("CreditUserID")) {
+    //         const clientId = localStorage.getItem("CreditUserID");
+    //         if (clientId) {
+    //             formik.setFieldValue("client_id", clientId)
+    //             GetUserList(clientId)
+    //         }
+    //     }
+
+    // }, [currentPage]);
+
+
+    useEffect(() => {
+        const storedDataString = localStorage.getItem(storedKeyName);
+        console.log(storedDataString, "storedDataString");
+    
+        if (storedDataString) {
+          try {
+            const storedData = JSON.parse(storedDataString);
+            console.log(storedData, "storedData");
+    
+            // Check for the existence of `start_month` or other necessary properties
+            // if (storedData.start_date) {
+            //   handleApplyFilters(storedData);
+            // }
+
+
+            if (storedData?.client_id) {
+                formik.setFieldValue("client_id", storedData.client_id)
+                GetUserList(storedData.client_id)
+            }
+          } catch (error) {
+            console.error("Error parsing stored data", error);
+          }
+        }
+      }, [dispatch]);
+
 
     const handleSuccess = () => {
         localStorage.setItem("CreditUserID", formik?.values?.client_id)

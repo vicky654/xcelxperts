@@ -202,7 +202,7 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
     console.log(values, "values");
 
     try {
-      const response = await getData(`/stats/Variance-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
+      const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
         setTabData(response.data?.data);
         setStationId(values?.station_id || values?.site_id);
@@ -440,11 +440,11 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
               <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
                 <div className=" p-3  bg-gradient-to-r from-cyan-500 to-cyan-400 ">
                   <div className="flex justify-between">
-                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab} (Current Month)</div>
 
                   </div>
                   <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency}{tabData?.currentMonth} </div>
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
                     <div className="badge bg-white/30">
 
 
@@ -467,10 +467,10 @@ console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
                 </div>
                 <div className=" p-3  ms-2 bg-gradient-to-r from-cyan-500 to-cyan-400 ">
                   <div className="flex justify-between">
-                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}</div>
+                    <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{selectedTab}  (Previous Month)</div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency}{tabData?.prevMonth} </div>
+                    <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
                     {/* <div className="badge bg-white/30">{tabData?.profit}%</div> */}
                   </div>
                   {/* <div className="flex items-center font-semibold mt-2">

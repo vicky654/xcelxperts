@@ -41,7 +41,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         start_date: '',
     });
     let storedKeyItems: any = localStorage.getItem("fuelselling") || '[]';
-    let storedKeyName = "fuelselling";
+    let storedKeyName = "stationTank";
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
 
     useEffect(() => {
