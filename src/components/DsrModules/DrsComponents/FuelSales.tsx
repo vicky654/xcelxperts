@@ -121,10 +121,10 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         const discount = field === 'discount' ? numericValue : values.data[index].discount;
 
         const gross_value = sales_volume * fuel_price;
-        const nett_value = gross_value - discount;
+        const nett_value = gross_value - discount; 
 
-        setFieldValue(`data[${index}].gross_value`, gross_value);
-        setFieldValue(`data[${index}].nett_value`, nett_value);
+        setFieldValue(`data[${index}].gross_value`, gross_value.toFixed(2));
+        setFieldValue(`data[${index}].nett_value`, nett_value.toFixed(2));
     };
 
     const columns = [

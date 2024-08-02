@@ -130,19 +130,19 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             const sales_volume = field === 'sales_volume' ? numericValue : values.data[index].sales_volume;
 
             const newBookStock = opening + delivery_volume - sales_volume;
-            setFieldValue(`data[${index}].book_stock`, newBookStock);
-            setFieldValue(`data[${index}].dips_stock`, newBookStock);
+            setFieldValue(`data[${index}].book_stock`, newBookStock.toFixed(2));
+            setFieldValue(`data[${index}].dips_stock`, newBookStock.toFixed(2));
 
             // Update variance
             const dips_stock = values.data[index].dips_stock;
             const newVariance = dips_stock - newBookStock;
-            setFieldValue(`data[${index}].variance`, newVariance);
+            setFieldValue(`data[${index}].variance`, newVariance.toFixed(2));
         }
 
         // Update dips_stock field if dips_stock changes
         if (field === 'dips_stock') {
             const newVariance = numericValue - values.data[index].book_stock;
-            setFieldValue(`data[${index}].variance`, newVariance);
+            setFieldValue(`data[${index}].variance`, newVariance.toFixed(2));
         }
     };
 
