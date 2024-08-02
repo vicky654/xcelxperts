@@ -263,27 +263,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                 </>
             ),
         },
-        {
-            name: 'Profit',
-            cell: (row: ShopSalesData, index: number) => (
-                <>
-                    <Field name={`data[${index}].profit`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    {...field}
-                                    className={`form-input workflorform-input ${!row.update_profit ? 'readonly' : ''}`}
-                                    readOnly={!row.update_profit}
-                                    onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'profit', e.target.value, row)}
-                                />
-                                <ErrorMessage name={`data[${index}].profit`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
-                            </div>
-                        )}
-                    </Field>
-                </>
-            ),
-        },
+      
         {
             name: ' Amount',
             cell: (row: ShopSalesData, index: number) => (

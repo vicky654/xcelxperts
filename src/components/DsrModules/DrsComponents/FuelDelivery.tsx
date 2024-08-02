@@ -131,6 +131,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
             const newBookStock = opening + delivery_volume - sales_volume;
             setFieldValue(`data[${index}].book_stock`, newBookStock);
+            setFieldValue(`data[${index}].dips_stock`, newBookStock);
 
             // Update variance
             const dips_stock = values.data[index].dips_stock;
