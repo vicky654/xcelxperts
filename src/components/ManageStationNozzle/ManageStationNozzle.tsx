@@ -16,6 +16,7 @@ import * as Yup from 'yup';
 import AddEditStationNozzleModal from './AddEditStationNozzleModal';
 import CustomInput from '../ManageStationTank/CustomInput';
 import { IRootState } from '../../store';
+import SearchBar from '../../utils/SearchBar';
 
 interface ManageStationNozzleProps {
     isLoading: boolean;
@@ -55,6 +56,10 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+
+
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     let storedKeyItems: any = localStorage.getItem("stationNozzle") || '[]';
     let storedKeyName: any = "stationTank";
 
@@ -66,7 +71,20 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             handleApplyFilters(JSON.parse(storedData));
         }
 
-    }, [currentPage]);
+    }, [currentPage,searchTerm]);
+
+
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
     };
@@ -234,7 +252,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             setUserId(id);
 
         } catch (error) {
-               handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -276,7 +294,14 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     };
     const handleApplyFilters = async (values: any) => {
         try {
-            const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
+            // const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
+
+            let apiUrl = `/station/nozzle/list?station_id=${values.station_id}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
             if (response && response.data && response.data.data) {
                 setData(response.data.data);
                 // setCurrentPage(response.data.data?.currentPage || 1);
@@ -351,11 +376,22 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+                        {/* <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
-                            <div className="ltr:ml-auto rtl:mr-auto">
-                                {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                            </div>
+                         
+                        </div> */}
+
+
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
+                            {showFilterOptions && (
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    onReset={handleReset}
+                                    hideReset={Boolean(searchTerm)}
+                                    placeholder="Enter search term..."
+                                />
+                            )}
                         </div>
                         {data?.length > 0 ? (
                             <>

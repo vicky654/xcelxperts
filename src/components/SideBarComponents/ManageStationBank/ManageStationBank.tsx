@@ -18,6 +18,7 @@ import AddEditStationTankModal from './AddEditStationBank';
 import * as Yup from 'yup';
 import { IRootState } from '../../../store';
 import CustomInput from '../../ManageStationTank/CustomInput';
+import SearchBar from '../../../utils/SearchBar';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -56,6 +57,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
     let storedKeyName = "stationTank";
 
@@ -80,12 +83,22 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             handleApplyFilters(JSON.parse(storedData));
         }
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage, searchTerm]);
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
     };
 
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
 
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
     };
@@ -224,7 +237,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             setUserId(id);
 
         } catch (error) {
-               handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -241,7 +254,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             formData.append('bank_id', values.bank_id);
             formData.append('account_no', values.account_no);
             formData.append('station_id', values.station_id);
- 
+
 
             if (userId) {
                 formData.append('id', userId);
@@ -266,7 +279,12 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         // Store the form values in local storage
         // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
-            const response = await getData(`/station/bank/list?station_id=${values?.station_id}`);
+            // const response = await getData(`/station/bank/list?station_id=${values?.station_id}`);
+            let apiUrl = `station/bank/list?station_id=${values?.station_id}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
                 setData(response.data.data);
                 // setCurrentPage(response.data.data?.currentPage || 1);
@@ -344,11 +362,22 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+                        {/* <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Station Banks </h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
-                                {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                            </div>
+                           </div>
+                        </div> */}
+
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                            <h5 className="font-semibold text-lg dark:text-white-light">Station Banks</h5>
+                            {showFilterOptions && (
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    onReset={handleReset}
+                                    hideReset={Boolean(searchTerm)}
+                                    placeholder="Enter search term..."
+                                />
+                            )}
                         </div>
                         {data?.length > 0 ? (
                             <>
