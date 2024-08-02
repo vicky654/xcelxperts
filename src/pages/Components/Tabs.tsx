@@ -48,7 +48,7 @@ const Tabs = () => {
                         https://headlessui.com/react/tabs
                     </a>
                 </div>
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
                     {/* Simple Tabs */}
                     <div className="panel" id="simple">
                         <div className="mb-5 flex items-center justify-between">

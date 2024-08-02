@@ -91,7 +91,7 @@ const Search = () => {
                     <span>Search</span>
                 </li>
             </ul>
-            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-6">
+            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-2">
                 {/* Live Search */}
                 <div className="panel lg:row-span-2" id="live">
                     <div className="flex items-center justify-between mb-5">

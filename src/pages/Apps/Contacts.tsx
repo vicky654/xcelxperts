@@ -365,7 +365,7 @@ const Contacts = () => {
             )}
 
             {value === 'grid' && (
-                <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-5 w-full">
+                <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 mt-5 w-full">
                     {filteredItems.map((contact: any) => {
                         return (
                             <div className="bg-white dark:bg-[#1c232f] rounded-md overflow-hidden text-center shadow relative" key={contact.id}>

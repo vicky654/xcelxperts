@@ -86,7 +86,7 @@ const Validation = () => {
                     </a>
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
                     {/* Basic */}
                     <div className="panel" id="basic">
                         <div className="flex items-center justify-between mb-5">

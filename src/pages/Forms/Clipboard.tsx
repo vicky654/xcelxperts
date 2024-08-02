@@ -66,7 +66,7 @@ const Clipboard = () => {
                         https://www.npmjs.com/package/react-copy-to-clipboard
                     </a>
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     {/* Copy from input */}
                     <div className="panel" id="copy_from_input">
                         <div className="flex items-center justify-between mb-5">

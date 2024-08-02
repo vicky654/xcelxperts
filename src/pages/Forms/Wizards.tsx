@@ -46,7 +46,7 @@ const Wizards = () => {
             <div className="pt-5 space-y-8">
                 {/*  Basic */}
                 <h4 className="badge bg-primary inline-block hover:top-0 text-base mb-0">Pills</h4>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Text Only</h5>
@@ -388,7 +388,7 @@ const [activeTab2, setActiveTab2] = useState<any>(1);
 
                 {/* Circle */}
                 <h4 className="badge bg-primary inline-block hover:top-0 text-base mb-0">Circle</h4>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     {/* icon only */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
@@ -658,7 +658,7 @@ const [activeTab4, setActiveTab4] = useState<any>(1);
 
                 {/* Square */}
                 <h4 className="badge bg-primary inline-block hover:top-0 text-base mb-0">Square</h4>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     {/* icon only */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">

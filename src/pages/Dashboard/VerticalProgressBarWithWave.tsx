@@ -4,7 +4,7 @@ import CountUp from "react-countup";
 import Wavify from "react-wavify";
 import IconRefresh from "../../components/Icon/IconRefresh";
 import { curryGetDefaultMiddleware } from "@reduxjs/toolkit/dist/getDefaultMiddleware";
-import { currency } from "../../utils/CommonData";
+import { capacity, currency } from "../../utils/CommonData";
 
 interface VerticalProgressBarWithWaveProps {
   percentage: number; // The percentage to fill the progress bar
@@ -143,7 +143,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
       
         </div>
         <span style={PercentagelabelStyle}>
-            <CountUp
+          <CountUp
               end={percentage}
               separator=","
               start={0}
@@ -163,12 +163,12 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
             delay={{ show: 250, hide: 400 }} // Optional delay settings
             overlay={
               <Tooltip className="custom-tooltip"> {/* Optional custom class for styling */}
-                 {alert?.average_sale}  {/* Tooltip content */}
+              Avg Sale:  {capacity} {alert?.average_sale}  {/* Tooltip content */}
               </Tooltip>
             }
           >
             <span style={{ display: 'flex', alignItems: 'center' }}>
-              <CountUp
+             {capacity}  <CountUp
                 end={alert?.capacity || 0} // Use default value if capacity is undefined
                 separator=","
                 start={0}
@@ -185,8 +185,8 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
           <span style={tooltipTextStyle} className="tooltip-text">Total tank capacity</span>
         </li>
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
-          <strong className="ms-2 mr-1">Ullage:</strong> <CountUp
-            end={alert?.ullage}
+          <strong className="ms-2 mr-1">Ullage:</strong> {capacity}  <CountUp
+            end= {alert?.ullage}
             separator=","
             start={0}
             duration={1.94}
@@ -196,7 +196,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
           <strong className="ms-2 mr-1">Fuel Left:</strong>
 
-          <CountUp
+         {capacity}  <CountUp
             end={alert?.fuel_left}
             separator=","
             start={0}

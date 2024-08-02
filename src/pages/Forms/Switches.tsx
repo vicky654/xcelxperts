@@ -37,7 +37,7 @@ const Switches = () => {
                 <div className="space-y-8" id="icons">
                     <h4 className="badge bg-primary inline-block hover:top-0 text-base">Icon</h4>
                     {/* Icons */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
@@ -101,7 +101,7 @@ const Switches = () => {
                 <div className="space-y-8" id="solid">
                     <h4 className="badge bg-primary inline-block hover:top-0 text-base">Solid</h4>
                     {/* Solid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
@@ -157,7 +157,7 @@ const Switches = () => {
                 <div className="space-y-8" id="outline">
                     <h4 className="badge bg-primary inline-block hover:top-0 text-base">Outline</h4>
                     {/* Outline */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>

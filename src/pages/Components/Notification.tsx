@@ -182,7 +182,7 @@ const Notification = () => {
                         https://www.npmjs.com/package/sweetalert2
                     </a>
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     {/* basic */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">

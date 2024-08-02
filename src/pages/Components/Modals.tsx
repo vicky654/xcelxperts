@@ -85,7 +85,7 @@ const Modals = () => {
                         https://headlessui.com/react/dialog
                     </a>
                 </div>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                     {/* Basic */}
                     <div className="panel">
                         <div className="mb-5 flex items-center justify-between">

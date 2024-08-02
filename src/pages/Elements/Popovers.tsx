@@ -44,7 +44,7 @@ const Popovers = () => {
                         https://www.npmjs.com/package/@tippyjs/react
                     </a>
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     {/* Default */}
                     <div className="panel" id="default">
                         <div className="flex items-center justify-between mb-5">

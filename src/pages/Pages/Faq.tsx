@@ -367,7 +367,7 @@ const Faq = () => {
                 <div className="text-lg font-medium text-white-dark">
                     Our specialists are always happy to help. Contact us during standard business hours or email us24/7 and we'll get back to you.
                 </div>
-                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
+                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-2">
                     <button type="button" className="btn btn-primary">
                         Contact Us
                     </button>

@@ -89,7 +89,7 @@ const Select2 = () => {
                         https://www.npmjs.com/package/react-select
                     </a>
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 custom-select">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2 custom-select">
                     {/* <!-- Basic --> */}
                     <div className="panel" id="basic">
                         <div className="flex items-center justify-between mb-5">

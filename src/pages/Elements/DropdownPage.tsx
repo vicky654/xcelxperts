@@ -49,7 +49,7 @@ const DropdownPage = () => {
                     </a>
                 </div>
                 {/* Basic */}
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel" id="basic">
                         <div className="flex items-center justify-between mb-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>

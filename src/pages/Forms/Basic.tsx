@@ -33,7 +33,7 @@ const Basic = () => {
                 </li>
             </ul>
 
-            <div className="pt-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="pt-5 grid grid-cols-1 lg:grid-cols-2 gap-2">
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
                         <h5 className="font-semibold text-lg dark:text-white-light">Input Text</h5>

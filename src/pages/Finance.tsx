@@ -402,7 +402,7 @@ const Finance = () => {
                 </li>
             </ul>
             <div className="pt-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
                     <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Users Visit</div>
@@ -531,7 +531,7 @@ const Finance = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
                     {/*  Favorites  */}
                     <div>
                         <div className="flex items-center mb-5 font-bold">
@@ -540,7 +540,7 @@ const Finance = () => {
                                 See All
                             </button>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:mb-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:mb-5">
                             {/*  Bitcoin  */}
                             <div className="panel">
                                 <div className="flex items-center font-semibold mb-5">
@@ -605,7 +605,7 @@ const Finance = () => {
                                 See All
                             </button>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6">
                             {/*  Binance */}
                             <div className="panel">
                                 <div className="flex items-center font-semibold mb-5">
@@ -663,8 +663,8 @@ const Finance = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                    <div className="grid gap-6 xl:grid-flow-row">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+                    <div className="grid gap-2 xl:grid-flow-row">
                         {/*  Previous Statement  */}
                         <div className="panel overflow-hidden">
                             <div className="flex items-center justify-between">
@@ -694,7 +694,7 @@ const Finance = () => {
                                 <div className="absolute -bottom-12 ltr:-right-12 rtl:-left-12 w-24 h-24">
                                     <IconCircleCheck className="text-success opacity-20 w-full h-full" />
                                 </div>
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                                     <div>
                                         <div className="text-primary">Card Limit</div>
                                         <div className="mt-2 font-semibold text-2xl">$50,000.00</div>
@@ -735,7 +735,7 @@ const Finance = () => {
                                     <IconInfoCircle className="text-danger opacity-20 w-24 h-full" />
                                 </div>
 
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                                     <div>
                                         <div className="text-primary">Card Limit</div>
                                         <div className="mt-2 font-semibold text-2xl">$50,000.00</div>

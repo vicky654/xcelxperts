@@ -36,7 +36,7 @@ const CheckboxRadio = () => {
                 <div className="space-y-8" id="checkbox">
                     {/* Checkbox */}
                     <h4 className="badge bg-primary inline-block hover:top-0 text-base mb-0">Checkbox</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
@@ -780,7 +780,7 @@ const CheckboxRadio = () => {
                 <div className="space-y-8" id="radio">
                     {/* Radio */}
                     <h4 className="badge bg-primary inline-block hover:top-0 text-base mb-0">Radio</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>

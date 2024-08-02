@@ -35,7 +35,7 @@ const Timeline = () => {
                     <span>Timeline</span>
                 </li>
             </ul>
-            <div className="pt-5 grid xl:grid-cols-2 grid-cols-1 gap-6">
+            <div className="pt-5 grid xl:grid-cols-2 grid-cols-1 gap-2">
                 {/* profile */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">

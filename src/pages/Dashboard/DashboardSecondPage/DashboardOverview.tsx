@@ -266,7 +266,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 </div>
 
                 <div className="pt-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 text-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6 text-white">
                         <div className={`panel  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
@@ -331,7 +331,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                         </div> */}
                     </div>
-                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
                         <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
@@ -401,7 +401,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                     {secondApiResponse?.stations?.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                                 {secondApiResponse?.stations?.map((item: any) => (
                                     <div
                                         key={item?.station_id}

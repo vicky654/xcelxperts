@@ -21,7 +21,7 @@ const Typography = () => {
                     <span>Typography</span>
                 </li>
             </ul>
-            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-6">
+            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-2">
                 <div className="panel">
                     <h5 className="font-semibold text-lg dark:text-white-light mb-5">Heading</h5>
                     <div className="flex items-center justify-center mb-5">

@@ -1976,7 +1976,7 @@ const Mailbox = () => {
                                 <h4 className="text-lg text-gray-600 dark:text-gray-400 font-medium">Message</h4>
                             </div>
                             <div className="h-px bg-gradient-to-l from-indigo-900/20 via-black dark:via-white to-indigo-900/20 opacity-[0.1]"></div>
-                            <form className="p-6 grid gap-6">
+                            <form className="p-6 grid gap-2">
                                 <div>
                                     <input
                                         id="to"

@@ -876,7 +876,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 </div>
 
                 <div className="pt-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
                         <div className="panel firstbox " >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
@@ -942,9 +942,9 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-1 gap-6 mt-6" >
+                <div className="grid grid-cols-1 xl:grid-cols-1 gap-2 mt-6" >
                     <div
-                        // className="grid gap-6 xl:grid-flow-row"
+                        // className="grid gap-2 xl:grid-flow-row"
                         className="panel h-full p-0 lg:col-span-2"
                     >
                         {/*  Previous Statement  */}
@@ -964,7 +964,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                 <div className="absolute -bottom-12 ltr:-right-12 rtl:-left-12 w-24 h-24">
                                     <IconCircleCheck className="text-success opacity-20 w-full h-full" />
                                 </div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
 
                                     {fuelLastDeliveryData?.last_fuel_delivery_stats?.data?.map((fuel: lastfueldeliverystats) => (
                                         <>
@@ -981,7 +981,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
 
                     <div className=" h-full p-0 lg:col-span-2 flex flex-row">
                         <Tab.Group>
-                            <div className="flex flex-row w-full gap-6 ">
+                            <div className="flex flex-row w-full gap-2 ">
                                 <div className="flex-shrink-0 w-40 bg-gray-100 dark:bg-gray-900 border rounded-lg py-6 ">
                                     <Tab.List className="text-center font-semibold">
                                         {gradesData?.map((fuelData: any, index: number) => (
@@ -1008,7 +1008,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                                     <Tab.Panels>
                                         {gradesData?.map((fuelData: any, index: number) => (
                                             <Tab.Panel key={index}>
-                                                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                                                <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
                                                     <div className="rounded-lg border p-6 shadow-md bg-white dark:bg-gray-800">
                                                         <h4 className="mb-4 text-2xl font-semibold">{fuelData?.fuel}</h4>
                                                         <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-4 mb-4">

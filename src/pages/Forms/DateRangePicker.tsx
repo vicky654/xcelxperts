@@ -84,7 +84,7 @@ const DateRangePicker = () => {
                             https://www.npmjs.com/package/react-flatpickr
                         </a>
                     </div>
-                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                         {/*  Basic  */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
@@ -281,7 +281,7 @@ const [date4, setDate4] = useState<any>('13:45');
                 <div className="space-y-8" id="js_range_slider">
                     {/*  range picker */}
                     <div className="bg-[#009688]/[.26] text-[#009688] py-1 px-2 rounded inline-block text-base">Javascript Range Slider</div>
-                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                         {/* Top-Left */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
@@ -432,7 +432,7 @@ const [range4, setRange4] = useState<any>('0');
                             https://www.npmjs.com/package/nouislider-react
                         </a>
                     </div>
-                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                         {/* Using HTML5 input elements */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">

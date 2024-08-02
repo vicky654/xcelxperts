@@ -47,7 +47,7 @@ const Counter = () => {
                         https://www.npmjs.com/package/react-countup
                     </a>
                 </div>
-                <div className="grid xl:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid xl:grid-cols-2 grid-cols-1 gap-2">
                     {/* Simple Counter */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">

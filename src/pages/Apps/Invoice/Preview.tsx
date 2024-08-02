@@ -117,7 +117,7 @@ const Preview = () => {
                 </div>
 
                 <hr className="border-white-light dark:border-[#1b2e4b] my-6" />
-                <div className="flex justify-between lg:flex-row flex-col gap-6 flex-wrap">
+                <div className="flex justify-between lg:flex-row flex-col gap-2 flex-wrap">
                     <div className="flex-1">
                         <div className="space-y-1 text-white-dark">
                             <div>Issue For:</div>
@@ -127,7 +127,7 @@ const Preview = () => {
                             <div>(128) 666 070</div>
                         </div>
                     </div>
-                    <div className="flex justify-between sm:flex-row flex-col gap-6 lg:w-2/3">
+                    <div className="flex justify-between sm:flex-row flex-col gap-2 lg:w-2/3">
                         <div className="xl:1/3 lg:w-2/5 sm:w-1/2">
                             <div className="flex items-center w-full justify-between mb-2">
                                 <div className="text-white-dark">Invoice :</div>

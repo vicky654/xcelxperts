@@ -278,7 +278,7 @@ const SweetAlert = () => {
                         https://www.npmjs.com/package/sweetalert2
                     </a>
                 </div>
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
                     {/* basic */}
                     <div className="panel">
                         <div className="mb-5 flex items-center justify-between">

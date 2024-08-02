@@ -90,7 +90,7 @@ Unordered lists can be started using the toolbar or by typing '*', '-', or '+'. 
                         https://www.npmjs.com/package/react-simplemde-editor
                     </a>
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     {/* Basic */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">

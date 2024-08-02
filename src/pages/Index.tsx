@@ -574,7 +574,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
            
                 <div className="pt-5 ">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 text-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6 text-white">
                         <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
@@ -641,7 +641,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div> */}
                     </div>
-                    <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-6 mb-6">
+                    <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg">Revenue</h5>
@@ -706,7 +706,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     </div>
 
                     {
-                        filters?.site_id ? <div className="grid grid-cols-12 gap-6 mb-6">
+                        filters?.site_id ? <div className="grid grid-cols-12 gap-2 mb-6">
                             <div className="col-span-2 w-full">
                                 <div className="panel h-full  w-full">
                                     <div className="flex items-center justify-between dark:text-white-light mb-5  w-full">
@@ -751,7 +751,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                     </div>
                                     <div className='spacebetween'>
                                         {/* <div className='displaycanter'> */}
-                                        <div className="flex flex-wrap gap-6 col-span-8">
+                                        <div className="flex flex-wrap gap-2 col-span-8">
 
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
                                                 Object.keys(filteredStockAlerts).map(tankName => (
@@ -763,7 +763,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                                                         {/* Card Body */}
                                                         <div className="card-body p-4">
-                                                            <div className="flex flex-wrap gap-6">
+                                                            <div className="flex flex-wrap gap-2">
                                                                 {filteredStockAlerts[tankName]?.map((alert, index) => (
                                                                     <div key={index} className="flex items-center gap-4 mb-6">
                                                                         <VerticalProgressBarWithWave

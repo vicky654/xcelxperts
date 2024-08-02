@@ -81,7 +81,7 @@ const Tables = () => {
         }
     };
     return (
-        <div className="grid xl:grid-cols-2 gap-6 grid-cols-1">
+        <div className="grid xl:grid-cols-2 gap-2 grid-cols-1">
             {/* Simple */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">

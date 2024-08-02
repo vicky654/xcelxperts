@@ -736,7 +736,7 @@ const Widgets = () => {
     return (
         <div>
             <div>
-                <div className="grid xl:grid-cols-3 gap-6 mb-6">
+                <div className="grid xl:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full xl:col-span-2">
                         <div className="flex items-center justify-between dark:text-white-light mb-5">
                             <h5 className="font-semibold text-lg">Revenue</h5>
@@ -794,7 +794,7 @@ const Widgets = () => {
                     </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-2 xl:col-span-1">
                         <div className="flex items-center mb-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">
@@ -917,7 +917,7 @@ const Widgets = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-2 xl:col-span-1 pb-0">
                         <h5 className="font-semibold text-lg dark:text-white-light mb-5">Recent Activities</h5>
                         <PerfectScrollbar className="relative h-[290px] ltr:pr-3 rtl:pl-3 ltr:-mr-3 rtl:-ml-3 mb-4">
@@ -1192,7 +1192,7 @@ const Widgets = () => {
                     </div>
                 </div>
 
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel h-full w-full">
                         <div className="flex items-center justify-between mb-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
@@ -1414,7 +1414,7 @@ const Widgets = () => {
             </div>
 
             <div className="mt-6">
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-2 lg:col-span-1">
                         {/* statistics */}
                         <div className="flex justify-between dark:text-white-light mb-5">
@@ -1536,7 +1536,7 @@ const Widgets = () => {
                     </div>
                 </div>
 
-                <div className="grid lg:grid-cols-3 gap-6 mb-6">
+                <div className="grid lg:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full p-0 lg:col-span-2">
                         <div className="flex items-start justify-between dark:text-white-light mb-5 p-5 border-b  border-white-light dark:border-[#1b2e4b]">
                             <h5 className="font-semibold text-lg ">Unique Visitors</h5>
@@ -1680,7 +1680,7 @@ const Widgets = () => {
                     </div>
                 </div>
 
-                <div className="grid sm:grid-cols-3 xl:grid-cols-5 gap-6 mb-6">
+                <div className="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-3 xl:col-span-2">
                         <div className="flex items-start justify-between mb-5">
                             <h5 className="font-semibold text-lg dark:text-white-light">Visitors by Browser</h5>
@@ -1798,7 +1798,7 @@ const Widgets = () => {
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-2">
                     <div className="panel h-full">
                         <div className="flex items-start border-b  border-white-light dark:border-[#1b2e4b] -m-5 mb-5 p-5">
                             <div className="shrink-0 ring-2 ring-white-light dark:ring-dark rounded-full ltr:mr-4 rtl:ml-4">

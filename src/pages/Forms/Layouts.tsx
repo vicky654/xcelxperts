@@ -33,7 +33,7 @@ const Layouts = () => {
                 </li>
             </ul>
 
-            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-6">
+            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-2">
                 {/* Stack */}
                 <div className="panel" id="stack_form">
                     <div className="flex items-center justify-between mb-5">

@@ -58,7 +58,7 @@ const Treeview = () => {
                     <span>Treeview</span>
                 </li>
             </ul>
-            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-6">
+            <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-2">
                 {/* Animated */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
