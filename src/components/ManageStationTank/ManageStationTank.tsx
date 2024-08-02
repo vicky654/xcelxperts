@@ -17,6 +17,7 @@ import AddEditStationTankModal from './AddEditStationTankModal';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import { IRootState } from '../../store';
+import SearchBar from '../../utils/SearchBar';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -69,7 +70,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
-
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
 
     useEffect(() => {
@@ -78,8 +80,8 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         if (storedData) {
             handleApplyFilters(JSON.parse(storedData));
         }
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+
+    }, [searchTerm, currentPage]);
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
     };
@@ -223,7 +225,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             setUserId(id);
 
         } catch (error) {
-               handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -265,11 +267,29 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             handleApiError(error);
         }
     };
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
     const handleApplyFilters = async (values: any) => {
         // Store the form values in local storage
         // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
-            const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
+            // const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
+
+
+            let apiUrl = `/station/tank/list?station_id=${values?.station_id}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
                 setData(response.data.data);
                 // setCurrentPage(response.data.data?.currentPage || 1);
@@ -347,11 +367,18 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
                     </div>
                     <div className='panel h-full xl:col-span-3'>
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Tank Stations </h5>
-                            <div className="ltr:ml-auto rtl:mr-auto">
-                                {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                            </div>
+
+
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                            <h5 className="font-semibold text-lg dark:text-white-light">Tank Stations </h5>
+                            {showFilterOptions && (
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    onReset={handleReset}
+                                    hideReset={Boolean(searchTerm)}
+                                    placeholder="Enter search term..."
+                                />
+                            )}
                         </div>
                         {data?.length > 0 ? (
                             <>

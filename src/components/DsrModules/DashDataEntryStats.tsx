@@ -52,6 +52,7 @@ interface TabData {
     total_sales: string;
     cash_deposited: string;
     variance: string;
+    previous_variance: string;
     amount: string;
     balance: string;
   }[];
@@ -507,7 +508,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
                       </p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
-                      <p className="font-semibold w-1/6">Variance</p>
+                      <p className="font-semibold w-1/6"> Previous Variance</p>
                       <p className="font-semibold w-1/6">Balance</p>
 
                       {/* <p className="font-semibold w-1/6">Income</p>
@@ -524,7 +525,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                         <p className="w-1/6">{currency} {item?.total_sales}</p>
                         <p className="w-1/6">{currency} {item?.fuel_sales}</p>
                         <p className="w-1/6">{currency} {item?.cash_deposited}</p>
-                        <p className="w-1/6">{currency} {item?.variance}</p>
+                        <p className="w-1/6">{currency} {item?.previous_variance}</p>
                         <p className="w-1/6">{currency} {item?.balance}</p>
 
                         {/* <p className="w-1/6">{item?.charges}</p>

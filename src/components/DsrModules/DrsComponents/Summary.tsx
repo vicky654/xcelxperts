@@ -56,16 +56,11 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       handleApiError(error);
     }
   };
-
+  
   const isSummaryRemarksNull = summaryRemarks === null;
-
-
-
   const submitsummary = async (values: any) => {
     try {
       const formData = new FormData();
-
-      // Append specific fields
       formData.append('drs_date', startDate || '');
       formData.append('station_id', stationId || '');
       formData.append('total_fuel_sales', data?.takings?.total_fuel_sales || '');
@@ -77,11 +72,11 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('total_credit_card', data?.takings.total_credit_card || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
       formData.append('cash_operator', data?.banking?.cash_deposited || '');
+      formData.append('total_to_bank', data?.takings?.total_to_bank || '');
       formData.append('variance_accumulation', data?.banking.variance_accumulation || '');
       // formData.append('variance_accumulation', data?.banking.variance_difference || '');
       formData.append('variance', data?.variance || '');
       formData.append('remarks', values?.Remarks || '');
-
       // Append other fields if needed
       // formData.append('cash_difference', data?.cash_difference || '');
       // formData.append('variance', data?.variance || '');

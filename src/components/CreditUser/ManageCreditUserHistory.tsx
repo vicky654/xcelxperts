@@ -11,7 +11,8 @@ import withApiHandler from '../../utils/withApiHandler';
 import { IRootState } from '../../store';
 import AddEditHistoryTankModal from './AddEditHistoryTankModal';
 import { currency } from '../../utils/CommonData';
-
+import SearchBar from '../../utils/SearchBar';
+import Flatpickr from 'react-flatpickr';
 interface ManageSiteProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
@@ -52,6 +53,42 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
+    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [date3, setDate3] = useState<[Date, Date] | []>([]);
+
+    // Adjust the type of the parameter to match what Flatpickr sends
+    const handleDateChange = (dates: Date[]) => {
+        if (dates.length === 2) {
+            setDate3(dates as [Date, Date]);
+            console.log('Selected Dates:', dates);
+        } else {
+            setDate3([]);
+            console.log('No date range selected');
+        }
+    };
+
+    console.log('Selected Datess:', date3);
+    const clearDates = () => {
+        setDate3([]);
+    };
+
+
+    // useEffect(() => {
+    //     fetchData();
+
+    // }, [searchTerm, currentPage]);
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+        // Perform search logic here
+        console.log('Search Term:', term);
+    };
+
+    const handleReset = () => {
+        setSearchTerm('');
+        // Perform reset logic here
+        console.log('Search Reset');
+    };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
@@ -61,10 +98,14 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const isAssignAddPermissionAvailable = UserPermissions?.includes('credituser-assign-permission');
 
     const { id } = useParams<{ id: string }>();
+    // useEffect(() => {
+    //     GetUserList(id)
+
+    // }, [currentPage]);
     useEffect(() => {
         GetUserList(id)
-
-    }, [currentPage]);
+        // dispatch(setPageTitle('Alternative Pagination Table'));
+    }, [id, currentPage, searchTerm]);
 
     const handleSuccess = () => {
         GetUserList(id);
@@ -139,9 +180,9 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
             ),
         },
-  
-   
-   
+
+
+
 
         {
             name: 'Notes',
@@ -274,7 +315,15 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const GetUserList = async (id: any) => {
 
         try {
-            const response = await getData(`credit-user/history?credit_user_id=${id}&page=${currentPage}`);
+
+            let apiUrl = `/credit-user/history?credit_user_id=${id}&page=${currentPage}`;
+            if (searchTerm) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
+            const response = await getData(apiUrl);
+
+
+            // const response = await getData(`credit-user/history?credit_user_id=${id}&page=${currentPage}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
                 console.log(response.data.data?.history?.lastPage, "response.data.data?.lastPage");
@@ -324,16 +373,68 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users History</h5>
-                        <div className="ltr:ml-auto rtl:mr-auto">
-                            {hirstoryData?.balance && (<>
-                                <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
-                            </>)}
-                            {hirstoryData?.credit && (<>
-                                <span className="badge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
-                            </>)}
-                            {hirstoryData?.debit && (<>
-                                <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
-                            </>)}
+
+
+
+                        <div className="ltr:ml-auto rtl:mr-auto spacebetween" >
+                            <div className='mt-1' style={{ marginRight: "10px" }}>
+                                {hirstoryData?.balance && (<>
+                                    <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
+                                </>)}
+                                {hirstoryData?.credit && (<>
+                                    <span className="badge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
+                                </>)}
+                                {hirstoryData?.debit && (<>
+                                    <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
+                                </>)}
+                            </div>
+
+
+
+                            {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+                        </div>
+                    </div>
+                    <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+                        <h5 className="font-semibold text-lg dark:text-white-light"> </h5>
+
+
+
+                        <div className="ltr:ml-auto rtl:mr-auto spacebetween" >
+                            {/* {showFilterOptions && (
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    onReset={handleReset}
+                                    hideReset={Boolean(searchTerm)}
+                                    placeholder="Enter search term..."
+                                />
+                            )} */}
+                            <div className="mb-5">
+                                <Flatpickr
+                                    options={{
+                                        mode: 'range',
+                                        dateFormat: 'Y-m-d',
+                                    }}
+                                    value={date3}
+                                    className="form-input"
+                                    onChange={handleDateChange} // No type issues here
+                                    placeholder='Date Range'
+
+                                />
+
+
+                                
+                                <button
+                                    type="button"
+                                    onClick={clearDates}
+                                    className="mt-2 bg-red-500 text-white px-4 py-2 rounded"
+                                >
+                                    Clear Dates
+                                </button>
+
+                            </div>
+
+
+
                             {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                         </div>
                     </div>

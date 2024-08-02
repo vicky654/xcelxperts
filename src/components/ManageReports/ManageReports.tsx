@@ -40,7 +40,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
-    const [ReportUrl, setReportUrl] = useState(); // Assuming userId is a string
+    const [ReportUrl, setReportUrl] = useState(""); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const [toggle, setToggle] = useState(true);
@@ -103,8 +103,8 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             // http://192.168.1.112:4013/pro/v1/report/msr?station_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09&from_date=2024-07-01&to_date=2024-07-17
 
             const commonParams = toggle
-                ? `/report/${values?.report_code}?station_id=${values?.station_id}&from_date=${values?.from_date}&to_date=${values?.to_date}`
-                : `/report/${values?.report_code}?station_id=${values?.station_id}&month=${values?.month}`;
+                ? `report/${values?.report_code}?station_id=${values?.station_id}&from_date=${values?.from_date}&to_date=${values?.to_date}`
+                : `report/${values?.report_code}?station_id=${values?.station_id}&month=${values?.month}`;
 
             if (userId) {
                 formData.append('id', userId);
@@ -115,13 +115,18 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (isSuccess) {
                 console.log(isSuccess, "isSuccess");
                 // window.open(isSuccess?.data, '_blank');
-                setReportUrl(isSuccess?.data)
+                setReportUrl(commonParams)
 
-                window.open(
-                    process.env.REACT_APP_BASE_URL + isSuccess?.data,
-                    "_blank",
-                    "noopener noreferrer"
-                );
+
+                const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
+                // const  baseURL: import.meta.env.VITE_API_URL,
+                console.log(baseUrl, "baseUrl");
+                if (commonParams) {
+                    const fullReportUrl = `${baseUrl}/${commonParams}`;
+                    window.open(fullReportUrl, "_blank", "noopener noreferrer");
+                } else {
+                    console.error("Report URL is not defined.");
+                }
 
 
                 // handleDownload(isSuccess?.data)
@@ -286,7 +291,17 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         }
     };
 
-
+    const handleClick = () => {
+        const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
+        // const  baseURL: import.meta.env.VITE_API_URL,
+        console.log(baseUrl, "baseUrl");
+        if (ReportUrl) {
+            const fullReportUrl = `${baseUrl}/${ReportUrl}`;
+            window.open(fullReportUrl, "_blank", "noopener noreferrer");
+        } else {
+            console.error("Report URL is not defined.");
+        }
+    };
 
 
     return (
@@ -454,15 +469,16 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         <button type="submit" className="btn btn-primary">
                             Get Report
                         </button>
-                        {ReportUrl ? <button type="button" onClick={() => {
-                            // window.open(
-                            //     process.env.REACT_APP_BASE_URL + ReportUrl,
-                            //     "_blank",
-                            //     "noopener noreferrer"
-                            // );
-                        }} className="btn btn-primary ms-2">
-                            Download Report
-                        </button> : ""}
+                        {/* {ReportUrl ? (
+                            <button
+                                type="button"
+                                onClick={handleClick}
+                                className="btn btn-success ms-2"
+                            >
+                                Download Report
+                            </button>
+                        ) : null} */}
+
                     </div>
                 </form>
 

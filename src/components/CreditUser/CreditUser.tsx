@@ -488,6 +488,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                                         highlightOnHover
                                         responsive={true}
                                     />
+                                     {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
                                 </div>
                             </>
                         ) : (
@@ -502,7 +503,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     </div>
                 </div>
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+           
         </>
     );
 };
