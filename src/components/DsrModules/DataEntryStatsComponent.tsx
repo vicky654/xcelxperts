@@ -468,7 +468,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
                         <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
 
-                          (Fuel Sales+Lube Sales+Income)-Expenses
+                          (Fuel Sales + Lubes Sales + Incomes + Previous Variance) - Expenses + Credit Sales
 
                         </Tooltip>}>
 

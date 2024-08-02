@@ -15,6 +15,7 @@ import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
 import DashboardFilter from './DashboardFilter';
 import IconEye from '../Icon/IconEye';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -490,10 +491,20 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
 
-                      <p className="font-semibold w-1/6">Total Sales</p>
+                      <p className="font-semibold w-1/6">Total Sales
+
+                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
+
+                          (Fuel Sales + Lubes Sales + Incomes + Previous Variance) - Expenses + Credit Sales
+
+                        </Tooltip>}>
+
+                          <i style={{ fontSize: "20px", }} className="fi fi-sr-comment-info"></i>
+                        </OverlayTrigger>
+                      </p>
                       <p className="font-semibold w-1/6">Fuel Sales
 
-                        (I)
+
                       </p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
                       <p className="font-semibold w-1/6">Variance</p>
