@@ -408,13 +408,13 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                                     placeholder="Enter search term..."
                                 />
                             )} */}
-                            <div className="mb-5">
+                            {/* <div className="mb-5">
                                 <Flatpickr
                                     options={{
                                         mode: 'range',
                                         dateFormat: 'Y-m-d',
                                     }}
-                                    value={date3}
+                                value={date3}
                                     className="form-input"
                                     onChange={handleDateChange} // No type issues here
                                     placeholder='Date Range'
@@ -431,7 +431,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                                     Clear Dates
                                 </button>
 
-                            </div>
+                            </div> */}
 
 
 

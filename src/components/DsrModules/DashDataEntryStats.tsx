@@ -440,50 +440,64 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
             {/* {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
              */}
 
+{stationId && selectedTab !== 'Variance Accumulation' && (
 
-            {stationId &&
+<div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
+  <div className=" p-3  firstbox ">
+    <div className="flex justify-between">
+      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 
-              <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
-                <div className=" p-3  firstbox ">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
+    </div>
+    <div className="flex items-center mt-2">
+      <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
+      {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
+      <div
+        className={`badge bg-white`}
+      >
 
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
-                    <div
-                      className={`badge ${tabData.symbol === 'UP' ? 'bg-green-500' :
-                        tabData.symbol === 'DOWN' ? 'bg-red-500' :
-                          'bg-white/30'
-                        }`}
-                    >
-                      <div className="flex items-center space-x-1">
-                        {tabData.symbol === 'UP' ? (
-                          <i className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.symbol === 'DOWN' ? (
-                          <i className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-                        ) : null}
-                        <span className="font-semibold">{tabData?.profit}%</span>
-                      </div>
-                    </div>
+        <div className="flex items-center space-x-1">
+          {tabData.symbol === 'UP' ? (
+            <i style={{color:"#37a40a"}} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+          ) : tabData.symbol === 'DOWN' ? (
+            <i style={{color:"red"}} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+          ) : null}
+          <span
+            className="font-semibold"
+            style={{
+              color:
+                tabData.symbol === 'UP'
+                  ? '#37a40a'   // Color for 'up'
+                  : tabData.symbol === 'DOWN'
+                    ? 'red'      // Color for 'down'
+                    : '#000'     // Default color
+            }}
+          >
+            {tabData?.profit}%
+          </span>
 
-                  </div>
-
-                </div>
-                <div className=" p-3  ms-2 firstbox ">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
-
-                  </div>
-
-                </div>
-              </div>
+        </div>
 
 
-            }
+
+      </div>
+
+    </div>
+
+  </div>
+  <div className=" p-3  ms-2 firstbox ">
+    <div className="flex justify-between">
+      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
+    </div>
+    <div className="flex items-center mt-2">
+      <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
+
+    </div>
+
+  </div>
+</div>
+)
+
+}
             <div className="mt-3">
 
               {stationId && selectedTab === 'Variance Accumulation' ? (
@@ -492,7 +506,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
 
-                      <p className="font-semibold w-1/6">Total Sales
+                      <p className="font-semibold flex w-1/6">Total Sales
 
                         <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
 
