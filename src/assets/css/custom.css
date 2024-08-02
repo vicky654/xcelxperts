@@ -690,7 +690,7 @@ li.flexcenter.dataentrytab {
     color: white; /* Optional: to ensure text contrast */
     border-radius: 4px; /* Optional: adds a border-radius for a smooth appearance */
     padding: 5px; /* Optional: adds some padding */
-    max-width: 200px; /* Optional: sets a max-width to control the size */
+    max-width: 400px; /* Optional: sets a max-width to control the size */
     font-size: 14px; /* Optional: sets font size */
 }
 

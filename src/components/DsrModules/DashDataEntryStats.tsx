@@ -491,7 +491,10 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                       <p className="font-semibold w-1/6">Date</p>
 
                       <p className="font-semibold w-1/6">Total Sales</p>
-                      <p className="font-semibold w-1/6">Fuel Sales</p>
+                      <p className="font-semibold w-1/6">Fuel Sales
+
+                        (I)
+                      </p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
                       <p className="font-semibold w-1/6">Variance</p>
                       <p className="font-semibold w-1/6">Balance</p>

@@ -14,6 +14,7 @@ import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
 import IconEye from '../Icon/IconEye';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface ManageSiteProps {
   isLoading: boolean;
@@ -463,8 +464,20 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     <li className="flex justify-between p-2 bg-gray-200">
                       <p className="font-semibold w-1/6">Date</p>
 
-                      <p className="font-semibold w-1/6">Total Sales</p>
-                      <p className="font-semibold w-1/6">Fuel Sales</p>
+                      <p className="font-semibold w-1/6">Total Sales
+
+                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
+
+                          (Fuel Sales+Lube Sales+Income)-Expenses
+
+                        </Tooltip>}>
+
+                          <i style={{ fontSize: "20px", }} className="fi fi-sr-comment-info"></i>
+                        </OverlayTrigger>
+                      </p>
+                      <p className="font-semibold w-1/6">Fuel Sales
+
+                      </p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
                       <p className="font-semibold w-1/6">Variance</p>
                       <p className="font-semibold w-1/6">Balance</p>

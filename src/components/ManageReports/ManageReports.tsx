@@ -450,11 +450,17 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                         </div>
                     </div>
-                    <div className="sm:col-span-2 mt-3">
+                    <div className="sm:col-span-2 mt-3 flex">
                         <button type="submit" className="btn btn-primary">
                             Get Report
                         </button>
-                        {ReportUrl ? <button type="submit" className="btn btn-primary">
+                        {ReportUrl ? <button type="button" onClick={() => {
+                            // window.open(
+                            //     process.env.REACT_APP_BASE_URL + ReportUrl,
+                            //     "_blank",
+                            //     "noopener noreferrer"
+                            // );
+                        }} className="btn btn-primary ms-2">
                             Download Report
                         </button> : ""}
                     </div>

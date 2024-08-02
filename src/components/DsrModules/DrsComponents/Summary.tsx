@@ -19,7 +19,7 @@ interface SummaryRemarks {
   date: string;
   net_cash_due_banking: number;
   cash_operator: number;
-  varience_accumulation: number;
+  variance_accumulation: number;
   variance: number;
 }
 const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
@@ -70,15 +70,15 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('station_id', stationId || '');
       formData.append('total_fuel_sales', data?.takings?.total_fuel_sales || '');
       formData.append('total_lubes_sales', data?.takings?.total_lubes_sales || '');
-      formData.append('total_deductions', data?.takings?.deductions || '');
-      formData.append('total_charges', data?.takings?.total_charges || '');
+      formData.append('total_deductions', data?.takings?.expenses || '');
+      formData.append('total_charges', data?.takings?.total_incomes || '');
       formData.append('total_sales', data?.takings.total_sales_value || ''); // Assuming total_sales is available in takings
       formData.append('total_credit_sales', data?.takings.total_credit_sales || '');
       formData.append('total_credit_card', data?.takings.total_credit_card || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
       formData.append('cash_operator', data?.banking?.cash_deposited || '');
-      formData.append('varience_accumulation', data?.banking.varience_accumulation || '');
-      // formData.append('varience_accumulation', data?.banking.variance_difference || '');
+      formData.append('variance_accumulation', data?.banking.variance_accumulation || '');
+      // formData.append('variance_accumulation', data?.banking.variance_difference || '');
       formData.append('variance', data?.variance || '');
       formData.append('remarks', values?.Remarks || '');
 
