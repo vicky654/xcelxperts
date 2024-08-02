@@ -64,7 +64,7 @@ interface ApexData {
 const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
   const [cards, setCards] = useState<CardData[]>([]);
-  const [selectedTab, setSelectedTab] = useState<string>('variance-accumulation');
+  const [selectedTab, setSelectedTab] = useState<string>('Variance Accumulation');
   const [subData, setSubData] = useState<any[]>([]);
   const [tabData, setTabData] = useState<TabData>({
     labels: [],
@@ -129,7 +129,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
   const staticTabs = [
-    'Variance-accumulation',
+    'Variance Accumulation',
     'Fuel Sales',
     'Lube Sales',
     'Incomes',
@@ -141,7 +141,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   ];
   const tabKeyMap: { [key: string]: string } = {
-    'Variance-accumulation': 'variance-accumulation',
+    'Variance Accumulation': 'variance-accumulation',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
@@ -409,23 +409,33 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
+                    {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
                     <div
                       className={`badge ${tabData.symbol === 'UP' ? 'bg-green-500' :
                         tabData.symbol === 'DOWN' ? 'bg-red-500' :
                           'bg-white/30'
                         }`}
                     >
-                      {tabData.symbol !== "SAME" && (
+                      {/* {tabData.symbol !== "SAME" && (
                         <>
                           {tabData.symbol === 'UP' ? (
-                            <span>    <i className="fi fi-tr-caret-up "></i></span>
+                            <i className="fi fi-tr-chart-arrow-up"></i>
                           ) : (
-                            <span>          <i className="fi fi-tr-caret-down "></i></span>
+                            <i className="fi fi-tr-chart-arrow-down"></i>
 
                           )}
                         </>
-                      )}
-                      {tabData?.profit}%
+                      )} */}
+                      <div className="flex items-center space-x-1">
+                        {tabData.symbol === 'UP' ? (
+                          <i className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.symbol === 'DOWN' ? (
+                          <i className="fi fi-tr-chart-line-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span className="font-semibold">{tabData?.profit}%</span>
+                      </div>
+
+
                     </div>
 
                   </div>
@@ -447,7 +457,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             }
             <div className="mt-3">
 
-              {stationId && selectedTab === 'Variance-accumulation' ? (
+              {stationId && selectedTab === 'Variance Accumulation' ? (
                 tabData?.listing?.length > 0 ? (
                   <ul className="divide-y  b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
@@ -456,7 +466,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       <p className="font-semibold w-1/6">Total Sales</p>
                       <p className="font-semibold w-1/6">Fuel Sales</p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
-                      <p className="font-semibold w-1/6">variance</p>
+                      <p className="font-semibold w-1/6">Variance</p>
                       <p className="font-semibold w-1/6">Balance</p>
 
                       {/* <p className="font-semibold w-1/6">Income</p>
@@ -499,7 +509,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               ) : null}
 
 
-              {stationId && selectedTab !== 'Variance-accumulation' && (
+              {stationId && selectedTab !== 'Variance Accumulation' && (
                 tabData?.listing?.length > 0 ? (
                   <ul className="divide-y divide-gray-200">
                     {tabData?.listing?.map((item, index) => (
@@ -597,7 +607,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </div>
 
       </div>
-      {stationId && selectedTab !== 'Variance-accumulation' && (
+      {stationId && selectedTab !== 'Variance Accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
           <div className='panel h-full ' style={{ background: "none" }}>
           </div>

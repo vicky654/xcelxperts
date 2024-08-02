@@ -115,14 +115,14 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (isSuccess) {
                 console.log(isSuccess, "isSuccess");
                 // window.open(isSuccess?.data, '_blank');
+                setReportUrl(isSuccess?.data)
 
-           
-                    window.open(
-                      process.env.REACT_APP_BASE_URL + isSuccess?.data,
-                      "_blank",
-                      "noopener noreferrer"
-                    );
-             
+                window.open(
+                    process.env.REACT_APP_BASE_URL + isSuccess?.data,
+                    "_blank",
+                    "noopener noreferrer"
+                );
+
 
                 // handleDownload(isSuccess?.data)
             }
@@ -288,7 +288,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
 
-   
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -454,6 +454,9 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         <button type="submit" className="btn btn-primary">
                             Get Report
                         </button>
+                        {ReportUrl ? <button type="submit" className="btn btn-primary">
+                            Download Report
+                        </button> : ""}
                     </div>
                 </form>
 

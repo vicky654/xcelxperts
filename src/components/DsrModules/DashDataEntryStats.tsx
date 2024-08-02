@@ -65,7 +65,7 @@ interface ApexData {
 const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
   const [data, setData] = useState([]);
   const [cards, setCards] = useState<CardData[]>([]);
-  const [selectedTab, setSelectedTab] = useState<string>('Variance-accumulation');
+  const [selectedTab, setSelectedTab] = useState<string>('Variance Accumulation');
   const [subData, setSubData] = useState<any[]>([]);
   const [tabData, setTabData] = useState<TabData>({
     labels: [],
@@ -152,7 +152,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
   const staticTabs = [
-    'Variance-accumulation',
+    'Variance Accumulation',
     'Fuel Sales',
     'Lube Sales',
     'Incomes',
@@ -164,7 +164,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
   ];
   const tabKeyMap: { [key: string]: string } = {
-    'Variance-accumulation': 'variance-accumulation',
+    'Variance Accumulation': 'variance-accumulation',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
@@ -439,55 +439,52 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
              */}
 
 
-{stationId &&
+            {stationId &&
 
-<div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
-  <div className=" p-3  firstbox ">
-    <div className="flex justify-between">
-      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
+              <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
+                <div className=" p-3  firstbox ">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 
-    </div>
-    <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
-      <div
-        className={`badge ${tabData.symbol === 'UP' ? 'bg-green-500' :
-          tabData.symbol === 'DOWN' ? 'bg-red-500' :
-            'bg-white/30'
-          }`}
-      >
-        {tabData.symbol !== "SAME" && (
-          <>
-            {tabData.symbol === 'UP' ? (
-              <span>    <i className="fi fi-tr-caret-up "></i></span>
-            ) : (
-              <span>          <i className="fi fi-tr-caret-down "></i></span>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
+                    <div
+                      className={`badge ${tabData.symbol === 'UP' ? 'bg-green-500' :
+                        tabData.symbol === 'DOWN' ? 'bg-red-500' :
+                          'bg-white/30'
+                        }`}
+                    >
+                      <div className="flex items-center space-x-1">
+                        {tabData.symbol === 'UP' ? (
+                          <i className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.symbol === 'DOWN' ? (
+                          <i className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span className="font-semibold">{tabData?.profit}%</span>
+                      </div>
+                    </div>
 
-            )}
-          </>
-        )}
-        {tabData?.profit}%
-      </div>
+                  </div>
 
-    </div>
+                </div>
+                <div className=" p-3  ms-2 firstbox ">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
 
-  </div>
-  <div className=" p-3  ms-2 firstbox ">
-    <div className="flex justify-between">
-      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
-    </div>
-    <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
+                  </div>
 
-    </div>
-
-  </div>
-</div>
+                </div>
+              </div>
 
 
-}
+            }
             <div className="mt-3">
 
-              {stationId && selectedTab === 'Variance-accumulation' ? (
+              {stationId && selectedTab === 'Variance Accumulation' ? (
                 tabData?.listing.length > 0 ? (
                   <ul className="divide-y  b divide-gray-200">
                     <li className="flex justify-between p-2 bg-gray-200">
@@ -496,7 +493,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                       <p className="font-semibold w-1/6">Total Sales</p>
                       <p className="font-semibold w-1/6">Fuel Sales</p>
                       <p className="font-semibold w-1/6">Cash Deposited</p>
-                      <p className="font-semibold w-1/6">variance</p>
+                      <p className="font-semibold w-1/6">Variance</p>
                       <p className="font-semibold w-1/6">Balance</p>
 
                       {/* <p className="font-semibold w-1/6">Income</p>
@@ -539,7 +536,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
               ) : null}
 
 
-              {stationId && selectedTab !== 'Variance-accumulation' && (
+              {stationId && selectedTab !== 'Variance Accumulation' && (
                 tabData?.listing.length > 0 ? (
                   <ul className="divide-y divide-gray-200">
                     {tabData?.listing?.map((item, index) => (
@@ -629,7 +626,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
 
-            {/* {stationId && selectedTab !== 'Variance-accumulation' && (
+            {/* {stationId && selectedTab !== 'Variance Accumulation' && (
               <>
                 <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
                   {graphstaticTabs.map((tabName) => (
@@ -682,7 +679,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
         </div>
 
       </div>
-      {stationId && selectedTab !== 'Variance-accumulation' && (
+      {stationId && selectedTab !== 'Variance Accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
           <div className='panel h-full ' style={{ background: "none" }}>
           </div>

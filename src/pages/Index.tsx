@@ -633,6 +633,8 @@ console.log("New Employee=> ", newEmployee);
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {filterData?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                               
+                               
                                 Last Month{filterData?.profit?.percentage}
                             </div>
                         </div>
