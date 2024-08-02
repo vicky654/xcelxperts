@@ -101,7 +101,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   //   const storedData = localStorage.getItem(storedKeyName);
   //   console.log(storedData, "storedDastoredKeyNameta");
   //   if (storedData) {
-  //     console.log(storedData, "storedData");
+  //     
 
   //     handleApplyFilters(JSON.parse(storedData));
   //   }
@@ -110,16 +110,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
-    console.log(storedDataString, "storedDataString");
+    
 
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
-        console.log(storedData, "storedData");
+        
 
         // Check for the existence of `start_month` or other necessary properties
         if (storedData.start_month) {
-          console.log(storedData, "storedDatastoredData");
+         
           handleApplyFilters(storedData);
         }
       } catch (error) {
@@ -337,7 +337,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     </div>
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
         <div className='panel h-full '>
           <CustomInput
             getData={getData}
@@ -624,7 +624,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
       </div>
       {stationId && selectedTab !== 'Variance Accumulation' && (
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
           <div className='panel h-full ' style={{ background: "none" }}>
           </div>
 

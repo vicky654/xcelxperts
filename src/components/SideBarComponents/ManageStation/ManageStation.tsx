@@ -63,13 +63,13 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-        console.log('Search Term:', term);
+       
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        console.log('Search Reset');
+        
     };
     useEffect(() => {
         fetchData();

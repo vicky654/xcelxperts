@@ -730,3 +730,14 @@ img.w-full.CoverImage {
     padding-right: 0.5rem !important;
     padding-left: 0.5rem !important;
 }
+
+body {
+
+    background-color: #F1F4FD !important;
+    font-family: Nunito, sans-serif;
+}
+
+.bg-gray-200 {
+    --tw-bg-opacity: 1;
+    background-color: #F1F4FD !important;
+}

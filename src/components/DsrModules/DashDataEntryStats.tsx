@@ -101,14 +101,14 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
   useEffect(() => {
     const storedDataString = localStorage.getItem(DashboardstoredKeyName);
-    console.log(storedDataString, "storedDataString");
+    
     console.log(id, "storedDataString");
 
     if (storedDataString) {
       try {
         // Parse the JSON string to get the stored data
         const storedData = JSON.parse(storedDataString);
-        console.log(storedData, "storedData");
+        
 
         // Check for the existence of `start_month` or other necessary properties
         if (storedData.start_month) {
@@ -124,7 +124,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   //   const storedData = localStorage.getItem(storedKeyName);
   //   console.log(storedData, "storedDastoredKeyNameta");
   //   if (storedData) {
-  //     console.log(storedData, "storedData");
+  //     
 
   //     handleApplyFilters(JSON.parse(storedData));
   //   }
@@ -138,7 +138,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   //   if (storedDataString) {
   //     try {
   //       const storedData = JSON.parse(storedDataString);
-  //       console.log(storedData, "storedData");
+  //       
 
   //       // Check for the existence of `start_month` or other necessary properties
   //       if (storedData.start_month) {
@@ -377,7 +377,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     </div>
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
         <div className='panel h-full '>
           <DashboardFilter
             getData={getData}
@@ -709,7 +709,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
       </div>
       {stationId && selectedTab !== 'Variance Accumulation' && (
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
           <div className='panel h-full ' style={{ background: "none" }}>
           </div>
 

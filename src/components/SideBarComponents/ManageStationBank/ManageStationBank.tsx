@@ -91,13 +91,13 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-        console.log('Search Term:', term);
+       
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        console.log('Search Reset');
+        
     };
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
@@ -335,7 +335,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
                     <div className='panel h-full '>
 
 

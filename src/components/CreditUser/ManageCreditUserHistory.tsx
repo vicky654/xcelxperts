@@ -81,13 +81,13 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-        console.log('Search Term:', term);
+       
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        console.log('Search Reset');
+        
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
@@ -274,7 +274,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
         //     : null,
     ];
 
-    console.log(hirstoryData?.history, "hirstoryData");
+    
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -414,7 +414,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                                         mode: 'range',
                                         dateFormat: 'Y-m-d',
                                     }}
-                                value={date3}
+                                    value={date3}
                                     className="form-input"
                                     onChange={handleDateChange} // No type issues here
                                     placeholder='Date Range'
