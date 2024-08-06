@@ -317,48 +317,65 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-    const GetUserList = async (id: any) => {
-
+    const GetUserList = async (id: any, month?: string, year?: string) => {
         try {
-
+            // Construct the base API URL
             let apiUrl = `/credit-user/history?credit_user_id=${id}&page=${currentPage}`;
+
+            // Add search term if available
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
-            if (selectedYear && selectedMonth) {
-                apiUrl += `&search_keywords=${searchTerm}`;
+
+            // Add month and year to the API URL if they are provided
+            if (month && year) {
+                apiUrl += `&drs_date=${year}-${month}-01`;
             }
+
+            // Call the API with the constructed URL
             const response = await getData(apiUrl);
 
-
-            // const response = await getData(`credit-user/history?credit_user_id=${id}&page=${currentPage}`);
-            // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
-                console.log(response.data.data?.history?.lastPage, "response.data.data?.lastPage");
+                console.log(
+                    response.data.data?.history?.lastPage,
+                    "response.data.data?.lastPage"
+                );
                 setData(response.data.data?.history?.listing);
                 setCurrentPage(response.data.data?.history?.currentPage || 1);
                 setLastPage(response.data.data?.history?.lastPage || 1);
                 sethirstoryData(response.data.data);
             } else {
-                throw new Error('No data available in the response');
+                throw new Error("No data available in the response");
             }
         } catch (error) {
             handleApiError(error);
         }
     };
+
     const [selectedMonth, setSelectedMonth] = useState<string>("");
     const [selectedYear, setSelectedYear] = useState<string>("");
 
     // Handle month and year change from the child
     const handleMonthYearChange = (month: string, year: string) => {
-        setSelectedMonth(month);
-        setSelectedYear(year);
+        // Check if month or year is empty, set state accordingly
+        if (!month || !year) {
+            setSelectedMonth("");
+            setSelectedYear("");
+            GetUserList(id);
+        } else {
+            setSelectedMonth(month);
+            setSelectedYear(year);
+            GetUserList(id, month, year);
+        }
 
+        // Call GetUserList with month and year
+
+
+        // Logging
+        console.log(month, "month");
     };
 
     const handleDownloadPdf = async (
-
-
     ) => {
         try {
             // Fetch data from the API
@@ -410,7 +427,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h1 className="text-lg font-semibold mb-4  displaycanter">
-                            {`Credit Users History`} {selectedMonth  &&
+                            {`Credit Users History`} {selectedMonth &&
                                 (<span onClick={() => handleDownloadPdf()}>
                                     <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                         <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
