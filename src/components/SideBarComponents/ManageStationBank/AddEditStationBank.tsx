@@ -66,8 +66,7 @@ type StationStatusOption = {
 
 const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
 
-    const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
-    const handleApiError = useErrorHandler();
+  const handleApiError = useErrorHandler();
 
     useEffect(() => {
         if (isOpen) {
@@ -112,7 +111,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`getStations?company_id=${companyId}`);
+            const response = await getData(`getStations?entity_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);
@@ -221,8 +220,8 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     };
     const fetchFuelNameList = async (siteId: string) => {
         try {
-            const response = await getData(`bank/list?station_id=${siteId}`);
-            formik.setFieldValue('tankList', response.data.data);
+            const response = await getData(`getBanks`);
+            formik.setFieldValue('tankList', response?.data);
         } catch (error) {
             handleApiError(error)
         }
@@ -301,7 +300,7 @@ console.log(formik.values.tankList, "columnIndex");
                                                     formik={formik}
                                                     name="bank_id"
                                                     label="Bank Name"
-                                                    options={formik.values.tankList?.banks?.map((item: any) => ({ id: item.id, name: item.name }))}
+                                                    options={formik.values.tankList?.data?.map((item: any) => ({ id: item.id, name: item.name }))}
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />

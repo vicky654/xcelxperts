@@ -161,7 +161,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
     const fetchSiteList = async (companyId: string) => {
         try {
-            const response = await getData(`getStations?company_id=${companyId}`);
+            const response = await getData(`getStations?entity_id=${companyId}`);
             formik.setFieldValue('sites', response.data.data);
         } catch (error) {
             handleApiError(error);

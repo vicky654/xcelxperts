@@ -244,7 +244,6 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
             formData.append('charge_name', values.charge_name);
             formData.append('charge_code', values.charge_code);
-
             if (userId) {
                 formData.append('id', userId);
             }
@@ -273,7 +272,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Incomes</span>
+                        <span>Extra Incomes</span>
                     </li>
                 </ul>
 
@@ -292,7 +291,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                 </div> */}
 
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Incomes</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Extra Incomes</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}

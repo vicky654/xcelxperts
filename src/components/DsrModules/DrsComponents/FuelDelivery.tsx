@@ -132,7 +132,6 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             const newBookStock = opening + delivery_volume - sales_volume;
             setFieldValue(`data[${index}].book_stock`, newBookStock.toFixed(2));
             // setFieldValue(`data[${index}].dips_stock`, newBookStock.toFixed(2));
-
             // Update variance
             const dips_stock = values.data[index].dips_stock;
             const newVariance = dips_stock - newBookStock;
@@ -158,7 +157,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             cell: (row: FuelDeliveryData) => <span>{row.tank_name}</span>,
         },
         {
-            name: 'Opening',
+            name: 'Opeaning Stock',
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
@@ -179,7 +178,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             ),
         },
         {
-            name: 'Delivery Volume',
+            name: 'Received Stock',
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].delivery_volume`}>

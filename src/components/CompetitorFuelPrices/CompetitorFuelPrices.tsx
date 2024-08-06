@@ -265,7 +265,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
     const handleApplyFilters = async (values: any) => {
 
 
-        const apiURL = `station/competitor-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
+        const apiURL = `station/competitor-price?client_id=${values.client_id}&entity_id=${values.company_id}&drs_date=${values.start_date}`
 
         try {
             const response = await getData(apiURL);
