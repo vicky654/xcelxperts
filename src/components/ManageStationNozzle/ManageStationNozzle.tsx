@@ -60,7 +60,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    let storedKeyItems: any = localStorage.getItem("stationNozzle") || '[]';
+    let storedKeyItems: any = localStorage.getItem("stationTank") || '[]';
     let storedKeyName: any = "stationTank";
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
