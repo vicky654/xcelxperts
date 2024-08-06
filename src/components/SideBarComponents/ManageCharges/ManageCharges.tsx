@@ -125,7 +125,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const columns: any = [
         // Other columns
         {
-            name: 'Income ',
+            name: 'Extra Income ',
             selector: (row: RowData) => row.charge_name,
             sortable: false,
             width: '20%',
@@ -138,7 +138,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             ),
         },
         {
-            name: 'Income Code',
+            name: 'Extra Income Code',
             selector: (row: RowData) => row.charge_code,
             sortable: false,
             width: '20%',
@@ -279,7 +279,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Income
+                        Add Extra Income
                     </button>
                 </>}
 

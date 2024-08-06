@@ -111,7 +111,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 const isSuccess = await postData(url, formData);
                 if (isSuccess) {
                     if (stationId && startDate) {
-                        applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Payments" });
+                        applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Digital Receipt" });
                         handleApplyFilters(stationId, startDate);
                     }
                 }
@@ -145,7 +145,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
           
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4 displaycanter">
-                        {`Payments`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
+                        {`Digital Receipt`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
                         <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>

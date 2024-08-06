@@ -79,7 +79,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const isSuccess = await postData(url, formData);
 
             if (isSuccess) {
-                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Income & Expenses" });
+                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Extra Income & Expenses" });
                 fetchData();
             }
         } catch (error) {
@@ -163,7 +163,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4 displaycanter">
-                        {`Income and Expenses`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
+                        {`Extra Incomes and Expenses`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
 
 
                             <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
@@ -185,7 +185,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 md:col-span-12">
-                        <h2 className="text-lg font-semibold mb-4">Income</h2>
+                        <h2 className="text-lg font-semibold mb-4">Extra Income</h2>
                         {charges && charges.length > 0 ? (
                             <DataTable
                                 columns={columns}

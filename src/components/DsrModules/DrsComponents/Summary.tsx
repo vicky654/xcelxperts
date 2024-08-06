@@ -65,13 +65,13 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('station_id', stationId || '');
       formData.append('total_fuel_sales', data?.takings?.total_fuel_sales || '');
       formData.append('total_lubes_sales', data?.takings?.total_lubes_sales || '');
-      formData.append('total_deductions', data?.takings?.expenses || '');
-      formData.append('total_charges', data?.takings?.total_incomes || '');
+      formData.append('total_deductions', data?.takings?.total_expenses || '');
+      formData.append('total_charges', data?.takings?.total_extra_income || '');
       formData.append('total_sales', data?.takings.total_sales_value || ''); // Assuming total_sales is available in takings
       formData.append('total_credit_sales', data?.takings.total_credit_sales || '');
-      formData.append('total_credit_card', data?.takings.total_credit_card || '');
+      formData.append('total_credit_card', data?.takings.total_digital_receipt || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
-      formData.append('cash_operator', data?.banking?.cash_deposited || '');
+      formData.append('cash_operator', data?.banking?.bank_deposited || '');
       formData.append('total_to_bank', data?.takings?.total_to_bank || '');
       formData.append('variance_accumulation', data?.banking.variance_accumulation || '');
       // formData.append('variance_accumulation', data?.banking.variance_difference || '');
@@ -132,7 +132,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
           <div className="w-full">
             {data?.charges && (
               <div className="mb-8  ">
-                <h1 className="text-lg font-bold">SUMMARY OF INCOME</h1>
+                <h1 className="text-lg font-bold">SUMMARY OF EXTRA INCOMES</h1>
 
                 <div className="p-2">
                   <ul className="divide-y divide-gray-200">

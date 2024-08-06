@@ -18,6 +18,7 @@ interface CashBankingItem {
     id: string;
     reference: string;
     amount: string;
+    cash_value: string;
     station_bank_id: string;
     bank_name: string;
     type: string;
@@ -35,13 +36,14 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const [cashBankingData, setCashBankingData] = useState<CashBankingItem[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
+    const [cashvalue, setcashvalue] = useState("");
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedCashBanking, setSelectedCashBanking] = useState<CashBankingItem | null>(null);
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const FetchRoleList = async () => {
         try {
             const response = await getData(`/station/bank/list?drs_date=${startDate}&station_id=${stationId}`);
-            
+
             if (response && response.data && response.data.data) {
 
                 setRoleList(response.data.data);
@@ -67,7 +69,8 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             if (response && response.data && response.data.data) {
 
                 const { listing, is_editable } = response.data.data;
-                formik.setFieldValue("amount", response.data?.data?.cash_value)
+                // formik.setFieldValue("cash_value", response.data?.data?.cash_value)
+                setcashvalue(response.data?.data?.cash_value)
                 setCashBankingData(listing);
                 setIsdownloadpdf(response.data.data?.download_pdf);
                 setIsEditable(is_editable);
@@ -84,7 +87,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const handleEdit = (cashBanking: CashBankingItem) => {
         setSelectedCashBanking(cashBanking);
 
-     
+
         formik.setValues(cashBanking);
     };
 
@@ -105,6 +108,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             reference: '',
             station_bank_id: '',
             amount: '',
+            cash_value: '',
             update_amount: true,
         },
         validationSchema,
@@ -126,7 +130,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     const isSuccess = await postData(url, formData);
                     if (isSuccess) {
                         if (stationId && startDate) {
-                            applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Cash Deposited" });
+                            applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Bank Deposited" });
                             handleApplyFilters(stationId, startDate);
                         }
                         setSelectedCashBanking(null);
@@ -138,9 +142,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         formData.append('drs_date', startDate);
                         formData.append('station_id', stationId);
                     }
-
                     const url = `/data-entry/cash-banking/create`;
-
                     const isSuccess = await postData(url, formData);
                     if (isSuccess) {
                         if (stationId && startDate) {
@@ -202,36 +204,36 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     return (
         <div >
-            {/* <h1 className="text-lg font-semibold mb-4">{`Cash Deposit ${startDate}`}</h1> */}
+            {/* <h1 className="text-lg font-semibold mb-4">{`Bank Deposited ${startDate}`}</h1> */}
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold mb-4 displaycanter">
-                        {`Cash Deposit`} {startDate ? `(${startDate})` : ''}
-                      
-                        
-                        {isdownloadpdf && (
-                            <span onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}>
-                                  <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                                </OverlayTrigger>
-                                </span> )}
-                   
-                    </h1>
-                     
-                    {/* {isdownloadpdf  && (
+                <h1 className="text-lg font-semibold mb-4 displaycanter">
+                    {`Bank Deposited`} {startDate ? `(${startDate})` : ''}
+
+
+                    {isdownloadpdf && (
+                        <span onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}>
+                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                            </OverlayTrigger>
+                        </span>)}
+
+                </h1>
+
+                {/* {isdownloadpdf  && (
                     <button
                         className='btn btn-primary'
                         onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}
                     >
                       Download Pdf   <i className="fi fi-tr-file-download"></i> 
                     </button>   )} */}
-                </div>
+            </div>
 
 
             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
 
-                    <h2 className="text-lg font-semibold mb-4">Edit Cash Deposit</h2>
+                    <h2 className="text-lg font-semibold mb-4">Edit Bank Deposited {cashvalue ? `(${cashvalue})` : ""} </h2>
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-12 gap-4">
                             <div className="col-span-12 md:col-span-4">
@@ -239,7 +241,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     formik={formik}
                                     name="station_bank_id"
                                     label="Bank"
-                                    options={RoleList?.map((item) => ({ id: item.id,  name: `${item.bank_name} - ${item.account_no}`}))}
+                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
                                     className="form-select text-white-dark"
                                 />
                             </div>
@@ -285,16 +287,19 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
             {!selectedCashBanking && isEditable && (
                 <div className="mb-3">
+                    <h2 className="text-lg font-semibold mb-4">
+                        Add New Bank Deposited Entry {cashvalue ? `(${cashvalue})` : ""}
+                    </h2>
 
-                    <h2 className="text-lg font-semibold mb-4">Add New Cash Deposit Entry</h2>
+
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-12 gap-4">
-                        <div className="col-span-12 md:col-span-4">
+                            <div className="col-span-12 md:col-span-4">
                                 <FormikSelect
                                     formik={formik}
                                     name="station_bank_id"
                                     label="Bank"
-                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}`}))}
+                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
                                     className="form-select text-white-dark"
                                 />
                             </div>

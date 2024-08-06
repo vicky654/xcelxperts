@@ -104,7 +104,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             if (isSuccess) {
                 if (stationId && startDate) {
                     handleApplyFilters(stationId, startDate);
-                    applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Fuel Delivery" });
+                    applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Fuel Stock" });
                 }
             }
         } catch (error) {
@@ -131,7 +131,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
             const newBookStock = opening + delivery_volume - sales_volume;
             setFieldValue(`data[${index}].book_stock`, newBookStock.toFixed(2));
-            setFieldValue(`data[${index}].dips_stock`, newBookStock.toFixed(2));
+            // setFieldValue(`data[${index}].dips_stock`, newBookStock.toFixed(2));
 
             // Update variance
             const dips_stock = values.data[index].dips_stock;
@@ -288,7 +288,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             {isLoading && <LoaderImg />}
 
             <div>
-                <h1 className="text-lg font-semibold mb-4 ">{`Fuel Delivery`} {startDate ? `(${startDate})` : ''}</h1>
+                <h1 className="text-lg font-semibold mb-4 ">{`Fuel Stock`} {startDate ? `(${startDate})` : ''}</h1>
 
                 {data.length > 0 ? (
                     <Formik

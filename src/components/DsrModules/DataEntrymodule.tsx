@@ -100,13 +100,56 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     }>
   } = {
     'Fuel Sales': FuelSales,
-    'Fuel Delivery': FuelDelivery,
+    'Fuel Stock': FuelDelivery,
     'Lubes Sales': ShopSales,
-    'Income & Expenses': ChargesDeductions,
+    'Extra Income & Expenses': ChargesDeductions,
     'Credit Sales': CreditSales,
-    'Payments': Payment,
-    'Cash Deposited': CashBanking,
+    'Digital Receipt': Payment,
+    'Bank Deposited': CashBanking,
     'Summary': Summary,
+
+  //   [
+  //     {
+  //         "id": "Q0hXRGNkeTllN1JSVWg1NFdDNjJodz09",
+  //         "name": "Fuel Sales",
+  //         "bgColor": "red"
+  //     },
+  //     {
+  //         "id": "YzhQcFZPRzJGcjJKQTdNV3Q0YWJQQT09",
+  //         "name": "Fuel Stock",
+  //         "bgColor": "green"
+  //     },
+  //     {
+  //         "id": "QlRmOW5tN3BENGp2UnlrbStQT3VKUT09",
+  //         "name": "Lubes Sales",
+  //         "bgColor": "green"
+  //     },
+  //     {
+  //         "id": "czVCcWxGbjZ6dFQzMGx1Q2RpZUlzZz09",
+  //         "name": "Extra Extra Income & Expenses",
+  //         "bgColor": "red"
+  //     },
+  //     {
+  //         "id": "Y1BYWW83YmxDSWhYNkNXQ0lwZFJRUT09",
+  //         "name": "Credit Sales",
+  //         "bgColor": "green"
+  //     },
+  //     {
+  //         "id": "WmFLUWpCN2YrYnNpYVh3SkI0cDJ0UT09",
+  //         "name": "Digital Receipt",
+  //         "bgColor": "red"
+  //     },
+  //     {
+  //         "id": "RlI4SisyaWlNaExQV3ZSYVoyOGFYUT09",
+  //         "name": "Bank Deposited",
+  //         "bgColor": "green"
+  //     },
+  //     {
+  //         "id": "NVRhbmxRMFhiZkRQaGVSSUpUaFRkdz09",
+  //         "name": "Summary",
+  //         "bgColor": "red"
+  //     }
+  // ]
 
 
     // 'Shop Sales': ShopSales,

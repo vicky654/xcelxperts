@@ -159,7 +159,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     'Lube Sales',
     'Incomes',
     'Expenses',
-    'Payments',
+    'Digital Receipt',
     'Credit Sales',
 
 
@@ -171,7 +171,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
     'Expenses': 'deductions',
-    'Payments': 'payments',
+    'Digital Receipt': 'payments',
     'Credit Sales': 'credit-sales',
 
 
@@ -521,7 +521,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
                       </p>
-                      <p className="font-semibold w-1/6">Cash Deposited</p>
+                      <p className="font-semibold w-1/6">Bank Deposited</p>
                       <p className="font-semibold w-1/6"> Previous Variance</p>
                       <p className="font-semibold w-1/6">Balance</p>
 
