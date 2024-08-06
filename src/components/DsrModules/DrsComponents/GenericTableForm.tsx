@@ -14,6 +14,7 @@ interface NozzleData {
     fuel_price: string;
     opening: number;
     closing: number;
+    test_volume: number;
     sales_volume: number;
     gross_value: number;
     discount: number;
@@ -25,6 +26,7 @@ interface NozzleData {
     update_discount: boolean;
     update_opening: boolean;
     update_closing: boolean;
+    update_test_volume: boolean;
 }
 
 interface TankData {
@@ -91,12 +93,13 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         const grossvalue = field === 'gross_value' ? numericValue : nozzle.gross_value;
         const opening = field === 'opening' ? numericValue : nozzle.opening;
         const closing = field === 'closing' ? numericValue : nozzle.closing;
+        const testvolume = field === 'test_volume' ? numericValue : nozzle.test_volume;
 
         if (sales_volume) {
             const grossvalue = sales_volume * fuel_price;
         }
-
-        const salesvolume = closing - opening;
+        console.log(testvolume, "testvolume");
+        const salesvolume = closing - opening - testvolume;
         const gross_value = salesvolume * fuel_price;
         const nettvalue = gross_value - discount;
 
@@ -142,7 +145,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         },
         {
             name: 'Fuel ',
-            width: '10%',
+            width: '7%',
             selector: (row: NozzleData) => row.fuel_name,
             cell: (row: NozzleData) => <span>{row.fuel_name}</span>,
         },
@@ -189,6 +192,22 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
                             readOnly={!row.update_closing}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'closing', e.target.value)}
+                        />
+                    )}
+                </Field>
+            ),
+        },
+        {
+            name: 'Testing',
+            cell: (row: NozzleData, index: number) => (
+                <Field name={`data[${tankIndex}].nozzles[${index}].test_volume`}>
+                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
+                        <input
+                            type="number"
+                            {...field}
+                            className={`form-input workflorform-input ${!row.update_test_volume ? 'readonly' : ''}`}
+                            readOnly={!row.update_test_volume}
+                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'test_volume', e.target.value)}
                         />
                     )}
                 </Field>
@@ -323,7 +342,6 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             <div className='flex'>
                                 <h3 className='FuelSaleContainer '>
                                     <div className=' flex flex-col'>
-
                                         <span className='' style={{ background: "#f6f8fa", padding: "15px 46px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
                                         <span className='tank_name'> {tank.tank_name}</span>
                                     </div>
@@ -341,7 +359,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     ))}
 
 
-                    {iseditable && values?.data?.length>0 && (
+                    {iseditable && values?.data?.length > 0 && (
                         <button className='btn btn-primary mt-4' type="submit">Submit</button>
                     )}
 
