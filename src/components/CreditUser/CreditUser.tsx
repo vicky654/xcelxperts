@@ -33,7 +33,6 @@ interface RowData {
     name: string;
     phone: string;
     t_type: string;
-
     created_date: string;
     status: number;
 
@@ -93,7 +92,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     }, [currentPage]);
     // useEffect(() => {
     //     const storedKeyName = localStorage.getItem("stationTank");
-      
+
 
     //     if (localStorage.getItem("CreditUserID")) {
     //         const clientId = localStorage.getItem("CreditUserID");
@@ -108,28 +107,28 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
-        
-    
+
+
         if (storedDataString) {
-          try {
-            const storedData = JSON.parse(storedDataString);
-            
-    
-            // Check for the existence of `start_month` or other necessary properties
-            // if (storedData.start_date) {
-            //   handleApplyFilters(storedData);
-            // }
+            try {
+                const storedData = JSON.parse(storedDataString);
 
 
-            if (storedData?.client_id) {
-                formik.setFieldValue("client_id", storedData.client_id)
-                GetUserList(storedData.client_id)
+                // Check for the existence of `start_month` or other necessary properties
+                // if (storedData.start_date) {
+                //   handleApplyFilters(storedData);
+                // }
+
+
+                if (storedData?.client_id) {
+                    formik.setFieldValue("client_id", storedData.client_id)
+                    GetUserList(storedData.client_id)
+                }
+            } catch (error) {
+                console.error("Error parsing stored data", error);
             }
-          } catch (error) {
-            console.error("Error parsing stored data", error);
-          }
         }
-      }, [dispatch]);
+    }, [dispatch]);
 
 
     const handleSuccess = () => {
@@ -170,7 +169,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 </div>
             ),
         },
-  
+
         {
             name: 'Phone Number',
             selector: (row: RowData) => row.phone,
@@ -352,20 +351,20 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
     useEffect(() => {
-        const ID = localStorage.setItem("CreditUserID", formik?.values?.client_id)
+        const ID = localStorage.getItem("CreditUserID")
 
 
-        if (formik?.values?.client_id) {
-            GetUserList(formik?.values?.client_id);
+        if (ID) {
+            GetUserList(ID);
         }
 
 
@@ -387,6 +386,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             // const response = await getData(`credit-user/list?client_id=${id}&page=${currentPage}`);
             // const response = await getData(`credit-user/list`);
             if (response && response.data && response.data.data) {
+                formik.setFieldValue("client_id",id)
                 localStorage.setItem("CreditUserID", id)
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
@@ -488,7 +488,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                                         highlightOnHover
                                         responsive={true}
                                     />
-                                     {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+                                    {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
                                 </div>
                             </>
                         ) : (
@@ -503,7 +503,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     </div>
                 </div>
             </div>
-           
+
         </>
     );
 };
