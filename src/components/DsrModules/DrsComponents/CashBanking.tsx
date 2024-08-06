@@ -233,7 +233,20 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                 <div className="mt-6 mb-4">
 
-                    <h2 className="text-lg font-semibold mb-4">Edit Bank Deposited {cashvalue ? `(${cashvalue})` : ""} </h2>
+                    <h2 className="text-lg font-semibold mb-4">Edit Bank Deposited   {cashvalue ? (
+                        <OverlayTrigger
+                            placement="top"
+                            overlay={
+                                <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
+                                    Cash Available For Banking
+                                </Tooltip>
+                            }
+                        >
+                            <span>({currency}{cashvalue})</span>
+                        </OverlayTrigger>
+                    ) : (
+                        ''
+                    )} </h2>
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-12 gap-4">
                             <div className="col-span-12 md:col-span-4">
@@ -263,7 +276,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <div className="col-span-12 md:col-span-4">
                                 <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="amount"
                                     placeholder="Amount"
                                     value={formik.values.amount}
@@ -288,7 +301,21 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             {!selectedCashBanking && isEditable && (
                 <div className="mb-3">
                     <h2 className="text-lg font-semibold mb-4">
-                        Add New Bank Deposited Entry {cashvalue ? `(${cashvalue})` : ""}
+                        Add New Bank Deposited Entry{' '}
+                        {cashvalue ? (
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
+                                        Cash Available For Banking
+                                    </Tooltip>
+                                }
+                            >
+                                <span>({currency}{cashvalue})</span>
+                            </OverlayTrigger>
+                        ) : (
+                            ''
+                        )}
                     </h2>
 
 
@@ -321,7 +348,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <div className="col-span-12 md:col-span-4">
                                 <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="amount"
                                     placeholder="Amount"
                                     value={formik.values.amount}

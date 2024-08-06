@@ -185,7 +185,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 md:col-span-12">
-                        <h2 className="text-lg font-semibold mb-4">Extra Income</h2>
+                        <h2 className="text-lg font-semibold mb-4">Extra Incomes</h2>
                         {charges && charges.length > 0 ? (
                             <DataTable
                                 columns={columns}
