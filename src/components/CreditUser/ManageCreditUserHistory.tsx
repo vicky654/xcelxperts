@@ -16,6 +16,8 @@ import Flatpickr from 'react-flatpickr';
 import MonthFilter from '../../utils/MonthFilter';
 import MonthYearFilter from '../../utils/MonthFilter';
 import MonthYearInput from '../../utils/MonthFilter';
+import { handleDownloadPdf } from '../CommonFunctions';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 interface ManageSiteProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
@@ -59,7 +61,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [date3, setDate3] = useState<[Date, Date] | []>([]);
-
+    const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     // Adjust the type of the parameter to match what Flatpickr sends
     const handleDateChange = (dates: Date[]) => {
         if (dates.length === 2) {
@@ -351,10 +353,31 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const handleMonthYearChange = (month: string, year: string) => {
         setSelectedMonth(month);
         setSelectedYear(year);
-  
+
     };
-    console.log("Month selected in parent:", selectedMonth);
-    console.log("Year selected in parent:", selectedYear);
+
+    const handleDownloadPdf = async (
+
+
+    ) => {
+        try {
+            // Fetch data from the API
+            const response = await getData(
+                `/credit-user/history-download?drs_date=${selectedMonth}&credit_user_id=${id}`
+            );
+            if (response && response.data?.data) {
+
+                const pdfUrl = response.data?.data?.url;
+                window.open(pdfUrl, '_blank', 'noopener noreferrer');
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            // Handle API errors
+            handleApiError(error);
+        }
+    };
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -386,19 +409,24 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             <div className=" mt-6">
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users History</h5>
-        
+                        <h1 className="text-lg font-semibold mb-4  displaycanter">
+                            {`Credit Users History`} {selectedMonth  &&
+                                (<span onClick={() => handleDownloadPdf()}>
+                                    <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                        <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                    </OverlayTrigger>
+                                </span>)}
+                        </h1>
                         <div className="ltr:ml-auto rtl:mr-auto spacebetween" >
-               
                             <div className='mt-1' style={{ marginRight: "10px" }}>
                                 {hirstoryData?.balance && (<>
-                                    <span  className="Titlebadge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
+                                    <span className="Titlebadge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
                                 </>)}
                                 {hirstoryData?.credit && (<>
-                                    <span  className="Titlebadge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
+                                    <span className="Titlebadge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
                                 </>)}
                                 {hirstoryData?.debit && (<>
-                                    <span  className="Titlebadge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
+                                    <span className="Titlebadge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
                                 </>)}
                             </div>
                             <MonthYearInput onChange={handleMonthYearChange} />
