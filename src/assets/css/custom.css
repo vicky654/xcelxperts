@@ -745,3 +745,22 @@ body {
 /* .panel {
     background-color: #fff !important;
 } */
+
+.Titlebadge {
+    position: relative;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: transparent;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    font-size: 0.75rem;
+    line-height: 2rem;
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity));
+    height: 10px !important;
+}

@@ -61,22 +61,63 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   const submitsummary = async (values: any) => {
     try {
       const formData = new FormData();
+
+
+
+
+
+
+
       formData.append('drs_date', startDate || '');
       formData.append('station_id', stationId || '');
+
+
+      // Taking
+
+      // 'total_fuel_sales'      => 'total_fuel_sales',
+      // 'total_charges'         => 'total_extra_income',
+      // 'total_lubes_sales'     => 'total_lubes_sales',
+      // 'total_sales'           => 'total_sales_value',
+      // 'total_credit_sales'    => 'total_credit_sales',
+      // 'total_deductions'      => 'total_expenses',
+      // 'total_to_bank'         => 'total_to_bank',
+      // 'total_credit_card'     => 'total_digital_receipt',
+      
+      // Banking
+      // 'total_cash_for_banking'=> 'total_cash_for_banking',
+      // 'variance'              => 'previous_variance',
+      // 'net_cash_due_banking'  => 'net_cash_due_for_banking',
+      // 'cash_operator'         => 'bank_deposited',
+      // 'variance_accumulation' => 'variance_accumulation',
+      // 'remarks'               => 
+
+
+
+
+
+
+      // Taking
+
       formData.append('total_fuel_sales', data?.takings?.total_fuel_sales || '');
-      formData.append('total_lubes_sales', data?.takings?.total_lubes_sales || '');
-      formData.append('total_deductions', data?.takings?.total_expenses || '');
       formData.append('total_charges', data?.takings?.total_extra_income || '');
+      formData.append('total_lubes_sales', data?.takings?.total_lubes_sales || '');
       formData.append('total_sales', data?.takings.total_sales_value || ''); // Assuming total_sales is available in takings
       formData.append('total_credit_sales', data?.takings.total_credit_sales || '');
+      formData.append('total_deductions', data?.takings?.total_expenses || '');
+      formData.append('total_to_bank', data?.takings?.total_to_bank || '');
       formData.append('total_credit_card', data?.takings.total_digital_receipt || '');
+    
+      // Banking
+
+      formData.append('total_cash_for_banking', data?.banking.total_cash_for_banking || '');
+      formData.append('variance', data?.banking.previous_variance  || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
       formData.append('cash_operator', data?.banking?.bank_deposited || '');
-      formData.append('total_to_bank', data?.takings?.total_to_bank || '');
       formData.append('variance_accumulation', data?.banking.variance_accumulation || '');
-      // formData.append('variance_accumulation', data?.banking.variance_difference || '');
-      formData.append('variance', data?.variance || '');
       formData.append('remarks', values?.Remarks || '');
+      // formData.append('variance_accumulation', data?.banking.variance_difference || '');
+
+
       // Append other fields if needed
       // formData.append('cash_difference', data?.cash_difference || '');
       // formData.append('variance', data?.variance || '');

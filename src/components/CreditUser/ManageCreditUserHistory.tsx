@@ -13,6 +13,9 @@ import AddEditHistoryTankModal from './AddEditHistoryTankModal';
 import { currency } from '../../utils/CommonData';
 import SearchBar from '../../utils/SearchBar';
 import Flatpickr from 'react-flatpickr';
+import MonthFilter from '../../utils/MonthFilter';
+import MonthYearFilter from '../../utils/MonthFilter';
+import MonthYearInput from '../../utils/MonthFilter';
 interface ManageSiteProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
@@ -81,13 +84,13 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
@@ -274,7 +277,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
         //     : null,
     ];
 
-    
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -320,6 +323,9 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
+            if (selectedYear && selectedMonth) {
+                apiUrl += `&search_keywords=${searchTerm}`;
+            }
             const response = await getData(apiUrl);
 
 
@@ -338,9 +344,17 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             handleApiError(error);
         }
     };
+    const [selectedMonth, setSelectedMonth] = useState<string>("");
+    const [selectedYear, setSelectedYear] = useState<string>("");
 
-
-
+    // Handle month and year change from the child
+    const handleMonthYearChange = (month: string, year: string) => {
+        setSelectedMonth(month);
+        setSelectedYear(year);
+  
+    };
+    console.log("Month selected in parent:", selectedMonth);
+    console.log("Year selected in parent:", selectedYear);
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -373,21 +387,21 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h5 className="font-semibold text-lg dark:text-white-light"> Credit Users History</h5>
-
-
-
+        
                         <div className="ltr:ml-auto rtl:mr-auto spacebetween" >
+               
                             <div className='mt-1' style={{ marginRight: "10px" }}>
                                 {hirstoryData?.balance && (<>
-                                    <span className="badge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
+                                    <span  className="Titlebadge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
                                 </>)}
                                 {hirstoryData?.credit && (<>
-                                    <span className="badge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
+                                    <span  className="Titlebadge bg-success my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Cr {currency}{hirstoryData?.credit}</span>
                                 </>)}
                                 {hirstoryData?.debit && (<>
-                                    <span className="badge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
+                                    <span  className="Titlebadge bg-danger my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Dr {currency}{hirstoryData?.debit} </span>
                                 </>)}
                             </div>
+                            <MonthYearInput onChange={handleMonthYearChange} />
 
 
 
