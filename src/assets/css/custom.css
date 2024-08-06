@@ -764,3 +764,6 @@ body {
     color: rgb(255 255 255 / var(--tw-text-opacity));
     height: 10px !important;
 }
+.errorborder{
+    border: 3px solid #a00000;
+}

@@ -157,42 +157,46 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             cell: (row: FuelDeliveryData) => <span>{row.tank_name}</span>,
         },
         {
-            name: 'Opeaning Stock',
+            name: 'Opening Stock',
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
+                                className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                                {/* {touched && error && (
+                                    <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                                )} */}
                             </div>
                         )}
                     </Field>
                 </>
             ),
         },
+        
         {
             name: 'Received Stock',
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].delivery_volume`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_delivery_volume ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_delivery_volume ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''} `}
                                     readOnly={!row.update_delivery_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].delivery_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
-                            </div>
+                           </div>
                         )}
                     </Field>
                 </>
@@ -203,16 +207,19 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].sales_volume`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_sales_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+
+                                {/* <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
+                            
                             </div>
                         )}
                     </Field>
@@ -228,6 +235,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='value'
                                     {...field}
                                     className="form-input workflorform-input readonly"
                                     readOnly
@@ -244,16 +252,17 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].dips_stock`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values } , meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_dips_stock ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_dips_stock ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_dips_stock}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].dips_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                                {/* <ErrorMessage name={`data[${index}].dips_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
                             </div>
                         )}
                     </Field>
@@ -269,6 +278,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='value'
                                     {...field}
                                     className="form-input workflorform-input readonly"
                                     readOnly
