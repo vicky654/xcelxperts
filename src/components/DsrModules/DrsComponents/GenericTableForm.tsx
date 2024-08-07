@@ -71,7 +71,7 @@ const validationSchema = Yup.object({
 
 
 const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters, stationId, startDate, postData, iseditable }) => {
-    console.log(data, "data");
+
     const handleFieldChange = (
         setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
         values: FormValues,
@@ -261,7 +261,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Nett Value',
+            name: 'Net Value',
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].nett_value`}>
                     {({ field }: FieldProps) => (
@@ -288,30 +288,99 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                 formData.append('drs_date', startDate);
                 formData.append('station_id', stationId);
             }
+            // $rules = [
+            //     'drs_date'=>'required',
+            //     'sales_volume'=>'required|array',
+            //     'sales_volume.*'=>'required',
+            //     'gross_value'=>'required|array',
+            //     'gross_value.*'=>'required',
+            //     'discount'=>'required|array',
+            //     'discount.*'=>'required',
+            //     'nett_value'=>'required|array' ,
+            //     'nett_value.*'=>'required',
+            // ];
+            // if($considerNozzle){
+            //     $rules = array_merge($rules, [
+            //         'opening'=>'required|array',
+            //         'opening.*'=>'required',
+            //         'test_volume'=>'required|array',
+            //         'test_volume.*'=>'required',
+            //         'closing'=>'required|array',
+            //         'closing.*'=>'required',
+            //     ]);
+            // }
+
 
             // Append dynamic data from the form values
-            values.data.forEach(tank => {
-                tank.nozzles.forEach(nozzle => {
-                    if (nozzle.update_sales_volume) {
-                        formData.append(`sales_volume[${nozzle.id}]`, nozzle.sales_volume.toString());
-                    }
-                    if (nozzle.update_gross_value) {
-                        formData.append(`gross_value[${nozzle.id}]`, nozzle.gross_value.toString());
-                    }
-                    if (nozzle.update_nett_value) {
-                        formData.append(`nett_value[${nozzle.id}]`, nozzle.nett_value.toString());
-                    }
-                    if (nozzle.update_discount) {
-                        formData.append(`discount[${nozzle.id}]`, nozzle.discount.toString());
-                    }
-                    if (nozzle.update_opening) {
-                        formData.append(`opening[${nozzle.id}]`, nozzle.opening.toString());
-                    }
-                    if (nozzle.update_closing) {
-                        formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
-                    }
+
+
+            console.log(values.data, " values.data");
+
+            values?.data.forEach(tank => {
+                tank?.nozzles?.forEach(nozzle => {
+
+                    formData.append(`sales_volume[${nozzle.id}]`, nozzle.sales_volume.toString());
+
+
+
+                    formData.append(`gross_value[${nozzle.id}]`, nozzle.gross_value.toString());
+
+
+                    formData.append(`discount[${nozzle.id}]`, nozzle.discount.toString());
+
+
+                    formData.append(`nett_value[${nozzle.id}]`, nozzle.nett_value.toString());
+
+
+                    formData.append(`opening[${nozzle.id}]`, nozzle.opening.toString());
+
+
+                    formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
+
+
+
+                    formData.append(`test_volume[${nozzle.id}]`, nozzle.test_volume.toString());
+
+
+
+
+
+
                 });
             });
+
+            // values.data.forEach(tank => {
+            //     tank.nozzles.forEach(nozzle => {
+            //         if (nozzle?.sales_volume) {
+            //             formData.append(`sales_volume[${nozzle.id}]`, nozzle.sales_volume.toString());
+            //         }
+
+            //         if (nozzle.gross_value) {
+            //             formData.append(`gross_value[${nozzle.id}]`, nozzle.gross_value.toString());
+            //         }
+            //         if (nozzle.discount) {
+            //             formData.append(`discount[${nozzle.id}]`, nozzle.discount.toString());
+            //         }
+            //         if (nozzle.nett_value) {
+            //             formData.append(`nett_value[${nozzle.id}]`, nozzle.nett_value.toString());
+            //         }
+            //         if (nozzle.opening) {
+            //             formData.append(`opening[${nozzle.id}]`, nozzle.opening.toString());
+            //         }
+            //         if (nozzle.closing) {
+            //             formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
+            //         }
+
+            //         if (nozzle.test_volume) {
+            //             formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
+            //         }
+
+
+
+
+
+            //     });
+            // });
 
 
             const url = `data-entry/fuel-sale/update`;

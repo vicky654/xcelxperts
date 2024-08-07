@@ -376,11 +376,12 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     };
 
     const handleDownloadPdf = async (
+        
     ) => {
         try {
             // Fetch data from the API
             const response = await getData(
-                `/credit-user/history-download?drs_date=${selectedMonth}&credit_user_id=${id}`
+                `/credit-user/history-download?drs_date=${selectedYear}-${selectedMonth}-01&credit_user_id=${id}`
             );
             if (response && response.data?.data) {
 

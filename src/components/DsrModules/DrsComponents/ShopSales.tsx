@@ -120,18 +120,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         // Update the field value in the form values
         setFieldValue(`data[${index}].${field}`, numericValue);
         if (field == 'opening' || field === 'sale' || field === 'sale_price') {
-            // const opening = values.data[index].opening ;
-            // const sale = values.data[index].sale ;
-            // const salePrice = values.data[index].sale_price ;
-            // console.log(opening, sale, salePrice, "opening");
+     
 
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const sale = field === 'sale' ? numericValue : values.data[index].sale;
             const salePrice = field === 'sale_price' ? numericValue : values.data[index].sale_price;
-            console.log(opening, "opening");
-            console.log(sale, "sale");
+     
             const closing = opening - sale;
-            console.log(closing, "closing");
+       
             setFieldValue(`data[${index}].closing`, closing);
 
 
@@ -162,16 +158,17 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].purchage_price`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='Value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_purchage_price ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_purchage_price ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_purchage_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'purchage_price', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].purchage_price`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                             
                             </div>
                         )}
                     </Field>
@@ -183,16 +180,17 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='Value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                           
                             </div>
                         )}
                     </Field>
@@ -205,16 +203,17 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='Value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_sale ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sale ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].sale`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                             
                             </div>
                         )}
                     </Field>
@@ -226,16 +225,17 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].closing`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='Value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_closing}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'closing', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].closing`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                             
                             </div>
                         )}
                     </Field>
@@ -247,16 +247,18 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_price`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='Value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_sale_price ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sale_price ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_price', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].sale_price`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                              
+                             
                             </div>
                         )}
                     </Field>
@@ -269,16 +271,18 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_amount`}>
-                        {({ field, form: { setFieldValue, values } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
+                                    placeholder='Value'
                                     {...field}
-                                    className={`form-input workflorform-input ${!row.update_sale_amount ? 'readonly' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_sale_amount ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale_amount}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_amount', e.target.value, row)}
                                 />
-                                <ErrorMessage name={`data[${index}].sale_amount`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                               
+                               
                             </div>
                         )}
                     </Field>

@@ -198,25 +198,15 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 </OverlayTrigger>
                             
                             </span> )}
-                   
-                    </h1>
-                     
-                    {/* {isdownloadpdf  && (
-                    <button
-                        className='btn btn-primary'
-                        onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}
-                    >
-                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>   )} */}
-                </div>
-                    <div className=' mt-4 text-end'>
                       
-                 
-                       
-                        {iseditable ? (
-                            <button className='btn btn-primary mb-3' onClick={addRow}>Add</button>
+                    </h1>
+                    {iseditable ? (
+                            <button className='btn btn-primary mb-3' onClick={addRow}>Add Credit Sale</button>
                         ) : null}
-                    </div>
+                     
+                
+                </div>
+                  
                     <form onSubmit={formik.handleSubmit}>
                         <div className="flex flex-wrap gap-4">
                             {formik.values.services.map((service: any, index: any) => (

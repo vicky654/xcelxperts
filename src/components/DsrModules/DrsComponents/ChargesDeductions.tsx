@@ -147,6 +147,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             cell: (row) => (
                 <Form.Control
                     type="text"
+                      placeholder='Amount'
                     value={row.amount}
                     className={`form-input workflorform-input ${row.update_amount ? '' : 'readonly'}`}
                     onChange={(e) => handleAmountChange(e.target.value, row)}

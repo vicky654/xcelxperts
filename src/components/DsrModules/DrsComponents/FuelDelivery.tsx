@@ -231,7 +231,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].book_stock`}>
-                        {({ field }: FieldProps<any>) => (
+                    {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -240,7 +240,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     className="form-input workflorform-input readonly"
                                     readOnly
                                 />
-                                <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                                {/* <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
                             </div>
                         )}
                     </Field>
@@ -283,7 +283,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     className="form-input workflorform-input readonly"
                                     readOnly
                                 />
-                                <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
+                                {/* <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
                             </div>
                         )}
                     </Field>

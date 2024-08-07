@@ -490,12 +490,34 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 </div>
             )}
             {/* End Add Bank Deposited */}
+
+            {loading ? (
+                <>
+                    {LoaderImg}
+                </>
+            ) : (
+                cashBankingData?.length === 0 ? (
+                    <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="all-center-flex nodata-image"
+                    />
+                ) : (
+
+                    <DataTable
+                        columns={columns}
+                        data={cashBankingData}
+                    // pagination
+                    />
+                )
+            )}
             {!selectedCashBanking && isEditable && (
-
-
                 <div className="col-span-12 p-6 bg-white border rounded-lg shadow-lg">
                     <div className="p-4">
-                        <h2 className="text-xl font-bold mb-4">Receipts Preview</h2>
+                        {receipts && receipts.length > 0 && (
+                            <h2 className="text-xl font-bold mb-4">Receipts Preview</h2>
+                        )}
+
                         <div className="grid grid-cols-12 gap-4">
                             {receipts?.map((receipt: any) => (
                                 <div key={receipt.id} className="relative border rounded-lg overflow-hidden shadow-lg col-span-3">
@@ -511,9 +533,9 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         <i style={{ color: "#fff" }} className="fi fi-tr-square-x"></i>
                                     </button>
                                     {/* <div className="p-4">
-                                        <h3 className="text-lg font-semibold">Receipt ID: {receipt.id}</h3>
-                                        <p className="text-gray-600">Created Date: {receipt.created_date}</p>
-                                    </div> */}
+                        <h3 className="text-lg font-semibold">Receipt ID: {receipt.id}</h3>
+                        <p className="text-gray-600">Created Date: {receipt.created_date}</p>
+                    </div> */}
                                 </div>
                             ))}
                         </div>
@@ -767,26 +789,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         </div>
                     </form>
                 </div>
-            )}
-            {loading ? (
-                <>
-                    {LoaderImg}
-                </>
-            ) : (
-                cashBankingData?.length === 0 ? (
-                    <img
-                        src={noDataImage} // Use the imported image directly as the source
-                        alt="no data found"
-                        className="all-center-flex nodata-image"
-                    />
-                ) : (
-
-                    <DataTable
-                        columns={columns}
-                        data={cashBankingData}
-                    // pagination
-                    />
-                )
             )}
 
         </div>
