@@ -6,6 +6,8 @@ export interface CommonDataEntryProps {
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
     applyFilters: (values: any) => Promise<void>;
+    onDeleteSuccess?: () => void; // Optional function prop
+
 }
 
 export interface DataProps {

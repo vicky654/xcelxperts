@@ -767,3 +767,11 @@ body {
 .errorborder{
     border: 3px solid #a00000;
 }
+.boxcenter{
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+}

@@ -9,7 +9,6 @@ import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import FuelSales from './DrsComponents/FuelSales';
-import FuelInventory from './DrsComponents/FuelInventory';
 import FuelDelivery from './DrsComponents/FuelDelivery';
 import ShopSales from './DrsComponents/ShopSales';
 import ChargesDeductions from './DrsComponents/ChargesDeductions';
@@ -18,8 +17,6 @@ import Payment from './DrsComponents/Payment';
 import CashBanking from './DrsComponents/CashBanking';
 import Summary from './DrsComponents/Summary';
 import { languageContent } from '../../utils/Languages/LanguageTextComponent';
-import DataEntryStats from './DashDataEntryStats';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { IRootState } from '../../store';
 import useCustomDelete from '../../utils/customDelete';
 
@@ -97,6 +94,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       getData: (url: string) => Promise<any>;
       postData: (url: string, body: any) => Promise<any>;
       applyFilters: (values: any) => Promise<void>;
+   
     }>
   } = {
     'Fuel Sales': FuelSales,
@@ -107,56 +105,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Digital Receipt': Payment,
     'Bank Deposited': CashBanking,
     'Summary': Summary,
-
-  //   [
-  //     {
-  //         "id": "Q0hXRGNkeTllN1JSVWg1NFdDNjJodz09",
-  //         "name": "Fuel Sales",
-  //         "bgColor": "red"
-  //     },
-  //     {
-  //         "id": "YzhQcFZPRzJGcjJKQTdNV3Q0YWJQQT09",
-  //         "name": "Fuel Stock",
-  //         "bgColor": "green"
-  //     },
-  //     {
-  //         "id": "QlRmOW5tN3BENGp2UnlrbStQT3VKUT09",
-  //         "name": "Lubes Sales",
-  //         "bgColor": "green"
-  //     },
-  //     {
-  //         "id": "czVCcWxGbjZ6dFQzMGx1Q2RpZUlzZz09",
-  //         "name": "Extra Extra Income & Expenses",
-  //         "bgColor": "red"
-  //     },
-  //     {
-  //         "id": "Y1BYWW83YmxDSWhYNkNXQ0lwZFJRUT09",
-  //         "name": "Credit Sales",
-  //         "bgColor": "green"
-  //     },
-  //     {
-  //         "id": "WmFLUWpCN2YrYnNpYVh3SkI0cDJ0UT09",
-  //         "name": "Digital Receipt",
-  //         "bgColor": "red"
-  //     },
-  //     {
-  //         "id": "RlI4SisyaWlNaExQV3ZSYVoyOGFYUT09",
-  //         "name": "Bank Deposited",
-  //         "bgColor": "green"
-  //     },
-  //     {
-  //         "id": "NVRhbmxRMFhiZkRQaGVSSUpUaFRkdz09",
-  //         "name": "Summary",
-  //         "bgColor": "red"
-  //     }
-  // ]
-
-
-    // 'Shop Sales': ShopSales,
-
-
-
-
 
 
   };
@@ -233,6 +181,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       };
       handleApplyFilters(values);
     }
+
   };
 
 

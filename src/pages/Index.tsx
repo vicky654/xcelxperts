@@ -645,25 +645,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg">Revenue</h5>
-                                {/* <div className="dropdown">
-                                    <Dropdown
-                                        offset={[0, 1]}
-                                        placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                        button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}
-                                    >
-                                        <ul>
-                                            <li>
-                                                <button type="button">Weekly</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Monthly</button>
-                                            </li>
-                                            <li>
-                                                <button type="button">Yearly</button>
-                                            </li>
-                                        </ul>
-                                    </Dropdown>
-                                </div> */}
                             </div>
                          
                             <div className="relative">
@@ -683,18 +664,19 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                         </div>
 
-                        <div className="panel h-full">
-                            <div className="flex items-center mb-5">
+                        <div className="panel h-full xl:col-span-1 ">
+                        <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Sales By Category</h5>
                             </div>
-                            <div>
+                         
+                            <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {!filterData?.pi_graph?.labels ? (
+                                {!filterData?.pi_graph?.labels ? (
                                        <div className="flex justify-center items-center h-full p-4">
                                        <img
                                            src={noDataImage} // Use the imported image directly as the source
                                            alt="No data found"
-                                           className="w-1/2 max-w-xs" // Adjust the width as needed
+                                           className="w-full max-w-xs" // Adjust the width as needed
                                        />
                                    </div>
                                     ) : (
@@ -702,6 +684,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                     )}
                                 </div>
                             </div>
+                         
                         </div>
                     </div>
 
@@ -709,9 +692,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         filters?.site_id ? <div className="grid grid-cols-12 gap-2 mb-6">
                             <div className="col-span-2 w-full">
                                 <div className="panel h-full  w-full">
-                                    <div className="flex items-center justify-between dark:text-white-light mb-5  w-full">
-                                        <h5 className="font-semibold text-lg">Forecasting  </h5>
-
+                                
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-semibold text-lg">Forecasting</h5>
+                                
                                     </div>
                                     <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
                                         <div className="buttons-container  w-full">
@@ -728,11 +712,11 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                                     </button>
                                                 ))
                                             ) : (
-                                                <div className="flex justify-center items-center h-full p-4">
+                                                <div className="flex justify-center items-center h-full mt-10 p-4">
                                                     <img
                                                         src={noDataImage} // Use the imported image directly as the source
                                                         alt="No data found"
-                                                        className="w-1/2 max-w-xs" // Adjust the width as needed
+                                                        className="w-full  max-w-xs" // Adjust the width as needed
                                                     />
                                                 </div>
                                             )}
@@ -786,7 +770,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                                     <img
                                                         src={noDataImage} // Use the imported image directly as the source
                                                         alt="No data found"
-                                                        className="w-1/2 max-w-xs" // Adjust the width as needed
+                                                        className="w-full  max-w-xs" // Adjust the width as needed
                                                     />
                                                 </div>
                                             )}
