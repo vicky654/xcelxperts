@@ -63,21 +63,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const [date3, setDate3] = useState<[Date, Date] | []>([]);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     // Adjust the type of the parameter to match what Flatpickr sends
-    const handleDateChange = (dates: Date[]) => {
-        if (dates.length === 2) {
-            setDate3(dates as [Date, Date]);
-            console.log('Selected Dates:', dates);
-        } else {
-            setDate3([]);
-            console.log('No date range selected');
-        }
-    };
-
-    console.log('Selected Datess:', date3);
-    const clearDates = () => {
-        setDate3([]);
-    };
-
+  
 
     // useEffect(() => {
     //     fetchData();
@@ -336,10 +322,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             const response = await getData(apiUrl);
 
             if (response && response.data && response.data.data) {
-                console.log(
-                    response.data.data?.history?.lastPage,
-                    "response.data.data?.lastPage"
-                );
+         
                 setData(response.data.data?.history?.listing);
                 setCurrentPage(response.data.data?.history?.currentPage || 1);
                 setLastPage(response.data.data?.history?.lastPage || 1);
@@ -357,23 +340,20 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
     // Handle month and year change from the child
     const handleMonthYearChange = (month: string, year: string) => {
-        // Check if month or year is empty, set state accordingly
-        if (!month || !year) {
-            setSelectedMonth("");
-            setSelectedYear("");
-            GetUserList(id);
-        } else {
+        console.log("Month:", month, "Year:", year, "handleMonthYearChange");
+    
+        if (month && year) {
             setSelectedMonth(month);
             setSelectedYear(year);
-            GetUserList(id, month, year);
+            GetUserList(id, month, year); // Fetch with both month and year
+        } else if (!month) {
+            setSelectedMonth(month);
+            setSelectedYear(year);
+            GetUserList(id); // Fetch with both month and year
         }
-
-        // Call GetUserList with month and year
-
-
-        // Logging
-        console.log(month, "month");
     };
+    
+    console.log(selectedMonth, "selectedMonth");
 
     const handleDownloadPdf = async (
         
@@ -395,7 +375,6 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             handleApiError(error);
         }
     };
-
     return (
         <>
             {isLoading && <LoaderImg />}

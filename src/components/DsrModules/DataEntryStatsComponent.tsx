@@ -160,7 +160,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     }
   }, [cards]);
   const handleTabClick = async (tabName: string) => {
-    console.log(tabName, "tabName");
+    
     try {
       const key = tabKeyMap[tabName];
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
@@ -227,7 +227,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
     // If the accordion is being opened, make the API call
     if (!isCurrentlyActive) {
-      console.log(selectedTab, "selectedTab");
+   
       if (selectedTab === 'Expenses') {
         // Pass deductions if selectedTab is Expenses
         await GetSubData(date, "deductions");

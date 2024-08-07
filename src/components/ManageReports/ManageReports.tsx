@@ -98,7 +98,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, "handleFormSubmit");
+        
 
             // http://192.168.1.112:4013/pro/v1/report/msr?station_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09&from_date=2024-07-01&to_date=2024-07-17
 
@@ -113,14 +113,14 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             // const url = userId ? `/station/update` : `/station/create`;
             const isSuccess = await getData(commonParams);
             if (isSuccess) {
-                console.log(isSuccess, "isSuccess");
+               
                 // window.open(isSuccess?.data, '_blank');
                 setReportUrl(commonParams)
 
 
                 const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
                 // const  baseURL: import.meta.env.VITE_API_URL,
-                console.log(baseUrl, "baseUrl");
+               
                 if (commonParams) {
                     const fullReportUrl = `${baseUrl}/${commonParams}`;
                     window.open(fullReportUrl, "_blank", "noopener noreferrer");
@@ -174,7 +174,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         validationSchema: ReportsValidationSchema(toggle),
         onSubmit: async (values, { resetForm }) => {
             handleFormSubmit(values);
-            console.log(values, "values");
+            
 
         },
     });
@@ -294,7 +294,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleClick = () => {
         const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
         // const  baseURL: import.meta.env.VITE_API_URL,
-        console.log(baseUrl, "baseUrl");
+       
         if (ReportUrl) {
             const fullReportUrl = `${baseUrl}/${ReportUrl}`;
             window.open(fullReportUrl, "_blank", "noopener noreferrer");

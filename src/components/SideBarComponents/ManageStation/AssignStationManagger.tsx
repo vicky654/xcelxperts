@@ -215,7 +215,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            console.log(values, "values");
+            
 
             // Extract skip_date from values?.selectedStations and check if it's not empty
 

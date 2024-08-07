@@ -93,13 +93,13 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
     useEffect(() => {
         if (showClientInput) fetchClientList();
         const storedDataString = localStorage.getItem(storedKeyName);
-        console.log(storedDataString, "fetchClientList");
+
 
         if (storedDataString) {
             try {
                 // Parse the JSON string to get the stored data
                 const storedData = JSON.parse(storedDataString);
-                console.log(storedData, "useEffect");
+          
 
                 // Check for the existence of `start_month` or other necessary properties
                 if (storedData.client_id && storedData.site_id && storedData.company_id && storedData.start_month) {

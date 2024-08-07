@@ -98,14 +98,13 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         if (sales_volume) {
             const grossvalue = sales_volume * fuel_price;
         }
-        console.log(testvolume, "testvolume");
+      
         const salesvolume = closing - opening - testvolume;
         const gross_value = salesvolume * fuel_price;
         const nettvalue = gross_value - discount;
 
 
-        console.log(grossvalue, "gross_value");
-        console.log(discount, "discount");
+ 
 
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].gross_value`, gross_value);
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].sales_volume`, salesvolume);
@@ -314,7 +313,6 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             // Append dynamic data from the form values
 
 
-            console.log(values.data, " values.data");
 
             values?.data.forEach(tank => {
                 tank?.nozzles?.forEach(nozzle => {

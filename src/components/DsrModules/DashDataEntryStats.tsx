@@ -98,11 +98,9 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   const storedKeyName = "stationTank";
   const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
   const id = useParams()
-  console.log(DashboardstoredKeyName, "DashboardstoredKeyName");
   useEffect(() => {
     const storedDataString = localStorage.getItem(DashboardstoredKeyName);
     
-    console.log(id, "storedDataString");
 
     if (storedDataString) {
       try {
@@ -183,7 +181,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     }
   }, [cards]);
   const handleTabClick = async (tabName: string) => {
-    console.log(tabName, "tabName");
+    
     try {
       const key = tabKeyMap[tabName];
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
@@ -205,7 +203,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
   const handleApplyFilters = async (values: any) => {
-    console.log(values, "values");
+    
 
     try {
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
@@ -252,7 +250,6 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
     // If the accordion is being opened, make the API call
     if (!isCurrentlyActive) {
-      console.log(selectedTab, "selectedTab");
       if (selectedTab === 'Expenses') {
         // Pass deductions if selectedTab is Expenses
         await GetSubData(date, "deductions");
@@ -342,7 +339,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     graphsetSelectedTab(tabName);
   };
 
-  console.log(tabData, "tabData");
+
 
   return <>
     {isLoading && <LoaderImg />}

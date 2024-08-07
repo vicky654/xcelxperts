@@ -214,7 +214,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     ];
 
     const characterLimit = 20; // Set the character limit for the tooltip
-    console.log(data, "data");
+  
     return (
         <>
             {isLoading && <LoaderImg />}

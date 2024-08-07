@@ -267,7 +267,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
     const fetchFuelNameList = async (siteId: string) => {
         try {
             const response = await getData(`getTanks?station_id=${siteId}`);
-            console.log(response.data.data, "response.data.data");
+           
 
             formik.setFieldValue('tankList', response?.data);
         } catch (error) {
