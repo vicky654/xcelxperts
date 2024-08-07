@@ -140,11 +140,12 @@ import SkipDate from '../components/SideBarComponents/ManageStation/SkipDateStat
 import AssignStationManagger from '../components/SideBarComponents/ManageStation/AssignStationManagger';
 import ManageCreditUserHistory from '../components/CreditUser/ManageCreditUserHistory';
 import BlankLayout from '../components/Layouts/BlankLayout';
+import AuthenticationCheck from '../components/Layouts/AuthenticationCheck';
 
 const routes = [
   {
     path: '/',
-    element: <BlankLayout />,
+    element: <AuthenticationCheck />,
   },
   {
     path: '/dashboard',
