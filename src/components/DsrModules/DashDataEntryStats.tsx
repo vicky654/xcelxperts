@@ -153,6 +153,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
   const staticTabs = [
     'Variance Accumulation',
+    'Fuel Variance',
     'Fuel Sales',
     'Lube Sales',
     'Incomes',
@@ -165,6 +166,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   ];
   const tabKeyMap: { [key: string]: string } = {
     'Variance Accumulation': 'variance-accumulation',
+    'Fuel Variance': 'fuel-variance',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
@@ -446,9 +448,15 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
     </div>
     <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
+      {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
+      <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
+                      {selectedTab !== 'Fuel Variance' && currency} {tabData?.currentMonth}
+                    </div>
       {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
       <div
+
+
+
         className={`badge bg-white`}
       >
 
@@ -486,7 +494,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
       <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
     </div>
     <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
+      <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {selectedTab !== 'Fuel Variance' && currency} {tabData?.prevMonth}</div>
 
     </div>
 
@@ -567,6 +575,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                   <ul className="divide-y divide-gray-200">
                     {tabData?.listing?.map((item, index) => (
                       <CollapsibleItem
+                      selectedTab={selectedTab}
                         key={index}
                         id={`${currency}-${index}`}
                         title={item?.date}
@@ -621,12 +630,13 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                           <ul className="divide-y divide-gray-200 w-full">
                             <li className="flex justify-between p-2 bg-gray-200">
                               <p className="font-semibold w-1/2">Name</p>
-                              <p className="font-semibold w-1/2">Amount</p>
+                              <p className="font-semibold w-1/2">  {selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
                             </li>
                             {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                               <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                 <p className="w-1/2">{subItem?.name}</p>
-                                <p className="w-1/2">{currency} {subItem?.amount}</p>
+                                <p className="w-1/2"> {selectedTab !== 'Fuel Variance' && currency}  {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}
+                                </p>
                               </li>
                             ))}
                           </ul>

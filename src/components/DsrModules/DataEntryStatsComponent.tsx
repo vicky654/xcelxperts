@@ -110,16 +110,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
-    
+
 
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
-        
+
 
         // Check for the existence of `start_month` or other necessary properties
         if (storedData.start_month) {
-         
+
           handleApplyFilters(storedData);
         }
       } catch (error) {
@@ -132,6 +132,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const staticTabs = [
     'Variance Accumulation',
+    'Fuel Variance',
     'Fuel Sales',
     'Lube Sales',
     'Incomes',
@@ -144,6 +145,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   ];
   const tabKeyMap: { [key: string]: string } = {
     'Variance Accumulation': 'variance-accumulation',
+    'Fuel Variance': 'fuel-variance',
     'Fuel Sales': 'fuel-sales',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
@@ -160,7 +162,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     }
   }, [cards]);
   const handleTabClick = async (tabName: string) => {
-    
+
     try {
       const key = tabKeyMap[tabName];
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
@@ -227,7 +229,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
     // If the accordion is being opened, make the API call
     if (!isCurrentlyActive) {
-   
+
       if (selectedTab === 'Expenses') {
         // Pass deductions if selectedTab is Expenses
         await GetSubData(date, "deductions");
@@ -363,8 +365,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
-
-
             <hr></hr>
           </div>
           <div>
@@ -400,65 +400,70 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           <div className="p-2" style={{ padding: "10px" }}>
 
 
-          
-{stationId && selectedTab !== 'Variance Accumulation' && (
 
-<div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
-  <div className=" p-3  firstbox ">
-    <div className="flex justify-between">
-      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
+            {stationId && selectedTab !== 'Variance Accumulation' && (
 
-    </div>
-    <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div>
-      {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
-      <div
-        className={`badge bg-white`}
-      >
+              <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
+                <div className=" p-3  firstbox ">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 
-        <div className="flex items-center space-x-1">
-          {tabData.symbol === 'UP' ? (
-            <i style={{color:"#37a40a"}} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-          ) : tabData.symbol === 'DOWN' ? (
-            <i style={{color:"red"}} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-          ) : null}
-          <span
-            className="font-semibold"
-            style={{
-              color:
-                tabData.symbol === 'UP'
-                  ? '#37a40a'   // Color for 'up'
-                  : tabData.symbol === 'DOWN'
-                    ? 'red'      // Color for 'down'
-                    : '#000'     // Default color
-            }}
-          >
-            {tabData?.profit}%
-          </span>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
 
-        </div>
+                    <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
+                      {selectedTab !== 'Fuel Variance' && currency} {tabData?.currentMonth}
+                    </div>
+
+                    {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
+                    <div
+                      className={`badge bg-white`}
+                    >
+
+                      <div className="flex items-center space-x-1">
+                        {tabData.symbol === 'UP' ? (
+                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.symbol === 'DOWN' ? (
+                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span
+                          className="font-semibold"
+                          style={{
+                            color:
+                              tabData.symbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.symbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
+                          }}
+                        >
+                          {tabData?.profit}%
+                        </span>
+
+                      </div>
 
 
 
-      </div>
+                    </div>
 
-    </div>
+                  </div>
 
-  </div>
-  <div className=" p-3  ms-2 firstbox ">
-    <div className="flex justify-between">
-      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
-    </div>
-    <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.prevMonth} </div>
+                </div>
+                <div className=" p-3  ms-2 firstbox ">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {selectedTab !== 'Fuel Variance' && currency} {tabData?.prevMonth} </div>
 
-    </div>
+                  </div>
 
-  </div>
-</div>
-)
+                </div>
+              </div>
+            )
 
-}
+            }
             <div className="mt-3">
 
               {stationId && selectedTab === 'Variance Accumulation' ? (
@@ -533,7 +538,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                         key={index}
                         id={`${currency}-${index}`}
                         title={item?.date}
+                        selectedTab={selectedTab}
                         subtitle={item?.amount}
+
                         isActive={activeAccordion === `${currency}-${index}`}
                         onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                       >
@@ -584,12 +591,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <ul className="divide-y divide-gray-200 w-full">
                             <li className="flex justify-between p-2 bg-gray-200">
                               <p className="font-semibold w-1/2">Name</p>
-                              <p className="font-semibold w-1/2">Amount</p>
+                              <p className="font-semibold w-1/2">  {selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
                             </li>
                             {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                               <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                 <p className="w-1/2">{subItem?.name}</p>
-                                <p className="w-1/2">{currency} {subItem?.amount}</p>
+                                <p className="w-1/2"> {selectedTab !== 'Fuel Variance' && currency}  {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}
+                                </p>
                               </li>
                             ))}
                           </ul>
