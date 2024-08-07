@@ -322,7 +322,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     };
 
     const onDownload = (item: any) => {
-        saveAs(item.receipt, `receipt_${item.id}.png`);
+        saveAs(item?.receipt, `receipt_${item?.id}.png`);
     
       };
     
