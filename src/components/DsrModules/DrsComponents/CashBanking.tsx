@@ -14,6 +14,8 @@ import LoaderImg from '../../../utils/Loader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { saveAs } from "file-saver";
+
 interface CashBankingItem {
     id: string;
     reference: string;
@@ -47,7 +49,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             const response = await getData(`/station/bank/list?drs_date=${startDate}&station_id=${stationId}`);
 
             if (response && response.data && response.data.data) {
-                console.log(response.data, "response.data");
+             
 
                 setRoleList(response.data.data);
             } else {
@@ -298,7 +300,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         Invoiceformik.setFieldValue(fileFieldName, file);
     };
 
-    console.log(Invoiceformik.values.file1, "Invoiceformik.values.file1");
     const renderFileDetails = (file: any) => {
         if (!file) return null;
 
@@ -314,11 +315,17 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     //     console.log(item, "onRemove");
     //    };
     const onRemove = (item: any) => {
-        console.log(item, "columnIndex");
+      
         const formData = new FormData();
         formData.append('id', item);
         customDelete(postData, 'data-entry/receipt/delete', formData, handleSuccess);
     };
+
+    const onDownload = (item: any) => {
+        saveAs(item.receipt, `receipt_${item.id}.png`);
+    
+      };
+    
     return (
         <div >
 
@@ -532,10 +539,13 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     >
                                         <i style={{ color: "#fff" }} className="fi fi-tr-square-x"></i>
                                     </button>
-                                    {/* <div className="p-4">
-                        <h3 className="text-lg font-semibold">Receipt ID: {receipt.id}</h3>
-                        <p className="text-gray-600">Created Date: {receipt.created_date}</p>
-                    </div> */}
+                                    <button
+                                        onClick={() => onDownload(receipt)} // Handle removal on click
+                                        className="  absolute top-10 right-2 bg-info p-1 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
+                                    >
+                                        <i style={{ color: "#fff" }} className="fi fi-tr-cloud-download-alt"></i>
+                                    </button>
+
                                 </div>
                             ))}
                         </div>
