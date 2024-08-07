@@ -136,11 +136,14 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       handleApiError(error);
     }
   };
-
-  const capitalizeFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1).replace(/_/g, ' ');
+  const capitalizeFirstLetter = (string: string): string => {
+    return string
+      .replace(/_/g, ' ') // Replace underscores with spaces
+      .split(/\s+/) // Split the string into words by any whitespace characters
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(' '); // Join the words back together with a space
   };
-
+  
 
   return (
     <>
