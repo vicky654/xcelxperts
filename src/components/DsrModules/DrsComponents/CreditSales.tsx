@@ -88,7 +88,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         validationSchema,
         onSubmit: (values) => {
             handleFormSubmit(values);
-          
+
         },
     });
 
@@ -183,31 +183,27 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     return (
         <>
-            {isLoading ? (
-                <>
-                    {LoaderImg}
-                </>
-            ) : (
-                <div>
-                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {isLoading && <LoaderImg />}
+            <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4">
                         {`Credit Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}>
-                            
-                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                                </OverlayTrigger>
-                            
-                            </span> )}
-                      
+
+                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                            </OverlayTrigger>
+
+                        </span>)}
+
                     </h1>
                     {iseditable ? (
-                            <button className='btn btn-primary mb-3' onClick={addRow}>Add Credit Sale</button>
-                        ) : null}
-                     
-                
+                        <button className='btn btn-primary mb-3' onClick={addRow}>Add Credit Sale</button>
+                    ) : null}
+
+
                 </div>
-                  
-                    <form onSubmit={formik.handleSubmit}>
+                {
+                    formik.values.services.length > 0 ? <form onSubmit={formik.handleSubmit}>
                         <div className="flex flex-wrap gap-4">
                             {formik.values.services.map((service: any, index: any) => (
                                 <div key={index} className="w-full flex flex-wrap items-center p-4 border border-gray-200 rounded-md gap-4">
@@ -225,8 +221,8 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             disabled={!iseditable}
                                             className={`form-input form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
 
-                                       
-                                       >
+
+                                        >
                                             <option value="">Select User</option>
                                             {commonListData?.users?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.name}</option>
@@ -252,7 +248,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             onBlur={formik.handleBlur}
                                             disabled={!iseditable}
                                             className={`form-input  text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
-                                            >
+                                        >
                                             <option value="">Select Fuel</option>
                                             {commonListData?.fuels?.map((item: any) => (
                                                 <option key={item.id} value={item.id}>{item.sub_category_name} ({currency}{item.price})</option>
@@ -301,7 +297,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             value={formik.values.services[index].amount}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                             placeholder='Amount'
+                                            placeholder='Amount'
                                             disabled
                                             readOnly
                                             className="readonly form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -327,21 +323,23 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 Total Amount: {currency} {totalAmount.toFixed(2)}
                             </div>
                         </div>
-                        {iseditable && formik.values.services.length> 0  &&(
+                        {iseditable && formik.values.services.length > 0 && (
                             <div className="mt-6">
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </div>
                         )}
-                    </form>
-                    {!isLoading && commonListData?.listing?.length === 0 && (
-                         <img
-                         src={noDataImage} // Use the imported image directly as the source
-                         alt="no data found"
-                         className="all-center-flex nodata-image"
-                     />
-                    )}
-                </div>
-            )}
+                    </form> : <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="all-center-flex nodata-image"
+                    />
+
+                }
+
+
+            </div>
+
+
         </>
     );
 };
