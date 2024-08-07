@@ -10,6 +10,7 @@ import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import useCustomDelete from '../../../utils/customDelete';
 
 interface Service {
     credit_user_id: string;
@@ -123,6 +124,11 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             handleApiError(error);
         }
     };
+    const handleSuccess = () => {
+        if (stationId && startDate) {
+            handleApplyFilters(stationId, startDate);
+        }
+    }
 
     const addRow = () => {
         const services = [...formik.values.services];
@@ -134,12 +140,47 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         });
         formik.setFieldValue('services', services);
     };
+    const { customDelete } = useCustomDelete();
+    const handleDelete = (id: any) => {
+        const formData = new FormData();
+        if (stationId && startDate) {
+            // formData.append('station_id', stationId);
+            // formData.append('drs_date', startDate);
+            formData.append('id', id);
+        }
+        customDelete(postData, 'data-entry/credit-sale/delete', formData, handleSuccess);
+    };
 
     const removeRow = (index: number) => {
+        console.log(index, "index");
         const services = [...formik.values.services];
-        services.splice(index, 1);
-        formik.setFieldValue('services', services);
+        console.log(services, "services");
+
+        // Check if index is within bounds
+        if (index >= 0 && index < services.length) {
+            const serviceToRemove = services[index];
+            const serviceId = serviceToRemove.id; // Assuming 'id' is the property you need
+
+            console.log(serviceId, "serviceId");
+            if (
+                serviceId
+            ) {
+                handleDelete(serviceId)
+                console.log(serviceId, "serviceId");
+            } else {
+                // Optionally remove the item from the array
+                services.splice(index, 1);
+                // // Update the formik field value
+                formik.setFieldValue('services', services);
+
+            }
+
+
+        } else {
+            console.warn('Index out of bounds');
+        }
     };
+
 
     // Function to calculate the amount
     const calculateAmount = (fuelId: string, quantity: string) => {
@@ -180,6 +221,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     useEffect(() => {
         calculateTotalAmount();
     }, [formik.values.services]);
+
 
     return (
         <>
