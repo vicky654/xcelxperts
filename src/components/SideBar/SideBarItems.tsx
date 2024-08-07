@@ -22,7 +22,7 @@ const menuItems: MenuItem[] = [
         key: 'dashboard',
         title: 'Dashboard',
         icon: "apps",
-        link: '/', // Single link for the dashboard
+        link: '/dashboard', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'dashboard-view', // Permission associated with the dashboard
     },

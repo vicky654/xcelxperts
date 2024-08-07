@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
             <div className="shadow-sm">
                 <div className="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-black">
                     <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2" style={{ background: '#fff', borderRadius: '5px' }}>
-                        <Link to="/" className="main-logo flex items-center shrink-0" style={{ background: '#fff', borderRadius: '5px' }}>
+                        <Link  to="/dashboard"  className="main-logo flex items-center shrink-0" style={{ background: '#fff', borderRadius: '5px' }}>
                             <img
                                 style={{ width: '100%', background: '#fff' }}
                                 className="w-8 ltr:-ml-1 rtl:-mr-1 inline c-brand-img"
@@ -201,7 +201,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                         </button>
                         <ul className="sub-menu">
                             <li>
-                                <NavLink to="/">{t('sales')}</NavLink>
+                                <NavLink  to="/dashboard" >{t('sales')}</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/analytics">{t('analytics')}</NavLink>

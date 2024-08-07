@@ -20,7 +20,7 @@ const ContactUsBoxed = () => {
     const navigate = useNavigate();
 
     const submitForm = () => {
-        navigate('/');
+        navigate('/dashboard');
     };
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);

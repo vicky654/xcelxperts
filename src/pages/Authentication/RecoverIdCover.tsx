@@ -104,7 +104,7 @@ const RecoverIdCover = () => {
                     <div  className="relative hidden w-full items-center justify-center bg-[linear-gradient(18deg,rgba(8,70,154,1)_0%,rgba(54,116,200,1)_62%,rgba(121,178,255,1)_100%)] p-5 lg:inline-flex lg:max-w-[835px] xl:-ms-28 ltr:xl:skew-x-[14deg] rtl:xl:skew-x-[-14deg]"><div className="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"></div>
                             <div className="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"></div>
                             <div className="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-                                <Link to="/" className="w-48 block lg:w-60 ms-10" style={{background:"#fff",borderRadius:"5px"}}>
+                                <Link  to="/dashboard"  className="w-48 block lg:w-60 ms-10" style={{background:"#fff",borderRadius:"5px"}}>
                                     <img src="/assets/images/AuthLogo.png" alt="Logo" className="w-full" />
                                 </Link>
                                 {/* <div className="mt-24 hidden w-full max-w-[430px] lg:block">
@@ -117,7 +117,7 @@ const RecoverIdCover = () => {
                         </div>
                         <div className="relative flex w-full flex-col items-center justify-center gap-2 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
                             {/* <div className="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
-                                <Link to="/" className="w-8 block lg:hidden">
+                                <Link  to="/dashboard"  className="w-8 block lg:hidden">
                                     <img src="/assets/images/logo.svg" alt="Logo" className="mx-auto w-10" />
                                 </Link>
                                 <div className="dropdown ms-auto w-max">

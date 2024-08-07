@@ -216,7 +216,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 <div className='flex justify-between items-center flex-wrap'>
                     <ul className="flex space-x-2 rtl:space-x-reverse my-2">
                         <li>
-                            <Link to="/" className="text-primary hover:underline">
+                            <Link  to="/dashboard"  className="text-primary hover:underline">
                                 Dashboard
                             </Link>
                         </li>

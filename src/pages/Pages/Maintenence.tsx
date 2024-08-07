@@ -30,7 +30,7 @@ const Maintenence = () => {
                             Please visit us again shortly.
                         </p>
                     </div>
-                    <Link to="/" className="btn btn-gradient mx-auto !mt-7 w-max border-0 uppercase shadow-none">
+                    <Link  to="/dashboard"  className="btn btn-gradient mx-auto !mt-7 w-max border-0 uppercase shadow-none">
                         Home
                     </Link>
                 </div>

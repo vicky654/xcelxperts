@@ -139,10 +139,15 @@ import ManageStationBank from '../components/SideBarComponents/ManageStationBank
 import SkipDate from '../components/SideBarComponents/ManageStation/SkipDateStation';
 import AssignStationManagger from '../components/SideBarComponents/ManageStation/AssignStationManagger';
 import ManageCreditUserHistory from '../components/CreditUser/ManageCreditUserHistory';
+import BlankLayout from '../components/Layouts/BlankLayout';
 
 const routes = [
   {
     path: '/',
+    element: <BlankLayout />,
+  },
+  {
+    path: '/dashboard',
     element: <Index />,
   },
   {

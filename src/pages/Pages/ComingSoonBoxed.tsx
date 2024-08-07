@@ -54,7 +54,7 @@ const ComingSoonBoxed = () => {
     const navigate = useNavigate();
 
     const submitForm = () => {
-        navigate('/');
+        navigate('/dashboard');
     };
 
     return (

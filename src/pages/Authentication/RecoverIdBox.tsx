@@ -27,7 +27,7 @@ const RecoverIdBox = () => {
     const [flag, setFlag] = useState(themeConfig.locale);
 
     const submitForm = () => {
-        navigate('/');
+        navigate('/dashboard');
     };
 
     return (

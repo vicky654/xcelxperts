@@ -280,7 +280,7 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link to="/" className="text-primary hover:underline">
+                        <Link  to="/dashboard"  className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>

@@ -54,7 +54,7 @@ const Sidebar = () => {
             >
                 <div className="bg-white dark:bg-black h-full">
                     <div className="flex justify-between items-center px-4 py-3">
-                        <NavLink to="/" className="main-logo flex items-center shrink-0">
+                        <NavLink  to="/dashboard"  className="main-logo flex items-center shrink-0">
                             {/* <img className="w-8 ml-[5px] flex-none" src="/assets/images/logo.svg" alt="logo" /> */}
                             {/* <img
                                 style={{ width: '100%', background: '#fff' }}
@@ -106,7 +106,7 @@ const Sidebar = () => {
                                 <AnimateHeight duration={300} height={currentMenu === 'dashboard' ? 'auto' : 0}>
                                     <ul className="sub-menu text-gray-500">
                                         <li>
-                                            <NavLink to="/">{t('sales')}</NavLink>
+                                            <NavLink  to="/dashboard" >{t('sales')}</NavLink>
                                         </li>
                                         <li>
                                             <NavLink to="/analytics">{t('analytics')}</NavLink>

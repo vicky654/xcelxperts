@@ -135,9 +135,9 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
                 localStorage.setItem('authToken', response.data.data?.token);
                 const actionResult = await dispatch<any>(fetchStoreData());
                 showMessage('Login Successfully');
-                navigate('/');
+                navigate('/dashboard');
                 if (response.data.data?.is_verified === true) {
-                    navigate('/');
+                    navigate('/dashboard');
                 } else if (response.data.data?.is_verified === false) {
                     navigate('/validateOtp');
                 }
@@ -416,7 +416,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link to="/" className="text-primary hover:underline">
+                        <Link  to="/dashboard"  className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>

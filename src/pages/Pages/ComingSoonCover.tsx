@@ -54,7 +54,7 @@ const ComingSoonCover = () => {
     const navigate = useNavigate();
 
     const submitForm = () => {
-        navigate('/');
+        navigate('/dashboard');
     };
 
     return (
@@ -74,7 +74,7 @@ const ComingSoonCover = () => {
                     >
                         <div className="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"></div>
                         <div className="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-                            <Link to="/" className="w-48 block lg:w-72 mx-auto 2xl:m-0">
+                            <Link  to="/dashboard"  className="w-48 block lg:w-72 mx-auto 2xl:m-0">
                                 <img src="/assets/images/auth/logo-white.svg" alt="Logo" className="w-full" />
                             </Link>
                             <div className="mt-24 hidden w-full max-w-[430px] rtl:rotate-y-180 lg:block">
@@ -84,7 +84,7 @@ const ComingSoonCover = () => {
                     </div>
                     <div className="relative w-full px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
                         <div className="mx-auto mt-5 w-full max-w-[550px] lg:mt-16">
-                            <Link to="/" className="mb-8 block lg:hidden">
+                            <Link  to="/dashboard"  className="mb-8 block lg:hidden">
                                 <img src="/assets/images/logo.svg" alt="Logo" className="mx-auto w-10" />
                             </Link>
                             <div className="mb-12">
