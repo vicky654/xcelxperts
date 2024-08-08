@@ -625,7 +625,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.stock?.value} </div>
@@ -647,22 +647,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
-                        {/* Bounce Rate */}
-                        {/* <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
-                                <div className="badge bg-white/30">
-                                    {filterData?.shop_sales?.status === 'up' ? '+' : ''} {filterData?.shop_sales?.percentage}%{' '}
-                                </div>
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL ℓ{filterData?.shop_sales?.shop_margin}
-                            </div>
-                        </div> */}
+                 
                     </div>
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">

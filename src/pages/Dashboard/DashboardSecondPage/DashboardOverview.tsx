@@ -445,7 +445,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                                                     {/* Stock */}
                                                     <div>
-                                                        <h6 className="font-semibold">Stock</h6>
+                                                        <h6 className="font-semibold">Stock Loss</h6>
                                                         <p className="text-lg">
                                                         {currency} {stats?.stock?.value}
 
@@ -473,66 +473,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                                                 <hr />
 
-                                                {/* <div className="grid grid-cols-2 gap-4 my-3">
-                                                   
-                                                    <div>
-                                                        <h6 className="font-semibold">Shop Sales</h6>
-                                                        <p className="text-lg">
-                                                            {currency} 
-                                                            {item?.shop_sales?.shop_sales
-                                                                ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString()
-                                                                : ""}
-                                                            <span
-                                                                className={`ml-2 ${item?.shop_sales?.status === "up"
-                                                                    ? "text-green-500"
-                                                                    : "text-red-500"
-                                                                    }`}
-                                                            >
-                                                                {item?.shop_sales?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {item?.shop_sales?.percentage}%
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {item?.shop_sales?.percentage}%
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-
-                                               
-                                                    <div>
-                                                        <h6 className="font-semibold">Shop Profit</h6>
-                                                        <p className="text-lg">
-                                                            {currency} 
-                                                            {item?.shop_profit?.shop_profit
-                                                                ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString()
-                                                                : "0.00"}
-                                                            <span
-                                                                className={`ml-2 ${item?.shop_profit?.status === "up"
-                                                                    ? "text-green-500"
-                                                                    : "text-red-500"
-                                                                    }`}
-                                                            >
-                                                                {item?.shop_profit?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {item?.shop_profit?.percentage}%
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {item?.shop_profit?.percentage}%
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div> */}
-
+                                          
 
                                             </div>
                                         ))}

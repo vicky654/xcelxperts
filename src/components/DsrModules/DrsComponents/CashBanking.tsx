@@ -326,7 +326,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         saveAs(item?.receipt, `receipt_${item?.id}.png`);
 
     };
- 
+
     return (
         <div >
 
@@ -355,26 +355,26 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     {/* First column with dummy data */}
                     <div className="col-span-1 bg-white border  shadow-lg p-3  ">
                         <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
-                                                    Cash Available For Banking
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <span>({currency}{cashvalue})</span>
-                                        </OverlayTrigger>
-                                    ) : (
-                                        ''
-                                    )} </h2>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
+                                        Cash Available For Banking
+                                    </Tooltip>
+                                }
+                            >
+                                <span>({currency}{cashvalue})</span>
+                            </OverlayTrigger>
+                        ) : (
+                            ''
+                        )} </h2>
                         {/* End Upload Bank Deposited */}
                         {/* Start Edit Bank Deposited */}
                         {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                             <div className="mb-6 mt-6 ">
 
-                          
-                        
+
+
                                 <form onSubmit={formik.handleSubmit} className="space-y-4">
                                     <div className="grid grid-cols-12 gap-4">
                                         <div className="col-span-12 md:col-span-4">
@@ -429,8 +429,8 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         {/* Start Add Bank Deposited */}
                         {!selectedCashBanking && isEditable && (
                             <div className="mb-3">
-                             
-                            
+
+
 
                                 <form onSubmit={formik.handleSubmit} className="space-y-4">
                                     <div className="grid grid-cols-12 gap-4">
@@ -481,7 +481,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                             </div>
                         )}
-                         <hr className='mb-2'></hr>
+                        <hr className='mb-2'></hr>
                         {loading ? (
                             <>
                                 {LoaderImg}
@@ -506,16 +506,16 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                     {/* Second column with dummy data */}
                     <div className="col-span-1 bg-white border  shadow-lg p-3 ">
-                    <h2 className="text-lg font-semibold mb-4"> Bank Deposited Receipts </h2>
+                        <h2 className="text-lg font-semibold mb-4"> Bank Deposited Receipts </h2>
                         {receipts.length > 0 || isEditable ? (
                             <div className="col-span-12  ">
-                               
+
                                 {isEditable && (<form
                                     onSubmit={Invoiceformik.handleSubmit}
                                     className="col-span-12  "
                                 >
-                                 
-                                
+
+
                                     {/* File Uploads */}
                                     <div className="grid grid-cols-12 gap-4">
 
@@ -526,7 +526,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                 htmlFor="file1"
                                                 className="block text-sm font-medium text-gray-700 mb-1"
                                             >
-                                                 Receipt 1
+                                                Receipt 1
                                             </label>
                                             <div
                                                 className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500"
@@ -546,7 +546,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                     className="hidden"
                                                 />
                                                 <div className="flex flex-col items-center py-4">
-                                                   
+
                                                     <span className="text-sm font-medium text-gray-600">
                                                         Click to upload
                                                     </span>
@@ -571,7 +571,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                 htmlFor="file2"
                                                 className="block text-sm font-medium text-gray-700 mb-1"
                                             >
-                                                 Receipt 2
+                                                Receipt 2
                                             </label>
                                             <div
                                                 onClick={() => {
@@ -590,7 +590,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                     className="hidden"
                                                 />
                                                 <div className="flex flex-col items-center py-4 " >
-                                                  
+
                                                     <span className="text-sm font-medium text-gray-600">
                                                         Click to upload
                                                     </span>
@@ -614,7 +614,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                 htmlFor="file3"
                                                 className="block text-sm font-medium text-gray-700 mb-1"
                                             >
-                                                 Receipt 3
+                                                Receipt 3
                                             </label>
                                             <div
 
@@ -634,7 +634,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                     className="hidden"
                                                 />
                                                 <div className="flex flex-col items-center py-4">
-                                                  
+
                                                     <span className="text-sm font-medium text-gray-600">
                                                         Click to upload
                                                     </span>
@@ -658,7 +658,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                 htmlFor="file4"
                                                 className="block text-sm font-medium text-gray-700 mb-1"
                                             >
-                                                 Receipt 4
+                                                Receipt 4
                                             </label>
                                             <div
 
@@ -678,7 +678,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                     className="hidden"
                                                 />
                                                 <div className="flex flex-col items-center py-4">
-                                                  
+
                                                     <span className="text-sm font-medium text-gray-600">
                                                         Click to upload
                                                     </span>
@@ -709,15 +709,15 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 </form>
                                 )}
                                 <hr className='mt-2'></hr>
-                                 {receipts && receipts.length > 0 && (
+                                {receipts && receipts.length > 0 && (
                                     <div className="mt-4">
 
-                                        <h2 className="text-lg font-semibold mb-4">Uploaded Receipts</h2>
+                                        {isEditable && (<h2 className="text-lg font-semibold mb-4">Uploaded Receipts</h2>)}
 
 
                                         <div className="grid grid-cols-12 gap-1">
                                             {receipts?.map((receipt: any) => (
-                                                <div style={{ width: "200px", height: "200px" }} key={receipt.id} className=" flex relative border rounded-lg overflow-hidden shadow-lg col-span-3">
+                                                <div style={{ width: "200px", height: "200px", }} key={receipt.id} className=" flex relative border rounded-lg overflow-hidden shadow-lg col-span-4">
                                                     <img
                                                         src={receipt.receipt}
                                                         alt={`Receipt ${receipt.id}`}
