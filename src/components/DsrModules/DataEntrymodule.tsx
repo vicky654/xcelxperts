@@ -42,6 +42,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const handleApiError = useErrorHandler();
   const [currentLanguage, setCurrentLanguage] = useState('english'); // Default language
   const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
+  const [itemDeleted, setitemDeleted] = useState(false);
   const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
   const [stationId, setStationId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
@@ -54,13 +55,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
 
-  // useEffect(() => {
-  //   const storedData = localStorage.getItem(storedKeyName);
-  //   if (storedData) {
-  //     handleApplyFilters(JSON.parse(storedData));
-  //   }
-
-  // }, [dispatch]);
+ 
 
 
 
@@ -91,6 +86,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       stationId: string | null;
       startDate: string | null;
       isLoading: boolean;
+      itemDeleted?: boolean;
       getData: (url: string) => Promise<any>;
       postData: (url: string, body: any) => Promise<any>;
       applyFilters: (values: any) => Promise<void>;
@@ -179,13 +175,18 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         station_id: stationId,
         start_date: startDate
       };
+      setitemDeleted(true)
       handleApplyFilters(values);
     }
 
   };
 
-
+  console.log(itemDeleted, "handleSuccess");
   const handleDeleteDataEntry = async () => {
+    setitemDeleted(true);
+
+    // Reset the flag after a brief period (optional)
+    setTimeout(() => setitemDeleted(false), 1000);
     try {
       const formData = new FormData();
       if (stationId && startDate) {
@@ -325,7 +326,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               ))}
             </ul>
             <div>
-              {SelectedComponent ? <SelectedComponent applyFilters={ApplyFilterNext} stationId={stationId} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
+              {SelectedComponent ? <SelectedComponent applyFilters={ApplyFilterNext} stationId={stationId} itemDeleted={itemDeleted} startDate={startDate} isLoading={isLoading} getData={getData} postData={postData} /> : <div>   <img
                 src={noDataImage} // Use the imported image directly as the source
                 alt="no data found"
                 className="all-center-flex nodata-image"

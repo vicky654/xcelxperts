@@ -41,13 +41,13 @@ const validationSchema = Yup.object({
     ),
 });
 
-const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postData, getData, isLoading, applyFilters }) => {
+const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
     const [Nozzledata, setNozzleData] = useState<any[]>([]);
     const [iseditable, setIsEditable] = useState(true);
     const [isconsiderNozzle, setconsiderNozzle] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
-
+console.log(itemDeleted, "itemDeletedfuelsale");
     const handleApiError = useErrorHandler();
 
     useEffect(() => {
@@ -55,6 +55,12 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             handleApplyFilters(stationId, startDate);
         }
     }, [stationId, startDate]);
+    useEffect(() => {
+        if (itemDeleted) {
+          console.log('Item was deleted. Fetching updated data...');
+          handleApplyFilters(stationId, startDate);
+        }
+      }, [itemDeleted]);
 
     const handleApplyFilters = async (stationId: string | null, startDate: string | null) => {
         try {
