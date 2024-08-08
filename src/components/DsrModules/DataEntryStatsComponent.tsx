@@ -327,7 +327,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     <div className="flex justify-between items-center">
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
-          <Link  to="/dashboard"  className="text-primary hover:underline">
+          <Link to="/dashboard" className="text-primary hover:underline">
             Dashboard
           </Link>
         </li>
@@ -404,8 +404,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
             {stationId && selectedTab !== 'Variance Accumulation' && (
 
-              <div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
-                <div className=" p-3  firstbox ">
+              <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
+                <div className="panel h-full   firstbox ">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 
@@ -451,7 +451,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
 
                 </div>
-                <div className=" p-3  ms-2 firstbox ">
+                <div className="panel h-full  xl:col-span-2 firstbox ">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
                   </div>
@@ -469,56 +469,38 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
               {stationId && selectedTab === 'Variance Accumulation' ? (
                 tabData?.listing?.length > 0 ? (
-                  <ul className="divide-y  b divide-gray-200">
-                    <li className="flex justify-between p-2 bg-gray-200">
-                      <p className="font-semibold w-1/6">Date</p>
-
-                      <p className="font-semibold flex w-1/6">Total Sales
-
-                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
-
-                          (Fuel Sales + Lubes Sales + Incomes) - Expenses + Credit Sales
-
-                        </Tooltip>}>
-
-                          <i style={{ fontSize: "20px", }} className="fi fi-sr-comment-info"></i>
-                        </OverlayTrigger>
-                      </p>
-                      <p className="font-semibold w-1/6">Fuel Sales
-
-                      </p>
-                      <p className="font-semibold w-1/6">Bank Deposited</p>
-                      <p className="font-semibold w-1/6"> Previous Variance</p>
-                      <p className="font-semibold w-1/6">Balance</p>
-
-                      {/* <p className="font-semibold w-1/6">Income</p>
-                      <p className="font-semibold w-1/6">Credit Card</p>
-                      <p className="font-semibold w-1/6">Credit Sales</p>
-                      <p className="font-semibold w-1/6">Expenses</p>
-                   
-                      <p className="font-semibold w-1/6">Total Sales</p> */}
-
-                    </li>
-                    {tabData?.listing?.map((item, index) => (
-                      <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
-                        <p className="w-1/6">{item?.date}</p>
-                        <p className="w-1/6">{currency} {item?.total_sales}</p>
-                        <p className="w-1/6">{currency} {item?.fuel_sales}</p>
-                        <p className="w-1/6">{currency} {item?.cash_deposited}</p>
-                        <p className="w-1/6">{currency} {item?.previous_variance}</p>
-                        <p className="w-1/6">{currency} {item?.balance}</p>
-
-                        {/* <p className="w-1/6">{item?.charges}</p>
-                        <p className="w-1/6">{item?.credit_card}</p>
-                        <p className="w-1/6">{currency} {item?.credit_sales}</p>
-                        <p className="w-1/6">{item?.deductions}</p> */}
-
-
-
-
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-200">
+                        <tr>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Date</th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Total Sales
+                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip">
+                              (Fuel Sales + Lubes Sales + Incomes + Previous Variance) - Expenses + Credit Sales
+                            </Tooltip>}>
+                              <i style={{ fontSize: "20px" }} className="fi fi-sr-comment-info ml-1"></i>
+                            </OverlayTrigger>
+                          </th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Fuel Sales</th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Cash Deposited</th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Previous Variance</th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {tabData?.listing?.map((item) => (
+                          <tr key={item?.id} className="hover:bg-gray-100">
+                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{item?.date}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.total_sales}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.fuel_sales}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.cash_deposited}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.previous_variance}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.balance}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
                   <div className="flex justify-center items-center">
                     <img
@@ -541,67 +523,71 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                         title={item?.date}
                         selectedTab={selectedTab}
                         subtitle={item?.amount}
-
                         isActive={activeAccordion === `${currency}-${index}`}
                         onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                       >
                         {selectedTab === "Fuel Sales" ? (
-                          <ul className="divide-y divide-gray-200 w-full">
-                            <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/6">Name</p>
-                              <p className="font-semibold w-1/6">Price</p>
-                              <p className="font-semibold w-1/6">Volume</p>
-                              <p className="font-semibold w-1/6">Gross Value</p>
-                              <p className="font-semibold w-1/6">Discount</p>
-                              <p className="font-semibold w-1/6">Balance</p>
-                            </li>
-                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                <p className="w-1/6">{subItem?.name}</p>
-                                <p className="w-1/6"> {currency} {subItem?.price}</p>
-                                <p className="w-1/6"> {subItem?.volume}</p>
-                                <p className="w-1/6">{currency} {subItem?.gross_value}</p>
-                                <p className="w-1/6">{currency} {subItem?.discount}</p>
-                                <p className="w-1/6">{currency} {subItem?.amount}</p>
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                              <li className="flex justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/6">Name</p>
+                                <p className="font-semibold w-1/6">Price</p>
+                                <p className="font-semibold w-1/6">Volume</p>
+                                <p className="font-semibold w-1/6">Gross Value</p>
+                                <p className="font-semibold w-1/6">Discount</p>
+                                <p className="font-semibold w-1/6">Balance</p>
                               </li>
-                            ))}
-                          </ul>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/6">{subItem?.name}</p>
+                                  <p className="w-1/6">{currency} {subItem?.price}</p>
+                                  <p className="w-1/6">{subItem?.volume}</p>
+                                  <p className="w-1/6">{currency} {subItem?.gross_value}</p>
+                                  <p className="w-1/6">{currency} {subItem?.discount}</p>
+                                  <p className="w-1/6">{currency} {subItem?.amount}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ) : selectedTab === "Lube Sales" ? (
-                          <ul className="divide-y divide-gray-200 w-full">
-                            <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/5">Name</p>
-                              <p className="font-semibold w-1/5">Size</p>
-
-                              <p className="font-semibold w-1/5">Opening</p>
-                              <p className="font-semibold w-1/5">Closing</p>
-                              <p className="font-semibold w-1/5">Sale Quantity</p>
-                              <p className="font-semibold w-1/5">Amount</p>
-                            </li>
-                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                <p className="w-1/5">{subItem?.lubricant_name}</p>
-                                <p className="w-1/5">{subItem?.lubricant_size}</p>
-                                <p className="w-1/5">{currency} {subItem?.opening}</p>
-                                <p className="w-1/5">{currency} {subItem?.closing}</p>
-                                <p className="w-1/5">{subItem?.sale}</p>
-                                <p className="w-1/5">{currency}{subItem?.sale_amount}</p>
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                              <li className="flex justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/5">Name</p>
+                                <p className="font-semibold w-1/5">Size</p>
+                                <p className="font-semibold w-1/5">Opening</p>
+                                <p className="font-semibold w-1/5">Closing</p>
+                                <p className="font-semibold w-1/5">Sale Quantity</p>
+                                <p className="font-semibold w-1/5">Amount</p>
                               </li>
-                            ))}
-                          </ul>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/5">{subItem?.lubricant_name}</p>
+                                  <p className="w-1/5">{subItem?.lubricant_size}</p>
+                                  <p className="w-1/5">{currency} {subItem?.opening}</p>
+                                  <p className="w-1/5">{currency} {subItem?.closing}</p>
+                                  <p className="w-1/5">{subItem?.sale}</p>
+                                  <p className="w-1/5">{currency}{subItem?.sale_amount}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ) : (
-                          <ul className="divide-y divide-gray-200 w-full">
-                            <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/2">Name</p>
-                              <p className="font-semibold w-1/2">  {selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
-                            </li>
-                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                <p className="w-1/2">{subItem?.name}</p>
-                                <p className="w-1/2"> {selectedTab !== 'Fuel Variance' && currency}  {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}
-                                </p>
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
+                              <li className="flex justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/2">Name</p>
+                                <p className="font-semibold w-1/2">  {selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
                               </li>
-                            ))}
-                          </ul>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/2">{subItem?.name}</p>
+                                  <p className="w-1/2"> {selectedTab !== 'Fuel Variance' && currency}  {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}
+                                  </p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         )}
                       </CollapsibleItem>
                     ))}
@@ -616,6 +602,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                 )
               )}
+
+
+
 
 
             </div>

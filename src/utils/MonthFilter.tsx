@@ -34,19 +34,19 @@ const MonthYearInput: React.FC<MonthYearInputProps> = ({ onChange }) => {
   };
 
   return (
-    <div className="">
+    <div className="flex gap-2 flex-wrap">
       <input
         type="month"
         id="month-year"
         value={value}
         onClick={handleShowDate}
         onChange={handleChange}
-        className="w-64 px-3 py-2 mb-4 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        className="w-64 px-3 py-2  text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
       />
       {value && ( // Render clear button only if a value is selected
         <button
           onClick={handleClear}
-          className="p-2 ms-2 text-white bg-red-500  hover:bg-red-600 focus:outline-none"
+          className="p-2  md:ms-2  text-white bg-red-500  hover:bg-red-600 focus:outline-none"
         >
           Clear Filter
         </button>

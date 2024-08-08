@@ -63,7 +63,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const [date3, setDate3] = useState<[Date, Date] | []>([]);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     // Adjust the type of the parameter to match what Flatpickr sends
-  
+
 
     // useEffect(() => {
     //     fetchData();
@@ -137,7 +137,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             name: 'Amount',
             selector: (row: RowData) => row.amount,
             sortable: false,
-            width: '10%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -183,7 +183,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.notes}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold py-2">{row.notes}</h6>
                     </div>
                 </div>
             ),
@@ -194,7 +194,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -322,7 +322,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             const response = await getData(apiUrl);
 
             if (response && response.data && response.data.data) {
-         
+
                 setData(response.data.data?.history?.listing);
                 setCurrentPage(response.data.data?.history?.currentPage || 1);
                 setLastPage(response.data.data?.history?.lastPage || 1);
@@ -341,7 +341,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     // Handle month and year change from the child
     const handleMonthYearChange = (month: string, year: string) => {
         console.log("Month:", month, "Year:", year, "handleMonthYearChange");
-    
+
         if (month && year) {
             setSelectedMonth(month);
             setSelectedYear(year);
@@ -352,11 +352,11 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             GetUserList(id); // Fetch with both month and year
         }
     };
-    
+
     console.log(selectedMonth, "selectedMonth");
 
     const handleDownloadPdf = async (
-        
+
     ) => {
         try {
             // Fetch data from the API
@@ -378,10 +378,10 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center flex-wrap">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -406,7 +406,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             <div className=" mt-6">
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                        <h1 className="text-lg font-semibold mb-4  displaycanter">
+                        <h1 className="text-lg font-semibold   ">
                             {`Credit Users History`} {selectedMonth &&
                                 (<span onClick={() => handleDownloadPdf()}>
                                     <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
@@ -414,7 +414,30 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                                     </OverlayTrigger>
                                 </span>)}
                         </h1>
-                        <div className="ltr:ml-auto rtl:mr-auto spacebetween" >
+
+                        <div className="flex flex-col md:flex-row md:items-center md:ml-auto mt-2 md:mt-0 gap-2">
+                            {hirstoryData?.balance && (
+                                <span className="badge bg-primary ltr:ml-0 rtl:mr-0 md:mx-3">
+                                    Bal {currency}{hirstoryData?.balance}
+                                </span>
+                            )}
+                            {hirstoryData?.credit && (
+                                <span className="badge bg-success ltr:ml-0 rtl:mr-0 md:mx-3">
+                                    Cr {currency}{hirstoryData?.credit}
+                                </span>
+                            )}
+                            {hirstoryData?.debit && (
+                                <span className="badge bg-danger ltr:ml-0 rtl:mr-0 md:mx-3">
+                                    Dr {currency}{hirstoryData?.debit}
+                                </span>
+                            )}
+
+                            <MonthYearInput onChange={handleMonthYearChange} />
+
+                            {/* Uncomment the following line if you want to include the search input */}
+                            {/* <input type="text" className="form-input w-full md:w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+                        </div>
+                        {/* <div className="ltr:ml-auto rtl:mr-auto spacebetween" >
                             <div className='mt-1' style={{ marginRight: "10px" }}>
                                 {hirstoryData?.balance && (<>
                                     <span className="Titlebadge bg-primary my-auto ltr:ml-3 rtl:mr-3 hover:top-0">Bal {currency}{hirstoryData?.balance} </span>
@@ -430,8 +453,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-                            {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h5 className="font-semibold text-lg dark:text-white-light"> </h5>

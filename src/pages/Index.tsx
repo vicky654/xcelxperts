@@ -647,7 +647,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
-                 
+
                     </div>
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
@@ -697,8 +697,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     </div>
 
                     {
-                        filters?.site_id ? <div className="grid grid-cols-12 gap-2 mb-6">
-                            <div className="col-span-2 w-full">
+                        filters?.site_id ? <div className="grid xl:grid-cols-4  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
+                            <div className="panel h-full">
                                 <div className="panel h-full  w-full">
 
                                     <div className="flex items-center justify-between dark:text-white-light mb-5">
@@ -733,7 +733,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-span-10">
+                            <div className="panel h-full xl:col-span-3">
                                 <div className="panel h-full">
                                     <div className="flex items-center justify-between dark:text-white-light mb-5">
                                         <h5 className="font-semibold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
