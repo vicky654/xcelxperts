@@ -516,7 +516,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
                         <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
 
-                          (Fuel Sales + Lubes Sales + Incomes + Previous Variance) - Expenses + Credit Sales
+                          (Fuel Sales + Lubes Sales + Incomes) - Expenses + Credit Sales
 
                         </Tooltip>}>
 

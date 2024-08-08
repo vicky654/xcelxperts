@@ -316,17 +316,9 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
             values?.data.forEach(tank => {
                 tank?.nozzles?.forEach(nozzle => {
-
                     formData.append(`sales_volume[${nozzle.id}]`, nozzle.sales_volume.toString());
-
-
-
                     formData.append(`gross_value[${nozzle.id}]`, nozzle.gross_value.toString());
-
-
                     formData.append(`discount[${nozzle.id}]`, nozzle.discount.toString());
-
-
                     formData.append(`nett_value[${nozzle.id}]`, nozzle.nett_value.toString());
 
 

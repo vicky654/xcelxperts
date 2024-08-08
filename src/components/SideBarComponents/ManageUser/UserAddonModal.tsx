@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import AddModalHeader from '../CrudModal/AddModalHeader';
 import useErrorHandler from '../../../hooks/useHandleError';
+import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 
 interface AddonsModalProps {
     isOpen: boolean;
@@ -65,6 +66,8 @@ const UserAddonModal: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
                             <div className="flex-1 w-full">
                                 <AddModalHeader title={`Assign  Addon ${name ? (name) : ''}`} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
+                                   
+                                {data.length > 0 ? (
                                     <form onSubmit={formik.handleSubmit}>
                                         {formik.values.addons.map((addon: any, index: any) => (
                                             <div key={addon.id} className="mb-4">
@@ -78,6 +81,15 @@ const UserAddonModal: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, 
                                             Assign
                                         </button>
                                     </form>
+                                        ) : (
+                                            <>
+                                                <img
+                                                    src={noDataImage} // Use the imported image directly as the source
+                                                    alt="no data found"
+                                                    className="all-center-flex nodata-image"
+                                                />
+                                            </>
+                                        )}
                                 </div>
                             </div>
                         </div>

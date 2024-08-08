@@ -215,19 +215,14 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-            
-
-            // Extract skip_date from values?.selectedStations and check if it's not empty
-
             formData.append('user_id', values?.user_id);
             // Append userId if available
             if (id) {
                 formData.append('station_id', id);
             }
-            console.log(values?.selectedStations, "values?.selectedStations");
 
             const skipDates = values?.selectedStations || [];
-            console.log(skipDates, "skipDates");
+
             if (skipDates.length === 0) {
                 console.error("No skip dates provided.");
                 return; // Early exit if skip_date is empty
@@ -265,7 +260,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
