@@ -187,6 +187,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     try {
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
+        setSelectedTab("Variance Accumulation")
         setTabData(response.data?.data);
         setStationId(values?.station_id);
         setStartDate(values?.start_month);

@@ -477,16 +477,13 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             handleDateClick(defaultDate);
         }
     }, [fuelStats]);
- 
+
 
 
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
-            <div>
-                {/* <button onClick={handleSuccessClick}>Show Success Alert</button>
-      <button onClick={handleErrorClick}>Show Error Alert</button> */}
-            </div>
+
             <div>
                 <div className="flex justify-between items-center">
                     <ul className="flex space-x-2 rtl:space-x-reverse">
@@ -570,11 +567,11 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     </div>
                 </div>
 
+                {/* //Graphs */}
 
-           
                 <div className="pt-5 ">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6 text-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
                         <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
@@ -618,11 +615,39 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {filterData?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                               
-                               
-                                Last Month{filterData?.profit?.percentage}
+
+
+                                Last Month {filterData?.profit?.percentage}
                             </div>
                         </div>
+
+                        {/* //4TH Box */}
+
+                        <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.stock?.value} </div>
+                                <div className="badge bg-white/30"> {filterData?.stock?.percentage}%</div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                {filterData?.stock?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+
+
+                                Last Month {filterData?.stock?.percentage}
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
 
                         {/* Bounce Rate */}
                         {/* <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
@@ -646,17 +671,17 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg">Revenue</h5>
                             </div>
-                         
+
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
                                     {!filterData?.line_graph?.series ? (
                                         <div className="flex justify-center items-center h-full p-4">
-                                        <img
-                                            src={noDataImage} // Use the imported image directly as the source
-                                            alt="No data found"
-                                            className="w-1/2 max-w-xs" // Adjust the width as needed
-                                        />
-                                    </div>
+                                            <img
+                                                src={noDataImage} // Use the imported image directly as the source
+                                                alt="No data found"
+                                                className="w-1/2 max-w-xs" // Adjust the width as needed
+                                            />
+                                        </div>
                                     ) : (
                                         <ReactApexChart series={filterData?.line_graph?.series} options={revenueChart?.options} type="area" height={325} />
                                     )}
@@ -665,26 +690,26 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         <div className="panel h-full xl:col-span-1 ">
-                        <div className="flex items-center justify-between dark:text-white-light mb-5">
+                            <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg dark:text-white-light">Sales By Category</h5>
                             </div>
-                         
+
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                {!filterData?.pi_graph?.labels ? (
-                                       <div className="flex justify-center items-center h-full p-4">
-                                       <img
-                                           src={noDataImage} // Use the imported image directly as the source
-                                           alt="No data found"
-                                           className="w-full max-w-xs" // Adjust the width as needed
-                                       />
-                                   </div>
+                                    {!filterData?.pi_graph?.labels ? (
+                                        <div className="flex justify-center items-center h-full p-4">
+                                            <img
+                                                src={noDataImage} // Use the imported image directly as the source
+                                                alt="No data found"
+                                                className="w-full max-w-xs" // Adjust the width as needed
+                                            />
+                                        </div>
                                     ) : (
                                         <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
                                     )}
                                 </div>
                             </div>
-                         
+
                         </div>
                     </div>
 
@@ -692,10 +717,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         filters?.site_id ? <div className="grid grid-cols-12 gap-2 mb-6">
                             <div className="col-span-2 w-full">
                                 <div className="panel h-full  w-full">
-                                
+
                                     <div className="flex items-center justify-between dark:text-white-light mb-5">
                                         <h5 className="font-semibold text-lg">Forecasting</h5>
-                                
+
                                     </div>
                                     <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
                                         <div className="buttons-container  w-full">
@@ -813,6 +838,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         />
                     </div> */}
                 </div>
+                {/* //Graphs */}
             </div >
         </>
     );

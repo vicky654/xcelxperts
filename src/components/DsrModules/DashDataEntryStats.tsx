@@ -210,6 +210,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     try {
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
+        setSelectedTab("Variance Accumulation")
         setTabData(response.data?.data);
         setStationId(values?.station_id || values?.site_id);
         setStartDate(values?.start_month);

@@ -266,7 +266,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 </div>
 
                 <div className="pt-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6 text-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
                         <div className={`panel  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
@@ -313,6 +313,23 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 Last Month{secondApiResponse?.profit?.percentage}
                             </div>
                         </div>
+
+{/* 4th Card */}
+<div className={`panel thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{secondApiResponse?.stock?.value} </div>
+                                <div className="badge bg-white/30"> {secondApiResponse?.stock?.percentage}%</div>
+                            </div>
+                            <div className="flex items-center font-semibold mt-5">
+                                {secondApiResponse?.stock?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                Last Month {secondApiResponse?.stock?.percentage}
+                            </div>
+                        </div>
+
+
 
                         {/* Bounce Rate */}
                         {/* <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} >
@@ -506,38 +523,32 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                         </p>
                                                     </div>
 
-                                                    {/* Gross Margin */}
-                                                    {/* <div>
-                                                        <h6 className="font-semibold">Gross Margin</h6>
+                                                    {/* Stock */}
+                                                    <div>
+                                                        <h6 className="font-semibold">Stock</h6>
                                                         <p className="text-lg">
-                                                            {item?.gross_margin?.gross_margin} ppl
-                                                            {item?.gross_margin?.is_ppl == 1 && (
-                                                                <Tippy content={`${item?.gross_margin?.ppl_msg}%`}>
-                                                                    <button type="button" className="ml-2">
-                                                                        <IconInfoCircle fill={true} className="w-4 h-4" />
-                                                                    </button>
-                                                                </Tippy>
-                                                            )}
+                                                            {item?.stock?.value} 
+                                                       
                                                             <span
-                                                                className={`ml-2 ${item?.gross_margin?.status === "up"
+                                                                className={`ml-2 ${item?.stock?.status === "up"
                                                                     ? "text-green-500"
                                                                     : "text-red-500"
                                                                     }`}
                                                             >
-                                                                {item?.gross_margin?.status === "up" ? (
+                                                                {item?.stock?.status === "up" ? (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {item?.gross_margin?.percentage}%
+                                                                        {item?.stock?.percentage}%
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {item?.gross_margin?.percentage}%
+                                                                        {item?.stock?.percentage}%
                                                                     </>
                                                                 )}
                                                             </span>
                                                         </p>
-                                                    </div> */}
+                                                    </div>
                                                 </div>
 
                                                 <hr />
