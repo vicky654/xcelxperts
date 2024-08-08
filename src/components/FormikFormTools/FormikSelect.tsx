@@ -8,6 +8,7 @@ interface FormikSelectProps {
     className?: string;
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Add onChange prop
     isRequired?: boolean;
+    readOnly?: boolean;
 }
 
 const FormikSelect: React.FC<FormikSelectProps> = ({
@@ -18,6 +19,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
     className = 'form-select',
     onChange,
     isRequired = true, // Default to true if not provided
+    readOnly = false,
 }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -41,6 +43,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({
                 onBlur={formik.handleBlur}
                 value={formik.values[name]}
                 className={className}
+                disabled={readOnly}
             >
                 <option value="">Select {label}</option>
                 {options?.map((option) => (

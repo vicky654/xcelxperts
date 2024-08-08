@@ -280,6 +280,8 @@ export const credituserValidationSchema = (isEditMode: boolean) => {
         max_amount: Yup.string()
             .required('Max Amount is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
+            selectedStations: Yup.array().min(1, 'At least one Station must be selected').required('Stations are required'),
+            
         phone: Yup.string()
             .required('Phone Number is required')
             .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits'),

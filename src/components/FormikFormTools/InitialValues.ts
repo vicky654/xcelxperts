@@ -193,6 +193,7 @@ export const credituserInitialValues = {
   name: '',
   phone_number: '',
   max_amount: '',
+  selectedStations: [],
 
 
 };

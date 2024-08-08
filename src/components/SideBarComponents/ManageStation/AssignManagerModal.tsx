@@ -106,7 +106,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
                         label: report.report_name,
                     }));
 
-                console.log(checkedReports, "checkedReports");
+           
                 formik.setFieldValue("selectedStations", checkedReports);
                 // formik.setValues(response.data?.data)
 
@@ -132,8 +132,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
         }
     }, [isOpen, isEditMode, userId]);
 
-    console.log(dataList, "values");
-    console.log(formik.values?.sites, "columnIndexd");
+ 
     return (
         <div
             className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'

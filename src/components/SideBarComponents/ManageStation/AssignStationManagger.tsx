@@ -93,17 +93,11 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
 
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-    console.log(UserPermissions,);
 
-    // "skipdate-create",
-    // "skipdate-delete",
-    // "skipdate-edit",
-    // "skipdate-list",
 
     const isAddPermissionAvailable = UserPermissions?.includes("skipdate-create");
     const isEditPermissionAvailable = UserPermissions?.includes("skipdate-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("skipdate-setting");
-    const isSkipPermissionAvailable = UserPermissions?.includes("skipdate-list");
+
     const isDeletePermissionAvailable = UserPermissions?.includes("skipdate-delete");
     const isAssignAddPermissionAvailable = UserPermissions?.includes("skipdate-assign-permission");
 
@@ -159,19 +153,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
             ),
         },
 
-        // {
-        //     name: 'Created Date',
-        //     selector: (row: RowData) => row.created_date,
-        //     sortable: false,
-        //     width: '35%',
-        //     cell: (row: RowData) => (
-        //         <div className="d-flex" style={{ cursor: 'default' }}>
-        //             <div className=" mt-0 mt-sm-2 d-block">
-        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
-        //             </div>
-        //         </div>
-        //     ),
-        // },
+
 
         anyPermissionAvailable
             ? {
@@ -224,7 +206,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
             const skipDates = values?.selectedStations || [];
 
             if (skipDates.length === 0) {
-                console.error("No skip dates provided.");
+             
                 return; // Early exit if skip_date is empty
             }
 

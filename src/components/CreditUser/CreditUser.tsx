@@ -291,6 +291,19 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             formData.append('name', values.name);
             formData.append('max_amount', values.max_amount);
             formData.append('client_id', values.client_id);
+            const skipDates = values?.selectedStations || [];
+
+            if (skipDates.length === 0) {
+             
+                return; // Early exit if skip_date is empty
+            }
+
+
+
+            // Convert skipDates to the desired format and append to formData
+            skipDates.forEach((selectedItem: any, index: any) => {
+                formData.append(`stations[${index}]`, selectedItem.value);
+            });
 
             if (userId) {
                 formData.append('id', userId);

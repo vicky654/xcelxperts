@@ -6,6 +6,8 @@ import FormikInput from '../FormikFormTools/FormikInput';
 import useErrorHandler from '../../hooks/useHandleError';
 import { credituserInitialValues } from '../FormikFormTools/InitialValues';
 import { credituserValidationSchema } from '../FormikFormTools/ValidationSchema';
+import { MultiSelect } from 'react-multi-select-component';
+import { Col } from 'react-bootstrap';
 
 interface Client {
     id: string;
@@ -21,7 +23,7 @@ interface Entity {
 
 interface Site {
     id: string;
-    site_name: string;
+    name: string;
 }
 
 interface RowData {
@@ -55,6 +57,7 @@ type tankList = {
 const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
     const handleApiError = useErrorHandler();
     const [clients, setClients] = useState<Client[]>([]);
+    const [stations, setstations] = useState<Site[]>([]);
     useEffect(() => {
         if (isOpen) {
             formik.resetForm()
@@ -76,14 +79,16 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     }, [isOpen, isEditMode, userId]);
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
+
+
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             const selectedClient = clients.find((client: Client) => client.id === clientId);
-
+            fetchSiteList(clientId)
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
 
         } else {
-
+            setstations([])
             formik.setFieldValue('client_name', "");
 
         }
@@ -92,7 +97,17 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         try {
             const response = await getData('/getClients');
             const clients = response.data.data;
+
             setClients(clients);
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+    const fetchSiteList = async (companyId: string) => {
+        try {
+            const response = await getData(`getStations?client_id=${companyId}`);
+            setstations(response.data?.data);
         } catch (error) {
             handleApiError(error);
         }
@@ -102,7 +117,26 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             const response = await getData(`/credit-user/detail?id=${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
-                formik.setValues(userData);
+                const reports: any[] = response.data?.data?.stations || [];
+
+                const checkedReports = reports
+                    .filter((report) => report.checked)
+                    .map((report) => ({
+                        value: report.id,
+                        label: report.name,
+                    }));
+                    // client_id: '',
+                    // name: '',
+                    // phone_number: '',
+                    // max_amount: '',
+                    // selectedStations: [],
+                formik.setFieldValue("selectedStations", checkedReports);
+                formik.setFieldValue("client_id", userData?.client_id);
+                formik.setFieldValue("name", userData?.name);
+                formik.setFieldValue("phone", userData?.phone);
+                formik.setFieldValue("max_amount", userData?.max_amount);
+
+                // formik.setValues(userData);
             }
         } catch (error) {
             handleApiError(error);
@@ -125,7 +159,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-              
+
             } catch (error) {
                 handleApiError(error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -155,9 +189,28 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                         label="Client"
                                                         options={clients?.map((item: any) => ({ id: item.id, name: item.full_name }))}
                                                         className="form-input"
+                                                        onChange={handleClientChange}
+                                                        readOnly={isEditMode ? true : false}
                                                     />
                                                 )}
+                                                <Col lg={6} md={6}>
+                                                    <label className="form-label ">
+                                                        Select Stations
+                                                        <span className="text-danger">*</span>
+                                                    </label>
+                                                    <MultiSelect
+                                                        value={formik.values.selectedStations}
+                                                        onChange={(selectedStations: any) => formik.setFieldValue('selectedStations', selectedStations)}
+                                                        // value={selected}
+                                                        // onChange={setSelected}
+                                                        labelledBy="Select Stations.."
+                                                        options={stations?.map((item) => ({ value: item.id, label: item.name }))}
+                                                    />
 
+                                                    {formik.errors.selectedStations && formik.touched.selectedStations && (
+                                                        <div className="text-danger">{formik?.errors?.selectedStations}</div>
+                                                    )}
+                                                </Col>
                                                 <FormikInput formik={formik} type="text" name="name" label="Credit User Name" />
 
                                                 <FormikInput formik={formik} type="number" name="phone" label="Phone Number" />
