@@ -405,7 +405,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             {stationId && selectedTab !== 'Variance Accumulation' && (
 
               <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
-                <div className="panel h-full   firstbox ">
+                <div className="panel h-full  xl:col-span-2  firstbox ">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 

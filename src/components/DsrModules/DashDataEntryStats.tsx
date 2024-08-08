@@ -100,13 +100,13 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   const id = useParams()
   useEffect(() => {
     const storedDataString = localStorage.getItem(DashboardstoredKeyName);
-    
+
 
     if (storedDataString) {
       try {
         // Parse the JSON string to get the stored data
         const storedData = JSON.parse(storedDataString);
-        
+
 
         // Check for the existence of `start_month` or other necessary properties
         if (storedData.start_month) {
@@ -183,7 +183,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     }
   }, [cards]);
   const handleTabClick = async (tabName: string) => {
-    
+
     try {
       const key = tabKeyMap[tabName];
       const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
@@ -205,7 +205,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
   const handleApplyFilters = async (values: any) => {
-    
+
 
     try {
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id || values?.site_id}&drs_date=${values?.start_month}`);
@@ -361,7 +361,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
       </ul> */}
       <ul className="flex space-x-2 rtl:space-x-reverse my-2">
         <li>
-          <Link  to="/dashboard"  className="text-primary hover:underline">
+          <Link to="/dashboard" className="text-primary hover:underline">
             Dashboard
           </Link>
         </li>
@@ -440,143 +440,133 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
             {/* {stationId && <h2 className="text-lg font-semibold">{selectedTab}</h2>}
              */}
 
-{stationId && selectedTab !== 'Variance Accumulation' && (
+            {stationId && selectedTab !== 'Variance Accumulation' && (
 
-<div className='grid xl:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 '>
-  <div className=" p-3  firstbox ">
-    <div className="flex justify-between">
-      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
+              <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
+                <div className=" panel h-full xl:col-span-2  firstbox ">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
 
-    </div>
-    <div className="flex items-center mt-2">
-      {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
-      <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
+                  </div>
+                  <div className="flex items-center mt-2">
+                    {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
+                    <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
                       {selectedTab !== 'Fuel Variance' && currency} {tabData?.currentMonth}
                     </div>
-      {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
-      <div
+                    {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
+                    <div
 
 
 
-        className={`badge bg-white`}
-      >
+                      className={`badge bg-white`}
+                    >
 
-        <div className="flex items-center space-x-1">
-          {tabData.symbol === 'UP' ? (
-            <i style={{color:"#37a40a"}} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-          ) : tabData.symbol === 'DOWN' ? (
-            <i style={{color:"red"}} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-          ) : null}
-          <span
-            className="font-semibold"
-            style={{
-              color:
-                tabData.symbol === 'UP'
-                  ? '#37a40a'   // Color for 'up'
-                  : tabData.symbol === 'DOWN'
-                    ? 'red'      // Color for 'down'
-                    : '#000'     // Default color
-            }}
-          >
-            {tabData?.profit}%
-          </span>
+                      <div className="flex items-center space-x-1">
+                        {tabData.symbol === 'UP' ? (
+                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.symbol === 'DOWN' ? (
+                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span
+                          className="font-semibold"
+                          style={{
+                            color:
+                              tabData.symbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.symbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
+                          }}
+                        >
+                          {tabData?.profit}%
+                        </span>
 
-        </div>
+                      </div>
 
 
 
-      </div>
+                    </div>
 
-    </div>
+                  </div>
 
-  </div>
-  <div className=" p-3  ms-2 firstbox ">
-    <div className="flex justify-between">
-      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
-    </div>
-    <div className="flex items-center mt-2">
-      <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {selectedTab !== 'Fuel Variance' && currency} {tabData?.prevMonth}</div>
+                </div>
+                <div className=" panel h-full    xl:col-span-2  firstbox ">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {selectedTab !== 'Fuel Variance' && currency} {tabData?.prevMonth}</div>
 
-    </div>
+                  </div>
 
-  </div>
-</div>
-)
+                </div>
+              </div>
+            )
 
-}
+            }
             <div className="mt-3">
 
-              {stationId && selectedTab === 'Variance Accumulation' ? (
-                tabData?.listing.length > 0 ? (
-                  <ul className="divide-y  b divide-gray-200">
-                    <li className="flex justify-between p-2 bg-gray-200">
-                      <p className="font-semibold w-1/6">Date</p>
+              <div className="overflow-x-auto">
+                {stationId && selectedTab === 'Variance Accumulation' ? (
+                  tabData?.listing.length > 0 ? (
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr>
+                            <th className="p-3">Date</th>
+                            <th className="p-3">Total Sales
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip className="custom-tooltip">
+                                  (Fuel Sales + Lubes Sales + Incomes) - Expenses + Credit Sales
+                                </Tooltip>}
+                              >
+                                <i
+                                  style={{ fontSize: "20px", marginLeft: "5px" }}
+                                  className="fi fi-sr-comment-info"
+                                ></i>
+                              </OverlayTrigger>
+                            </th>
+                            <th className="p-3">Fuel Sales</th>
+                            <th className="p-3">Bank Deposited</th>
+                            <th className="p-3">Previous Variance</th>
+                            <th className="p-3">Balance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {tabData?.listing?.map((item, index) => (
+                            <tr key={item?.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                              <td className="p-3">{item?.date}</td>
+                              <td className="p-3">{currency} {item?.total_sales}</td>
+                              <td className="p-3">{currency} {item?.fuel_sales}</td>
+                              <td className="p-3">{currency} {item?.cash_deposited}</td>
+                              <td className="p-3">{currency} {item?.previous_variance}</td>
+                              <td className="p-3">{currency} {item?.balance}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center items-center p-5">
+                      <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="w-1/2 md:w-1/3 lg:w-1/4"
+                      />
+                    </div>
+                  )
+                ) : null}
+              </div>
 
-                      <p className="font-semibold flex w-1/6">Total Sales
-
-                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
-
-                          (Fuel Sales + Lubes Sales + Incomes) - Expenses + Credit Sales
-
-                        </Tooltip>}>
-
-                          <i style={{ fontSize: "20px", }} className="fi fi-sr-comment-info"></i>
-                        </OverlayTrigger>
-                      </p>
-                      <p className="font-semibold w-1/6">Fuel Sales
-
-
-                      </p>
-                      <p className="font-semibold w-1/6">Bank Deposited</p>
-                      <p className="font-semibold w-1/6"> Previous Variance</p>
-                      <p className="font-semibold w-1/6">Balance</p>
-
-                      {/* <p className="font-semibold w-1/6">Income</p>
-                      <p className="font-semibold w-1/6">Credit Card</p>
-                      <p className="font-semibold w-1/6">Credit Sales</p>
-                      <p className="font-semibold w-1/6">Expenses</p>
-                   
-                      <p className="font-semibold w-1/6">Total Sales</p> */}
-
-                    </li>
-                    {tabData?.listing?.map((item, index) => (
-                      <li key={item?.id} className="flex justify-between p-2 hover:bg-gray-100">
-                        <p className="w-1/6">{item?.date}</p>
-                        <p className="w-1/6">{currency} {item?.total_sales}</p>
-                        <p className="w-1/6">{currency} {item?.fuel_sales}</p>
-                        <p className="w-1/6">{currency} {item?.cash_deposited}</p>
-                        <p className="w-1/6">{currency} {item?.previous_variance}</p>
-                        <p className="w-1/6">{currency} {item?.balance}</p>
-
-                        {/* <p className="w-1/6">{item?.charges}</p>
-                        <p className="w-1/6">{item?.credit_card}</p>
-                        <p className="w-1/6">{currency} {item?.credit_sales}</p>
-                        <p className="w-1/6">{item?.deductions}</p> */}
-
-
-
-
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="flex justify-center items-center">
-                    <img
-                      src={noDataImage} // Use the imported image directly as the source
-                      alt="no data found"
-                      className="nodata-image"
-                    />
-                  </div>
-                )
-              ) : null}
 
 
               {stationId && selectedTab !== 'Variance Accumulation' && (
-                tabData?.listing.length > 0 ? (
+                tabData?.listing?.length > 0 ? (
                   <ul className="divide-y divide-gray-200">
                     {tabData?.listing?.map((item, index) => (
                       <CollapsibleItem
-                      selectedTab={selectedTab}
+                        selectedTab={selectedTab}
                         key={index}
                         id={`${currency}-${index}`}
                         title={item?.date}
@@ -585,62 +575,66 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                         onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                       >
                         {selectedTab === "Fuel Sales" ? (
-                          <ul className="divide-y divide-gray-200 w-full">
-                            <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/6">Name</p>
-                              <p className="font-semibold w-1/6">Price</p>
-                              <p className="font-semibold w-1/6">Volume</p>
-                              <p className="font-semibold w-1/6">Gross Value</p>
-                              <p className="font-semibold w-1/6">Discount</p>
-                              <p className="font-semibold w-1/6">Balance</p>
-                            </li>
-                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                <p className="w-1/6">{subItem?.name}</p>
-                                <p className="w-1/6"> {currency} {subItem?.price}</p>
-                                <p className="w-1/6"> {subItem?.volume}</p>
-                                <p className="w-1/6">{currency} {subItem?.gross_value}</p>
-                                <p className="w-1/6">{currency} {subItem?.discount}</p>
-                                <p className="w-1/6">{currency} {subItem?.amount}</p>
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                              <li className="flex flex-wrap justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/6 min-w-[100px]">Name</p>
+                                <p className="font-semibold w-1/6 min-w-[100px]">Price</p>
+                                <p className="font-semibold w-1/6 min-w-[100px]">Volume</p>
+                                <p className="font-semibold w-1/6 min-w-[100px]">Gross Value</p>
+                                <p className="font-semibold w-1/6 min-w-[100px]">Discount</p>
+                                <p className="font-semibold w-1/6 min-w-[100px]">Balance</p>
                               </li>
-                            ))}
-                          </ul>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex flex-wrap justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/6 min-w-[100px]">{subItem?.name}</p>
+                                  <p className="w-1/6 min-w-[100px]">{currency} {subItem?.price}</p>
+                                  <p className="w-1/6 min-w-[100px]">{subItem?.volume}</p>
+                                  <p className="w-1/6 min-w-[100px]">{currency} {subItem?.gross_value}</p>
+                                  <p className="w-1/6 min-w-[100px]">{currency} {subItem?.discount}</p>
+                                  <p className="w-1/6 min-w-[100px]">{currency} {subItem?.amount}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ) : selectedTab === "Lube Sales" ? (
-                          <ul className="divide-y divide-gray-200 w-full">
-                            <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/5">Name</p>
-                              <p className="font-semibold w-1/5">Size</p>
-
-                              <p className="font-semibold w-1/5">Opening</p>
-                              <p className="font-semibold w-1/5">Closing</p>
-                              <p className="font-semibold w-1/5">Sale Quantity</p>
-                              <p className="font-semibold w-1/5">Amount</p>
-                            </li>
-                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                <p className="w-1/5">{subItem?.lubricant_name}</p>
-                                <p className="w-1/5">{subItem?.lubricant_size}</p>
-                                <p className="w-1/5">{currency} {subItem?.opening}</p>
-                                <p className="w-1/5">{currency} {subItem?.closing}</p>
-                                <p className="w-1/5">{subItem?.sale}</p>
-                                <p className="w-1/5">{currency}{subItem?.sale_amount}</p>
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                              <li className="flex flex-wrap justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/5 min-w-[80px]">Name</p>
+                                <p className="font-semibold w-1/5 min-w-[80px]">Size</p>
+                                <p className="font-semibold w-1/5 min-w-[80px]">Opening</p>
+                                <p className="font-semibold w-1/5 min-w-[80px]">Closing</p>
+                                <p className="font-semibold w-1/5 min-w-[80px]">Sale Quantity</p>
+                                <p className="font-semibold w-1/5 min-w-[80px]">Amount</p>
                               </li>
-                            ))}
-                          </ul>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex flex-wrap justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/5 min-w-[80px]">{subItem?.lubricant_name}</p>
+                                  <p className="w-1/5 min-w-[80px]">{subItem?.lubricant_size}</p>
+                                  <p className="w-1/5 min-w-[80px]">{currency} {subItem?.opening}</p>
+                                  <p className="w-1/5 min-w-[80px]">{currency} {subItem?.closing}</p>
+                                  <p className="w-1/5 min-w-[80px]">{subItem?.sale}</p>
+                                  <p className="w-1/5 min-w-[80px]">{currency}{subItem?.sale_amount}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ) : (
-                          <ul className="divide-y divide-gray-200 w-full">
-                            <li className="flex justify-between p-2 bg-gray-200">
-                              <p className="font-semibold w-1/2">Name</p>
-                              <p className="font-semibold w-1/2">  {selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
-                            </li>
-                            {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                              <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                <p className="w-1/2">{subItem?.name}</p>
-                                <p className="w-1/2"> {selectedTab !== 'Fuel Variance' && currency}  {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}
-                                </p>
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
+                              <li className="flex flex-wrap justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/2 min-w-[150px]">Name</p>
+                                <p className="font-semibold w-1/2 min-w-[150px]">{selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
                               </li>
-                            ))}
-                          </ul>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex flex-wrap justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/2 min-w-[150px]">{subItem?.name}</p>
+                                  <p className="w-1/2 min-w-[150px]"> {selectedTab !== 'Fuel Variance' && currency} {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         )}
                       </CollapsibleItem>
                     ))}
@@ -655,6 +649,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                   </div>
                 )
               )}
+
 
 
             </div>
