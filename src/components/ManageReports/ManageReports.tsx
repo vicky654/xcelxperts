@@ -98,7 +98,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-        
+
 
             // http://192.168.1.112:4013/pro/v1/report/msr?station_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09&from_date=2024-07-01&to_date=2024-07-17
 
@@ -113,14 +113,14 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             // const url = userId ? `/station/update` : `/station/create`;
             const isSuccess = await getData(commonParams);
             if (isSuccess) {
-               
+
                 // window.open(isSuccess?.data, '_blank');
                 setReportUrl(commonParams)
 
 
                 const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
                 // const  baseURL: import.meta.env.VITE_API_URL,
-               
+
                 if (commonParams) {
                     const fullReportUrl = `${baseUrl}/${commonParams}`;
                     window.open(fullReportUrl, "_blank", "noopener noreferrer");
@@ -174,7 +174,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         validationSchema: ReportsValidationSchema(toggle),
         onSubmit: async (values, { resetForm }) => {
             handleFormSubmit(values);
-            
+
 
         },
     });
@@ -294,7 +294,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleClick = () => {
         const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
         // const  baseURL: import.meta.env.VITE_API_URL,
-       
+
         if (ReportUrl) {
             const fullReportUrl = `${baseUrl}/${ReportUrl}`;
             window.open(fullReportUrl, "_blank", "noopener noreferrer");
@@ -310,7 +310,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -337,7 +337,9 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                     <div className=' flex items-end text-end'>
                         <Col lg={12} md={12}>
                             <div className="mt-2 sm:grid-cols-1 flexcenter ">
-
+                                <span className="font-bold mr-2">
+                                    Month
+                                </span>
                                 <label style={{ cursor: "pointer" }} className="w-12 h-6 relative ">
                                     <input
                                         type="checkbox"
@@ -363,7 +365,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                     </span>
                                 </label>
                                 <span className="font-bold ms-2">
-                                    Get Reports By {toggle ? 'Month' : 'Date'}
+                                    Date
                                 </span>
                             </div>
                         </Col>
