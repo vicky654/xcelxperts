@@ -173,7 +173,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
                                                 </Col>
                                                 <Col lg={6} md={6}>
                                                     <label className="form-label ">
-                                                        Select Stations
+                                                        Select Reports
                                                         <span className="text-danger">*</span>
                                                     </label>
                                                     <MultiSelect
@@ -181,7 +181,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
                                                         onChange={(selectedStations: any) => formik.setFieldValue('selectedStations', selectedStations)}
                                                         // value={selected}
                                                         // onChange={setSelected}
-                                                        labelledBy="Select Stations.."
+                                                        labelledBy="Select Reports.."
                                                         options={formik.values?.sites?.map((item) => ({ value: item.id, label: item.report_name }))}
                                                     />
 
