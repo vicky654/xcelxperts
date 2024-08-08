@@ -245,136 +245,188 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                 </div>
                 {
-                    formik.values.services.length > 0 ? <form onSubmit={formik.handleSubmit}>
-                        <div className="flex flex-wrap gap-4">
-                            {formik.values.services.map((service: any, index: any) => (
-                                <div key={index} className="w-full flex flex-wrap items-center p-4 border border-gray-200 rounded-md gap-4">
-                                    {/* Column 4 - Credit User */}
-                                    <div className="w-full lg:w-3/12 flex flex-col ">
-                                        <label htmlFor={`services[${index}].credit_user_id`} className="block text-sm font-medium text-gray-700">
-                                            User <span className="text-red-500">*</span>
-                                        </label>
-                                        <select
-                                            id={`services[${index}].credit_user_id`}
-                                            name={`services[${index}].credit_user_id`}
-                                            value={formik.values.services[index].credit_user_id}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            disabled={!iseditable}
-                                            className={`form-input form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
-
-
-                                        >
-                                            <option value="">Select User</option>
-                                            {commonListData?.users?.map((item: any) => (
-                                                <option key={item.id} value={item.id}>{item.name}</option>
-                                            ))}
-                                        </select>
-                                        {formik.errors.services?.[index]?.credit_user_id && formik.touched.services?.[index]?.credit_user_id && (
-                                            <div className="text-red-500 text-sm mt-1">
-                                                <span>Credit User is required</span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Column 4 - Fuel Sub Category */}
-                                    <div className="w-full lg:w-2/12 flex flex-col ">
-                                        <label htmlFor={`services[${index}].fuel_sub_category_id`} className="block text-sm font-medium text-gray-700">
-                                            Fuel <span className="text-red-500">*</span>
-                                        </label>
-                                        <select
-                                            id={`services[${index}].fuel_sub_category_id`}
-                                            name={`services[${index}].fuel_sub_category_id`}
-                                            value={formik.values.services[index].fuel_sub_category_id}
-                                            onChange={(e) => handleFuelChange(e, index)}
-                                            onBlur={formik.handleBlur}
-                                            disabled={!iseditable}
-                                            className={`form-input  text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
-                                        >
-                                            <option value="">Select Fuel</option>
-                                            {commonListData?.fuels?.map((item: any) => (
-                                                <option key={item.id} value={item.id}>{item.sub_category_name} ({currency}{item.price})</option>
-                                            ))}
-                                        </select>
-                                        {formik.errors.services?.[index]?.fuel_sub_category_id && formik.touched.services?.[index]?.fuel_sub_category_id && (
-                                            <div className="text-red-500 text-sm mt-1">
-                                                <span>Fuel is required</span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Column 4 - Quantity */}
-                                    <div className="w-full lg:w-2/12 flex flex-col ">
-                                        <label htmlFor={`services[${index}].quantity`} className="block text-sm font-medium text-gray-700">
-                                            Quantity <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            type="number"
-                                            id={`services[${index}].quantity`}
-                                            name={`services[${index}].quantity`}
-                                            value={formik.values.services[index].quantity}
-                                            placeholder='Quantity'
-                                            onChange={(e) => handleQuantityChange(e, index)}
-                                            onBlur={formik.handleBlur}
-                                            disabled={!iseditable}
-                                            className={`form-input  text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${!iseditable ? 'readonly' : ''}`}
-
-                                        />
-                                        {formik.errors.services?.[index]?.quantity && formik.touched.services?.[index]?.quantity && (
-                                            <div className="text-red-500 text-sm mt-1">
-                                                <span>Quantity is required</span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Column 4 - Amount */}
-                                    <div className="w-full lg:w-2/12 flex flex-col ">
-                                        <label htmlFor={`services[${index}].amount`} className="block text-sm font-medium text-gray-700">
-                                            Amount <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id={`services[${index}].amount`}
-                                            name={`services[${index}].amount`}
-                                            value={formik.values.services[index].amount}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            placeholder='Amount'
-                                            disabled
-                                            readOnly
-                                            className="readonly form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                        />
-                                    </div>
-
-                                    {iseditable ? (
-                                        <div className="w-full lg:w-1/12 flex items-center mt-6  ">
-                                            <button
-                                                type="button"
-                                                className="btn btn-danger"
-                                                onClick={() => removeRow(index)}
-                                            >
-                                                Remove
-                                            </button>
-                                        </div>
-                                    ) : null}
-                                </div>
-                            ))}
-                        </div>
-                        <div className="">
-                            <div className="font-semibold text-lg">
-                                Total Amount: {currency} {totalAmount.toFixed(2)}
-                            </div>
-                        </div>
-                        {iseditable && formik.values.services.length > 0 && (
-                            <div className="mt-6">
-                                <button type="submit" className="btn btn-primary">Submit</button>
-                            </div>
-                        )}
-                    </form> : <img
-                        src={noDataImage} // Use the imported image directly as the source
-                        alt="no data found"
-                        className="all-center-flex nodata-image"
-                    />
+               <form onSubmit={formik.handleSubmit}>
+               {formik.values.services.length > 0 ? (
+                 <>
+                   <div className="flex flex-wrap gap-4">
+                     {formik.values.services.map((service: any, index: number) => (
+                       <div
+                         key={index}
+                         className="w-full flex flex-wrap items-center p-4 border border-gray-200 rounded-md gap-4"
+                       >
+                         {/* Column 4 - Credit User */}
+                         <div className="w-full lg:w-3/12 flex flex-col">
+                           <label
+                             htmlFor={`services[${index}].credit_user_id`}
+                             className="block text-sm font-medium text-gray-700"
+                           >
+                             User <span className="text-red-500">*</span>
+                           </label>
+                           <select
+                             id={`services[${index}].credit_user_id`}
+                             name={`services[${index}].credit_user_id`}
+                             value={formik.values.services[index].credit_user_id}
+                             onChange={formik.handleChange}
+                             onBlur={formik.handleBlur}
+                             disabled={!iseditable}
+                             className={`form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${
+                               !iseditable ? "readonly" : ""
+                             }`}
+                             style={{ height: "42px" }} // Fixed height for consistent layout
+                           >
+                             <option value="">Select User</option>
+                             {commonListData?.users?.map((item: any) => (
+                               <option key={item.id} value={item.id}>
+                                 {item.name}
+                               </option>
+                             ))}
+                           </select>
+                           <div
+                             style={{ height: "22px" }} // Fixed height for error message space
+                           >
+                             {formik.errors.services?.[index]?.credit_user_id &&
+                               formik.touched.services?.[index]?.credit_user_id && (
+                                 <div className="text-red-500 text-sm mt-1">
+                                   <span>Credit User is required</span>
+                                 </div>
+                               )}
+                           </div>
+                         </div>
+             
+                         {/* Column 4 - Fuel Sub Category */}
+                         <div className="w-full lg:w-2/12 flex flex-col">
+                           <label
+                             htmlFor={`services[${index}].fuel_sub_category_id`}
+                             className="block text-sm font-medium text-gray-700"
+                           >
+                             Fuel <span className="text-red-500">*</span>
+                           </label>
+                           <select
+                             id={`services[${index}].fuel_sub_category_id`}
+                             name={`services[${index}].fuel_sub_category_id`}
+                             value={formik.values.services[index].fuel_sub_category_id}
+                             onChange={(e) => handleFuelChange(e, index)}
+                             onBlur={formik.handleBlur}
+                             disabled={!iseditable}
+                             className={`form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${
+                               !iseditable ? "readonly" : ""
+                             }`}
+                             style={{ height: "42px" }} // Fixed height for consistent layout
+                           >
+                             <option value="">Select Fuel</option>
+                             {commonListData?.fuels?.map((item: any) => (
+                               <option key={item.id} value={item.id}>
+                                 {item.sub_category_name} ({currency}
+                                 {item.price})
+                               </option>
+                             ))}
+                           </select>
+                           <div
+                             style={{ height: "22px" }} // Fixed height for error message space
+                           >
+                             {formik.errors.services?.[index]?.fuel_sub_category_id &&
+                               formik.touched.services?.[index]?.fuel_sub_category_id && (
+                                 <div className="text-red-500 text-sm mt-1">
+                                   <span>Fuel is required</span>
+                                 </div>
+                               )}
+                           </div>
+                         </div>
+             
+                         {/* Column 4 - Quantity */}
+                         <div className="w-full lg:w-2/12 flex flex-col">
+                           <label
+                             htmlFor={`services[${index}].quantity`}
+                             className="block text-sm font-medium text-gray-700"
+                           >
+                             Quantity <span className="text-red-500">*</span>
+                           </label>
+                           <input
+                             type="number"
+                             id={`services[${index}].quantity`}
+                             name={`services[${index}].quantity`}
+                             value={formik.values.services[index].quantity}
+                             placeholder="Quantity"
+                             onChange={(e) => handleQuantityChange(e, index)}
+                             onBlur={formik.handleBlur}
+                             disabled={!iseditable}
+                             className={`form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${
+                               !iseditable ? "readonly" : ""
+                             }`}
+                             style={{ height: "42px" }} // Fixed height for consistent layout
+                           />
+                           <div
+                             style={{ height: "22px" }} // Fixed height for error message space
+                           >
+                             {formik.errors.services?.[index]?.quantity &&
+                               formik.touched.services?.[index]?.quantity && (
+                                 <div className="text-red-500 text-sm mt-1">
+                                   <span>Quantity is required</span>
+                                 </div>
+                               )}
+                           </div>
+                         </div>
+             
+                         {/* Column 4 - Amount */}
+                         <div className="w-full lg:w-2/12 flex flex-col">
+                           <label
+                             htmlFor={`services[${index}].amount`}
+                             className="block text-sm font-medium text-gray-700"
+                           >
+                             Amount <span className="text-red-500">*</span>
+                           </label>
+                           <input
+                             type="text"
+                             id={`services[${index}].amount`}
+                             name={`services[${index}].amount`}
+                             value={formik.values.services[index].amount}
+                             onChange={formik.handleChange}
+                             onBlur={formik.handleBlur}
+                             placeholder="Amount"
+                             disabled
+                             readOnly
+                             className="readonly form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                             style={{ height: "42px" }} // Fixed height for consistent layout
+                           />
+                           <div style={{ height: "22px" }}></div> {/* Placeholder for spacing */}
+                         </div>
+             
+                         {iseditable ? (
+                           <div className="w-full lg:w-1/12 flex items-center ">
+                             <button
+                               type="button"
+                               className="btn btn-danger"
+                               onClick={() => removeRow(index)}
+                             >
+                               Remove
+                             </button>
+                           </div>
+                         ) : null}
+                       </div>
+                     ))}
+                   </div>
+                   <div className="">
+                     <div className="font-semibold text-lg">
+                       Total Amount: {currency} {totalAmount.toFixed(2)}
+                     </div>
+                   </div>
+                   {iseditable && formik.values.services.length > 0 && (
+                     <div className="mt-6">
+                       <button type="submit" className="btn btn-primary">
+                         Submit
+                       </button>
+                     </div>
+                   )}
+                 </>
+               ) : (
+                 <img
+                   src={noDataImage} // Use the imported image directly as the source
+                   alt="no data found"
+                   className="all-center-flex nodata-image"
+                 />
+               )}
+             </form>
+             
 
                 }
 

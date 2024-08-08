@@ -578,7 +578,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.sales_volume?.sales_volume} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {filterData?.sales_volume?.sales_volume} </div>
                                 <div className="badge bg-white/30">
                                     {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.sales_volume?.percentage}%{' '}
                                 </div>
@@ -595,7 +595,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.sales_value?.sales_value} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.sales_value?.sales_value} </div>
                                 <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -610,7 +610,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.profit?.profit} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.profit?.profit} </div>
                                 <div className="badge bg-white/30"> {filterData?.profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -628,13 +628,11 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.stock?.value} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.stock?.value} </div>
                                 <div className="badge bg-white/30"> {filterData?.stock?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {filterData?.stock?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-
-
                                 Last Month {filterData?.stock?.percentage}
                             </div>
                         </div>

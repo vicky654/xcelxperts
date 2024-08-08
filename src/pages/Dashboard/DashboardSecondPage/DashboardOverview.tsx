@@ -11,6 +11,7 @@ import { IRootState } from '../../../store';
 import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
+import { currency } from '../../../utils/CommonData';
 
 
 
@@ -209,6 +210,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     };
 
     console.log(secondApiResponse, "site_id");
+    console.log(secondApiResponse?.stations, "secondApiResponse?.stations")
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -216,7 +218,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 <div className='flex justify-between items-center flex-wrap'>
                     <ul className="flex space-x-2 rtl:space-x-reverse my-2">
                         <li>
-                            <Link  to="/dashboard"  className="text-primary hover:underline">
+                            <Link to="/dashboard" className="text-primary hover:underline">
                                 Dashboard
                             </Link>
                         </li>
@@ -273,7 +275,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{secondApiResponse?.sales_volume?.sales_volume} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {secondApiResponse?.sales_volume?.sales_volume} </div>
                                 <div className="badge bg-white/30">
                                     {secondApiResponse?.gross_volume?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_volume?.percentage}%{' '}
                                 </div>
@@ -290,7 +292,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{secondApiResponse?.sales_value?.sales_value} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.sales_value?.sales_value} </div>
                                 <div className="badge bg-white/30"> {secondApiResponse?.sales_value?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -305,7 +307,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{secondApiResponse?.profit?.profit} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.profit?.profit} </div>
                                 <div className="badge bg-white/30"> {secondApiResponse?.profit?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -314,13 +316,13 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                         </div>
 
-{/* 4th Card */}
-<div className={`panel thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        {/* 4th Card */}
+                        <div className={`panel thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{secondApiResponse?.stock?.value} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{currency} {secondApiResponse?.stock?.value} </div>
                                 <div className="badge bg-white/30"> {secondApiResponse?.stock?.percentage}%</div>
                             </div>
                             <div className="flex items-center font-semibold mt-5">
@@ -331,90 +333,8 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
 
-                        {/* Bounce Rate */}
-                        {/* <div className={`panel  forthbox ${filterData ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
-                                <div className="badge bg-white/30">
-                                    {filterData?.shop_sales?.status === 'up' ? '+' : ''} {filterData?.shop_sales?.percentage}%{' '}
-                                </div>
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL ℓ{filterData?.shop_sales?.shop_margin}
-                            </div>
-                        </div> */}
                     </div>
-                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
-                        <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume</div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_volume?.total_volume} </div>
-                                <div className="badge bg-white/30">
-                                    {filterData?.gross_volume?.status === 'up' ? '+' : '-'} {filterData?.gross_volume?.percentage}%{' '}
-                                </div>
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Last Month ℓ{filterData?.gross_volume?.gross_volume}
-                            </div>
-                        </div>
-
-                      
-                        <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit </div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ₹{filterData?.gross_profit?.gross_profit} </div>
-                                <div className="badge bg-white/30"> {filterData?.gross_profit?.percentage}%</div>
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                Gross Margin {filterData?.gross_profit?.status === 'up' ? '+' : '-'} {filterData?.gross_profit?.gross_margin}
-                            </div>
-                        </div>
-
-                    
-                        <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.gross_margin_?.gross_margin} </div>
-                                <div className="badge bg-white/30">
-                                    {filterData?.gross_margin_?.status === 'up' ? '+' : '-'} {filterData?.gross_margin_?.percentage}%{' '}
-                                </div>
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL ℓ{filterData?.gross_margin_?.is_ppl}
-                            </div>
-                        </div>
-
-                   
-                        <div className={`panel forthbox ${filterData ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Shop Sales</div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.shop_sales?.shop_sales} </div>
-                                <div className="badge bg-white/30">
-                                    {filterData?.shop_sales?.status === 'up' ? '+' : '-'} {filterData?.shop_sales?.percentage}%{' '}
-                                </div>
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                <IconTrendingUp className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                                PPL ℓ{filterData?.shop_sales?.shop_margin}
-                            </div>
-                        </div>
-                    </div> */}
-
+    
 
                     {secondApiResponse?.stations?.length > 0 ? (
                         <>
@@ -424,7 +344,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         key={item?.station_id}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
                                             }`}
-                                            style={{cursor: "pointer"}}
+                                        style={{ cursor: "pointer" }}
                                         onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
                                         {/* Header with Image and Name */}
@@ -471,7 +391,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Gross Value</h6>
                                                         <p className="text-lg">
-                                                            ₹{stats.sales_value.sales_value}
+                                                            {currency} {stats.sales_value.sales_value}
                                                             <span
                                                                 className={`ml-2 ${stats.sales_value.status === "up"
                                                                     ? "text-green-500"
@@ -501,7 +421,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold"> Gross Profit</h6>
                                                         <p className="text-lg">
-                                                            ₹{stats.profit.profit}
+                                                            {currency} {stats.profit.profit}
                                                             <span
                                                                 className={`ml-2 ${stats.profit.status === "up"
                                                                     ? "text-green-500"
@@ -527,23 +447,23 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Stock</h6>
                                                         <p className="text-lg">
-                                                            {item?.stock?.value} 
-                                                       
+                                                        {currency} {stats?.stock?.value}
+
                                                             <span
-                                                                className={`ml-2 ${item?.stock?.status === "up"
+                                                                className={`ml-2 ${stats?.stock?.status === "up"
                                                                     ? "text-green-500"
                                                                     : "text-red-500"
                                                                     }`}
                                                             >
-                                                                {item?.stock?.status === "up" ? (
+                                                                {stats?.stock?.status === "up" ? (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {item?.stock?.percentage}%
+                                                                        {stats?.stock?.percentage}%
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {item?.stock?.percentage}%
+                                                                        {stats?.stock?.percentage}%
                                                                     </>
                                                                 )}
                                                             </span>
@@ -558,7 +478,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Shop Sales</h6>
                                                         <p className="text-lg">
-                                                            ₹
+                                                            {currency} 
                                                             {item?.shop_sales?.shop_sales
                                                                 ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString()
                                                                 : ""}
@@ -587,7 +507,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Shop Profit</h6>
                                                         <p className="text-lg">
-                                                            ₹
+                                                            {currency} 
                                                             {item?.shop_profit?.shop_profit
                                                                 ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString()
                                                                 : "0.00"}
@@ -687,7 +607,7 @@ export default withApiHandler(enhanceDashboardOverview);
 //                 "yAxisID": "y1"
 //             },
 //             {
-//                 "label": "Fuel Value (₹)",
+//                 "label": "Fuel Value ({currency} )",
 //                 "data": [
 //                     152105,
 //                     0
@@ -698,7 +618,7 @@ export default withApiHandler(enhanceDashboardOverview);
 //                 "yAxisID": "y"
 //             },
 //             {
-//                 "label": "Profit (₹)",
+//                 "label": "Profit ({currency} )",
 //                 "data": [
 //                     "0.00",
 //                     "0.00"
