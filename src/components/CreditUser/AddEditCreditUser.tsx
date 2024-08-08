@@ -88,6 +88,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
 
         } else {
+            formik.setFieldValue('sites', []);
             setstations([])
             formik.setFieldValue('client_name', "");
 
@@ -96,9 +97,9 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     const FetchClientList = async () => {
         try {
             const response = await getData('/getClients');
-            const clients = response.data.data;
-
+            const clients = response.data?.data;
             setClients(clients);
+
         } catch (error) {
             handleApiError(error);
         }
@@ -107,6 +108,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
     const fetchSiteList = async (companyId: string) => {
         try {
             const response = await getData(`getStations?client_id=${companyId}`);
+            formik.setFieldValue('sites', response.data?.data);
             setstations(response.data?.data);
         } catch (error) {
             handleApiError(error);
@@ -125,12 +127,13 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                         value: report.id,
                         label: report.name,
                     }));
-                    // client_id: '',
-                    // name: '',
-                    // phone_number: '',
-                    // max_amount: '',
-                    // selectedStations: [],
+                // client_id: '',
+                // name: '',
+                // phone_number: '',
+                // max_amount: '',
+                // selectedStations: [],
                 formik.setFieldValue("selectedStations", checkedReports);
+                formik.setFieldValue('sites', userData?.stations);
                 formik.setFieldValue("client_id", userData?.client_id);
                 formik.setFieldValue("name", userData?.name);
                 formik.setFieldValue("phone", userData?.phone);
@@ -204,7 +207,8 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                         // value={selected}
                                                         // onChange={setSelected}
                                                         labelledBy="Select Stations.."
-                                                        options={stations?.map((item) => ({ value: item.id, label: item.name }))}
+                                                        options={formik.values?.sites?.map((item) => ({ value: item.id, label: item.name }))}
+
                                                     />
 
                                                     {formik.errors.selectedStations && formik.touched.selectedStations && (

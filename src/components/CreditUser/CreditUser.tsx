@@ -294,7 +294,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             const skipDates = values?.selectedStations || [];
 
             if (skipDates.length === 0) {
-             
+
                 return; // Early exit if skip_date is empty
             }
 
@@ -443,100 +443,99 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="mt-6">
-    {/* Define grid with responsive columns */}
-    <div
-        className={`grid grid-cols-1 gap-1 mb-6 ${
-            localStorage.getItem("superiorRole") !== "Client"
-                ? "sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4" // If not Client, use multi-column grid
-                : "sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1" // If Client, use single-column grid
-        }`}
-    >
-        {/* Conditional rendering for roles other than "Client" */}
-        {localStorage.getItem("superiorRole") !== "Client" && (
-            <div className="panel h-full flex flex-col justify-between">
-                {/* Form for selecting a client and applying filters */}
-                <form onSubmit={formik.handleSubmit} className="flex-1 flex flex-col justify-between">
-                    {/* Layout for form fields using Flexbox and grid */}
-                    <div className="flex flex-col sm:flex-row flex-1">
-                        {/* Grid for form fields, adaptable to screen size */}
-                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
-                            <FormikSelect
-                                formik={formik}
-                                name="client_id"
-                                label="Client"
-                                options={RoleList.map((item) => ({
-                                    id: item.id,
-                                    name: item.client_name,
-                                }))}
-                                className="form-select text-white-dark"
-                            />
+                {/* Define grid with responsive columns */}
+                <div
+                    className={`grid grid-cols-1 gap-1 mb-6 ${localStorage.getItem("superiorRole") !== "Client"
+                            ? "sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4" // If not Client, use multi-column grid
+                            : "sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1" // If Client, use single-column grid
+                        }`}
+                >
+                    {/* Conditional rendering for roles other than "Client" */}
+                    {localStorage.getItem("superiorRole") !== "Client" && (
+                        <div className="panel h-full flex flex-col justify-between">
+                            {/* Form for selecting a client and applying filters */}
+                            <form onSubmit={formik.handleSubmit} className="flex-1 flex flex-col justify-between">
+                                {/* Layout for form fields using Flexbox and grid */}
+                                <div className="flex flex-col sm:flex-row flex-1">
+                                    {/* Grid for form fields, adaptable to screen size */}
+                                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
+                                        <FormikSelect
+                                            formik={formik}
+                                            name="client_id"
+                                            label="Client"
+                                            options={RoleList.map((item) => ({
+                                                id: item.id,
+                                                name: item.client_name,
+                                            }))}
+                                            className="form-select text-white-dark"
+                                        />
+                                    </div>
+                                </div>
+                                {/* Submit button aligned to the right */}
+                                <div className="sm:col-span-2 mt-6 flex justify-end">
+                                    <button type="submit" className="btn btn-primary">
+                                        Apply
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                    {/* Submit button aligned to the right */}
-                    <div className="sm:col-span-2 mt-6 flex justify-end">
-                        <button type="submit" className="btn btn-primary">
-                            Apply
-                        </button>
-                    </div>
-                </form>
-            </div>
-        )}
+                    )}
 
-        {/* Main content panel for displaying data */}
-        <div className={`panel h-full ${localStorage.getItem("superiorRole") !== "Client" ? "xl:col-span-3" : "xl:col-span-4"}`}>
-            <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
-                {/* Header for the data table */}
-                <h5 className="font-semibold text-lg dark:text-white-light">Credit Users</h5>
-                {/* Conditionally rendered search bar */}
-                {showFilterOptions && (
-                    <SearchBar
-                        onSearch={handleSearch}
-                        onReset={handleReset}
-                        hideReset={Boolean(searchTerm)}
-                        placeholder="Enter search term..."
-                    />
-                )}
-            </div>
+                    {/* Main content panel for displaying data */}
+                    <div className={`panel h-full ${localStorage.getItem("superiorRole") !== "Client" ? "xl:col-span-3" : "xl:col-span-4"}`}>
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                            {/* Header for the data table */}
+                            <h5 className="font-semibold text-lg dark:text-white-light">Credit Users</h5>
+                            {/* Conditionally rendered search bar */}
+                            {showFilterOptions && (
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    onReset={handleReset}
+                                    hideReset={Boolean(searchTerm)}
+                                    placeholder="Enter search term..."
+                                />
+                            )}
+                        </div>
 
-            {/* Check if data is available */}
-            {data?.length > 0 ? (
-                <>
-                    {/* Data table with options */}
-                    <div className="datatables">
-                        <DataTable
-                            className="table-striped table-hover table-bordered table-compact"
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            responsive={true}
-                        />
-                        {/* Custom pagination if more than one page */}
-                        {data?.length > 0 && lastPage > 1 && (
-                            <CustomPagination
-                                currentPage={currentPage}
-                                lastPage={lastPage}
-                                handlePageChange={handlePageChange}
-                            />
+                        {/* Check if data is available */}
+                        {data?.length > 0 ? (
+                            <>
+                                {/* Data table with options */}
+                                <div className="datatables">
+                                    <DataTable
+                                        className="table-striped table-hover table-bordered table-compact"
+                                        columns={columns}
+                                        data={data}
+                                        noHeader
+                                        defaultSortAsc={false}
+                                        striped={true}
+                                        persistTableHead
+                                        highlightOnHover
+                                        responsive={true}
+                                    />
+                                    {/* Custom pagination if more than one page */}
+                                    {data?.length > 0 && lastPage > 1 && (
+                                        <CustomPagination
+                                            currentPage={currentPage}
+                                            lastPage={lastPage}
+                                            handlePageChange={handlePageChange}
+                                        />
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                {/* Display image when no data is available */}
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="no data found"
+                                    className="all-center-flex nodata-image"
+                                />
+                            </>
                         )}
                     </div>
-                </>
-            ) : (
-                <>
-                    {/* Display image when no data is available */}
-                    <img
-                        src={noDataImage} // Use the imported image directly as the source
-                        alt="no data found"
-                        className="all-center-flex nodata-image"
-                    />
-                </>
-            )}
-        </div>
-    </div>
-</div>
+                </div>
+            </div>
 
 
 
