@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import IconCaretDown from '../Icon/IconCaretDown';
 import { IRootState } from '../../store';
 import { MenuItem, SubMenuItem } from './SideBarItems';
 
@@ -12,20 +11,24 @@ interface Props extends MenuItem {
 
 const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, subMenu, permission }) => {
     const { data } = useSelector((state: IRootState) => state?.data);
-    const hasSubMenuPermission = subMenu?.some(item => data?.permissions?.includes(item.permission));
-    const isVisible = permission ? data?.permissions?.includes(permission) || hasSubMenuPermission : true;
-    const isActive = permission ? data?.permissions?.includes(permission) || hasSubMenuPermission : true;
+    const hasSubMenuPermission = subMenu?.some((item) =>
+        data?.permissions?.includes(item.permission)
+    );
+    const isVisible = permission
+        ? data?.permissions?.includes(permission) || hasSubMenuPermission
+        : true;
+
     const hasSubMenu = subMenu && subMenu.length > 0;
 
     if (!isVisible) {
         return null;
     }
+
     return (
         <li className="menu nav-item relative" key={itemKey}>
             {hasSubMenu ? (
                 <button type="button" className="nav-link">
                     <div className="flex items-center">
-                        {/* <Icon className="shrink-0" /> */}
                         <i className={`fi fi-rr-${Icon}`}></i>
                         <span className="px-1">{title}</span>
                     </div>
@@ -35,7 +38,12 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                 </button>
             ) : link ? (
                 link.startsWith('http') ? (
-                    <a href={link} className="nav-link" target="_blank" rel="noopener noreferrer">
+                    <a
+                        href={link}
+                        className={`nav-link ${!hasSubMenu ? 'ActionTab' : ''}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <div className="flex items-center">
                             <i className={`fi fi-rr-${Icon}`}></i>
                             <span className="px-1">{title}</span>
@@ -44,7 +52,11 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                 ) : (
                     <NavLink
                         to={link}
-                        className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+                        className={({ isActive }) =>
+                            `${isActive ? 'nav-link active' : 'nav-link'} ${
+                                isActive ? 'ActionTab' : ''
+                            }`
+                        }
                     >
                         <div className="flex items-center">
                             <i className={`fi fi-rr-${Icon}`}></i>
@@ -53,7 +65,9 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                     </NavLink>
                 )
             ) : (
-                <div className="nav-link">
+                <div className={`nav-link ${!hasSubMenu ? 'ActionTab' : ''}`}
+                
+                >
                     <div className="flex items-center">
                         <i className={`fi fi-rr-${Icon}`}></i>
                         <span className="px-1">{title}</span>
@@ -64,7 +78,9 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
             {hasSubMenu && (
                 <ul className="sub-menu">
                     {subMenu?.map((item, index) => {
-                        const isVisibleSubMenu = data?.permissions?.includes(item.permission || '');
+                        const isVisibleSubMenu = data?.permissions?.includes(
+                            item.permission || ''
+                        );
 
                         if (!isVisibleSubMenu) {
                             return null;
@@ -73,13 +89,23 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                         return (
                             <li key={index}>
                                 {item.target ? (
-                                    <a href={item.link} target={item.target} rel="noopener noreferrer">
+                                    <a
+                                        href={item.link}
+                                        target={item.target}
+                                        rel="noopener noreferrer"
+                                    >
                                         {item.title}
                                     </a>
                                 ) : (
                                     <NavLink
                                         to={item.link}
-                                        className={({ isActive }) => (isActive ? 'active' : '')}
+                                        className={({ isActive }) =>
+                                            `${isActive ? 'active' : ''} ${
+                                                isActive
+                                                    ? 'ActionTab'
+                                                    : ''
+                                            }`
+                                        }
                                     >
                                         {item.title}
                                     </NavLink>
