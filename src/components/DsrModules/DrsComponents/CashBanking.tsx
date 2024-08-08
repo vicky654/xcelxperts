@@ -325,12 +325,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         saveAs(item?.receipt, `receipt_${item?.id}.png`);
 
     };
-    const handleScrollToBottom = () => {
-        window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth',
-        });
-    };
+ 
     return (
         <div >
 
@@ -349,496 +344,440 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                 </h1>
 
-                {receipts.length > 0 || isEditable ? (
-                    <button onClick={handleScrollToBottom} id="scrollToBottomButton" className="px-4 py-2 mb-2 btn btn-primary text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                        Upload Receipts
-                    </button>
-                ) : ""}
 
 
-                {/* {isdownloadpdf  && (
-                    <button
-                        className='btn btn-primary'
-                        onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}
-                    >
-                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>   )} */}
+
             </div>
-            {/* Start Upload Bank Deposited */}
+            <div className="mt-6">
+                {/* Container for the row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {/* First column with dummy data */}
+                    <div className="col-span-1 bg-white border  shadow-lg p-3  ">
+                        <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
+                                                    Cash Available For Banking
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <span>({currency}{cashvalue})</span>
+                                        </OverlayTrigger>
+                                    ) : (
+                                        ''
+                                    )} </h2>
+                        {/* End Upload Bank Deposited */}
+                        {/* Start Edit Bank Deposited */}
+                        {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
+                            <div className="mb-6 mt-6 ">
 
+                          
+                        
+                                <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                    <div className="grid grid-cols-12 gap-4">
+                                        <div className="col-span-12 md:col-span-4">
+                                            <FormikSelect
+                                                formik={formik}
+                                                name="station_bank_id"
+                                                label="Bank"
+                                                options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
+                                                className="form-select text-white-dark"
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
+                                            <input
+                                                type="text"
+                                                name="reference"
+                                                placeholder="Notes"
+                                                value={formik.values.reference}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                            {formik.touched.reference && formik.errors.reference ? (
+                                                <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                placeholder="Amount"
+                                                value={formik.values.amount}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                            {formik.touched.amount && formik.errors.amount ? (
+                                                <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
+                                            <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
+                                            <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
 
-
-            {/* End Upload Bank Deposited */}
-            {/* Start Edit Bank Deposited */}
-            {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
-                <div className="mb-6 mt-6 bg-white border rounded-lg shadow-lg p-6">
-
-                    <h2 className="text-lg font-semibold mb-4">Edit Bank Deposited   {cashvalue ? (
-                        <OverlayTrigger
-                            placement="top"
-                            overlay={
-                                <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
-                                    Cash Available For Banking
-                                </Tooltip>
-                            }
-                        >
-                            <span>({currency}{cashvalue})</span>
-                        </OverlayTrigger>
-                    ) : (
-                        ''
-                    )} </h2>
-                    <form onSubmit={formik.handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-12 gap-4">
-                            <div className="col-span-12 md:col-span-4">
-                                <FormikSelect
-                                    formik={formik}
-                                    name="station_bank_id"
-                                    label="Bank"
-                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
-                                    className="form-select text-white-dark"
-                                />
                             </div>
-                            <div className="col-span-12 md:col-span-4">
-                                <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    name="reference"
-                                    placeholder="Notes"
-                                    value={formik.values.reference}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                />
-                                {formik.touched.reference && formik.errors.reference ? (
-                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                ) : null}
-                            </div>
-                            <div className="col-span-12 md:col-span-4">
-                                <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
-                                <input
-                                    type="number"
-                                    name="amount"
-                                    placeholder="Amount"
-                                    value={formik.values.amount}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                />
-                                {formik.touched.amount && formik.errors.amount ? (
-                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                                ) : null}
-                            </div>
-                            <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
-                                <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
-                                <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-            )}
-            {/* End Edit Bank Deposited */}
-            {/* Start Add Bank Deposited */}
-            {!selectedCashBanking && isEditable && (
-                <div className="mb-3 bg-white border rounded-lg shadow-lg p-6">
-                    <h2 className="text-lg font-semibold mb-4">
-                        Add New Bank Deposited Entry{' '}
-                        {cashvalue ? (
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                    <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
-                                        Cash Available For Banking
-                                    </Tooltip>
-                                }
-                            >
-                                <span>({currency}{cashvalue})</span>
-                            </OverlayTrigger>
-                        ) : (
-                            ''
                         )}
-                    </h2>
+                        {/* End Edit Bank Deposited */}
+                        {/* Start Add Bank Deposited */}
+                        {!selectedCashBanking && isEditable && (
+                            <div className="mb-3">
+                             
+                            
+
+                                <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                    <div className="grid grid-cols-12 gap-4">
+                                        <div className="col-span-12 md:col-span-4">
+                                            <FormikSelect
+                                                formik={formik}
+                                                name="station_bank_id"
+                                                label="Bank"
+                                                options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
+                                                className="form-select text-white-dark"
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
+                                            <input
+                                                type="text"
+                                                name="reference"
+                                                placeholder="Notes"
+                                                value={formik.values.reference}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                            {formik.touched.reference && formik.errors.reference ? (
+                                                <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                placeholder="Amount"
+                                                value={formik.values.amount}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                            {formik.touched.amount && formik.errors.amount ? (
+                                                <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4 flex items-end">
+                                            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        )}
+                         <hr className='mb-2'></hr>
+                        {loading ? (
+                            <>
+                                {LoaderImg}
+                            </>
+                        ) : (
+                            cashBankingData?.length === 0 ? (
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="no data found"
+                                    className="all-center-flex nodata-image"
+                                />
+                            ) : (
+
+                                <DataTable
+                                    columns={columns}
+                                    data={cashBankingData}
+                                // pagination
+                                />
+                            )
+                        )}
+                    </div>
+
+                    {/* Second column with dummy data */}
+                    <div className="col-span-1 bg-white border  shadow-lg p-3 ">
+                    <h2 className="text-lg font-semibold mb-4"> Bank Deposited Receipts </h2>
+                        {receipts.length > 0 || isEditable ? (
+                            <div className="col-span-12  ">
+                               
+                                {isEditable && (<form
+                                    onSubmit={Invoiceformik.handleSubmit}
+                                    className="col-span-12  "
+                                >
+                                 
+                                
+                                    {/* File Uploads */}
+                                    <div className="grid grid-cols-12 gap-4">
 
 
-                    <form onSubmit={formik.handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-12 gap-4">
-                            <div className="col-span-12 md:col-span-4">
-                                <FormikSelect
-                                    formik={formik}
-                                    name="station_bank_id"
-                                    label="Bank"
-                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
-                                    className="form-select text-white-dark"
-                                />
-                            </div>
-                            <div className="col-span-12 md:col-span-4">
-                                <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    name="reference"
-                                    placeholder="Notes"
-                                    value={formik.values.reference}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                />
-                                {formik.touched.reference && formik.errors.reference ? (
-                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                ) : null}
-                            </div>
-                            <div className="col-span-12 md:col-span-4">
-                                <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
-                                <input
-                                    type="number"
-                                    name="amount"
-                                    placeholder="Amount"
-                                    value={formik.values.amount}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                />
-                                {formik.touched.amount && formik.errors.amount ? (
-                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                                ) : null}
-                            </div>
-                            <div className="col-span-12 md:col-span-4 flex items-end">
-                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
-                            </div>
-                        </div>
-                    </form>
+                                        {/*  Receipt 1 */}
+                                        <div className="col-span-3">
+                                            <label
+                                                htmlFor="file1"
+                                                className="block text-sm font-medium text-gray-700 mb-1"
+                                            >
+                                                 Receipt 1
+                                            </label>
+                                            <div
+                                                className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500"
+                                                onClick={() => {
+                                                    const fileInput = document.getElementById('file1') as HTMLInputElement | null;
+                                                    if (fileInput) {
+                                                        fileInput.click();
+                                                    }
+                                                }}
+                                            >
+                                                <input
+                                                    type="file"
+                                                    id="file1"
+                                                    name="file1"
+                                                    accept=".pdf,.jpg,.png"
+                                                    onChange={(e) => handleFileChange(e, "file1")}
+                                                    className="hidden"
+                                                />
+                                                <div className="flex flex-col items-center py-4">
+                                                   
+                                                    <span className="text-sm font-medium text-gray-600">
+                                                        Click to upload
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {Invoiceformik.touched.file1 && Invoiceformik.errors.file1 ? (
+                                                <div className="text-red-500 text-sm mt-1">
+                                                    {Invoiceformik.errors.file1}
+                                                </div>
+                                            ) : null}
+                                            {Invoiceformik.values.file1 && (
+                                                <div className="text-sm mt-2">
+                                                    {renderFileDetails(Invoiceformik.values.file1)}
+                                                </div>
+                                            )}
+                                        </div>
 
+
+                                        {/*  Receipt 2 */}
+                                        <div className="col-span-3">
+                                            <label
+                                                htmlFor="file2"
+                                                className="block text-sm font-medium text-gray-700 mb-1"
+                                            >
+                                                 Receipt 2
+                                            </label>
+                                            <div
+                                                onClick={() => {
+                                                    const fileInput = document.getElementById('file2') as HTMLInputElement | null;
+                                                    if (fileInput) {
+                                                        fileInput.click();
+                                                    }
+                                                }}
+                                                className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500">
+                                                <input
+                                                    type="file"
+                                                    id="file2"
+                                                    name="file2"
+                                                    accept=".pdf,.jpg,.png"
+                                                    onChange={(e) => handleFileChange(e, "file2")}
+                                                    className="hidden"
+                                                />
+                                                <div className="flex flex-col items-center py-4 " >
+                                                  
+                                                    <span className="text-sm font-medium text-gray-600">
+                                                        Click to upload
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {Invoiceformik.touched.file2 && Invoiceformik.errors.file2 ? (
+                                                <div className="text-red-500 text-sm mt-1">
+                                                    {Invoiceformik.errors.file2}
+                                                </div>
+                                            ) : null}
+                                            {Invoiceformik.values.file2 && (
+                                                <div className="text-sm mt-2">
+                                                    {renderFileDetails(Invoiceformik.values.file2)}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/*  Receipt 3 */}
+                                        <div className="col-span-3">
+                                            <label
+                                                htmlFor="file3"
+                                                className="block text-sm font-medium text-gray-700 mb-1"
+                                            >
+                                                 Receipt 3
+                                            </label>
+                                            <div
+
+                                                onClick={() => {
+                                                    const fileInput = document.getElementById('file3') as HTMLInputElement | null;
+                                                    if (fileInput) {
+                                                        fileInput.click();
+                                                    }
+                                                }}
+                                                className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500">
+                                                <input
+                                                    type="file"
+                                                    id="file3"
+                                                    name="file3"
+                                                    accept=".pdf,.jpg,.png"
+                                                    onChange={(e) => handleFileChange(e, "file3")}
+                                                    className="hidden"
+                                                />
+                                                <div className="flex flex-col items-center py-4">
+                                                  
+                                                    <span className="text-sm font-medium text-gray-600">
+                                                        Click to upload
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {Invoiceformik.touched.file3 && Invoiceformik.errors.file3 ? (
+                                                <div className="text-red-500 text-sm mt-1">
+                                                    {Invoiceformik.errors.file3}
+                                                </div>
+                                            ) : null}
+                                            {Invoiceformik.values.file3 && (
+                                                <div className="text-sm mt-2">
+                                                    {renderFileDetails(Invoiceformik.values.file3)}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/*  Receipt 4 */}
+                                        <div className="col-span-3">
+                                            <label
+                                                htmlFor="file4"
+                                                className="block text-sm font-medium text-gray-700 mb-1"
+                                            >
+                                                 Receipt 4
+                                            </label>
+                                            <div
+
+                                                onClick={() => {
+                                                    const fileInput = document.getElementById('file4') as HTMLInputElement | null;
+                                                    if (fileInput) {
+                                                        fileInput.click();
+                                                    }
+                                                }}
+                                                className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500">
+                                                <input
+                                                    type="file"
+                                                    id="file4"
+                                                    name="file4"
+                                                    accept=".pdf,.jpg,.png"
+                                                    onChange={(e) => handleFileChange(e, "file4")}
+                                                    className="hidden"
+                                                />
+                                                <div className="flex flex-col items-center py-4">
+                                                  
+                                                    <span className="text-sm font-medium text-gray-600">
+                                                        Click to upload
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {Invoiceformik.touched.file4 && Invoiceformik.errors.file4 ? (
+                                                <div className="text-red-500 text-sm mt-1">
+                                                    {Invoiceformik.errors.file4}
+                                                </div>
+                                            ) : null}
+                                            {Invoiceformik.values.file4 && (
+                                                <div className="text-sm mt-2">
+                                                    {renderFileDetails(Invoiceformik.values.file4)}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Submit Button */}
+                                    <div className="mt-6">
+                                        <button
+                                            type="submit"
+                                            className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                        >
+                                            Upload
+                                        </button>
+                                    </div>
+                                </form>
+                                )}
+                                <hr className='mt-2'></hr>
+                                 {receipts && receipts.length > 0 && (
+                                    <div className="mt-4">
+
+                                        <h2 className="text-lg font-semibold mb-4">Uploaded Receipts</h2>
+
+
+                                        <div className="grid grid-cols-12 gap-1">
+                                            {receipts?.map((receipt: any) => (
+                                                <div style={{ width: "200px", height: "200px" }} key={receipt.id} className=" flex relative border rounded-lg overflow-hidden shadow-lg col-span-3">
+                                                    <img
+                                                        src={receipt.receipt}
+                                                        alt={`Receipt ${receipt.id}`}
+                                                        className="w-full h-100 object-fit-contain"
+                                                    />
+
+                                                    {isEditable && (
+
+                                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
+
+                                                            Remove  Receipt
+
+                                                        </Tooltip>}>
+                                                            <button
+                                                                onClick={() => onRemove(receipt?.id)} // Handle removal on click
+                                                                className="absolute boxcenter top-2 right-2 bg-danger p-1 rounded-full shadow-md hover:bg-gray-200 focus:outline-none contentcenter"
+                                                            >
+                                                                <i style={{ color: "#fff" }} className="fi fi-tr-square-x"></i>
+                                                            </button>
+                                                        </OverlayTrigger>
+
+
+                                                    )}
+
+
+                                                    <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
+
+                                                        Download IMG
+
+                                                    </Tooltip>}>
+                                                        <button
+                                                            onClick={() => onDownload(receipt)} // Handle removal on click
+                                                            className="  absolute boxcenter top-10 right-2 bg-info p-1 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
+                                                        >
+                                                            <i style={{ color: "#fff" }} className="fi fi-tr-cloud-download-alt"></i>
+                                                        </button>
+                                                    </OverlayTrigger>
+
+
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ) : ""
+
+                        }
+                    </div>
                 </div>
-            )}
+            </div>
+
+
+
+
+
+
             {/* End Add Bank Deposited */}
 
-            {loading ? (
-                <>
-                    {LoaderImg}
-                </>
-            ) : (
-                cashBankingData?.length === 0 ? (
-                    <img
-                        src={noDataImage} // Use the imported image directly as the source
-                        alt="no data found"
-                        className="all-center-flex nodata-image"
-                    />
-                ) : (
-
-                    <DataTable
-                        columns={columns}
-                        data={cashBankingData}
-                    // pagination
-                    />
-                )
-            )}
-            {receipts.length > 0 || isEditable ? (
-                <div className="col-span-12 p-6 bg-white border rounded-lg shadow-lg">
-                    {receipts && receipts.length > 0 && (
-                        <div className="p-2">
-
-                            <h2 className="text-xl font-bold mb-4">Receipts Preview</h2>
 
 
-                            <div className="grid grid-cols-12 gap-4">
-                                {receipts?.map((receipt: any) => (
-                                    <div style={{ width: "200px", height: "200px" }} key={receipt.id} className=" flex relative border rounded-lg overflow-hidden shadow-lg col-span-3">
-                                        <img
-                                            src={receipt.receipt}
-                                            alt={`Receipt ${receipt.id}`}
-                                            className="w-full h-100 object-fit-contain"
-                                        />
-
-                                        {isEditable && (
-
-                                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
-
-                                                Remove  Receipt
-
-                                            </Tooltip>}>
-                                                <button
-                                                    onClick={() => onRemove(receipt?.id)} // Handle removal on click
-                                                    className="absolute boxcenter top-2 right-2 bg-danger p-1 rounded-full shadow-md hover:bg-gray-200 focus:outline-none contentcenter"
-                                                >
-                                                    <i style={{ color: "#fff" }} className="fi fi-tr-square-x"></i>
-                                                </button>
-                                            </OverlayTrigger>
-
-
-                                        )}
-
-
-                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >
-
-                                            Download IMG
-
-                                        </Tooltip>}>
-                                            <button
-                                                onClick={() => onDownload(receipt)} // Handle removal on click
-                                                className="  absolute boxcenter top-10 right-2 bg-info p-1 rounded-full shadow-md hover:bg-gray-200 focus:outline-none"
-                                            >
-                                                <i style={{ color: "#fff" }} className="fi fi-tr-cloud-download-alt"></i>
-                                            </button>
-                                        </OverlayTrigger>
-
-
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                    {isEditable && (<form
-                        onSubmit={Invoiceformik.handleSubmit}
-                        className="col-span-12 p-6 bg-white border rounded-lg shadow-lg"
-                    >
-                        <h2 className="text-lg font-semibold mb-4">Upload Receipt</h2>
-                        {/* File Uploads */}
-                        <div className="grid grid-cols-12 gap-4">
-
-
-                            {/* Upload Receipt 1 */}
-                            <div className="col-span-3">
-                                <label
-                                    htmlFor="file1"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Upload Receipt 1
-                                </label>
-                                <div
-                                    className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500"
-                                    onClick={() => {
-                                        const fileInput = document.getElementById('file1') as HTMLInputElement | null;
-                                        if (fileInput) {
-                                            fileInput.click();
-                                        }
-                                    }}
-                                >
-                                    <input
-                                        type="file"
-                                        id="file1"
-                                        name="file1"
-                                        accept=".pdf,.jpg,.png"
-                                        onChange={(e) => handleFileChange(e, "file1")}
-                                        className="hidden"
-                                    />
-                                    <div className="flex flex-col items-center py-4">
-                                        <svg
-                                            className="w-10 h-10 text-gray-400 mb-2"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M7 16V8a4 4 0 014-4h4a4 4 0 014 4v8m-7-4h-6m6 0a4 4 0 004 4h6m-6-4a4 4 0 00-4-4h-6"
-                                            />
-                                        </svg>
-                                        <span className="text-sm font-medium text-gray-600">
-                                            Click to upload
-                                        </span>
-                                    </div>
-                                </div>
-                                {Invoiceformik.touched.file1 && Invoiceformik.errors.file1 ? (
-                                    <div className="text-red-500 text-sm mt-1">
-                                        {Invoiceformik.errors.file1}
-                                    </div>
-                                ) : null}
-                                {Invoiceformik.values.file1 && (
-                                    <div className="text-sm mt-2">
-                                        {renderFileDetails(Invoiceformik.values.file1)}
-                                    </div>
-                                )}
-                            </div>
-
-
-                            {/* Upload Receipt 2 */}
-                            <div className="col-span-3">
-                                <label
-                                    htmlFor="file2"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Upload Receipt 2
-                                </label>
-                                <div
-                                    onClick={() => {
-                                        const fileInput = document.getElementById('file2') as HTMLInputElement | null;
-                                        if (fileInput) {
-                                            fileInput.click();
-                                        }
-                                    }}
-                                    className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500">
-                                    <input
-                                        type="file"
-                                        id="file2"
-                                        name="file2"
-                                        accept=".pdf,.jpg,.png"
-                                        onChange={(e) => handleFileChange(e, "file2")}
-                                        className="hidden"
-                                    />
-                                    <div className="flex flex-col items-center py-4 " >
-                                        <svg
-                                            className="w-10 h-10 text-gray-400 mb-2"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M7 16V8a4 4 0 014-4h4a4 4 0 014 4v8m-7-4h-6m6 0a4 4 0 004 4h6m-6-4a4 4 0 00-4-4h-6"
-                                            />
-                                        </svg>
-                                        <span className="text-sm font-medium text-gray-600">
-                                            Click to upload
-                                        </span>
-                                    </div>
-                                </div>
-                                {Invoiceformik.touched.file2 && Invoiceformik.errors.file2 ? (
-                                    <div className="text-red-500 text-sm mt-1">
-                                        {Invoiceformik.errors.file2}
-                                    </div>
-                                ) : null}
-                                {Invoiceformik.values.file2 && (
-                                    <div className="text-sm mt-2">
-                                        {renderFileDetails(Invoiceformik.values.file2)}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Upload Receipt 3 */}
-                            <div className="col-span-3">
-                                <label
-                                    htmlFor="file3"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Upload Receipt 3
-                                </label>
-                                <div
-
-                                    onClick={() => {
-                                        const fileInput = document.getElementById('file3') as HTMLInputElement | null;
-                                        if (fileInput) {
-                                            fileInput.click();
-                                        }
-                                    }}
-                                    className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500">
-                                    <input
-                                        type="file"
-                                        id="file3"
-                                        name="file3"
-                                        accept=".pdf,.jpg,.png"
-                                        onChange={(e) => handleFileChange(e, "file3")}
-                                        className="hidden"
-                                    />
-                                    <div className="flex flex-col items-center py-4">
-                                        <svg
-                                            className="w-10 h-10 text-gray-400 mb-2"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M7 16V8a4 4 0 014-4h4a4 4 0 014 4v8m-7-4h-6m6 0a4 4 0 004 4h6m-6-4a4 4 0 00-4-4h-6"
-                                            />
-                                        </svg>
-                                        <span className="text-sm font-medium text-gray-600">
-                                            Click to upload
-                                        </span>
-                                    </div>
-                                </div>
-                                {Invoiceformik.touched.file3 && Invoiceformik.errors.file3 ? (
-                                    <div className="text-red-500 text-sm mt-1">
-                                        {Invoiceformik.errors.file3}
-                                    </div>
-                                ) : null}
-                                {Invoiceformik.values.file3 && (
-                                    <div className="text-sm mt-2">
-                                        {renderFileDetails(Invoiceformik.values.file3)}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Upload Receipt 4 */}
-                            <div className="col-span-3">
-                                <label
-                                    htmlFor="file4"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Upload Receipt 4
-                                </label>
-                                <div
-
-                                    onClick={() => {
-                                        const fileInput = document.getElementById('file4') as HTMLInputElement | null;
-                                        if (fileInput) {
-                                            fileInput.click();
-                                        }
-                                    }}
-                                    className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-500 cursor-pointer focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500">
-                                    <input
-                                        type="file"
-                                        id="file4"
-                                        name="file4"
-                                        accept=".pdf,.jpg,.png"
-                                        onChange={(e) => handleFileChange(e, "file4")}
-                                        className="hidden"
-                                    />
-                                    <div className="flex flex-col items-center py-4">
-                                        <svg
-                                            className="w-10 h-10 text-gray-400 mb-2"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M7 16V8a4 4 0 014-4h4a4 4 0 014 4v8m-7-4h-6m6 0a4 4 0 004 4h6m-6-4a4 4 0 00-4-4h-6"
-                                            />
-                                        </svg>
-                                        <span className="text-sm font-medium text-gray-600">
-                                            Click to upload
-                                        </span>
-                                    </div>
-                                </div>
-                                {Invoiceformik.touched.file4 && Invoiceformik.errors.file4 ? (
-                                    <div className="text-red-500 text-sm mt-1">
-                                        {Invoiceformik.errors.file4}
-                                    </div>
-                                ) : null}
-                                {Invoiceformik.values.file4 && (
-                                    <div className="text-sm mt-2">
-                                        {renderFileDetails(Invoiceformik.values.file4)}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Submit Button */}
-                        <div className="mt-6">
-                            <button
-                                type="submit"
-                                className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                            >
-                                Upload
-                            </button>
-                        </div>
-                    </form>
-                    )}
-                </div>
-            ) : ""
-
-            }
 
 
 

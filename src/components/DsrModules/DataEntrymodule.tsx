@@ -181,7 +181,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
   };
 
-  console.log(itemDeleted, "handleSuccess");
+
   const handleDeleteDataEntry = async () => {
     setitemDeleted(true);
 
