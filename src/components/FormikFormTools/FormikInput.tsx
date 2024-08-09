@@ -9,6 +9,7 @@ interface FormikInputProps {
     className?: string;
     isRequired?: boolean;
     readOnly?: boolean;
+    datepopup?: boolean;
     autoComplete?: string;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
@@ -23,6 +24,7 @@ const FormikInput: React.FC<FormikInputProps> = ({
     isRequired = true,
     readOnly = false,
     autoComplete = 'off',
+    datepopup = true,
     onBlur,
 }) => {
 
@@ -62,13 +64,11 @@ const FormikInput: React.FC<FormikInputProps> = ({
                 autoComplete={autoComplete}
                 // onClick={type === 'date' ? handleShowDate : undefined} // Conditionally add onClick
                 onClick={
-                    type === 'date'
-                      ? handleShowDate
-                      : type === 'month'
-                      ? handleShowDate
-                      : undefined
-                  }
-                style={{ cursor: type === 'date' ? 'pointer' : 'auto' }} 
+                    (type === 'date' || type === 'month') && datepopup
+                        ? handleShowDate
+                        : undefined
+                }
+                style={{ cursor: type === 'date' ? 'pointer' : 'auto' }}
             />
             {formik.submitCount > 0 && formik.errors[name] && formik.touched[name] && (
                 <div className="text-danger mt-1">{formik.errors[name]}</div>

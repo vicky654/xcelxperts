@@ -15,9 +15,9 @@ interface Client {
 }
 
 interface Company {
-    entity_name: string;
+    // entity_name: string;
     id: string;
-    company_name: string;
+    entity_name: string;
 }
 
 interface Site {
@@ -28,6 +28,7 @@ interface Site {
 
 interface CustomInputProps {
     isOpen: boolean;
+    smallScreen?: boolean;
     isLoading: boolean;
     onClose: () => void;
     isRtl?: boolean; // If needed
@@ -53,6 +54,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     isLoading,
     onApplyFilters,
     showClientInput = true,
+    smallScreen = false,
     showEntityInput = true,
     showStationInput = true,
     showStationValidation,
@@ -76,7 +78,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             client_id: "",
             client_name: "",
             entity_id: "",
-            company_name: "",
+            entity_name: "",
             start_date: "",
             station_id: "",
             site_name: "",
@@ -190,9 +192,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
             }
             formik.setFieldValue('station_id', "");
             const selectedCompany = formik.values.companies.find(company => company.id === companyId);
-            formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+            formik.setFieldValue('entity_name', selectedCompany?.entity_name || "");
         } else {
-            formik.setFieldValue('company_name', "");
+            formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
             formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
@@ -203,6 +205,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         const selectedSiteId = e.target.value;
         formik.setFieldValue("station_id", selectedSiteId);
         const selectedSiteData = formik.values.sites.find(site => site.id === selectedSiteId);
+        formik.setFieldValue('station_name', selectedSiteData?.name || "");
         if (selectedSiteData) {
             formik.setFieldValue("site_name", selectedSiteData.site_name);
         } else {
@@ -215,7 +218,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     return (
         <div className="">
-            <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
+            {!smallScreen && (<>
+                <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
+            </>)}
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col sm:flex-row">
                     {/* <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"> */}

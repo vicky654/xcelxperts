@@ -15,7 +15,7 @@ interface Client {
 interface Company {
     entity_name: string;
     id: string;
-    company_name: string;
+    // entity_name: string;
 }
 
 interface Site {
@@ -26,6 +26,7 @@ interface Site {
 
 interface CustomInputProps {
     isOpen: boolean;
+    smallScreen?: boolean;
     isLoading: boolean;
     onClose: () => void;
     isRtl?: boolean; // If needed
@@ -52,6 +53,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     showClientInput = true,
     showEntityInput = true,
     showStationInput = true,
+    smallScreen = false,
     showStationValidation,
     showDateInput = true,
     fullWidthButton = true,
@@ -71,7 +73,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             client_id: "",
             client_name: "",
             entity_id: "",
-            company_name: "",
+            entity_name: "",
             start_date: "",
             start_month: "",
             station_id: "",
@@ -83,7 +85,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         validationSchema: validationSchema,
         onSubmit: (values) => {
             onApplyFilters(values);
-     
+
             localStorage.setItem(storedKeyName, JSON.stringify(values));
         },
         validateOnChange: true,
@@ -165,9 +167,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
                 fetchSiteList(companyId);
             }
             const selectedCompany = formik.values.companies.find(company => company.id === companyId);
-            formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+            formik.setFieldValue('entity_name', selectedCompany?.entity_name || "");
         } else {
-            formik.setFieldValue('company_name', "");
+            formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
             formik.setFieldValue('station_id', "");
             formik.setFieldValue('site_name', "");
@@ -178,6 +180,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
         const selectedSiteId = e.target.value;
         formik.setFieldValue("station_id", selectedSiteId);
         const selectedSiteData = formik.values.sites.find(site => site.id === selectedSiteId);
+        formik.setFieldValue('station_name', selectedSiteData?.name || "");
+
         if (selectedSiteData) {
             formik.setFieldValue("site_name", selectedSiteData.site_name);
         } else {
@@ -282,6 +286,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                 placeholder="Select a Month"
                                 className="form-input text-white-dark"
                                 formik={formik}
+                                datepopup={false}
                             />
                         )}
                     </div>
