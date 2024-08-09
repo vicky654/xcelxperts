@@ -258,8 +258,14 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const GetSubData = async (date: string, selectedTab: string) => {
     try {
       const formattedDate = formatDate(date);
+      console.log(selectedTab, "selectedTab");
       const formattedTab = convertTabName(selectedTab);
-      const response = await getData(`/daily-stats/${formattedTab}?station_id=${stationId}&drs_date=${formattedDate}`);
+
+      // Check if formattedTab is 'digital-receipt' and send 'payments' instead
+      const endpoint = formattedTab === 'digital-receipt' ? 'payments' : formattedTab;
+      
+      const response = await getData(`/daily-stats/${endpoint}?station_id=${stationId}&drs_date=${formattedDate}`);
+      
       if (response && response.data && response.data.data) {
         setSubData(response.data?.data?.listing);
       } else {
