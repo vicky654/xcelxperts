@@ -73,28 +73,20 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
                 console.log(values, "selectedDates");
                 await onSubmit(values, formik);
             } catch (error) {
-                console.error('Submit error:', error);
+           
                 throw error; // Rethrow the error to be handled by the caller
             }
         },
     });
 
 
-    // useEffect(() => {
-    //     formik.resetForm()
-    //     if (isEditMode) {
-    //         fetchUserDetails(userId ? userId : '');
-    //     }
-    // }, [isOpen, isEditMode, userId]);
+  
 
     const fetchUserDetails = async (id: string) => {
         try {
             const response = await getData(`/station/manager/detail/${id}`);
             if (response && response.data) {
-                // const userData: UserData = response.data?.data;
-                console.log(response.data, " response.data");
-                console.log(response.data?.data?.reports, "response.data?.data?.reports");
-                formik.setFieldValue('sites', response.data?.data?.reports);
+             formik.setFieldValue('sites', response.data?.data?.reports);
                 formik.setFieldValue('users', response.data?.data?.users);
                 formik.setFieldValue('user_id', response.data?.data?.user_id);
                 const reports: any[] = response.data?.data?.reports || [];

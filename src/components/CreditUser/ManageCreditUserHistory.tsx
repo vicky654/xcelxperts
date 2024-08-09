@@ -340,7 +340,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
     // Handle month and year change from the child
     const handleMonthYearChange = (month: string, year: string) => {
-        console.log("Month:", month, "Year:", year, "handleMonthYearChange");
+
 
         if (month && year) {
             setSelectedMonth(month);
@@ -353,7 +353,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
         }
     };
 
-    console.log(selectedMonth, "selectedMonth");
+   
 
     const handleDownloadPdf = async (
 

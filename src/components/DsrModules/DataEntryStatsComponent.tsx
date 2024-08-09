@@ -7,15 +7,12 @@ import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
-
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
-import IconEye from '../Icon/IconEye';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-
 interface ManageSiteProps {
   isLoading: boolean;
   getData: (url: string) => Promise<any>;
@@ -200,9 +197,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       handleApiError(error);
     }
   };
-
-
-
 
   const filterValues = async (values: any) => {
     console.log(values, "filterValues");
