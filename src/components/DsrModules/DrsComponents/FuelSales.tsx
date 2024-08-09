@@ -47,7 +47,6 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
     const [iseditable, setIsEditable] = useState(true);
     const [isconsiderNozzle, setconsiderNozzle] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
-console.log(itemDeleted, "itemDeletedfuelsale");
     const handleApiError = useErrorHandler();
 
     useEffect(() => {
@@ -57,7 +56,7 @@ console.log(itemDeleted, "itemDeletedfuelsale");
     }, [stationId, startDate]);
     useEffect(() => {
         if (itemDeleted) {
-          console.log('Item was deleted. Fetching updated data...');
+ 
           handleApplyFilters(stationId, startDate);
         }
       }, [itemDeleted]);
