@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 import { IRootState } from '../../../store';
 import CustomInput from '../../ManageStationTank/CustomInput';
 import SearchBar from '../../../utils/SearchBar';
+import IconX from '../../Icon/IconX';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -91,13 +92,13 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
     const handlePageChange = (newPage: any) => {
         setCurrentPage(newPage);
@@ -245,6 +246,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
+        setIsFilterModalOpen(false);
     };
 
     const handleFormSubmit = async (values: any) => {
@@ -284,9 +286,14 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
+
+            console.log(values, "values");
+
+            setFilters(values)
             const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
                 setData(response.data.data);
+                setIsFilterModalOpen(false);
                 // setCurrentPage(response.data.data?.currentPage || 1);
                 // setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -310,64 +317,115 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         station_id: Yup.string().required('Station is required'),
     });
 
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    //     setIsFilterModalOpen(false);
+    // }
+
+    const [filters, setFilters] = useState<any>({
+        client_id: localStorage.getItem('client_id') || '',
+        company_id: localStorage.getItem('company_id') || '',
+        site_id: localStorage.getItem('site_id') || '',
+    });
+
+
 
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div className="flex justify-between items-center">
-                <ul className="flex space-x-2 rtl:space-x-reverse">
+            <div className="flex  justify-start md:justify-between items-center flex-wrap">
+                <ul className="flex space-x-2 rtl:space-x-reverse mb-2 md:mb-0">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Station Banks </span>
+                        <span>Station Banks</span>
                     </li>
                 </ul>
-                {isAddPermissionAvailable && <>
-                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                {isAddPermissionAvailable && (
+                    <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
                         Add Station Bank
                     </button>
-                </>}
+                )}
 
+                <div className="md:hidden flex ms-2">
+                    <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
+                        Filter Options
+                    </button>
+                </div>
             </div>
-            <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
-            <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
-                    <div className='panel h-full '>
+            <AddEditStationTankModal
+                getData={getData}
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onSubmit={handleFormSubmit}
+                isEditMode={isEditMode}
+                userId={userId}
+            />
 
-
+            <div className="mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+                    {/* CustomInput Section */}
+                    <div className="panel h-full hidden md:block">
                         <CustomInput
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
                             FilterValues={filterValues}
-                            showClientInput={true}  // or false
-                            showEntityInput={true}  // or false
-                            showStationInput={true} // or false
-                            showStationValidation={true} // or false
+                            showClientInput={true}
+                            showEntityInput={true}
+                            showStationInput={true}
+                            showStationValidation={true}
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
                             isOpen={false}
-                            onClose={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
+                            onClose={closeModal}
                             showDateInput={false}
-                            // storedKeyItems={storedKeyItems}
                             storedKeyName={storedKeyName}
                         />
+                    </div>
+
+                    {/* Button for Small Screens */}
+                    <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
+                        {filters?.client_name || filters?.entity_name || filters?.station_name ? (
+                            <>
+                                <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
+                                    {filters?.client_id && (
+                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Client :</span> {filters?.client_name}
+                                        </div>
+                                    )}
+
+                                    {filters?.entity_name && (
+                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Entity : </span> {filters?.entity_name}
+                                        </div>
+                                    )}
+
+                                    {filters?.station_name && (
+                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Station :</span> {filters?.station_name}
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            ''
+                        )}
 
 
                     </div>
-                    <div className='panel h-full xl:col-span-3'>
-                        {/* <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Station Banks </h5>
-                            <div className="ltr:ml-auto rtl:mr-auto">
-                           </div>
-                        </div> */}
 
+
+
+                    {/* Main Content */}
+                    <div className="panel h-full xl:col-span-3">
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
                             <h5 className="font-semibold text-lg dark:text-white-light">Station Banks</h5>
                             {showFilterOptions && (
@@ -380,36 +438,71 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             )}
                         </div>
                         {data?.length > 0 ? (
-                            <>
-                                <div className="datatables">
-                                    <DataTable
-                                        className=" table-striped table-hover table-bordered table-compact"
-                                        columns={columns}
-                                        data={data}
-                                        noHeader
-                                        defaultSortAsc={false}
-                                        striped={true}
-                                        persistTableHead
-                                        highlightOnHover
-                                        responsive={true}
-                                    />
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <img
-                                    src={noDataImage} // Use the imported image directly as the source
-                                    alt="no data found"
-                                    className="all-center-flex nodata-image"
+                            <div className="datatables">
+                                <DataTable
+                                    className="table-striped table-hover table-bordered table-compact"
+                                    columns={columns}
+                                    data={data}
+                                    noHeader
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    responsive={true}
                                 />
-                            </>
+                            </div>
+                        ) : (
+                            <img
+                                src={noDataImage} // Use the imported image directly as the source
+                                alt="no data found"
+                                className="all-center-flex nodata-image"
+                            />
                         )}
                     </div>
-
                 </div>
-
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+
+            {/* Pagination */}
+            {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
+            )}
+
+            {/* Modal for Filters on Small Screens */}
+            {isFilterModalOpen && (
+                <div className="modal fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white w-full max-w-md m-6">
+                        <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
+                            <h5 className="text-lg font-bold">
+                                Apply Filter
+                            </h5>
+                            <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
+                                <IconX />
+                            </button>
+                        </div>
+
+                        <div className='p-6'>
+                            <CustomInput
+                                getData={getData}
+                                smallScreen={true}
+                                isLoading={isLoading}
+                                onApplyFilters={handleApplyFilters}
+                                FilterValues={filterValues}
+                                showClientInput={true}
+                                showEntityInput={true}
+                                showStationInput={true}
+                                showStationValidation={true}
+                                validationSchema={validationSchemaForCustomInput}
+                                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+                                isOpen={isFilterModalOpen}
+                                onClose={closeModal}
+                                showDateInput={false}
+                                storedKeyName={storedKeyName}
+                            />
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </>
     );
 };
