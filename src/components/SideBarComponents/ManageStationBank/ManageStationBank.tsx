@@ -412,8 +412,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                         ) : (
                             ''
                         )}
-
-
                     </div>
 
 
@@ -432,7 +430,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                             )}
                             <div className="md:hidden flex">
                                 <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                                    Apply Filter
+                                    Filter
                                 </button>
                             </div>
                         </div>
