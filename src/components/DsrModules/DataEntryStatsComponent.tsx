@@ -346,13 +346,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           <span>Data Entry Stats</span>
         </li>
       </ul>
-
-
-      <div className="md:hidden flex ">
-        <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-          Filter Options
-        </button>
-      </div>
     </div>
 
 
@@ -384,7 +377,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
           {filters?.client_name || filters?.entity_name || filters?.station_name ? (
             <>
-              <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
+              <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
                 {filters?.client_id && (
                   <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
                     <span className="font-semibold">Client :</span> {filters?.client_name}
@@ -419,7 +412,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
-            <hr></hr>
+            <div className="md:hidden flex ">
+              <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
+                Apply Filter
+              </button>
+            </div>
           </div>
           <div>
             {startDate && stationId ? (
@@ -452,8 +449,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           </div>
           <div className="p-2" style={{ padding: "10px" }}>
-
-
 
             {stationId && selectedTab !== 'Variance Accumulation' && (
 
