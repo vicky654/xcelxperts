@@ -181,11 +181,11 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const storeCurrentMonth = () => {
         const currentMonth = getCurrentMonth();
         localStorage.setItem('start_month', currentMonth);
-        console.log(`Current month stored: ${currentMonth}`);
+       
     };
 
     const handleNavigateToNextPage = (item: any) => {
-        console.log(item, "item");
+     
         // Store the current month in localStorage
         storeCurrentMonth();
 
@@ -209,8 +209,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         }
     };
 
-    console.log(secondApiResponse, "site_id");
-    console.log(secondApiResponse?.stations, "secondApiResponse?.stations")
+
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -317,7 +316,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/* 4th Card */}
-                        <div className={`panel thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
                             </div>
@@ -341,13 +340,13 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                                 {secondApiResponse?.stations?.map((item: any) => (
                                     <div
-                                        key={item?.station_id}
+                                        key={item?.name}
                                         className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
                                             }`}
                                         style={{ cursor: "pointer" }}
                                         onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
-                                        {/* Header with Image and Name */}
+                                     
                                         <div className="flex items-center mb-4">
                                             <img
                                                 className="w-10 h-10 rounded-full object-cover"
@@ -357,11 +356,10 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                             <h5 className="ml-4 font-semibold">{item?.name}</h5>
                                         </div>
 
-                                        {/* Fuel Stats */}
                                         {item?.fuels_stats.map((stats: any, index: any) => (
                                             <div key={index}>
                                                 <div className="grid grid-cols-2 gap-4 my-3">
-                                                    {/* Sales Volume */}
+                                            
                                                     <div>
                                                         <h6 className="font-semibold">Gross Volume</h6>
                                                         <p className="text-lg">
@@ -387,7 +385,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                         </p>
                                                     </div>
 
-                                                    {/* Sales Value */}
+                                                  
                                                     <div>
                                                         <h6 className="font-semibold">Gross Value</h6>
                                                         <p className="text-lg">
@@ -417,7 +415,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 <hr />
 
                                                 <div className="grid grid-cols-2 gap-4 my-3">
-                                                    {/* Profit */}
+                                                
                                                     <div>
                                                         <h6 className="font-semibold"> Gross Profit</h6>
                                                         <p className="text-lg">
@@ -443,7 +441,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                         </p>
                                                     </div>
 
-                                                    {/* Stock */}
+                                                   
                                                     <div>
                                                         <h6 className="font-semibold">Stock Loss</h6>
                                                         <p className="text-lg">
@@ -488,7 +486,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
                                 </div>
                                 <img
-                                    src={noDataImage} // Use the imported image directly as the source
+                                    src={noDataImage} 
                                     alt="no data found"
                                     className="all-center-flex nodata-image"
                                 />
@@ -508,72 +506,3 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 const enhanceDashboardOverview = DashboardOverview
 
 export default withApiHandler(enhanceDashboardOverview);
-
-// {
-//     "basic_details": {
-//         "station_name": "Test Station",
-//         "client_name": "Test Client",
-//         "entity_name": "Test Company"
-//     },
-//     "sales_volume": {
-//         "sales_volume": 10,
-//         "status": "up",
-//         "percentage": 10.1
-//     },
-//     "sales_value": {
-//         "sales_value": 100,
-//         "status": "up",
-//         "percentage": 10.1
-//     },
-//     "profit": {
-//         "profit": 10,
-//         "status": "up",
-//         "percentage": 10.1
-//     },
-//     "line_graph": {
-//         "labels": [
-//             "Jun 2024",
-//             "Jul 2024"
-//         ],
-//         "datasets": [
-//             {
-//                 "label": "Fuel Volume (ℓ)",
-//                 "data": [
-//                     1600,
-//                     0
-//                 ],
-//                 "borderColor": "rgba(255, 99, 132, 1)",
-//                 "backgroundColor": "rgba(255, 99, 132, 0.5)",
-//                 "type": "line",
-//                 "yAxisID": "y1"
-//             },
-//             {
-//                 "label": "Fuel Value ({currency} )",
-//                 "data": [
-//                     152105,
-//                     0
-//                 ],
-//                 "borderColor": "rgba(54, 162, 235, 1)",
-//                 "backgroundColor": "rgba(54, 162, 235, 0.5)",
-//                 "type": "bar",
-//                 "yAxisID": "y"
-//             },
-//             {
-//                 "label": "Profit ({currency} )",
-//                 "data": [
-//                     "0.00",
-//                     "0.00"
-//                 ],
-//                 "borderColor": "rgba(154, 62, 251, 1)",
-//                 "backgroundColor": "rgba(154, 62, 251, 0.5)",
-//                 "type": "line",
-//                 "yAxisID": "y1"
-//             }
-//         ]
-//     },
-//     "pi_graph": {
-//         "sales_volume": 1600,
-//         "sales_value": 152105,
-//         "profit": 0
-//     }
-// }

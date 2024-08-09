@@ -99,7 +99,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     last_dayend
                 });
 
-                console.log(response.data, "columnIndex");
             }
         } catch (error) {
             console.error('Failed to fetch data', error);
@@ -133,7 +132,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
-    const [loading] = useState(false);
+
 
     useEffect(() => {
         // Check if client_id and company_id are present in local storage
@@ -186,20 +185,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     //Revenue Chart
     const revenueChart: any = {
-        // series: [
-        //     {
-        //         name: 'Fuel Volume',
-        //         data: [12000, 13000, 12500, 14000, 13500, 14500, 15000, 15500, 16000, 16500, 17000, 17500], // Dummy data
-        //     },
-        //     {
-        //         name: 'Gross Margin',
-        //         data: [8000, 8500, 8200, 8700, 8300, 8900, 9000, 9200, 9500, 9800, 10000, 10200], // Dummy data
-        //     },
-        //     {
-        //         name: 'Shop Sale',
-        //         data: [5000, 5500, 5200, 5700, 5300, 5900, 6000, 6200, 6500, 6800, 7000, 7200], // Dummy data
-        //     },
-        // ],
+
         series: filterData?.line_graph?.series,
         options: {
             chart: {
@@ -435,22 +421,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         }
     };
 
-    // const Badgeee = ({ label, value, color, Icon }) => (
-    //     <div className={`badge ${color} flex items-center gap-2 px-2 py-1 rounded shadow hover:shadow-md transition-shadow duration-200`} data-tip={label}>
-    //         {/* <Icon className="text-lg" /> */}
-    //         {/* <IconUser /> */}
-    //         <span className="font-semibold">{label}:</span> {value}
 
-    //     </div>
-    // );
-    const handleSuccessClick = () => {
-        showMessage('Operation was successful!', 'success');
-    };
 
-    const handleErrorClick = () => {
-        showMessage('Error: Something went wrong.', 'error');
-    };
-
+ 
     const { dates } = fuelStats; // Extract dates from fuelStats
     const [selectedDate, setSelectedDate] = useState(dates[0]); // Initial state
     const [filteredStockAlerts, setFilteredStockAlerts] = useState<{ [key: string]: any[] }>({});
@@ -465,7 +438,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             return acc;
         }, {} as { [key: string]: any[] });
 
-        console.log('Filtered stock alerts:', filteredStockAlerts);
+     
         setFilteredStockAlerts(filteredStockAlerts);
 
         // Optionally, you can update the state or handle the filtered data as needed
@@ -493,21 +466,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     </ul>
 
                     <div className=" flex gap-4 flex-wrap">
-                        {/* {filters?.client_id || filters?.company_id || filters?.site_id ? (
-                            <div className="badges-container flex flex-wrap items-center gap-2 px-4 py-1 bg-info rounded-lg text-white shadow-md">
-                                {filters?.client_id && (
-                                    <Badgeee label="Client Name" value={filters?.client_id} color="bg-blue-600"
-                                    // Icon={<i className="fa fa-user" aria-hidden="true"></i>}
-                                    />
-                                )}
-                                {filters?.company_id && (
-                                    <Badgeee label="Entity Name" value={filters.company_id} color="bg-green-600" Icon={<i className="fa fa-building" aria-hidden="true"></i>} />
-                                )}
-                                {filters?.site_id && (
-                                    <Badgeee label="Station Name" value={filters.site_id} color="bg-red-600" Icon={<i className="fas fa-map-marker-alt    "></i>} />
-                                )}
-                            </div>
-                        ) : null} */}
+                 
 
                         {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <>
@@ -623,7 +582,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         {/* //4TH Box */}
 
-                        <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
                             </div>
@@ -799,27 +758,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
-                    {/* <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "50px" }}>
-
-                        <VerticalProgressBarWithWave
-                            percentage={75}
-                            width={60}
-                            height={350}
-                            color="#ddd"
-                        />
-                        <VerticalProgressBarWithWave
-                            percentage={50}
-                            width={60}
-                            height={350}
-                            color="#ddd "
-                        />
-                        <VerticalProgressBarWithWave
-                            percentage={90}
-                            width={60}
-                            height={350}
-                            color="#ddd"
-                        />
-                    </div> */}
                 </div>
                 {/* //Graphs */}
             </div >
