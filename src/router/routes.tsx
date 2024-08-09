@@ -141,6 +141,7 @@ import AssignStationManagger from '../components/SideBarComponents/ManageStation
 import ManageCreditUserHistory from '../components/CreditUser/ManageCreditUserHistory';
 import BlankLayout from '../components/Layouts/BlankLayout';
 import AuthenticationCheck from '../components/Layouts/AuthenticationCheck';
+import StockLoss from '../components/SideBarComponents/ManageStation/StockLoss';
 
 const routes = [
   {
@@ -298,6 +299,10 @@ const routes = [
   {
     path: 'manage-stations/setting/:id',
     element: <StationSetting />,
+  },
+  {
+    path: 'manage-stations/stock-loss/:id',
+    element: <StockLoss />,
   },
 
   // {

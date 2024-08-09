@@ -79,7 +79,7 @@ const menuItems: MenuItem[] = [
             { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'fuel-category-list', visibility: false },
             { title: 'Fuel Sub Categories', link: '/manage-others/fuelsubcategories', permission: 'fuel-subcategory-list', visibility: false },
             { title: 'Lubricant', link: '/manage-others/lubricant', permission: 'lubricant-list', visibility: false },
-            { title: 'Incomes', link: '/manage-Incomes/Incomes', permission: 'charges-list', visibility: false },
+            { title: 'Extra Income', link: '/manage-Incomes/Incomes', permission: 'charges-list', visibility: false },
             { title: 'Expenses', link: '/manage-expenses/expenses', permission: 'deduction-list', visibility: false },
             { title: 'Suppliers', link: '/manage-supplier/supplier', permission: 'supplier-list', visibility: false },
            

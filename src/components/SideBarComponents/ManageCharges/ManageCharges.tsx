@@ -272,7 +272,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Extra Incomes</span>
+                        <span>Extra Income</span>
                     </li>
                 </ul>
 
@@ -291,7 +291,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                 </div> */}
 
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Extra Incomes</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Extra Income</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}

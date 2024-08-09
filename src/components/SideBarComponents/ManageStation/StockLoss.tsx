@@ -133,10 +133,6 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
         navigate(`/manage-stations/mannagers/${id}`)
     };
-    const NavigateToStockLoss = (id: any) => {
-
-        navigate(`/manage-stations/stock-loss/${id}`)
-    };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
@@ -153,7 +149,6 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const isDeletePermissionAvailable = UserPermissions?.includes("station-delete");
     const isAssignAddPermissionAvailable = UserPermissions?.includes("station-assign-permission");
     const AssignMannagerPermissionAvailable = UserPermissions?.includes("station-assign-manager");
-    const IsstocklossPermissionAvailable = UserPermissions?.includes("stockloss-list");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable || AssignMannagerPermissionAvailable;
 
@@ -344,10 +339,15 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                 )}
                                             </li>
                                             <li>
-                                                {IsstocklossPermissionAvailable && (
-                                                    <button onClick={() => NavigateToStockLoss(row.id)} type="button">
+                                                {AssignMannagerPermissionAvailable && (
+
+                                                    <button onClick={() => NavigateToAssignMannager(row.id)} type="button">
                                                         <i className="fi fi-ts-growth-chart-invest"></i>Stock Loss
-                                                    </button>)}
+                                                    </button>
+
+
+
+                                                )}
                                             </li>
 
                                         </ul>
@@ -355,7 +355,31 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 </div>
 
 
-                        
+                                {/* {isEditPermissionAvailable && (
+                                    <Tippy content="Edit">
+                                        <button type="button" onClick={() => openModal(row?.id)}>
+                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
+                                        </button>
+                                    </Tippy>
+                                )}
+                                {isDeletePermissionAvailable && (<>
+                                    <Tippy content="Delete">
+                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                        </button>
+                                    </Tippy>
+                                </>)}
+                                {isEditSettingPermissionAvailable && (
+
+                                    <>
+                                        <Tippy content="Station Settings">
+                                            <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
+                                                <i className="fi fi-rr-settings"></i>
+                                            </button>
+                                        </Tippy>
+                                    </>
+                                )} */}
+
 
 
                             </div>
@@ -439,9 +463,15 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                             Dashboard
                         </Link>
                     </li>
-                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations</span>
+                    <li >
+                        <Link to="/manage-stations/station" className="text-primary hover:underline">
+                            Manage  Stations
+                        </Link>
                     </li>
+                    <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                        <span>Stock Loss</span>
+                    </li>
+
                 </ul>
 
                 {isAddPermissionAvailable && <>
