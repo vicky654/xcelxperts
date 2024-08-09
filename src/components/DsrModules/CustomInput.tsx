@@ -191,7 +191,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     return (
         <div className="">
-            <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
+
+            {!smallScreen && (
+                <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
+            )}
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col sm:flex-row">
                     <div className={`${layoutClasses}`}>
@@ -286,7 +289,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                 placeholder="Select a Month"
                                 className="form-input text-white-dark"
                                 formik={formik}
-                                datepopup={false}
+                                datepopup={!smallScreen}
                             />
                         )}
                     </div>
