@@ -715,9 +715,9 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         {isEditable && (<h2 className="text-lg font-semibold mb-4">Uploaded Receipts</h2>)}
 
 
-                                        <div className="grid grid-cols-12 gap-1">
+                                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
                                             {receipts?.map((receipt: any) => (
-                                                <div style={{ width: "200px", height: "200px", }} key={receipt.id} className=" flex relative border rounded-lg overflow-hidden shadow-lg col-span-4">
+                                                <div style={{ width: "200px", height: "200px", }} key={receipt.id} className=" panel h-full  sm:grid-cols-1 md:grid-cols-1  xl:col-span-2 ">
                                                     <img
                                                         src={receipt.receipt}
                                                         alt={`Receipt ${receipt.id}`}
