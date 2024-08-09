@@ -658,54 +658,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
 
-            {/* {stationId && selectedTab !== 'Variance Accumulation' && (
-              <>
-                <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
-                  {graphstaticTabs.map((tabName) => (
-                    <li key={tabName} className="w-1/8 inline-block" style={{ minWidth: "100px" }}>
-                      <button
-                        onClick={() => handleGraphTabClick(tabName)}
-                        className={`
-                    flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
-                    ${graphselectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700' : ''}`}
-                        style={{ color: 'currentColor' }}
-                      >
-                       
-                        {tabName}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                {graphselectedTab === "Bar Chart" && (
-                  <div>
-
-             
-                    <StatsBarChart
-                      series={barData}
-                      categories={dates}
-                    // title="Financial Overview"
-                    // subtitle="Monthly Data"
-                    // yaxisTitle="Values (in thousands)"
-                    />
-                  </div>
-                )}
-                {graphselectedTab === "Pie Chart" && (
-                  <div>
-             
-                    <ReactApexChart
-                      series={pieChart.series}
-                      options={pieChart.options}
-                      className="rounded-lg bg-white dark:bg-black overflow-hidden"
-                      type="pie"
-                      height={300}
-                    />
-                  </div>
-                )}</>
-            )} */}
-
-
-
-
+     
 
           </div>
         </div>

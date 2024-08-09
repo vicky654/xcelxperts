@@ -15,7 +15,6 @@ interface CollapsibleItemProps {
 
 const CollapsibleItem: React.FC<CollapsibleItemProps> = ({ id, title, subtitle, isActive, onToggle, children, selectedTab }) => {
 
-  console.log(selectedTab, "selectedTab");
   return (
     <div className="border border-[#d3d3d3] dark:border-[#1b2e4b] rounded mt-4  " style={{ border: "1px solid #ddd" }}>
       <button
