@@ -72,7 +72,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const isDeletePermissionAvailable = UserPermissions?.includes("station-bank-delete");
     const isAssignAddPermissionAvailable = UserPermissions?.includes("station-bank-assign-permission");
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable ;
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
 
 
@@ -351,11 +351,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     </button>
                 )}
 
-                <div className="md:hidden flex ms-2">
-                    <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                        Filter Options
-                    </button>
-                </div>
+
             </div>
 
             <AddEditStationTankModal
@@ -393,7 +389,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
                         {filters?.client_name || filters?.entity_name || filters?.station_name ? (
                             <>
-                                <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
+                                <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
                                             <span className="font-semibold">Client :</span> {filters?.client_name}
@@ -434,6 +430,11 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                     placeholder="Enter search term..."
                                 />
                             )}
+                            <div className="md:hidden flex">
+                                <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
+                                    Apply Filter
+                                </button>
+                            </div>
                         </div>
                         {data?.length > 0 ? (
                             <div className="datatables">
