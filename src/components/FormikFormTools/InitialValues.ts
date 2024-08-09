@@ -189,9 +189,10 @@ export const stationBankInitialValues = {
   
 };
 export const credituserInitialValues = {
-  client_id: '',
+
   name: '',
-  phone_number: '',
+  station_id: '',
+
   max_amount: '',
   selectedStations: [],
   sites: [] as Station[],

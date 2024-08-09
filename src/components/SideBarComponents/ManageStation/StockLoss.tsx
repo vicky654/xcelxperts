@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import { setPageTitle } from '../../../store/themeConfigSlice';
 import withApiHandler from '../../../utils/withApiHandler';
-import CustomSwitch from '../../FormikFormTools/CustomSwitch';
 import useToggleStatus from '../../../utils/ToggleStatus';
 import useCustomDelete from '../../../utils/customDelete';
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import CustomPagination from '../../../utils/CustomPagination';
 import ErrorHandler from '../../../hooks/useHandleError';
-import AddEditStationModal from './AddEditStationModal';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import { IRootState } from '../../../store';
 import Dropdown from '../../Dropdown';
 import IconHorizontalDots from '../../Icon/IconHorizontalDots';
 import SearchBar from '../../../utils/SearchBar';
+import AddEditStockLoss from './AddEditStockLoss';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -29,14 +27,14 @@ interface ManageSiteProps {
 interface RowData {
     id: string; // Change type from number to string
     full_name: string;
-    client_name: string;
-    entity_name: string;
+    fuels: string;
+    creator: string;
     role: string;
     addons: string;
     created_date: string;
-    status: number;
+    value: number;
     station_status: number;
-    station_name: string;
+    name: string;
     station_code: string;
     station_address: string;
     supplier_code: string;
@@ -83,18 +81,18 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         setCurrentPage(newPage);
     };
 
-
+    const { id } = useParams();
     const fetchData = async () => {
         try {
             // const response = await getData(`/station/list?page=${currentPage}`);
-            let apiUrl = `/station/list?page=${currentPage}`;
+            let apiUrl = `/station/config-stock-loss/list?station_id=${id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
             const response = await getData(apiUrl);
 
             if (response && response.data && response.data.data) {
-                setData(response.data.data?.stations);
+                setData(response.data?.data?.listing);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -117,21 +115,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleDelete = (id: any) => {
         const formData = new FormData();
         formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
-    };
-    const handleNavigateStationSetting = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        navigate(`/manage-stations/setting/${id}`)
-    };
-    const handleNavigateStationSkipDate = (id: any) => {
-        const formData = new FormData();
-        formData.append('id', id);
-        navigate(`/manage-stations/skipdate/${id}`)
-    };
-    const NavigateToAssignMannager = (id: any) => {
-
-        navigate(`/manage-stations/mannagers/${id}`)
+        customDelete(postData, 'station/config-stock-loss/delete', formData, handleSuccess);
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
@@ -142,100 +126,73 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     // "skipdate-edit",
     // "skipdate-list",
 
-    const isAddPermissionAvailable = UserPermissions?.includes("station-create");
-    const isEditPermissionAvailable = UserPermissions?.includes("station-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("station-setting");
+    const isAddPermissionAvailable = UserPermissions?.includes("stockloss-create");
+    const isEditPermissionAvailable = UserPermissions?.includes("stockloss-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("stockloss-setting");
     const isSkipPermissionAvailable = UserPermissions?.includes("skipdate-list");
-    const isDeletePermissionAvailable = UserPermissions?.includes("station-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("station-assign-permission");
-    const AssignMannagerPermissionAvailable = UserPermissions?.includes("station-assign-manager");
+    const isDeletePermissionAvailable = UserPermissions?.includes("stockloss-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("stockloss-assign-permission");
+    const AssignMannagerPermissionAvailable = UserPermissions?.includes("stockloss-assign-manager");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable || AssignMannagerPermissionAvailable;
 
     const columns: any = [
         {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station_name,
+            name: ' Name',
+            selector: (row: RowData) => row.name,
             sortable: false,
-            width: '10%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Client Name',
-            selector: (row: RowData) => row.client_name,
+            name: 'Fuels',
+            selector: (row: RowData) => row.fuels,
             sortable: false,
-            width: '10%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.client_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.fuels}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: 'Entity Name',
-            selector: (row: RowData) => row.entity_name,
+            name: 'Value',
+            selector: (row: RowData) => row.value,
             sortable: false,
-            width: '10%',
+            width: '20%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.entity_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.value}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: 'Creator',
+            selector: (row: RowData) => row.creator,
+            sortable: false,
+            width: '20%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
                     </div>
                 </div>
             ),
         },
 
-        {
-            name: 'Station Logo',
-            selector: (row: RowData) => row.supplier_code,
-            sortable: false,
-            width: '10%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className="mt-0 mt-sm-2 d-block">
-                        {/* Assuming row.logo contains the URL of the image */}
-                        <img style={{ width: "60px", height: "40px" }} src={row.logo} alt="Logo" className="img-fluid" />
-                        {/* If you want to display the URL as text */}
-                        {/* <h6 className="mb-0 fs-14 fw-semibold">{row.logo}</h6> */}
-                    </div>
-                </div>
-            ),
-        },
+ 
 
-        {
-            name: 'Station Code',
-            selector: (row: RowData) => row.station_code,
-            sortable: false,
-            width: '10%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_code}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: 'Station Address',
-            selector: (row: RowData) => row.station_address,
-            sortable: false,
-            width: '15%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station_address}</h6>
-                    </div>
-                </div>
-            ),
-        },
+ 
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -249,29 +206,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 </div>
             ),
         },
-        {
-            name: 'Status',
-            selector: (row: RowData) => row.station_status,
-            sortable: false,
-            width: '10%',
-            cell: (row: RowData) => (
-
-                <>
-                    {isEditPermissionAvailable && (
-
-                        <Tippy content={<div>Status</div>} placement="top">
-                            {row.station_status === 1 || row.station_status === 0 ? (
-                                <CustomSwitch checked={row.station_status === 1} onChange={() => toggleActive(row)} />
-                            ) : (
-                                <div className="pointer" onClick={() => toggleActive(row)}>
-                                    Unknown
-                                </div>
-                            )}
-                        </Tippy>
-                    )}
-                </>
-            ),
-        },
+     
         anyPermissionAvailable
             ? {
                 name: 'Actions',
@@ -306,79 +241,15 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                 )}
                                             </li>
-                                            <li>
-                                                {isEditSettingPermissionAvailable && (
-                                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i> Station Settings
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {isSkipPermissionAvailable && (
-
-                                                    <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
-                                                        <i className="fi fi-tr-calendar-clock"></i>Skip Date
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {AssignMannagerPermissionAvailable && (
-
-                                                    <button onClick={() => NavigateToAssignMannager(row.id)} type="button">
-                                                        <i className="fi fi-tr-lead-management"></i>Assign Mannager
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {AssignMannagerPermissionAvailable && (
-
-                                                    <button onClick={() => NavigateToAssignMannager(row.id)} type="button">
-                                                        <i className="fi fi-ts-growth-chart-invest"></i>Stock Loss
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
+                                        
+                                     
+                                     
 
                                         </ul>
                                     </Dropdown>
                                 </div>
 
 
-                                {/* {isEditPermissionAvailable && (
-                                    <Tippy content="Edit">
-                                        <button type="button" onClick={() => openModal(row?.id)}>
-                                            <i className="pencil-icon fi fi-rr-file-edit"></i>
-                                        </button>
-                                    </Tippy>
-                                )}
-                                {isDeletePermissionAvailable && (<>
-                                    <Tippy content="Delete">
-                                        <button onClick={() => handleDelete(row.id)} type="button">
-                                            <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                        </button>
-                                    </Tippy>
-                                </>)}
-                                {isEditSettingPermissionAvailable && (
-
-                                    <>
-                                        <Tippy content="Station Settings">
-                                            <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                <i className="fi fi-rr-settings"></i>
-                                            </button>
-                                        </Tippy>
-                                    </>
-                                )} */}
 
 
 
@@ -415,31 +286,30 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('value', values.max_amount);
+            formData.append('station_id', values.station_id);
+            const skipDates = values?.selectedStations || [];
 
-            formData.append('show_summary', values.show_summary);
-            formData.append('client_id', values.client_id);
-            formData.append('entity_id', values.entity_id);
-            formData.append('data_import_type_id', values.data_import_type_id);
-            formData.append('security_amount', values.security_amount);
-            formData.append('start_date', values.start_date);
-            formData.append('station_address', values.station_address);
-            formData.append('station_code', values.station_code);
-            formData.append('station_display_name', values.station_display_name);
-            formData.append('station_name', values.station_name);
-            formData.append('supplier_id', values.supplier_id);
-            formData.append('station_name', values.station_name);
-            formData.append('supplier_id', values.supplier_id);
-            if (values.file) {
-                formData.append('logo', values.file);
+            if (skipDates.length === 0) {
+
+                return; // Early exit if skip_date is empty
             }
-            formData.append('contact_person', values.contact_person);
-            formData.append('consider_fuel_sale', values.consider_fuel_sale);
+
+
+
+            // Convert skipDates to the desired format and append to formData
+            skipDates.forEach((selectedItem: any, index: any) => {
+                formData.append(`fuels[${index}]`, selectedItem.value);
+            });
+
+        
 
             if (userId) {
                 formData.append('id', userId);
             }
 
-            const url = isEditMode && userId ? `/station/update` : `/station/create`;
+            const url = isEditMode && userId ? `/station/config-stock-loss/update` : `/station/config-stock-loss/create`;
             const response = await postData(url, formData);
 
             if (response) {
@@ -464,7 +334,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li >
-                        <Link to="/manage-stations/station" className="text-primary hover:underline">
+                        <Link to="/manage-stations/station" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
                             Manage  Stations
                         </Link>
                     </li>
@@ -481,7 +351,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                 </>}
             </div>
-            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
+            <AddEditStockLoss getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} 
+
+            station={id}
 
             />
 
@@ -489,7 +361,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Stations Stock Loss</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}
