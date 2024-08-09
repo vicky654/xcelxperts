@@ -423,7 +423,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
- 
+
     const { dates } = fuelStats; // Extract dates from fuelStats
     const [selectedDate, setSelectedDate] = useState(dates[0]); // Initial state
     const [filteredStockAlerts, setFilteredStockAlerts] = useState<{ [key: string]: any[] }>({});
@@ -438,7 +438,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             return acc;
         }, {} as { [key: string]: any[] });
 
-     
+
         setFilteredStockAlerts(filteredStockAlerts);
 
         // Optionally, you can update the state or handle the filtered data as needed
@@ -466,7 +466,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     </ul>
 
                     <div className=" flex gap-4 flex-wrap">
-                 
+
 
                         {filters?.client_id || filters?.company_id || filters?.site_id ? (
                             <>
@@ -537,10 +537,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {filterData?.sales_volume?.sales_volume} </div>
-                                <div className="badge bg-white/30">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.sales_volume?.sales_volume} </div>
+                                {/* <div className="badge bg-white/30">
                                     {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.sales_volume?.percentage}%{' '}
-                                </div>
+                                </div> */}
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {filterData?.gross_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
@@ -554,12 +554,12 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.sales_value?.sales_value} </div>
-                                <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.sales_value?.sales_value} </div>
+                                {/* <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div> */}
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {filterData?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month {filterData?.sales_value?.status === 'up' ? '+' : ''} {filterData?.sales_value?.percentage}
+                                Last Month  {filterData?.sales_value?.percentage}
                             </div>
                         </div>
 
@@ -569,8 +569,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.profit?.profit} </div>
-                                <div className="badge bg-white/30"> {filterData?.profit?.percentage}%</div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.profit?.profit} </div>
+                                {/* <div className="badge bg-white/30"> {filterData?.profit?.percentage}%</div> */}
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {filterData?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
@@ -582,19 +582,51 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         {/* //4TH Box */}
 
-                        <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div
+                            className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`}
+                            onClick={handleClickToOverView}
+                        >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
                             </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {filterData?.stock?.value} </div>
-                                <div className="badge bg-white/30"> {filterData?.stock?.percentage}%</div>
+
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                                {currency}{filterData?.stock?.value ?? ''}
+                                {` (ℓ${filterData?.stock?.volume ?? ''})`}
                             </div>
+
+                            {/* <div className="flex items-center ">
+                                <div className="text-sm ltr:mr-3 rtl:ml-3">
+                                    Petrol {currency}{filterData?.stock?.fuel[0]?.value ?? ''}
+                                    {` (ℓ${filterData?.stock?.fuel[0]?.volume ?? ''})`}
+                                </div>
+                                {" | "}
+                                <div className="text-sm ltr:mr-3 rtl:ml-3 ms-2">
+                                    Diesel {currency}{filterData?.stock?.fuel[1]?.value ?? ''}
+                                    {` (ℓ${filterData?.stock?.fuel[1]?.volume ?? ''})`}
+                                </div>
+                            </div> */}
+                            <div className="flex flex-wrap">
+                                {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
+                                    <div key={index} className="flex items-center w-1/4 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                        <div className="text-sm ltr:mr-3 rtl:ml-3">
+                                            {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
+                                            {` (ℓ${fuel.volume ?? ''})`}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+
                             <div className="flex items-center font-semibold mt-5">
-                                {filterData?.stock?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month {filterData?.stock?.percentage}
+                                {filterData?.stock?.status === 'up'
+                                    ? <i className="fi fi-tr-chart-line-up"></i>
+                                    : <i className="fi fi-tr-chart-arrow-down"></i>
+                                }
+                                Last Month {filterData?.stock?.value_percentage ?? ''}
                             </div>
                         </div>
+
 
 
 

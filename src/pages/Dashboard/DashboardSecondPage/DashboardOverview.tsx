@@ -181,11 +181,11 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const storeCurrentMonth = () => {
         const currentMonth = getCurrentMonth();
         localStorage.setItem('start_month', currentMonth);
-       
+
     };
 
     const handleNavigateToNextPage = (item: any) => {
-     
+
         // Store the current month in localStorage
         storeCurrentMonth();
 
@@ -316,24 +316,42 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/* 4th Card */}
-                        <div className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div
+                            className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
+                            
+                        >
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock</div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
                             </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{currency} {secondApiResponse?.stock?.value} </div>
-                                <div className="badge bg-white/30"> {secondApiResponse?.stock?.percentage}%</div>
+
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                                {currency}{secondApiResponse?.stock?.value ?? ''}
+                                {` (ℓ${secondApiResponse?.stock?.volume ?? ''})`}
                             </div>
+                            <div className="flex flex-wrap">
+                                {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
+                                    <div key={index} className="flex items-center w-1/4 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                        <div className="text-sm ltr:mr-3 rtl:ml-3">
+                                            {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
+                                            {` (ℓ${fuel.volume ?? ''})`}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
                             <div className="flex items-center font-semibold mt-5">
-                                {secondApiResponse?.stock?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month {secondApiResponse?.stock?.percentage}
+                                {secondApiResponse?.stock?.status === 'up'
+                                    ? <i className="fi fi-tr-chart-line-up"></i>
+                                    : <i className="fi fi-tr-chart-arrow-down"></i>
+                                }
+                                Last Month {secondApiResponse?.stock?.value_percentage ?? ''}
                             </div>
                         </div>
 
 
 
                     </div>
-    
+
 
                     {secondApiResponse?.stations?.length > 0 ? (
                         <>
@@ -346,7 +364,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         style={{ cursor: "pointer" }}
                                         onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
                                     >
-                                     
+
                                         <div className="flex items-center mb-4">
                                             <img
                                                 className="w-10 h-10 rounded-full object-cover"
@@ -359,7 +377,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         {item?.fuels_stats.map((stats: any, index: any) => (
                                             <div key={index}>
                                                 <div className="grid grid-cols-2 gap-4 my-3">
-                                            
+
                                                     <div>
                                                         <h6 className="font-semibold">Gross Volume</h6>
                                                         <p className="text-lg">
@@ -385,7 +403,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                         </p>
                                                     </div>
 
-                                                  
+
                                                     <div>
                                                         <h6 className="font-semibold">Gross Value</h6>
                                                         <p className="text-lg">
@@ -415,7 +433,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 <hr />
 
                                                 <div className="grid grid-cols-2 gap-4 my-3">
-                                                
+
                                                     <div>
                                                         <h6 className="font-semibold"> Gross Profit</h6>
                                                         <p className="text-lg">
@@ -441,11 +459,11 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                         </p>
                                                     </div>
 
-                                                   
+
                                                     <div>
                                                         <h6 className="font-semibold">Stock Loss</h6>
                                                         <p className="text-lg">
-                                                        {currency} {stats?.stock?.value}
+                                                            {currency} {stats?.stock?.value}
 
                                                             <span
                                                                 className={`ml-2 ${stats?.stock?.status === "up"
@@ -471,7 +489,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                                                 <hr />
 
-                                          
+
 
                                             </div>
                                         ))}
@@ -486,7 +504,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
                                 </div>
                                 <img
-                                    src={noDataImage} 
+                                    src={noDataImage}
                                     alt="no data found"
                                     className="all-center-flex nodata-image"
                                 />

@@ -54,6 +54,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const navigate = useNavigate();
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [Stationname, setStation_name] = useState<string >("");
     // useEffect(() => {
     //     fetchData();
 
@@ -93,6 +94,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
             if (response && response.data && response.data.data) {
                 setData(response.data?.data?.listing);
+                setStation_name(response.data?.data?.station_name);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -339,14 +341,14 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stock Loss</span>
+                        <span>Stock Loss Configuration</span>
                     </li>
 
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Station
+                        Add Stock Loss Configuration
                     </button>
 
                 </>}
@@ -361,7 +363,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Stations Stock Loss</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">{Stationname} Stock Loss Configuration</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}

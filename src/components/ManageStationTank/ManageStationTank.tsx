@@ -270,13 +270,13 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
     const handleApplyFilters = async (values: any) => {
         // Store the form values in local storage
@@ -285,15 +285,15 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             // const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
 
 
-            let apiUrl = `/station/tank/list?station_id=${values?.station_id}`;
+            let apiUrl = `/station/tank/list?station_id=${values?.station_id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
             const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
-                setData(response.data.data);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
+                setData(response.data.data?.listing);
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -322,7 +322,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -394,6 +394,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                         highlightOnHover
                                         responsive={true}
                                     />
+                                    {lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
                                 </div>
                             </>
                         ) : (
@@ -410,7 +411,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 </div>
 
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+
         </>
     );
 };

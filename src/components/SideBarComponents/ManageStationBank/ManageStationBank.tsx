@@ -65,14 +65,14 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("nozzle-create");
-    const isListPermissionAvailable = UserPermissions?.includes("nozzle-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("nozzle-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("nozzle-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("nozzle-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("nozzle-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes("station-bank-create");
+    const isListPermissionAvailable = UserPermissions?.includes("station-bank-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("station-bank-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("station-bank-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("station-bank-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("station-bank-assign-permission");
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
+    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable ;
 
 
 
@@ -282,20 +282,18 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
             // const response = await getData(`/station/bank/list?station_id=${values?.station_id}`);
-            let apiUrl = `station/bank/list?station_id=${values?.station_id}`;
+            let apiUrl = `station/bank/list?station_id=${values?.station_id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
 
-            console.log(values, "values");
-
             setFilters(values)
             const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
-                setData(response.data.data);
+                setData(response.data.data?.listing);
                 setIsFilterModalOpen(false);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -450,7 +448,11 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                     highlightOnHover
                                     responsive={true}
                                 />
+                                {lastPage > 1 && (
+                                    <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
+                                )}
                             </div>
+
                         ) : (
                             <img
                                 src={noDataImage} // Use the imported image directly as the source
@@ -463,9 +465,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             </div>
 
             {/* Pagination */}
-            {data?.length > 0 && lastPage > 1 && (
-                <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
-            )}
+
 
             {/* Modal for Filters on Small Screens */}
             {isFilterModalOpen && (

@@ -71,19 +71,19 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             handleApplyFilters(JSON.parse(storedData));
         }
 
-    }, [currentPage,searchTerm]);
+    }, [currentPage, searchTerm]);
 
 
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
@@ -113,12 +113,12 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("pump-create");
-    const isListPermissionAvailable = UserPermissions?.includes("pump-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("pump-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("pump-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("pump-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("pump-assign-permission");
+    const isAddPermissionAvailable = UserPermissions?.includes("nozzle-create");
+    const isListPermissionAvailable = UserPermissions?.includes("nozzle-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("nozzle-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("nozzle-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("nozzle-delete");
+    const isAssignAddPermissionAvailable = UserPermissions?.includes("nozzle-assign-permission");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
@@ -296,16 +296,16 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         try {
             // const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
 
-            let apiUrl = `/station/nozzle/list?station_id=${values.station_id}`;
+            let apiUrl = `/station/nozzle/list?station_id=${values.station_id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
             const response = await getData(apiUrl);
 
             if (response && response.data && response.data.data) {
-                setData(response.data.data);
-                // setCurrentPage(response.data.data?.currentPage || 1);
-                // setLastPage(response.data.data?.lastPage || 1);
+                setData(response.data?.data?.listing);
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -333,7 +333,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -407,6 +407,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                                         highlightOnHover
                                         responsive={true}
                                     />
+                                    {lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
                                 </div>
                             </>
                         ) : (
@@ -423,7 +424,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                 </div>
 
             </div>
-            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+
         </>
     );
 };
