@@ -98,13 +98,13 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         if (sales_volume) {
             const grossvalue = sales_volume * fuel_price;
         }
-      
+
         const salesvolume = closing - opening - testvolume;
         const gross_value = salesvolume * fuel_price;
         const nettvalue = gross_value - discount;
 
 
- 
+
 
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].gross_value`, gross_value);
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].sales_volume`, salesvolume);
@@ -401,7 +401,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             <div className='flex'>
                                 <h3 className='FuelSaleContainer '>
                                     <div className=' flex flex-col'>
-                                        <span className='' style={{ background: "#f6f8fa", padding: "15px 46px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
+                                        <span className='ps-2' style={{ background: "#f6f8fa", padding: "15.5px 6px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
                                         <span className='tank_name'> {tank.tank_name}</span>
                                     </div>
 
