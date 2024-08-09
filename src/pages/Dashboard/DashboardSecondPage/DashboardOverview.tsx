@@ -275,9 +275,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {secondApiResponse?.sales_volume?.sales_volume} </div>
-                                <div className="badge bg-white/30">
+                                {/* <div className="badge bg-white/30">
                                     {secondApiResponse?.gross_volume?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_volume?.percentage}%{' '}
-                                </div>
+                                </div> */}
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
@@ -292,7 +292,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.sales_value?.sales_value} </div>
-                                <div className="badge bg-white/30"> {secondApiResponse?.sales_value?.percentage}%</div>
+                                {/* <div className="badge bg-white/30"> {secondApiResponse?.sales_value?.percentage}%</div> */}
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
@@ -307,7 +307,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.profit?.profit} </div>
-                                <div className="badge bg-white/30"> {secondApiResponse?.profit?.percentage}%</div>
+                                {/* <div className="badge bg-white/30"> {secondApiResponse?.profit?.percentage}%</div> */}
                             </div>
                             <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
