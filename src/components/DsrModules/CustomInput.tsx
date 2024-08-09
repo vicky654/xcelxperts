@@ -278,6 +278,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                 placeholder="Select a Date"
                                 className="form-input text-white-dark"
                                 formik={formik}
+                                datepopup={!smallScreen}
                             />
                         )}
 

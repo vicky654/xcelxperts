@@ -183,7 +183,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const handleApplyFilters = async (values: any) => {
 
-    console.log(values, "valuesssssssss");
 
     try {
       setFilters(values)
@@ -683,10 +682,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             </div>
 
             <div className="p-2" style={{ padding: "10px" }}>
-
-
-
-
 
 
               <>
