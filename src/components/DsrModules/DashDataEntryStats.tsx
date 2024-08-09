@@ -282,7 +282,11 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     try {
       const formattedDate = formatDate(date);
       const formattedTab = convertTabName(selectedTab);
-      const response = await getData(`/daily-stats/${formattedTab}?station_id=${stationId}&drs_date=${formattedDate}`);
+      const endpoint = formattedTab === 'digital-receipt' ? 'payments' : formattedTab;
+      
+      const response = await getData(`/daily-stats/${endpoint}?station_id=${stationId}&drs_date=${formattedDate}`);
+      
+      // const response = await getData(`/daily-stats/${formattedTab}?station_id=${stationId}&drs_date=${formattedDate}`);
       if (response && response.data && response.data.data) {
         setSubData(response.data?.data?.listing);
       } else {
