@@ -260,8 +260,6 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         }
     };
     const handleApplyFilters = async (values: any) => {
-        // Store the form values in local storage
-        // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
             // const response = await getData(`/station/bank/list?station_id=${values?.station_id}`);
             let apiUrl = `station/bank/list?station_id=${id}&page=${currentPage}`;
