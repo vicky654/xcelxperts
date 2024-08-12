@@ -121,7 +121,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             name: 'Bank Name',
             selector: (row: RowData) => row.bank_name,
             sortable: false,
-            width: '30%',
+            width: '28%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -135,7 +135,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             name: 'Account No',
             selector: (row: RowData) => row.account_no,
             sortable: false,
-            width: '30%',
+            width: '28%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -183,7 +183,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '10%',
+                width: '12%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
@@ -289,7 +289,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
 
 
-  
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -328,56 +328,52 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 station_id={id}
             />
 
-            <div className="mt-6">
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
+
+            <div className="panel mt-6">
 
 
-
-
-
-
-                    {/* Main Content */}
-                    <div className="panel h-full xl:col-span-3">
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Station Banks {stationname && `(${stationname})`}</h5>
-                            {showFilterOptions && (
-                                <SearchBar
-                                    onSearch={handleSearch}
-                                    onReset={handleReset}
-                                    hideReset={Boolean(searchTerm)}
-                                    placeholder="Enter search term..."
-                                />
-                            )}
-
-                        </div>
-                        {data?.length > 0 ? (
-                            <div className="datatables">
-                                <DataTable
-                                    className="table-striped table-hover table-bordered table-compact"
-                                    columns={columns}
-                                    data={data}
-                                    noHeader
-                                    defaultSortAsc={false}
-                                    striped={true}
-                                    persistTableHead
-                                    highlightOnHover
-                                    responsive={true}
-                                />
-                                {lastPage > 1 && (
-                                    <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />
-                                )}
-                            </div>
-
-                        ) : (
-                            <img
-                                src={noDataImage} // Use the imported image directly as the source
-                                alt="no data found"
-                                className="all-center-flex nodata-image"
-                            />
-                        )}
-                    </div>
+                <div className="flex md:items-center md:flex-row flex-col mb-5  spacebetween">
+                    <h5 className="font-semibold text-lg dark:text-white-light">Station Banks {stationname && `(${stationname})`}</h5>
+                    {showFilterOptions && (
+                        <SearchBar
+                            onSearch={handleSearch}
+                            onReset={handleReset}
+                            hideReset={Boolean(searchTerm)}
+                            placeholder="Enter search term..."
+                        />
+                    )}
                 </div>
+
+                {data?.length > 0 ? (
+                    <>
+                        <div className="datatables">
+                            <DataTable
+                                className=" table-striped table-hover table-bordered table-compact"
+                                columns={columns}
+                                data={data}
+                                noHeader
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                responsive={true}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <img
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        />
+                    </>
+                )}
             </div>
+            {data?.length > 0 && lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}
+
+
+
 
             {/* Pagination */}
 
