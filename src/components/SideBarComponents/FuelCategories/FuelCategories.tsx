@@ -267,7 +267,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center  flex-wrap">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="/dashboard" className="text-primary hover:underline">
@@ -280,7 +280,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                 </ul>
 
                 {isAddPermissionAvailable && <>
-                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                    <button type="button" className="btn btn-dark mt-2 md:mt-0" onClick={() => setIsModalOpen(true)}>
                         Add Fuel Category
                     </button>
                 </>}

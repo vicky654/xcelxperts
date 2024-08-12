@@ -65,12 +65,12 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     let storedKeyName: any = "stationTank";
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-    const {id}= useParams();
+    const { id } = useParams();
     useEffect(() => {
         if (id) {
             handleApplyFilters(id);
         }
-    }, [searchTerm, currentPage,id]);
+    }, [searchTerm, currentPage, id]);
 
 
     const handleSearch = (term: string) => {
@@ -257,7 +257,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
-      
+
     };
 
     const handleFormSubmit = async (values: any) => {
@@ -266,7 +266,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
             formData.append('code', values.code);
             formData.append('name', values.name);
-        
+
             formData.append('station_id', values.station_id);
 
             formData.append('tank_id', values.fuel_id);
@@ -292,7 +292,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const handleApplyFilters = async (values: any) => {
         try {
             // const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
-       
+
             let apiUrl = `/station/nozzle/list?station_id=${id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
@@ -304,7 +304,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                 setData(response.data?.data?.listing);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
-             
+
             } else {
                 throw new Error('No data available in the response');
             }
@@ -323,7 +323,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center flex-wrap">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="/dashboard" className="text-primary hover:underline">
@@ -340,7 +340,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                     </li>
                 </ul>
 
-                <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                <button type="button" className="btn btn-dark  mt-2 md:mt-0" onClick={() => setIsModalOpen(true)}>
                     Add  Nozzle
                 </button>
             </div>
@@ -348,11 +348,11 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
             <div className=" mt-6">
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6'>
-              
 
-                   
+
+
                     <div className='panel h-full xl:col-span-3'>
-                   
+
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-2 spacebetween">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle {stationname && `(${stationname})`}</h5>
@@ -400,7 +400,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                 </div>
 
             </div>
-       
+
         </>
     );
 };

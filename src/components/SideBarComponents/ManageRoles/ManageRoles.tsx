@@ -131,7 +131,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
             sortable: false,
-            width: '40%',
+            width: '38%',
             cell: (row: RowData) => (
                 <div className="d-flex" style={{ cursor: 'default' }}>
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -145,7 +145,7 @@ const ManageRoles: React.FC<ManageRolesProps> = ({ postData, getData, isLoading 
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '20%',
+                width: '22%',
                 cell: (row: RowData) => (
                     <span className="">
                         <div className="flex items-center justify-center">

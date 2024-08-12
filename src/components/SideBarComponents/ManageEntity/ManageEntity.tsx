@@ -191,7 +191,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             name: 'Status',
             selector: (row: RowData) => row.status,
             sortable: false,
-            width: '15%',
+            width: '13%',
             cell: (row: RowData) => (
 
                 <>
@@ -216,7 +216,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                 name: 'Actions',
                 selector: (row: RowData) => row.id,
                 sortable: false,
-                width: '10%',
+                width: '12%',
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
