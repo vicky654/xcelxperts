@@ -57,7 +57,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
-
+    const [stationname, setstationname] = useState("");
 
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -300,6 +300,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
             const response = await getData(apiUrl);
 
             if (response && response.data && response.data.data) {
+                setstationname(response.data?.data?.station_name);
                 setData(response.data?.data?.listing);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
@@ -354,7 +355,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                    
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-2 spacebetween">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle {stationname && `(${stationname})`}</h5>
                             <div className=' flex flex-wrap'>
                                 {showFilterOptions && (
                                     <SearchBar

@@ -56,7 +56,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
-
+    const [stationname, setstationname] = useState("");
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
@@ -121,7 +121,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             name: 'Bank Name',
             selector: (row: RowData) => row.bank_name,
             sortable: false,
-            width: '20%',
+            width: '30%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -130,24 +130,12 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 </div>
             ),
         },
-        {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station,
-            sortable: false,
-            width: '20%',
-            cell: (row: RowData) => (
-                <div className="d-flex">
-                    <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
-                    </div>
-                </div>
-            ),
-        },
+
         {
             name: 'Account No',
             selector: (row: RowData) => row.account_no,
             sortable: false,
-            width: '20%',
+            width: '30%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -285,6 +273,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.listing);
+                setstationname(response.data.data?.station_name);
 
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
@@ -300,12 +289,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
 
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-    const [setIsFilterModalOpen] = useState(false);
-
-
-
-
+  
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -355,7 +339,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     {/* Main Content */}
                     <div className="panel h-full xl:col-span-3">
                         <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Station Banks</h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light">Station Banks {stationname && `(${stationname})`}</h5>
                             {showFilterOptions && (
                                 <SearchBar
                                     onSearch={handleSearch}
