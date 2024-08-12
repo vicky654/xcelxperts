@@ -44,25 +44,10 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [receipts, setReceipts] = useState([]);
 
-    const FetchRoleList = async () => {
-        try {
-            const response = await getData(`/station/bank/list?drs_date=${startDate}&station_id=${stationId}`);
-
-            if (response && response.data && response.data.data) {
-
-
-                setRoleList(response.data.data);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
 
     useEffect(() => {
         if (stationId && startDate) {
-            FetchRoleList()
+    
             handleApplyFilters(stationId, startDate);
         }
     }, [stationId, startDate]);
@@ -75,6 +60,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                 const { listing, is_editable } = response.data.data;
                 // formik.setFieldValue("cash_value", response.data?.data?.cash_value)
+                setRoleList(response?.data?.data?.bankLists);
                 setcashvalue(response.data?.data?.cash_value)
                 setReceipts(response.data?.data?.receipts);
                 setCashBankingData(listing);
@@ -382,7 +368,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                                 formik={formik}
                                                 name="station_bank_id"
                                                 label="Bank"
-                                                options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
+                                                options={RoleList?.map((item) => ({ id: item?.id, name: `${item?.bank_name} - ${item.account_no}` }))}
                                                 className="form-select text-white-dark"
                                             />
                                         </div>
