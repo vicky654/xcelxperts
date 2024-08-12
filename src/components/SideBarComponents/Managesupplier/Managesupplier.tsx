@@ -52,13 +52,13 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
     useEffect(() => {
         fetchData();
@@ -287,7 +287,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -310,7 +310,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
                     <h5 className="font-semibold text-lg dark:text-white-light"> Suppliers</h5>
                 </div> */}
 
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">Suppliers</h5>
                     {showFilterOptions && (
                         <SearchBar

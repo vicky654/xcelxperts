@@ -8,6 +8,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import TableWithFormik from './TableWithFormik';
+import IconX from '../Icon/IconX';
 
 interface ManageStationFuelSellingProps {
     isLoading: boolean;
@@ -70,6 +71,8 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
                 setData(response.data.data);
+                setFilters(values)
+                setIsFilterModalOpen(false);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -126,13 +129,27 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     };
 
 
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+
+
+    const [filters, setFilters] = useState<any>({
+        client_id: '',
+        company_id: '',
+        start_date: '',
+    });
+
+    const closeModal = () => {
+        setIsFilterModalOpen(false);
+    }
+
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center flex-wrap">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -144,7 +161,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
 
             <div className=" mt-6">
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
-                    <div className="panel h-full ">
+                    <div className="panel h-full hidden md:block">
                         <CustomInput
                             getData={getData}
                             isLoading={isLoading}
@@ -163,11 +180,45 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                             }}
                         />
                     </div>
+
+                    {/* Button for Small Screens */}
+                    <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
+                        {filters?.client_name || filters?.entity_name || filters?.start_date ? (
+                            <>
+                                <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
+                                    {filters?.client_id && (
+                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Client :</span> {filters?.client_name}
+                                        </div>
+                                    )}
+
+                                    {filters?.entity_name && (
+                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold">Entity : </span> {filters?.entity_name}
+                                        </div>
+                                    )}
+
+                                    {filters?.start_date && (
+                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
+                                            <span className="font-semibold"> Date :</span> {filters?.start_date}
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            ''
+                        )}
+                    </div>
                     <div className="panel h-full xl:col-span-3">
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
+                        <div className="flex md:items-center w-100 mb-5 justify-between">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Stations Fuel Sale</h5>
-                            <div className="ltr:ml-auto rtl:mr-auto">
-                                {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+                            {/* <div className="ltr:ml-auto rtl:mr-auto">
+                                <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                            </div> */}
+                            <div className="md:hidden flex">
+                                <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
+                                    Filter
+                                </button>
                             </div>
                         </div>
 
@@ -187,6 +238,45 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                     </div>
                 </div>
             </div>
+
+
+            {/* Modal for Filters on Small Screens */}
+            {isFilterModalOpen && (
+                <div className="modal fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white w-full max-w-md m-6">
+                        <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
+                            <h5 className="text-lg font-bold">
+                                Apply Filter
+                            </h5>
+                            <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
+                                <IconX />
+                            </button>
+                        </div>
+
+                        <div className='p-6'>
+                            <CustomInput
+                                getData={getData}
+                                isLoading={isLoading}
+                                onApplyFilters={handleApplyFilters}
+                                FilterValues={filterValues}
+                                showClientInput={true} // or false
+                                showEntityInput={true} // or false
+                                showStationInput={false} // or false
+                                showDateInput={true} // or false
+                                validationSchema={validationSchemaForCustomInput}
+                                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+                                isOpen={false}
+                                storedKeyName={storedKeyName}
+                                smallScreen={true}
+                                onClose={function (): void {
+                                    throw new Error('Function not implemented.');
+                                }}
+                            />
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </>
     );
 };

@@ -446,8 +446,8 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 {/* Define grid with responsive columns */}
                 <div
                     className={`grid grid-cols-1 gap-1 mb-6 ${localStorage.getItem("superiorRole") !== "Client"
-                            ? "sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4" // If not Client, use multi-column grid
-                            : "sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1" // If Client, use single-column grid
+                        ? "sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4" // If not Client, use multi-column grid
+                        : "sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1" // If Client, use single-column grid
                         }`}
                 >
                     {/* Conditional rendering for roles other than "Client" */}
@@ -483,7 +483,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
                     {/* Main content panel for displaying data */}
                     <div className={`panel h-full ${localStorage.getItem("superiorRole") !== "Client" ? "xl:col-span-3" : "xl:col-span-4"}`}>
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                             {/* Header for the data table */}
                             <h5 className="font-semibold text-lg dark:text-white-light">Credit Users</h5>
                             {/* Conditionally rendered search bar */}

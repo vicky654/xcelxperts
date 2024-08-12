@@ -51,13 +51,13 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
     useEffect(() => {
         fetchData();
@@ -257,7 +257,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -280,7 +280,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                     <h5 className="font-semibold text-lg dark:text-white-light"> Banks</h5>
                 </div> */}
 
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">Banks</h5>
                     {showFilterOptions && (
                         <SearchBar

@@ -54,7 +54,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const navigate = useNavigate();
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [Stationname, setStation_name] = useState<string >("");
+    const [Stationname, setStation_name] = useState<string>("");
     // useEffect(() => {
     //     fetchData();
 
@@ -192,9 +192,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             ),
         },
 
- 
 
- 
+
+
         {
             name: 'Created Date',
             selector: (row: RowData) => row.created_date,
@@ -208,7 +208,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 </div>
             ),
         },
-     
+
         anyPermissionAvailable
             ? {
                 name: 'Actions',
@@ -243,9 +243,9 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                 )}
                                             </li>
-                                        
-                                     
-                                     
+
+
+
 
                                         </ul>
                                     </Dropdown>
@@ -305,7 +305,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 formData.append(`fuels[${index}]`, selectedItem.value);
             });
 
-        
+
 
             if (userId) {
                 formData.append('id', userId);
@@ -353,16 +353,16 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                 </>}
             </div>
-            <AddEditStockLoss getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} 
+            <AddEditStockLoss getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
 
-            station={id}
+                station={id}
 
             />
 
             <div className="panel mt-6">
 
 
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">{Stationname} Stock Loss Configuration</h5>
                     {showFilterOptions && (
                         <SearchBar

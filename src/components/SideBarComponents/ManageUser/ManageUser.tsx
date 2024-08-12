@@ -337,13 +337,13 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
-       
+
     };
 
     const handleReset = () => {
         setSearchTerm('');
         // Perform reset logic here
-        
+
     };
 
     return (
@@ -352,7 +352,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -370,7 +370,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             <AddUserModals getData={getData} isOpen={isAddUserModalOpen} onClose={closeAddUserModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
             <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
             <div className="panel mt-6">
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
                     {showFilterOptions && (
                         <SearchBar
@@ -381,7 +381,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         />
                     )}
                 </div>
-             
+
                 {data?.length > 0 ? (
                     <>
                         <div className="datatables">

@@ -81,7 +81,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
             name: 'Model',
             selector: (row: RowData) => row.model,
             sortable: false,
-            width: '10%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -121,7 +121,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
             name: 'Actions',
             selector: (row: RowData) => row.status,
             sortable: false,
-            width: '15%',
+            width: '10%',
             cell: (row: RowData) => (
                 <span className="text-muted fs-15 fw-semibold text-center" style={{ cursor: 'pointer' }}>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Action</Tooltip>}>
@@ -148,7 +148,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
             sortable: false,
             width: '10%',
             cell: (row: RowData) => (
-                <span className="text-muted fs-15 fw-semibold text-center">
+                <span className="text-muted fs-15 fw-semibold text-center py-2">
                     <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
                         {row?.status == 1 ? (
                             <button className="btn btn-success btn-sm">Success</button>
@@ -170,7 +170,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ postData, getData, isLoadin
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>

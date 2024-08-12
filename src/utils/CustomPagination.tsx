@@ -13,7 +13,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
     lastPage,
     handlePageChange,
 }) => {
-    const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+    const maxPagesToShow = 3; // Adjust the number of pages to show in the center
     const pages = [];
 
     // Calculate the range of pages to display

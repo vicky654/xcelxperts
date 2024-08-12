@@ -285,7 +285,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
             const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
                 setData(response.data.data?.listing);
-          
+
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
             } else {
@@ -354,7 +354,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
                     {/* Main Content */}
                     <div className="panel h-full xl:col-span-3">
-                        <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                        <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                             <h5 className="font-semibold text-lg dark:text-white-light">Station Banks</h5>
                             {showFilterOptions && (
                                 <SearchBar
@@ -364,7 +364,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                     placeholder="Enter search term..."
                                 />
                             )}
-                        
+
                         </div>
                         {data?.length > 0 ? (
                             <div className="datatables">
