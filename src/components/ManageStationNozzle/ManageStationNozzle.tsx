@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
@@ -65,21 +65,12 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     let storedKeyName: any = "stationTank";
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    const {id}= useParams();
     useEffect(() => {
-        const storedDataString = localStorage.getItem(storedKeyName);
-
-
-        if (storedDataString) {
-            try {
-                const storedData = JSON.parse(storedDataString);
-                if (storedData.station_id) {
-                    handleApplyFilters(storedData);
-                }
-            } catch (error) {
-                console.error("Error parsing stored data", error);
-            }
+        if (id) {
+            handleApplyFilters(id);
         }
-    }, [searchTerm, currentPage]);
+    }, [searchTerm, currentPage,id]);
 
 
     const handleSearch = (term: string) => {
@@ -266,7 +257,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
-        setIsFilterModalOpen(false);
+      
     };
 
     const handleFormSubmit = async (values: any) => {
@@ -275,10 +266,9 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
             formData.append('code', values.code);
             formData.append('name', values.name);
-            formData.append('status', values.status);
+        
             formData.append('station_id', values.station_id);
-            formData.append('client_id', values.client_id);
-            formData.append('entity_id', values.entity_id);
+
             formData.append('tank_id', values.fuel_id);
 
             if (userId) {
@@ -302,8 +292,8 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
     const handleApplyFilters = async (values: any) => {
         try {
             // const response = await getData(`/station/nozzle/list?station_id=${values.station_id}`);
-            setFilters(values)
-            let apiUrl = `/station/nozzle/list?station_id=${values.station_id}&page=${currentPage}`;
+       
+            let apiUrl = `/station/nozzle/list?station_id=${id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
@@ -313,7 +303,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                 setData(response.data?.data?.listing);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
-                setIsFilterModalOpen(false);
+             
             } else {
                 throw new Error('No data available in the response');
             }
@@ -322,32 +312,12 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, "filterValues");
-    };
 
 
-    const validationSchemaForCustomInput = Yup.object({
-        entity_id: Yup.string().required("Entity is required"),
-        client_id: isNotClient
-            ? Yup.string().required("Client is required")
-            : Yup.mixed().notRequired(),
-        station_id: Yup.string().required('Station is required'),
-    });
 
 
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    //     setIsFilterModalOpen(false);
-    // }
 
-    const [filters, setFilters] = useState<any>({
-        client_id: localStorage.getItem('client_id') || '',
-        company_id: localStorage.getItem('company_id') || '',
-        site_id: localStorage.getItem('site_id') || '',
-    });
 
     return (
         <>
@@ -359,6 +329,11 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                             Dashboard
                         </Link>
                     </li>
+                    <li>
+                        <Link to={`/manage-stations`} className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+                            Manage Stations
+                        </Link>
+                    </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                         <span>Stations Nozzle</span>
                     </li>
@@ -368,69 +343,15 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                     Add  Nozzle
                 </button>
             </div>
-            <AddEditStationNozzleModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationNozzleModal getData={getData} isOpen={isModalOpen} onClose={closeModal} station_id={id} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
-                    <div className='panel h-full hidden md:block'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6'>
+              
 
-
-                        <CustomInput
-                            getData={getData}
-                            isLoading={isLoading}
-                            onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
-                            showClientInput={true}  // or false
-                            showEntityInput={true}  // or false
-                            showStationInput={true} // or false
-                            showStationValidation={true} // or false
-                            validationSchema={validationSchemaForCustomInput}
-                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                            isOpen={false}
-                            onClose={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
-                            showDateInput={false}
-                            // storedKeyItems={storedKeyItems}
-                            storedKeyName={storedKeyName}
-                        />
-
-
-                    </div>
-
-                    <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
-                        {filters?.client_name || filters?.entity_name || filters?.station_name ? (
-                            <>
-                                <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
-                                    {filters?.client_id && (
-                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client :</span> {filters?.client_name}
-                                        </div>
-                                    )}
-
-                                    {filters?.entity_name && (
-                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity : </span> {filters?.entity_name}
-                                        </div>
-                                    )}
-
-                                    {filters?.station_name && (
-                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station :</span> {filters?.station_name}
-                                        </div>
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            ''
-                        )}
-                    </div>
+                   
                     <div className='panel h-full xl:col-span-3'>
-                        {/* <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
-                         
-                        </div> */}
-
+                   
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-2 spacebetween">
                             <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle</h5>
@@ -445,11 +366,6 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                                 )}
                             </div>
 
-                            <div className="md:hidden flex">
-                                <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                                    Filter
-                                </button>
-                            </div>
 
                         </div>
                         {data?.length > 0 ? (
@@ -483,41 +399,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
                 </div>
 
             </div>
-            {isFilterModalOpen && (
-                <div className="modal fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white w-full max-w-md m-6">
-                        <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                            <h5 className="text-lg font-bold">
-                                Apply Filter
-                            </h5>
-                            <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
-                                <IconX />
-                            </button>
-                        </div>
-
-                        <div className='p-6'>
-                            <CustomInput
-                                getData={getData}
-                                smallScreen={true}
-                                isLoading={isLoading}
-                                onApplyFilters={handleApplyFilters}
-                                FilterValues={filterValues}
-                                showClientInput={true}
-                                showEntityInput={true}
-                                showStationInput={true}
-                                showStationValidation={true}
-                                validationSchema={validationSchemaForCustomInput}
-                                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                                isOpen={isFilterModalOpen}
-                                onClose={closeModal}
-                                showDateInput={false}
-                                storedKeyName={storedKeyName}
-                            />
-                        </div>
-
-                    </div>
-                </div>
-            )}
+       
         </>
     );
 };

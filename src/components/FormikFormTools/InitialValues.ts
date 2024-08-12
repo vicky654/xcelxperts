@@ -210,18 +210,14 @@ export const stationPumpInitialValues = {
 };
 
 export const stationNozzleInitialValues = {
-  client_id: '',
-  entity_id: '',
+
   station_id: '',
   name: '',
   code: '',
   tank_name: '',
   tank_code: '',
   fuel_id: '',
-  status: '',
-  clients: [] as Client[],
-  entities: [] as Entity[],
-  sites: [] as Station[],
+ 
   tankList: {} as any,
   pumps: {} as any,
 };

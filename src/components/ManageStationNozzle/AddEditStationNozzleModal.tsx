@@ -72,6 +72,7 @@ interface UserData {
 
 interface AddEditStationNozzleModalProps {
     isOpen: boolean;
+    station_id: any;
     onClose: () => void;
     // getData: (url: string) => Promise<any>;
     getData: (url: string) => Promise<any>;
@@ -103,70 +104,29 @@ type tankList = {
     pumps: [];
 };
 
-const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
-    const [ClientList, setClientList] = useState<any[]>([]); // Adjust ClientList type as needed
-    const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
+const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId, station_id }) => {
+
     const handleApiError = useErrorHandler();
 
     useEffect(() => {
         if (isOpen) {
             formik.resetForm()
-            if (localStorage.getItem("superiorRole") === "Client") {
-                const clientId = localStorage.getItem("superiorId");
-                if (clientId) {
-                    // Simulate the change event to call handleClientChange
-                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
-                }
-            } else {
-                FetchClientList();
+            if (station_id) {
+                fetchFuelNameList(station_id);
+                formik.setFieldValue("station_id", station_id)
             }
-            FetchCommonDataList();
+
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
-                // FetchClientList();
             }
         }
     }, [isOpen, isEditMode, userId]);
 
 
-    const FetchCommonDataList = async () => {
-        try {
-            const response = await getData('/getStation/data');
-            if (response && response.data && response.data.data) {
-                setCommonDataList(response.data.data)
-            }
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
 
-    const FetchClientList = async () => {
-        try {
-            const response = await getData('/getClients');
-            const clients = response.data.data;
-            formik.setFieldValue('clients', clients);
-            // const clientId = localStorage.getItem("superiorId");
-            // if (localStorage.getItem("superiorRole") !== "Client" && clientId) {
-            //     formik.setFieldValue('client_id', clientId);
-            //     const selectedClient = clients.find((client: Client) => client.id === clientId);
-            //     if (selectedClient) {
-            //         formik.setFieldValue('entities', selectedClient.entities);
-            //     }
-            // }
-        } catch (error) {
-            handleApiError(error)
-        }
-    };
 
-    const fetchSiteList = async (companyId: string) => {
-        try {
-            const response = await getData(`getStations?entity_id=${companyId}`);
-            formik.setFieldValue('sites', response.data.data);
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
+
+
 
 
     const fetchUserDetails = async (id: string) => {
@@ -174,101 +134,26 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
             const response = await getData(`/station/nozzle/${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
-                formik.setValues(userData)
-                FetchClientList()
-                fetchEntityList(userData?.client_id)
-                fetchSiteList(userData?.entity_id)
-                fetchFuelNameList(userData?.station_id)
+                formik.setFieldValue('code', userData.code);
+                formik.setFieldValue('name', userData.name);
+                formik.setFieldValue('station_id', userData.station_id);
+                formik.setFieldValue('fuel_id', userData?.tank_id);
             }
         } catch (error) {
             handleApiError(error);
         }
     };
 
-    const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const clientId = e.target.value;
-        formik.setFieldValue('client_id', clientId);
-        if (clientId) {
-            fetchEntityList(clientId);
-            const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
-            formik.setFieldValue('client_name', selectedClient?.client_name || "");
-            formik.setFieldValue('entities', selectedClient?.entities || []);
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('station_id', "");
-        } else {
-            formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('station_id', "");
-            formik.setFieldValue('client_name', "");
-            formik.setFieldValue('entities', []);
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('entity_name', "");
-            formik.setFieldValue('site_name', "");
-        }
-    };
-
-    const handleEntityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const entityId = e.target.value;
-        formik.setFieldValue('entity_id', entityId);
-        if (entityId) {
-            fetchSiteList(entityId);
-            const selectedEntity = formik.values.entities.find((entity: Entity) => entity.id === entityId);
-            formik.setFieldValue('entity_name', selectedEntity?.entity_name || "");
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('tankList', "");
-        } else {
-            formik.setFieldValue('entity_name', "");
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('station_id', "");
-            formik.setFieldValue('site_name', "");
-            formik.setFieldValue('tankList', "");
-        }
-    };
-
-    // const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const companyId = e.target.value;
-    //     formik.setFieldValue('company_id', companyId);
-    //     if (companyId) {
-    //         fetchSiteList(companyId);
-    //         const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
-    //         formik.setFieldValue('company_name', selectedCompany?.company_name || "");
-    //         formik.setFieldValue('sites', []);
-    //     } else {
-    //         formik.setFieldValue('company_name', "");
-    //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('station_id', "");
-    //         formik.setFieldValue('site_name', "");
-    //     }
-    // };
 
 
-    const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedSiteId = e.target.value;
-        formik.setFieldValue("station_id", selectedSiteId);
-        formik.setFieldValue('tankList', "");
-        const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-        fetchFuelNameList(selectedSiteId)
-        if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.name);
-        } else {
-            formik.setFieldValue("site_name", "");
-        }
-    };
 
 
-    const fetchEntityList = async (clientId: string) => {
-        try {
-            const response = await getData(`getEntities?client_id=${clientId}`);
-            formik.setFieldValue('entities', response.data.data);
-        } catch (error) {
-            handleApiError(error)
-        }
-    };
+
+
+
     const fetchFuelNameList = async (siteId: string) => {
         try {
             const response = await getData(`getTanks?station_id=${siteId}`);
-           
-
             formik.setFieldValue('tankList', response?.data);
         } catch (error) {
             handleApiError(error)
@@ -290,7 +175,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
 
 
 
-
+    console.log(formik?.values, "values");
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -307,36 +192,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-                                                {!isEditMode && localStorage.getItem("superiorRole") !== "Client" &&
-                                                    <FormikSelect
-                                                        formik={formik}
-                                                        name="client_id"
-                                                        label="Client"
-                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                        className="form-select text-white-dark"
-                                                        onChange={handleClientChange}
-                                                    />
-                                                }
 
-
-                                                {!isEditMode && <FormikSelect
-                                                    formik={formik}
-                                                    name="entity_id"
-                                                    label="Entity"
-                                                    options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleEntityChange}
-                                                />}
-
-
-                                                <FormikSelect
-                                                    formik={formik}
-                                                    name="station_id"
-                                                    label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleSiteChange}
-                                                />
 
                                                 <FormikSelect
                                                     formik={formik}

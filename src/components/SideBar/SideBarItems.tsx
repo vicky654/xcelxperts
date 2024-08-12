@@ -154,10 +154,10 @@ const menuItems: MenuItem[] = [
         permission: 'station-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'Stations', link: '/manage-stations', permission: 'station-list', visibility: false },
-            { title: 'Station Bank', link: '/manage-stationbanks', permission: 'station-bank-create', visibility: false },
-            { title: 'Tanks', link: '/manage-tanks', permission: 'tank-list', visibility: false },
+            // { title: 'Station Bank', link: '/manage-stationbanks', permission: 'station-bank-create', visibility: false },
+            // { title: 'Tanks', link: '/manage-tanks', permission: 'tank-list', visibility: false },
             // { title: 'Pumps', link: '/manage-pumps', permission: 'pump-list', visibility: false },
-            { title: 'Nozzles', link: '/manage-nozzles', permission: 'nozzle-list', visibility: false },
+            // { title: 'Nozzles', link: '/manage-nozzles', permission: 'nozzle-list', visibility: false },
            // { title: 'Fuel Sale', link: '/manage-fuel-sale', permission: 'dashboard-view', visibility: false },
             { title: 'Fuel Sale', link: '/manage-fuel-sale', permission: 'fuel-price-update', visibility: false },
             // { title: 'Fuel Purchase', link: '/manage-fuel-purchase', permission: 'fuel-purchase-list', visibility: false },

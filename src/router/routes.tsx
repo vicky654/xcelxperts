@@ -222,6 +222,10 @@ const routes = [
     element: <ManageStationTank />,
   },
   {
+    path: 'manage-nozzles/:id',
+    element: <ManageStationNozzle />,
+  },
+  {
     path: 'manage-incomes',
     element: <ManageCharges />,
   },
@@ -254,10 +258,7 @@ const routes = [
     path: 'manage-credituser-history/:id',
     element: <ManageCreditUserHistory />,
   },
-  {
-    path: 'manage-nozzles',
-    element: <ManageStationNozzle />,
-  },
+
   {
     path: 'manage-pumps',
     element: <ManageStationPump />,

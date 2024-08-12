@@ -156,12 +156,14 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const IsstocklossPermissionAvailable = UserPermissions?.includes("stockloss-list");
     const IsBankPermissionAvailable = UserPermissions?.includes("station-bank-list");
     const IsTankPermissionAvailable = UserPermissions?.includes("tank-list");
+    const IsNozzlePermissionAvailable = UserPermissions?.includes("nozzle-list");
 
     const anyPermissionAvailable = isEditPermissionAvailable 
     || isDeletePermissionAvailable ||
      isAssignAddPermissionAvailable || 
      IsBankPermissionAvailable || 
      IsTankPermissionAvailable || 
+     IsNozzlePermissionAvailable || 
      AssignMannagerPermissionAvailable;
 
     const columns: any = [
@@ -319,6 +321,24 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                 )}
                                             </li>
                                             <li>
+                                                {IsBankPermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
+                                                        <i className="fi fi-tr-bank"></i> Banks
+                                                    </button>)}
+                                            </li>
+                                            <li>
+                                                {IsTankPermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
+                                                        <i className="fi fi-ts-tank-water"></i> Tanks
+                                                    </button>)}
+                                            </li>
+                                            <li>
+                                                {IsNozzlePermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-nozzles/${row.id}`)} type="button">
+                                                        <i className="fi fi-ts-gas-pump-slash"></i> Nozzles
+                                                    </button>)}
+                                            </li>
+                                            <li>
                                                 {isEditSettingPermissionAvailable && (
                                                     <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
                                                         <i className="fi fi-rr-settings"></i> Station Settings
@@ -356,18 +376,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                         <i className="fi fi-ts-growth-chart-invest"></i>Stock Loss
                                                     </button>)}
                                             </li>
-                                            <li>
-                                                {IsBankPermissionAvailable && (
-                                                    <button  onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
-                                                        <i className="fi fi-ts-growth-chart-invest"></i>Station Banks
-                                                    </button>)}
-                                            </li>
-                                            <li>
-                                                {IsTankPermissionAvailable && (
-                                                    <button  onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
-                                                        <i className="fi fi-ts-growth-chart-invest"></i>Station Tanks
-                                                    </button>)}
-                                            </li>
+                                         
 
                                         </ul>
                                     </Dropdown>

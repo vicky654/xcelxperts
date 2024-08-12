@@ -28,6 +28,8 @@ interface ManageSiteProps {
 }
 
 interface RowData {
+    tank_code: any;
+    capacity: any;
     id: string; // Change type from number to string
     full_name: string;
     role: string;
@@ -47,7 +49,6 @@ interface RowData {
 
 const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
-    const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -55,10 +56,10 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-    const navigate = useNavigate();
-    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    const [stationname, setstationname] = useState("");
+
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
-    let storedKeyName = "stationTank";
+
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
@@ -73,13 +74,13 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const [showFilterOptions,] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    
-const {id}= useParams();
+
+    const { id } = useParams();
     useEffect(() => {
         if (id) {
             handleApplyFilters(id);
         }
-    }, [searchTerm, currentPage,id]);
+    }, [searchTerm, currentPage, id]);
 
 
     const handleSuccess = () => {
@@ -123,14 +124,27 @@ const {id}= useParams();
             ),
         },
         {
-            name: 'Station Name',
-            selector: (row: RowData) => row.station,
+            name: 'Station Code',
+            selector: (row: RowData) => row.tank_code,
             sortable: false,
-            width: '20%',
+            width: '15%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.station}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.tank_code}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: 'Station Capacity',
+            selector: (row: RowData) => row.capacity,
+            sortable: false,
+            width: '15%',
+            cell: (row: RowData) => (
+                <div className="d-flex">
+                    <div className=" mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.capacity}</h6>
                     </div>
                 </div>
             ),
@@ -139,7 +153,7 @@ const {id}= useParams();
             name: 'Fuel Name',
             selector: (row: RowData) => row.fuel_name,
             sortable: false,
-            width: '20%',
+            width: '10%',
             cell: (row: RowData) => (
                 <div className="d-flex">
                     <div className=" mt-0 mt-sm-2 d-block">
@@ -276,17 +290,18 @@ const {id}= useParams();
     };
     const handleApplyFilters = async (values: any) => {
         try {
-        
+
             let apiUrl = `/station/tank/list?station_id=${id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
             const response = await getData(apiUrl);
             if (response && response.data && response.data.data) {
+                setstationname(response.data.data?.station_name)
                 setData(response.data.data?.listing);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
-         
+
             } else {
                 throw new Error('No data available in the response');
             }
@@ -298,7 +313,7 @@ const {id}= useParams();
 
 
 
-   
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -325,20 +340,23 @@ const {id}= useParams();
                 </>}
 
             </div>
-            <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal}  station_id={id} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} station_id={id} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6'>
-        
 
 
 
-              
+
+
                     <div className='panel h-full xl:col-span-3'>
 
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-2 spacebetween">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Tank Stations </h5>
+                            <h5 className="font-semibold text-lg dark:text-white-light">
+                                Tank Stations {stationname && `(${stationname})`}
+                            </h5>
+
                             {showFilterOptions && (
                                 <SearchBar
                                     onSearch={handleSearch}
@@ -348,7 +366,7 @@ const {id}= useParams();
                                 />
                             )}
 
-                        
+
                         </div>
                         {data?.length > 0 ? (
                             <>
@@ -381,7 +399,7 @@ const {id}= useParams();
                 </div>
 
             </div>
-         
+
         </>
     );
 };
