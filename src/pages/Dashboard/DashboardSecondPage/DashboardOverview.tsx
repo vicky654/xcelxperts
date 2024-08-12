@@ -255,7 +255,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         )}
 
                         <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark ">
-                            Apply Filter
+                            Filter
                         </button>
 
                         {modalOpen && (<>
@@ -318,7 +318,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         {/* 4th Card */}
                         <div
                             className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
-                            
+
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>

@@ -334,7 +334,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         </div>
 
         <div className='panel h-full xl:col-span-3'>
-          <div className="flex justify-between  ">
+          <div className="flex justify-between  mb-2">
             <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
             {/* <div className='Action-btns flex'>
               <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
@@ -342,7 +342,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div> */}
             <div className="md:hidden flex ">
               <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                Apply Filter
+                Filter
               </button>
             </div>
             {/* <hr></hr> */}
@@ -384,7 +384,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
         <div className="bg-white w-full max-w-md m-6">
           <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
             <h5 className="text-lg font-bold">
-              Apply Filter
+              Filter
             </h5>
             <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
               <IconX />

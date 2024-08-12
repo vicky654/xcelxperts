@@ -251,9 +251,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
       // Check if formattedTab is 'digital-receipt' and send 'payments' instead
       const endpoint = formattedTab === 'digital-receipt' ? 'payments' : formattedTab;
-      
+
       const response = await getData(`/daily-stats/${endpoint}?station_id=${stationId}&drs_date=${formattedDate}`);
-      
+
       if (response && response.data && response.data.data) {
         setSubData(response.data?.data?.listing);
       } else {
@@ -407,7 +407,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
             <div className="md:hidden flex ">
               <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                Apply Filter
+                Filter
               </button>
             </div>
           </div>
