@@ -51,6 +51,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
+    const [stationname, setstationname] = useState("");
     const { id } = useParams();
     useEffect(() => {
         fetchData(id);
@@ -71,6 +72,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
             // station/skip-date/list?station_id=VEttejdBRlRMWDRnUTdlRkdLK1hrZz0
 
             if (response && response.data && response.data.data) {
+                setstationname(response.data.data?.station_name);
                 setData(response.data.data?.skipDates);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
@@ -82,7 +84,6 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
             //   handleApiError(error);
         }
     };
-    const { toggleStatus } = useToggleStatus();
 
     const { customDelete } = useCustomDelete();
 
@@ -253,7 +254,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Station Skip Dates</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Station Skip Dates {stationname && `(${stationname})`}</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>

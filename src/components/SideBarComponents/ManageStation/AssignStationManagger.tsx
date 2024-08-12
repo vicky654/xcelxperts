@@ -50,6 +50,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
     const [lastPage, setLastPage] = useState(1);
     const navigate = useNavigate();
     const { id } = useParams();
+    const [stationname, setstationname] = useState("");
     useEffect(() => {
         fetchData(id);
         dispatch(setPageTitle('Alternative Pagination Table'));
@@ -69,6 +70,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
             // station/skip-date/list?station_id=VEttejdBRlRMWDRnUTdlRkdLK1hrZz0
 
             if (response && response.data && response.data.data) {
+                setstationname(response.data.data?.station_name);
                 setdataList(response.data.data || []);
                 setData(response.data.data?.managers || []);
                 setCurrentPage(response.data.data?.currentPage || 1);
@@ -270,7 +272,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Station Managers</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light"> Station Managers {stationname && `(${stationname})`}</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
                     </div>

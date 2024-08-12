@@ -300,7 +300,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 <div className="dropdown">
                                     <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
                                         <ul>
-
+{/* //edit */}
                                             <li>
                                                 {isEditPermissionAvailable && (
 
@@ -310,35 +310,8 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                 )}
                                             </li>
-                                            <li>
-                                                {isDeletePermissionAvailable && (
-
-                                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                                        Delete
-                                                    </button>
-
-                                                )}
-                                            </li>
-                                            <li>
-                                                {IsBankPermissionAvailable && (
-                                                    <button  onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
-                                                        <i className="fi fi-tr-bank"></i> Banks
-                                                    </button>)}
-                                            </li>
-                                            <li>
-                                                {IsTankPermissionAvailable && (
-                                                    <button  onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
-                                                        <i className="fi fi-ts-tank-water"></i> Tanks
-                                                    </button>)}
-                                            </li>
-                                            <li>
-                                                {IsNozzlePermissionAvailable && (
-                                                    <button  onClick={() => navigate(`/manage-nozzles/${row.id}`)} type="button">
-                                                        <i className="fi fi-ts-gas-pump-slash"></i> Nozzles
-                                                    </button>)}
-                                            </li>
-                                            <li>
+                                                       {/* //Station Settings */}
+                                                       <li>
                                                 {isEditSettingPermissionAvailable && (
                                                     <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
                                                         <i className="fi fi-rr-settings"></i> Station Settings
@@ -348,17 +321,8 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                 )}
                                             </li>
-                                            <li>
-                                                {isSkipPermissionAvailable && (
-
-                                                    <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
-                                                        <i className="fi fi-tr-calendar-clock"></i>Skip Date
-                                                    </button>
-
-
-
-                                                )}
-                                            </li>
+                                            {/* //Assign Mannager */}
+                                            
                                             <li>
                                                 {AssignMannagerPermissionAvailable && (
 
@@ -370,12 +334,55 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                 )}
                                             </li>
-                                            <li>
-                                                {IsstocklossPermissionAvailable && (
-                                                    <button onClick={() => NavigateToStockLoss(row.id)} type="button">
-                                                        <i className="fi fi-ts-growth-chart-invest"></i>Stock Loss
+                                                     {/* //Banks */}
+                                                     <li>
+                                                {IsBankPermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
+                                                        <i className="fi fi-tr-bank"></i> Banks
                                                     </button>)}
                                             </li>
+                                               {/* //Tanks */}
+                                               <li>
+                                                {IsTankPermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
+                                                        <i className="fi fi-ts-tank-water"></i> Tanks
+                                                    </button>)}
+                                            </li>
+                                                  {/* //Nozzles */}
+                                                  <li>
+                                                {IsNozzlePermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-nozzles/${row.id}`)} type="button">
+                                                        <i className="fi fi-ts-gas-pump-slash"></i> Nozzles
+                                                    </button>)}
+                                            </li>
+                                            {/* //Delete */}
+                                            <li>
+                                                {isDeletePermissionAvailable && (
+
+                                                    <button onClick={() => handleDelete(row.id)} type="button">
+                                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                                                        Delete
+                                                    </button>
+
+                                                )}
+                                            </li>
+                                       
+                                                  
+                                          
+                                        
+                                             {/* //Skip Date */}
+                                            <li>
+                                                {isSkipPermissionAvailable && (
+
+                                                    <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
+                                                        <i className="fi fi-tr-calendar-clock"></i>Skip Date
+                                                    </button>
+
+
+
+                                                )}
+                                            </li>    
+                                             
                                          
 
                                         </ul>
