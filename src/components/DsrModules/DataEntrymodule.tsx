@@ -70,7 +70,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
 
         // Check for the existence of `start_month` or other necessary properties
-        if (storedData.start_date) {
+        if (storedData.start_date && storedData.station_id) {
           handleApplyFilters(storedData);
         }
       } catch (error) {
@@ -204,26 +204,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       handleApiError(error);
     }
   };
-  //   const handleDeleteDataEntry = async () => {
-  //     try {
-  //       const formData = new FormData();
-  // if (stationId && startDate) {
-  //         formData.append('drs_date', startDate);
-  //         formData.append('station_id', stationId);
-  //       }
 
-  //       const url = `data-entry/delete-data`;
-
-  //       const isSuccess = await postData(url, formData);
-  //       if (isSuccess) {
-  //         if (stationId && startDate) {
-  //           // handleApplyFilters(formik?.values);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       handleApiError(error);
-  //     }
-  //   };
 
 
   const filterValues = async (values: any) => {

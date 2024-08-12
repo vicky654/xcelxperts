@@ -66,13 +66,20 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
+        const storedDataString = localStorage.getItem(storedKeyName);
 
-        if (storedData) {
-            handleApplyFilters(JSON.parse(storedData));
+
+        if (storedDataString) {
+            try {
+                const storedData = JSON.parse(storedDataString);
+                if (storedData.station_id) {
+                    handleApplyFilters(storedData);
+                }
+            } catch (error) {
+                console.error("Error parsing stored data", error);
+            }
         }
-
-    }, [currentPage, searchTerm]);
+    }, [searchTerm, currentPage]);
 
 
     const handleSearch = (term: string) => {
@@ -94,9 +101,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
         setCurrentPage(newPage);
     };
 
-    const fetchData = async () => {
 
-    };
     const { toggleStatus } = useToggleStatus();
     const toggleActive = (row: RowData) => {
         const formData = new FormData();

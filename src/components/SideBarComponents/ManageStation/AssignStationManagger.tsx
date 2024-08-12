@@ -247,7 +247,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <Link to="/manage-stations/station" className="text-primary hover:underline">
+                        <Link to="/manage-stations" className="text-primary hover:underline">
                             Stations
                         </Link>
 

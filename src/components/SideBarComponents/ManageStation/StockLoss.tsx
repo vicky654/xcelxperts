@@ -336,7 +336,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                         </Link>
                     </li>
                     <li >
-                        <Link to="/manage-stations/station" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+                        <Link to="/manage-stations" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
                             Manage  Stations
                         </Link>
                     </li>

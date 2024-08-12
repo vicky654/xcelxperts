@@ -73,16 +73,47 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-
-
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
+        const storedDataString = localStorage.getItem(storedKeyName);
 
-        if (storedData) {
-            handleApplyFilters(JSON.parse(storedData));
+
+        if (storedDataString) {
+            try {
+                const storedData = JSON.parse(storedDataString);
+
+
+                // Check for the existence of `start_month` or other necessary properties
+                if (storedData.station_id) {
+
+                    handleApplyFilters(storedData);
+                }
+            } catch (error) {
+                console.error("Error parsing stored data", error);
+            }
         }
-
     }, [searchTerm, currentPage]);
+
+    // useEffect(() => {
+    //     const storedData = localStorage.getItem(storedKeyName);
+
+    //     if (storedData) {
+    //         try {
+    //             const storedData = JSON.parse(storedData);
+
+
+    //             // Check for the existence of `start_month` or other necessary properties
+    //             if (storedData.start_month) {
+
+    //               handleApplyFilters(storedData);
+    //             }
+    //           } catch (error) {
+    //             console.error("Error parsing stored data", error);
+    //           }
+
+
+    //     }
+
+    // }, [searchTerm, currentPage]);
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
     };

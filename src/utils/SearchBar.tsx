@@ -41,22 +41,24 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset, placeholder, h
       />
 
       <button
-        className="ml-2 px-2 py-2 btn btn-primary text-white rounded-md hover:bg-blue-600 transition duration-150 ease-in-out"
+        className="ml-2 p-1 btn btn-primary text-white rounded-md hover:bg-blue-600 transition duration-150 ease-in-out"
         onClick={handleSearch}
         aria-label="Search"
+        title='Search'
       >
         {/* Search */}
-        <i className="fi fi-tr-member-search"></i>
+        <i  style={{fontSize:"22px"}} className="fi fi-ts-issue-loupe"></i>
       </button>
 
       {hideReset && (
         <button
-          className="ml-2 px-2 py-2 btn btn-danger  text-white rounded-md hover:bg-red-600 transition duration-150 ease-in-out"
+          className="ml-2 p-1 btn btn-danger  text-white rounded-md hover:bg-red-600 transition duration-150 ease-in-out"
           onClick={handleReset}
           aria-label="Clear"
+              title='Clear'
         >
           {/* Clear */}
-          <i className="fi fi-tr-not-found-alt"></i>
+          <i  style={{fontSize:"22px"}} className="fi fi-tr-circle-xmark"></i>
         </button>
       )}
     </div>

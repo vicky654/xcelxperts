@@ -67,7 +67,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
                 const isSuccess = await postData(postDataUrl, formData);
                 if (isSuccess) {
-                    navigate("/manage-users/user");
+                    navigate("/manage-users");
                 }
             }catch (error) {
                 handleApiError(error);
@@ -86,7 +86,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <Link to="/manage-users/user" className="text-primary hover:underline">
+                        <Link to="/manage-users" className="text-primary hover:underline">
                             Manage User
                         </Link>
                     </li>

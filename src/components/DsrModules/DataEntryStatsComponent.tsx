@@ -95,17 +95,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const storedKeyName = "stationTank";
 
 
-  // useEffect(() => {
-  //   const storedData = localStorage.getItem(storedKeyName);
-  //   console.log(storedData, "storedDastoredKeyNameta");
-  //   if (storedData) {
-  //     
-
-  //     handleApplyFilters(JSON.parse(storedData));
-  //   }
-
-  // }, [dispatch]);
-
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
 
@@ -244,7 +233,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
     }
   };
-  const formatKey = (key: string) => key.replace(/\s+/g, '');
   const formatDate = (date: string) => {
     const dateObj = new Date(date);
     const day = dateObj.getDate().toString().padStart(2, '0');

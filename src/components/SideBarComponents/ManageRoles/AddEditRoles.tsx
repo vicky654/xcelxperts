@@ -164,7 +164,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
     };
 
     const handleSuccess = () => {
-        navigate('/manage-roles/roles');
+        navigate('/manage-roles');
     };
 
     return (
@@ -179,7 +179,7 @@ const AddEditRolesComponent: React.FC<AddEditRolesProps> = ({ getData, isLoading
                             </Link>
                         </li>
                         <li>
-                            <Link to="/manage-roles/roles" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary ">
+                            <Link to="/manage-roles" className=" before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary ">
                                 <span className='hover:underline'>
                                     Roles
                                 </span>

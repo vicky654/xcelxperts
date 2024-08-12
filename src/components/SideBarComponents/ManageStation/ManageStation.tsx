@@ -135,7 +135,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
     const NavigateToStockLoss = (id: any) => {
 
-        navigate(`/manage-stations/stock-loss/${id}`)
+        navigate(`/manage-stock-loss/${id}`)
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);

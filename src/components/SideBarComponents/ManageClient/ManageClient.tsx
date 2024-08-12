@@ -402,7 +402,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             const isSuccess = await postData(postDataUrl, formData);
             if (isSuccess) {
                 handleSuccess()
-                // navigate("/manage-clients/client");
+                // navigate("/manage-clients");
             }
         } catch (error) {
             handleApiError(error);

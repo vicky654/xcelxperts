@@ -175,7 +175,7 @@ const routes = [
   //permissions Routings
 
   {
-    path: '/manage-users/user',
+    path: '/manage-users',
     element: <ManageUser />,
   },
   {
@@ -191,15 +191,15 @@ const routes = [
     element: <AssignClientReports />,
   },
   {
-    path: '/manage-clients/client',
+    path: '/manage-clients',
     element: <ManageClient />,
   },
   {
-    path: '/manage-entities/entity',
+    path: '/manage-entities',
     element: <ManageEntity />,
   },
   {
-    path: 'manage-stations/station',
+    path: 'manage-stations',
     element: <ManageStation />,
   },
   {
@@ -213,67 +213,67 @@ const routes = [
     element: <AssignStationManagger />,
   },
   {
-    path: 'manage-bank/bank',
+    path: 'manage-stationbanks',
     element: <ManageStationBank />,
   },
   {
-    path: 'manage-Incomes/Incomes',
+    path: 'manage-incomes',
     element: <ManageCharges />,
   },
   {
-    path: 'manage-categories/fuelcategories',
+    path: 'manage-fuel-categories',
     element: <FuelCategories />,
   },
   {
-    path: 'manage-others/fuelsubcategories',
+    path: 'manage-sub-categories',
     element: <FuelSubCategories />,
   },
   {
-    path: 'manage-others/bank',
+    path: 'manage-banks',
     element: <Bank />,
   },
   {
-    path: 'manage-others/lubricant',
+    path: 'manage-lubricants',
     element: <Lubricant />,
   },
   {
-    path: 'manage-expenses/expenses',
+    path: 'manage-expenses',
     element: <ManageDeduction />,
   },
   {
-    path: 'manage-stations/tank',
+    path: 'manage-tanks',
     element: <ManageStationTank />,
   },
   {
-    path: 'manage-users/credit-users',
+    path: 'manage-credit-users',
     element: <ManageCreditUser />,
   },
   {
-    path: 'manage-users/credit-usersHistory/:id',
+    path: 'manage-credituser-history/:id',
     element: <ManageCreditUserHistory />,
   },
   {
-    path: 'manage-stations/nozzle',
+    path: 'manage-nozzles',
     element: <ManageStationNozzle />,
   },
   {
-    path: 'manage-stations/pump',
+    path: 'manage-pumps',
     element: <ManageStationPump />,
   },
   {
-    path: 'manage-stations/fuel-sale',
+    path: 'manage-fuel-sale',
     element: <ManageStationFuelSelling />,
   },
   {
-    path: 'manage-stations/fuel-purchase',
+    path: 'manage-fuel-purchase',
     element: <ManageStationFuelPurchase />,
   },
   {
-    path: 'manage-reports/reports',
+    path: 'manage-reports',
     element: <ManageReports />,
   },
   {
-    path: '/manage-roles/roles',
+    path: '/manage-roles',
     element: <ManageRoles />,
   },
   {
@@ -281,7 +281,7 @@ const routes = [
     element: <AddRoles />,
   },
   {
-    path: '/manage-addons/addons',
+    path: '/manage-addons',
     element: <ManageAddons />,
   },
   {
@@ -301,7 +301,7 @@ const routes = [
     element: <StationSetting />,
   },
   {
-    path: 'manage-stations/stock-loss/:id',
+    path: 'manage-stock-loss/:id',
     element: <StockLoss />,
   },
 
@@ -312,19 +312,19 @@ const routes = [
 
 
   {
-    path: 'manage-supplier/supplier',
+    path: 'manage-suppliers',
     element: <Managesupplier />,
   },
   {
-    path: 'manage-cards/cards',
+    path: 'manage-cards',
     element: <Managecards />,
   },
   {
-    path: 'manage-logs/emaillogs',
+    path: 'manage-emaillogs',
     element: <EmailLogs />,
   },
   {
-    path: 'manage-logs/activity_logs',
+    path: 'manage-activity_logs',
     element: <ActivityLogs />,
   },
 

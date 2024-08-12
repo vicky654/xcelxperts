@@ -100,36 +100,30 @@ const CustomInput: React.FC<CustomInputProps> = ({
     }, [showClientInput]);
 
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
-        // Check if there is any stored data
-        if (storedData) {
+        const storedDataString = localStorage.getItem(storedKeyName);
+
+        if (storedDataString) {
             // Parse the stored data into an object
-            const parsedData = JSON.parse(storedData);
+            const parsedData = JSON.parse(storedDataString);
+
             // Set the parsed data into Formik
             formik.setValues(parsedData);
+
+            // Check if station_id exists in parsedData
+            if (parsedData?.entity_id) {
+                fetchSiteList(parsedData?.entity_id);
+            }
         }
 
-        if (!storedData && localStorage.getItem("superiorRole") === "Client") {
+        if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {
             const clientId = localStorage.getItem("superiorId");
             if (clientId) {
                 // Simulate the change event to call handleClientChange
                 handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
             }
         }
-        // if (localStorage.getItem("superiorRole") == "Client") {
-        //     const clientId = localStorage.getItem("superiorId");
-        //     fetchCompanyList(clientId)
 
-        //     formik.setFieldValue("client_id", clientId)
-        //     // if (localStorage.getItem("superiorRole") !== "Client") {
-        //     //     fetchClientList()
-        //     // } else {
-        //     //     setSelectedClientId(clientId);
-
-        //     // }
-        // }
-    }, []);
-
+    }, []); // Empty dependency array to run only on component mount
 
 
 

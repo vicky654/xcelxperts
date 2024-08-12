@@ -45,7 +45,7 @@ const menuItems: MenuItem[] = [
             { title: 'Data Entry', link: '/data-entry', permission: 'workflow-list', visibility: false },
             { title: 'Data Entry Stats', link: '/data-entry-stats', permission: 'workflow-list', visibility: false },
           
-            // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
+            // { title: 'Reports', link: '/manage-reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
@@ -53,16 +53,16 @@ const menuItems: MenuItem[] = [
         key: 'Manage',
         title: 'Manage',
         icon: "lead-management",
-        link: '/manage-Incomes/Incomes', // Single link for the dashboard
+        link: '/manage-incomes', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'user-list', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Users', link: '/manage-users/user', permission: 'user-list', visibility: false },
-            { title: 'Clients', link: '/manage-clients/client', permission: 'client-list', visibility: false },
-            { title: 'Entities', link: '/manage-entities/entity', permission: 'entity-list', visibility: false },
-            { title: 'Credit User', link: '/manage-users/credit-users', permission: 'credituser-list', visibility: false },
+            { title: 'Users', link: '/manage-users', permission: 'user-list', visibility: false },
+            { title: 'Clients', link: '/manage-clients', permission: 'client-list', visibility: false },
+            { title: 'Entities', link: '/manage-entities', permission: 'entity-list', visibility: false },
+            { title: 'Credit User', link: '/manage-credit-users', permission: 'credituser-list', visibility: false },
             // { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
-            // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
+            // { title: 'Reports', link: '/manage-reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
@@ -70,23 +70,23 @@ const menuItems: MenuItem[] = [
         key: 'Master ',
         title: 'Master ',
         icon: "handshake",
-        link: '/manage-categories/fuelcategories', // Single link for the dashboard
+        link: '/manage-fuel-categories', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'card-list', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Cards', link: '/manage-cards/cards', permission: 'card-list', visibility: false },
+            { title: 'Cards', link: '/manage-cards', permission: 'card-list', visibility: false },
             
-            { title: 'Fuel Categories', link: '/manage-categories/fuelcategories', permission: 'fuel-category-list', visibility: false },
-            { title: 'Fuel Sub Categories', link: '/manage-others/fuelsubcategories', permission: 'fuel-subcategory-list', visibility: false },
-            { title: 'Lubricant', link: '/manage-others/lubricant', permission: 'lubricant-list', visibility: false },
-            { title: 'Extra Income', link: '/manage-Incomes/Incomes', permission: 'charges-list', visibility: false },
-            { title: 'Expenses', link: '/manage-expenses/expenses', permission: 'deduction-list', visibility: false },
-            { title: 'Suppliers', link: '/manage-supplier/supplier', permission: 'supplier-list', visibility: false },
+            { title: 'Fuel Categories', link: '/manage-fuel-categories', permission: 'fuel-category-list', visibility: false },
+            { title: 'Fuel Sub Categories', link: '/manage-sub-categories', permission: 'fuel-subcategory-list', visibility: false },
+            { title: 'Lubricant', link: '/manage-lubricants', permission: 'lubricant-list', visibility: false },
+            { title: 'Extra Income', link: '/manage-incomes', permission: 'charges-list', visibility: false },
+            { title: 'Expenses', link: '/manage-expenses', permission: 'deduction-list', visibility: false },
+            { title: 'Suppliers', link: '/manage-suppliers', permission: 'supplier-list', visibility: false },
            
-            { title: 'Bank', link: '/manage-others/bank', permission: 'bank-list', visibility: false },
+            { title: 'Bank', link: '/manage-banks', permission: 'bank-list', visibility: false },
           
             // { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
-            // { title: 'Reports', link: '/manage-reports/reports', permission: 'user-list', visibility: false },
+            // { title: 'Reports', link: '/manage-reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
@@ -95,7 +95,7 @@ const menuItems: MenuItem[] = [
     //     key: 'users',
     //     title: 'Users',
     //     icon: IconMenuUsers,
-    //     link: '/manage-users/user', // Single link for the dashboard
+    //     link: '/manage-users', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -103,7 +103,7 @@ const menuItems: MenuItem[] = [
     //     key: 'client',
     //     title: 'Clients',
     //     icon: IconUser,
-    //     link: '/manage-clients/client', // Single link for the dashboard
+    //     link: '/manage-clients', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -111,12 +111,12 @@ const menuItems: MenuItem[] = [
         key: 'Permissions',
         title: 'Permissions',
         icon: "dice-d6",
-        link: '/manage-roles/roles', // Single link for the dashboard
+        link: '/manage-roles', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'role-list', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Roles', link: '/manage-roles/roles', permission: 'role-list', visibility: false },
-            { title: 'Addons', link: '/manage-addons/addons', permission: 'addons-list', visibility: false },
+            { title: 'Roles', link: '/manage-roles', permission: 'role-list', visibility: false },
+            { title: 'Addons', link: '/manage-addons', permission: 'addons-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
@@ -124,7 +124,7 @@ const menuItems: MenuItem[] = [
     //     key: 'roles',
     //     title: 'Roles',
     //     icon: IconUser,
-    //     link: '/manage-roles/roles', // Single link for the dashboard
+    //     link: '/manage-roles', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -132,7 +132,7 @@ const menuItems: MenuItem[] = [
     //     key: 'ManageAddons',
     //     title: 'Addons',
     //     icon: IconUser,
-    //     link: '/manage-addons/addons', // Single link for the dashboard
+    //     link: '/manage-addons', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -141,7 +141,7 @@ const menuItems: MenuItem[] = [
     //     key: 'entity',
     //     title: 'Entities',
     //     icon: IconMenuDashboard,
-    //     link: '/manage-entities/entity', // Single link for the dashboard
+    //     link: '/manage-entities', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -149,19 +149,19 @@ const menuItems: MenuItem[] = [
         key: 'Stations',
         title: 'Stations',
         icon: "charging-station",
-        link: '/manage-stations/station', // Single link for the dashboard
+        link: '/manage-stations', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'station-list', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Stations', link: '/manage-stations/station', permission: 'station-list', visibility: false },
-            { title: 'Station Bank', link: '/manage-bank/bank', permission: 'station-bank-create', visibility: false },
-            { title: 'Tanks', link: '/manage-stations/tank', permission: 'tank-list', visibility: false },
-            // { title: 'Pumps', link: '/manage-stations/pump', permission: 'pump-list', visibility: false },
-            { title: 'Nozzles', link: '/manage-stations/nozzle', permission: 'nozzle-list', visibility: false },
-           // { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'dashboard-view', visibility: false },
-            { title: 'Fuel Sale', link: '/manage-stations/fuel-sale', permission: 'fuel-price-update', visibility: false },
-            // { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'fuel-purchase-list', visibility: false },
-            { title: 'Fuel Purchase', link: '/manage-stations/fuel-purchase', permission: 'fuel-purchase-price', visibility: false },
+            { title: 'Stations', link: '/manage-stations', permission: 'station-list', visibility: false },
+            { title: 'Station Bank', link: '/manage-stationbanks', permission: 'station-bank-create', visibility: false },
+            { title: 'Tanks', link: '/manage-tanks', permission: 'tank-list', visibility: false },
+            // { title: 'Pumps', link: '/manage-pumps', permission: 'pump-list', visibility: false },
+            { title: 'Nozzles', link: '/manage-nozzles', permission: 'nozzle-list', visibility: false },
+           // { title: 'Fuel Sale', link: '/manage-fuel-sale', permission: 'dashboard-view', visibility: false },
+            { title: 'Fuel Sale', link: '/manage-fuel-sale', permission: 'fuel-price-update', visibility: false },
+            // { title: 'Fuel Purchase', link: '/manage-fuel-purchase', permission: 'fuel-purchase-list', visibility: false },
+            { title: 'Fuel Purchase', link: '/manage-fuel-purchase', permission: 'fuel-purchase-price', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
@@ -169,7 +169,7 @@ const menuItems: MenuItem[] = [
         key: 'Reports',
         title: 'Reports',
         icon: "briefcase",
-        link: '/manage-reports/reports', // Single link for the dashboard
+        link: '/manage-reports', // Single link for the dashboard
         visibility: false, // Example of setting visibility to false
         permission: 'report-generate', // Permission associated with the dashboard
     },
@@ -177,11 +177,11 @@ const menuItems: MenuItem[] = [
     //     key: 'PaidOuts',
     //     title: 'PaidOuts',
     //     icon: "briefcase",
-    //     link: '/manage-Incomes/Incomes', // Single link for the dashboard
+    //     link: '/manage-incomes', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'report-generate', // Permission associated with the dashboard
     //     subMenu: [
-    //      { title: 'Reports', link: '/manage-reports/reports', permission: 'report-generate', visibility: false },
+    //      { title: 'Reports', link: '/manage-reports', permission: 'report-generate', visibility: false },
     //         // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
     //     ],
     // },
@@ -189,7 +189,7 @@ const menuItems: MenuItem[] = [
     //     key: 'Charges',
     //     title: 'Charges',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-Incomes/Incomes', // Single link for the dashboard
+    //     link: '/manage-incomes', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -197,7 +197,7 @@ const menuItems: MenuItem[] = [
     //     key: 'deductions',
     //     title: 'Deductions',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-expenses/expenses', // Single link for the dashboard
+    //     link: '/manage-expenses', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -205,7 +205,7 @@ const menuItems: MenuItem[] = [
     //     key: 'supplier',
     //     title: 'Suppliers',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-supplier/supplier', // Single link for the dashboard
+    //     link: '/manage-suppliers', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -217,8 +217,8 @@ const menuItems: MenuItem[] = [
         visibility: false, // Example of setting visibility to false
         permission: 'email-logs', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Email Logs', link: '/manage-logs/emaillogs', permission: 'email-logs', visibility: false },
-            { title: 'Activity Logs', link: '/manage-logs/activity_logs', permission: 'activity-logs', visibility: false },
+            { title: 'Email Logs', link: '/manage-emaillogs', permission: 'email-logs', visibility: false },
+            { title: 'Activity Logs', link: '/manage-activity_logs', permission: 'activity-logs', visibility: false },
         ],
     },
   
@@ -226,7 +226,7 @@ const menuItems: MenuItem[] = [
     //     key: 'Reports',
     //     title: 'Reports',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-reports/reports', // Single link for the dashboard
+    //     link: '/manage-reports', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },
@@ -234,7 +234,7 @@ const menuItems: MenuItem[] = [
     //     key: 'Manage Workflow',
     //     title: 'Manage Workflow',
     //     icon: IconMenuDatatables,
-    //     link: '/manage-stations/station', // Single link for the dashboard
+    //     link: '/manage-stations', // Single link for the dashboard
     //     visibility: false, // Example of setting visibility to false
     //     permission: 'dashboard-view', // Permission associated with the dashboard
     // },

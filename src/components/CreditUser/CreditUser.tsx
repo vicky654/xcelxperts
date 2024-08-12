@@ -414,7 +414,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
     const navigate = useNavigate();
     const handleHistory = (id: any) => {
-        navigate(`/manage-users/credit-usersHistory/${id}`);
+        navigate(`/manage-credituser-history/${id}`);
 
     };
 

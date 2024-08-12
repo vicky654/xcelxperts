@@ -172,13 +172,13 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 });
 
                 const url = `station/update-setting`;
-                const navigationpath: string = '/manage-stations/station'
+                const navigationpath: string = '/manage-stations'
                 const response = await postData(url, formData,);
 
 
 
                 if (response) {
-                    navigate("/manage-stations/station")
+                    navigate("/manage-stations")
                 }
 
             } catch (error) {
@@ -523,7 +523,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <Link to="/manage-stations/station" className="text-primary hover:underline">
+                    <Link to="/manage-stations" className="text-primary hover:underline">
                     Stations
                         </Link>
                       
