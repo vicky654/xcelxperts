@@ -14,7 +14,7 @@ function App({ children }: PropsWithChildren) {
         if (localStorage.getItem('token')) {
             dispatch(fetchStoreData() as any);
         }
-        // console.clear()
+        console.clear()
     }, []);
 
     useEffect(() => {

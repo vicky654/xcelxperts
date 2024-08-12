@@ -111,7 +111,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
 
 
-    console.log(formik.values.tankList, "columnIndex");
+   
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
