@@ -32,7 +32,7 @@ interface CustomInputProps {
     isRtl?: boolean; // If needed
     getData: (url: string, id?: string, params?: any) => Promise<any>;
     onApplyFilters: any;
-    FilterValues: any;
+    FilterValues?: any;
     showClientInput?: boolean;
     showEntityInput?: boolean;
     showStationInput?: boolean;

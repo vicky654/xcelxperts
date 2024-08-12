@@ -31,7 +31,7 @@ interface DashboardFilterProps {
     isRtl?: boolean; // If needed
     getData: (url: string, id?: string, params?: any) => Promise<any>;
     onApplyFilters: any;
-    FilterValues: any;
+    FilterValues?: any;
     showClientInput?: boolean;
     showEntityInput?: boolean;
     showStationInput?: boolean;
@@ -118,10 +118,7 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
                         // handleSiteChange({ target: { value: storedData.site_id } } as React.ChangeEvent<HTMLSelectElement>);
                         formik.setFieldValue("start_month", storedData.start_month);
                     }
-                    // fetchSiteList(storedData?.site_id)
-                    // fetchCompanyList(storedData.company_id)
-                    // console.log(storedData, "existence");
-                    //   handleApplyFilters(storedData);
+                   
                 }
             } catch (error) {
                 console.error("Error parsing stored data", error);
@@ -132,20 +129,6 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
 
     }, [showClientInput]);
 
-    // useEffect(() => {
-    //     const storedData = localStorage.getItem(storedKeyName);
-    //     if (storedData) {
-    //         const parsedData = JSON.parse(storedData);
-    //         formik.setValues(parsedData);
-    //     }
-
-    //     if (!storedData && localStorage.getItem("superiorRole") === "Client") {
-    //         const clientId = localStorage.getItem("superiorId");
-    //         if (clientId) {
-    //             handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
-    //         }
-    //     }
-    // }, []);
 
     const fetchClientList = async () => {
         try {

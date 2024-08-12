@@ -298,9 +298,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             </div>
         );
     };
-    // const onRemove = (item:any) => {
-    //     console.log(item, "onRemove");
-    //    };
+
     const onRemove = (item: any) => {
 
         const formData = new FormData();

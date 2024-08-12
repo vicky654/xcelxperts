@@ -47,7 +47,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
             const response = await getData(`/getFuels`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
-                console.log(userData, "userData");
+            
                 setRoleList(response.data?.data);
             }
         } catch (error) {

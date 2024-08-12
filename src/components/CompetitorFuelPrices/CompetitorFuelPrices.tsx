@@ -281,9 +281,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
 
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, "filterValues");
-    };
+ 
 
     const validationSchemaForCustomInput = Yup.object({
         company_id: Yup.string().required("Entity is required"),
@@ -327,7 +325,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
+                         
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false

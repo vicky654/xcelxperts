@@ -124,9 +124,6 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
         }
     };
 
-    const filterValues = async (values: any) => {
-        console.log(values, 'formValues');
-    };
 
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -166,7 +163,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
+                    
                             showClientInput={true} // or false
                             showEntityInput={true} // or false
                             showStationInput={false} // or false
@@ -258,7 +255,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                                 getData={getData}
                                 isLoading={isLoading}
                                 onApplyFilters={handleApplyFilters}
-                                FilterValues={filterValues}
+                              
                                 showClientInput={true} // or false
                                 showEntityInput={true} // or false
                                 showStationInput={false} // or false

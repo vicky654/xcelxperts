@@ -99,12 +99,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     };
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-    console.log(UserPermissions,);
 
-    // "skipdate-create",
-    // "skipdate-delete",
-    // "skipdate-edit",
-    // "skipdate-list",
 
     const isAddPermissionAvailable = UserPermissions?.includes("skipdate-create");
     const isEditPermissionAvailable = UserPermissions?.includes("skipdate-edit");
@@ -179,11 +174,11 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
     const handleFormSubmit = async (selectedDates: any, values: any) => {
         try {
             const formData = new FormData();
-            console.log(selectedDates, "handleFormSubmit");
+          
 
             // Extract skip_date from selectedDates and check if it's not empty
             const skipDates = selectedDates || [];
-            console.log(skipDates, "skipDates");
+      
             if (skipDates.length === 0) {
                 console.error('No skip dates provided.');
                 return; // Early exit if skip_date is empty

@@ -70,7 +70,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
         validationSchema: AssignMannagerValidations(isEditMode),
         onSubmit: async (values) => {
             try {
-                console.log(values, "selectedDates");
+               
                 await onSubmit(values, formik);
             } catch (error) {
            
@@ -120,7 +120,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
         }
         if (isOpen && isEditMode) {
             fetchUserDetails(userId ? userId : '')
-            // console.log(isEditMode, "isEditModeddd");
+        
         }
     }, [isOpen, isEditMode, userId]);
 

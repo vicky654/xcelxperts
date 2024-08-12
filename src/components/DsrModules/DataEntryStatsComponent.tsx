@@ -192,9 +192,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     }
   };
 
-  const filterValues = async (values: any) => {
-    console.log(values, "filterValues");
-  };
+ 
 
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -246,7 +244,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const GetSubData = async (date: string, selectedTab: string) => {
     try {
       const formattedDate = formatDate(date);
-      console.log(selectedTab, "selectedTab");
+     
       const formattedTab = convertTabName(selectedTab);
 
       // Check if formattedTab is 'digital-receipt' and send 'payments' instead
@@ -349,7 +347,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
-            FilterValues={filterValues}
+        
             showClientInput={true}
             showEntityInput={true}
             showStationInput={true}
@@ -745,7 +743,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               isLoading={isLoading}
               smallScreen={true}
               onApplyFilters={handleApplyFilters}
-              FilterValues={filterValues}
+        
               showClientInput={true}
               showEntityInput={true}
               showStationInput={true}

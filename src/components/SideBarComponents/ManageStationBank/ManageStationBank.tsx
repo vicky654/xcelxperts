@@ -70,7 +70,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
 
     const { id } = useParams()
-    console.log(id, "id");
+   
 
     useEffect(() => {
 

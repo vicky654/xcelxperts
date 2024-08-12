@@ -118,36 +118,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     }
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   const storedData = localStorage.getItem(storedKeyName);
-  //   console.log(storedData, "storedDastoredKeyNameta");
-  //   if (storedData) {
-  //     
 
-  //     handleApplyFilters(JSON.parse(storedData));
-  //   }
-
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   const storedDataString = localStorage.getItem(storedKeyName);
-
-
-  //   if (storedDataString) {
-  //     try {
-  //       const storedData = JSON.parse(storedDataString);
-  //       
-
-  //       // Check for the existence of `start_month` or other necessary properties
-  //       if (storedData.start_month) {
-  //         console.log(storedData, "storedDatastoredData");
-  //         handleApplyFilters(storedData);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error parsing stored data", error);
-  //     }
-  //   }
-  // }, [dispatch]);
 
 
 
@@ -227,9 +198,6 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
 
-  const filterValues = async (values: any) => {
-    console.log(values, "filterValues");
-  };
 
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -387,7 +355,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
-            FilterValues={filterValues}
+         
             showClientInput={true}
             showEntityInput={true}
             showStationInput={true}

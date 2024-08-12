@@ -255,7 +255,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             handleApiError(error);
         }
     };
-    console.log(data?.length, "data?.length");
+
     return (
         <>
             {isLoading && <LoaderImg />}

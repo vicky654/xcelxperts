@@ -207,9 +207,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
 
 
-  const filterValues = async (values: any) => {
-    console.log(values, "filterValues");
-  };
+
 
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -270,7 +268,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
-            FilterValues={filterValues}
+           
             showClientInput={true}
             showEntityInput={true}
             showStationInput={true}
@@ -397,7 +395,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               isLoading={isLoading}
               smallScreen={true}
               onApplyFilters={handleApplyFilters}
-              FilterValues={filterValues}
+            
               showClientInput={true}
               showEntityInput={true}
               showStationInput={true}

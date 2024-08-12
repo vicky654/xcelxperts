@@ -300,9 +300,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
 
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, "filterValues");
-    };
+
 
 
     const validationSchemaForCustomInput = Yup.object({
@@ -344,7 +342,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
+                        
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false

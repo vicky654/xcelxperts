@@ -418,9 +418,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, "filterValues");
-    };
+
 
     const validationSchemaForCustomInput = Yup.object({
         client_id: isNotClient
@@ -592,7 +590,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
+                       
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
@@ -739,7 +737,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 getData={getData}
                                 isLoading={isLoading}
                                 onApplyFilters={handleApplyFilters}
-                                FilterValues={filterValues}
+                                
                                 showClientInput={true}  // or false
                                 showEntityInput={true}  // or false
                                 showStationInput={true} // or false

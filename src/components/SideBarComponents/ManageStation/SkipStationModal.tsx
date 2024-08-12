@@ -44,7 +44,7 @@ const SkipStationModal: React.FC<SkipStationModalProps> = ({
         initialValues: holidayInitialValues,
         onSubmit: async (values) => {
             try {
-                console.log(selectedDates, "selectedDates");
+              
                 await onSubmit(selectedDates, values);
             } catch (error) {
                 console.error('Submit error:', error);
@@ -57,7 +57,7 @@ const SkipStationModal: React.FC<SkipStationModalProps> = ({
 
     const handleDateChange = (dates: Date[]) => {
         setSelectedDates(dates);
-        console.log("Selected Dates:", dates);
+  
         if (dates.length > 0) {
             formik.setFieldValue("startDate", dates[0]);
             formik.setFieldValue("endDate", dates[dates.length - 1]);

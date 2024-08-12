@@ -152,21 +152,21 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     };
 
     const removeRow = (index: number) => {
-        console.log(index, "index");
+      
         const services = [...formik.values.services];
-        console.log(services, "services");
+     
 
         // Check if index is within bounds
         if (index >= 0 && index < services.length) {
             const serviceToRemove = services[index];
             const serviceId = serviceToRemove.id; // Assuming 'id' is the property you need
 
-            console.log(serviceId, "serviceId");
+        
             if (
                 serviceId
             ) {
                 handleDelete(serviceId)
-                console.log(serviceId, "serviceId");
+        
             } else {
                 // Optionally remove the item from the array
                 services.splice(index, 1);
