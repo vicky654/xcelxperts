@@ -161,24 +161,30 @@ export const cardInitialValues = {
 
 
 export const stationTankInitialValues = {
-
+  client_id: '',
+  entity_id: '',
   station_id: '',
   tank_name: '',
   tank_code: '',
   fuel_id: '',
-
+  status: '',
   capacity : '',
-
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
   tankList: {} as any,
   pumps: {} as any,
 };
 export const stationBankInitialValues = {
-
+  client_id: '',
+  entity_id: '',
   station_id: '',
   bank_id: '',
   account_no: '',
-
-
+  status: '',
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
   tankList: {} as any,
   
 };
@@ -210,14 +216,18 @@ export const stationPumpInitialValues = {
 };
 
 export const stationNozzleInitialValues = {
-
+  client_id: '',
+  entity_id: '',
   station_id: '',
   name: '',
   code: '',
   tank_name: '',
   tank_code: '',
   fuel_id: '',
- 
+  status: '',
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
   tankList: {} as any,
   pumps: {} as any,
 };
