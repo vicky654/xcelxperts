@@ -161,17 +161,14 @@ export const cardInitialValues = {
 
 
 export const stationTankInitialValues = {
-  client_id: '',
-  entity_id: '',
+
   station_id: '',
   tank_name: '',
   tank_code: '',
   fuel_id: '',
-  status: '',
+
   capacity : '',
-  clients: [] as Client[],
-  entities: [] as Entity[],
-  sites: [] as Station[],
+
   tankList: {} as any,
   pumps: {} as any,
 };

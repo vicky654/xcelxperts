@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Tippy from '@tippyjs/react';
@@ -62,58 +62,26 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
-    const isAddPermissionAvailable = UserPermissions?.includes("nozzle-create");
-    const isListPermissionAvailable = UserPermissions?.includes("nozzle-list");
-    const isEditPermissionAvailable = UserPermissions?.includes("nozzle-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("nozzle-setting");
-    const isDeletePermissionAvailable = UserPermissions?.includes("nozzle-delete");
+    const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
+    const isListPermissionAvailable = UserPermissions?.includes("tank-list");
+    const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
+    const isEditSettingPermissionAvailable = UserPermissions?.includes("tank-setting");
+    const isDeletePermissionAvailable = UserPermissions?.includes("tank-delete");
     const isAssignAddPermissionAvailable = UserPermissions?.includes("nozzle-assign-permission");
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable;
 
-    const [showFilterOptions, setShowFilterOptions] = useState(true);
+    const [showFilterOptions,] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    
+const {id}= useParams();
     useEffect(() => {
-        const storedDataString = localStorage.getItem(storedKeyName);
-
-
-        if (storedDataString) {
-            try {
-                const storedData = JSON.parse(storedDataString);
-
-
-                // Check for the existence of `start_month` or other necessary properties
-                if (storedData.station_id) {
-
-                    handleApplyFilters(storedData);
-                }
-            } catch (error) {
-                console.error("Error parsing stored data", error);
-            }
+        if (id) {
+            handleApplyFilters(id);
         }
-    }, [searchTerm, currentPage]);
-
-    // useEffect(() => {
-    //     const storedData = localStorage.getItem(storedKeyName);
-
-    //     if (storedData) {
-    //         try {
-    //             const storedData = JSON.parse(storedData);
+    }, [searchTerm, currentPage,id]);
 
 
-    //             // Check for the existence of `start_month` or other necessary properties
-    //             if (storedData.start_month) {
-
-    //               handleApplyFilters(storedData);
-    //             }
-    //           } catch (error) {
-    //             console.error("Error parsing stored data", error);
-    //           }
-
-
-    //     }
-
-    // }, [searchTerm, currentPage]);
     const handleSuccess = () => {
         handleApplyFilters(JSON.parse(storedKeyItems));
     };
@@ -133,10 +101,10 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
     };
     const { customDelete } = useCustomDelete();
 
-    const handleDelete = (id: any) => {
+    const handleDelete = (row: any) => {
         const formData = new FormData();
-        formData.append('id', id);
-        customDelete(postData, 'station/delete', formData, handleSuccess);
+        formData.append('id', row?.id);
+        customDelete(postData, 'station/tank/delete', formData, handleSuccess);
     };
 
     const columns: any = [
@@ -236,7 +204,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                 </>}
                                 {isDeletePermissionAvailable && <>
                                     <Tippy content="Delete">
-                                        <button onClick={() => handleDelete(row.id)} type="button">
+                                        <button onClick={() => handleDelete(row)} type="button">
                                             <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
                                         </button>
                                     </Tippy>
@@ -265,18 +233,13 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
-        setIsFilterModalOpen(false)
     };
 
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
-
-            formData.append('status', values.status);
             formData.append('tank_name', values.tank_name);
             formData.append('station_id', values.station_id);
-            // formData.append('entity_id', values.entity_id);
-            // formData.append('client_id', values.client_id);
             formData.append('fuel_id', values.fuel_id);
             formData.append('capacity', values.capacity);
             formData.append('tank_code', values.tank_code);
@@ -312,13 +275,9 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
     };
     const handleApplyFilters = async (values: any) => {
-        // Store the form values in local storage
-        // localStorage.setItem("stationTank", JSON.stringify(values));
         try {
-            // const response = await getData(`/station/tank/list?station_id=${values?.station_id}`);
-
-            setFilters(values)
-            let apiUrl = `/station/tank/list?station_id=${values?.station_id}&page=${currentPage}`;
+        
+            let apiUrl = `/station/tank/list?station_id=${id}&page=${currentPage}`;
             if (searchTerm) {
                 apiUrl += `&search_keywords=${searchTerm}`;
             }
@@ -327,7 +286,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 setData(response.data.data?.listing);
                 setCurrentPage(response.data.data?.currentPage || 1);
                 setLastPage(response.data.data?.lastPage || 1);
-                setIsFilterModalOpen(false);
+         
             } else {
                 throw new Error('No data available in the response');
             }
@@ -336,34 +295,10 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
         }
     };
-    const filterValues = async (values: any) => {
-        console.log(values, "filterValues");
-    };
 
 
-    const validationSchemaForCustomInput = Yup.object({
-        client_id: isNotClient
-            ? Yup.string().required("Client is required")
-            : Yup.mixed().notRequired(),
-        entity_id: Yup.string().required("Entity is required"),
-        station_id: Yup.string().required('Station is required'),
-    });
 
-
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    //     setIsFilterModalOpen(false);
-    // }
-
-    const [filters, setFilters] = useState<any>({
-        client_id: localStorage.getItem('client_id') || '',
-        company_id: localStorage.getItem('company_id') || '',
-        site_id: localStorage.getItem('site_id') || '',
-    });
-
-
+   
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -372,6 +307,11 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                     <li>
                         <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to={`/manage-stations`} className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+                            Manage Stations
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
@@ -385,65 +325,15 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 </>}
 
             </div>
-            <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal}  station_id={id} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
-                    <div className='panel h-full hidden md:block'>
-
-
-                        <CustomInput
-                            getData={getData}
-                            isLoading={isLoading}
-                            onApplyFilters={handleApplyFilters}
-                            FilterValues={filterValues}
-                            showClientInput={true}  // or false
-                            showEntityInput={true}  // or false
-                            showStationInput={true} // or false
-                            showStationValidation={true} // or false
-                            validationSchema={validationSchemaForCustomInput}
-                            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                            isOpen={false}
-                            onClose={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
-                            showDateInput={false}
-                            // storedKeyItems={storedKeyItems}
-                            storedKeyName={storedKeyName}
-                        />
-
-
-                    </div>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6'>
+        
 
 
 
-                    <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
-                        {filters?.client_name || filters?.entity_name || filters?.station_name ? (
-                            <>
-                                <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
-                                    {filters?.client_id && (
-                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client :</span> {filters?.client_name}
-                                        </div>
-                                    )}
-
-                                    {filters?.entity_name && (
-                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity : </span> {filters?.entity_name}
-                                        </div>
-                                    )}
-
-                                    {filters?.station_name && (
-                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station :</span> {filters?.station_name}
-                                        </div>
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            ''
-                        )}
-                    </div>
+              
                     <div className='panel h-full xl:col-span-3'>
 
 
@@ -458,11 +348,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                                 />
                             )}
 
-                            <div className="md:hidden flex">
-                                <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                                    Apply Filter
-                                </button>
-                            </div>
+                        
                         </div>
                         {data?.length > 0 ? (
                             <>
@@ -495,41 +381,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
                 </div>
 
             </div>
-            {isFilterModalOpen && (
-                <div className="modal fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white w-full max-w-md m-6">
-                        <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                            <h5 className="text-lg font-bold">
-                                Apply Filter
-                            </h5>
-                            <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
-                                <IconX />
-                            </button>
-                        </div>
-
-                        <div className='p-6'>
-                            <CustomInput
-                                getData={getData}
-                                smallScreen={true}
-                                isLoading={isLoading}
-                                onApplyFilters={handleApplyFilters}
-                                FilterValues={filterValues}
-                                showClientInput={true}
-                                showEntityInput={true}
-                                showStationInput={true}
-                                showStationValidation={true}
-                                validationSchema={validationSchemaForCustomInput}
-                                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                                isOpen={isFilterModalOpen}
-                                onClose={closeModal}
-                                showDateInput={false}
-                                storedKeyName={storedKeyName}
-                            />
-                        </div>
-
-                    </div>
-                </div>
-            )}
+         
         </>
     );
 };

@@ -36,6 +36,7 @@ interface RowData {
 
 interface AddEditStationTankModalProps {
     isOpen: boolean;
+    station_id: any;
     onClose: () => void;
     getData: (url: string) => Promise<any>;
     onSubmit: (values: any, formik: any) => Promise<void>;
@@ -45,46 +46,28 @@ interface AddEditStationTankModalProps {
     tankList?: tankList;
 }
 
-interface RoleItem {
-    id: number;
-    role_name: string;
-}
 
-// interface UserData {
-//     first_name: string;
-//     last_name: string;
-//     email: string;
-//     phone_number: string;
-//     role: string;
-//     password: string;
-// }
-type StationStatusOption = {
-    id: string;
-    name: string;
-};
+
+
 type tankList = {
     fuels: [];
     pumps: [];
 };
 
-const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId, station_id }) => {
 
-    const [commonDataList, setCommonDataList] = useState<any>(); // Adjust ClientList type as needed
     const handleApiError = useErrorHandler();
 
     useEffect(() => {
         if (isOpen) {
             formik.resetForm()
-            if (localStorage.getItem("superiorRole") === "Client") {
-                const clientId = localStorage.getItem("superiorId");
-                if (clientId) {
-                    // Simulate the change event to call handleClientChange
-                    handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
-                }
-            } else {
-                FetchClientList();
-            }
 
+
+            if (station_id) {
+                formik.setFieldValue('station_id', station_id);
+                fetchFuelNameList(station_id);
+                // FetchClientList();
+            }
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
                 // FetchClientList();
@@ -95,32 +78,8 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
 
 
 
-    const FetchClientList = async () => {
-        try {
-            const response = await getData('/getClients');
-            const clients = response.data.data;
-            formik.setFieldValue('clients', clients);
-            // const clientId = localStorage.getItem("superiorId");
-            // if (localStorage.getItem("superiorRole") !== "Client" && clientId) {
-            //     formik.setFieldValue('client_id', clientId);
-            //     const selectedClient = clients.find((client: Client) => client.id === clientId);
-            //     if (selectedClient) {
-            //         formik.setFieldValue('entities', selectedClient.entities);
-            //     }
-            // }
-        } catch (error) {
-            handleApiError(error)
-        }
-    };
 
-    const fetchSiteList = async (companyId: string) => {
-        try {
-            const response = await getData(`getStations?entity_id=${companyId}`);
-            formik.setFieldValue('sites', response.data.data);
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
+
 
 
     const fetchUserDetails = async (id: string) => {
@@ -128,103 +87,25 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
             const response = await getData(`/station/tank/${id}`);
             if (response && response.data) {
                 const userData: any = response.data?.data;
-                formik.setValues(userData)
-                // FetchClientList()
-                // fetchEntityList(userData?.client_id)
-                // fetchSiteList(userData?.entity_id);
-                // fetchFuelNameList(userData?.station_id)
+                formik.setFieldValue('fuel_id', userData?.fuel_id);
+                formik.setFieldValue('capacity', userData?.capacity);
+                formik.setFieldValue('tank_code', userData?.tank_code);
+                formik.setFieldValue('tank_name', userData?.tank_name);
+          
             }
         } catch (error) {
-              handleApiError(error);
+            handleApiError(error);
         }
     };
 
 
 
-    const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const clientId = e.target.value;
-        formik.setFieldValue('client_id', clientId);
-        if (clientId) {
-            fetchEntityList(clientId);
-            const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
-            formik.setFieldValue('client_name', selectedClient?.client_name || "");
-            formik.setFieldValue('entities', selectedClient?.entities || []);
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('station_id', "");
-        } else {
-            formik.setFieldValue('entity_id', "");
-            formik.setFieldValue('station_id', "");
-            formik.setFieldValue('client_name', "");
-            formik.setFieldValue('entities', []);
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('entity_name', "");
-            formik.setFieldValue('site_name', "");
-        }
-    };
-
-    const handleEntityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const entityId = e.target.value;
-        formik.setFieldValue('entity_id', entityId);
-        if (entityId) {
-            fetchSiteList(entityId);
-            const selectedEntity = formik.values.entities.find((entity: Entity) => entity.id === entityId);
-            formik.setFieldValue('entity_name', selectedEntity?.entity_name || "");
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('tankList', "");
-        } else {
-            formik.setFieldValue('entity_name', "");
-            formik.setFieldValue('sites', []);
-            formik.setFieldValue('station_id', "");
-            formik.setFieldValue('site_name', "");
-            formik.setFieldValue('tankList', "");
-        }
-    };
-
-    // const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const companyId = e.target.value;
-    //     formik.setFieldValue('company_id', companyId);
-    //     if (companyId) {
-    //         fetchSiteList(companyId);
-    //         const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
-    //         formik.setFieldValue('company_name', selectedCompany?.company_name || "");
-    //         formik.setFieldValue('sites', []);
-    //     } else {
-    //         formik.setFieldValue('company_name', "");
-    //         formik.setFieldValue('sites', []);
-    //         formik.setFieldValue('station_id', "");
-    //         formik.setFieldValue('site_name', "");
-    //     }
-    // };
 
 
-    const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedSiteId = e.target.value;
-        formik.setFieldValue("station_id", selectedSiteId);
-        formik.setFieldValue('tankList', "");
-        const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-        if (selectedSiteId) {
-            fetchFuelNameList(selectedSiteId)
-        }
-        if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.name);
-        } else {
-            formik.setFieldValue("site_name", "");
-        }
-    };
 
-
-    const fetchEntityList = async (clientId: string) => {
+    const fetchFuelNameList = async (id: string) => {
         try {
-            const response = await getData(`getEntities?client_id=${clientId}`);
-            formik.setFieldValue('entities', response.data.data);
-        } catch (error) {
-            handleApiError(error)
-        }
-    };
-    const fetchFuelNameList = async (siteId: string) => {
-        try {
-            const response = await getData(`station/fuel/list?station_id=${siteId}`);
+            const response = await getData(`station/fuel/list?station_id=${id}`);
             formik.setFieldValue('tankList', response.data.data);
         } catch (error) {
             handleApiError(error)
@@ -244,7 +125,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
-                editCloseCheck();
+
             } catch (error) {
                 console.error('Submit error:', error);
                 throw error; // Rethrow the error to be handled by the caller
@@ -271,36 +152,8 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-                                                {!isEditMode && localStorage.getItem("superiorRole") !== "Client" &&
-                                                    <FormikSelect
-                                                        formik={formik}
-                                                        name="client_id"
-                                                        label="Client"
-                                                        options={formik.values?.clients?.map((item) => ({ id: item.id, name: item.full_name }))}
-                                                        className="form-select text-white-dark"
-                                                        onChange={handleClientChange}
-                                                    />
-                                                }
 
-
-                                                {!isEditMode && <FormikSelect
-                                                    formik={formik}
-                                                    name="entity_id"
-                                                    label="Entity"
-                                                    options={formik.values.entities?.map((item) => ({ id: item.id, name: item.entity_name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleEntityChange}
-                                                />}
-                                                {!isEditMode && <FormikSelect
-                                                    formik={formik}
-                                                    name="station_id"
-                                                    label="Station"
-                                                    options={formik.values.sites?.map((item) => ({ id: item.id, name: item.name }))}
-                                                    className="form-select text-white-dark"
-                                                    onChange={handleSiteChange}
-                                                />
-                                                }
-                                                {!isEditMode && <FormikSelect
+                                                <FormikSelect
                                                     formik={formik}
                                                     name="fuel_id"
                                                     label="Fuel Name"
@@ -308,7 +161,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                     className="form-select text-white-dark"
                                                 // onChange={handleSiteChange}
                                                 />
-                                                }
+
 
 
                                                 <FormikInput formik={formik} type="text" name="tank_name" label="Tank Name" />

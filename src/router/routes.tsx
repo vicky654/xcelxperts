@@ -212,13 +212,14 @@ const routes = [
     path: '/manage-stations/mannagers/:id',
     element: <AssignStationManagger />,
   },
-  {
-    path: 'manage-stationbanks',
-    element: <ManageStationBank />,
-  },
+
   {
     path: 'manage-stationbanks/:id',
     element: <ManageStationBank />,
+  },
+  {
+    path: 'manage-tanks/:id',
+    element: <ManageStationTank />,
   },
   {
     path: 'manage-incomes',
@@ -244,10 +245,7 @@ const routes = [
     path: 'manage-expenses',
     element: <ManageDeduction />,
   },
-  {
-    path: 'manage-tanks',
-    element: <ManageStationTank />,
-  },
+
   {
     path: 'manage-credit-users',
     element: <ManageCreditUser />,

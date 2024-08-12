@@ -155,11 +155,13 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const AssignMannagerPermissionAvailable = UserPermissions?.includes("station-assign-manager");
     const IsstocklossPermissionAvailable = UserPermissions?.includes("stockloss-list");
     const IsBankPermissionAvailable = UserPermissions?.includes("station-bank-list");
+    const IsTankPermissionAvailable = UserPermissions?.includes("tank-list");
 
     const anyPermissionAvailable = isEditPermissionAvailable 
     || isDeletePermissionAvailable ||
      isAssignAddPermissionAvailable || 
      IsBankPermissionAvailable || 
+     IsTankPermissionAvailable || 
      AssignMannagerPermissionAvailable;
 
     const columns: any = [
@@ -355,9 +357,15 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                     </button>)}
                                             </li>
                                             <li>
-                                                {IsstocklossPermissionAvailable && (
+                                                {IsBankPermissionAvailable && (
                                                     <button  onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
                                                         <i className="fi fi-ts-growth-chart-invest"></i>Station Banks
+                                                    </button>)}
+                                            </li>
+                                            <li>
+                                                {IsTankPermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
+                                                        <i className="fi fi-ts-growth-chart-invest"></i>Station Tanks
                                                     </button>)}
                                             </li>
 

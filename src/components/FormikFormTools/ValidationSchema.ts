@@ -320,26 +320,9 @@ export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
 };
 export const StationTankValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Client is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
-        entity_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Entity is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
-        station_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Station is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
-        fuel_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Station Fuel is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
+        fuel_id: Yup.string()
+            .required('Station Fuel is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
         capacity: Yup.string()
             .required('Capacity is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
