@@ -217,6 +217,10 @@ const routes = [
     element: <ManageStationBank />,
   },
   {
+    path: 'manage-stationbanks/:id',
+    element: <ManageStationBank />,
+  },
+  {
     path: 'manage-incomes',
     element: <ManageCharges />,
   },

@@ -240,21 +240,6 @@ export const deductionstValidationSchema = (isEditMode: boolean) => {
 
 export const stationBankValidation = (isEditMode: boolean) => {
     return Yup.object().shape({
-        client_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Client is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
-        entity_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Entity is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
-        station_id: isEditMode
-            ? Yup.string()
-            : Yup.string()
-                  .required('Station is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
         account_no: Yup.string()
             .required('Account Number is required')
             .matches(/^[^\s]/, 'cannot start with a space'),

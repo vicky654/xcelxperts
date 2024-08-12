@@ -154,8 +154,13 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const isAssignAddPermissionAvailable = UserPermissions?.includes("station-assign-permission");
     const AssignMannagerPermissionAvailable = UserPermissions?.includes("station-assign-manager");
     const IsstocklossPermissionAvailable = UserPermissions?.includes("stockloss-list");
+    const IsBankPermissionAvailable = UserPermissions?.includes("station-bank-list");
 
-    const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable || isAssignAddPermissionAvailable || AssignMannagerPermissionAvailable;
+    const anyPermissionAvailable = isEditPermissionAvailable 
+    || isDeletePermissionAvailable ||
+     isAssignAddPermissionAvailable || 
+     IsBankPermissionAvailable || 
+     AssignMannagerPermissionAvailable;
 
     const columns: any = [
         {
@@ -349,6 +354,12 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                         <i className="fi fi-ts-growth-chart-invest"></i>Stock Loss
                                                     </button>)}
                                             </li>
+                                            <li>
+                                                {IsstocklossPermissionAvailable && (
+                                                    <button  onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
+                                                        <i className="fi fi-ts-growth-chart-invest"></i>Station Banks
+                                                    </button>)}
+                                            </li>
 
                                         </ul>
                                     </Dropdown>
@@ -458,7 +469,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             <div className="panel mt-6">
 
 
-                <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5 spacebetween">
+                <div className="flex md:items-center md:flex-row flex-col mb-5  spacebetween">
                     <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
                     {showFilterOptions && (
                         <SearchBar
