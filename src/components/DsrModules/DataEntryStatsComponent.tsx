@@ -402,7 +402,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
         <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
-            <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
+            <h5 className="font-bold text-lg dark:text-white-light">Data Entry Stats</h5>
             <div className="md:hidden flex ">
               <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                 Filter
@@ -667,7 +667,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           <div className='panel h-full xl:col-span-3'>
             <div className="flex justify-between  ">
-              <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+              <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
 
 
               <hr></hr>

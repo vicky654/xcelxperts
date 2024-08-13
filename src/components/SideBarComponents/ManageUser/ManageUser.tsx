@@ -371,7 +371,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Users</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Users</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}

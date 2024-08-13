@@ -36,7 +36,7 @@ const Pagination = () => {
                 {/* Default */}
                 <div className="panel" id="default">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Default</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -262,7 +262,7 @@ const Pagination = () => {
                 {/* Solid */}
                 <div className="panel" id="solid">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Solid</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Solid</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -475,7 +475,7 @@ const Pagination = () => {
                 {/* With Icons */}
                 <div className="panel" id="icons">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">With Icons</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">With Icons</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');
@@ -688,7 +688,7 @@ const Pagination = () => {
                 {/* With Icons and Rounded */}
                 <div className="panel" id="rounded">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">With Icons and Rounded</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">With Icons and Rounded</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code4');
@@ -901,7 +901,7 @@ const Pagination = () => {
                 {/* No Spacing */}
                 <div className="panel" id="no_spacing">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">No Spacing</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">No Spacing</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code5');

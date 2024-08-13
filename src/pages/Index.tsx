@@ -536,16 +536,26 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
                                 </div>
                             </div>
-                            <div className="flex items-center mt-5">
+                            <div className="flex items-center ">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.sales_volume?.sales_volume} </div>
                                 {/* <div className="badge bg-white/30">
                                     {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.sales_volume?.percentage}%{' '}
                                 </div> */}
                             </div>
-                            <div className="flex items-center font-semibold mt-5">
+                            {/* <div className="flex items-center font-semibold mt-5">
                                 {filterData?.gross_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
                                 Last Month {filterData?.sales_volume?.percentage}
-                            </div>
+                            </div> */}
+                            <div style={{ color: filterData?.sales_volume?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {filterData?.sales_volume?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{filterData?.sales_volume?.percentage !== undefined ? (
+                                    <span>Last Month {filterData.sales_volume.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
                         {/* Sessions */}
@@ -553,31 +563,52 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
-                            <div className="flex items-center mt-5">
+                            <div className="flex items-center">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.sales_value?.sales_value} </div>
                                 {/* <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div> */}
                             </div>
-                            <div className="flex items-center font-semibold mt-5">
+                            {/* <div className="flex items-center font-semibold mt-5">
                                 {filterData?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
                                 Last Month  {filterData?.sales_value?.percentage}
-                            </div>
+                            </div> */}
+
+
+                            <div style={{ color: filterData?.sales_value?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {filterData?.sales_value?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{filterData?.sales_value?.percentage !== undefined ? (
+                                    <span>Last Month {filterData.sales_value.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
                         {/*  Time On-Site */}
+
+
+
+
                         <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
-                            <div className="flex items-center mt-5">
+                            <div className="flex items-center">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.profit?.profit} </div>
-                                {/* <div className="badge bg-white/30"> {filterData?.profit?.percentage}%</div> */}
-                            </div>
-                            <div className="flex items-center font-semibold mt-5">
-                                {filterData?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
 
-
-                                Last Month {filterData?.profit?.percentage}
                             </div>
+
+                            <div style={{ color: filterData?.profit?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {filterData?.profit?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{filterData?.profit?.percentage !== undefined ? (
+                                    <span>Last Month {filterData.profit.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
                         {/* //4TH Box */}
@@ -590,25 +621,14 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
                             </div>
 
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
                                 {currency}{filterData?.stock?.value ?? ''}
                                 {` (ℓ${filterData?.stock?.volume ?? ''})`}
                             </div>
 
-                            {/* <div className="flex items-center ">
-                                <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                    Petrol {currency}{filterData?.stock?.fuel[0]?.value ?? ''}
-                                    {` (ℓ${filterData?.stock?.fuel[0]?.volume ?? ''})`}
-                                </div>
-                                {" | "}
-                                <div className="text-sm ltr:mr-3 rtl:ml-3 ms-2">
-                                    Diesel {currency}{filterData?.stock?.fuel[1]?.value ?? ''}
-                                    {` (ℓ${filterData?.stock?.fuel[1]?.volume ?? ''})`}
-                                </div>
-                            </div> */}
                             <div className="flex flex-wrap">
                                 {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
-                                    <div key={index} className="flex items-center w-1/4 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                    <div key={index} className="flex items-center w-1/2 mb-2"> {/* w-1/2 makes each item take half the width */}
                                         <div className="text-sm ltr:mr-3 rtl:ml-3">
                                             {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
                                             {` (ℓ${fuel.volume ?? ''})`}
@@ -618,12 +638,26 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
 
 
-                            <div className="flex items-center font-semibold mt-5">
+                            <div style={{ color: filterData?.stock?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
                                 {filterData?.stock?.status === 'up'
-                                    ? <i className="fi fi-tr-chart-line-up"></i>
-                                    : <i className="fi fi-tr-chart-arrow-down"></i>
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }
-                                Last Month {filterData?.stock?.value_percentage ?? ''}
+
+
+
+                                {filterData?.stock?.value_percentage !== undefined ? (
+                                    <span>Last Month {filterData.stock.value_percentage}%</span>
+                                ) : (
+                                    <span>Last Month </span>
+                                )}
+
+
+
+
+
+
                             </div>
                         </div>
 
@@ -643,7 +677,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-semibold text-lg">Revenue</h5>
+                                <h5 className="font-bold text-lg">Revenue</h5>
                             </div>
 
                             <div className="relative">
@@ -665,7 +699,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         <div className="panel h-full xl:col-span-1 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Sales By Category</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Sales By Category</h5>
                             </div>
 
                             <div className="relative">
@@ -689,98 +723,98 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                     {
                         filters?.site_id ? <div className="grid xl:grid-cols-4  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
-                            <div className="panel h-full">
-                                <div className="panel h-full  w-full">
 
-                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                        <h5 className="font-semibold text-lg">Forecasting</h5>
+                            <div className="panel h-full  w-full">
 
-                                    </div>
-                                    <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
-                                        <div className="buttons-container  w-full">
-                                            {fuelStats?.dates && fuelStats.dates.length > 0 ? (
-                                                fuelStats.dates.map((date, index) => (
-                                                    <button
-                                                        key={index}
-                                                        onClick={() => handleDateClick(date)}
-                                                        className={`date-button  w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
-                                                        style={{ borderBottom: '1px solid #ddd' }}
+                                <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                    <h5 className="font-bold text-lg">Forecasting</h5>
 
-                                                    >
-                                                        {date}
-                                                    </button>
-                                                ))
-                                            ) : (
-                                                <div className="flex justify-center items-center h-full mt-10 p-4">
-                                                    <img
-                                                        src={noDataImage} // Use the imported image directly as the source
-                                                        alt="No data found"
-                                                        className="w-full  max-w-xs" // Adjust the width as needed
-                                                    />
-                                                </div>
-                                            )}
+                                </div>
+                                <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
+                                    <div className="buttons-container  w-full">
+                                        {fuelStats?.dates && fuelStats.dates.length > 0 ? (
+                                            fuelStats.dates.map((date, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => handleDateClick(date)}
+                                                    className={`date-button  w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
+                                                    style={{ borderBottom: '1px solid #ddd' }}
 
-                                        </div>
+                                                >
+                                                    {date}
+                                                </button>
+                                            ))
+                                        ) : (
+                                            <div className="flex justify-center items-center h-full mt-10 p-4">
+                                                <img
+                                                    src={noDataImage} // Use the imported image directly as the source
+                                                    alt="No data found"
+                                                    className="w-full  max-w-xs" // Adjust the width as needed
+                                                />
+                                            </div>
+                                        )}
+
                                     </div>
                                 </div>
                             </div>
+
+
                             <div className="panel h-full xl:col-span-3">
-                                <div className="panel h-full">
-                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                        <h5 className="font-semibold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
-                                        {/* <div className="selected-date">
+                                <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                    <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
+                                    {/* <div className="selected-date">
                                             <p>Selected Date: {selectedDate}</p>
                                         </div> */}
-                                    </div>
-                                    <div className='spacebetween'>
-                                        {/* <div className='displaycanter'> */}
-                                        <div className="flex flex-wrap gap-2 col-span-8">
+                                </div>
+                                <div className='spacebetween'>
+                                    {/* <div className='displaycanter'> */}
+                                    <div className="flex flex-wrap gap-2 col-span-8">
 
-                                            {fuelStats?.dates && fuelStats.dates.length > 0 ? (
-                                                Object.keys(filteredStockAlerts).map(tankName => (
-                                                    <div key={tankName} className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white">
-                                                        {/* Card Header */}
-                                                        <div className="card-header flex items-center justify-between p-4 border-b dark:border-gray-700">
-                                                            <h3 className="text-lg font-bold">{tankName}</h3>
-                                                        </div>
+                                        {fuelStats?.dates && fuelStats.dates.length > 0 ? (
+                                            Object.keys(filteredStockAlerts).map(tankName => (
+                                                <div key={tankName} className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white">
+                                                    {/* Card Header */}
+                                                    <div className="card-header flex items-center justify-between p-4 border-b dark:border-gray-700">
+                                                        <h3 className="text-lg font-bold">{tankName}</h3>
+                                                    </div>
 
-                                                        {/* Card Body */}
-                                                        <div className="card-body p-4">
-                                                            <div className="flex flex-wrap gap-2">
-                                                                {filteredStockAlerts[tankName]?.map((alert, index) => (
-                                                                    <div key={index} className="flex items-center gap-4 mb-6">
-                                                                        <VerticalProgressBarWithWave
-                                                                            percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
-                                                                            width={200}
-                                                                            height={350}
-                                                                            alert={alert}
-                                                                            color="#ddd" // Use tank's bg color if desired
-                                                                            data-tip
-                                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
-                                                                        />
-                                                                    </div>
-                                                                ))}
-                                                            </div>
+                                                    {/* Card Body */}
+                                                    <div className="card-body p-4">
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {filteredStockAlerts[tankName]?.map((alert, index) => (
+                                                                <div key={index} className="flex items-center gap-4 mb-6">
+                                                                    <VerticalProgressBarWithWave
+                                                                        percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
+                                                                        width={200}
+                                                                        height={350}
+                                                                        alert={alert}
+                                                                        color="#ddd" // Use tank's bg color if desired
+                                                                        data-tip
+                                                                        data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
+                                                                    />
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     </div>
-                                                ))
-                                            ) : (
-                                                <div className="flex justify-center items-center h-full p-4">
-                                                    <img
-                                                        src={noDataImage} // Use the imported image directly as the source
-                                                        alt="No data found"
-                                                        className="w-full  max-w-xs" // Adjust the width as needed
-                                                    />
                                                 </div>
-                                            )}
+                                            ))
+                                        ) : (
+                                            <div className="flex justify-center items-center h-full p-4">
+                                                <img
+                                                    src={noDataImage} // Use the imported image directly as the source
+                                                    alt="No data found"
+                                                    className="w-full  max-w-xs" // Adjust the width as needed
+                                                />
+                                            </div>
+                                        )}
 
 
-
-                                        </div>
 
                                     </div>
+
                                 </div>
                             </div>
+
 
 
 

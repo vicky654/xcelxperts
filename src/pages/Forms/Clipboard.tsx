@@ -70,7 +70,7 @@ const Clipboard = () => {
                     {/* Copy from input */}
                     <div className="panel" id="copy_from_input">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Copy from input</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Copy from input</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -158,7 +158,7 @@ const [message1, setMessage1] = useState<any>('http://www.admin-dashboard.com');
                     {/* Copy form Textarea */}
                     <div className="panel" id="copy_from_textarea">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Copy form Textarea</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Copy form Textarea</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -245,7 +245,7 @@ const [message2, setMessage2] = useState<any>('Lorem ipsum dolor sit amet, conse
                     {/* <!-- Copy Text from Paragraph --> */}
                     <div className="panel" id="copy_from_paragraph">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Copy Text from Paragraph</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Copy Text from Paragraph</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -320,7 +320,7 @@ const message3 = '22991';
                     {/* Advanced */}
                     <div className="panel" id="advanced">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Copy Hidden Text (Advanced)</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Copy Hidden Text (Advanced)</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

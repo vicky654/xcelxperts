@@ -355,7 +355,7 @@ const ManageStationNozzle: React.FC<ManageStationNozzleProps> = ({ postData, get
 
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-2 spacebetween">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Nozzle {stationname && `(${stationname})`}</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Nozzle {stationname && `(${stationname})`}</h5>
                             <div className=' flex flex-wrap'>
                                 {showFilterOptions && (
                                     <SearchBar

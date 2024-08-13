@@ -647,7 +647,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
                     <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row w-100 mb-5 justify-between">
-                            <h5 className="font-semibold text-lg dark:text-white-light"> Stations Fuel Purchase</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase</h5>
                             <div className="md:hidden flex">
                                 <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                                     Filter

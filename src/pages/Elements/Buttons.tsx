@@ -39,7 +39,7 @@ const Buttons = () => {
                 {/* Default */}
                 <div className="panel" id="default">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Default</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -80,7 +80,7 @@ const Buttons = () => {
                 {/* Rounded */}
                 <div className="panel" id="rounded">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Rounded</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Rounded</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -120,7 +120,7 @@ const Buttons = () => {
                 {/* Solid */}
                 <div className="panel" id="solid">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Solid</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Solid</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');
@@ -181,7 +181,7 @@ const Buttons = () => {
                 {/* Outline */}
                 <div className="panel" id="outline">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Outline</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Outline</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code4');
@@ -242,7 +242,7 @@ const Buttons = () => {
                 {/* Button Sizes */}
                 <div className="panel" id="sizes">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Button Sizes</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Button Sizes</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code5');
@@ -288,7 +288,7 @@ const Buttons = () => {
                 {/* Button with Icons */}
                 <div className="panel" id="icons">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Button with Icons</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Button with Icons</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code6');
@@ -336,7 +336,7 @@ const Buttons = () => {
                 {/* Block Buttons */}
                 <div className="panel" id="block">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Block Buttons</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Block Buttons</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code7');

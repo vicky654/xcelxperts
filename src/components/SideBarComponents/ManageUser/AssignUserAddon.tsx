@@ -98,7 +98,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
             <div className="panel mt-6">
                 <div className="btn-dark gradient-blue-to-blue p-2 mb-3">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Assign Addons ({name})</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Assign Addons ({name})</h5>
                 </div>
 
                 {data.length > 0 ? (

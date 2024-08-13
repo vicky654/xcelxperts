@@ -62,7 +62,7 @@ const Treeview = () => {
                 {/* Animated */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Animated</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Animated</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -279,7 +279,7 @@ const toggleTreeview1 = (name: any) => {
                 {/* Basic */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');

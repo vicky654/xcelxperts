@@ -37,7 +37,7 @@ const Infobox = () => {
                 {/* Infobox-1 */}
                 <div className="panel" id="infobox_1">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Infobox 1</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Infobox 1</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -86,7 +86,7 @@ const Infobox = () => {
                 {/* Infobox-2 */}
                 <div className="panel" id="infobox_2">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Infobox 2</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Infobox 2</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -134,7 +134,7 @@ const Infobox = () => {
                 {/* Infobox-3 */}
                 <div className="panel" id="infobox_3">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Infobox 3</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Infobox 3</h5>
                         <button
                             type="button"
                             onClick={() => {

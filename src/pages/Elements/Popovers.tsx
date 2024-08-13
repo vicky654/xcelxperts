@@ -48,7 +48,7 @@ const Popovers = () => {
                     {/* Default */}
                     <div className="panel" id="default">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Default</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code1');
@@ -97,7 +97,7 @@ import 'tippy.js/dist/tippy.css';
                     {/* Placement */}
                     <div className="panel" id="directions">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Placement</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Placement</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code2');
@@ -168,7 +168,7 @@ import 'tippy.js/dist/tippy.css';
                     {/* Dismissible popover */}
                     <div className="panel lg:row-start-1 lg:col-start-2" id="dismissible">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Dismissible popover</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Dismissible popover</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code3');
@@ -206,7 +206,7 @@ import 'tippy.js/dist/tippy.css';
                     {/* Options */}
                     <div className="panel" id="options">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Options</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Options</h5>
                             <button
                                 className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600"
                                 onClick={() => {
@@ -277,7 +277,7 @@ import 'tippy.js/dist/tippy.css';
                     {/* Colors */}
                     <div className="panel lg:col-span-2" id="colors">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Colors</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Colors</h5>
                             <button
                                 className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600"
                                 onClick={() => {

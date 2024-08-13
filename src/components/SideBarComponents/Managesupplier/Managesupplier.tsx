@@ -307,11 +307,11 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
 
             <div className="panel mt-6">
                 {/* <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Suppliers</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light"> Suppliers</h5>
                 </div> */}
 
                 <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Suppliers</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Suppliers</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}

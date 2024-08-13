@@ -38,7 +38,7 @@ const Breadcrumbs = () => {
                 {/* Default */}
                 <div className="panel" id="default">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Default</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -88,7 +88,7 @@ const Breadcrumbs = () => {
                 {/* Basic */}
                 <div className="panel" id="basic">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -128,7 +128,7 @@ const Breadcrumbs = () => {
                 {/* Arrowed */}
                 <div className="panel" id="arrowed">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Arrowed</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Arrowed</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');
@@ -186,7 +186,7 @@ const Breadcrumbs = () => {
                 {/* Dotted Seperators */}
                 <div className="panel" id="dotted">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Dotted Seperators</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Dotted Seperators</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code4');
@@ -232,7 +232,7 @@ const Breadcrumbs = () => {
                 {/* With Icons */}
                 <div className="panel" id="with_icon">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">With Icons</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">With Icons</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code5');

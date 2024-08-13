@@ -49,7 +49,7 @@ const InputMaskForm = () => {
                     {/* Basic */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Static Mask Basic</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Static Mask Basic</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -116,7 +116,7 @@ const InputMaskForm = () => {
 
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Alternate masks</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Alternate masks</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -168,7 +168,7 @@ const InputMaskForm = () => {
 
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Dynamic Syntax</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Dynamic Syntax</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -243,7 +243,7 @@ const InputMaskForm = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Date</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Date</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -344,7 +344,7 @@ const InputMaskForm = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">IP</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">IP</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -391,7 +391,7 @@ const InputMaskForm = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Phone</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Phone</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -438,7 +438,7 @@ const InputMaskForm = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Currency</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Currency</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

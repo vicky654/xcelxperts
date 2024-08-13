@@ -52,7 +52,7 @@ const DropdownPage = () => {
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel" id="basic">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code1');
@@ -211,7 +211,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     <div className="space-y-8">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Dropup</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Dropup</h5>
                                 <button
                                     onClick={() => {
                                         toggleCode('code2');
@@ -354,7 +354,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Dropright */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Dropright</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Dropright</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code3');
@@ -496,7 +496,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Dropleft */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Dropleft</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Dropleft</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code4');
@@ -639,7 +639,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Small Button */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Small Button</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Small Button</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code5');
@@ -789,7 +789,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Large Button */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Large Button</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Large Button</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code6');
@@ -940,7 +940,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Grouped Dropdown Buttons */}
                     <div className="panel" id="grouped">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Grouped Dropdown Buttons</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Grouped Dropdown Buttons</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code7');
@@ -1125,7 +1125,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Split */}
                     <div className="panel" id="split">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Split</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Split</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code8');
@@ -1258,7 +1258,7 @@ const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) ===
                     {/* Custom Dropdown */}
                     <div className="panel" id="custom">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Custom Dropdown</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Custom Dropdown</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code9');

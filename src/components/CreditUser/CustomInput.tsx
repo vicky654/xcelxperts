@@ -214,7 +214,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     return (
         <div className="">
-            <h5 className="font-semibold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
+            <h5 className="font-bold text-lg dark:text-white-light mb-3"> Apply Filters</h5>
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col sm:flex-row">
                     {/* <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"> */}

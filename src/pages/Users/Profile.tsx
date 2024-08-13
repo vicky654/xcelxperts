@@ -41,7 +41,7 @@ const Profile = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-5">
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Profile</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Profile</h5>
                             <Link to="/users/user-account-settings" className="ltr:ml-auto rtl:mr-auto btn btn-primary p-2 rounded-full">
                                 <IconPencilPaper />
                             </Link>
@@ -98,7 +98,7 @@ const Profile = () => {
                     </div>
                     <div className="panel lg:col-span-2 xl:col-span-3">
                         <div className="mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Task</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Task</h5>
                         </div>
                         <div className="mb-5">
                             <div className="table-responsive text-[#515365] dark:text-white-light font-semibold">
@@ -192,7 +192,7 @@ const Profile = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="panel">
                         <div className="mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Summary</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Summary</h5>
                         </div>
                         <div className="space-y-4">
                             <div className="border border-[#ebedf2] rounded dark:bg-[#1b2e4b] dark:border-0">
@@ -241,7 +241,7 @@ const Profile = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-10">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Pro Plan</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Pro Plan</h5>
                             <button className="btn btn-primary">Renew Now</button>
                         </div>
                         <div className="group">
@@ -263,7 +263,7 @@ const Profile = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Payment History</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Payment History</h5>
                         </div>
                         <div>
                             <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
@@ -344,7 +344,7 @@ const Profile = () => {
                     </div>
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Card Details</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Card Details</h5>
                         </div>
                         <div>
                             <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">

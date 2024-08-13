@@ -319,7 +319,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Entities</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Entities</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}

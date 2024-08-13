@@ -279,10 +279,20 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     {secondApiResponse?.gross_volume?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_volume?.percentage}%{' '}
                                 </div> */}
                             </div>
-                            <div className="flex items-center font-semibold mt-5">
+                            {/* <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
                                 Last Month {secondApiResponse?.sales_volume?.percentage}
-                            </div>
+                            </div> */}
+                            <div style={{ color: secondApiResponse?.sales_volume?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {secondApiResponse?.sales_volume?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{secondApiResponse?.sales_volume?.percentage !== undefined ? (
+                                    <span>Last Month {filterData.sales_volume.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
                         {/* Sessions */}
@@ -294,10 +304,20 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.sales_value?.sales_value} </div>
                                 {/* <div className="badge bg-white/30"> {secondApiResponse?.sales_value?.percentage}%</div> */}
                             </div>
-                            <div className="flex items-center font-semibold mt-5">
+                            {/* <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
                                 Last Month {secondApiResponse?.sales_value?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_value?.percentage}
-                            </div>
+                            </div> */}
+                            <div style={{ color: secondApiResponse?.sales_value?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {secondApiResponse?.sales_value?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{secondApiResponse?.sales_value?.percentage !== undefined ? (
+                                    <span>Last Month {filterData.sales_value.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
                         {/*  Time On-Site */}
@@ -309,10 +329,21 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.profit?.profit} </div>
                                 {/* <div className="badge bg-white/30"> {secondApiResponse?.profit?.percentage}%</div> */}
                             </div>
-                            <div className="flex items-center font-semibold mt-5">
+                            {/* <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
                                 Last Month{secondApiResponse?.profit?.percentage}
-                            </div>
+                            </div> */}
+
+                            <div style={{ color: secondApiResponse?.profit?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {secondApiResponse?.profit?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{secondApiResponse?.profit?.percentage !== undefined ? (
+                                    <span>Last Month {filterData.profit.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
                         {/* 4th Card */}
@@ -330,7 +361,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex flex-wrap">
                                 {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
-                                    <div key={index} className="flex items-center w-1/4 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                    <div key={index} className="flex items-center w-1/2 mb-2"> {/* w-1/2 makes each item take half the width */}
                                         <div className="text-sm ltr:mr-3 rtl:ml-3">
                                             {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
                                             {` (ℓ${fuel.volume ?? ''})`}
@@ -339,13 +370,23 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 ))}
                             </div>
 
-                            <div className="flex items-center font-semibold mt-5">
+                            {/* <div className="flex items-center font-semibold mt-5">
                                 {secondApiResponse?.stock?.status === 'up'
                                     ? <i className="fi fi-tr-chart-line-up"></i>
                                     : <i className="fi fi-tr-chart-arrow-down"></i>
                                 }
                                 Last Month {secondApiResponse?.stock?.value_percentage ?? ''}
-                            </div>
+                            </div> */}
+                            <div style={{ color: secondApiResponse?.stock?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge bg-white flex items-center font-semibold mt-5">
+                                {secondApiResponse?.stock?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{secondApiResponse?.stock?.value_percentage !== undefined ? (
+                                    <span>Last Month {filterData.stock.value_percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
 
 
@@ -501,7 +542,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         <>
                             <div className=' panel'>
                                 <div className="flex items-center mb-5">
-                                    <h5 className="font-semibold text-lg dark:text-white-light">Stations</h5>
+                                    <h5 className="font-bold text-lg dark:text-white-light">Stations</h5>
                                 </div>
                                 <img
                                     src={noDataImage}

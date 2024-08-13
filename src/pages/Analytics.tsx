@@ -633,7 +633,7 @@ const Analytics = () => {
                 <div className="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-3 xl:col-span-2">
                         <div className="flex items-start justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Visitors by Browser</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Visitors by Browser</h5>
                         </div>
                         <div className="flex flex-col space-y-5">
                             <div className="flex items-center">

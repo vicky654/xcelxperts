@@ -36,7 +36,7 @@ const Basic = () => {
             <div className="pt-5 grid grid-cols-1 lg:grid-cols-2 gap-2">
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Text</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Text</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -67,7 +67,7 @@ const Basic = () => {
                 {/* type=password */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Password</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Password</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -98,7 +98,7 @@ const Basic = () => {
                 {/* type=email */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Email</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Email</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -129,7 +129,7 @@ const Basic = () => {
                 {/* type=url */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Url</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Url</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -159,7 +159,7 @@ const Basic = () => {
                 {/* type=tel */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Telephone</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Telephone</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -190,7 +190,7 @@ const Basic = () => {
                 {/* type=search */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Search</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Search</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -221,7 +221,7 @@ const Basic = () => {
                 {/* type=range */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Range</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Range</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -246,7 +246,7 @@ const Basic = () => {
                 {/* input with label */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input With Label</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input With Label</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code8')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -273,7 +273,7 @@ const Basic = () => {
                 {/* form controls */}
                 <div className="panel lg:row-span-3">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Form controls</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Form controls</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code9')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -371,7 +371,7 @@ const Basic = () => {
                 {/* Form Grid Layouts */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Form grid</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Form grid</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code10')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -406,7 +406,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Form row</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Form row</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code11')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -441,7 +441,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Form groups</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Form groups</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code12')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -484,7 +484,7 @@ const Basic = () => {
                 </div>
                 <div className="panel lg:col-span-2">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Column sizing</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Column sizing</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code13')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -523,7 +523,7 @@ const Basic = () => {
                 {/* Helper Text */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input with help text ( Default Left)</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input with help text ( Default Left)</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code14')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -553,7 +553,7 @@ const Basic = () => {
 
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input with badge help text (Default Left)</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input with badge help text (Default Left)</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code15')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -583,7 +583,7 @@ const Basic = () => {
 
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input with block badge help text (Default Left)</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input with block badge help text (Default Left)</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code27')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -613,7 +613,7 @@ const Basic = () => {
 
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Inline Help text</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Inline Help text</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code16')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -646,7 +646,7 @@ const Basic = () => {
                 {/* Sizing */}
                 <div className="panel lg:col-span-2">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Fields</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Fields</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code17')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -695,7 +695,7 @@ const Basic = () => {
                 </div>
                 <div className="panel lg:col-span-2">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Select Field</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Select Field</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code18')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -768,7 +768,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Horizontal form label sizing</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Horizontal form label sizing</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code19')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -815,7 +815,7 @@ const Basic = () => {
                 {/*  Readonly  */}
                 <div className="panel lg:row-start-[14]" id="readonly_input">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Readonly</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Readonly</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code20')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -844,7 +844,7 @@ const Basic = () => {
                 {/* Disabled */}
                 <div className="panel" id="disabled">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Disabled Fields</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Disabled Fields</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code21')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -931,7 +931,7 @@ const Basic = () => {
                 {/* Custom */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Checkboxes</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Checkboxes</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code22')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -964,7 +964,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Radio</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Radio</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code23')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -1009,7 +1009,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Disabled</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Disabled</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code24')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -1054,7 +1054,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Select menu</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Select menu</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code25')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -1091,7 +1091,7 @@ const Basic = () => {
                 </div>
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Multiselect</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Multiselect</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code26')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />

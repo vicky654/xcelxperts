@@ -1104,7 +1104,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                         <div className="mb-5 text-lg font-bold">
                             <div className="flex items-center justify-between mb-5">
 
-                                <h5 className="font-semibold text-lg dark:text-white-light">Shop Sales</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Shop Sales</h5>
                             </div>
 
                         </div>

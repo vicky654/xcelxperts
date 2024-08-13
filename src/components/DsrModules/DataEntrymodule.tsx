@@ -333,11 +333,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  mb-2">
-            <h5 className="font-semibold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
-            {/* <div className='Action-btns flex'>
-              <button className='btn btn-primary' onClick={() => openUserAddonModal()}>View Stats</button>
-
-            </div> */}
+            <h5 className="font-bold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
+        
             <div className="md:hidden flex ">
               <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                 Filter
@@ -345,10 +342,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div>
             {/* <hr></hr> */}
           </div>
-          {/* <div className='flex '>     <button className='ms-2  btn btn-primary' onClick={() => switchLanguage('english')}>English</button>
-            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('hindi')}>हिंदी</button>
-            <button className='ms-2 btn btn-primary' onClick={() => switchLanguage('punjabi')}>ਪੰਜਾਬੀ</button></div> */}
-          <div>
+        <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
               {cards?.map((card) => (
                 <li key={card.id} className="w-1/8 inline-block">

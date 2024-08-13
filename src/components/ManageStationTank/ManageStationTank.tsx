@@ -353,7 +353,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-2 spacebetween">
-                            <h5 className="font-semibold text-lg dark:text-white-light">
+                            <h5 className="font-bold text-lg dark:text-white-light">
                                 Tank Stations {stationname && `(${stationname})`}
                             </h5>
 

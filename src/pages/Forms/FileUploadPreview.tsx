@@ -61,7 +61,7 @@ const FileUploadPreview = () => {
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel" id="single_file">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Single File Upload</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Single File Upload</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -159,7 +159,7 @@ const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined
                     {/*  Multiple File */}
                     <div className="multiple-file-upload panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Multiple File</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Multiple File</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

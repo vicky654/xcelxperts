@@ -35,7 +35,7 @@ const Progressbar = () => {
                 <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel" id="basic">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code1');
@@ -105,7 +105,7 @@ const Progressbar = () => {
                     </div>
                     <div className="panel" id="gradient">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Gradient</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Gradient</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code2');
@@ -175,7 +175,7 @@ const Progressbar = () => {
                     </div>
                     <div className="panel" id="striped">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Striped</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Striped</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code3');
@@ -217,7 +217,7 @@ const Progressbar = () => {
                     </div>
                     <div className="panel" id="animated">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Animated</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Animated</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code4');
@@ -257,7 +257,7 @@ const Progressbar = () => {
                     </div>
                     <div className="panel" id="labeled">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Labels</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Labels</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code5');
@@ -299,7 +299,7 @@ const Progressbar = () => {
                     </div>
                     <div className="panel" id="stacked">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Stacked</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Stacked</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code6');
@@ -455,7 +455,7 @@ const Progressbar = () => {
                     </div>
                     <div className="panel lg:row-span-2 lg:row-start-3" id="sizes">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Progress Bars Different Sizes</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Progress Bars Different Sizes</h5>
                             <button
                                 onClick={() => {
                                     toggleCode('code7');

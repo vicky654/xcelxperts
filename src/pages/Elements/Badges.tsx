@@ -36,7 +36,7 @@ const Badges = () => {
                 {/* Basic */}
                 <div className="panel" id="basic">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -83,7 +83,7 @@ const Badges = () => {
                 {/* Outline */}
                 <div className="panel" id="outline">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Outline</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Outline</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -128,7 +128,7 @@ const Badges = () => {
                 {/* Pills */}
                 <div className="panel" id="pills">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Pills</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Pills</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');
@@ -166,7 +166,7 @@ const Badges = () => {
                 {/* Classic */}
                 <div className="panel" id="classic">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Classic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Classic</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code4');
@@ -204,7 +204,7 @@ const Badges = () => {
                 {/* Badges with Heading */}
                 <div className="panel" id="with_headings">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Badges with Heading</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Badges with Heading</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code5');
@@ -268,7 +268,7 @@ const Badges = () => {
                 {/* Custom Badges */}
                 <div className="panel" id="custom">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Custom Badges</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Custom Badges</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code6');

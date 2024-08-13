@@ -95,7 +95,7 @@ const Search = () => {
                 {/* Live Search */}
                 <div className="panel lg:row-span-2" id="live">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Live Search</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Live Search</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -242,7 +242,7 @@ useEffect(() => {
                 {/* Overlay */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Overlay</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Overlay</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -311,7 +311,7 @@ const overlayClickAway = () => {
                 {/* Search Box */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Search Box</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Search Box</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');

@@ -35,7 +35,7 @@ const Jumbotron = () => {
                 {/* basic */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -84,7 +84,7 @@ const Jumbotron = () => {
                 {/* fluid */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Jumbotron Fluid</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Jumbotron Fluid</h5>
                         <button
                             type="button"
                             onClick={() => {

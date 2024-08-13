@@ -88,7 +88,7 @@ const DateRangePicker = () => {
                         {/*  Basic  */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -118,7 +118,7 @@ const [date1, setDate1] = useState<any>('2022-07-05');
                         {/* Date & time */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Date Time</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Date Time</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -173,7 +173,7 @@ const [date2, setDate2] = useState<any>('2022-07-05 12:00');
                         {/*  range-calendar */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Range Calendar</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Range Calendar</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -224,7 +224,7 @@ const [date3, setDate3] = useState<any>('2022-07-05 to 2022-07-10');
                         {/* preloading time */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Preloading Time</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Preloading Time</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -285,7 +285,7 @@ const [date4, setDate4] = useState<any>('13:45');
                         {/* Top-Left */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Postion : Top-Left</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Postion : Top-Left</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -319,7 +319,7 @@ const [range1, setRange1] = useState<any>('0');
                         {/* Top-right */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Postion : Top-right</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Postion : Top-right</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -353,7 +353,7 @@ const [range2, setRange2] = useState<any>('0');
                         {/* bottom-left */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Postion : Bottom-Left</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Postion : Bottom-Left</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -387,7 +387,7 @@ const [range3, setRange3] = useState<any>('0');
                         {/* Bottom-right */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Postion : Bottom-right</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Postion : Bottom-right</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code8')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -436,7 +436,7 @@ const [range4, setRange4] = useState<any>('0');
                         {/* Using HTML5 input elements */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Using HTML5 input elements</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Using HTML5 input elements</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code9')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -496,7 +496,7 @@ const slider1Update = (range: any) => {
                         {/* Non linear slider */}
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Non linear slider</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Non linear slider</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code10')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -590,7 +590,7 @@ const onSide = (render: any, handle: any, value: any, un: any, percent: any) => 
                         {/* Locking slider */}
                         <div className="panel lg:col-span-2">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Locking sliders together</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Locking sliders together</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code11')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />

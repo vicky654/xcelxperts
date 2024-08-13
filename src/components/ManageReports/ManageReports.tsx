@@ -324,7 +324,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col  gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light"> Reports</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light"> Reports</h5>
                     <div className="ltr:ml-auto rtl:mr-auto">
                         {/* <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} /> */}
 

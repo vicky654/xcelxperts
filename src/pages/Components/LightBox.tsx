@@ -86,7 +86,7 @@ const LightBox = () => {
 
                 {/* Lightbox */}
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Lightbox</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Lightbox</h5>
                     <div className="mb-5">
                         <div className="flex mb-5">
                             <div className="ltr:mr-4 rtl:ml-4">

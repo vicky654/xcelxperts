@@ -40,7 +40,7 @@ const Alerts = () => {
                 {/* Default Alerts  */}
                 <div className="panel" id="default">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Default Alerts</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Default Alerts</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -160,7 +160,7 @@ const Alerts = () => {
                 {/* Outline Alerts */}
                 <div className="panel" id="outline">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Outline Alerts</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Outline Alerts</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -219,7 +219,7 @@ const Alerts = () => {
                 {/* Solid Alerts */}
                 <div className="panel" id="solid">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Solid Alerts</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Solid Alerts</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -278,7 +278,7 @@ const Alerts = () => {
                 {/* Alerts with icon */}
                 <div className="panel" id="icon">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Alerts with icon</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Alerts with icon</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -349,7 +349,7 @@ const Alerts = () => {
                 {/* Arrowed Alerts */}
                 <div className="panel" id="arrowed">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Arrowed Alerts</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Arrowed Alerts</h5>
                         <button
                             type="button"
                             onClick={() => {
@@ -420,7 +420,7 @@ const Alerts = () => {
                 {/* Custom Alerts */}
                 <div className="panel" id="custom">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Custom Alerts</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Custom Alerts</h5>
                         <button
                             type="button"
                             onClick={() => {

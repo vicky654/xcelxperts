@@ -39,7 +39,7 @@ const Timeline = () => {
                 {/* profile */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Profile</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Profile</h5>
                         <button onClick={() => toggleCode('code1')} className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600">
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -308,7 +308,7 @@ const Timeline = () => {
                 {/* modern */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Modern</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Modern</h5>
                         <button onClick={() => toggleCode('code2')} className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600">
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -487,7 +487,7 @@ const Timeline = () => {
                 {/* basic */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                         <button onClick={() => toggleCode('code3')} className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600">
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -614,7 +614,7 @@ const Timeline = () => {
                 {/* with images */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">With Images</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">With Images</h5>
                         <button onClick={() => toggleCode('code4')} className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600">
                             <span className="flex items-center">
                                 <IconCode className="me-2" />

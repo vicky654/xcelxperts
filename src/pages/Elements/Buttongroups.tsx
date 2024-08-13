@@ -40,7 +40,7 @@ const Buttongroups = () => {
                 {/* Horizontal */}
                 <div className="panel" id="horizontal">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Horizontal</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Horizontal</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -85,7 +85,7 @@ const Buttongroups = () => {
                 {/* Input Group */}
                 <div className="panel" id="input_group">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Input Group</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Input Group</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -157,7 +157,7 @@ const Buttongroups = () => {
                 {/* Vertical */}
                 <div className="panel" id="vertical">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Vertical</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Vertical</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');

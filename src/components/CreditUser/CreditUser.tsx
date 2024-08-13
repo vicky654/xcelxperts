@@ -485,7 +485,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     <div className={`panel h-full ${localStorage.getItem("superiorRole") !== "Client" ? "xl:col-span-3" : "xl:col-span-4"}`}>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                             {/* Header for the data table */}
-                            <h5 className="font-semibold text-lg dark:text-white-light">Credit Users</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Credit Users</h5>
                             {/* Conditionally rendered search bar */}
                             {showFilterOptions && (
                                 <SearchBar

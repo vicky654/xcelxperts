@@ -374,7 +374,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
         <div className='panel h-full xl:col-span-3'>
           <div className="flex justify-between  ">
-            <h5 className="font-semibold text-lg dark:text-white-light">Data Entry Stats</h5>
+            <h5 className="font-bold text-lg dark:text-white-light">Data Entry Stats</h5>
 
             <hr></hr>
           </div>
@@ -643,7 +643,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
           <div className='panel h-full xl:col-span-3'>
             <div className="flex justify-between  ">
-              <h5 className="font-semibold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
+              <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Graph Stats</h5>
 
 
               <hr></hr>

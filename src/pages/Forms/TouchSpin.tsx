@@ -56,7 +56,7 @@ const TouchSpin = () => {
                 {/* Basic */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Button Spin</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Button Spin</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -133,7 +133,7 @@ const [value1, setValue1] = useState<any>(0);
                 {/* step of 5 */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Spin button with step of 5</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Spin button with step of 5</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -192,7 +192,7 @@ const [value2, setValue2] = useState<any>(0);
                 {/* Wrapping value */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Wrapping value spin button</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Wrapping value spin button</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -251,7 +251,7 @@ const [value3, setValue3] = useState<any>(0);
                 {/* Size  */}
                 <div className="panel lg:row-span-2" id="size">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Size</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Size</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -397,7 +397,7 @@ const [value6, setValue6] = useState<any>(0);
                 {/* Inline Buttons */}
                 <div className="panel" id="inline_buttons">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Inline spin button</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Inline spin button</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -456,7 +456,7 @@ const [value7, setValue7] = useState<any>(0);
                 {/* Vertical Buttons */}
                 <div className="panel" id="vertical_buttons">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Vertical spin button</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Vertical spin button</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -516,7 +516,7 @@ const [value8, setValue8] = useState<any>(0);
                     {/* text with spin */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Text with spin button</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Text with spin button</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -581,7 +581,7 @@ const dayFormatter = (day: number) => {
                     {/* Change Button Class */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Change button class</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Change button class</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code8')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

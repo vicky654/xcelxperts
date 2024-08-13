@@ -693,7 +693,7 @@ const Skin = () => {
             {/* Skin: Striped  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Skin: Striped</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Skin: Striped</h5>
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
                 <div className="datatables">
@@ -723,7 +723,7 @@ const Skin = () => {
             {/* Skin: Hover  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Skin: Hover</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Skin: Hover</h5>
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search1} onChange={(e) => setSearch1(e.target.value)} />
                 </div>
                 <div className="datatables">
@@ -753,7 +753,7 @@ const Skin = () => {
             {/* Skin: Bordered  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Skin: Bordered</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Skin: Bordered</h5>
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search2} onChange={(e) => setSearch2(e.target.value)} />
                 </div>
                 <div className="datatables">
@@ -782,7 +782,7 @@ const Skin = () => {
             {/* Skin: Compact  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Skin: Compact</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Skin: Compact</h5>
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search3} onChange={(e) => setSearch3(e.target.value)} />
                 </div>
                 <div className="datatables">
@@ -811,7 +811,7 @@ const Skin = () => {
             {/* Skin: All  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Skin: All</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Skin: All</h5>
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search4} onChange={(e) => setSearch4(e.target.value)} />
                 </div>
                 <div className="datatables">

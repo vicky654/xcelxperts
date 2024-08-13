@@ -36,7 +36,7 @@ const Avatar = () => {
                 {/* Basic */}
                 <div className="panel" id="basic">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -75,7 +75,7 @@ const Avatar = () => {
                 {/* Indicators */}
                 <div className="panel" id="indicators">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Indicators</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Indicators</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -135,7 +135,7 @@ const Avatar = () => {
                 {/* Shapes */}
                 <div className="panel" id="shapes">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Shapes</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Shapes</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');
@@ -174,7 +174,7 @@ const Avatar = () => {
                 {/* Initials */}
                 <div className="panel" id="initials">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Initials</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Initials</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code4');
@@ -213,7 +213,7 @@ const Avatar = () => {
                 {/* Group */}
                 <div className="panel" id="group">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Group</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Group</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code5');
@@ -263,7 +263,7 @@ const Avatar = () => {
                 {/* Animate Y-axis */}
                 <div className="panel" id="animate">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Animate Y-axis</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Animate Y-axis</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code6');
@@ -328,7 +328,7 @@ const Avatar = () => {
                 {/* Animate X-axis */}
                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Animate X-axis</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Animate X-axis</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code7');
@@ -393,7 +393,7 @@ const Avatar = () => {
                 {/* Tooltip */}
                 <div className="panel" id="tooltip">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Tooltip</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Tooltip</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code8');

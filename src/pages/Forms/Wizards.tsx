@@ -49,7 +49,7 @@ const Wizards = () => {
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Text Only</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Text Only</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -152,7 +152,7 @@ const [activeTab, setActiveTab] = useState<any>(1);
                     {/* icon only */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Icon Only</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Icon Only</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -267,7 +267,7 @@ const [activeTab1, setActiveTab1] = useState<any>(1);
                     {/* Text & Icon */}
                     <div className="panel lg:col-span-2">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Text & Icon</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Text & Icon</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -392,7 +392,7 @@ const [activeTab2, setActiveTab2] = useState<any>(1);
                     {/* icon only */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Icon Only</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Icon Only</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -522,7 +522,7 @@ const [activeTab3, setActiveTab3] = useState<any>(1);
                     {/* Text & Icon */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Text & Icon</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Text & Icon</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -662,7 +662,7 @@ const [activeTab4, setActiveTab4] = useState<any>(1);
                     {/* icon only */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Icon Only</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Icon Only</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -792,7 +792,7 @@ const [activeTab5, setActiveTab5] = useState<any>(1);
                     {/* Text & Icon */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Text & Icon</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Text & Icon</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

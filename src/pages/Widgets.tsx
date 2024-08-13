@@ -778,7 +778,7 @@ const Widgets = () => {
 
                     <div className="panel h-full">
                         <div className="flex items-center mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Sales By Category</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Sales By Category</h5>
                         </div>
                         <div>
                             <div className="bg-white dark:bg-black rounded-lg overflow-hidden">
@@ -797,7 +797,7 @@ const Widgets = () => {
                 <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-2 xl:col-span-1">
                         <div className="flex items-center mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">
+                            <h5 className="font-bold text-lg dark:text-white-light">
                                 Daily Sales
                                 <span className="block text-white-dark text-sm font-normal">Go to columns for details.</span>
                             </h5>
@@ -919,7 +919,7 @@ const Widgets = () => {
                 </div>
                 <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-2 xl:col-span-1 pb-0">
-                        <h5 className="font-semibold text-lg dark:text-white-light mb-5">Recent Activities</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light mb-5">Recent Activities</h5>
                         <PerfectScrollbar className="relative h-[290px] ltr:pr-3 rtl:pl-3 ltr:-mr-3 rtl:-ml-3 mb-4">
                             <div className="text-sm cursor-pointer">
                                 <div className="flex items-center py-1.5 relative group">
@@ -1195,7 +1195,7 @@ const Widgets = () => {
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                     <div className="panel h-full w-full">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Recent Orders</h5>
                         </div>
                         <div className="table-responsive">
                             <table>
@@ -1296,7 +1296,7 @@ const Widgets = () => {
 
                     <div className="panel h-full w-full">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Top Selling Product</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Top Selling Product</h5>
                         </div>
                         <div className="table-responsive">
                             <table>
@@ -1683,7 +1683,7 @@ const Widgets = () => {
                 <div className="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 mb-6">
                     <div className="panel h-full sm:col-span-3 xl:col-span-2">
                         <div className="flex items-start justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Visitors by Browser</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Visitors by Browser</h5>
                         </div>
                         <div className="flex flex-col space-y-5">
                             <div className="flex items-center">

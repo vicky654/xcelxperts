@@ -39,7 +39,7 @@ const CheckboxRadio = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Default</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -134,7 +134,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Default Rounded</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Default Rounded</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -229,7 +229,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Outline</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Outline</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -324,7 +324,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Outline Rounded</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Outline Rounded</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -419,7 +419,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Default Text Color</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Default Text Color</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -598,7 +598,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Rounded Text Color</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Rounded Text Color</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -783,7 +783,7 @@ const CheckboxRadio = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Default</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Default</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -878,7 +878,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Square</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Square</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code8')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -973,7 +973,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Outline</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Outline</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code9')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -1068,7 +1068,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Default Text Color</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Default Text Color</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code10')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -1163,7 +1163,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Square Text Color</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Square Text Color</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code11')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />
@@ -1258,7 +1258,7 @@ const CheckboxRadio = () => {
                         </div>
                         <div className="panel">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Outline Text Color</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Outline Text Color</h5>
                                 <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code12')}>
                                     <span className="flex items-center">
                                         <IconCode className="me-2" />

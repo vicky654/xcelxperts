@@ -456,7 +456,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                         </div> */}
                     </div>
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light"> </h5>
+                        <h5 className="font-bold text-lg dark:text-white-light"> </h5>
 
 
 

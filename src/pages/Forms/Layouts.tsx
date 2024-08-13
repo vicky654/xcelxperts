@@ -37,7 +37,7 @@ const Layouts = () => {
                 {/* Stack */}
                 <div className="panel" id="stack_form">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Stack Forms</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Stack Forms</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -92,7 +92,7 @@ const Layouts = () => {
                 {/* Horizontal */}
                 <div className="panel" id="horizontal_form">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Horizontal form</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Horizontal form</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -205,7 +205,7 @@ const Layouts = () => {
                 {/* Registration */}
                 <div className="panel" id="registration_form">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Registration Forms</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Registration Forms</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -270,7 +270,7 @@ const Layouts = () => {
                 {/* Login */}
                 <div className="panel" id="login_form">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Login Forms</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Login Forms</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -323,7 +323,7 @@ const Layouts = () => {
                 {/* Grid */}
                 <div className="panel" id="forms_grid">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Forms Grid</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Forms Grid</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -435,7 +435,7 @@ const Layouts = () => {
                 {/* Inline */}
                 <div className="panel lg:col-span-2" id="inline_form">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Inline Forms</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Inline Forms</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -494,7 +494,7 @@ const Layouts = () => {
                 {/* Auto-sizing */}
                 <div className="panel lg:col-span-2" id="auto_sizing">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Auto-sizing</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Auto-sizing</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code7')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />
@@ -553,7 +553,7 @@ const Layouts = () => {
                 {/* Actions Buttons */}
                 <div className="panel lg:row-start-3 lg:col-start-2" id="actions_buttons">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Actions Buttons</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Actions Buttons</h5>
                         <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code8')}>
                             <span className="flex items-center">
                                 <IconCode className="me-2" />

@@ -186,7 +186,7 @@ const Notification = () => {
                     {/* basic */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -234,7 +234,7 @@ const showMessage = () => {
                     {/* Position */}
                     <div className="panel lg:row-span-2">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Position</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Position</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -375,7 +375,7 @@ const MySwal = withReactContent(Swal);
                     {/* No Action */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">No Action</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">No Action</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -424,7 +424,7 @@ const showMessage7 = () => {
                     {/*  Click Callback */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Click Callback</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Click Callback</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -478,7 +478,7 @@ const clickCallable = () => {
                     {/* Duration */}
                     <div className="panel">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Duration</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Duration</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -527,7 +527,7 @@ const showMessage8 = () => {
                     {/* Background Color */}
                     <div className="panel lg:col-span-2">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Background Color</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Background Color</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

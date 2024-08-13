@@ -35,7 +35,7 @@ const Loader = () => {
                 {/* Loaders with Buttons */}
                 <div className="panel" id="with_buttons">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Loaders with Buttons</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Loaders with Buttons</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code1');
@@ -90,7 +90,7 @@ const Loader = () => {
                 {/* Position */}
                 <div className="panel" id="positions">
                     <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Position</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Position</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code2');
@@ -145,7 +145,7 @@ const Loader = () => {
                 {/* Sizes */}
                 <div className="panel" id="sizes">
                     <div className="flex items-center justify-between mb-10">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Sizes</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Sizes</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code3');
@@ -210,7 +210,7 @@ const Loader = () => {
                 {/* Colors */}
                 <div className="panel" id="colors">
                     <div className="flex items-center justify-between mb-10">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Colors</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Colors</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code4');
@@ -288,7 +288,7 @@ const Loader = () => {
                 {/* Custom */}
                 <div className="panel" id="custom">
                     <div className="flex items-center justify-between mb-10">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Custom</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Custom</h5>
                         <button
                             onClick={() => {
                                 toggleCode('code5');

@@ -314,7 +314,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
                 </ul>
                 <div className="pt-5">
                     {/* <div className="flex items-center justify-between mb-5">
-                        <h5 className="font-semibold text-lg dark:text-white-light">Settings</h5>
+                        <h5 className="font-bold text-lg dark:text-white-light">Settings</h5>
                     </div> */}
                     <div>
                         <ul className="sm:flex font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 whitespace-nowrap overflow-y-auto">

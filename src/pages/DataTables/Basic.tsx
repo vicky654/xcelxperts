@@ -539,7 +539,7 @@ const Basic = () => {
                 </a>
             </div>
             <div className="panel mt-6">
-                <h5 className="font-semibold text-lg dark:text-white-light mb-5">Basic</h5>
+                <h5 className="font-bold text-lg dark:text-white-light mb-5">Basic</h5>
                 <div className="datatables">
                     <DataTable
                         noRecordsText="No results match your search query"

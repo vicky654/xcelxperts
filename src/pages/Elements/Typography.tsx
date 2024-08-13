@@ -23,7 +23,7 @@ const Typography = () => {
             </ul>
             <div className="pt-5 grid lg:grid-cols-2 grid-cols-1 gap-2">
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Heading</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Heading</h5>
                     <div className="flex items-center justify-center mb-5">
                         <div className="border border-white-dark/20 dark:border-[#191e3a] rounded-md overflow-hidden w-full max-w-xs">
                             <div className="p-4 bg-white dark:bg-[#191e3a]">
@@ -41,7 +41,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Heading</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Heading</h5>
                     <div className="flex items-center justify-center mb-5">
                         <div className="border border-white-dark/20 rounded-md w-full max-w-xs prose p-5">
                             <h1 className="m-0 dark:text-white-dark">H1. Heading</h1>
@@ -55,7 +55,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Heading Colored</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Heading Colored</h5>
                     <div className="flex items-center justify-center mb-5">
                         <div className="border border-white-dark/20 rounded-md w-full max-w-xs prose p-5">
                             <h1 className="text-primary m-0">H1. Heading</h1>
@@ -69,7 +69,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Icon List</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Icon List</h5>
                     <div className="flex items-center justify-center mb-5">
                         <div className="border border-white-dark/20 rounded-md w-full max-w-xs p-5">
                             <ul className="space-y-3 font-semibold">
@@ -95,7 +95,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Unordered list</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Unordered list</h5>
                     <div className="flex items-center justify-center mb-5">
                         <div className="border border-white-dark/20 rounded-md w-full max-w-xs p-5 text-white-dark">
                             <ul className="space-y-3 list-inside list-disc font-semibold">
@@ -118,7 +118,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Ordered list</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Ordered list</h5>
                     <div className="flex items-center justify-center mb-5">
                         <div className="border border-white-dark/20 rounded-md w-full max-w-xs p-5 text-white-dark">
                             <ol className="space-y-3 list-inside list-decimal font-semibold">
@@ -141,7 +141,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Blockquote</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Blockquote</h5>
                     <div className="flex items-center justify-center mb-5">
                         <blockquote className="text-black p-5 ltr:pl-3.5 rtl:pr-3.5 bg-white shadow-md rounded-tr-md rounded-br-md border border-white-light border-l-2 !border-l-primary dark:bg-[#060818] dark:border-[#060818]">
                             <div className="flex items-start">
@@ -155,7 +155,7 @@ const Typography = () => {
                 </div>
 
                 <div className="panel">
-                    <h5 className="font-semibold text-lg dark:text-white-light mb-5">Blockquote with profile</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light mb-5">Blockquote with profile</h5>
                     <div className="flex items-center justify-center mb-5">
                         <blockquote className="text-black p-5 ltr:pl-3.5 rtl:pr-3.5 bg-white shadow-md rounded-tr-md rounded-br-md border border-white-light border-l-2 !border-l-primary dark:bg-[#060818] dark:border-[#060818]">
                             <div className="flex items-start">

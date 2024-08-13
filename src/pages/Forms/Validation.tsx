@@ -90,7 +90,7 @@ const Validation = () => {
                     {/* Basic */}
                     <div className="panel" id="basic">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Basic</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Basic</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code1')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -189,7 +189,7 @@ const SubmittedForm = Yup.object().shape({
                     {/* Email */}
                     <div className="panel" id="email">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Email</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Email</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code2')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -287,7 +287,7 @@ const SubmittedForm = Yup.object().shape({
                     {/* Select */}
                     <div className="panel" id="select">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Select</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Select</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code3')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -407,7 +407,7 @@ const SubmittedForm = Yup.object().shape({
                     {/* Custom Styles */}
                     <div className="panel" id="custom_styles">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Custom Styles</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Custom Styles</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code4')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -643,7 +643,7 @@ const submitForm4 = Yup.object().shape({
                     {/* <!-- Browser Default --> */}
                     <div className="panel" id="browser_default">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Browser Default</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Browser Default</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code5')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />
@@ -775,7 +775,7 @@ const submitForm = () => {
                     {/* Tooltips */}
                     <div className="panel" id="tooltips">
                         <div className="flex items-center justify-between mb-5">
-                            <h5 className="font-semibold text-lg dark:text-white-light">Tooltips</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light">Tooltips</h5>
                             <button type="button" className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600" onClick={() => toggleCode('code6')}>
                                 <span className="flex items-center">
                                     <IconCode className="me-2" />

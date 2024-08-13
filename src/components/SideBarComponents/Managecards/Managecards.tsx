@@ -301,7 +301,7 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
 
 
                 <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Cards</h5>
+                    <h5 className="font-bold text-lg dark:text-white-light">Cards</h5>
                     {showFilterOptions && (
                         <SearchBar
                             onSearch={handleSearch}
