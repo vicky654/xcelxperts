@@ -680,8 +680,8 @@ li.flexcenter.dataentrytab {
 .custom-table-body .rdt_TableBody {
     height: auto;
     /* Set your desired height */
-    min-height: 200px;
-    max-height: 200px;
+    min-height: 100px;
+    max-height: 300px;
     overflow-y: auto;
     /* Add scroll if content exceeds height */
 }
@@ -705,7 +705,9 @@ li.flexcenter.dataentrytab {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50%;
+    height: 100%;
+    background-color: #09469f;
+    color: #fff;
 }
 
 .tablecardHeight {

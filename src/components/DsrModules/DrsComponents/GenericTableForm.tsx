@@ -82,10 +82,6 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
     ) => {
         const numericValue = parseFloat(value);
         setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].${field}`, numericValue);
-
-
-
-
         const nozzle = values.data[tankIndex].nozzles[nozzleIndex];
         const sales_volume = field === 'sales_volume' ? numericValue : nozzle.sales_volume;
         const fuel_price = field === 'fuel_price' ? numericValue : parseFloat(nozzle.fuel_price);
@@ -117,7 +113,15 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
     const columns = (tankIndex: number) => [
         {
-            name: 'Nozzle',
+         
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Nozzle</Tooltip>}
+                >
+                    <span >Nozzle</span>
+                </OverlayTrigger>
+            ),
             selector: (row: NozzleData) => row.nozzle_name,
             width: '7%',
             cell: (row: NozzleData) => {
@@ -143,13 +147,27 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             },
         },
         {
-            name: 'Fuel ',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel</Tooltip>}
+                >
+                    <span >Fuel</span>
+                </OverlayTrigger>
+            ),
             width: '7%',
             selector: (row: NozzleData) => row.fuel_name,
             cell: (row: NozzleData) => <span>{row.fuel_name}</span>,
         },
         {
-            name: 'Fuel Price',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel Price</Tooltip>}
+                >
+                    <span >Fuel Price</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].fuel_price`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -165,7 +183,14 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Opening',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Opening</Tooltip>}
+                >
+                    <span >Opening</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].opening`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -181,7 +206,14 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Closing',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Closing</Tooltip>}
+                >
+                    <span >Closing</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].closing`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -197,7 +229,14 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Testing',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Testing</Tooltip>}
+                >
+                    <span >Testing</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].test_volume`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -213,7 +252,15 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Sales Volume',
+          
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Sales Volume</Tooltip>}
+                >
+                    <span >Sales Volume</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].sales_volume`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -229,7 +276,15 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Gross Value',
+           
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Gross Value</Tooltip>}
+                >
+                    <span >Gross Value</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].gross_value`}>
                     {({ field }: FieldProps) => (
@@ -244,7 +299,15 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Discount',
+      
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Discount</Tooltip>}
+                >
+                    <span >Discount</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].discount`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -260,7 +323,15 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-            name: 'Net Value',
+          
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Net Value</Tooltip>}
+                >
+                    <span >Net Value</span>
+                </OverlayTrigger>
+            ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].nett_value`}>
                     {({ field }: FieldProps) => (
@@ -287,30 +358,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                 formData.append('drs_date', startDate);
                 formData.append('station_id', stationId);
             }
-            // $rules = [
-            //     'drs_date'=>'required',
-            //     'sales_volume'=>'required|array',
-            //     'sales_volume.*'=>'required',
-            //     'gross_value'=>'required|array',
-            //     'gross_value.*'=>'required',
-            //     'discount'=>'required|array',
-            //     'discount.*'=>'required',
-            //     'nett_value'=>'required|array' ,
-            //     'nett_value.*'=>'required',
-            // ];
-            // if($considerNozzle){
-            //     $rules = array_merge($rules, [
-            //         'opening'=>'required|array',
-            //         'opening.*'=>'required',
-            //         'test_volume'=>'required|array',
-            //         'test_volume.*'=>'required',
-            //         'closing'=>'required|array',
-            //         'closing.*'=>'required',
-            //     ]);
-            // }
 
-
-            // Append dynamic data from the form values
 
 
 
@@ -320,57 +368,13 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     formData.append(`gross_value[${nozzle.id}]`, nozzle.gross_value.toString());
                     formData.append(`discount[${nozzle.id}]`, nozzle.discount.toString());
                     formData.append(`nett_value[${nozzle.id}]`, nozzle.nett_value.toString());
-
-
                     formData.append(`opening[${nozzle.id}]`, nozzle.opening.toString());
-
-
                     formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
-
-
-
                     formData.append(`test_volume[${nozzle.id}]`, nozzle.test_volume.toString());
-
-
-
-
-
 
                 });
             });
 
-            // values.data.forEach(tank => {
-            //     tank.nozzles.forEach(nozzle => {
-            //         if (nozzle?.sales_volume) {
-            //             formData.append(`sales_volume[${nozzle.id}]`, nozzle.sales_volume.toString());
-            //         }
-
-            //         if (nozzle.gross_value) {
-            //             formData.append(`gross_value[${nozzle.id}]`, nozzle.gross_value.toString());
-            //         }
-            //         if (nozzle.discount) {
-            //             formData.append(`discount[${nozzle.id}]`, nozzle.discount.toString());
-            //         }
-            //         if (nozzle.nett_value) {
-            //             formData.append(`nett_value[${nozzle.id}]`, nozzle.nett_value.toString());
-            //         }
-            //         if (nozzle.opening) {
-            //             formData.append(`opening[${nozzle.id}]`, nozzle.opening.toString());
-            //         }
-            //         if (nozzle.closing) {
-            //             formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
-            //         }
-
-            //         if (nozzle.test_volume) {
-            //             formData.append(`closing[${nozzle.id}]`, nozzle.closing.toString());
-            //         }
-
-
-
-
-
-            //     });
-            // });
 
 
             const url = `data-entry/fuel-sale/update`;
@@ -386,7 +390,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         }
     };
 
-
+    console.log(data, "data");
     return (
         <Formik
             initialValues={{ data }}
@@ -397,7 +401,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             {({ values, handleChange, setFieldValue }) => (
                 <Form>
                     {values?.data.map((tank, tankIndex) => (
-                        <div key={tank.id}>
+                        <div key={tank.id} className='mt-4'>
                             <div className='flex'>
                                 <h3 className='FuelSaleContainer '>
                                     <div className=' flex flex-col'>
