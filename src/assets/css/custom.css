@@ -795,3 +795,9 @@ body {
     --tw-text-opacity: 1;
     color: rgb(14 23 38 / var(--tw-text-opacity));
 }
+
+.updownDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

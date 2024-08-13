@@ -531,24 +531,25 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 <div className="pt-5 ">
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
-                        <div className={`panel  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel updownDiv  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
                                 </div>
                             </div>
                             <div className="flex items-center ">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.sales_volume?.sales_volume} </div>
-                                {/* <div className="badge bg-white/30">
-                                    {filterData?.gross_volume?.status === 'up' ? '+' : ''} {filterData?.sales_volume?.percentage}%{' '}
-                                </div> */}
+
                             </div>
-                            {/* <div className="flex items-center font-semibold mt-5">
-                                {filterData?.gross_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month {filterData?.sales_volume?.percentage}
-                            </div> */}
-                            <div style={{ color: filterData?.sales_volume?.status === 'up' ? "#37a40a" : "red" }}
+
+                            <div style={{
+                                color: filterData?.sales_volume?.status == 'up'
+                                    ? '#37a40a'  // Green for 'up'
+                                    : filterData?.sales_volume?.status == 'down'
+                                        ? 'red'  // Red for 'down'
+                                        : '#000'  // Black for any other case
+                            }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.sales_volume?.status === 'up'
+                                {filterData?.sales_volume?.status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{filterData?.sales_volume?.percentage !== undefined ? (
@@ -559,7 +560,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         </div>
 
                         {/* Sessions */}
-                        <div className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
@@ -568,14 +569,20 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 {/* <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div> */}
                             </div>
                             {/* <div className="flex items-center font-semibold mt-5">
-                                {filterData?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
+                                {filterData?.sales_value?.status == 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
                                 Last Month  {filterData?.sales_value?.percentage}
                             </div> */}
 
 
-                            <div style={{ color: filterData?.sales_value?.status === 'up' ? "#37a40a" : "red" }}
+                            <div style={{
+                                color: filterData?.sales_value?.status == 'up'
+                                    ? '#37a40a'  // Green for 'up'
+                                    : filterData?.sales_value?.status == 'down'
+                                        ? 'red'  // Red for 'down'
+                                        : '#000'  // Black for any other case
+                            }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.sales_value?.status === 'up'
+                                {filterData?.sales_value?.status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{filterData?.sales_value?.percentage !== undefined ? (
@@ -590,7 +597,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
-                        <div className={`panel thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel updownDiv thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
@@ -599,9 +606,15 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                             </div>
 
-                            <div style={{ color: filterData?.profit?.status === 'up' ? "#37a40a" : "red" }}
+                            <div style={{
+                                color: filterData?.profit?.status == 'up'
+                                    ? '#37a40a'  // Green for 'up'
+                                    : filterData?.profit?.status == 'down'
+                                        ? 'red'  // Red for 'down'
+                                        : '#000'  // Black for any other case
+                            }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.profit?.status === 'up'
+                                {filterData?.profit?.status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{filterData?.profit?.percentage !== undefined ? (
@@ -614,7 +627,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         {/* //4TH Box */}
 
                         <div
-                            className={`panel secondbox ${filterData ? 'cursor-pointer' : ''}`}
+                            className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`}
                             onClick={handleClickToOverView}
                         >
                             <div className="flex justify-between">
@@ -638,9 +651,15 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                             </div>
 
 
-                            <div style={{ color: filterData?.stock?.status === 'up' ? "#37a40a" : "red" }}
+                            <div style={{
+                                color: filterData?.stock?.status == 'up'
+                                    ? '#37a40a'  // Green for 'up'
+                                    : filterData?.stock?.status == 'down'
+                                        ? 'red'  // Red for 'down'
+                                        : '#000'  // Black for any other case
+                            }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.stock?.status === 'up'
+                                {filterData?.stock?.status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }

@@ -268,7 +268,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                 <div className="pt-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
-                        <div className={`panel  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel updownDiv  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
                                 </div>
@@ -296,7 +296,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/* Sessions */}
-                        <div className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
@@ -321,7 +321,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className={`panel thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel updownDiv thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
@@ -348,8 +348,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                         {/* 4th Card */}
                         <div
-                            className={`panel secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
-
+                            className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>

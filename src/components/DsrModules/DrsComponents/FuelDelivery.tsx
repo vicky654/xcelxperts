@@ -8,6 +8,7 @@ import DataTable from 'react-data-table-component';
 
 import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface FuelDeliveryData {
     id: string;
@@ -147,17 +148,40 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
     const columns = [
         {
-            name: 'Fuel',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-fuel">Fuel </Tooltip>}
+                >
+                    <span >Fuel</span>
+                </OverlayTrigger>
+            ),
             selector: (row: FuelDeliveryData) => row.fuel_name,
-            cell: (row: FuelDeliveryData) => <span>{row.fuel_name}</span>,
+            cell: (row: FuelDeliveryData) => (
+                <span>{row.fuel_name}</span>
+            ),
         },
         {
-            name: 'Tank',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-tank">Tank </Tooltip>}
+                >
+                    <span >Tank</span>
+                </OverlayTrigger>
+            ),
             selector: (row: FuelDeliveryData) => row.tank_name,
             cell: (row: FuelDeliveryData) => <span>{row.tank_name}</span>,
         },
         {
-            name: 'Opening Stock',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Opening Stock</Tooltip>}
+                >
+                    <span >Opening Stock</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
@@ -167,7 +191,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     type="number"
                                     placeholder='value'
                                     {...field}
-                                className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
+                                    className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
                                 />
@@ -180,9 +204,16 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 </>
             ),
         },
-        
+
         {
-            name: 'Received Stock',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-received-stock">Received Stock</Tooltip>}
+                >
+                    <span >Received Stock</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].delivery_volume`}>
@@ -196,18 +227,25 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     readOnly={!row.update_delivery_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
                                 />
-                           </div>
+                            </div>
                         )}
                     </Field>
                 </>
             ),
         },
         {
-            name: 'Sales Volume',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-sales-volume">Sales Volume</Tooltip>}
+                >
+                    <span >Sales Volume</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].sales_volume`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -219,7 +257,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                 />
 
                                 {/* <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
-                            
+
                             </div>
                         )}
                     </Field>
@@ -227,11 +265,18 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             ),
         },
         {
-            name: 'Book Stock',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-book-stock">Book Stock</Tooltip>}
+                >
+                    <span >Book Stock</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].book_stock`}>
-                    {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -248,11 +293,18 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             ),
         },
         {
-            name: 'Dips Stock',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-dips-stock">Dips Stock</Tooltip>}
+                >
+                    <span >Dips Stock</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].dips_stock`}>
-                        {({ field, form: { setFieldValue, values } , meta: { touched, error } }: FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -270,7 +322,14 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
             ),
         },
         {
-            name: 'Variance',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Variance</Tooltip>}
+                >
+                    <span >Variance</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
                     <Field name={`data[${index}].variance`}>
