@@ -637,9 +637,8 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
       </div>
       {stationId && selectedTab !== 'Variance Accumulation' && (
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
-          <div className='panel h-full ' style={{ background: "none" }}>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
+       
 
           <div className='panel h-full xl:col-span-3'>
             <div className="flex justify-between  ">
