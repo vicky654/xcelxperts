@@ -124,9 +124,26 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     };
  
     const columns: TableColumn<PaymentItem>[] = [
-        { name: 'Card Name', selector: (row: PaymentItem) => row.card_name, sortable: true },
+        { name: (
+            <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Card Name</Tooltip>}
+            >
+                <span>Card Name</span>
+            </OverlayTrigger>
+        ),
+            
+            
+            selector: (row: PaymentItem) => row.card_name, sortable: true },
         {
-            name: `Amount ${currency} `,
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount {currency}</Tooltip>}
+                >
+                    <span>Amount {currency}</span>
+                </OverlayTrigger>
+            ),
             cell: (row: PaymentItem) => (
                 <input
                     type="number"

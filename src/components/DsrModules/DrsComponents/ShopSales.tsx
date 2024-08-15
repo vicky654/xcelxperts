@@ -144,17 +144,38 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
     const columns = [
         {
-            name: 'Item',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-item">Item</Tooltip>}
+                >
+                    <span>Item</span>
+                </OverlayTrigger>
+            ),
             selector: (row: ShopSalesData) => row.lubricant_name,
             cell: (row: ShopSalesData) => <span>{row.lubricant_name}</span>,
         },
         {
-            name: 'Size',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-size">Size</Tooltip>}
+                >
+                    <span>Size</span>
+                </OverlayTrigger>
+            ),
             selector: (row: ShopSalesData) => row.lubricant_size,
             cell: (row: ShopSalesData) => <span>{row.lubricant_size}</span>,
         },
         {
-            name: 'Purchase Price',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-purchase-price">Purchase Price</Tooltip>}
+                >
+                    <span>Purchase Price</span>
+                </OverlayTrigger>
+            ),
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].purchage_price`}>
@@ -176,7 +197,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
         },
         {
-            name: 'Opening Qty',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-qty">Opening Qty</Tooltip>}
+                >
+                    <span>Opening Qty</span>
+                </OverlayTrigger>
+            ),
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
@@ -199,7 +227,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         },
 
         {
-            name: 'Sale Qty ',
+            name: (
+            <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip className='custom-tooltip' id="tooltip-sale-qty">Sale Qty</Tooltip>}
+            >
+                <span>Sale Qty</span>
+            </OverlayTrigger>
+        ),
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale`}>
@@ -221,7 +256,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
         },
         {
-            name: 'Closing Qty',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-closing-qty">Closing Qty</Tooltip>}
+                >
+                    <span>Closing Qty</span>
+                </OverlayTrigger>
+            ),
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].closing`}>
@@ -243,7 +285,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
         },
         {
-            name: 'Rate',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-rate">Rate</Tooltip>}
+                >
+                    <span>Rate</span>
+                </OverlayTrigger>
+            ),
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_price`}>
@@ -267,7 +316,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         },
       
         {
-            name: ' Amount',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount</Tooltip>}
+                >
+                    <span>Amount</span>
+                </OverlayTrigger>
+            ),
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_amount`}>

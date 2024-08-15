@@ -390,7 +390,6 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         }
     };
 
-    console.log(data, "data");
     return (
         <Formik
             initialValues={{ data }}

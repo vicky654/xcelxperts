@@ -120,13 +120,27 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
     const columns: TableColumn<ChargesDeductionsData>[] = [
         {
-            name: 'Name',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Name</Tooltip>}
+                >
+                    <span>Name</span>
+                </OverlayTrigger>
+            ),
             selector: (row) => row.name,
             sortable: true,
             cell: (row) => <span>{row.name}</span>
         },
         {
-            name: 'Note',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Note</Tooltip>}
+                >
+                    <span>Note</span>
+                </OverlayTrigger>
+            ),
             selector: (row) => row.notes,
             sortable: true,
             cell: (row) => (
@@ -141,13 +155,20 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             )
         },
         {
-            name: `Amount ${currency}`,
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount {currency}</Tooltip>}
+                >
+                    <span>Amount {currency}</span>
+                </OverlayTrigger>
+            ),
             selector: (row) => row.amount,
             sortable: true,
             cell: (row) => (
                 <Form.Control
                     type="text"
-                      placeholder='Amount'
+                    placeholder='Amount'
                     value={row.amount}
                     className={`form-input workflorform-input ${row.update_amount ? '' : 'readonly'}`}
                     onChange={(e) => handleAmountChange(e.target.value, row)}
