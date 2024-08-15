@@ -652,14 +652,14 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
                             <div style={{
-                                color: filterData?.stock?.status == 'up'
+                                color: filterData?.stock?.volume_status == 'up'
                                     ? '#37a40a'  // Green for 'up'
-                                    : filterData?.stock?.status == 'down'
+                                    : filterData?.stock?.volume_status == 'down'
                                         ? 'red'  // Red for 'down'
                                         : '#000'  // Black for any other case
                             }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.stock?.status == 'up'
+                                {filterData?.stock?.volume_status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }

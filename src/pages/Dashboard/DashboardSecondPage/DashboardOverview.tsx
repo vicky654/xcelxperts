@@ -289,7 +289,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{secondApiResponse?.sales_volume?.percentage !== undefined ? (
-                                    <span>Last Month {filterData.sales_volume.percentage}%</span>
+                                    <span>Last Month {filterData?.sales_volume?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
@@ -421,22 +421,22 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Gross Volume</h6>
                                                         <p className="text-lg">
-                                                            ℓ{stats.sales_volume.sales_volume}
+                                                            ℓ{stats?.sales_volume?.sales_volume}
                                                             <span
-                                                                className={`ml-2 ${stats.sales_volume.status === "up"
+                                                                className={`ml-2 ${stats?.sales_volume?.status === "up"
                                                                     ? "text-green-500"
                                                                     : "text-red-500"
                                                                     }`}
                                                             >
-                                                                {stats.sales_volume.status === "up" ? (
+                                                                {stats?.sales_volume?.status === "up" ? (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats.sales_volume.percentage}%
+                                                                        {stats?.sales_volume?.percentage}%
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats.sales_volume.percentage}%
+                                                                        {stats?.sales_volume?.percentage}%
                                                                     </>
                                                                 )}
                                                             </span>
@@ -447,22 +447,22 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Gross Value</h6>
                                                         <p className="text-lg">
-                                                            {currency} {stats.sales_value.sales_value}
+                                                            {currency} {stats?.sales_value.sales_value}
                                                             <span
-                                                                className={`ml-2 ${stats.sales_value.status === "up"
+                                                                className={`ml-2 ${stats?.sales_value.status === "up"
                                                                     ? "text-green-500"
                                                                     : "text-red-500"
                                                                     }`}
                                                             >
-                                                                {stats.sales_value.status === "up" ? (
+                                                                {stats?.sales_value.status === "up" ? (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats.sales_value.percentage}%
+                                                                        {stats?.sales_value.percentage}%
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats.sales_value.percentage}%
+                                                                        {stats?.sales_value.percentage}%
                                                                     </>
                                                                 )}
                                                             </span>
@@ -477,22 +477,22 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold"> Gross Profit</h6>
                                                         <p className="text-lg">
-                                                            {currency} {stats.profit.profit}
+                                                            {currency} {stats?.profit.profit}
                                                             <span
-                                                                className={`ml-2 ${stats.profit.status === "up"
+                                                                className={`ml-2 ${stats?.profit.status === "up"
                                                                     ? "text-green-500"
                                                                     : "text-red-500"
                                                                     }`}
                                                             >
-                                                                {stats.profit.status === "up" ? (
+                                                                {stats?.profit.status === "up" ? (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats.profit.percentage}%
+                                                                        {stats?.profit.percentage}%
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats.profit.percentage}%
+                                                                        {stats?.profit.percentage}%
                                                                     </>
                                                                 )}
                                                             </span>

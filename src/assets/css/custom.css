@@ -803,3 +803,14 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
+
+.gjoprN {
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    line-height: normal;
+    padding-left: 0px !important;
+    padding-right: 4px !important;
+    word-break: break-word;
+}

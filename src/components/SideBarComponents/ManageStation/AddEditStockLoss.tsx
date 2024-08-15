@@ -162,7 +162,7 @@ const AddEditStockLoss: React.FC<AddEditStockLossProps> = ({ isOpen, onClose, ge
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                                 <FormikInput formik={formik} type="text" name="name" label=" Name" />
 
-                                                <FormikInput formik={formik} type="number" name="max_amount" label="Value" placeholder='Value' />
+                                                <FormikInput formik={formik} type="number" name="max_amount" label="Value(%)" placeholder='Value(%)' />
                                                 <Col lg={6} md={6}>
                                                     <label className="form-label ">
                                                         Select Fuels

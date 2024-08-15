@@ -134,12 +134,28 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
 
     const columns = [
         {
-            name: 'Fuel',
+            
+                                                                                                
+                name: (
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel</Tooltip>}
+                    >
+                        <span >Fuel</span>
+                    </OverlayTrigger>
+                ),
             selector: (row: FuelSalesData) => row.fuel_name,
             cell: (row: FuelSalesData) => <span>{row.fuel_name}</span>,
         },
         {
-            name: 'Fuel Price',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel Price</Tooltip>}
+                >
+                    <span >Fuel Price</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].fuel_price`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -155,7 +171,14 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
             ),
         },
         {
-            name: 'Sales Volume',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Sales Volume</Tooltip>}
+                >
+                    <span >Sales Volume</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].sales_volume`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -171,7 +194,14 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
             ),
         },
         {
-            name: 'Gross Value',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Gross Value</Tooltip>}
+                >
+                    <span >Gross Value</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].gross_value`}>
                     {({ field }: FieldProps) => (
@@ -186,7 +216,14 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
             ),
         },
         {
-            name: 'Discount',
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Discount</Tooltip>}
+                >
+                    <span >Discount</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].discount`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -202,7 +239,15 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
             ),
         },
         {
-            name: 'Nett Value',
+        
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Nett Value</Tooltip>}
+                >
+                    <span >Nett Value</span>
+                </OverlayTrigger>
+            ),
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].nett_value`}>
                     {({ field }: FieldProps) => (
