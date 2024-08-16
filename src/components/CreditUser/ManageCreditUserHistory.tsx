@@ -348,7 +348,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
         }
     };
 
-   
+
 
     const handleDownloadPdf = async (
 
@@ -402,7 +402,9 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h1 className="text-lg font-semibold   ">
-                            {`Credit Users History`} {selectedMonth &&
+                        {`Credit Users History ${hirstoryData?.name ? `( ${ hirstoryData.name } ) ` : ""}`}
+
+                            {selectedMonth &&
                                 (<span onClick={() => handleDownloadPdf()}>
                                     <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                         <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>

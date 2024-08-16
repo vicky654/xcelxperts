@@ -321,18 +321,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
-      {/* <ul className="flex space-x-2 rtl:space-x-reverse">
-        <li>
-          <Link  to="/dashboard"  className="text-primary hover:underline">
-            Dashboard
-          </Link>
-        </li>
-        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-          <span>  Data Entry Stats </span>
-
   
-        </li>
-      </ul> */}
       <ul className="flex space-x-2 rtl:space-x-reverse my-2">
         <li>
           <Link to="/dashboard" className="text-primary hover:underline">
@@ -608,10 +597,10 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                                   <p className="w-1/2 min-w-[150px]">{subItem?.name}</p>
                                   <p className="w-1/2 min-w-[150px]">
                                   {selectedTab === 'Fuel Delivery'
-                                      ? subItem?.delivery
+                                      ?  capacity + subItem?.delivery
                                       : (selectedTab !== 'Fuel Variance'
                                         ? currency + subItem?.amount
-                                        : currency + subItem?.variance)}
+                                        : capacity + subItem?.variance)}
                                    </p>
                                 </li>
                               ))}

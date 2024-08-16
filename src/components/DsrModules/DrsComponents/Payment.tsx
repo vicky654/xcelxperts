@@ -159,7 +159,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     ];
 
     return (
-        <div>
+        <>
           
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-semibold mb-4 displaycanter">
@@ -192,7 +192,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 {isEditable?
                 <button type="submit" className="btn btn-primary">Submit</button>:""}
             </form>
-        </div>
+        </>
     );
 };
 

@@ -628,10 +628,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="w-1/2">{subItem?.name}</p>
                                   <p className="w-1/2">
                                     {selectedTab === 'Fuel Delivery'
-                                      ? subItem?.delivery
+                                      ?  capacity + subItem?.delivery
                                       : (selectedTab !== 'Fuel Variance'
                                         ? currency + subItem?.amount
-                                        : currency + subItem?.variance)}
+                                        : capacity + subItem?.variance)}
                                   </p>
 
                                 </li>

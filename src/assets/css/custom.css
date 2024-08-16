@@ -806,12 +806,14 @@ body {
 }
 
 .gjoprN {
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    line-height: normal;
+
     padding-left: 0px !important;
     padding-right: 4px !important;
-    word-break: break-word;
+
+}
+.doSrUc {
+
+    padding-left: 4px !important;
+    padding-right: 16px;
+   
 }
