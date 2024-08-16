@@ -42,6 +42,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         dispatch(setPageTitle('Sales Admin'));
     });
     const navigate = useNavigate();
+    const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const [fuelStats, setFuelStats] = useState<FuelStatsData>({
         dates: [],
         stock_alert: {},
@@ -107,7 +108,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     };
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
-
+    console.log(IsClientLogin, "IsClientLogin");
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -149,21 +150,48 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         }
     }, [filters]);
 
-    const handleResetFilters = () => {
-        // Clear filters state
-        setFilters({
-            client_id: '',
-            company_id: '',
-            site_id: '',
-        });
-        setFilterData(null);
-        // Remove items from local storage
-        localStorage.removeItem('client_id');
-        localStorage.removeItem('company_id');
-        localStorage.removeItem('site_id');
-        localStorage.removeItem('testing');
-        // Dispatch action to set applyFilter to false
+    const handleResetFilters = async () => {
+        if (IsClientLogin?.isClient) {
+
+            setFilters({
+                client_id: IsClientLogin?.superiorId || '',
+                company_id: '',
+                site_id: '',
+            });
+            localStorage.removeItem('company_id');
+            localStorage.removeItem('site_id');
+            localStorage.removeItem('testing');
+
+            try {
+
+                const queryParams = new URLSearchParams();
+
+                if (IsClientLogin?.superiorId) queryParams.append('client_id', IsClientLogin?.superiorId);
+
+                const queryString = queryParams.toString();
+                const response = await getData(`dashboard/stats?${queryString}`);
+                if (response && response.data && response.data.data) {
+                    setFilterData(response.data.data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch data', error);
+            }
+
+        } else {
+            // Clear filters state
+            setFilters({
+                client_id: '',
+                company_id: '',
+                site_id: '',
+            });
+            setFilterData(null);
+            localStorage.removeItem('client_id');
+            localStorage.removeItem('company_id');
+            localStorage.removeItem('site_id');
+            localStorage.removeItem('testing');
+        }
     };
+
 
     const handleApplyFilters = (values: FilterValues) => {
         const updatedFilters = {
