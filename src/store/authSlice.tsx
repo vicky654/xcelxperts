@@ -4,7 +4,7 @@ import { string } from 'yup';
 
 interface AuthState {
     token: string | null;
-    superiorId: string | null;
+    superiorId: any;
     currency: string | null;
     superiorRole: string | null;
     role: string | null;

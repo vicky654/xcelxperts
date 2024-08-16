@@ -16,9 +16,9 @@ import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 import { currency } from '../utils/CommonData';
 interface FilterValues {
-    client_id: string;
-    company_id: string;
-    site_id: string;
+    client_id: any;
+    company_id: any;
+    site_id: any;
 }
 
 interface IndexProps {
@@ -130,6 +130,27 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         }
     }, [data?.applyFilter, data?.superiorId]);
 
+    useEffect(() => {
+        const clientId = localStorage.getItem('client_id');
+        const companyId = localStorage.getItem('company_id');
+
+        if (IsClientLogin?.isClient && !companyId) {
+            const initialFilters = {
+                client_id: clientId || '',
+                company_id: '',
+                site_id: '',
+            };
+            setFilters(initialFilters);
+            callFetchFilterData(initialFilters);
+        }
+    }, [data?.applyFilter, data?.superiorId]);
+
+
+
+
+
+
+
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
@@ -194,8 +215,15 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
     const handleApplyFilters = (values: FilterValues) => {
+        let clientId = values.client_id || IsClientLogin?.superiorId;
+
+        // Override client_id if the user is a client
+        if (IsClientLogin?.isClient) {
+            clientId = IsClientLogin?.superiorId;
+        }
+
         const updatedFilters = {
-            client_id: values.client_id,
+            client_id: clientId,
             company_id: values.company_id,
             site_id: values.site_id,
         };
@@ -204,7 +232,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         // Call callFetchFilterData with the updated filters
         callFetchFilterData(updatedFilters);
         // Update local storage
-        localStorage.setItem('client_id', values.client_id);
+        if (IsClientLogin?.isClient) {
+            localStorage.setItem('client_id', IsClientLogin?.superiorId);
+        } else (
+            localStorage.setItem('client_id', values.client_id))
         localStorage.setItem('company_id', values.company_id);
         localStorage.setItem('site_id', values.site_id);
         // Close the modal
@@ -614,7 +645,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{filterData?.sales_value?.percentage !== undefined ? (
-                                    <span>Last Month {filterData.sales_value.percentage}%</span>
+                                    <span>Last Month {filterData?.sales_value?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>

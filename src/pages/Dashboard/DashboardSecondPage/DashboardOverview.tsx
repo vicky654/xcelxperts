@@ -46,7 +46,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const [detailsData, setDetailsData] = useState<any>([]);
     const [secondApiResponse, setsecondApiResponse] = useState<any>([]);
 
-
+    const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const callFetchFilterData = async (filters: FilterValues) => {
         try {
             const { client_id, company_id, site_id } = filters;
@@ -107,8 +107,8 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
-    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
-    const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
+
+
 
 
 
@@ -116,28 +116,19 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         // Check if client_id and company_id are present in local storage
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-
-        if (clientId && companyId) {
-            // Fetch data only if both client_id and company_id are present
+    
+        if (IsClientLogin?.isClient) {
+            callFetchFilterData(filters);
+            callFetchDetailsData(filters);
+        } else if (clientId && companyId) {
             callFetchFilterData(filters);
             callFetchDetailsData(filters);
         }
     }, [filters]);
+    
 
-    const handleResetFilters = () => {
-        // Clear filters state
-        setFilters({
-            client_id: '',
-            company_id: '',
-            site_id: ''
-        });
-        setFilterData(null);
-        // Remove items from local storage
-        localStorage.removeItem('client_id');
-        localStorage.removeItem('company_id');
-        localStorage.removeItem('site_id');
-        // Dispatch action to set applyFilter to false
-    };
+
+
     const handleApplyFilters = (values: FilterValues) => {
 
         const updatedFilters = {
@@ -145,12 +136,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             company_id: values.company_id,
             site_id: values.site_id
         };
-        // Set the filters state with the updated values
+   
         setFilters(updatedFilters);
-        // Call callFetchFilterData with the updated filters
-        // callFetchFilterData(updatedFilters);
-        // callFetchDetailsData(updatedFilters);
-        // Update local storage
+ 
         localStorage.setItem('client_id', values.client_id);
         localStorage.setItem('company_id', values.company_id);
         localStorage.setItem('site_id', values.site_id);
@@ -163,12 +151,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
 
-    // const handleNavigateToNextPage = (item: any) => {
-    //     if (!isSitePermissionAvailable) {
-    //         navigate(`/dashboard/station/${item?.id}`)
-    //     }
-    // }
-    // Function to get the current month in "YYYY-MM" format
+
     const getCurrentMonth = () => {
         const now = new Date();
         const year = now.getFullYear();
@@ -275,14 +258,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {secondApiResponse?.sales_volume?.sales_volume} </div>
-                                {/* <div className="badge bg-white/30">
-                                    {secondApiResponse?.gross_volume?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_volume?.percentage}%{' '}
-                                </div> */}
+                         
                             </div>
-                            {/* <div className="flex items-center font-semibold mt-5">
-                                {secondApiResponse?.sales_volume?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month {secondApiResponse?.sales_volume?.percentage}
-                            </div> */}
+                         
                             <div style={{ color: secondApiResponse?.sales_volume?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_volume?.status === 'up'
@@ -302,19 +280,15 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.sales_value?.sales_value} </div>
-                                {/* <div className="badge bg-white/30"> {secondApiResponse?.sales_value?.percentage}%</div> */}
                             </div>
-                            {/* <div className="flex items-center font-semibold mt-5">
-                                {secondApiResponse?.sales_value?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month {secondApiResponse?.sales_value?.status === 'up' ? '+' : ''} {secondApiResponse?.sales_value?.percentage}
-                            </div> */}
+
                             <div style={{ color: secondApiResponse?.sales_value?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_value?.status === 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{secondApiResponse?.sales_value?.percentage !== undefined ? (
-                                    <span>Last Month {filterData.sales_value.percentage}%</span>
+                                    <span>Last Month {filterData?.sales_value?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
@@ -327,12 +301,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.profit?.profit} </div>
-                                {/* <div className="badge bg-white/30"> {secondApiResponse?.profit?.percentage}%</div> */}
+                            
                             </div>
-                            {/* <div className="flex items-center font-semibold mt-5">
-                                {secondApiResponse?.profit?.status === 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month{secondApiResponse?.profit?.percentage}
-                            </div> */}
+                          
 
                             <div style={{ color: secondApiResponse?.profit?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
@@ -340,7 +311,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{secondApiResponse?.profit?.percentage !== undefined ? (
-                                    <span>Last Month {filterData.profit.percentage}%</span>
+                                    <span>Last Month {filterData?.profit?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
@@ -382,7 +353,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{secondApiResponse?.stock?.value_percentage !== undefined ? (
-                                    <span>Last Month {filterData.stock.value_percentage}%</span>
+                                    <span>Last Month {filterData?.stock?.value_percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
@@ -477,22 +448,22 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold"> Gross Profit</h6>
                                                         <p className="text-lg">
-                                                            {currency} {stats?.profit.profit}
+                                                            {currency} {stats?.profit?.profit}
                                                             <span
-                                                                className={`ml-2 ${stats?.profit.status === "up"
+                                                                className={`ml-2 ${stats?.profit?.status === "up"
                                                                     ? "text-green-500"
                                                                     : "text-red-500"
                                                                     }`}
                                                             >
-                                                                {stats?.profit.status === "up" ? (
+                                                                {stats?.profit?.status === "up" ? (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats?.profit.percentage}%
+                                                                        {stats?.profit?.percentage}%
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats?.profit.percentage}%
+                                                                        {stats?.profit?.percentage}%
                                                                     </>
                                                                 )}
                                                             </span>
