@@ -9,7 +9,7 @@ import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
-import { currency } from '../../utils/CommonData';
+import { capacity, currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
@@ -126,6 +126,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     'Variance Accumulation',
     'Fuel Variance',
     'Fuel Sales',
+    'Fuel Delivery',
     'Lube Sales',
     'Incomes',
     'Expenses',
@@ -139,6 +140,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     'Variance Accumulation': 'variance-accumulation',
     'Fuel Variance': 'fuel-variance',
     'Fuel Sales': 'fuel-sales',
+    'Fuel Delivery': 'fuel-delivery',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
     'Expenses': 'deductions',
@@ -423,7 +425,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                   <div className="flex items-center mt-2">
                     {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
                     <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
-                      {selectedTab !== 'Fuel Variance' && currency} {tabData?.currentMonth}
+                    {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} {tabData?.currentMonth}
                     </div>
                     {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
                     <div
@@ -467,7 +469,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {selectedTab !== 'Fuel Variance' && currency} {tabData?.prevMonth}</div>
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">  {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency}  {tabData?.prevMonth}</div>
 
                   </div>
 
@@ -597,12 +599,20 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                             <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
                               <li className="flex flex-wrap justify-between p-2 bg-gray-200">
                                 <p className="font-semibold w-1/2 min-w-[150px]">Name</p>
-                                <p className="font-semibold w-1/2 min-w-[150px]">{selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
+                                <p className="font-semibold w-1/2 min-w-[150px]"> {selectedTab === 'Fuel Delivery' ? 'Delivery'
+                                    : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
+                               </p>
                               </li>
                               {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                 <li key={subIndex} className="flex flex-wrap justify-between p-2 hover:bg-gray-100">
                                   <p className="w-1/2 min-w-[150px]">{subItem?.name}</p>
-                                  <p className="w-1/2 min-w-[150px]"> {selectedTab !== 'Fuel Variance' && currency} {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}</p>
+                                  <p className="w-1/2 min-w-[150px]">
+                                  {selectedTab === 'Fuel Delivery'
+                                      ? subItem?.delivery
+                                      : (selectedTab !== 'Fuel Variance'
+                                        ? currency + subItem?.amount
+                                        : currency + subItem?.variance)}
+                                   </p>
                                 </li>
                               ))}
                             </ul>

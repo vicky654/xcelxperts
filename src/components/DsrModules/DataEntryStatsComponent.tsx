@@ -8,7 +8,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
-import { currency } from '../../utils/CommonData';
+import { capacity, currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
@@ -121,6 +121,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Variance Accumulation',
     'Fuel Variance',
     'Fuel Sales',
+    'Fuel Delivery',
     'Lube Sales',
     'Incomes',
     'Expenses',
@@ -134,6 +135,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Variance Accumulation': 'variance-accumulation',
     'Fuel Variance': 'fuel-variance',
     'Fuel Sales': 'fuel-sales',
+    'Fuel Delivery': 'fuel-delivery',
     'Lube Sales': 'lube-sales',
     'Incomes': 'charges',
     'Expenses': 'deductions',
@@ -192,7 +194,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     }
   };
 
- 
+
 
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -244,7 +246,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const GetSubData = async (date: string, selectedTab: string) => {
     try {
       const formattedDate = formatDate(date);
-     
+
       const formattedTab = convertTabName(selectedTab);
 
       // Check if formattedTab is 'digital-receipt' and send 'payments' instead
@@ -347,7 +349,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
-        
+
             showClientInput={true}
             showEntityInput={true}
             showStationInput={true}
@@ -450,13 +452,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
                   </div>
                   <div className="flex items-center mt-2">
-                    {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
 
-                    <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
-                      {selectedTab !== 'Fuel Variance' && currency} {tabData?.currentMonth}
+                    <div style={{ color: "#fff" }} className="font-bold  text-3xl ltr:mr-3 rtl:ml-3">
+                      {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} {tabData?.currentMonth}
                     </div>
 
-                    {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
+
                     <div
                       className={`badge bg-white`}
                     >
@@ -495,7 +496,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 "> {selectedTab !== 'Fuel Variance' && currency} {tabData?.prevMonth} </div>
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">  {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency}  {tabData?.prevMonth} </div>
 
                   </div>
 
@@ -616,13 +617,23 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
                               <li className="flex justify-between p-2 bg-gray-200">
                                 <p className="font-semibold w-1/2">Name</p>
-                                <p className="font-semibold w-1/2">  {selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount'}</p>
+                                <p className="font-semibold w-1/2">
+                                  {selectedTab === 'Fuel Delivery' ? 'Delivery'
+                                    : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
+                                </p>
+
                               </li>
                               {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                 <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                   <p className="w-1/2">{subItem?.name}</p>
-                                  <p className="w-1/2"> {selectedTab !== 'Fuel Variance' && currency}  {selectedTab !== 'Fuel Variance' ? subItem?.amount : subItem?.variance}
+                                  <p className="w-1/2">
+                                    {selectedTab === 'Fuel Delivery'
+                                      ? subItem?.delivery
+                                      : (selectedTab !== 'Fuel Variance'
+                                        ? currency + subItem?.amount
+                                        : currency + subItem?.variance)}
                                   </p>
+
                                 </li>
                               ))}
                             </ul>
@@ -662,7 +673,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       </div>
       {stationId && selectedTab !== 'Variance Accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
-      
+
 
           <div className='panel h-full xl:col-span-3'>
             <div className="flex justify-between  ">
@@ -742,7 +753,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               isLoading={isLoading}
               smallScreen={true}
               onApplyFilters={handleApplyFilters}
-        
+
               showClientInput={true}
               showEntityInput={true}
               showStationInput={true}

@@ -1,7 +1,7 @@
 import React from 'react';
 import AnimateHeight from 'react-animate-height';
 import IconCaretDown from '../components/Icon/IconCaretDown';
-import { currency } from './CommonData';
+import { capacity, currency } from './CommonData';
 
 interface CollapsibleItemProps {
   id: string;
@@ -24,7 +24,10 @@ const CollapsibleItem: React.FC<CollapsibleItemProps> = ({ id, title, subtitle, 
       >
 
 
-        {title} {" "} - {selectedTab !== 'Fuel Variance' &&   currency} {subtitle}
+        <p>
+          {title} {" "} - {selectedTab !== 'Fuel Variance' && selectedTab !== 'Fuel Delivery' ? currency : capacity} {subtitle}
+        </p>
+
 
 
 
