@@ -58,8 +58,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     const [filterData, setFilterData] = useState<any>(null);
 
     const callFetchFilterData = async (filters: FilterValues) => {
+        const { client_id, company_id, site_id } = filters;
+    if(client_id){
         try {
-            const { client_id, company_id, site_id } = filters;
+           
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
@@ -76,6 +78,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             console.error('Failed to fetch data', error);
         } finally {
         }
+    }
     };
 
 
@@ -108,12 +111,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     };
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
-    console.log(IsClientLogin, "IsClientLogin");
+
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setPageTitle('Sales Admin'));
-    });
+
 
     useEffect(() => {
         const clientId = localStorage.getItem('client_id');
@@ -135,6 +136,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         const companyId = localStorage.getItem('company_id');
 
         if (IsClientLogin?.isClient && !companyId) {
+
             const initialFilters = {
                 client_id: clientId || '',
                 company_id: '',
@@ -160,7 +162,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         // Check if client_id and company_id are present in local storage
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-
+        if (IsClientLogin?.isClient) {
+            localStorage.setItem('client_id', IsClientLogin?.superiorId);
+        }
         if (clientId && companyId) {
             // Fetch data only if both client_id and company_id are present
             callFetchFilterData(filters);

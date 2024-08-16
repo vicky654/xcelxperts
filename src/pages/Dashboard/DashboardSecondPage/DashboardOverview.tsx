@@ -104,9 +104,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setPageTitle('Sales Admin'));
-    });
+
 
 
 

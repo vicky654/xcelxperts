@@ -255,8 +255,19 @@ export const credituserValidationSchema = (isEditMode: boolean) => {
         name: Yup.string()
             .required('Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
-            address: Yup.string()
+        address: Yup.string()
             .required('Address is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+        max_amount: Yup.string()
+            .required('Value is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+        selectedStations: Yup.array().min(1, 'At least one Fuel must be selected').required('Fuels are required'),
+    });
+};
+export const StocklossValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        name: Yup.string()
+            .required('Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
         max_amount: Yup.string()
             .required('Value is required')
@@ -292,11 +303,9 @@ export const getStationPumpValidationSchema = (isEditMode: boolean) => {
 };
 export const getStationNozzleValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
-    
-        fuel_id
-            : Yup.string()
-                  .required('Station Tank is required')
-                  .matches(/^[^\s]/, 'cannot start with a space'),
+        fuel_id: Yup.string()
+            .required('Station Tank is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
 
         name: Yup.string()
             .required('Nozzle Name is required')

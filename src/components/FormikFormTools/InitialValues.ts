@@ -189,11 +189,19 @@ export const stationBankInitialValues = {
   
 };
 export const credituserInitialValues = {
-
   name: '',
   address: '',
   station_id: '',
+  max_amount: '',
+  selectedStations: [],
+  sites: [] as Station[],
 
+
+};
+export const stcokLossInitialValues = {
+  name: '',
+  address: '',
+  station_id: '',
   max_amount: '',
   selectedStations: [],
   sites: [] as Station[],
@@ -291,5 +299,6 @@ export default {
   fuelsubcategoryInitialValues,
   BankInitialValues,
   lubricantInitialValues,
-  stationBankInitialValues
+  stationBankInitialValues,
+  stcokLossInitialValues
 };

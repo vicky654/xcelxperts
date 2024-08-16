@@ -4,11 +4,11 @@ import AddModalHeader from '../../SideBarComponents/CrudModal/AddModalHeader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import FormikInput from '../../FormikFormTools/FormikInput';
 import useErrorHandler from '../../../hooks/useHandleError';
-import { credituserInitialValues } from '../../FormikFormTools/InitialValues';
+import { credituserInitialValues, stcokLossInitialValues } from '../../FormikFormTools/InitialValues';
 
 import { MultiSelect } from 'react-multi-select-component';
 import { Col } from 'react-bootstrap';
-import { credituserValidationSchema } from '../../FormikFormTools/ValidationSchema';
+import { credituserValidationSchema, StocklossValidationSchema } from '../../FormikFormTools/ValidationSchema';
 
 interface Client {
     id: string;
@@ -132,8 +132,8 @@ const AddEditStockLoss: React.FC<AddEditStockLossProps> = ({ isOpen, onClose, ge
     };
 
     const formik = useFormik({
-        initialValues: credituserInitialValues,
-        validationSchema: credituserValidationSchema(isEditMode),
+        initialValues: stcokLossInitialValues,
+        validationSchema: StocklossValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
                 await onSubmit(values, formik);
