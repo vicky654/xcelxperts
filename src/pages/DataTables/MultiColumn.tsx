@@ -596,7 +596,7 @@ const MultiColumn = () => {
                             {
                                 accessor: 'firstName',
                                 title: 'User',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ firstName, lastName, id }) => (
                                     <div className="flex items-center w-max">
                                         <img className="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover" src={`/assets/images/profile-${id}.jpeg`} alt="" />
@@ -609,7 +609,7 @@ const MultiColumn = () => {
                             {
                                 accessor: 'dob',
                                 title: 'Start Date',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ dob }) => <div>{formatDate(dob)}</div>,
                             },
                             { accessor: 'email', sortable: true },

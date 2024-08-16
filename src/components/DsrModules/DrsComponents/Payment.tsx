@@ -134,7 +134,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         ),
             
             
-            selector: (row: PaymentItem) => row.card_name, sortable: true },
+            selector: (row: PaymentItem) => row.card_name, sortable: false },
         {
             name: (
                 <OverlayTrigger
@@ -144,6 +144,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                     <span>Amount {currency}</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: PaymentItem) => (
                 <input
                     type="number"
@@ -153,7 +154,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                     onChange={(e) => handleAmountChange(e.target.value, row.id)}
                 />
             ),
-            sortable: true,
+            
         },
     ];
 

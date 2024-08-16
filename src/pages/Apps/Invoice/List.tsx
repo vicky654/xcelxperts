@@ -233,7 +233,7 @@ const List = () => {
                         columns={[
                             {
                                 accessor: 'invoice',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ invoice }) => (
                                     <NavLink to="/apps/invoice/preview">
                                         <div className="text-primary underline hover:no-underline font-semibold">{`#${invoice}`}</div>
@@ -242,7 +242,7 @@ const List = () => {
                             },
                             {
                                 accessor: 'name',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ name, id }) => (
                                     <div className="flex items-center font-semibold">
                                         <div className="p-0.5 bg-white-dark/30 rounded-full w-max ltr:mr-2 rtl:ml-2">
@@ -254,21 +254,21 @@ const List = () => {
                             },
                             {
                                 accessor: 'email',
-                                sortable: true,
+                                   sortable: false,
                             },
                             {
                                 accessor: 'date',
-                                sortable: true,
+                                   sortable: false,
                             },
                             {
                                 accessor: 'amount',
-                                sortable: true,
+                                   sortable: false,
                                 titleClassName: 'text-right',
                                 render: ({ amount, id }) => <div className="text-right font-semibold">{`$${amount}`}</div>,
                             },
                             {
                                 accessor: 'status',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ status }) => <span className={`badge badge-outline-${status.color} `}>{status.tooltip}</span>,
                             },
                             {

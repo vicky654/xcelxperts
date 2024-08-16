@@ -754,7 +754,7 @@ const Export = () => {
                             {
                                 accessor: 'dob',
                                 title: 'Start Date',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ dob }) => <div>{formatDate(dob)}</div>,
                             },
                             { accessor: 'email', sortable: true },

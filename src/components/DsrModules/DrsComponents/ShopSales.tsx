@@ -152,6 +152,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Item</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             selector: (row: ShopSalesData) => row.lubricant_name,
             cell: (row: ShopSalesData) => <span>{row.lubricant_name}</span>,
         },
@@ -164,6 +165,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Size</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             selector: (row: ShopSalesData) => row.lubricant_size,
             cell: (row: ShopSalesData) => <span>{row.lubricant_size}</span>,
         },
@@ -176,6 +178,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Purchase Price</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].purchage_price`}>
@@ -205,6 +208,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Opening Qty</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
@@ -235,6 +239,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                 <span>Sale Qty</span>
             </OverlayTrigger>
         ),
+        sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale`}>
@@ -264,6 +269,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Closing Qty</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].closing`}>
@@ -293,6 +299,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Rate</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_price`}>
@@ -324,6 +331,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     <span>Amount</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_amount`}>

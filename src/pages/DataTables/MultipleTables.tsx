@@ -655,7 +655,7 @@ const MultipleTables = () => {
                             {
                                 accessor: 'firstName',
                                 title: 'Name',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ firstName, lastName, id }) => (
                                     <div className="flex items-center w-max">
                                         <img className="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover" src={`/assets/images/profile-${id}.jpeg`} alt="" />
@@ -668,7 +668,7 @@ const MultipleTables = () => {
                             {
                                 accessor: 'dob',
                                 title: 'Start Date',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ dob }) => <div>{formatDate(dob)}</div>,
                             },
                             { accessor: 'email', title: 'Email', sortable: true },
@@ -676,7 +676,7 @@ const MultipleTables = () => {
                             {
                                 accessor: 'status',
                                 title: 'Status',
-                                sortable: true,
+                                   sortable: false,
                                 render: () => <span className={`badge bg-${randomColor()} `}>{randomStatus()}</span>,
                             },
                             {
@@ -723,7 +723,7 @@ const MultipleTables = () => {
                             {
                                 accessor: 'firstName',
                                 title: 'Name',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ firstName, lastName, id }) => (
                                     <div className="flex items-center w-max">
                                         <img className="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover" src={`/assets/images/profile-${id}.jpeg`} alt="" />
@@ -734,7 +734,7 @@ const MultipleTables = () => {
                             {
                                 accessor: 'age',
                                 title: 'Age',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ age }) => (
                                     <div className="w-4/5 min-w-[100px] h-2.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex">
                                         <div className={`h-2.5 rounded-full rounded-bl-full text-center text-white text-xs bg-${randomColor()}`} style={{ width: `${age}%` }}></div>
@@ -745,7 +745,7 @@ const MultipleTables = () => {
                             {
                                 accessor: 'dob',
                                 title: 'Start Date',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ dob }) => <div>{formatDate(dob)}</div>,
                             },
                             { accessor: 'email', title: 'Email', sortable: true },

@@ -152,16 +152,24 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
 
     const columns: TableColumn<CashBankingItem>[] = [
-        { name: 'Bank', selector: (row) => row.bank_name, sortable: true },
-        { name: 'Notes', selector: (row) => row.reference, sortable: true },
+        { name: 'Bank',
+            sortable: false,
+            selector: (row) => row.bank_name, 
+         },
+        { name: 'Notes',
+                
+            selector: (row) => row.reference, 
+            sortable: false,
+        },
         {
             name: 'Amount',
+
             selector: (row) => `${currency} ${row.amount} `,
-            sortable: true
+            sortable: false,
         }
         ,
         // { name: 'Type', selector: (row) => row.type, sortable: true },
-        { name: 'Created Date', selector: (row) => row.created_date, sortable: true },
+        { name: 'Created Date', selector: (row) => row.created_date, sortable: false },
     ];
 
     if (isEditable) {

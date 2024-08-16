@@ -144,6 +144,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                         <span >Fuel</span>
                     </OverlayTrigger>
                 ),
+                sortable: false,
             selector: (row: FuelSalesData) => row.fuel_name,
             cell: (row: FuelSalesData) => <span>{row.fuel_name}</span>,
         },
@@ -156,6 +157,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                     <span >Fuel Price</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].fuel_price`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -179,6 +181,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                     <span >Sales Volume</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].sales_volume`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -202,6 +205,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                     <span >Gross Value</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].gross_value`}>
                     {({ field }: FieldProps) => (
@@ -215,6 +219,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                 </Field>
             ),
         },
+        
         {
             name: (
                 <OverlayTrigger
@@ -224,6 +229,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                     <span >Discount</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].discount`}>
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
@@ -248,6 +254,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                     <span >Nett Value</span>
                 </OverlayTrigger>
             ),
+            sortable: false,
             cell: (row: FuelSalesData, index: number) => (
                 <Field name={`data[${index}].nett_value`}>
                     {({ field }: FieldProps) => (

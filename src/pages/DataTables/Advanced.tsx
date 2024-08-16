@@ -692,11 +692,11 @@ const Basic = () => {
                         className="whitespace-nowrap table-hover"
                         records={recordsData}
                         columns={[
-                            { accessor: 'id', title: 'ID', sortable: true, render: ({ id }) => <strong className="text-info">#{id}</strong> },
+                            { accessor: 'id', title: 'ID',    sortable: false, render: ({ id }) => <strong className="text-info">#{id}</strong> },
                             {
                                 accessor: 'firstName',
                                 title: 'User',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ firstName, lastName }) => (
                                     <div className="flex items-center gap-2">
                                         <img src={`/assets/images/profile-${getRandomNumber(1, 34)}.jpeg`} className="w-9 h-9 rounded-full max-w-none" alt="user-profile" />
@@ -717,7 +717,7 @@ const Basic = () => {
                             {
                                 accessor: 'email',
                                 title: 'Email',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ email }) => (
                                     <a href={`mailto:${email}`} className="text-primary hover:underline">
                                         {email}

@@ -129,7 +129,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </OverlayTrigger>
             ),
             selector: (row) => row.name,
-            sortable: true,
+           sortable: false,
             cell: (row) => <span>{row.name}</span>
         },
         {
@@ -142,7 +142,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </OverlayTrigger>
             ),
             selector: (row) => row.notes,
-            sortable: true,
+           sortable: false,
             cell: (row) => (
                 <Form.Control
                     type="text"
@@ -164,7 +164,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </OverlayTrigger>
             ),
             selector: (row) => row.amount,
-            sortable: true,
+           sortable: false,
             cell: (row) => (
                 <Form.Control
                     type="text"

@@ -634,7 +634,7 @@ const RangeSearch = () => {
                             {
                                 accessor: 'firstName',
                                 title: 'Name',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ firstName, lastName }) => <div>{firstName + ' ' + lastName}</div>,
                             },
                             { accessor: 'company', title: 'Company', sortable: true },
@@ -642,7 +642,7 @@ const RangeSearch = () => {
                             {
                                 accessor: 'dob',
                                 title: 'Start Date',
-                                sortable: true,
+                                   sortable: false,
                                 render: ({ dob }) => <div>{formatDate(dob)}</div>,
                             },
                             { accessor: 'email', title: 'Email', sortable: true },
