@@ -11,12 +11,7 @@ import withApiHandler from '../../utils/withApiHandler';
 import { IRootState } from '../../store';
 import AddEditHistoryTankModal from './AddEditHistoryTankModal';
 import { currency } from '../../utils/CommonData';
-import SearchBar from '../../utils/SearchBar';
-import Flatpickr from 'react-flatpickr';
-import MonthFilter from '../../utils/MonthFilter';
-import MonthYearFilter from '../../utils/MonthFilter';
 import MonthYearInput from '../../utils/MonthFilter';
-import { handleDownloadPdf } from '../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 interface ManageSiteProps {
     isLoading: boolean;
@@ -428,7 +423,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                             )}
                             {hirstoryData?.debit && (
                                 <span className="badge bg-danger ltr:ml-0 rtl:mr-0 md:mx-3">
-                                    Dr {currency}{hirstoryData?.debit}
+                                    Db {currency}{hirstoryData?.debit}
                                 </span>
                             )}
 
