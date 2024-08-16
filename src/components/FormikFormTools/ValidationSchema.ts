@@ -255,6 +255,9 @@ export const credituserValidationSchema = (isEditMode: boolean) => {
         name: Yup.string()
             .required('Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
+            address: Yup.string()
+            .required('Address is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
         max_amount: Yup.string()
             .required('Value is required')
             .matches(/^[^\s]/, 'cannot start with a space'),

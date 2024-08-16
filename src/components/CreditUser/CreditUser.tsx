@@ -83,26 +83,13 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             if (clientId) {
                 formik.setFieldValue("client_id", clientId)
                 GetUserList(clientId)
-                // Simulate the change event to call handleClientChange
-                // handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
+          
             }
         }
 
         FetchRoleList();
     }, [currentPage]);
-    // useEffect(() => {
-    //     const storedKeyName = localStorage.getItem("stationTank");
 
-
-    //     if (localStorage.getItem("CreditUserID")) {
-    //         const clientId = localStorage.getItem("CreditUserID");
-    //         if (clientId) {
-    //             formik.setFieldValue("client_id", clientId)
-    //             GetUserList(clientId)
-    //         }
-    //     }
-
-    // }, [currentPage]);
 
 
     useEffect(() => {
@@ -112,12 +99,6 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
         if (storedDataString) {
             try {
                 const storedData = JSON.parse(storedDataString);
-
-
-                // Check for the existence of `start_month` or other necessary properties
-                // if (storedData.start_date) {
-                //   handleApplyFilters(storedData);
-                // }
 
 
                 if (storedData?.client_id) {
@@ -291,6 +272,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             formData.append('name', values.name);
             formData.append('max_amount', values.max_amount);
             formData.append('client_id', values.client_id);
+            formData.append('address', values.address);
             const skipDates = values?.selectedStations || [];
 
             if (skipDates.length === 0) {

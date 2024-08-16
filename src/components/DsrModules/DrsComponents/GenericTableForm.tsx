@@ -52,9 +52,7 @@ interface GenericTableFormProps {
     data: TankData[];
 
 }
-interface SalesVolumePerNozzle {
-    [nozzleName: string]: number;
-}
+
 
 // Validation schema
 const validationSchema = Yup.object({

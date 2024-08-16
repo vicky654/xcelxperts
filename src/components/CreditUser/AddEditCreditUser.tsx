@@ -127,19 +127,15 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                         value: report.id,
                         label: report.name,
                     }));
-                // client_id: '',
-                // name: '',
-                // phone_number: '',
-                // max_amount: '',
-                // selectedStations: [],
+          
                 formik.setFieldValue("selectedStations", checkedReports);
                 formik.setFieldValue('sites', userData?.stations);
                 formik.setFieldValue("client_id", userData?.client_id);
+                formik.setFieldValue("address", userData?.address);
                 formik.setFieldValue("name", userData?.name);
                 formik.setFieldValue("phone", userData?.phone);
                 formik.setFieldValue("max_amount", userData?.max_amount);
 
-                // formik.setValues(userData);
             }
         } catch (error) {
             handleApiError(error);
@@ -217,9 +213,10 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                                                 </Col>
                                                 <FormikInput formik={formik} type="text" name="name" label="Credit User Name" />
 
-                                                <FormikInput formik={formik} type="number" name="phone" label="Phone Number" />
+                                                <FormikInput formik={formik} type="number" name="phone" label="Phone Number"  isRequired={false}/>
 
                                                 <FormikInput formik={formik} type="number" name="max_amount" label="Max Amount" />
+                                                <FormikInput formik={formik} type="text" name="address" label="Address" />
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
