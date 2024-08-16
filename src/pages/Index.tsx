@@ -143,7 +143,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
             // Fetch data only if both client_id and company_id are present
             callFetchFilterData(filters);
         }
-        if (clientId && companyId && filters?.site_id) {
+        if (filters?.site_id) {
             // Fetch data only if both client_id and company_id are present
             GetFuelStats(filters?.site_id);
         }
