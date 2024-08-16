@@ -708,6 +708,7 @@ li.flexcenter.dataentrytab {
     height: 100%;
     background-color: #09469f;
     color: #fff;
+    flex-direction: column
 }
 
 .tablecardHeight {

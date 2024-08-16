@@ -5,6 +5,7 @@ import DataTable from 'react-data-table-component';
 import LoaderImg from '../../../utils/Loader';
 import useErrorHandler from '../../../hooks/useHandleError';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { capacity } from '../../../utils/CommonData';
 
 // Define your interfaces
 interface NozzleData {
@@ -32,6 +33,8 @@ interface NozzleData {
 interface TankData {
     id: string;
     tank_name: string;
+    capacity: string;
+    fuel_left: number;
     nozzles: NozzleData[];
 }
 
@@ -48,6 +51,9 @@ interface GenericTableFormProps {
     postData: (url: string, body: any) => Promise<any>;
     data: TankData[];
 
+}
+interface SalesVolumePerNozzle {
+    [nozzleName: string]: number;
 }
 
 // Validation schema
@@ -113,7 +119,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
     const columns = (tankIndex: number) => [
         {
-         
+
             name: (
                 <OverlayTrigger
                     placement="top"
@@ -252,7 +258,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-          
+
             name: (
                 <OverlayTrigger
                     placement="top"
@@ -276,7 +282,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-           
+
             name: (
                 <OverlayTrigger
                     placement="top"
@@ -299,7 +305,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-      
+
             name: (
                 <OverlayTrigger
                     placement="top"
@@ -323,7 +329,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
         },
         {
-          
+
             name: (
                 <OverlayTrigger
                     placement="top"
@@ -390,6 +396,14 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         }
     };
 
+    const calculateTotalSalesVolume = (tankName: string, tankData: any): number => {
+        const tank = tankData.find((t: any) => t.tank_name === tankName);
+        if (!tank) {
+            return 0; // Return 0 if the tank name is not found
+        }
+
+        return tank?.nozzles.reduce((total: any, nozzle: any) => total + nozzle?.sales_volume, 0);
+    };
     return (
         <Formik
             initialValues={{ data }}
@@ -397,37 +411,94 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             onSubmit={nozzlehandleSubmit}
             enableReinitialize
         >
-            {({ values, handleChange, setFieldValue }) => (
+            {({ values }) => (
                 <Form>
-                    {values?.data.map((tank, tankIndex) => (
-                        <div key={tank.id} className='mt-4'>
-                            <div className='flex'>
-                                <h3 className='FuelSaleContainer '>
-                                    <div className=' flex flex-col'>
-                                        <span className='ps-2' style={{ background: "#f6f8fa", padding: "15.5px 6px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
-                                        <span className='tank_name'> {tank.tank_name}</span>
-                                    </div>
+                    {values?.data.map((tank, tankIndex) => {
+                        const totalSalesVolume = calculateTotalSalesVolume(tank?.tank_name, values.data);
 
-                                </h3>
-                                <DataTable
-                                    columns={columns(tankIndex)}
-                                    className="custom-table-body"
-                                    data={tank.nozzles}
+                        return (
+                            <div key={tank.id} className='mt-4'>
+                                <div className='flex'>
+                                    {/* <h3 className='FuelSaleContainer'>
+                                        <div className='flex flex-col'>
+                                            <span
+                                                className='ps-2'
+                                                style={{
+                                                    background: "#f6f8fa",
+                                                    padding: "15.5px 6px",
+                                                    borderBottom: "1px solid #d8dadc",
+                                                }}
+                                            >
+                                                Tank
+                                            </span>
 
-                                    progressComponent={<LoaderImg />}
-                                />
+                                            <span className='tank_name'>
+                                                {tank.tank_name}
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={
+                                                        <Tooltip className='custom-tooltip' id="tooltip-variance">
+                                                            Fuel Left: {tank?.fuel_left} units<br />
+                                                            Capacity: {tank?.capacity} units
+                                                        </Tooltip>
+                                                    }
+                                                >
+                                                    <i className="fi fi-tr-comment-info mt-2"></i>
+                                                </OverlayTrigger>
+                                            </span>
+
+                                            <span className='ps-2'>
+                                                Total Sales Volume: {totalSalesVolume}
+                                            </span>
+                                        </div>
+                                    </h3> */}
+                                    <h3 className='FuelSaleContainer '>
+                                        <div className=' flex flex-col'>
+                                            <span className='ps-2' style={{ background: "#f6f8fa", padding: "15.5px 6px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
+                                            {/* <span className='tank_name'> {tank.tank_name}</span> */}
+                                            {/* <span className='ps-2'>
+                                                Total Sales Volume: {totalSalesVolume}
+                                            </span> */}
+                                            <span className='tank_name'>
+                                                {tank.tank_name}
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={
+                                                        <Tooltip className='custom-tooltip' id="tooltip-variance">
+                                                            Fuel Left : {tank?.fuel_left - totalSalesVolume} {capacity}<br />
+                                                            Capacity : {tank?.capacity} {capacity}
+                                                        </Tooltip>
+                                                    }
+                                                >
+                                                    <i className="fi fi-tr-comment-info mt-2"></i>
+                                                </OverlayTrigger>
+                                            </span>
+
+
+                                        </div>
+
+                                    </h3>
+                                    <DataTable
+                                        columns={columns(tankIndex)} // Ensure columns function is defined
+                                        className="custom-table-body"
+                                        data={tank.nozzles}
+                                        progressComponent={<LoaderImg />} // Ensure LoaderImg is defined
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
 
 
                     {iseditable && values?.data?.length > 0 && (
                         <button className='btn btn-primary mt-4' type="submit">Submit</button>
                     )}
-
                 </Form>
             )}
         </Formik>
+
+
+
     );
 };
 
