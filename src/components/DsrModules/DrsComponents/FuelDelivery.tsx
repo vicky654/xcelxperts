@@ -124,9 +124,6 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         const numericValue: any = parseFloat(value);
         setFieldValue(`data[${index}].${field}`, numericValue);
 
-        console.log(field, "field");
-
-
         // Update book_stock field if opening, delivery_volume, or sales_volume changes
         if (field === 'opening' || field === 'delivery_volume' || field === 'sales_volume') {
             // const opening = field === 'opening' ? numericValue : values.data[index].opening;
