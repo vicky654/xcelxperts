@@ -590,6 +590,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     font-size: 1rem;
     line-height: 1.5rem;
     --tw-shadow: 0 0 #0000;
+    min-width: 107px;
 }
 
 .multi-select>.dropdown-container {
@@ -708,7 +709,8 @@ li.flexcenter.dataentrytab {
     height: 100%;
     background-color: #09469f;
     color: #fff;
-    flex-direction: column
+    flex-direction: column;
+    padding: 0px 7px;
 }
 
 .tablecardHeight {
@@ -799,7 +801,7 @@ body {
     color: rgb(14 23 38 / var(--tw-text-opacity));
 }
 
-.updownDiv{
+.updownDiv {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -811,9 +813,10 @@ body {
     padding-right: 4px !important;
 
 }
+
 .doSrUc {
 
     padding-left: 4px !important;
     padding-right: 16px;
-   
+
 }

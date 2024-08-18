@@ -463,12 +463,12 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                                     placement="top"
                                                     overlay={
                                                         <Tooltip className='custom-tooltip' id="tooltip-variance">
-                                                            Fuel Left : {tank?.fuel_left - totalSalesVolume} {capacity}<br />
+                                                            Fuel Left : {tank?.fuel_left - totalSalesVolume ? tank?.fuel_left - totalSalesVolume : "0"} {capacity}<br />
                                                             Capacity : {tank?.capacity} {capacity}
                                                         </Tooltip>
                                                     }
                                                 >
-                                                    <i className="fi fi-tr-comment-info mt-2"></i>
+                                                    <i className="fi fi-tr-comment-info mt-2 pointer"></i>
                                                 </OverlayTrigger>
                                             </span>
 
