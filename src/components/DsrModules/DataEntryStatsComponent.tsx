@@ -343,7 +343,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6">
         <div className='panel h-full hidden md:block'>
           <CustomInput
             getData={getData}
@@ -402,7 +402,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
         </div>
 
-        <div className='panel h-full xl:col-span-3'>
+        <div className='panel h-full col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-bold text-lg dark:text-white-light">Data Entry Stats</h5>
             <div className="md:hidden flex ">
@@ -628,7 +628,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="w-1/2">{subItem?.name}</p>
                                   <p className="w-1/2">
                                     {selectedTab === 'Fuel Delivery'
-                                      ?  capacity + subItem?.delivery
+                                      ? capacity + subItem?.delivery
                                       : (selectedTab !== 'Fuel Variance'
                                         ? currency + subItem?.amount
                                         : capacity + subItem?.variance)}

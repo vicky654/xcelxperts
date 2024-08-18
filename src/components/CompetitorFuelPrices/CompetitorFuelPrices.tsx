@@ -281,7 +281,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
 
         }
     };
- 
+
 
     const validationSchemaForCustomInput = Yup.object({
         company_id: Yup.string().required("Entity is required"),
@@ -299,7 +299,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -315,7 +315,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
             {/* <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} /> */}
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6'>
                     <div className='panel h-full '>
 
 
@@ -325,7 +325,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                         
+
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
@@ -340,7 +340,7 @@ const CompetitorFuelPrices: React.FC<CompetitorFuelPricesProps> = ({ postData, g
 
 
                     </div>
-                    <div className='panel h-full xl:col-span-3'>
+                    <div className='panel h-full col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-bold text-lg dark:text-white-light"> Fuel Competitor Prices</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">

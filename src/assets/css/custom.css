@@ -590,7 +590,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     font-size: 1rem;
     line-height: 1.5rem;
     --tw-shadow: 0 0 #0000;
-    min-width: 107px;
+    min-width: 137px;
 }
 
 .multi-select>.dropdown-container {
@@ -827,4 +827,16 @@ body {
 
 .gjoprN {
     min-width: 117px !important;
+}
+
+@media (min-width: 1024px) {
+    .lg\:col-span-3 {
+        grid-column: span 3 / span 3;
+    }
+}
+
+@media (min-width: 768px) {
+    .lg\:col-span-3 {
+        grid-column: span 3 / span 3;
+    }
 }

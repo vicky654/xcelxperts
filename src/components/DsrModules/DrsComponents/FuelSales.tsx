@@ -41,7 +41,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, startDate, postData, getData, isLoading, applyFilters }) => {
+const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, startDate, postData, getData, isLoading, applyFilters }) => {
     const [data, setData] = useState<FuelSalesData[]>([]);
     const [Nozzledata, setNozzleData] = useState<any[]>([]);
     const [iseditable, setIsEditable] = useState(true);
@@ -56,10 +56,10 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
     }, [stationId, startDate]);
     useEffect(() => {
         if (itemDeleted) {
- 
-          handleApplyFilters(stationId, startDate);
+
+            handleApplyFilters(stationId, startDate);
         }
-      }, [itemDeleted]);
+    }, [itemDeleted]);
 
     const handleApplyFilters = async (stationId: string | null, startDate: string | null) => {
         try {
@@ -126,7 +126,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
         const discount = field === 'discount' ? numericValue : values.data[index].discount;
 
         const gross_value = sales_volume * fuel_price;
-        const nett_value = gross_value - discount; 
+        const nett_value = gross_value - discount;
 
         setFieldValue(`data[${index}].gross_value`, gross_value.toFixed(2));
         setFieldValue(`data[${index}].nett_value`, nett_value.toFixed(2));
@@ -134,17 +134,17 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
 
     const columns = [
         {
-            
-                                                                                                
-                name: (
-                    <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel</Tooltip>}
-                    >
-                        <span >Fuel</span>
-                    </OverlayTrigger>
-                ),
-                sortable: false,
+
+
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel</Tooltip>}
+                >
+                    <span >Fuel</span>
+                </OverlayTrigger>
+            ),
+            sortable: false,
             selector: (row: FuelSalesData) => row.fuel_name,
             cell: (row: FuelSalesData) => <span>{row.fuel_name}</span>,
         },
@@ -219,7 +219,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
                 </Field>
             ),
         },
-        
+
         {
             name: (
                 <OverlayTrigger
@@ -245,7 +245,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
             ),
         },
         {
-        
+
             name: (
                 <OverlayTrigger
                     placement="top"
@@ -271,7 +271,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId,itemDeleted, star
     ];
 
     const characterLimit = 20; // Set the character limit for the tooltip
-  
+
     return (
         <>
             {isLoading && <LoaderImg />}

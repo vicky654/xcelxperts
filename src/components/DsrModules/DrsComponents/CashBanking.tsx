@@ -47,7 +47,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
     useEffect(() => {
         if (stationId && startDate) {
-    
+
             handleApplyFilters(stationId, startDate);
         }
     }, [stationId, startDate]);
@@ -152,13 +152,15 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
 
     const columns: TableColumn<CashBankingItem>[] = [
-        { name: 'Bank',
+        {
+            name: 'Bank',
             sortable: false,
-            selector: (row) => row.bank_name, 
-         },
-        { name: 'Notes',
-                
-            selector: (row) => row.reference, 
+            selector: (row) => row.bank_name,
+        },
+        {
+            name: 'Notes',
+
+            selector: (row) => row.reference,
             sortable: false,
         },
         {

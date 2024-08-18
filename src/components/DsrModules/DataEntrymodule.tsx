@@ -262,13 +262,13 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6">
         <div className='panel h-full hidden md:block'>
           <CustomInput
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
-           
+
             showClientInput={true}
             showEntityInput={true}
             showStationInput={true}
@@ -331,10 +331,10 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         </div>
 
-        <div className='panel h-full xl:col-span-3'>
+        <div className='panel h-full col-span-3'>
           <div className="flex justify-between  mb-2">
             <h5 className="font-bold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
-        
+
             <div className="md:hidden flex ">
               <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                 Filter
@@ -342,7 +342,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             </div>
             {/* <hr></hr> */}
           </div>
-        <div>
+          <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
               {cards?.map((card) => (
                 <li key={card.id} className="w-1/8 inline-block">
@@ -389,7 +389,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               isLoading={isLoading}
               smallScreen={true}
               onApplyFilters={handleApplyFilters}
-            
+
               showClientInput={true}
               showEntityInput={true}
               showStationInput={true}

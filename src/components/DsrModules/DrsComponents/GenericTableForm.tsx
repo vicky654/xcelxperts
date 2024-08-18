@@ -394,14 +394,15 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         }
     };
 
-    const calculateTotalSalesVolume = (tankName: string, tankData: any): number => {
-        const tank = tankData.find((t: any) => t.tank_name === tankName);
+    const calculateTotalSalesVolume = (tankName: string, tankData: any[]): number => {
+        const tank = tankData.find(t => t.tank_name === tankName);
         if (!tank) {
             return 0; // Return 0 if the tank name is not found
         }
 
-        return tank?.nozzles.reduce((total: any, nozzle: any) => total + nozzle?.sales_volume, 0);
+        return tank.nozzles.reduce((total: number, nozzle: any) => total + Number(nozzle?.sales_volume || 0), 0);
     };
+
     return (
         <Formik
             initialValues={{ data }}
@@ -413,6 +414,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                 <Form>
                     {values?.data.map((tank, tankIndex) => {
                         const totalSalesVolume = calculateTotalSalesVolume(tank?.tank_name, values.data);
+
 
                         return (
                             <div key={tank.id} className='mt-4'>
@@ -463,7 +465,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                                     placement="top"
                                                     overlay={
                                                         <Tooltip className='custom-tooltip' id="tooltip-variance">
-                                                            Fuel Left : {tank?.fuel_left - totalSalesVolume ? tank?.fuel_left - totalSalesVolume : "0"} {capacity}<br />
+                                                            Fuel Left : {tank?.fuel_left - totalSalesVolume} {capacity}<br />
                                                             Capacity : {tank?.capacity} {capacity}
                                                         </Tooltip>
                                                     }

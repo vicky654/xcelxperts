@@ -157,13 +157,13 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
             </div>
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6'>
                     <div className="panel h-full hidden md:block">
                         <CustomInput
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                    
+
                             showClientInput={true} // or false
                             showEntityInput={true} // or false
                             showStationInput={false} // or false
@@ -206,7 +206,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                             ''
                         )}
                     </div>
-                    <div className="panel h-full xl:col-span-3">
+                    <div className="panel h-full col-span-3">
                         <div className="flex md:items-center w-100 mb-5 justify-between">
                             <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Sale</h5>
                             {/* <div className="ltr:ml-auto rtl:mr-auto">
@@ -255,7 +255,8 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                                 getData={getData}
                                 isLoading={isLoading}
                                 onApplyFilters={handleApplyFilters}
-                              
+
+
                                 showClientInput={true} // or false
                                 showEntityInput={true} // or false
                                 showStationInput={false} // or false

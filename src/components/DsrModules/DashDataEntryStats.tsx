@@ -253,9 +253,9 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
       const formattedDate = formatDate(date);
       const formattedTab = convertTabName(selectedTab);
       const endpoint = formattedTab === 'digital-receipt' ? 'payments' : formattedTab;
-      
+
       const response = await getData(`/daily-stats/${endpoint}?station_id=${stationId}&drs_date=${formattedDate}`);
-      
+
       // const response = await getData(`/daily-stats/${formattedTab}?station_id=${stationId}&drs_date=${formattedDate}`);
       if (response && response.data && response.data.data) {
         setSubData(response.data?.data?.listing);
@@ -321,7 +321,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   return <>
     {isLoading && <LoaderImg />}
     <div className="flex justify-between items-center">
-  
+
       <ul className="flex space-x-2 rtl:space-x-reverse my-2">
         <li>
           <Link to="/dashboard" className="text-primary hover:underline">
@@ -340,13 +340,13 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
     </div>
 
     <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6">
         <div className='panel h-full '>
           <DashboardFilter
             getData={getData}
             isLoading={isLoading}
             onApplyFilters={handleApplyFilters}
-         
+
             showClientInput={true}
             showEntityInput={true}
             showStationInput={true}
@@ -363,7 +363,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
         </div>
 
-        <div className='panel h-full xl:col-span-3'>
+        <div className='panel h-full col-span-3'>
           <div className="flex justify-between  ">
             <h5 className="font-bold text-lg dark:text-white-light">Data Entry Stats</h5>
 
@@ -414,7 +414,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                   <div className="flex items-center mt-2">
                     {/* <div style={{ color: "#fff" }} className=" font-bold ltr:mr-3 rtl:ml-3 "> {currency} {tabData?.currentMonth} </div> */}
                     <div style={{ color: "#fff" }} className="font-bold ltr:mr-3 rtl:ml-3">
-                    {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} {tabData?.currentMonth}
+                      {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} {tabData?.currentMonth}
                     </div>
                     {/* <span>  <i className="fi fi-tr-caret-up "></i></span> */}
                     <div
@@ -589,19 +589,19 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                               <li className="flex flex-wrap justify-between p-2 bg-gray-200">
                                 <p className="font-semibold w-1/2 min-w-[150px]">Name</p>
                                 <p className="font-semibold w-1/2 min-w-[150px]"> {selectedTab === 'Fuel Delivery' ? 'Delivery'
-                                    : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
-                               </p>
+                                  : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
+                                </p>
                               </li>
                               {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                 <li key={subIndex} className="flex flex-wrap justify-between p-2 hover:bg-gray-100">
                                   <p className="w-1/2 min-w-[150px]">{subItem?.name}</p>
                                   <p className="w-1/2 min-w-[150px]">
-                                  {selectedTab === 'Fuel Delivery'
-                                      ?  capacity + subItem?.delivery
+                                    {selectedTab === 'Fuel Delivery'
+                                      ? capacity + subItem?.delivery
                                       : (selectedTab !== 'Fuel Variance'
                                         ? currency + subItem?.amount
                                         : capacity + subItem?.variance)}
-                                   </p>
+                                  </p>
                                 </li>
                               ))}
                             </ul>
@@ -629,7 +629,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
 
-     
+
 
           </div>
         </div>
@@ -637,7 +637,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
       </div>
       {stationId && selectedTab !== 'Variance Accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
-       
+
 
           <div className='panel h-full xl:col-span-3'>
             <div className="flex justify-between  ">

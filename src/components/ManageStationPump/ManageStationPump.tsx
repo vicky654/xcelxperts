@@ -246,7 +246,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             setUserId(id);
 
         } catch (error) {
-               handleApiError(error);
+            handleApiError(error);
         }
     };
 
@@ -318,7 +318,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
-                        <Link  to="/dashboard"  className="text-primary hover:underline">
+                        <Link to="/dashboard" className="text-primary hover:underline">
                             Dashboard
                         </Link>
                     </li>
@@ -334,7 +334,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
             <AddEditStationPumpModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6'>
                     <div className='panel h-full '>
 
 
@@ -342,7 +342,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-                        
+
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
@@ -359,7 +359,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
 
 
                     </div>
-                    <div className='panel h-full xl:col-span-3'>
+                    <div className='panel h-full col-span-3'>
                         <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                             <h5 className="font-bold text-lg dark:text-white-light"> Stations Pump</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
