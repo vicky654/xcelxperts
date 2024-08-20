@@ -370,10 +370,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
 
                 </h1>
-
-
-
-
             </div>
             <div className="mt-6">
                 {/* Container for the row */}
@@ -382,7 +378,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         {casheditable &&
                             <div className="col-span-1 bg-white border  shadow-lg p-3  ">
 
-                                <h2 className="text-lg font-semibold mb-4"> Cash Inhand       </h2>
+                                <h2 className="text-lg font-semibold mb-4"> Cash In Hand       </h2>
                                 <hr className='mb-2'></hr>
                                 {/* //Cash Value */}
 
