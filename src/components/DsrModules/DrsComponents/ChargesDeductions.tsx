@@ -31,7 +31,10 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
                     setIsdownloadpdf(response.data.data?.download_pdf);
+                    const repeatedCharges = Array(5).fill(charges);
                     setCharges(charges);
+                    const repeatedeductions = Array(1).fill(deductions);
+                    // setCharges(repeatedCharges);
                     setDeductions(deductions);
                     setIsEditable(is_editable);
                 } else {
@@ -129,7 +132,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </OverlayTrigger>
             ),
             selector: (row) => row.name,
-           sortable: false,
+            sortable: false,
             cell: (row) => <span>{row.name}</span>
         },
         {
@@ -142,7 +145,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </OverlayTrigger>
             ),
             selector: (row) => row.notes,
-           sortable: false,
+            sortable: false,
             cell: (row) => (
                 <Form.Control
                     type="text"
@@ -164,7 +167,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </OverlayTrigger>
             ),
             selector: (row) => row.amount,
-           sortable: false,
+            sortable: false,
             cell: (row) => (
                 <Form.Control
                     type="text"
@@ -209,12 +212,14 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     <div className="col-span-12 md:col-span-12">
                         <h2 className="text-lg font-semibold mb-4">Extra Income</h2>
                         {charges && charges.length > 0 ? (
+                                <div className="datatables">
                             <DataTable
                                 columns={columns}
                                 data={charges}
-                                className="tablecardHeight"
+                                // className="tablecardHeight"
 
                             />
+                            </div>
                         ) : (
                             <div className="all-center-flex">
                                 <img
@@ -228,14 +233,14 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     <div className="col-span-12 md:col-span-12">
                         <h2 className="text-lg font-semibold mb-4">Expenses</h2>
                         {deductions && deductions.length > 0 ? (
+                            <div className="datatables">
                             <DataTable
                                 columns={columns}
                                 data={deductions}
-
-                                className="tablecardHeight"
-
+                                // className="tablecardHeight"
 
                             />
+                            </div>
                         ) : (
                             <div className="all-center-flex">
                                 <img
