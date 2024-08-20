@@ -298,6 +298,9 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.id, name: item?.name }))}
                                                     className="form-select text-white-dark"
                                                 />
+                                                <FormikInput formik={formik} type="text" name="sap_code" label="SAP Code" placeholder="SAP Code" isRequired={false} />
+                                                <FormikInput formik={formik} type="text" name="dealer_code" label="Dealer Code" placeholder="Dealer Code" isRequired={false} />
+
                                                 <div>
                                                     <label htmlFor="file">Site Logo <span className="text-danger">*</span></label>
                                                     <input type="file" id="file" name="file" onChange={handleFileChange} className='form-input' />
@@ -312,8 +315,6 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
                                                 <FormikTextArea formik={formik} name="station_address" label="Station Address" placeholder="Station Address" />
 
-                                                <FormikInput formik={formik} type="text" name="sap_code" label="SAP Code" placeholder="SAP Code" isRequired={false} />
-                                                <FormikInput formik={formik} type="text" name="dealer_code" label="Dealer Code" placeholder="Dealer Code" isRequired={false} />
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

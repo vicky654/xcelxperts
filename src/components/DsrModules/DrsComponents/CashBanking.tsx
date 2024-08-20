@@ -841,7 +841,11 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     </div>
                                 )}
                             </div>
-                        ) : ""
+                        ) : <>   <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="all-center-flex nodata-image"
+                    /></>
 
                         }
                     </div>

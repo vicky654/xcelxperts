@@ -94,9 +94,8 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
     onSubmit: async (values, { resetForm }) => {
       try {
         await onSubmit(values, formik);
-     
       } catch (error) {
-        console.error('Submit error:', error);
+        
         throw error; // Rethrow the error to be handled by the caller
       }
     },
@@ -148,7 +147,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
                           className="form-select text-white-dark"
                           isRequired={true}
                         />
-                        <FormikInput formik={formik} type="text" name="pan" label="Pan" placeholder="Pan" isRequired={false} />
+                        <FormikInput formik={formik} type="text" name="pan" label="PAN" placeholder="PAN" isRequired={false} />
                         <FormikInput formik={formik} type="text" name="esi_reg_no" label="ESI Reg No" placeholder="ESI Reg No"  isRequired={false}/>
                         <FormikInput formik={formik} type="text" name="pf_reg_no" label="PF Reg No" placeholder="PF Reg No" isRequired={false} />
                         <FormikInput formik={formik} type="text" name="gst" label="GST" placeholder="GST" isRequired={false} />

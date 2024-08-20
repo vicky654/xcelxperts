@@ -352,7 +352,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const closeModal = () => {
     setIsFilterModalOpen(false);
   }
-  console.log(filters, "filters");
+
 
   return <>
     {isLoading && <LoaderImg />}
