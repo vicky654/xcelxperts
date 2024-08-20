@@ -20,7 +20,7 @@ interface CashBankingItem {
     id: string;
     reference: string;
     amount: string;
-    cash_value: string;
+    cash_inhand: string;
     station_bank_id: string;
     bank_name: string;
     type: string;
@@ -37,6 +37,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const handleApiError = useErrorHandler();
     const [cashBankingData, setCashBankingData] = useState<CashBankingItem[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
+    const [casheditable, setcasheditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const [cashvalue, setcashvalue] = useState("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -58,14 +59,15 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             const response = await getData(`/data-entry/cash-banking?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
 
-                const { listing, is_editable } = response.data.data;
-                // formik.setFieldValue("cash_value", response.data?.data?.cash_value)
+                const { listing, is_editable, cash_editable } = response.data.data;
+                cashValueFormik.setFieldValue("cash_inhand", response.data?.data?.cash_inhand)
                 setRoleList(response?.data?.data?.bankLists);
                 setcashvalue(response.data?.data?.cash_value)
                 setReceipts(response.data?.data?.receipts);
                 setCashBankingData(listing);
                 setIsdownloadpdf(response.data.data?.download_pdf);
                 setIsEditable(is_editable);
+                setcasheditable(cash_editable);
             } else {
                 throw new Error('No data available in the response');
             }
@@ -100,7 +102,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             reference: '',
             station_bank_id: '',
             amount: '',
-            cash_value: '',
+            cash_inhand: '',
             update_amount: true,
         },
         validationSchema,
@@ -150,7 +152,37 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         },
     });
 
+    const cashValueFormik = useFormik({
+        initialValues: {
+            cash_inhand: '',
+        },
+        validationSchema: Yup.object({
+            cash_inhand: Yup.number()
+                .required('Amount is required')
+                .max(100000, 'Cash value cannot exceed 1 lakh'),
+        }),
+        onSubmit: async (values) => {
+            try {
+                const formData = new FormData();
+                formData.append('amount', values.cash_inhand);
+                if (stationId && startDate) {
+                    formData.append('drs_date', startDate);
+                    formData.append('station_id', stationId);
+                }
 
+                const url = `/data-entry/cash-inhand/update`;
+                const isSuccess = await postData(url, formData);
+
+                if (stationId && startDate) {
+                    // applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Bank Deposited" });
+                    handleApplyFilters(stationId, startDate);
+                }
+                formik.resetForm();
+            } catch (error) {
+                handleApiError(error);
+            }
+        },
+    });
     const columns: TableColumn<CashBankingItem>[] = [
         {
             name: 'Bank',
@@ -346,161 +378,217 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             <div className="mt-6">
                 {/* Container for the row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {/* First column with dummy data */}
-                    <div className="col-span-1 bg-white border  shadow-lg p-3  ">
-                        <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                    <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
-                                        Cash Available For Banking
-                                    </Tooltip>
-                                }
-                            >
-                                <span>({currency}{cashvalue})</span>
-                            </OverlayTrigger>
-                        ) : (
-                            ''
-                        )} </h2>
-                        {/* End Upload Bank Deposited */}
-                        {/* Start Edit Bank Deposited */}
-                        {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
-                            <div className="mb-6 mt-6 ">
+                    <div>
+                        {casheditable &&
+                            <div className="col-span-1 bg-white border  shadow-lg p-3  ">
 
+                                <h2 className="text-lg font-semibold mb-4"> Cash Inhand       </h2>
+                                <hr className='mb-2'></hr>
+                                {/* //Cash Value */}
 
-
-                                <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                <form onSubmit={cashValueFormik.handleSubmit}>
                                     <div className="grid grid-cols-12 gap-4">
-                                        <div className="col-span-12 md:col-span-4">
-                                            <FormikSelect
-                                                formik={formik}
-                                                name="station_bank_id"
-                                                label="Bank"
-                                                options={RoleList?.map((item) => ({ id: item?.id, name: `${item?.bank_name} - ${item.account_no}` }))}
-                                                className="form-select text-white-dark"
-                                            />
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4">
-                                            <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
-                                            <input
-                                                type="text"
-                                                name="reference"
-                                                placeholder="Notes"
-                                                value={formik.values.reference}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                            {formik.touched.reference && formik.errors.reference ? (
-                                                <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                            ) : null}
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4">
-                                            <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                        <div className="col-span-4 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
                                             <input
                                                 type="number"
-                                                name="amount"
+                                                name="cash_inhand"
+                                                className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
+                                                readOnly={!isEditable}
                                                 placeholder="Amount"
-                                                value={formik.values.amount}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                value={cashValueFormik.values.cash_inhand}
+                                                onChange={cashValueFormik.handleChange}
+                                                onBlur={cashValueFormik.handleBlur}
+                                            // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                             />
-                                            {formik.touched.amount && formik.errors.amount ? (
-                                                <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                            {cashValueFormik.touched.cash_inhand && cashValueFormik.errors.cash_inhand ? (
+                                                <div className="text-red-600 text-sm">{cashValueFormik.errors.cash_inhand}</div>
                                             ) : null}
                                         </div>
-                                        <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
-                                            <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
-                                            <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
-                                        </div>
+                                        {isEditable && <div className="col-span-4 md:col-span-4">
+                                            <button className="px-4 py-2 mt-7 bg-blue-600 text-white rounded-md btn btn-primary" type="submit">Submit</button>
+                                        </div>}
                                     </div>
+
+
                                 </form>
 
+
+                                {/* // End Cash Value */}
                             </div>
-                        )}
-                        {/* End Edit Bank Deposited */}
-                        {/* Start Add Bank Deposited */}
-                        {!selectedCashBanking && isEditable && (
-                            <div className="mb-3">
+                        }
+                        {/* First column with dummy data */}
+                        <div className="col-span-1 bg-white border  shadow-lg p-3  ">
 
 
 
-                                <form onSubmit={formik.handleSubmit} className="space-y-4">
-                                    <div className="grid grid-cols-12 gap-4">
-                                        <div className="col-span-12 md:col-span-4">
-                                            <FormikSelect
-                                                formik={formik}
-                                                name="station_bank_id"
-                                                label="Bank"
-                                                options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
-                                                className="form-select text-white-dark"
-                                            />
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4">
-                                            <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
-                                            <input
-                                                type="text"
-                                                name="reference"
-                                                placeholder="Notes"
-                                                value={formik.values.reference}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                            {formik.touched.reference && formik.errors.reference ? (
-                                                <div className="text-red-600 text-sm">{formik.errors.reference}</div>
-                                            ) : null}
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4">
-                                            <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
-                                            <input
-                                                type="number"
-                                                name="amount"
-                                                placeholder="Amount"
-                                                value={formik.values.amount}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                            {formik.touched.amount && formik.errors.amount ? (
-                                                <div className="text-red-600 text-sm">{formik.errors.amount}</div>
-                                            ) : null}
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4 flex items-end">
-                                            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-                        )}
-                        <hr className='mb-2'></hr>
-                        {loading ? (
-                            <>
-                                {LoaderImg}
-                            </>
-                        ) : (
-                            cashBankingData?.length === 0 ? (
-                                <img
-                                    src={noDataImage} // Use the imported image directly as the source
-                                    alt="no data found"
-                                    className="all-center-flex nodata-image"
-                                />
+                            <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                        <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
+                                            Cash Available For Banking
+                                        </Tooltip>
+                                    }
+                                >
+                                    <span>({currency}{cashvalue})</span>
+                                </OverlayTrigger>
                             ) : (
+                                ''
+                            )} </h2>
 
-                                <DataTable
-                                    columns={columns}
-                                    data={cashBankingData}
-                                // pagination
-                                />
-                            )
-                        )}
+
+
+
+
+
+
+
+
+                            <hr className='mt-4 mb-4'></hr>
+
+
+                            {/* End Upload Bank Deposited */}
+                            {/* Start Edit Bank Deposited */}
+                            {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
+                                <div className="mb-6 mt-6 ">
+
+
+
+                                    <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                        <div className="grid grid-cols-12 gap-4">
+                                            <div className="col-span-12 md:col-span-4">
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="station_bank_id"
+                                                    label="Bank"
+                                                    options={RoleList?.map((item) => ({ id: item?.id, name: `${item?.bank_name} - ${item.account_no}` }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
+                                                <input
+                                                    type="text"
+                                                    name="reference"
+                                                    placeholder="Notes"
+                                                    value={formik.values.reference}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                                {formik.touched.reference && formik.errors.reference ? (
+                                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                                ) : null}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                                <input
+                                                    type="number"
+                                                    name="amount"
+                                                    placeholder="Amount"
+                                                    value={formik.values.amount}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                                {formik.touched.amount && formik.errors.amount ? (
+                                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                                ) : null}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4 flex items-end space-x-4">
+                                                <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md btn btn-primary">Update</button>
+                                                <button type="button" onClick={handleEditcancel} className="px-4 py-2 bg-red-600 text-white rounded-md btn btn-danger">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            )}
+                            {/* End Edit Bank Deposited */}
+                            {/* Start Add Bank Deposited */}
+                            {!selectedCashBanking && isEditable && (
+                                <div className="mb-3">
+
+
+
+                                    <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                        <div className="grid grid-cols-12 gap-4">
+                                            <div className="col-span-12 md:col-span-4">
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="station_bank_id"
+                                                    label="Bank"
+                                                    options={RoleList?.map((item) => ({ id: item.id, name: `${item.bank_name} - ${item.account_no}` }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">Notes <span className="text-danger">*</span></label>
+                                                <input
+                                                    type="text"
+                                                    name="reference"
+                                                    placeholder="Notes"
+                                                    value={formik.values.reference}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                                {formik.touched.reference && formik.errors.reference ? (
+                                                    <div className="text-red-600 text-sm">{formik.errors.reference}</div>
+                                                ) : null}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">Amount {currency} <span className="text-danger">*</span></label>
+                                                <input
+                                                    type="number"
+                                                    name="amount"
+                                                    placeholder="Amount"
+                                                    value={formik.values.amount}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                                {formik.touched.amount && formik.errors.amount ? (
+                                                    <div className="text-red-600 text-sm">{formik.errors.amount}</div>
+                                                ) : null}
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4 flex items-end">
+                                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md btn btn-primary">Add</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            )}
+                            <hr className='mb-2'></hr>
+                            {loading ? (
+                                <>
+                                    {LoaderImg}
+                                </>
+                            ) : (
+                                cashBankingData?.length === 0 ? (
+                                    <img
+                                        src={noDataImage} // Use the imported image directly as the source
+                                        alt="no data found"
+                                        className="all-center-flex nodata-image"
+                                    />
+                                ) : (
+
+                                    <DataTable
+                                        columns={columns}
+                                        data={cashBankingData}
+                                    // pagination
+                                    />
+                                )
+                            )}
+                        </div>
                     </div>
 
                     {/* Second column with dummy data */}
                     <div className="col-span-1 bg-white border  shadow-lg p-3 ">
                         <h2 className="text-lg font-semibold mb-4"> Bank Deposited Receipts </h2>
+                        <hr className='mb-2'></hr>
                         {receipts.length > 0 || isEditable ? (
                             <div className="col-span-12  ">
 
