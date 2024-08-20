@@ -833,7 +833,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 showStationInput={true}
                 showStationValidation={true}
                 validationSchema={validationSchemaForCustomInput}
-                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
                 isOpen={false}
                 onClose={() => { }}
                 showDateInput={false}
