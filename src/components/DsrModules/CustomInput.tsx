@@ -307,11 +307,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
                         )}
                     </div>
                 </div>
-                <div className={`btn-group mt-4 w-full ${fullWidthButton ? 'w-full' : ''}`}>
+                <div className={`btn-group mt-4  ${fullWidthButton ? 'w-full' : ''}`}>
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="btn btn-primary  w-full">
+                        className={`btn btn-primary ${fullWidthButton ? 'w-full' : ''}  `}>
                         Apply
                     </button>
                 </div>

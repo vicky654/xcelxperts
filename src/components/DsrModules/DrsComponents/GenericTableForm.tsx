@@ -145,7 +145,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             )
                         }
                     >
-                        <span>{displayText}</span>
+                        <span className='ms-2'>{displayText}</span>
                     </OverlayTrigger>
                 );
             },

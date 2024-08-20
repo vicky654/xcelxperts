@@ -148,9 +148,38 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
   };
+  const [filters, setFilters] = useState<any>({
+    client_id: localStorage.getItem('client_id') || '',
+    company_id: localStorage.getItem('company_id') || '',
+    site_id: localStorage.getItem('site_id') || '',
+  });
+
   useEffect(() => {
     // Select the first card by default if cards have data
+    const stationTank = localStorage.getItem('stationTank');
+    console.log(stationTank, "stationTank");
+    if (stationTank) {
+      const parsedData = JSON.parse(stationTank);
+      console.log(parsedData.client_id, "parsedData.client_id");
+      setFilters({
+        client_id: parsedData.client_id || '',
+        company_id: parsedData.entity_id || '',
+        site_id: parsedData.station_id || '',
+        // You can include more fields as needed:
+        client_name: parsedData.client_name || '',
+        entity_name: parsedData.entity_name || '',
+        start_date: parsedData.start_date || '',
+        start_month: parsedData.start_month || '',
+        station_name: parsedData.station_name || '',
+        clients: parsedData.clients || [],
+        companies: parsedData.companies || [],
+        sites: parsedData.sites || [],
+      });
+    }
     if (cards?.length > 0) {
+
+
+
       setSelectedCardName(cards[0]?.name);
     }
   }, [cards]);
@@ -180,6 +209,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
     try {
+      console.log(values, "values");
       setFilters(values)
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
@@ -316,17 +346,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleGraphTabClick = (tabName: any) => {
     graphsetSelectedTab(tabName);
   };
-  const [filters, setFilters] = useState<any>({
-    client_id: localStorage.getItem('client_id') || '',
-    company_id: localStorage.getItem('company_id') || '',
-    site_id: localStorage.getItem('site_id') || '',
-  });
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const closeModal = () => {
     setIsFilterModalOpen(false);
   }
+  console.log(filters, "filters");
 
   return <>
     {isLoading && <LoaderImg />}
@@ -385,9 +411,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <span className="font-semibold">Station :</span> {filters?.station_name}
                 </div>
               )}
-              {filters?.start_date && (
+              {filters?.start_month && (
                 <div className="badge bg-gray-600 flex items-center gap-2 px-2 py-1 ">
-                  <span className="font-semibold"> Date :</span> {filters?.start_date}
+                  <span className="font-semibold"> Month :</span> {filters?.start_month}
                 </div>
               )}
             </div>
@@ -838,6 +864,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 onClose={() => { }}
                 showDateInput={false}
                 showMonthInput={true}
+                fullWidthButton={false}
                 storedKeyName={storedKeyName}
               />
             ) : (
@@ -855,6 +882,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 isOpen={false}
                 onClose={() => { }}
                 showDateInput={false}
+                fullWidthButton={false}
                 showMonthInput={true}
                 storedKeyName={storedKeyName}
               />

@@ -369,7 +369,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         <>
             {isLoading && <LoaderImg />}
 
-            <div>
+            <div className="w-full">
                 <h1 className="text-lg font-semibold mb-4 ">{`Fuel Stock`} {startDate ? `(${startDate})` : ''}</h1>
 
                 {data.length > 0 ? (
@@ -380,7 +380,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                         enableReinitialize
                     >
                         {({ values }) => (
-                            <Form>
+                            <Form className="w-full">
                                 <FieldArray
                                     name="data"
                                     render={() => (
@@ -395,6 +395,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                                     },
                                                 },
                                             }}
+                                            style={{ width: '100%' }}
                                         />
                                     )}
                                 />

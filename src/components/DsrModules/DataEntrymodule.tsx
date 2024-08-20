@@ -458,6 +458,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               onClose={() => { }}
               showDateInput={true}
               showMonthInput={false}
+              fullWidthButton={false}
               storedKeyName={storedKeyName}
             />
 
