@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import TableWithFormik from './TableWithFormik';
 import IconX from '../Icon/IconX';
+import { currency } from '../../utils/CommonData';
 
 interface ManageStationFuelSellingProps {
     isLoading: boolean;
@@ -208,7 +209,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                     </div>
                     <div className="panel h-full col-span-3">
                         <div className="flex md:items-center w-100 mb-5 justify-between">
-                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Sale</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Sale ( {currency} )</h5>
                             {/* <div className="ltr:ml-auto rtl:mr-auto">
                                 <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
                             </div> */}

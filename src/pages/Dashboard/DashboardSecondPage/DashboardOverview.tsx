@@ -114,7 +114,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         // Check if client_id and company_id are present in local storage
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-    
+
         if (IsClientLogin?.isClient) {
             callFetchFilterData(filters);
             callFetchDetailsData(filters);
@@ -123,7 +123,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             callFetchDetailsData(filters);
         }
     }, [filters]);
-    
+
 
 
 
@@ -134,9 +134,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             company_id: values.company_id,
             site_id: values.site_id
         };
-   
+
         setFilters(updatedFilters);
- 
+
         localStorage.setItem('client_id', values.client_id);
         localStorage.setItem('company_id', values.company_id);
         localStorage.setItem('site_id', values.site_id);
@@ -178,9 +178,45 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         const updatedFilterss = {
             client_id: clientId,
             company_id: companyId,
-            site_id: item.id,
+            site_id: item?.id,
+            station_id: item?.id,
+            entity_id: companyId,
             start_month: currentMonth // Include the current month in the filters
         };
+
+        // client_id
+        // :
+        // "MkJWd25aSTlDekVwcWg4azgrNVh3UT09"
+        // client_name
+        // :
+        // "Tejinder Goyal"
+        // clients
+        // :
+        // [,…]
+        // companies
+        // :
+        // [{ id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09", entity_name: "Tejinder Goyal Enterprises" }]
+        // entity_id
+        // :
+        // "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09"
+        // entity_name
+        // :
+        // "Tejinder Goyal Enterprises"
+        // sites
+        // :
+        // [{ id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09", name: "Tejinder Goyal Enterprises",… }]
+        // start_date
+        // :
+        // "2024-08-16"
+        // start_month
+        // :
+        // "2024-07"
+        // station_id
+        // :
+        // "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09"
+        // station_name
+        // :
+        // "Tejinder Goyal Enterprises"
 
         // Store the updated filters object in localStorage
         localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
@@ -256,9 +292,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {secondApiResponse?.sales_volume?.sales_volume} </div>
-                         
+
                             </div>
-                         
+
                             <div style={{ color: secondApiResponse?.sales_volume?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.sales_volume?.status === 'up'
@@ -299,9 +335,9 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
                             <div className="flex items-center mt-5">
                                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.profit?.profit} </div>
-                            
+
                             </div>
-                          
+
 
                             <div style={{ color: secondApiResponse?.profit?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
