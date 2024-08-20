@@ -212,13 +212,13 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     <div className="col-span-12 md:col-span-12">
                         <h2 className="text-lg font-semibold mb-4">Extra Income</h2>
                         {charges && charges.length > 0 ? (
-                                <div className="datatables">
-                            <DataTable
-                                columns={columns}
-                                data={charges}
+                            <div className="datatables">
+                                <DataTable
+                                    columns={columns}
+                                    data={charges}
                                 // className="tablecardHeight"
 
-                            />
+                                />
                             </div>
                         ) : (
                             <div className="all-center-flex">
@@ -234,12 +234,12 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                         <h2 className="text-lg font-semibold mb-4">Expenses</h2>
                         {deductions && deductions.length > 0 ? (
                             <div className="datatables">
-                            <DataTable
-                                columns={columns}
-                                data={deductions}
+                                <DataTable
+                                    columns={columns}
+                                    data={deductions}
                                 // className="tablecardHeight"
 
-                            />
+                                />
                             </div>
                         ) : (
                             <div className="all-center-flex">

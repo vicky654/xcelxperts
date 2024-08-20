@@ -407,7 +407,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     />
                                 )}
                             />
-                            <footer> {isEditable && <button type="submit" className=" btn btn-primary submit-button">
+                            <footer> {isEditable && <button type="submit" className=" btn btn-primary submit-button mt-3">
                                 Submit
                             </button>}</footer>
 

@@ -16,6 +16,7 @@ interface Service {
     credit_user_id: string;
     amount: string;
     quantity: string;
+    vehicle_no: string;
     fuel_sub_category_id: string;
 }
 
@@ -54,6 +55,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                     {
                         credit_user_id: '',
                         amount: '',
+                        vehicle_no: '',
                         fuel_sub_category_id: '',
                     },
                 ];
@@ -68,6 +70,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             {
                 credit_user_id: '',
                 amount: '',
+                vehicle_no: '',
                 quantity: '',
                 fuel_sub_category_id: '',
             },
@@ -100,6 +103,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 formData.append(`credit_user_id[${index}]`, service.credit_user_id);
                 formData.append(`amount[${index}]`, service.amount);
                 formData.append(`quantity[${index}]`, service.quantity);
+                formData.append(`vehicle_no[${index}]`, service.vehicle_no);
                 formData.append(`fuel_sub_category_id[${index}]`, service.fuel_sub_category_id);
             });
 
@@ -215,6 +219,13 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         formik.setFieldValue(`services[${index}].quantity`, value);
         const amount = calculateAmount(formik.values.services[index].fuel_sub_category_id, value);
         formik.setFieldValue(`services[${index}].amount`, amount);
+    };
+    const handleVehicleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const { value } = e.target;
+        formik.setFieldValue(`services[${index}].vehicle_no`, value);
+        const amount = calculateAmount(formik.values.services[index].fuel_sub_category_id, value);
+        console.log(amount, "amount");
+        // formik.setFieldValue(`services[${index}].amount`, amount);
     };
 
     // Calculate total amount on component mount and when formik values change
@@ -362,6 +373,40 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                formik.touched.services?.[index]?.quantity && (
                                  <div className="text-red-500 text-sm mt-1">
                                    <span>Quantity is required</span>
+                                 </div>
+                               )}
+                           </div>
+                         </div>
+                         <div className="w-full lg:w-2/12 flex flex-col">
+                           <label
+                             htmlFor={`services[${index}].vehicle_no`}
+                             className="block text-sm font-medium text-gray-700"
+                           >
+                             Vehicle No 
+                           </label>
+                           <input
+                             type="text"
+                             id={`services[${index}].vehicle_no`}
+                             name={`services[${index}].vehicle_no`}
+                             value={formik.values.services[index].vehicle_no}
+                             placeholder="Vehicle No"
+                             onChange={formik.handleChange}
+                            //  value={formik.values.services[index].vehicle_no}
+                            //  onChange={(e) => handleVehicleChange(e, index)}
+                             onBlur={formik.handleBlur}
+                             disabled={!iseditable}
+                             className={`form-input text-white-dark mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ${
+                               !iseditable ? "readonly" : ""
+                             }`}
+                             style={{ height: "42px" }} // Fixed height for consistent layout
+                           />
+                           <div
+                             style={{ height: "22px" }} // Fixed height for error message space
+                           >
+                             {formik.errors.services?.[index]?.vehicle_no &&
+                               formik.touched.services?.[index]?.vehicle_no && (
+                                 <div className="text-red-500 text-sm mt-1">
+                                   <span>vehicle_no is required</span>
                                  </div>
                                )}
                            </div>

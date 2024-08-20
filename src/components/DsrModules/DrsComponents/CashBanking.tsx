@@ -159,7 +159,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         validationSchema: Yup.object({
             cash_inhand: Yup.number()
                 .required('Amount is required')
-                .max(100000, 'Cash value cannot exceed 1 lakh'),
+                .max(1000000, 'Cash value cannot exceed 10 lakh'),
         }),
         onSubmit: async (values) => {
             try {
