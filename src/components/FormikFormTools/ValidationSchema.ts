@@ -230,10 +230,10 @@ export const cardValidationSchema = (isEditMode: boolean) => {
 export const deductionstValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         deduction_name: Yup.string()
-            .required('Deduction Name is required')
+            .required('Expenses Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
         deduction_code: Yup.string()
-            .required('Deduction Code is required')
+            .required('Expenses Code is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };

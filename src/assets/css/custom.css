@@ -288,6 +288,18 @@ border-color: none;
     justify-content: center;
     align-items: center;
 }
+.flexend {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+
+.flexspacebetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .labelclick {
     cursor: pointer;
@@ -860,4 +872,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 13px;
 
+}
+
+.sc-dAbbbq.jaZrIV.rdt_TableBody {
+    overflow: hidden !important;
 }

@@ -126,7 +126,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const columns: any = [
         // Other columns
         {
-            name: 'Deduction Name',
+            name: 'Expenses Name',
             selector: (row: RowData) => row.deduction_name,
             sortable: false,
             width: '20%',
@@ -139,7 +139,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             ),
         },
         {
-            name: 'Deduction Code',
+            name: 'Expenses Code',
             selector: (row: RowData) => row.deduction_code,
             sortable: false,
             width: '20%',

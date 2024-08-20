@@ -20,6 +20,8 @@ import { languageContent } from '../../utils/Languages/LanguageTextComponent';
 import { IRootState } from '../../store';
 import useCustomDelete from '../../utils/customDelete';
 import IconX from '../Icon/IconX';
+import Tippy from '@tippyjs/react';
+import IconRefresh from '../Icon/IconRefresh';
 
 
 interface ManageSiteProps {
@@ -241,11 +243,14 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     setIsFilterModalOpen(false);
   }
 
-
+  const handleResetFilters = async () => {
+    console.log("columnIndex");
+  };
 
   return <>
     {isLoading && <LoaderImg />}
-    <div className="flex justify-between items-center">
+    <div className="flexspacebetween">
+
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
           <Link to="/dashboard" className="text-primary hover:underline">
@@ -258,45 +263,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           {/* {languageContent[currentLanguage as keyof typeof languageContent].dashboardLink} */}
         </li>
       </ul>
-    </div>
-
-
-    <div className="mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6">
-        <div className='panel h-full hidden md:block'>
-          <CustomInput
-            getData={getData}
-            isLoading={isLoading}
-            onApplyFilters={handleApplyFilters}
-
-            showClientInput={true}
-            showEntityInput={true}
-            showStationInput={true}
-            showStationValidation={true}
-            validationSchema={validationSchemaForCustomInput}
-            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-            isOpen={false}
-            onClose={() => { }}
-            fullWidthButton={true}
-            showDateInput={true}
-            // showDateInput={true}
-            storedKeyName={storedKeyName}
-          />
-
-
-          {SelectedComponent && isDeletePermissionAvailable ? (
-            <>
-              <hr className='m-2' />
-              <div className='text-end'>
-                <button className='btn btn-danger' style={{ width: "100%" }} onClick={handleDeleteDataEntry}>Delete Data
-                </button>
-              </div>
-            </>
-          ) : null}
-
-        </div>
-
-        <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
+      {/* <div className=" flexend  flex justify-end flex-col gap-4 flex-wrap">
           {filters?.client_name || filters?.entity_name || filters?.station_name ? (
             <>
               <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
@@ -329,18 +296,113 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           )}
 
 
-        </div>
+        </div> */}
+      <div className=" flex gap-4 flex-wrap">
+
+
+        {filters?.client_name || filters?.entity_name || filters?.station_name ? (
+          <>
+            <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
+              {filters?.client_id && (
+                <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold">Client :</span> {filters?.client_name}
+                </div>
+              )}
+
+              {filters?.entity_name && (
+                <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold">Entity : </span> {filters?.entity_name}
+                </div>
+              )}
+
+              {filters?.station_name && (
+                <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold">Station :</span> {filters?.station_name}
+                </div>
+              )}
+              {filters?.start_date && (
+                <div className="badge bg-gray-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold"> Date :</span> {filters?.start_date}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+
+        <button onClick={() => setIsFilterModalOpen(true)} type="button" className="btn btn-dark ">
+          Apply Filter
+        </button>
+        {SelectedComponent && isDeletePermissionAvailable ? (
+              <>
+            <button onClick={handleDeleteDataEntry}>
+              <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
+                <Tippy content="Delete Data">
+                  <span className="btn bg-danger btn-danger">
+                    {/* <IconRefresh className="w-6 h-6" /> */}
+                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
+                  </span>
+                </Tippy>
+              </div>
+            </button>
+            </>
+            ) : null}
+
+        {/* {modalOpen && (
+    <>
+        <DashboardFilterModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onApplyFilters={handleApplyFilters} // Pass the handler to the modal
+        />
+    </>
+)} */}
+      </div>
+    </div>
+
+
+    <div className="mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
+        
+        {/* <div className='panel h-full hidden md:block'>
+          <CustomInput
+            getData={getData}
+            isLoading={isLoading}
+            onApplyFilters={handleApplyFilters}
+
+            showClientInput={true}
+            showEntityInput={true}
+            showStationInput={true}
+            showStationValidation={true}
+            validationSchema={validationSchemaForCustomInput}
+            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+            isOpen={false}
+            onClose={() => { }}
+            fullWidthButton={true}
+            showDateInput={true}
+            // showDateInput={true}
+            storedKeyName={storedKeyName}
+          />
+
+
+          {SelectedComponent && isDeletePermissionAvailable ? (
+            <>
+              <hr className='m-2' />
+              <div className='text-end'>
+                <button className='btn btn-danger' style={{ width: "100%" }} onClick={handleDeleteDataEntry}>Delete Data
+                </button>
+              </div>
+            </>
+          ) : null}
+
+        </div> */}
+
+
 
         <div className='panel h-full col-span-3'>
           <div className="flex justify-between  mb-2">
             <h5 className="font-bold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
-
-            <div className="md:hidden flex ">
-              <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                Filter
-              </button>
-            </div>
-            {/* <hr></hr> */}
           </div>
           <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">
@@ -382,20 +444,18 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
               <IconX />
             </button>
           </div>
-
-          <div className='p-6'>
+          <div className='p-6 pt-0'>
             <CustomInput
               getData={getData}
               isLoading={isLoading}
               smallScreen={true}
               onApplyFilters={handleApplyFilters}
-
               showClientInput={true}
               showEntityInput={true}
               showStationInput={true}
               showStationValidation={true}
               validationSchema={validationSchemaForCustomInput}
-              layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+              layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
               isOpen={false}
               onClose={() => { }}
               showDateInput={true}
@@ -404,7 +464,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             />
 
 
-            {SelectedComponent && isDeletePermissionAvailable ? (
+            {/* {SelectedComponent && isDeletePermissionAvailable ? (
               <>
                 <hr className='m-2' />
                 <div className='text-end'>
@@ -412,9 +472,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                   </button>
                 </div>
               </>
-            ) : null}
+            ) : null} */}
           </div>
-
         </div>
       </div>
     )}
