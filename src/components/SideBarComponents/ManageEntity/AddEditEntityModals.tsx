@@ -76,6 +76,10 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
           entity_details: userData.entity_details || '',
           start_month: userData.start_month || '',
           end_month: userData.end_month || '',
+          pan: userData.pan || '',
+          gst: userData.gst || '',
+          pf_reg_no: userData.pf_reg_no || '',
+          esi_reg_no: userData.esi_reg_no || '',
         });
       }
     } catch (error) {
@@ -128,7 +132,6 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
                         <FormikInput formik={formik} type="text" name="website" label="Website" placeholder="Website" />
                         <FormikInput formik={formik} type="text" name="address" label="Address" placeholder="Address" />
                         <FormikInput formik={formik} type="text" name="entity_details" label="Entity Details" placeholder="Entity Details" />
-
                         <FormikSelect
                           formik={formik}
                           name="start_month"
@@ -145,6 +148,13 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
                           className="form-select text-white-dark"
                           isRequired={true}
                         />
+                        <FormikInput formik={formik} type="text" name="pan" label="Pan" placeholder="Pan" isRequired={false} />
+                        <FormikInput formik={formik} type="text" name="esi_reg_no" label="ESI Reg No" placeholder="ESI Reg No"  isRequired={false}/>
+                        <FormikInput formik={formik} type="text" name="pf_reg_no" label="PF Reg No" placeholder="PF Reg No" isRequired={false} />
+                        <FormikInput formik={formik} type="text" name="gst" label="GST" placeholder="GST" isRequired={false} />
+                       
+
+                 
 
                         <div className="sm:col-span-2 mt-3">
                           <button type="submit" className="btn btn-primary">

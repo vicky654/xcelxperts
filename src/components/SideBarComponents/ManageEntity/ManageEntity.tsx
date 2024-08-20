@@ -56,10 +56,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
     const [lastPage, setLastPage] = useState(1);
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    // useEffect(() => {
-    //     fetchData();
 
-    // }, [searchTerm, currentPage]);
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         // Perform search logic here
@@ -276,6 +273,10 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             formData.append('entity_details', values.entity_details);
             formData.append('start_month', values.start_month);
             formData.append('end_month', values.end_month);
+            formData.append('gst', values.gst);
+            formData.append('pan', values.pan);
+            formData.append('esi_reg_no', values.esi_reg_no);
+            formData.append('pf_reg_no', values.pf_reg_no);
             if (userId) {
                 formData.append('entity_id', userId);
             }

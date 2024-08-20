@@ -46,6 +46,10 @@ export const clientInitialValues = {
 
 };
 export const companyInitialValues = {
+  pan: '',
+  esi_reg_no: '',
+  gst: '',
+  pf_reg_no: '',
   company_name: '',
   company_code: '',
   website: '',
