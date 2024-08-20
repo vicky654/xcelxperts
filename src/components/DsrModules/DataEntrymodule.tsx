@@ -188,10 +188,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
 
   const handleDeleteDataEntry = async () => {
-    setitemDeleted(true);
-
-    // Reset the flag after a brief period (optional)
-    setTimeout(() => setitemDeleted(false), 1000);
+    // setitemDeleted(true);
+    // setTimeout(() => setitemDeleted(false), 1000);
     try {
       const formData = new FormData();
       if (stationId && startDate) {
@@ -201,7 +199,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
       const url = `data-entry/delete-data`;
 
-      await customDelete(postData, url, formData, handleSuccess, "You will not be able to recover this item!", "Are you suredd?");
+      await customDelete(postData, url, formData, handleSuccess, "You will not be able to recover this item!", "Are you sure?");
     } catch (error) {
       handleApiError(error);
     }
@@ -335,7 +333,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           Apply Filter
         </button>
         {SelectedComponent && isDeletePermissionAvailable ? (
-              <>
+          <>
             <button onClick={handleDeleteDataEntry}>
               <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
                 <Tippy content="Delete Data">
@@ -346,8 +344,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                 </Tippy>
               </div>
             </button>
-            </>
-            ) : null}
+          </>
+        ) : null}
 
         {/* {modalOpen && (
     <>
