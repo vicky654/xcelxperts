@@ -300,7 +300,23 @@ border-color: none;
     justify-content: space-between;
     align-items: center;
 }
-
+.flexspacebetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* @media (min-width: 768px) {
+    .flexspacebetween {
+      display: block;
+    }
+  } */
+  @media (max-width: 768px) {
+    .flexspacebetween {
+      display: block;
+    }
+  }
+  
 .labelclick {
     cursor: pointer;
     background: #ddd;

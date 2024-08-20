@@ -249,7 +249,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
   return <>
     {isLoading && <LoaderImg />}
-    <div className="flexspacebetween">
+    <div className="flexspacebetween ">
 
       <ul className="flex space-x-2 rtl:space-x-reverse">
         <li>
@@ -364,7 +364,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
-        
+
         {/* <div className='panel h-full hidden md:block'>
           <CustomInput
             getData={getData}
