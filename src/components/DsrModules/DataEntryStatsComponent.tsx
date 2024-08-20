@@ -14,6 +14,7 @@ import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IconX from '../Icon/IconX';
+import DashboardFilter from './DashboardFilter';
 interface ManageSiteProps {
   isLoading: boolean;
   getData: (url: string) => Promise<any>;
@@ -94,11 +95,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
   const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
-  
+
   const { id } = useParams();
   const keyName = id ? DashboardstoredKeyName : storedKeyName;
   useEffect(() => {
-    
+
     const storedDataString = localStorage.getItem(keyName);
 
 
@@ -331,7 +332,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     {isLoading && <LoaderImg />}
 
     <div className="flexspacebetween ">
-    {id ? (
+      {id ? (
         <ul className="flex space-x-2 rtl:space-x-reverse my-2">
           <li>
             <Link to="/dashboard" className="text-primary hover:underline">
@@ -411,7 +412,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 )} */}
       </div>
     </div>
-    
+
 
 
     <div className="mt-6">
@@ -438,7 +439,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
         </div> */}
 
-{/* 
+        {/* 
         <div className=" flex justify-end flex-col gap-4 flex-wrap">
           {filters?.client_name || filters?.entity_name || filters?.station_name ? (
             <>
@@ -820,24 +821,44 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           </div>
 
           <div className='p-6'>
-            <CustomInput
-              getData={getData}
-              isLoading={isLoading}
-              smallScreen={true}
-              onApplyFilters={handleApplyFilters}
 
-              showClientInput={true}
-              showEntityInput={true}
-              showStationInput={true}
-              showStationValidation={true}
-              validationSchema={validationSchemaForCustomInput}
-             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
-              isOpen={false}
-              onClose={() => { }}
-              showDateInput={false}
-              showMonthInput={true}
-              storedKeyName={storedKeyName}
-            />
+
+            {id ? (
+              <DashboardFilter
+                getData={getData}
+                isLoading={isLoading}
+                onApplyFilters={handleApplyFilters}
+                showClientInput={true}
+                showEntityInput={true}
+                showStationInput={true}
+                showStationValidation={true}
+                validationSchema={validationSchemaForCustomInput}
+                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+                isOpen={false}
+                onClose={() => { }}
+                showDateInput={false}
+                showMonthInput={true}
+                storedKeyName={storedKeyName}
+              />
+            ) : (
+              <CustomInput
+                getData={getData}
+                isLoading={isLoading}
+                smallScreen={true}
+                onApplyFilters={handleApplyFilters}
+                showClientInput={true}
+                showEntityInput={true}
+                showStationInput={true}
+                showStationValidation={true}
+                validationSchema={validationSchemaForCustomInput}
+                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
+                isOpen={false}
+                onClose={() => { }}
+                showDateInput={false}
+                showMonthInput={true}
+                storedKeyName={storedKeyName}
+              />
+            )}
           </div>
 
         </div>
