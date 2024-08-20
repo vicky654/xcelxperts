@@ -7,51 +7,125 @@ import noDataImage from '../../assets/AuthImages/noDataFound.png'; // Import the
 import useErrorHandler from '../../hooks/useHandleError';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import LoaderImg from '../../utils/Loader';
+import withApiHandler from '../../utils/withApiHandler';
+import * as Yup from 'yup';
 import CustomInput from '../ManageStationTank/CustomInput';
 import AddEditStationFuelPurchaseModal from './AddEditStationFuelPurchaseModal';
-import { Formik, Form, Field, FieldArray, FieldProps } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { MultiSelect } from 'react-multi-select-component';
+import { FormGroup } from 'react-bootstrap';
+import showMessage from '../../hooks/showMessage';
 import { IRootState } from '../../store';
 import IconX from '../Icon/IconX';
-import { currency } from '../../utils/CommonData';
-import { CommonDataEntryProps } from '../commonInterfaces';
-import withApiHandler from '../../utils/withApiHandler';
 
-interface FuelDeliveryData {
-    id: string;
-    fuel_name: string;
-    tank_name: string;
-    platts_price: string;
-    opening: number;
-    delivery_volume: number;
-    sales_volume: number;
-    book_stock: number;
-    dips_stock: number;
-    variance: number;
-    update_opening: boolean;
-    update_delivery_volume: boolean;
-    update_sales_volume: boolean;
-    update_book_stock: boolean;
-    update_dips_stock: boolean;
-    update_variance: boolean;
+interface ManageStationFuelPurchaseProps {
+    isLoading: boolean;
+    getData: (url: string) => Promise<any>;
+    postData: (url: string, body: any) => Promise<any>;
+    // onSubmit: (values: any, formik: any) => Promise<void>;
 }
-
 interface FormValues {
-    data: FuelDeliveryData[];
+    start_date(arg0: string, start_date: any): unknown;
+    length: number;
+    data: any;
+    // isLoading: boolean;
+    // getData: (url: string) => Promise<any>;
+    // postData: (url: string, body: any) => Promise<any>;
+    // onSubmit: (values: any, formik: any) => Promise<void>;
 }
 
-const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, getData, isLoading }) => {
-    const [data, setData] = useState<FuelDeliveryData[]>([]);
-    const [isEditable, setIsEditable] = useState(true);
+
+interface RowData {
+    id: string; // Change type from number to string
+    full_name: string;
+    role: string;
+    addons: string;
+    created_date: string;
+    status: number;
+    station_status: number;
+    station_name: string;
+    station_code: string;
+    station_address: string;
+    getData: any;
+}
+
+interface ColData {
+    id: string; // Change type from number to string
+    fuel_name: string; // Change type from number to string
+    platts_price: string; // Change type from number to string
+
+}
+
+const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ postData, getData, isLoading }) => {
+    const [data, setData] = useState<RowData[]>([]);
     const [stationData, setstationData] = useState<any>();
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [editUserData, setEditUserData] = useState<Partial<FuelDeliveryData> | null>(null);
+    const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
+    const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     let storedKeyName = "stationTank";
+
+
+
+
+
+
+    useEffect(() => {
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            setstationData(JSON.parse(storedData))
+            handleApplyFilters(JSON.parse(storedData));
+        }
+        dispatch(setPageTitle('Alternative Pagination Table'));
+    }, [dispatch, currentPage]);
+    const handleSuccess = () => {
+        // fetchData();
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            setstationData(JSON.parse(storedData))
+            handleApplyFilters(JSON.parse(storedData));
+        }
+    };
+
+
+
+
+
+    const handlePageChange = (newPage: any) => {
+        setCurrentPage(newPage);
+    };
+
+    const validationPurchaseSchema = Yup.object().shape({
+        selected: Yup.array()
+            .of(Yup.string()) // Assuming station IDs are strings; adjust as per your data type
+            .min(1, 'Please select at least one station')
+            .required('Please select at least one station'),
+    });
+
+
+
+    const formik = useFormik({
+        initialValues: {} as any,
+        // validationSchema: getStationValidationSchema(isEditMode),
+        onSubmit: async (values, { resetForm }) => {
+            try {
+            } catch (error) {
+                console.error('Submit error:', error);
+                throw error; // Rethrow the error to be handled by the caller
+            }
+        },
+    });
+
+
+
+
 
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
@@ -64,203 +138,287 @@ const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, g
 
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
-   
-    useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
-        if (storedData) {
-            setstationData(JSON.parse(storedData));
-            handleApplyFilters(JSON.parse(storedData));
-        }
-        dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
-
-    const handleApplyFilters = async (values: any) => {
-        setstationData(values);
-        const apiURL = `station/fuel/purchase-price?client_id=${values?.client_id}&entity_id=${values?.entity_id}&station_id=${values?.station_id}&date=${values?.start_date}`;
-        try {
-            const response = await getData(apiURL);
-            if (response && response.data && response.data.data) {
-                setData(response.data.data);
-                // setIsFilterModalOpen(false);
-            } else {
-                throw new Error('No data available in the response');
-            }
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
-
-    const handleFieldChange = (
-        setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-        values: FormValues,
-        index: number,
-        field: string,
-        value: any
-    ) => {
-        const numericValue: number = parseFloat(value);
-        setFieldValue(`data[${index}].${field}`, numericValue);
-
-        // Update book_stock and variance based on changes
-        if (field === 'opening' || field === 'delivery_volume' || field === 'sales_volume') {
-            const opening = field === 'opening' ? numericValue : values.data[index].opening;
-            const delivery_volume = field === 'delivery_volume' ? numericValue : values.data[index].delivery_volume;
-            const sales_volume = field === 'sales_volume' ? numericValue : values.data[index].sales_volume;
-
-            const newBookStock = opening + delivery_volume - sales_volume;
-            setFieldValue(`data[${index}].book_stock`, newBookStock.toFixed(2));
-
-            const dips_stock = values.data[index].dips_stock;
-            const newVariance = dips_stock - newBookStock;
-            setFieldValue(`data[${index}].variance`, newVariance.toFixed(2));
-        }
-
-        if (field === 'dips_stock') {
-            const newVariance = numericValue - values.data[index].book_stock;
-            setFieldValue(`data[${index}].variance`, newVariance.toFixed(2));
-        }
-    };
-
-    const columns = [
-        // Define columns here
+    const columns: any = [
         {
-            name: 'Fuel',
-            selector: (row: FuelDeliveryData) => row.fuel_name,
-            cell: (row: FuelDeliveryData) => <span>{row.fuel_name}</span>,
-        },
-    
-        {
-            name: 'Price',
-            cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].platts_price`}>
-                    {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
-                        <div className="relative">
-                            <input
-                                type="number"
-                                placeholder='value'
-                                {...field}
-                                className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
-                                // readOnly={!row.update_opening}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'platts_price', e.target.value)}
-                            />
-                        </div>
-                    )}
-                </Field>
+            name: "FUEL NAME",
+            selector: (row: ColData) => row.fuel_name,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+            cell: (row: ColData) => (
+                <span className="text-muted fs-15 fw-semibold text-center">
+                    {row.fuel_name !== undefined ? `${row.fuel_name}` : ""}
+                </span>
             ),
         },
         {
-            name: 'platts_price',
-            cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].ex_vat_price`}>
-                    {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
-                        <div className="relative">
-                            <input
-                                type="number"
-                                placeholder='value'
-                                {...field}
-                                className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
-                                // readOnly={!row.update_ex_vat_price}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'ex_vat_price', e.target.value)}
-                            />
-                        </div>
-                    )}
-                </Field>
+            name: "PLATTS",
+            selector: (row: ColData) => row.platts_price,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: ColData, index: number) => (
+                <div>
+                    <input
+                        type="number"
+                        id={`platts_price-${index}`}
+                        name={`[${index}].platts_price`}
+                        className="table-input form-input"
+                        step="0.01"
+                        value={row?.platts_price}
+                        // value={
+                        //     formik?.values && formik.values.[index]?.platts_price
+                        // }
+                        onChange={formik.handleChange}
+                        onBlur={(e) => {
+                            formik.handleBlur(e);
+                            calculateSum(index);
+                        }}
+                    />
+                </div>
             ),
         },
         {
-            name: 'total',
-            cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].total`}>
-                    {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
-                        <div className="relative">
-                            <input
-                                type="number"
-                                placeholder='value'
-                                {...field}
-                                className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
-                                // readOnly={!row.update_total}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'total', e.target.value)}
-                            />
-                        </div>
-                    )}
-                </Field>
-            ),
+            name: "PREMIUM",
+
+            selector: (row: any) => row.premium_price,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: any, index: any) =>
+                row.fuel_name === "Total" ? (
+                    <h4 className="bottom-toal">{row.premium_price}</h4>
+                ) : (
+                    <div>
+                        <input
+                            type="number"
+                            step="0.01"
+                            id={`premium_price-${index}`}
+                            name={`[${index}].premium_price`}
+                            className="table-input form-input"
+                            value={row?.premium_price}
+                            onChange={formik.handleChange}
+                            onBlur={(e) => {
+                                formik.handleBlur(e);
+                                calculateSum(index);
+                            }}
+                        />
+                        {/* Error handling code */}
+                    </div>
+                ),
         },
         {
-            name: 'vat_percentage_rate',
-            cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].vat_percentage_rate`}>
-                    {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
-                        <div className="relative">
-                            <input
-                                type="number"
-                                placeholder='value'
-                                {...field}
-                                className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
-                                // readOnly={!row.update_vat_percentage_rate}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'vat_percentage_rate', e.target.value)}
-                            />
-                        </div>
-                    )}
-                </Field>
-            ),
+            name: "	DEVELOPMENT FUELS ",
+            selector: (row: any) => row.development_fuels_price,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: any, index: any) =>
+                row.fuel_name === "Total" ? (
+                    <h4 className="bottom-toal">{row.development_fuels_price}</h4>
+                ) : (
+                    <div>
+                        <input
+                            type="number"
+                            step="0.01"
+                            id={`development_fuels_price-${index}`}
+                            name={`[${index}].development_fuels_price`}
+                            className="table-input form-input"
+                            value={row?.development_fuels_price}
+                            onChange={formik.handleChange}
+                            onBlur={(e) => {
+                                formik.handleBlur(e);
+                                calculateSum(index);
+                            }}
+                        />
+                        {/* Error handling code */}
+                    </div>
+                ),
         },
-        // Define other columns similarly
+        {
+            name: "DUTY ",
+            selector: (row: any) => row.duty_price,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: any, index: any) =>
+                row.fuel_name === "Total" ? (
+                    <h4 className="bottom-toal">{row.duty_price}</h4>
+                ) : (
+                    <div>
+                        <input
+                            type="number"
+                            step="0.01"
+                            id={`duty_price-${index}`}
+                            name={`[${index}].duty_price`}
+                            className="table-input form-input"
+                            value={row?.duty_price}
+                            onChange={formik.handleChange}
+                            onBlur={(e) => {
+                                formik.handleBlur(e);
+                                calculateSum(index);
+                            }}
+                        />
+                        {/* Error handling code */}
+                    </div>
+                ),
+        },
+
+        {
+            name: "EX VAT",
+            selector: (row: any) => row.ex_vat_price,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: any, index: any) =>
+                row.fuel_name === "Total" ? (
+                    <h4 className="bottom-toal">{row.ex_vat_price}</h4>
+                ) : (
+                    <div>
+                        <input
+                            type="number"
+                            step="0.01"
+                            id={`ex_vat_price-${index}`}
+                            name={`[${index}].ex_vat_price`}
+                            className="table-input readonly form-input"
+                            value={row?.ex_vat_price}
+                            onChange={formik.handleChange}
+                            readOnly
+                            onBlur={formik.handleBlur}
+                        />
+                        {/* Error handling code */}
+                    </div>
+                ),
+        },
+        {
+            name: "VAT %",
+            selector: (row: any) => row.vat_percentage_rate,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: any, index: any) =>
+                row.fuel_name === "Total" ? (
+                    <h4 className="bottom-toal">{row.vat_percentage_rate}</h4>
+                ) : (
+                    <div>
+                        <input
+                            type="number"
+                            step="0.01"
+                            id={`vat_percentage_rate-${index}`}
+                            name={`[${index}].vat_percentage_rate`}
+                            className="table-input form-input"
+                            value={row?.vat_percentage_rate}
+                            onChange={formik.handleChange}
+                            onBlur={(event) => {
+                                formik.handleBlur(event);
+                                sendEventWithName1(event, "vat_percentage_rate", index); // Call sendEventWithName1 with the event, name, and index parameters
+                            }}
+                        />
+                        {/* Error handling code */}
+                    </div>
+                ),
+        },
+        {
+            name: "TOTAL",
+            selector: (row: any) => row.total,
+            sortable: false,
+            width: "12.5%",
+            center: true,
+
+            cell: (row: any, index: any) =>
+                row.fuel_name === "Total" ? (
+                    <h4 className="bottom-toal">{row.total}</h4>
+                ) : (
+                    <div>
+                        <input
+                            type="number"
+                            id={`total-${index}`}
+                            name={`data[${index}].total`}
+                            className="table-input readonly form-input"
+                            value={row?.total}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            readOnly
+                        />
+                        {/* Error handling code */}
+                    </div>
+                ),
+        },
+
+        // ... remaining columns
     ];
 
-    const handleSubmit = async (values: FormValues) => {
-        try {
-            const formData = new FormData();
-            values.data.forEach((obj: any) => {
-                if (obj.id) {
-                    formData.append(`opening[${obj.id}]`, obj.opening.toString());
-                    formData.append(`delivery_volume[${obj.id}]`, obj.delivery_volume.toString());
-                    formData.append(`sales_volume[${obj.id}]`, obj.sales_volume.toString());
-                    formData.append(`book_stock[${obj.id}]`, obj.book_stock.toString());
-                    formData.append(`dips_stock[${obj.id}]`, obj.dips_stock.toString());
-                    formData.append(`variance[${obj.id}]`, obj.variance.toString());
-                }
-            });
 
-            const url = `data-entry/fuel-delivery/update`;
-            const isSuccess = await postData(url, formData);
-            if (isSuccess) {
-                handleApplyFilters(stationData);
-            }
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
-
-    const validationSchema = Yup.object().shape({
-        data: Yup.array().of(
-            Yup.object().shape({
-                opening: Yup.number().required('Required'),
-                delivery_volume: Yup.number().required('Required'),
-                sales_volume: Yup.number().required('Required'),
-                book_stock: Yup.number().required('Required'),
-                dips_stock: Yup.number().required('Required'),
-                variance: Yup.number().required('Required'),
-            })
-        ),
-    });
-
-
-    
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
         setIsFilterModalOpen(false);
-    };    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    };
 
-    const [filters, setFilters] = useState<any>({
-        client_id: '',
-        company_id: '',
-        site_id: '',
-    });
+    const handleFormSubmit = async (values: any, selected: any) => {
 
 
-    
+        try {
+            const formData = new FormData();
+
+            formData.append("platts_price", values.platts);
+            formData.append("premium_price", values.premium);
+            formData.append("development_fuels_price", values.development_fuels_price);
+            formData.append("duty_price", values.duty_price);
+            formData.append("vat_percentage_rate", values.vat_percentage_rate);
+            formData.append("ex_vat_price", values.ex_vat_price);
+            formData.append("total", values.total);
+            formData.append("date", values.date);
+            formData.append("fuel_id", values.fuel_id);
+
+
+            values?.selectedStations?.forEach((selected: any, index: any) => {
+                formData.append(`station_id[${index}]`, selected.value);
+            });
+            if (userId) {
+                formData.append('id', userId);
+            }
+
+            const url = isEditMode && userId ? `/station/fuel/purchase-price/update` : `/station/fuel/purchase-price/create`;
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
+                handleSuccess();
+                closeModal();
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+    const handleApplyFilters = async (values: any) => {
+        setSelected([])
+
+        setstationData(values)
+        setFilters(values)
+
+        const apiURL = `station/fuel/purchase-price?client_id=${values?.client_id}&entity_id=${values?.entity_id}&station_id=${values?.station_id}&date=${values?.start_date}`
+        try {
+            const response = await getData(apiURL);
+            if (response && response.data && response.data.data) {
+                if (response && response?.data) {
+                    formik.setValues(response.data.data)
+                    setIsFilterModalOpen(false);
+                }
+            } else {
+                throw new Error('No data available in the response');
+            }
+        } catch (error) {
+            handleApiError(error);
+
+        }
+    };
+
 
     const validationSchemaForCustomInput = Yup.object({
         client_id: isNotClient
@@ -272,9 +430,134 @@ const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, g
     });
 
 
-    const handleFormSubmit = () =>{
-        console.log( "columnIndex");
+    const handleSubmitForm1 = async (event: any) => {
+        event.preventDefault();
+        if (
+            selected === undefined ||
+            selected === null ||
+            (Array?.isArray(selected) && selected?.length === 0)
+        ) {
+            showMessage("Pleaseeeee select at least one site", 'error');
+        }
+
+        // Check if at least one site is selected
+        if (!selected || selected?.length === 0) {
+            showMessage("Please select at least one site", 'error');
+            return; // Exit the function if no site is selected
+        }
+
+
+        try {
+            const formData = new FormData();
+            formik?.values?.forEach((obj: any) => {
+                const id = obj.id;
+                const platts_price = `platts_price[${id}]`;
+                const premium_price = `premium_price[${id}]`;
+                const development_fuels_price = `development_fuels_price[${id}]`;
+                const duty_price = `duty_price[${id}]`;
+                const vat_percentage_rate = `vat_percentage_rate[${id}]`;
+                const total = `total[${id}]`;
+                const ex_vat_price = `ex_vat_price[${id}]`;
+
+                const platts_price_Value = obj.platts_price;
+                const premium_price_discount = obj.premium_price;
+                const development_fuels_price_nettValue = obj.development_fuels_price;
+                const ex_vat_price_price = obj.ex_vat_price;
+                const vat_percentage_rate_price = obj.vat_percentage_rate;
+
+                const total_values = obj.total;
+                const duty_price_salesValue = obj.duty_price;
+                // const action = obj.action;
+
+                formData.append(platts_price, platts_price_Value);
+                formData.append(premium_price, premium_price_discount);
+                formData.append(
+                    development_fuels_price,
+                    development_fuels_price_nettValue
+                );
+                formData.append(duty_price, duty_price_salesValue);
+                formData.append(vat_percentage_rate, vat_percentage_rate_price);
+                formData.append(ex_vat_price, ex_vat_price_price);
+                formData.append(total, total_values);
+            });
+
+            const selectedSiteIds = selected?.map((site: any) => site.value);
+
+            selectedSiteIds?.forEach((id: any, index: number) => {
+                formData.append(`station_id[${index}]`, id);
+            });
+
+            formData.append("date", stationData?.start_date);
+
+            const postDataUrl = "/station/fuel/purchase-price/update";
+
+            await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+        } catch (error) {
+            handleApiError(error); // Set the submission state to false if an error occurs
+        }
+    };
+    const [selected, setSelected] = useState<any>([]);
+
+
+
+
+    function calculateSum(index: number) {
+        const plattsPrice =
+            formik?.values && formik.values?.[index]?.platts_price;
+        const developmentfuels_price =
+            formik?.values &&
+            formik.values?.[index]?.development_fuels_price;
+        const dutyprice =
+            formik?.values && formik.values?.[index]?.duty_price;
+        const premiumPrice =
+            formik?.values && formik.values?.[index]?.premium_price;
+
+        if (
+            plattsPrice !== undefined &&
+            premiumPrice !== undefined &&
+            developmentfuels_price !== undefined &&
+            dutyprice !== undefined
+        ) {
+            const sum =
+                (parseFloat(plattsPrice) +
+                    parseFloat(premiumPrice) +
+                    parseFloat(developmentfuels_price) +
+                    parseFloat(dutyprice)) /
+                100;
+
+            const roundedSum = sum.toFixed(2);
+            formik.setFieldValue(`[${index}].ex_vat_price`, roundedSum);
+        }
     }
+    const sendEventWithName1 = (event: any, name: any, index: number) => {
+        const plattsValue =
+            parseFloat(
+                formik?.values && formik.values?.[index]?.vat_percentage_rate
+            ) || 0;
+
+        const SumTotal = parseFloat(
+            formik?.values && formik.values?.[index]?.ex_vat_price
+        );
+
+        const sum = (SumTotal * plattsValue) / 100 + SumTotal;
+
+        const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
+        const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
+
+        formik.setFieldValue(`[${index}].total`, formattedSum);
+    };
+
+
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+    const [filters, setFilters] = useState<any>({
+        client_id: '',
+        company_id: '',
+        site_id: '',
+    });
+
+
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -298,16 +581,16 @@ const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, g
 
 
             </div>
-            {/* <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode}  /> */}
+            <AddEditStationFuelPurchaseModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className=" mt-6">
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
                     <div className='panel h-full hidden md:block'>
                         <CustomInput
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-
+                       
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
@@ -362,41 +645,75 @@ const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, g
                     </div>
 
 
-                    <div className='panel h-full col-span-3'>
+                    <div className='panel h-full xl:col-span-3'>
                         <div className="flex md:items-center md:flex-row w-100 mb-5 justify-between">
-                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase ( {currency} )</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase</h5>
                             <div className="md:hidden flex">
                                 <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                                     Filter
                                 </button>
                             </div>
                         </div>
-                    
-                <Formik
-                    initialValues={{ data: data }}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                    enableReinitialize
-                >
-                    {({ values, setFieldValue }) => (
-                        <Form>
-                            <DataTable
-                                columns={columns}
-                                data={values.data}
-                                noDataComponent={
-                                    <div className="flex justify-center items-center">
-                                        <img src={noDataImage} alt="No data found" className="w-1/2" />
-                                    </div>
-                                }
-                                pagination
-                                paginationComponentOptions={{ rowsPerPageText: 'Rows per page:', rangeSeparatorText: 'of', noRowsPerPage: false }}
-                            />
-                            <div className="mt-4">
-                                <button type="submit" className="btn btn-dark">Submit</button>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
+                        {formik?.values?.length > 0 ? (
+                            <>
+
+                                <>
+                                    <form onSubmit={handleSubmitForm1}>
+                                        <div className=' my-4'>
+                                            <FormGroup>
+                                                <label className="form-label mt-4">
+                                                    Select Stations
+                                                    <span className="text-danger">*</span>
+                                                </label>
+                                                <MultiSelect
+                                                    value={selected}
+                                                    onChange={setSelected}
+                                                    labelledBy="Select Sites"
+                                                    // disableSearch="true"
+                                                    options={stationData?.sites?.map((item: any) => ({ value: item?.id, label: item?.name })) || []}
+                                                />
+                                            </FormGroup>
+                                        </div>
+                                        <div className="table-responsive deleted-table">
+                                            <DataTable
+                                                className=" table-striped table-hover table-bordered table-compact"
+                                                columns={columns}
+                                                data={formik?.values}
+                                                noHeader
+                                                defaultSortAsc={false}
+                                                striped={true}
+                                                persistTableHead
+                                                highlightOnHover
+                                                responsive={true}
+                                            />
+                                        </div>
+                                        {isEditPermissionAvailable ? (
+                                            <div className="d-flex justify-content-end mt-3 ">
+                                                {data ? (
+                                                    <>
+                                                        <button className="btn btn-primary" type="submit">
+                                                            Update
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </form>
+                                </>
+                            </>
+                        ) : (
+                            <>
+                                <img
+                                    src={noDataImage} // Use the imported image directly as the source
+                                    alt="no data found"
+                                    className="all-center-flex nodata-image"
+                                />
+                            </>
+                        )}
                     </div>
 
                 </div>
@@ -420,7 +737,7 @@ const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, g
                                 getData={getData}
                                 isLoading={isLoading}
                                 onApplyFilters={handleApplyFilters}
-
+                                
                                 showClientInput={true}  // or false
                                 showEntityInput={true}  // or false
                                 showStationInput={true} // or false
@@ -448,70 +765,11 @@ const ManageStationFuelPurchase: React.FC<CommonDataEntryProps> = ({ postData, g
 
 export default withApiHandler(ManageStationFuelPurchase);
 
+function calculateSum(index: number) {
+    throw new Error('Function not implemented.');
+}
 
 
-
-//     return (
-//         <>
-//             {isLoading && <LoaderImg />}
-//             <div className="flex justify-between items-center">
-//                 <ul className="flex space-x-2 rtl:space-x-reverse">
-//                     <li>
-//                         <Link to="/dashboard" className="text-primary hover:underline">
-//                             Dashboard
-//                         </Link>
-//                     </li>
-//                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-//                         <span>Stations Fuel Purchase</span>
-//                     </li>
-//                 </ul>
-//                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>
-//                     Add Station Fuel Purchase
-//                 </button>
-//             </div>
-
-//             <AddEditStationFuelPurchaseModal
-//                 getData={getData}
-//                 isOpen={isModalOpen}
-//                 onClose={() => setIsModalOpen(false)}
-//                 onSubmit={handleSubmit}
-//                 isEditMode={isEditMode}
-//                 userId={editUserData?.id}
-//             />
-
-//             <div className="mt-6">
-//                 <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
-//                     {/* Filter components */}
-//                 </div>
-
-//                 <Formik
-//                     initialValues={{ data: data }}
-//                     validationSchema={validationSchema}
-//                     onSubmit={handleSubmit}
-//                     enableReinitialize
-//                 >
-//                     {({ values, setFieldValue }) => (
-//                         <Form>
-//                             <DataTable
-//                                 columns={columns}
-//                                 data={values.data}
-//                                 noDataComponent={
-//                                     <div className="flex justify-center items-center">
-//                                         <img src={noDataImage} alt="No data found" className="w-1/2" />
-//                                     </div>
-//                                 }
-//                                 pagination
-//                                 paginationComponentOptions={{ rowsPerPageText: 'Rows per page:', rangeSeparatorText: 'of', noRowsPerPage: false }}
-//                             />
-//                             <div className="mt-4">
-//                                 <button type="submit" className="btn btn-dark">Submit</button>
-//                             </div>
-//                         </Form>
-//                     )}
-//                 </Formik>
-//             </div>
-//         </>
-//     );
-// };
-
-// export default ManageStationFuelPurchase;
+function sendEventWithName1(event: React.FocusEvent<HTMLInputElement, Element>, arg1: string, index: any) {
+    throw new Error('Function not implemented.');
+}
