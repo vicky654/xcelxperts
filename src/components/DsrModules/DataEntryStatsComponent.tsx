@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 import useErrorHandler from '../../hooks/useHandleError';
@@ -93,10 +93,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
-
-
+  const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
+  
+  const { id } = useParams();
+  const keyName = id ? DashboardstoredKeyName : storedKeyName;
   useEffect(() => {
-    const storedDataString = localStorage.getItem(storedKeyName);
+    
+    const storedDataString = localStorage.getItem(keyName);
 
 
     if (storedDataString) {
@@ -324,27 +327,96 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     setIsFilterModalOpen(false);
   }
 
-
   return <>
     {isLoading && <LoaderImg />}
 
-    <div className="flex  justify-start md:justify-between items-center flex-wrap">
-      <ul className="flex space-x-2 rtl:space-x-reverse mb-2 md:mb-0">
-        <li>
-          <Link to="/dashboard" className="text-primary hover:underline">
-            Dashboard
-          </Link>
-        </li>
-        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-          <span>Data Entry Stats</span>
-        </li>
-      </ul>
+    <div className="flexspacebetween ">
+    {id ? (
+        <ul className="flex space-x-2 rtl:space-x-reverse my-2">
+          <li>
+            <Link to="/dashboard" className="text-primary hover:underline">
+              Dashboard
+            </Link>
+          </li>
+          <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline">
+            <Link to="/dashboard/overview" className="text-primary hover:underline">
+              Dashboard Overview
+            </Link>
+          </li>
+          <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+            <span>Dashboard Stats</span>
+          </li>
+        </ul>
+      ) : (
+        <ul className="flex space-x-2 rtl:space-x-reverse mb-2 md:mb-0">
+          <li>
+            <Link to="/dashboard" className="text-primary hover:underline">
+              Dashboard
+            </Link>
+          </li>
+          <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+            <span>Data Entry Stats</span>
+          </li>
+        </ul>
+      )}
+
+
+      <div className=" flex gap-4 flex-wrap">
+
+
+        {filters?.client_name || filters?.entity_name || filters?.station_name ? (
+          <>
+            <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
+              {filters?.client_id && (
+                <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold">Client :</span> {filters?.client_name}
+                </div>
+              )}
+
+              {filters?.entity_name && (
+                <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold">Entity : </span> {filters?.entity_name}
+                </div>
+              )}
+
+              {filters?.station_name && (
+                <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold">Station :</span> {filters?.station_name}
+                </div>
+              )}
+              {filters?.start_date && (
+                <div className="badge bg-gray-600 flex items-center gap-2 px-2 py-1 ">
+                  <span className="font-semibold"> Date :</span> {filters?.start_date}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+
+        <button onClick={() => setIsFilterModalOpen(true)} type="button" className="btn btn-dark ">
+          Apply Filter
+        </button>
+
+
+        {/* {modalOpen && (
+<>
+<DashboardFilterModal
+    isOpen={modalOpen}
+    onClose={() => setModalOpen(false)}
+    onApplyFilters={handleApplyFilters} // Pass the handler to the modal
+/>
+</>
+)} */}
+      </div>
     </div>
+    
 
 
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6">
-        <div className='panel h-full hidden md:block'>
+        {/* <div className='panel h-full hidden md:block'>
           <CustomInput
             getData={getData}
             isLoading={isLoading}
@@ -364,10 +436,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           />
 
 
-        </div>
+        </div> */}
 
-
-        <div className="md:hidden flex justify-end flex-col gap-4 flex-wrap">
+{/* 
+        <div className=" flex justify-end flex-col gap-4 flex-wrap">
           {filters?.client_name || filters?.entity_name || filters?.station_name ? (
             <>
               <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
@@ -400,16 +472,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           )}
 
 
-        </div>
+        </div> */}
 
-        <div className='panel h-full col-span-3'>
+        <div className='panel h-full col-span-4'>
           <div className="flex justify-between  ">
             <h5 className="font-bold text-lg dark:text-white-light">Data Entry Stats</h5>
-            <div className="md:hidden flex ">
+            {/* <div className=" flex ">
               <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                 Filter
               </button>
-            </div>
+            </div> */}
           </div>
           <div>
             {startDate && stationId ? (
@@ -759,7 +831,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               showStationInput={true}
               showStationValidation={true}
               validationSchema={validationSchemaForCustomInput}
-              layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
               isOpen={false}
               onClose={() => { }}
               showDateInput={false}

@@ -97,6 +97,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
   const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
+  
   const id = useParams()
   useEffect(() => {
     const storedDataString = localStorage.getItem(DashboardstoredKeyName);

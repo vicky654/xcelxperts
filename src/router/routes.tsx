@@ -157,13 +157,17 @@ const routes = [
     element: <DataEntruModules />,
   },
   {
-    path: '/data-entry-stats',
+    path: '/data-entry-stats/:id?',
     element: <DataEntryStatsComponent />,
   },
-  {
-    path: '/data-entry-stats/:id',
-    element: <DashDataEntryStats />,
-  },
+  // {
+  //   path: '/data-entry-stats',
+  //   element: <DataEntryStatsComponent />,
+  // },
+  // {
+  //   path: '/data-entry-stats/:id',
+  //   element: <DashDataEntryStats />,
+  // },
   {
     path: '/dashboard/overview',
     element: <DashboardOverview detailsData={undefined} isSitePermissionAvailable={''} />,
