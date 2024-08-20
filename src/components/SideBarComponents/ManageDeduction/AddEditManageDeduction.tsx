@@ -73,13 +73,13 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Expenses' : 'Add Expenses'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Expense' : 'Add Expense'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                                <FormikInput formik={formik} type="text" name="deduction_code" placeholder='Expenses Code' label='Expenses Code' readOnly={isEditMode ? true : false} />
-                                                <FormikInput formik={formik} type="text" name="deduction_name" placeholder='Expenses Name' label='Expenses Name' />
+                                                <FormikInput formik={formik} type="text" name="deduction_code" placeholder='Expense Code' label='Expense Code' readOnly={isEditMode ? true : false} />
+                                                <FormikInput formik={formik} type="text" name="deduction_name" placeholder='Expense Name' label='Expense Name' />
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">

@@ -97,6 +97,8 @@ export const deductionsInitialValues = {
 
 export const stationInitialValues = {
   first_name: '',
+  dealer_code: '',
+  sap_code: '',
   show_summary: '',
   data_import_types: '',
   drs_upload_status: '',

@@ -453,6 +453,8 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formData.append('supplier_id', values.supplier_id);
             formData.append('station_name', values.station_name);
             formData.append('supplier_id', values.supplier_id);
+            formData.append('sap_code', values.sap_code);
+            formData.append('dealer_code', values.dealer_code);
             if (values.file) {
                 formData.append('logo', values.file);
             }
