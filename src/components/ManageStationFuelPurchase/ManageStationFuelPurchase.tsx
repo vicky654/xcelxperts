@@ -16,7 +16,9 @@ import IconX from '../Icon/IconX';
 import { currency } from '../../utils/CommonData';
 import { CommonDataEntryProps } from '../commonInterfaces';
 import withApiHandler from '../../utils/withApiHandler';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { MultiSelect } from 'react-multi-select-component';
+import showMessage from '../../hooks/showMessage';
 
 interface FuelDeliveryData {
     id: string;
@@ -72,7 +74,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
-
+    const [selected, setSelected] = useState<any>([]);
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
         if (storedData) {
@@ -83,6 +85,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     }, [dispatch, currentPage]);
 
     const handleApplyFilters = async (values: any) => {
+
+        console.log(values, "handleApplyFilters");
+        setSelected([])
         setstationData(values);
         const apiURL = `station/fuel/purchase-price?client_id=${values?.client_id}&entity_id=${values?.entity_id}&station_id=${values?.station_id}&date=${values?.start_date}`;
         try {
@@ -258,29 +263,29 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         // Define other columns similarly
     ];
 
-    const handleSubmit = async (values: FormValues) => {
-        try {
-            const formData = new FormData();
-            values.data.forEach((obj: any) => {
-                if (obj.id) {
-                    formData.append(`opening[${obj.id}]`, obj.opening.toString());
-                    formData.append(`delivery_volume[${obj.id}]`, obj.delivery_volume.toString());
-                    formData.append(`sales_volume[${obj.id}]`, obj.sales_volume.toString());
-                    formData.append(`book_stock[${obj.id}]`, obj.book_stock.toString());
-                    formData.append(`dips_stock[${obj.id}]`, obj.dips_stock.toString());
-                    formData.append(`variance[${obj.id}]`, obj.variance.toString());
-                }
-            });
+    // const handleSubmit = async (values: FormValues) => {
+    //     try {
+    //         const formData = new FormData();
+    //         values.data.forEach((obj: any) => {
+    //             if (obj.id) {
+    //                 formData.append(`opening[${obj.id}]`, obj.opening.toString());
+    //                 formData.append(`delivery_volume[${obj.id}]`, obj.delivery_volume.toString());
+    //                 formData.append(`sales_volume[${obj.id}]`, obj.sales_volume.toString());
+    //                 formData.append(`book_stock[${obj.id}]`, obj.book_stock.toString());
+    //                 formData.append(`dips_stock[${obj.id}]`, obj.dips_stock.toString());
+    //                 formData.append(`variance[${obj.id}]`, obj.variance.toString());
+    //             }
+    //         });
 
-            const url = `data-entry/fuel-delivery/update`;
-            const isSuccess = await postData(url, formData);
-            if (isSuccess) {
-                handleApplyFilters(stationData);
-            }
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
+    //         const url = `data-entry/fuel-delivery/update`;
+    //         const isSuccess = await postData(url, formData);
+    //         if (isSuccess) {
+    //             handleApplyFilters(stationData);
+    //         }
+    //     } catch (error) {
+    //         handleApiError(error);
+    //     }
+    // };
 
     const validationSchema = Yup.object().shape({
         data: Yup.array().of(
@@ -319,14 +324,65 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             ? Yup.string().required("Client is required")
             : Yup.mixed().notRequired(),
         entity_id: Yup.string().required("Entity is required"),
-        station_id: Yup.string().required('Station is required'),
+        // station_id: Yup.string().required('Station is required'),
         start_date: Yup.string().required('Start Date is required'),
     });
 
+    const handleSubmit = async (values: FormValues) => {
+        // event.preventDefault();
+        if (
+            selected === undefined ||
+            selected === null ||
+            (Array?.isArray(selected) && selected?.length === 0)
+        ) {
+            showMessage("Please select at least one site", 'error');
+        }
 
-    const handleFormSubmit = () => {
-        console.log("columnIndex");
-    }
+        // Check if at least one site is selected
+        if (!selected || selected?.length === 0) {
+            showMessage("Please select at least one site", 'error');
+            return; // Exit the function if no site is selected
+        }
+
+console.log(values, "values");
+
+        try {
+            const formData = new FormData();
+            values.data.forEach((obj: any) => {
+                if (obj.id) {
+
+                    console.log(obj, "values");
+                    formData.append(`platts_price[${obj.id}]`, obj.platts_price.toString());
+                    formData.append(`ex_vat_price[${obj.id}]`, obj.ex_vat_price.toString());
+                    formData.append(`total[${obj.id}]`, obj.total.toString());
+                    formData.append(`vat_percentage_rate[${obj.id}]`, obj.vat_percentage_rate.toString());
+
+                }
+            });
+            const selectedSiteIds = selected?.map((site: any) => site.value);
+
+            selectedSiteIds?.forEach((id: any, index: number) => {
+                formData.append(`station_id[${index}]`, id);
+            });
+
+            formData.append("date", stationData?.start_date);
+
+            const postDataUrl = "/station/fuel/purchase-price/update";
+
+            await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+        } catch (error) {
+            handleApiError(error); // Set the submission state to false if an error occurs
+        }
+    };
+
+
+    const validationPurchaseSchema = Yup.object().shape({
+        selected: Yup.array()
+            .of(Yup.string()) // Assuming station IDs are strings; adjust as per your data type
+            .min(1, 'Please select at least one station')
+            .required('Please select at least one station'),
+    });
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -365,11 +421,10 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                             getData={getData}
                             isLoading={isLoading}
                             onApplyFilters={handleApplyFilters}
-
                             showClientInput={true}  // or false
                             showEntityInput={true}  // or false
                             showStationInput={true} // or false
-                            showStationValidation={true} // or false
+                            showStationValidation={false} // or false
                             showDateValidation={true} // or false
                             validationSchema={validationSchemaForCustomInput}
                             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
@@ -429,7 +484,21 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 </button>
                             </div>
                         </div>
-
+                        <div className=' my-4'>
+                            <FormGroup>
+                                <label className="form-label mt-4">
+                                    Select Stations
+                                    <span className="text-danger">*</span>
+                                </label>
+                                <MultiSelect
+                                    value={selected}
+                                    onChange={setSelected}
+                                    labelledBy="Select Sites"
+                                    // disableSearch="true"
+                                    options={stationData?.sites?.map((item: any) => ({ value: item?.id, label: item?.name })) || []}
+                                />
+                            </FormGroup>
+                        </div>
                         <Formik
                             initialValues={{ data: data }}
                             validationSchema={validationSchema}
@@ -480,7 +549,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 showClientInput={true}  // or false
                                 showEntityInput={true}  // or false
                                 showStationInput={true} // or false
-                                showStationValidation={true} // or false
+                                showStationValidation={false} // or false
                                 showDateValidation={true} // or false
                                 validationSchema={validationSchemaForCustomInput}
                                 layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
