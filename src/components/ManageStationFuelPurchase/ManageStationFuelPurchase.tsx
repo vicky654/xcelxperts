@@ -367,7 +367,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             return; // Exit the function if no site is selected
         }
 
-        console.log(values, "values");
+      
 
         try {
             const formData = new FormData();
@@ -501,7 +501,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 </button>
                             </div>
                         </div>
-                        <div className=' my-4'>
+                        {data?.length > 0 ?    <div className=' my-4'>
                             <FormGroup>
                                 <label className="form-label mt-4">
                                     Select Stations
@@ -515,7 +515,10 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                     options={stationData?.sites?.map((item: any) => ({ value: item?.id, label: item?.name })) || []}
                                 />
                             </FormGroup>
-                        </div>
+                        </div>: ""}
+                        {/* {data?.length > 0 ? "Data:" : "No Data"} */}
+
+                    
                         <Formik
                             initialValues={{ data: data }}
                             validationSchema={validationSchema}

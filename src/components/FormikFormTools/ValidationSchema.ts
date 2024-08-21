@@ -348,7 +348,9 @@ export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
         platts: Yup.string().required('Platts is required'),
         // development_fuels_price: Yup.string().required('Development Fuels is required'),
         // duty_price: Yup.string().required('Dutty  is required'),
-        vat_percentage_rate: Yup.string().required('Vat % is required'),
+        vat_percentage_rate: Yup.number()
+        .required('Vat % is required')
+        .max(100, 'VAT percentage rate cannot be more than 100'),
         // premium: Yup.string().required('Premium is required'),
         total: Yup.string().required('Total is required'),
         ex_vat_price: Yup.string().required('Ex. Vat. Price is required'),
