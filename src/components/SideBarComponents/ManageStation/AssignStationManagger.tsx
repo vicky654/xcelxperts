@@ -230,9 +230,7 @@ const AssignStationManagger: React.FC<ManageSiteProps> = ({ postData, getData, i
             if (response) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

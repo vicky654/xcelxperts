@@ -114,7 +114,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
           handleApplyFilters(storedData);
         }
       } catch (error) {
-        console.error("Error parsing stored data", error);
+       
       }
     }
   }, [dispatch]);
@@ -835,7 +835,7 @@ export default withApiHandler(DashDataEntryStats);
 //           handleApplyFilters(storedData);
 //         }
 //       } catch (error) {
-//         console.error("Error parsing stored data", error);
+//        
 //       }
 //     }
 //   }, [dispatch]);

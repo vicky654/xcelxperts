@@ -127,7 +127,7 @@ const AddEditStationTankModal: React.FC<AddEditStationTankModalProps> = ({ isOpe
                 await onSubmit(values, formik);
 
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

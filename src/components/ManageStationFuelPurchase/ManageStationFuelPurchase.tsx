@@ -86,7 +86,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
     const handleApplyFilters = async (values: any) => {
 
-        console.log(values, "handleApplyFilters");
+  
         setSelected([])
         setData([])
         setstationData(values);
@@ -374,7 +374,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             values.data.forEach((obj: any) => {
                 if (obj.id) {
 
-                    console.log(obj, "values");
+           
                     formData.append(`platts_price[${obj.id}]`, obj.platts_price.toString());
                     formData.append(`ex_vat_price[${obj.id}]`, obj.ex_vat_price.toString());
                     formData.append(`total[${obj.id}]`, obj.total.toString());

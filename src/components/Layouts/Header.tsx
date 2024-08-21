@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         } catch (error) {
             localStorage.clear();
             window.location.replace('/');
-            console.error('API error:', error);
+           
         }
     };
     const handleNavigation = (key: string, path: string) => {

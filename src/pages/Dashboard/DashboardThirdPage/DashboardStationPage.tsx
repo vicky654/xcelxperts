@@ -73,7 +73,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 setFuelLastDeliveryData(response.data.data)
             }
         } catch (error) {
-            console.error('Failed to fetch data', error);
+            
         } finally {
         }
     };
@@ -93,7 +93,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             }
             // setData(response.data);
         } catch (error) {
-            console.error('Failed to fetch data', error);
+            
         } finally {
         }
     };
@@ -112,7 +112,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 setShopSaleData(response.data.data?.shop_sales)
             }
         } catch (error) {
-            console.error('Failed to fetch data', error);
+            
         } finally {
         }
     };
@@ -133,7 +133,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             }
             // setData(response.data);
         } catch (error) {
-            console.error('Failed to fetch data', error);
+            
         } finally {
         }
     };

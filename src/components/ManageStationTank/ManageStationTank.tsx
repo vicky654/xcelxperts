@@ -270,9 +270,7 @@ const ManageStationTank: React.FC<ManageSiteProps> = ({ postData, getData, isLoa
 
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

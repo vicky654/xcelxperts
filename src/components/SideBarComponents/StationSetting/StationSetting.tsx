@@ -182,7 +182,7 @@ const StationSetting: React.FC<ManageSiteProps> = ({ postData, getData, isLoadin
                 }
 
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

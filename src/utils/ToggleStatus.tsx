@@ -9,7 +9,7 @@ const useToggleStatus = () => {
             }
         } catch (error) {
             // handleError(error,navigate);
-            console.error("Error toggling status:", error);
+          
         }
     };
 

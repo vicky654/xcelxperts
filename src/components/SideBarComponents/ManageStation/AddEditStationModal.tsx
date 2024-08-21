@@ -184,7 +184,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                 await onSubmit(values, formik);
                 // onClose();
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

@@ -180,7 +180,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
             const skipDates = selectedDates || [];
       
             if (skipDates.length === 0) {
-                console.error('No skip dates provided.');
+             
                 return; // Early exit if skip_date is empty
             }
 
@@ -207,9 +207,7 @@ const SkipDate: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) =
             if (response) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

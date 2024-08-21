@@ -121,7 +121,7 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
                    
                 }
             } catch (error) {
-                console.error("Error parsing stored data", error);
+           
             }
         }
 

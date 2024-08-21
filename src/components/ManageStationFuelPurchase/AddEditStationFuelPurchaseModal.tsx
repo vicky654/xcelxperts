@@ -252,7 +252,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         validationSchema: getStationFuelPurchaseValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
-                console.log(selected, "selected");
+              
                 await onSubmit(values, selected);
                 // onClose();
             } catch (error) {
@@ -283,36 +283,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
         formik.setFieldValue("total", formattedSum);
     };
-    // const handleFieldChange = (fieldName: string, value: any) => {
-    //     // Parse the value as a number if applicable
-    //     const numericValue: number = parseFloat(value);
-    //     console.log(`${fieldName}:`, value);
-
-    //     let vatPercentageRate = formik.values.vat_percentage_rate;
-    //     let exVatPrice = formik.values.ex_vat_price;
-    //     let plattsPrice = formik.values.platts;
-    //     let totalPrice = formik.values.total;
-
-    //     if (fieldName === 'vat_percentage_rate') {
-    //         vatPercentageRate = numericValue.toString();
-    //     } else if (fieldName === 'ex_vat_price') {
-    //         exVatPrice = numericValue.toString();
-    //     } else if (fieldName === 'platts') {
-    //         plattsPrice = numericValue.toString();
-    //         formik.setFieldValue("ex_vat_price", plattsPrice.toString());
-    //     } else if (fieldName === 'total') {
-    //         totalPrice = numericValue.toString();
-    //     }
-
-    //     // Log the values for debugging
-    //     console.log('vatPercentageRate:', vatPercentageRate);
-    //     console.log('exVatPrice:', exVatPrice);
-    //     console.log('plattsPrice:', plattsPrice);
-    //     console.log('totalPrice:', totalPrice);
-
-    //     // Set the value in Formik as a string
-    //     formik.setFieldValue(fieldName, value.toString());
-    // };
+ 
 
     const handleFieldChange = (
         fieldName: string,

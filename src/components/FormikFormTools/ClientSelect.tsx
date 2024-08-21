@@ -33,7 +33,7 @@ const ClientEntity: React.FC<ClientEntityProps> = ({ getData, handleClientChange
                 handleClientChange(clientId, clients);
             }
         } catch (error) {
-            console.error('API error:', error);
+           
         }
     };
 

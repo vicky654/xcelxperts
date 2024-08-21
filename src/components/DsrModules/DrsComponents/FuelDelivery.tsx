@@ -126,22 +126,13 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
         // Update book_stock field if opening, delivery_volume, or sales_volume changes
         if (field === 'opening' || field === 'delivery_volume' || field === 'sales_volume') {
-            // const opening = field === 'opening' ? numericValue : values.data[index].opening;
-            // const delivery_volume = field === 'delivery_volume' ? numericValue : values.data[index].delivery_volume;
-            // let delivery_volume = field === 'delivery_volume' ? numericValue : values.data[index].delivery_volume;
-            // if (delivery_volume === "0.00") {
-            //     delivery_volume = 0;
-            // }
-            // const sales_volume = field === 'sales_volume' ? numericValue : values.data[index].sales_volume;
-
+  
             const opening = field === 'opening' ? Number(numericValue) : Number(values.data[index].opening);
             let delivery_volume = field === 'delivery_volume' ? Number(numericValue) : Number(values.data[index].delivery_volume);
             const sales_volume = field === 'sales_volume' ? Number(numericValue) : Number(values.data[index].sales_volume);
 
 
-            // console.log(delivery_volume, "delivery volume");
-            // console.log(sales_volume, "sale volume");
-            // console.log(opening, "opening volume");
+       
 
 
             const newBookStock = opening + delivery_volume - sales_volume;

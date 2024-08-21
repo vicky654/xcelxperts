@@ -246,7 +246,7 @@ const Managesupplier: React.FC<ManagesupplierProps> = ({ postData, getData, isLo
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-            console.error('Error fetching supplier details:', error);
+            
         }
     };
 

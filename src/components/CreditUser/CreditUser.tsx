@@ -106,7 +106,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     GetUserList(storedData.client_id)
                 }
             } catch (error) {
-                console.error("Error parsing stored data", error);
+              
             }
         }
     }, [dispatch]);
@@ -297,9 +297,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             if (response) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

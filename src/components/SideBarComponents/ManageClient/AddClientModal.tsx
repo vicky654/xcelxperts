@@ -75,7 +75,7 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
                 });
             }
         } catch (error) {
-            console.error('API error:', error);
+           
         }
     };
     const formik = useFormik({
@@ -85,7 +85,7 @@ const AddClientModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, getData,
             try {
                 await onSubmit(values, formik);
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

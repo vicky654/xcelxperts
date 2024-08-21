@@ -105,7 +105,7 @@ const AssignManagerModal: React.FC<AssignManagerModalProps> = ({
 
             }
         } catch (error) {
-            console.error('API error:', error);
+           
         }
     };
 

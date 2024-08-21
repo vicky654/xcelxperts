@@ -167,7 +167,7 @@ const AddEditStationNozzleModal: React.FC<AddEditStationNozzleModalProps> = ({ i
             try {
                 await onSubmit(values, formik);
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

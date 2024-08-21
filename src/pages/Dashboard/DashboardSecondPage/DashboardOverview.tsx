@@ -63,7 +63,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             }
             // setData(response.data);
         } catch (error) {
-            console.error('Failed to fetch data', error);
+          
         } finally {
         }
     };
@@ -86,7 +86,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             }
             // setData(response.data);
         } catch (error) {
-            console.error('Failed to fetch data', error);
+            
         } finally {
         }
     };

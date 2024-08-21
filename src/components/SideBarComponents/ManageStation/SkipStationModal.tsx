@@ -47,7 +47,7 @@ const SkipStationModal: React.FC<SkipStationModalProps> = ({
               
                 await onSubmit(selectedDates, values);
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

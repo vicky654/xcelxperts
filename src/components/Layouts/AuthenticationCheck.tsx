@@ -54,8 +54,6 @@ const AuthenticationCheck: React.FC<ManageUserProps> = ({ postData, getData, isL
                 } else {
                     // ErrorToast("Failed to fetch data from API.");
                 }
-            } else {
-                console.error(error);
             }
 
         }

@@ -479,9 +479,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (response) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

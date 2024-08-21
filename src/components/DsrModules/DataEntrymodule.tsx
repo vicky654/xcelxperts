@@ -76,7 +76,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           handleApplyFilters(storedData);
         }
       } catch (error) {
-        console.error("Error parsing stored data", error);
+       
       }
     }
   }, [dispatch]);
@@ -241,9 +241,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     setIsFilterModalOpen(false);
   }
 
-  const handleResetFilters = async () => {
-    console.log("columnIndex");
-  };
+
 
   return <>
     {isLoading && <LoaderImg />}

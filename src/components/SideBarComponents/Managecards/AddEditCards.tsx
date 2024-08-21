@@ -56,7 +56,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
                 });
             }
         } catch (error) {
-            console.error('API error:', error);
+           
         }
     };
 
@@ -67,7 +67,7 @@ const AddEditManagesupplier: React.FC<AddEditManagesupplierProps> = ({ isOpen, o
             try {
                 await onSubmit(values, formik);
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

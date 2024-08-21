@@ -121,7 +121,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
 
 
         } catch (error) {
-            console.error('Error submitting form:', error);
+          
         }
     };
 

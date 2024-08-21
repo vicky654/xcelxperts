@@ -53,7 +53,7 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
                 });
             }
         } catch (error) {
-            console.error('API error:', error);
+           
         }
     };
     const formik = useFormik({
@@ -63,7 +63,7 @@ const AddEditManagesupplier: React.FC<AddUserModalProps> = ({ isOpen, onClose, g
             try {
                 await onSubmit(values, formik);
             } catch (error) {
-                console.error('Submit error:', error);
+               
                 throw error; // Rethrow the error to be handled by the caller
             }
         },

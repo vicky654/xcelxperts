@@ -287,9 +287,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             if (response) {
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

@@ -92,7 +92,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             // Cleanup by removing the link
             document.body.removeChild(link);
         } catch (error) {
-            console.error('Error downloading file:', error);
+           
         }
     };
     const handleFormSubmit = async (values: any) => {
@@ -124,9 +124,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 if (commonParams) {
                     const fullReportUrl = `${baseUrl}/${commonParams}`;
                     window.open(fullReportUrl, "_blank", "noopener noreferrer");
-                } else {
-                    console.error("Report URL is not defined.");
-                }
+                } 
 
 
                 // handleDownload(isSuccess?.data)
@@ -298,8 +296,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         if (ReportUrl) {
             const fullReportUrl = `${baseUrl}/${ReportUrl}`;
             window.open(fullReportUrl, "_blank", "noopener noreferrer");
-        } else {
-            console.error("Report URL is not defined.");
         }
     };
 

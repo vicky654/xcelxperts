@@ -74,7 +74,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/stats?${queryString}`);
                 if (response && response.data && response.data.data) {
-                    console.log(response.data?.data, "queryParams");
+                  
                     setAppData({
                         sales_volume: response.data?.data?.sales_volume,
                         sales_value: response.data?.data?.sales_value,
@@ -89,7 +89,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 }
                 // setData(response.data);
             } catch (error) {
-                console.error('Failed to fetch data', error);
+               
             } finally {
             }
         }
@@ -119,7 +119,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
             }
         } catch (error) {
-            console.error('Failed to fetch data', error);
+         
         } finally {
         }
     };
@@ -212,7 +212,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     setFilterData(response.data.data);
                 }
             } catch (error) {
-                console.error('Failed to fetch data', error);
+             
             }
 
         } else {
@@ -232,7 +232,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
     const handleApplyFilters = (values: FilterValues) => {
-        console.log(values, "values");
+     
 
         let clientId = values.client_id || IsClientLogin?.superiorId;
 
@@ -531,9 +531,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     // const { sales_volume, sales_value, profit } = useContext(AppContext);
 
-    console.log(selectedClient, "selectedClient");
-    console.log(selectedEntity, "selectedEntity");
-    console.log(selectedStation, "setSelectedStation");
 
     return (
         <>

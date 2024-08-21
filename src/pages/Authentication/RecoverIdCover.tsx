@@ -70,12 +70,12 @@ const RecoverIdCover = () => {
                 setLoading(false)
                 const errorMessage = data?.message || 'Failed to reset password. Please try again.';
                 showMessage(errorMessage, 'error');
-                console.error('Error:', errorMessage);
+             
             }
             setLoading(false)
         } catch (error) {
             showMessage('An unexpected error occurred. Please try again later.', 'error');
-            console.error('Fetch Error:', error);
+           
             setLoading(false)
         }
         setLoading(false)

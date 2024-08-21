@@ -74,12 +74,12 @@ const LoginCover = () => {
                     setLoading(false);
                     showMessage(data?.message, 'error');
 
-                    console.error('Error:', data?.message);
+                  
                 }
             } catch (error) {
                 setLoading(false);
                 showMessage('An error occurred during login', 'error');
-                console.error('Fetch Error:', error);
+              
             }
             setLoading(false);
         },

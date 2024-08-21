@@ -100,7 +100,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ postData, getData, isLo
             }
         } catch (error) {
             handleApiError(error); // Use the hook here to handle the error
-            console.error("API error:", error);
+            
         }
     };
 

@@ -238,7 +238,7 @@ const Managecard: React.FC<ManagecardProps> = ({ postData, getData, isLoading })
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-            console.error('Error fetching card details:', error);
+       
         }
     };
 

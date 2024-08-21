@@ -224,7 +224,7 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         const { value } = e.target;
         formik.setFieldValue(`services[${index}].vehicle_no`, value);
         const amount = calculateAmount(formik.values.services[index].fuel_sub_category_id, value);
-        console.log(amount, "amount");
+    
         // formik.setFieldValue(`services[${index}].amount`, amount);
     };
 

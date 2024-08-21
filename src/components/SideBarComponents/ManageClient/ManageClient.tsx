@@ -327,7 +327,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-            console.error('Error fetching client details:', error);
+          
         }
     };
 

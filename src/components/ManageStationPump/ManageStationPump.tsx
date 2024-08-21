@@ -278,9 +278,7 @@ const ManageStationPump: React.FC<ManageStationPumpProps> = ({ postData, getData
 
                 handleSuccess();
                 closeModal();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-            }
+            } 
         } catch (error) {
             handleApiError(error);
         }

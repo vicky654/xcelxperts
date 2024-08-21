@@ -89,7 +89,7 @@ export const fetchStoreData = createAsyncThunk<any[], void, { rejectValue: strin
                     // ErrorToast("Failed to fetch data from API.");
                 }
             } else {
-                console.error(error);
+             
                 window.location.replace("/under-construction");
                 return thunkAPI.rejectWithValue("An error occurred.");
             }

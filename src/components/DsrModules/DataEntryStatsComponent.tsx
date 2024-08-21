@@ -114,7 +114,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           handleApplyFilters(storedData);
         }
       } catch (error) {
-        console.error("Error parsing stored data", error);
+       
       }
     }
   }, [dispatch]);
@@ -157,10 +157,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   useEffect(() => {
     // Select the first card by default if cards have data
     const stationTank = localStorage.getItem('stationTank');
-    console.log(stationTank, "stationTank");
+
     if (stationTank) {
       const parsedData = JSON.parse(stationTank);
-      console.log(parsedData.client_id, "parsedData.client_id");
       setFilters({
         client_id: parsedData.client_id || '',
         company_id: parsedData.entity_id || '',
@@ -209,7 +208,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
     try {
-      console.log(values, "values");
+    
       setFilters(values)
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {

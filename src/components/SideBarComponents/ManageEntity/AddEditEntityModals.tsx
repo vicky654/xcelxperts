@@ -55,7 +55,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
         setClientList(response.data.data);
       }
     } catch (error) {
-      console.error('API error:', error);
+     
     }
   };
 
@@ -83,7 +83,7 @@ const AddEditEntityModals: React.FC<AddEntityModalProps> = ({
         });
       }
     } catch (error) {
-      console.error('API error:', error);
+     
     }
   };
 

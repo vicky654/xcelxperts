@@ -224,7 +224,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-            console.error('Error fetching charge details:', error);
+           
         }
     };
 

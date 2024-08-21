@@ -168,12 +168,12 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
-        console.log(clientId, "clientId");
+      
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);
             const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
-            console.log(selectedClient, "selectedClient");
+      
 
             // Use type assertion to cast the selectedClient to DashboardSelectedClient
             if (selectedClient) {
@@ -333,10 +333,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                             const selectedSiteId = e.target.value;
                                                             formik.setFieldValue("site_id", selectedSiteId);
                                                             const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-                                                            // if (selectedSiteData) {
-                                                            //     console.log(selectedSiteData, "selectedSiteData");
-                                                            //     formik.setFieldValue("site_name", selectedSiteData.site_name);
-                                                            // }
+                                                     
                                                             if (selectedSiteData && selectedSiteData.id && selectedSiteData.name ) {
                                                                 formik.setFieldValue("site_name", selectedSiteData.site_name);
                                                             
@@ -346,8 +343,6 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                                  
                                                                 };
                                                                 setSelectedStation(station);
-                                                            } else {
-                                                                console.error("Invalid site data:", selectedSiteData);
                                                             }
                                                             
                                                         }}
