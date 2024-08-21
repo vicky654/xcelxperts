@@ -16,7 +16,6 @@ import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 import { currency } from '../utils/CommonData';
 import ThemeContext from '../utils/Context/themeContext';
-import { IAppContextData } from '../components/commonInterfaces';
 import AppContext from '../utils/Context/DashboardContext';
 interface FilterValues {
     client_id: any;
@@ -44,9 +43,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
-    const { rightPanel, setRightPanel } = useContext(ThemeContext);
-    const { sales_volume, setAppData } = useContext(AppContext);
-    console.log(rightPanel, "rightPanel");
+
+    const { sales_volume, setAppData, selectedClient,selectedEntity,selectedStation } = useContext(AppContext);
+
     const navigate = useNavigate();
     const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const [fuelStats, setFuelStats] = useState<FuelStatsData>({
@@ -85,7 +84,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                         pi_graph: response.data?.data?.pi_graph,
                         basic_details: response.data?.data?.basic_details,
                     });
-                    setRightPanel(true)
+
                     setFilterData(response.data.data);
                 }
                 // setData(response.data);
@@ -233,6 +232,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
     const handleApplyFilters = (values: FilterValues) => {
+        console.log(values, "values");
+
         let clientId = values.client_id || IsClientLogin?.superiorId;
 
         // Override client_id if the user is a client
@@ -530,8 +531,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     // const { sales_volume, sales_value, profit } = useContext(AppContext);
 
- 
-console.log(sales_volume, "LoaderImg");
+    console.log(selectedClient, "selectedClient");
+    console.log(selectedEntity, "selectedEntity");
+    console.log(selectedStation, "setSelectedStation");
+
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}

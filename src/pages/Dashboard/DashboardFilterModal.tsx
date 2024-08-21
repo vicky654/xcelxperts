@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import IconX from '../../components/Icon/IconX';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,8 @@ import withApiHandler from '../../utils/withApiHandler';
 import LoaderImg from '../../utils/Loader';
 import { useNavigate } from 'react-router-dom';
 import useErrorHandler from '../../hooks/useHandleError';
+import AppContext from '../../utils/Context/DashboardContext';
+import { DashboardSelectedClient, DashboardSelectedEntity, DashboardSelectedStation } from '../../components/commonInterfaces';
 
 
 interface FilterValues {
@@ -30,6 +32,10 @@ interface ModalProps {
 interface Client {
     id: string;
     client_name: string;
+
+    full_name: string;
+
+    client_code: string;
     companies: Company[];
 }
 
@@ -51,7 +57,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const auth = useSelector((state: IRootState) => state.auth);
 
-
+    const { setSelectedStation, setSelectedEntity, setSelectedClient } = useContext(AppContext);
 
 
     const handleApiError = useErrorHandler();
@@ -162,10 +168,25 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
+        console.log(clientId, "clientId");
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);
             const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
+            console.log(selectedClient, "selectedClient");
+
+            // Use type assertion to cast the selectedClient to DashboardSelectedClient
+            if (selectedClient) {
+                const dashboardClient: DashboardSelectedClient = {
+                    id: selectedClient.id,
+                    full_name: selectedClient.full_name,
+                    client_name: selectedClient.client_name,
+                    client_code: selectedClient.client_code,
+                };
+                setSelectedClient(dashboardClient);
+            } else {
+                // setSelectedClient(undefined);
+            }
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
             formik.setFieldValue('companies', selectedClient?.companies || []);
             formik.setFieldValue('sites', []);
@@ -179,6 +200,7 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
             formik.setFieldValue('sites', []);
             formik.setFieldValue('company_name', "");
             formik.setFieldValue('site_name', "");
+            // setSelectedClient(undefined);
         }
     };
 
@@ -188,6 +210,15 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
         if (companyId) {
             fetchSiteList(companyId);
             const selectedCompany = formik.values.companies.find((company: Company) => company.id === companyId);
+            if (selectedCompany) {
+                const dashboardEntity: DashboardSelectedEntity = {
+                    id: selectedCompany.id,
+                    entity_name: selectedCompany.entity_name, // Make sure `entity_name` exists in `Company`
+                };
+                setSelectedEntity(dashboardEntity);
+            } else {
+                // setSelectedEntity(undefined);
+            }
             formik.setFieldValue('company_name', selectedCompany?.company_name || "");
             formik.setFieldValue('sites', []);
         } else {
@@ -302,9 +333,23 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                             const selectedSiteId = e.target.value;
                                                             formik.setFieldValue("site_id", selectedSiteId);
                                                             const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-                                                            if (selectedSiteData) {
+                                                            // if (selectedSiteData) {
+                                                            //     console.log(selectedSiteData, "selectedSiteData");
+                                                            //     formik.setFieldValue("site_name", selectedSiteData.site_name);
+                                                            // }
+                                                            if (selectedSiteData && selectedSiteData.id && selectedSiteData.name ) {
                                                                 formik.setFieldValue("site_name", selectedSiteData.site_name);
+                                                            
+                                                                const station: DashboardSelectedStation = {
+                                                                    id: selectedSiteData.id,
+                                                                    name: selectedSiteData.name,
+                                                                 
+                                                                };
+                                                                setSelectedStation(station);
+                                                            } else {
+                                                                console.error("Invalid site data:", selectedSiteData);
                                                             }
+                                                            
                                                         }}
                                                         value={formik.values.site_id}
                                                         className="form-select text-white-dark">
