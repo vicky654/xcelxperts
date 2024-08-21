@@ -1,13 +1,16 @@
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import store, { IRootState } from './store';
 import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from './store/themeConfigSlice';
 import { fetchStoreData } from './store/dataSlice';
 import '@flaticon/flaticon-uicons/css/all/all.css';
 import { useNavigate } from 'react-router-dom';
+import ThemeContext, { ThemeContextProvider } from './utils/Context/themeContext';
+import { AppContextProvider } from './utils/Context/DashboardContext';
 
 function App({ children }: PropsWithChildren) {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -27,18 +30,17 @@ function App({ children }: PropsWithChildren) {
         dispatch(toggleLocale(localStorage.getItem('i18nextLng') || themeConfig.locale));
         dispatch(toggleSemidark(localStorage.getItem('semidark') || themeConfig.semidark));
     }, [dispatch, themeConfig.theme, themeConfig.menu, themeConfig.layout, themeConfig.rtlClass, themeConfig.animation, themeConfig.navbar, themeConfig.locale, themeConfig.semidark]);
- 
+
     return (
-        <div
-
-
-            className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${themeConfig.rtlClass
-                } horizontal main-section antialiased relative font-nunito text-sm font-normal`}
-        // className="
-        //  horizontal full ltr main-section antialiased relative font-nunito text-sm font-normal"
-        >
-            {children}
-        </div>
+        <ThemeContextProvider>
+            <AppContextProvider>
+                <div
+                    className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${themeConfig.rtlClass} horizontal main-section antialiased relative font-nunito text-sm font-normal`}
+                >
+                    {children}
+                </div>
+            </AppContextProvider>
+        </ThemeContextProvider>
     );
 }
 

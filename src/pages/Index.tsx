@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
@@ -15,6 +15,9 @@ import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave
 
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 import { currency } from '../utils/CommonData';
+import ThemeContext from '../utils/Context/themeContext';
+import { IAppContextData } from '../components/commonInterfaces';
+import AppContext from '../utils/Context/DashboardContext';
 interface FilterValues {
     client_id: any;
     company_id: any;
@@ -41,6 +44,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
+    const { rightPanel, setRightPanel } = useContext(ThemeContext);
+    const { sales_volume, setAppData } = useContext(AppContext);
+    console.log(rightPanel, "rightPanel");
     const navigate = useNavigate();
     const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const [fuelStats, setFuelStats] = useState<FuelStatsData>({
@@ -59,26 +65,35 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     const callFetchFilterData = async (filters: FilterValues) => {
         const { client_id, company_id, site_id } = filters;
-    if(client_id){
-        try {
-           
-            const queryParams = new URLSearchParams();
+        if (client_id) {
+            try {
+                const queryParams = new URLSearchParams();
+                if (client_id) queryParams.append('client_id', client_id);
+                if (company_id) queryParams.append('entity_id', company_id);
+                if (site_id) queryParams.append('station_id', site_id);
 
-            if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('entity_id', company_id);
-            if (site_id) queryParams.append('station_id', site_id);
-
-            const queryString = queryParams.toString();
-            const response = await getData(`dashboard/stats?${queryString}`);
-            if (response && response.data && response.data.data) {
-                setFilterData(response.data.data);
+                const queryString = queryParams.toString();
+                const response = await getData(`dashboard/stats?${queryString}`);
+                if (response && response.data && response.data.data) {
+                    console.log(response.data?.data, "queryParams");
+                    setAppData({
+                        sales_volume: response.data?.data?.sales_volume,
+                        sales_value: response.data?.data?.sales_value,
+                        profit: response.data?.data?.profit,
+                        stock: response.data?.data?.stock,
+                        line_graph: response.data?.data?.line_graph,
+                        pi_graph: response.data?.data?.pi_graph,
+                        basic_details: response.data?.data?.basic_details,
+                    });
+                    setRightPanel(true)
+                    setFilterData(response.data.data);
+                }
+                // setData(response.data);
+            } catch (error) {
+                console.error('Failed to fetch data', error);
+            } finally {
             }
-            // setData(response.data);
-        } catch (error) {
-            console.error('Failed to fetch data', error);
-        } finally {
         }
-    }
     };
 
 
@@ -134,7 +149,6 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     useEffect(() => {
         const clientId = localStorage.getItem('client_id');
         const companyId = localStorage.getItem('company_id');
-
         if (IsClientLogin?.isClient && !companyId) {
 
             const initialFilters = {
@@ -514,8 +528,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         }
     }, [fuelStats]);
 
+    // const { sales_volume, sales_value, profit } = useContext(AppContext);
 
-
+ 
+console.log(sales_volume, "LoaderImg");
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
