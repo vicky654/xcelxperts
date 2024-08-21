@@ -252,8 +252,9 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         validationSchema: getStationFuelPurchaseValidationSchema(isEditMode),
         onSubmit: async (values, { resetForm }) => {
             try {
+                console.log(selected, "selected");
                 await onSubmit(values, selected);
-                onClose();
+                // onClose();
             } catch (error) {
                 throw error; // Rethrow the error to be handled by the caller
             }
@@ -282,6 +283,71 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
         const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
         formik.setFieldValue("total", formattedSum);
     };
+    // const handleFieldChange = (fieldName: string, value: any) => {
+    //     // Parse the value as a number if applicable
+    //     const numericValue: number = parseFloat(value);
+    //     console.log(`${fieldName}:`, value);
+
+    //     let vatPercentageRate = formik.values.vat_percentage_rate;
+    //     let exVatPrice = formik.values.ex_vat_price;
+    //     let plattsPrice = formik.values.platts;
+    //     let totalPrice = formik.values.total;
+
+    //     if (fieldName === 'vat_percentage_rate') {
+    //         vatPercentageRate = numericValue.toString();
+    //     } else if (fieldName === 'ex_vat_price') {
+    //         exVatPrice = numericValue.toString();
+    //     } else if (fieldName === 'platts') {
+    //         plattsPrice = numericValue.toString();
+    //         formik.setFieldValue("ex_vat_price", plattsPrice.toString());
+    //     } else if (fieldName === 'total') {
+    //         totalPrice = numericValue.toString();
+    //     }
+
+    //     // Log the values for debugging
+    //     console.log('vatPercentageRate:', vatPercentageRate);
+    //     console.log('exVatPrice:', exVatPrice);
+    //     console.log('plattsPrice:', plattsPrice);
+    //     console.log('totalPrice:', totalPrice);
+
+    //     // Set the value in Formik as a string
+    //     formik.setFieldValue(fieldName, value.toString());
+    // };
+
+    const handleFieldChange = (
+        fieldName: string,
+        value: any
+    ) => {
+        const numericValue: number = parseFloat(value);
+    
+        // Update the field value in Formik
+        formik.setFieldValue(fieldName, numericValue);
+    
+        if (fieldName === 'platts') {
+            // Update ex_vat_price when platts is changed
+            const vatPercentageRate = parseFloat(formik.values.vat_percentage_rate || '0');
+            const calculatedExVatPrice = calculateExVatPrice(numericValue, vatPercentageRate);
+            formik.setFieldValue('ex_vat_price', value);
+        }
+    
+        if (fieldName === 'vat_percentage_rate') {
+            // Update vat_percentage_rate
+            const vatPercentageRate = numericValue;
+    
+            // Calculate the total based on the current platts value
+            const plattsValue = parseFloat(formik.values.platts || '0');
+            const calculatedTotal = plattsValue * (1 + vatPercentageRate / 100);
+            
+            // Set the computed total value
+            formik.setFieldValue('total', calculatedTotal.toFixed(2));
+        }
+    };
+    
+    // Utility function to calculate ex_vat_price from platts_price and vat_percentage_rate
+    const calculateExVatPrice = (platts: number, vatPercentage: number) => {
+        return platts / (1 + vatPercentage / 100);
+    };
+    
 
 
     return (
@@ -355,15 +421,36 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                 // onChange={handleSiteChange}
                                                 />
 
-                                                <FormikInput formik={formik} type="number" name="platts"
-                                                    onBlur={sendEventWithName} />
+                                                {/* <FormikInput formik={formik} type="number" name="platts" label='Price' placeholder='Price'
+                                                   onChange={(e) => handleFieldChange(formik.setFieldValue, formik.values, 0, 'platts_price', e.target.value)}
+                                                  
+                                                    onBlur={sendEventWithName} /> */}
 
 
-                                                <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="development_fuels_price" label="Development Fuels " placeholder="Development Fuels" />
+                                                {/* <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="development_fuels_price" label="Development Fuels " placeholder="Development Fuels" />
 
                                                 <FormikInput formik={formik} type="number" name="duty_price" onBlur={sendEventWithName} />
-                                                <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="premium" />
+                                                <FormikInput formik={formik} type="number" onBlur={sendEventWithName} name="premium" /> */}
 
+                                                <div className={formik.submitCount && formik.errors.platts ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
+                                                    <label htmlFor="platts">
+                                                        Price
+                                                        <span className="text-danger">*</span>
+                                                    </label>
+                                                    <input
+                                                        name="platts"
+                                                        type="Number"
+                                                        id="platts"
+                                                        placeholder="  Price"
+                                                        className={`form-input `}
+                                                        onChange={(e) => handleFieldChange('platts', e.target.value)}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.platts}
+                                                    />
+                                                    {formik.submitCount > 0 && formik.errors.platts && formik.touched.platts && (
+                                                        <div className="text-danger mt-1">{formik.errors.platts}</div>
+                                                    )}
+                                                </div>
                                                 <div className={formik.submitCount && formik.errors.ex_vat_price ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
                                                     <label htmlFor="ex_vat_price">
                                                         Ex. Vat. Price
@@ -373,10 +460,10 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                         name="ex_vat_price"
                                                         type="Number"
                                                         id="ex_vat_price"
-                                                        readOnly={true}
                                                         placeholder="  Ex. Vat. Price"
                                                         className={`form-input readonly`}
-                                                        onChange={formik.handleChange}
+                                                        onChange={(e) => handleFieldChange('ex_vat_price', e.target.value)}
+
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.ex_vat_price}
                                                     />
@@ -384,13 +471,35 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                                                         <div className="text-danger mt-1">{formik.errors.ex_vat_price}</div>
                                                     )}
                                                 </div>
+                                                <div className={formik.submitCount && formik.errors.vat_percentage_rate ? 'has-error' : formik.submitCount ? 'has-success' : ''}>
+                                                    <label htmlFor="vat_percentage_rate">
+                                                        Vat Percentage Rate
+                                                        <span className="text-danger">*</span>
+                                                    </label>
+                                                    <input
+                                                        name="vat_percentage_rate"
+                                                        type="Number"
+                                                        id="vat_percentage_rate"
+
+                                                        placeholder="Vat Percentage Rate"
+                                                        className={`form-input`}
+                                                        onChange={(e) => handleFieldChange('vat_percentage_rate', e.target.value)}
+
+
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.vat_percentage_rate}
+                                                    />
+                                                    {formik.submitCount > 0 && formik.errors.vat_percentage_rate && formik.touched.vat_percentage_rate && (
+                                                        <div className="text-danger mt-1">{formik.errors.vat_percentage_rate}</div>
+                                                    )}
+                                                </div>
 
 
 
-                                                <FormikInput formik={formik} type="number" name="vat_percentage_rate" onBlur={sendEventWithName1} />
+                                                {/* <FormikInput formik={formik} type="number" name="vat_percentage_rate" onBlur={sendEventWithName1} /> */}
 
 
-                                                <FormikInput formik={formik} type="number" name="total" readOnly={true} />
+                                                <FormikInput formik={formik} type="number" name="total" readOnly={false} />
 
 
                                                 <div className="sm:col-span-2 mt-3">

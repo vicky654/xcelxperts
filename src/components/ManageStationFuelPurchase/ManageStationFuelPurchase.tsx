@@ -88,11 +88,13 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
         console.log(values, "handleApplyFilters");
         setSelected([])
+        setData([])
         setstationData(values);
         const apiURL = `station/fuel/purchase-price?client_id=${values?.client_id}&entity_id=${values?.entity_id}&station_id=${values?.station_id}&date=${values?.start_date}`;
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
+                
                 setData(response.data.data);
                 // setIsFilterModalOpen(false);
             } else {
@@ -171,7 +173,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 {...field}
                                 className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
                                 // readOnly={!row.update_opening}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'platts_price', e.target.value)}
+                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'platts_price', e.target.value)
+
+
+                                    
+                                }
                             />
                         </div>
                     )}
@@ -262,31 +268,48 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         },
         // Define other columns similarly
     ];
+    const handleSuccess = () => {
+        // fetchData();
+        const storedData = localStorage.getItem(storedKeyName);
 
-    // const handleSubmit = async (values: FormValues) => {
-    //     try {
-    //         const formData = new FormData();
-    //         values.data.forEach((obj: any) => {
-    //             if (obj.id) {
-    //                 formData.append(`opening[${obj.id}]`, obj.opening.toString());
-    //                 formData.append(`delivery_volume[${obj.id}]`, obj.delivery_volume.toString());
-    //                 formData.append(`sales_volume[${obj.id}]`, obj.sales_volume.toString());
-    //                 formData.append(`book_stock[${obj.id}]`, obj.book_stock.toString());
-    //                 formData.append(`dips_stock[${obj.id}]`, obj.dips_stock.toString());
-    //                 formData.append(`variance[${obj.id}]`, obj.variance.toString());
-    //             }
-    //         });
+        if (storedData) {
+            setstationData(JSON.parse(storedData))
+            handleApplyFilters(JSON.parse(storedData));
+        }
+    };
 
-    //         const url = `data-entry/fuel-delivery/update`;
-    //         const isSuccess = await postData(url, formData);
-    //         if (isSuccess) {
-    //             handleApplyFilters(stationData);
-    //         }
-    //     } catch (error) {
-    //         handleApiError(error);
-    //     }
-    // };
+    const handleaddSubmit = async (values: any, selected: any) => { 
+        try {
+            const formData = new FormData();
 
+            formData.append("platts_price", values.platts);
+            // formData.append("premium_price", values.premium);
+            // formData.append("development_fuels_price", values.development_fuels_price);
+            // formData.append("duty_price", values.duty_price);
+            formData.append("vat_percentage_rate", values.vat_percentage_rate);
+            formData.append("ex_vat_price", values.ex_vat_price);
+            formData.append("total", values.total);
+            formData.append("date", values.date);
+            formData.append("fuel_id", values.fuel_id);
+
+
+            values?.selectedStations?.forEach((selected: any, index: any) => {
+                formData.append(`station_id[${index}]`, selected.value);
+            });
+
+
+            const url = `/station/fuel/purchase-price/create`;
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
+                handleSuccess();
+                closeModal();
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+   
     const validationSchema = Yup.object().shape({
         data: Yup.array().of(
             Yup.object().shape({
@@ -344,7 +367,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             return; // Exit the function if no site is selected
         }
 
-console.log(values, "values");
+        console.log(values, "values");
 
         try {
             const formData = new FormData();
@@ -376,12 +399,6 @@ console.log(values, "values");
     };
 
 
-    const validationPurchaseSchema = Yup.object().shape({
-        selected: Yup.array()
-            .of(Yup.string()) // Assuming station IDs are strings; adjust as per your data type
-            .min(1, 'Please select at least one station')
-            .required('Please select at least one station'),
-    });
 
     return (
         <>
@@ -410,7 +427,7 @@ console.log(values, "values");
                 getData={getData}
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handleSubmit}
+                onSubmit={handleaddSubmit}
                 isEditMode={isEditMode}
                 userId={editUserData?.id}
             />
