@@ -15,6 +15,7 @@ import StatsBarChart from './StatsBarChart';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IconX from '../Icon/IconX';
 import DashboardFilter from './DashboardFilter';
+import PieChart from './PieChart';
 interface ManageSiteProps {
   isLoading: boolean;
   getData: (url: string) => Promise<any>;
@@ -106,18 +107,43 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
-
-
-        // Check for the existence of `start_month` or other necessary properties
         if (storedData.start_month) {
 
           handleApplyFilters(storedData);
         }
       } catch (error) {
-       
+
       }
     }
   }, [dispatch]);
+  useEffect(() => {
+    // Select the first card by default if cards have data
+    const stationTank = localStorage.getItem(keyName);
+
+    if (stationTank) {
+      const parsedData = JSON.parse(stationTank);
+      setFilters({
+        client_id: parsedData.client_id || '',
+        company_id: parsedData.entity_id || '',
+        site_id: parsedData.station_id || '',
+        // You can include more fields as needed:
+        client_name: parsedData.client_name || '',
+        entity_name: parsedData.entity_name || '',
+        start_date: parsedData.start_date || '',
+        start_month: parsedData.start_month || '',
+        station_name: parsedData.station_name || '',
+        clients: parsedData.clients || [],
+        companies: parsedData.companies || [],
+        sites: parsedData.sites || [],
+      });
+    }
+    if (cards?.length > 0) {
+
+
+
+      setSelectedCardName(cards[0]?.name);
+    }
+  }, [cards]);
 
 
 
@@ -154,34 +180,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     site_id: localStorage.getItem('site_id') || '',
   });
 
-  useEffect(() => {
-    // Select the first card by default if cards have data
-    const stationTank = localStorage.getItem('stationTank');
 
-    if (stationTank) {
-      const parsedData = JSON.parse(stationTank);
-      setFilters({
-        client_id: parsedData.client_id || '',
-        company_id: parsedData.entity_id || '',
-        site_id: parsedData.station_id || '',
-        // You can include more fields as needed:
-        client_name: parsedData.client_name || '',
-        entity_name: parsedData.entity_name || '',
-        start_date: parsedData.start_date || '',
-        start_month: parsedData.start_month || '',
-        station_name: parsedData.station_name || '',
-        clients: parsedData.clients || [],
-        companies: parsedData.companies || [],
-        sites: parsedData.sites || [],
-      });
-    }
-    if (cards?.length > 0) {
-
-
-
-      setSelectedCardName(cards[0]?.name);
-    }
-  }, [cards]);
   const handleTabClick = async (tabName: string) => {
 
     try {
@@ -206,9 +205,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
   const handleApplyFilters = async (values: any) => {
 
-
+    console.log(values, "handleApplyFilters");
     try {
-    
+
       setFilters(values)
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
@@ -769,7 +768,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </div>
 
       </div>
-      {stationId && selectedTab !== 'Variance Accumulation' && (
+      {/* {stationId && selectedTab !== 'Variance Accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
 
 
@@ -830,7 +829,50 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           </div>
 
         </div>
+      )} */}
+      {stationId && selectedTab !== 'Variance Accumulation' && (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-12 gap-1 mb-6">
+          <div className="xl:col-span-7 p-2">
+            <div className="panel h-full">
+              <div className="flex justify-between">
+                <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats</h5>
+                <hr />
+              </div>
+              <div style={{ padding: "10px" }}>
+                <StatsBarChart
+                  series={barData}
+                  categories={dates}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="xl:col-span-5 p-2">
+            <div className="panel h-full">
+              <div className="flex justify-between">
+                <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Pie Graph Stats</h5>
+                <hr />
+              </div>
+              <div style={{ padding: "10px" }}>
+                {/* <ReactApexChart
+                        series={pieChart?.series}
+                        options={pieChart?.options}
+                        className="rounded-lg bg-white dark:bg-black overflow-hidden"
+                        type="pie"
+                        height={300}
+                    /> */}
+
+                <PieChart
+
+                  data={salesByCategory}
+
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
+
+
     </div >
 
     {isFilterModalOpen && (
