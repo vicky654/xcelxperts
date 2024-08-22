@@ -582,7 +582,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                     <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
                                         <Tippy content="Reset Filter">
                                             <span className="btn bg-danger btn-danger">
-                                                <IconRefresh className="w-6 h-6" />
+                                                {/* <IconRefresh className="w-6 h-6" /> */}
+                                                <i className="fi fi-ts-filter-slash w-6 h-6"></i>
                                             </span>
                                         </Tippy>
                                     </div>

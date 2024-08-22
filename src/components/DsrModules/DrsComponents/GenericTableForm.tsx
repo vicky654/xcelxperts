@@ -145,7 +145,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             )
                         }
                     >
-                        <span className='ms-2'>{displayText}</span>
+                        <span className='ms-2' style={{minWidth:"100px" , maxWidth:"100px"}}>{displayText}</span>
                     </OverlayTrigger>
                 );
             },
@@ -161,7 +161,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
             width: '7%',
             selector: (row: NozzleData) => row.fuel_name,
-            cell: (row: NozzleData) => <span>{row.fuel_name}</span>,
+            cell: (row: NozzleData) => <span style={{minWidth:"100px" , maxWidth:"100px"}}>{row.fuel_name}</span>,
         },
         {
             name: (
@@ -460,13 +460,17 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                                 Total Sales Volume: {totalSalesVolume}
                                             </span> */}
                                             <span className='tank_name'>
-                                                {tank.tank_name}
+
+                                                {tank.tank_name?.length > 8 ? `${tank?.tank_name.substring(0, 6)}...` : tank.tank_name}
+
+
                                                 <OverlayTrigger
                                                     placement="top"
                                                     overlay={
                                                         <Tooltip className='custom-tooltip' id="tooltip-variance">
                                                             Fuel Left : {tank?.fuel_left - totalSalesVolume} {capacity}<br />
-                                                            Capacity : {tank?.capacity} {capacity}
+                                                            Capacity : {tank?.capacity} {capacity}<br />
+                                                            Tank Name : {tank?.tank_name}
                                                         </Tooltip>
                                                     }
                                                 >
