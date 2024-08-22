@@ -288,6 +288,7 @@ border-color: none;
     justify-content: center;
     align-items: center;
 }
+
 .flexend {
     display: flex;
     justify-content: end;
@@ -300,23 +301,24 @@ border-color: none;
     justify-content: space-between;
     align-items: center;
 }
+
 .flexspacebetween {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  /* @media (min-width: 768px) {
+}
+
+/* @media (min-width: 768px) {
     .flexspacebetween {
       display: block;
     }
   } */
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     .flexspacebetween {
-      display: block;
+        display: block;
     }
-  }
-  
+}
+
 .labelclick {
     cursor: pointer;
     background: #ddd;
@@ -894,6 +896,10 @@ body {
     overflow: hidden !important;
 } */
 
-.FuelaleList:hover{
+.FuelaleList:hover {
     background-color: #ddd !important;
+}
+
+.auto-height-react-table>.Nfhbm>.BAfJj>.rdt_Table>.rdt_TableBody {
+    height: auto;
 }

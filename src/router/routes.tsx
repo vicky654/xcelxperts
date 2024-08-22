@@ -142,6 +142,7 @@ import ManageCreditUserHistory from '../components/CreditUser/ManageCreditUserHi
 import BlankLayout from '../components/Layouts/BlankLayout';
 import AuthenticationCheck from '../components/Layouts/AuthenticationCheck';
 import StockLoss from '../components/SideBarComponents/ManageStation/StockLoss';
+import NewDashboard from '../components/NewDashboard/NewDashboard';
 
 const routes = [
   {
@@ -151,6 +152,10 @@ const routes = [
   {
     path: '/dashboard',
     element: <Index />,
+  },
+  {
+    path: '/dashboard-new',
+    element: <NewDashboard />,
   },
   {
     path: '/data-entry',
