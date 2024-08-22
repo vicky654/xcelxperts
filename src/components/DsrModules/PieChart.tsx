@@ -14,7 +14,7 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
     const options: ApexCharts.ApexOptions = {
       series: data?.data?.map(Number), // Convert string array to number array
       chart: {
-        width: 380,
+        width: 500,
         type: 'pie',
       },
       labels: data?.labels,
@@ -24,7 +24,7 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              width: 500,
             },
             legend: {
               position: 'bottom',
