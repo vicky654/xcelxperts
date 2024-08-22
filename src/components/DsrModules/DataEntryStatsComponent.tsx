@@ -90,7 +90,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
   const [stationId, setStationId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
-
+  const [considerNozzle, setConsiderNozzle] = useState<boolean | null>(null);
 
 
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
@@ -100,10 +100,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const { id } = useParams();
   const keyName = id ? DashboardstoredKeyName : storedKeyName;
   useEffect(() => {
-
     const storedDataString = localStorage.getItem(keyName);
-
-
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
@@ -287,7 +284,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       const response = await getData(`/daily-stats/${endpoint}?station_id=${stationId}&drs_date=${formattedDate}`);
 
       if (response && response.data && response.data.data) {
-        setSubData(response.data?.data?.listing);
+        if (endpoint === "fuel-sales") {
+          setConsiderNozzle(response.data?.data?.considerNozzle || null);
+          setSubData(response.data?.data?.listing || []);
+        } else {
+          setSubData(response.data?.data?.listing || []);
+        }
       } else {
 
         throw new Error('No data available in the response');
@@ -296,39 +298,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
       handleApiError(error);
     }
-  };
-  const pieChart: any = {
-    series: salesByCategory?.data?.map(amount => parseFloat(amount)),
-    options: {
-      chart: {
-        height: 300,
-        type: 'pie',
-        zoom: {
-          enabled: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      labels: salesByCategory?.labels,
-      colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-          },
-        },
-      ],
-      stroke: {
-        show: false,
-      },
-      legend: {
-        position: 'bottom',
-      },
-    },
   };
 
 
@@ -351,7 +320,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     setIsFilterModalOpen(false);
   }
 
-
+  console.log(considerNozzle, "considerNozzle");
   return <>
     {isLoading && <LoaderImg />}
 
@@ -425,15 +394,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         </button>
 
 
-        {/* {modalOpen && (
-<>
-<DashboardFilterModal
-    isOpen={modalOpen}
-    onClose={() => setModalOpen(false)}
-    onApplyFilters={handleApplyFilters} // Pass the handler to the modal
-/>
-</>
-)} */}
       </div>
     </div>
 
@@ -441,72 +401,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1 mb-6">
-        {/* <div className='panel h-full hidden md:block'>
-          <CustomInput
-            getData={getData}
-            isLoading={isLoading}
-            onApplyFilters={handleApplyFilters}
 
-            showClientInput={true}
-            showEntityInput={true}
-            showStationInput={true}
-            showStationValidation={true}
-            validationSchema={validationSchemaForCustomInput}
-            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-            isOpen={false}
-            onClose={() => { }}
-            showDateInput={false}
-            showMonthInput={true}
-            storedKeyName={storedKeyName}
-          />
-
-
-        </div> */}
-
-        {/* 
-        <div className=" flex justify-end flex-col gap-4 flex-wrap">
-          {filters?.client_name || filters?.entity_name || filters?.station_name ? (
-            <>
-              <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
-                {filters?.client_id && (
-                  <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Client :</span> {filters?.client_name}
-                  </div>
-                )}
-
-                {filters?.entity_name && (
-                  <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Entity : </span> {filters?.entity_name}
-                  </div>
-                )}
-
-                {filters?.station_name && (
-                  <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Station :</span> {filters?.station_name}
-                  </div>
-                )}
-                {filters?.start_month && (
-                  <div className="badge bg-gray-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Month :</span> {filters?.start_month}
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            ''
-          )}
-
-
-        </div> */}
 
         <div className='panel h-full col-span-4'>
           <div className="flex justify-between  ">
             <h5 className="font-bold text-lg dark:text-white-light">Data Entry Stats</h5>
-            {/* <div className=" flex ">
-              <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
-                Filter
-              </button>
-            </div> */}
+
           </div>
           <div>
             {startDate && stationId ? (
@@ -665,27 +565,71 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       >
                         {selectedTab === "Fuel Sales" ? (
                           <div className="overflow-x-auto">
-                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                              <li className="flex justify-between p-2 bg-gray-200">
-                                <p className="font-semibold w-1/6">Name</p>
-                                <p className="font-semibold w-1/6">Price</p>
-                                <p className="font-semibold w-1/6">Volume</p>
-                                <p className="font-semibold w-1/6">Gross Value</p>
-                                <p className="font-semibold w-1/6">Discount</p>
-                                <p className="font-semibold w-1/6">Balance</p>
-                              </li>
-                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                  <p className="w-1/6">{subItem?.name}</p>
-                                  <p className="w-1/6">{currency} {subItem?.price}</p>
-                                  <p className="w-1/6">{subItem?.volume}</p>
-                                  <p className="w-1/6">{currency} {subItem?.gross_value}</p>
-                                  <p className="w-1/6">{currency} {subItem?.discount}</p>
-                                  <p className="w-1/6">{currency} {subItem?.amount}</p>
+                            {!considerNozzle ? (
+                              <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                <li className="flex justify-between p-2 bg-gray-200">
+                                  <p className="font-semibold w-1/6">Name</p>
+                                  <p className="font-semibold w-1/6">Price</p>
+                                  <p className="font-semibold w-1/6">Volume</p>
+                                  <p className="font-semibold w-1/6">Gross Value</p>
+                                  <p className="font-semibold w-1/6">Discount</p>
+                                  <p className="font-semibold w-1/6">Balance</p>
                                 </li>
-                              ))}
-                            </ul>
+                                {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                  <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                    <p className="w-1/6">{subItem?.name}</p>
+                                    <p className="w-1/6">{currency} {subItem?.price}</p>
+                                    <p className="w-1/6">{subItem?.volume}</p>
+                                    <p className="w-1/6">{currency} {subItem?.gross_value}</p>
+                                    <p className="w-1/6">{currency} {subItem?.discount}</p>
+                                    <p className="w-1/6">{currency} {subItem?.amount}</p>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+
+
+                              <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                <li className="flex justify-between p-2 bg-gray-200">
+
+                                  <p className="font-semibold w-1/6">Nozzle Name</p>
+                                  <p className="font-semibold w-1/6">Price</p>
+                                  <p className="font-semibold w-1/6">Volume</p>
+                                  <p className="font-semibold w-1/6">Gross Value</p>
+                                  <p className="font-semibold w-1/6">Discount</p>
+                                  <p className="font-semibold w-1/6">Balance</p>
+                                </li>
+                                {subData?.map((fuelType, fuelIndex) =>
+                                  fuelType?.tanks?.map((tank: any, tankIndex: any) => (
+                                    <React.Fragment key={`${fuelIndex}-${tankIndex}`}>
+
+                                      <p className= " p-2 bg-gray-200  font-bold w-1/10"> Fuel Type: {fuelType?.name}</p>
+                                      <p className="  font-bold p-2 bg-gray-200 w-1/10"> Tank Name : {tank?.tank_name}</p>
+                                      <p className="w-4/6"></p> {/* Empty cells to fill the remaining space */}
+
+                                      {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
+                                        <li key={`${fuelIndex}-${tankIndex}-${nozzleIndex}`} className="flex justify-between p-2 hover:bg-gray-100">
+
+                                          <p className="w-1/6">{nozzle?.name}</p>
+                                          <p className="w-1/6">{currency} {nozzle?.price}</p>
+                                          <p className="w-1/6">{nozzle?.volume}</p>
+                                          <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
+                                          <p className="w-1/6">{currency} {nozzle?.discount}</p>
+                                          <p className="w-1/6">{currency} {nozzle?.amount}</p>
+                                        </li>
+                                      ))}
+                                    </React.Fragment>
+                                  ))
+                                )}
+                              </ul>
+                            )}
                           </div>
+
+
+
+
+
+
                         ) : selectedTab === "Lube Sales" ? (
                           <div className="overflow-x-auto">
                             <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
@@ -718,7 +662,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   {selectedTab === 'Fuel Delivery' ? 'Delivery'
                                     : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
                                 </p>
-
                               </li>
                               {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                 <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
@@ -726,16 +669,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="w-1/2">
                                     {selectedTab === 'Fuel Delivery'
                                       ? capacity + subItem?.delivery
-                                      : (selectedTab !== 'Fuel Variance'
-                                        ? currency + subItem?.amount
-                                        : capacity + subItem?.variance)}
+                                      : (selectedTab === 'Fuel Variance'
+                                        ? capacity + subItem?.variance
+                                        : currency + subItem?.amount)}
                                   </p>
-
                                 </li>
                               ))}
                             </ul>
                           </div>
                         )}
+
                       </CollapsibleItem>
                     ))}
                   </ul>
@@ -832,7 +775,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       )} */}
       {stationId && selectedTab !== 'Variance Accumulation' && (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-12 gap-1 mb-6">
-          <div className="xl:col-span-7 p-2">
+          <div className="xl:col-span-8 p-2">
             <div className="panel h-full">
               <div className="flex justify-between">
                 <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats</h5>
@@ -846,7 +789,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               </div>
             </div>
           </div>
-          <div className="xl:col-span-5 p-2">
+          <div className="xl:col-span-4 p-2">
             <div className="panel h-full">
               <div className="flex justify-between">
                 <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Pie Graph Stats</h5>
