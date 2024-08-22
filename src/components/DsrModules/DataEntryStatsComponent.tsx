@@ -573,7 +573,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="font-semibold w-1/6">Volume</p>
                                   <p className="font-semibold w-1/6">Gross Value</p>
                                   <p className="font-semibold w-1/6">Discount</p>
-                                  <p className="font-semibold w-1/6">Balance</p>
+                                  <p className="font-semibold w-1/6">Net Value</p>
                                 </li>
                                 {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                   <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
@@ -597,14 +597,14 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="font-semibold w-1/6">Volume</p>
                                   <p className="font-semibold w-1/6">Gross Value</p>
                                   <p className="font-semibold w-1/6">Discount</p>
-                                  <p className="font-semibold w-1/6">Balance</p>
+                                  <p className="font-semibold w-1/6">Net Value</p>
                                 </li>
                                 {subData?.map((fuelType, fuelIndex) =>
                                   fuelType?.tanks?.map((tank: any, tankIndex: any) => (
                                     <React.Fragment key={`${fuelIndex}-${tankIndex}`}>
 
-                                      <p className= " p-2 bg-gray-200  font-bold w-1/10"> Fuel Type: {fuelType?.name}</p>
-                                      <p className="  font-bold p-2 bg-gray-200 w-1/10"> Tank Name : {tank?.tank_name}</p>
+                                      <p className=" p-2 bg-[#e5e7eb]  font-bold w-1/10"> Fuel Type: {fuelType?.name}</p>
+                                      <p className=" mt-2  mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10"> Tank Name : {tank?.tank_name}</p>
                                       <p className="w-4/6"></p> {/* Empty cells to fill the remaining space */}
 
                                       {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (

@@ -273,7 +273,6 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
     }
   };
-  const formatKey = (key: string) => key.replace(/\s+/g, '');
   const formatDate = (date: string) => {
     const dateObj = new Date(date);
     const day = dateObj.getDate().toString().padStart(2, '0');
@@ -307,39 +306,6 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
       handleApiError(error);
     }
   };
-  const pieChart: any = {
-    series: salesByCategory?.data?.map(amount => parseFloat(amount)),
-    options: {
-      chart: {
-        height: 300,
-        type: 'pie',
-        zoom: {
-          enabled: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      labels: salesByCategory?.labels,
-      colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-          },
-        },
-      ],
-      stroke: {
-        show: false,
-      },
-      legend: {
-        position: 'bottom',
-      },
-    },
-  };
 
 
 
@@ -348,12 +314,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
   // State to store barData and dates
   const [barData, setBarData] = useState<ApexData[]>([]);
   const [dates, setDates] = useState<string[]>([]);
-  const graphstaticTabs = ["Bar Chart", "Pie Chart"];
-  const [graphselectedTab, graphsetSelectedTab] = useState(graphstaticTabs[0]);
 
-  const handleGraphTabClick = (tabName: any) => {
-    graphsetSelectedTab(tabName);
-  };
 
 
 
@@ -603,13 +564,13 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                           <div className="overflow-x-auto">
                           {!considerNozzle ? (
                             <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                              <li className="flex justify-between p-2 bg-gray-200">
+                              <li className="flex justify-between p-2 dark:bg-[#1b2e4b] ">
                                 <p className="font-semibold w-1/6">Name</p>
                                 <p className="font-semibold w-1/6">Price</p>
                                 <p className="font-semibold w-1/6">Volume</p>
                                 <p className="font-semibold w-1/6">Gross Value</p>
                                 <p className="font-semibold w-1/6">Discount</p>
-                                <p className="font-semibold w-1/6">Balance</p>
+                                <p className="font-semibold w-1/6">Net Value</p>
                               </li>
                               {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                 <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
@@ -633,7 +594,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                                 <p className="font-semibold w-1/6">Volume</p>
                                 <p className="font-semibold w-1/6">Gross Value</p>
                                 <p className="font-semibold w-1/6">Discount</p>
-                                <p className="font-semibold w-1/6">Balance</p>
+                                <p className="font-semibold w-1/6">Net Value</p>
                               </li>
                               {subData?.map((fuelType, fuelIndex) =>
                                 fuelType?.tanks?.map((tank: any, tankIndex: any) => (
