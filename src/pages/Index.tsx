@@ -714,24 +714,26 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
                                 {currency}{filterData?.stock?.value ?? ''}
-                                {` (ℓ${filterData?.stock?.volume ?? ''})`}   <OverlayTrigger
-                                placement="top"
-                                overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
-                                    <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
-                                        <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                            {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
-                                            {` (ℓ${fuel.volume ?? ''})`}
+                                {` (ℓ${filterData?.stock?.volume ?? ''})`}
+
+
+                                {filterData?.stock ? <OverlayTrigger
+                                    placement="top"
+                                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
+                                        <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                            <div className="text-sm ltr:mr-3 rtl:ml-3">
+                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
+                                                {` (ℓ${fuel.volume ?? ''})`}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}</Tooltip>}
-                            >
-                                <span><i className="fi fi-tr-comment-info"></i></span>
-                            </OverlayTrigger>
-                            </div>
-                         
-                            <div className="flex flex-wrap">
+                                    ))}</Tooltip>}
+                                >
+                                    <span><i className="fi fi-tr-comment-info"></i></span>
+                                </OverlayTrigger> : ""}
 
                             </div>
+
+
 
 
                             <div style={{
