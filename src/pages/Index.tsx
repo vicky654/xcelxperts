@@ -10,13 +10,12 @@ import LoaderImg from '../utils/Loader';
 import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import showMessage from '../hooks/showMessage';
 import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
 
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 import { currency } from '../utils/CommonData';
-import ThemeContext from '../utils/Context/themeContext';
 import AppContext from '../utils/Context/DashboardContext';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 interface FilterValues {
     client_id: any;
     company_id: any;
@@ -44,7 +43,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         dispatch(setPageTitle('Sales Admin'));
     });
 
-    const { sales_volume, setAppData, selectedClient,selectedEntity,selectedStation } = useContext(AppContext);
+    const { sales_volume, setAppData, selectedClient, selectedEntity, selectedStation } = useContext(AppContext);
 
     const navigate = useNavigate();
     const IsClientLogin = useSelector((state: IRootState) => state.auth);
@@ -74,7 +73,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/stats?${queryString}`);
                 if (response && response.data && response.data.data) {
-                  
+
                     setAppData({
                         sales_volume: response.data?.data?.sales_volume,
                         sales_value: response.data?.data?.sales_value,
@@ -89,7 +88,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                 }
                 // setData(response.data);
             } catch (error) {
-               
+
             } finally {
             }
         }
@@ -119,7 +118,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
             }
         } catch (error) {
-         
+
         } finally {
         }
     };
@@ -212,7 +211,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     setFilterData(response.data.data);
                 }
             } catch (error) {
-             
+
             }
 
         } else {
@@ -232,7 +231,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
     const handleApplyFilters = (values: FilterValues) => {
-     
+
 
         let clientId = values.client_id || IsClientLogin?.superiorId;
 
@@ -715,18 +714,23 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
                                 {currency}{filterData?.stock?.value ?? ''}
-                                {` (ℓ${filterData?.stock?.volume ?? ''})`}
-                            </div>
-
-                            <div className="flex flex-wrap">
-                                {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
-                                    <div key={index} className="flex items-center w-1/2 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                {` (ℓ${filterData?.stock?.volume ?? ''})`}   <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
+                                    <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                         <div className="text-sm ltr:mr-3 rtl:ml-3">
                                             {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
                                             {` (ℓ${fuel.volume ?? ''})`}
                                         </div>
                                     </div>
-                                ))}
+                                ))}</Tooltip>}
+                            >
+                                <span><i className="fi fi-tr-comment-info"></i></span>
+                            </OverlayTrigger>
+                            </div>
+                         
+                            <div className="flex flex-wrap">
+
                             </div>
 
 
@@ -750,27 +754,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                 ) : (
                                     <span>Last Month </span>
                                 )}
-
-
-
-
-
-
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                     </div>
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
@@ -797,7 +782,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         <div className="panel h-full xl:col-span-1 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg dark:text-white-light">Sales By Category</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Payments</h5>
                             </div>
 
                             <div className="relative">

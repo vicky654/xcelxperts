@@ -893,3 +893,7 @@ body {
 /* .sc-dAbbbq.jaZrIV.rdt_TableBody {
     overflow: hidden !important;
 } */
+
+.FuelaleList:hover{
+    background-color: #ddd !important;
+}
