@@ -634,11 +634,12 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         {filters?.client_id || filters?.entity_id || filters?.station_id ? (
                             <>
-                                <button onClick={handleResetFilters}>
+                                 <button onClick={handleResetFilters}>
                                     <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
                                         <Tippy content="Reset Filter">
                                             <span className="btn bg-danger btn-danger">
-                                                <IconRefresh className="w-6 h-6" />
+                                                {/* <IconRefresh className="w-6 h-6" /> */}
+                                                <i className="fi fi-ts-filter-slash w-6 h-6"></i>
                                             </span>
                                         </Tippy>
                                     </div>
@@ -762,7 +763,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         <div
                             className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`}
-                            onClick={handleClickToOverView}
+
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
@@ -790,16 +791,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             </div>
 
 
-                            <div className="flex flex-wrap">
-                                {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
-                                    <div key={index} className="flex items-center w-1/2 mb-2"> {/* w-1/2 makes each item take half the width */}
-                                        <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                            {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
-                                            {` (ℓ${fuel.volume ?? ''})`}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
 
 
                             <div style={{
@@ -822,12 +813,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 ) : (
                                     <span>Last Month </span>
                                 )}
-
-
-
-
-
-
                             </div>
                         </div>
 
