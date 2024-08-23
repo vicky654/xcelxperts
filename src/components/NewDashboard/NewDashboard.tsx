@@ -518,7 +518,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const handleClickToOverView = () => {
         if (filterData) {
-            navigate('/dashboard/overview');
+            navigate('/dashboard/new-overview');
         }
     };
 

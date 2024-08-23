@@ -143,6 +143,7 @@ import BlankLayout from '../components/Layouts/BlankLayout';
 import AuthenticationCheck from '../components/Layouts/AuthenticationCheck';
 import StockLoss from '../components/SideBarComponents/ManageStation/StockLoss';
 import NewDashboard from '../components/NewDashboard/NewDashboard';
+import NewDashboardChild from '../components/NewDashboard/NewDashboardChild';
 
 const routes = [
   {
@@ -176,6 +177,10 @@ const routes = [
   {
     path: '/dashboard/overview',
     element: <DashboardOverview detailsData={undefined} isSitePermissionAvailable={''} />,
+  },
+  {
+    path: '/dashboard/new-overview',
+    element: <NewDashboardChild />,
   },
   {
     path: '/dashboard/station/:id',
