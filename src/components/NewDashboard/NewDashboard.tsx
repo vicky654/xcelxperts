@@ -18,6 +18,7 @@ import * as Yup from 'yup';
 import IconX from '../Icon/IconX';
 import useErrorHandler from '../../hooks/useHandleError';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
 
 interface FilterValues {
     client_id: any;
@@ -882,8 +883,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             />
                                         </div>
                                     ) : (
-                                        <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
-                                    )}
+                                        // <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
+                                   
+                                        <BasicPieChart data={filterData?.pi_graph} />
+
+                                   )}
                                 </div>
                             </div>
 
