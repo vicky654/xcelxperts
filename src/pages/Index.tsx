@@ -16,6 +16,7 @@ import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 import { currency } from '../utils/CommonData';
 import AppContext from '../utils/Context/DashboardContext';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import BasicPieChart from './Dashboard/BasicPieChart';
 interface FilterValues {
     client_id: any;
     company_id: any;
@@ -530,7 +531,12 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
     // const { sales_volume, sales_value, profit } = useContext(AppContext);
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data || []);
- 
+    const [theme, setTheme] = useState<"light" | "dark">("light");
+
+    // Toggle theme for demonstration
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    };
 
     return (
         <>
@@ -538,10 +544,32 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
             <div>
                 <div className="flex justify-between items-center">
-                  <h2 className='font-bold'>
-                            {UserPermissions?.d_label}
-                        </h2>
-                    
+                    <h2 className='font-bold'>
+                        Dashboard {filterData?.basic_details?.day_end_date && (
+                            <>
+                                ({filterData?.basic_details?.day_end_date})
+
+                                {filterData?.stock && (
+                                    <OverlayTrigger
+                                        placement="right"
+                                        overlay={
+                                            <Tooltip className='custom-tooltip' id="tooltip-amount">
+                                                You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <span><i className="fi fi-tr-comment-info"></i></span>
+                                    </OverlayTrigger>
+                                )}
+                            </>
+                        )}
+
+                        {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
+
+
+
+                    </h2>
+
 
                     <div className=" flex gap-4 flex-wrap">
 
@@ -707,7 +735,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         <div
                             className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`}
-                         
+
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
@@ -763,7 +791,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">Revenue</h5>
+                                <h5 className="font-bold text-lg">Total Earnings </h5>
                             </div>
 
                             <div className="relative">
@@ -785,7 +813,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         <div className="panel h-full xl:col-span-1 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg dark:text-white-light">Payments</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Payments Overview</h5>
                             </div>
 
                             <div className="relative">
@@ -799,7 +827,9 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
                                             />
                                         </div>
                                     ) : (
-                                        <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
+                                        // <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
+                                        <BasicPieChart data={filterData?.pi_graph} />
+
                                     )}
                                 </div>
                             </div>

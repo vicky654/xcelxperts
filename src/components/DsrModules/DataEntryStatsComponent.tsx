@@ -320,7 +320,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     setIsFilterModalOpen(false);
   }
 
-  console.log(considerNozzle, "considerNozzle");
   return <>
     {isLoading && <LoaderImg />}
 
@@ -615,7 +614,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                                 {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
                                                   <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
                                                     style={{
-                                                      backgroundColor: nozzle?.id == "0" ? "#1c8b33a5" : "hover:bg-gray-100",
+                                                      backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
                                                       fontWeight: nozzle?.id == "0" ? "bold" : ""
                                                     }}
                                                   >
@@ -635,12 +634,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                             </React.Fragment>
 
                                           ))}
-                                          <li style={{ background: "#02449b47" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
+                                          <li style={{ background: "#1c8b3359" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
                                             <p className="w-1/6 ">{fuelType?.name} Total</p>
                                             <p className="w-1/6">
 
                                             </p>
-                                            <p className="w-1/6">{fuelType?.volume}</p>
+                                            <p className="w-1/6">{capacity}{fuelType?.volume}</p>
                                             <p className="w-1/6">{currency} {fuelType?.gross_value}</p>
                                             <p className="w-1/6">{currency} {fuelType?.discount}</p>
                                             <p className="w-1/6">{currency} {fuelType?.amount} </p>

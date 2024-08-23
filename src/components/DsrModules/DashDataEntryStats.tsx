@@ -560,7 +560,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                         isActive={activeAccordion === `${currency}-${index}`}
                         onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                       >
-                          {selectedTab === "Fuel Sales" ? (
+                         {selectedTab === "Fuel Sales" ? (
                           <div className="overflow-x-auto">
                             {!considerNozzle ? (
                               <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
@@ -596,46 +596,58 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                                   <p className="font-semibold w-1/6">Discount</p>
                                   <p className="font-semibold w-1/6">Net Value</p>
                                 </li>
+
+
                                 {subData?.map((fuelType, fuelIndex) => (
-                                  <div key={fuelIndex}>
-                                    <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
-                                    {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
-                                      <React.Fragment key={tankIndex}>
-                                        <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
-                                        <div className="flex flex-col">
-                                          {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
-                                            <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 " style={{
-                                              backgroundColor: nozzle?.id == "0" ? "#1c8b33a5" : "transparent",
-                                              fontWeight: nozzle?.id == "0" ? "bold" : ""
+                                  <>
 
-                                            }}>
-                                              <p className="w-1/6">{nozzle?.name} </p>
-                                              <p className="w-1/6">
-                                                {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${nozzle?.price}`}
-                                              </p>
-                                              <p className="w-1/6">{capacity}{nozzle?.volume}</p>
-                                              <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
-                                              <p className="w-1/6">{currency} {nozzle?.discount}</p>
-                                              <p className="w-1/6">{currency} {nozzle?.amount} </p>
-                                            </li>
+                                    <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
+                                      <div className="panel h-full mx-0 px-0 pt-0 fuel-sale-table-border">
+                                        <div key={fuelIndex}>
+                                          <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
+                                          {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
+                                            <React.Fragment key={tankIndex}>
+                                              <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
+                                              <div className="flex flex-col">
+                                                {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
+                                                  <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
+                                                    style={{
+                                                      backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
+                                                      fontWeight: nozzle?.id == "0" ? "bold" : ""
+                                                    }}
+                                                  >
+                                                    <p className="w-1/6">{nozzle?.name} </p>
+                                                    <p className="w-1/6">
+                                                      {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${nozzle?.price}`}
+                                                    </p>
+                                                    <p className="w-1/6">{capacity}{nozzle?.volume}</p>
+                                                    <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
+                                                    <p className="w-1/6">{currency} {nozzle?.discount}</p>
+                                                    <p className="w-1/6">{currency} {nozzle?.amount} </p>
+                                                  </li>
+                                                ))}
+
+                                              </div>
+
+                                            </React.Fragment>
+
                                           ))}
+                                          <li style={{ background: "#1c8b3359" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
+                                            <p className="w-1/6 ">{fuelType?.name} Total</p>
+                                            <p className="w-1/6">
 
+                                            </p>
+                                            <p className="w-1/6">{capacity}{fuelType?.volume}</p>
+                                            <p className="w-1/6">{currency} {fuelType?.gross_value}</p>
+                                            <p className="w-1/6">{currency} {fuelType?.discount}</p>
+                                            <p className="w-1/6">{currency} {fuelType?.amount} </p>
+                                          </li>
                                         </div>
 
-                                      </React.Fragment>
 
-                                    ))}
-                                    <li style={{ background: "#02449b47" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
-                                      <p className="w-1/6 ">{fuelType?.name} Total</p>
-                                      <p className="w-1/6">
-
-                                      </p>
-                                      <p className="w-1/6">{fuelType?.volume}</p>
-                                      <p className="w-1/6">{currency} {fuelType?.gross_value}</p>
-                                      <p className="w-1/6">{currency} {fuelType?.discount}</p>
-                                      <p className="w-1/6">{currency} {fuelType?.amount} </p>
-                                    </li>
-                                  </div>
+                                      </div>
+                                    </div>
+                                  </>
                                 ))}
 
                               </ul>
@@ -647,7 +659,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
 
-                        )  : selectedTab === "Lube Sales" ? (
+                        ) : selectedTab === "Lube Sales" ? (
                           <div className="overflow-x-auto">
                             <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                               <li className="flex flex-wrap justify-between p-2 bg-gray-200">
