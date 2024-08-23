@@ -529,7 +529,8 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
     }, [fuelStats]);
 
     // const { sales_volume, sales_value, profit } = useContext(AppContext);
-
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data || []);
+ 
 
     return (
         <>
@@ -537,11 +538,10 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
             <div>
                 <div className="flex justify-between items-center">
-                    <ul className="flex space-x-2 rtl:space-x-reverse">
-                        <li>
-
-                        </li>
-                    </ul>
+                  <h2 className='font-bold'>
+                            {UserPermissions?.d_label}
+                        </h2>
+                    
 
                     <div className=" flex gap-4 flex-wrap">
 
@@ -707,7 +707,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                         <div
                             className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`}
-                            onClick={handleClickToOverView}
+                         
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>

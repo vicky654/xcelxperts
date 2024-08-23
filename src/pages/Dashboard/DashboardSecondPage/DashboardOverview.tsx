@@ -12,6 +12,7 @@ import DashboardFilterModal from '../DashboardFilterModal';
 import IconInfoCircle from '../../../components/Icon/IconInfoCircle';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import the image
 import { currency } from '../../../utils/CommonData';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
 
@@ -362,25 +363,21 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
                                 {currency}{secondApiResponse?.stock?.value ?? ''}
                                 {` (ℓ${secondApiResponse?.stock?.volume ?? ''})`}
-                            </div>
-                            <div className="flex flex-wrap">
-                                {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
-                                    <div key={index} className="flex items-center w-1/2 mb-2"> {/* w-1/2 makes each item take half the width */}
-                                        <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                            {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
-                                            {` (ℓ${fuel.volume ?? ''})`}
+                                {filterData?.stock ? <OverlayTrigger
+                                    placement="top"
+                                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
+                                        <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                            <div className="text-sm ltr:mr-3 rtl:ml-3">
+                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
+                                                {` (ℓ${fuel.volume ?? ''})`}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}</Tooltip>}
+                                >
+                                    <span><i className="fi fi-tr-comment-info"></i></span>
+                                </OverlayTrigger> : ""}
                             </div>
-
-                            {/* <div className="flex items-center font-semibold mt-5">
-                                {secondApiResponse?.stock?.status === 'up'
-                                    ? <i className="fi fi-tr-chart-line-up"></i>
-                                    : <i className="fi fi-tr-chart-arrow-down"></i>
-                                }
-                                Last Month {secondApiResponse?.stock?.value_percentage ?? ''}
-                            </div> */}
+                  
                             <div style={{ color: secondApiResponse?.stock?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.stock?.status === 'up'
