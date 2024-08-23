@@ -182,13 +182,24 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
 
+
+
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
+
         if (storedData) {
-            // setstationData(JSON.parse(storedData));
             handleApplyFilters(JSON.parse(storedData));
+        } else if (localStorage.getItem("superiorRole") === "Client") {
+            const storedClientIdData = localStorage.getItem("superiorId");
+
+            if (storedClientIdData) {
+                const futurepriceLog = { client_id: storedClientIdData };
+                localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+                handleApplyFilters(futurepriceLog);
+            }
         }
-    }, [dispatch]);
+    }, [dispatch, storedKeyName]); // Add any other dependencies needed here
+
 
     const handleResetFilters = async () => {
         localStorage.removeItem("newDashboardFilters");
@@ -562,7 +573,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         entity_id: Yup.string().required("Entity is required"),
     });
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data || []);
-   
+
 
     return (
         <>
@@ -570,7 +581,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
             <div>
                 <div className="flex justify-between items-center">
-                <h2 className='font-bold'>
+                    <h2 className='font-bold'>
                         Dashboard {filterData?.basic_details?.day_end_date && (
                             <>
                                 ({filterData?.basic_details?.day_end_date})
@@ -634,7 +645,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         {filters?.client_id || filters?.entity_id || filters?.station_id ? (
                             <>
-                                 <button onClick={handleResetFilters}>
+                                <button onClick={handleResetFilters}>
                                     <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
                                         <Tippy content="Reset Filter">
                                             <span className="btn bg-danger btn-danger">
@@ -869,10 +880,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         </div>
                                     ) : (
                                         // <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
-                                   
+
                                         <BasicPieChart data={filterData?.pi_graph} />
 
-                                   )}
+                                    )}
                                 </div>
                             </div>
 
