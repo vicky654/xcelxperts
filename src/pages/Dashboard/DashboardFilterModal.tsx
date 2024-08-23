@@ -168,12 +168,12 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
 
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const clientId = e.target.value;
-      
+
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchCompanyList(clientId);
             const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
-      
+
 
             // Use type assertion to cast the selectedClient to DashboardSelectedClient
             if (selectedClient) {
@@ -333,18 +333,18 @@ const DashboardFilterModal: React.FC<ModalProps> = ({ isOpen, onClose, isRtl = f
                                                             const selectedSiteId = e.target.value;
                                                             formik.setFieldValue("site_id", selectedSiteId);
                                                             const selectedSiteData = formik.values.sites.find((site) => site.id === selectedSiteId);
-                                                     
-                                                            if (selectedSiteData && selectedSiteData.id && selectedSiteData.name ) {
+
+                                                            if (selectedSiteData && selectedSiteData.id && selectedSiteData.name) {
                                                                 formik.setFieldValue("site_name", selectedSiteData.site_name);
-                                                            
+
                                                                 const station: DashboardSelectedStation = {
                                                                     id: selectedSiteData.id,
                                                                     name: selectedSiteData.name,
-                                                                 
+
                                                                 };
                                                                 setSelectedStation(station);
                                                             }
-                                                            
+
                                                         }}
                                                         value={formik.values.site_id}
                                                         className="form-select text-white-dark">

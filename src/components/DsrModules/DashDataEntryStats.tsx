@@ -560,7 +560,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                         isActive={activeAccordion === `${currency}-${index}`}
                         onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                       >
-                         {selectedTab === "Fuel Sales" ? (
+                        {selectedTab === "Fuel Sales" ? (
                           <div className="overflow-x-auto">
                             {!considerNozzle ? (
                               <ul className="divide-y divide-gray-200 w-full min-w-[600px]">

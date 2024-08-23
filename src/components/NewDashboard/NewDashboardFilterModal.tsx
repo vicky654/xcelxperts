@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import { useFormik } from 'formik';
 import useErrorHandler from '../../hooks/useHandleError';
 import { useNavigate } from 'react-router-dom';
 import FormikInput from '../FormikFormTools/FormikInput';
+import { Dialog, Transition } from '@headlessui/react';
+import IconX from '../Icon/IconX';
+import FormikSelect from '../FormikFormTools/FormikSelect';
+import LoaderImg from '../../utils/Loader';
+
+
+
 
 interface Client {
     id: string;
@@ -59,8 +66,9 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
     showDateInput = true,
     validationSchema,
     storedKeyName,
-    // layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2',
-    layoutClasses = `flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5`,
+    layoutClasses = `flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5`,
+    onClose,
+    isOpen,
 }) => {
     const { data } = useSelector((state: IRootState) => state.data);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
@@ -209,100 +217,103 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
 
 
     return (
-        <div className="">
-            {!smallScreen && (<>
-                <h5 className="font-bold text-lg dark:text-white-light mb-3">  Hii {data?.first_name}, Apply Filter</h5>
-            </>)}
-            <form onSubmit={formik.handleSubmit}>
-                <div className="flex flex-col sm:flex-row">
-                    {/* <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"> */}
-                    <div className={`${layoutClasses}`}>
-                        {showClientInput && localStorage.getItem("superiorRole") !== "Client" && (
-                            <div className={formik.submitCount ? (formik.errors.client_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="client_id">Client <span className="text-danger">*</span></label>
-                                <select
-                                    id="client_id"
-                                    onChange={handleClientChange}
-                                    value={formik.values.client_id}
-                                    onBlur={formik.handleBlur}
-                                    className="form-select text-white-dark">
-                                    <option value="">Select a Client</option>
-                                    {formik.values.clients?.length > 0 ? (
-                                        formik.values.clients.map(item => (
-                                            <option key={item.id} value={item.id}>
-                                                {item.client_name}
-                                            </option>
-                                        ))
-                                    ) : (
-                                        <option disabled>No Client</option>
-                                    )}
-                                </select>
-                                {formik.submitCount ? formik.errors.client_id ? <div className="text-danger mt-1">{formik.errors.client_id}</div> : "" : null}
-                            </div>
-                        )}
 
-                        {showEntityInput && (
-                            <div className={formik.submitCount ? (formik.errors.entity_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="entity_id">Entity<span className="text-danger">*</span></label>
-                                <select
-                                    id="entity_id"
-                                    onChange={handleCompanyChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.entity_id}
-                                    className="form-select text-white-dark">
-                                    <option value="">Select a Entity</option>
-                                    {formik.values.companies?.length > 0 ? (
-                                        formik.values.companies.map(company => (
-                                            <option key={company.id} value={company.id}>
-                                                {company.entity_name}
-                                            </option>
-                                        ))
-                                    ) : (
-                                        <option disabled>No Entity</option>
-                                    )}
-                                </select>
-                                {formik.submitCount ? formik.errors.entity_id ? <div className="text-danger mt-1">{formik.errors.entity_id}</div> : "" : null}
-                            </div>
-                        )}
 
-                        {showStationInput && (
-                            <div className={formik.submitCount ? (formik.errors.station_id ? 'has-error' : 'has-success') : ''}>
-                                <label htmlFor="station_id">Station{showStationValidation && <span className="text-danger">*</span>}</label>
-                                <select
-                                    id="station_id"
-                                    onChange={handleSiteChange}
-                                    value={formik.values.station_id}
-                                    onBlur={formik.handleBlur}
-                                    className="form-select text-white-dark">
-                                    <option value="">Select a Station</option>
-                                    {formik.values.sites?.length > 0 ? (
-                                        formik.values.sites.map(site => (
-                                            <option key={site.id} value={site.id}>
-                                                {site.name}
-                                            </option>
-                                        ))
-                                    ) : (
-                                        <option disabled>No Station</option>
-                                    )}
-                                </select>
-                                {formik.submitCount ? formik.errors.station_id ? <div className="text-danger mt-1">{formik.errors.station_id}</div> : "" : null}
-                            </div>
-                        )}
+        <>
+            {isLoading ? <LoaderImg /> : ""}
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog as="div" open={isOpen} onClose={onClose}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0" />
+                    </Transition.Child>
+                    <div id="fadein_right_modal" className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
+                        <div className="flex min-h-screen items-start justify-center px-4">
+                            <Dialog.Panel
+                                className={`panel animate__animated my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark animate__fadeInRight
+                                    }`}
+                            >
+                                <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
+                                    <h5 className="text-lg font-bold">
+                                        Hii {data?.first_name}, Apply Filter
+                                    </h5>
+                                    <button onClick={onClose} type="button" className="text-white-dark hover:text-dark">
+                                        <IconX />
+                                    </button>
+                                </div>
 
-                        {showDateInput && (
-                            <FormikInput formik={formik} type="month" label="Start Date" name="start_month" />
-                        )}
+                                <div className="p-5">
+                                    <form onSubmit={formik.handleSubmit}>
+                                        <div className="flex flex-col gap-5">
+                                            <div className={`${layoutClasses}`}>
+                                                {showClientInput && localStorage.getItem("superiorRole") !== "Client" && (
+                                                    <>
+                                                        <FormikSelect
+                                                            formik={formik}
+                                                            name="client_id"
+                                                            label="Client"
+                                                            options={formik.values.clients?.map((item: any) => ({ id: item.id, name: item.full_name }))}
+                                                            className="form-input"
+                                                            onChange={handleClientChange}
+                                                        />
+                                                    </>
+                                                )}
 
-                        <div
-                        >
-                            <button type="submit" className="btn btn-primary">
-                                Apply
-                            </button>
+                                                {showEntityInput && (
+                                                    <>
+                                                        <FormikSelect
+                                                            formik={formik}
+                                                            name="entity_id"
+                                                            label="Entity"
+                                                            options={formik?.values?.companies?.map((item: any) => ({ id: item.id, name: item.entity_name }))}
+                                                            className="form-input"
+                                                            onChange={handleCompanyChange}
+                                                        />
+
+                                                    </>
+                                                )}
+                                                {showStationInput && (
+                                                    <>
+                                                        <FormikSelect
+                                                            formik={formik}
+                                                            name="station_id"
+                                                            label="Station"
+                                                            options={formik?.values?.sites?.map((item: any) => ({ id: item.id, name: item.name }))}
+                                                            className="form-input"
+                                                            onChange={handleSiteChange}
+                                                        />
+                                                    </>
+                                                )}
+
+                                                {showDateInput && (
+                                                    <FormikInput formik={formik} type="month" label="Month" name="start_month" />
+                                                )}
+
+
+                                            </div>
+
+                                            <div>
+                                                <button type="submit" className="btn btn-primary">
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form >
+                                </div>
+                            </Dialog.Panel>
                         </div>
                     </div>
-                </div>
-            </form >
-        </div >
+                </Dialog>
+            </Transition>
+        </>
+
     );
 }
 

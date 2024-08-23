@@ -144,6 +144,7 @@ import AuthenticationCheck from '../components/Layouts/AuthenticationCheck';
 import StockLoss from '../components/SideBarComponents/ManageStation/StockLoss';
 import NewDashboard from '../components/NewDashboard/NewDashboard';
 import NewDashboardChild from '../components/NewDashboard/NewDashboardChild';
+import NewDashboardSubChild from '../components/NewDashboard/NewDashboardSubChild';
 
 const routes = [
   {
@@ -173,6 +174,10 @@ const routes = [
   {
     path: '/data-entry-stats/:id',
     element: <DashDataEntryStats />,
+  },
+  {
+    path: '/new-data-entry-stats/:id',
+    element: <NewDashboardSubChild />,
   },
   {
     path: '/dashboard/overview',

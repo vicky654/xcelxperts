@@ -585,41 +585,25 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
             {modalOpen && (
-                <div className="modal fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white w-full max-w-md m-6">
-                        <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                            <h5 className="text-lg font-bold">
-                                Hii {data?.first_name}, Apply Filter
-                            </h5>
-                            <button onClick={() => setModalOpen(false)} type="button" className="text-white-dark hover:text-dark">
-                                <IconX />
-                            </button>
-                        </div>
-
-                        <div className='p-6'>
-                            <NewDashboardFilterModal
-                                getData={getData}
-                                isLoading={isLoading}
-                                onApplyFilters={handleApplyFilters}
-                                showClientInput={true}  // or false
-                                showEntityInput={true}  // or false
-                                showStationInput={true} // or false
-                                showStationValidation={false} // or false
-                                showDateValidation={true} // or false
-                                validationSchema={validationSchemaForCustomInput}
-                                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-                                isOpen={false}
-                                onClose={function (): void {
-                                    throw new Error('Function not implemented.');
-                                }}
-                                showDateInput={false}
-                                // storedKeyItems={storedKeyItems}
-                                storedKeyName={storedKeyName}
-                                smallScreen={true}
-                            />
-                        </div>
-
-                    </div>
+                <div className='p-6'>
+                    <NewDashboardFilterModal
+                        getData={getData}
+                        isLoading={isLoading}
+                        onApplyFilters={handleApplyFilters}
+                        showClientInput={true}  // or false
+                        showEntityInput={true}  // or false
+                        showStationInput={true} // or false
+                        showStationValidation={false} // or false
+                        showDateValidation={true} // or false
+                        validationSchema={validationSchemaForCustomInput}
+                        layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+                        showDateInput={false}
+                        // storedKeyItems={storedKeyItems}
+                        storedKeyName={storedKeyName}
+                        smallScreen={true}
+                        isOpen={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                    />
                 </div>
             )}
 
