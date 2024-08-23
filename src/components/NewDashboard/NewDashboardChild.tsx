@@ -15,8 +15,8 @@ import * as Yup from 'yup';
 
 interface FilterValues {
     client_id: string;
-    company_id: string;
-    site_id: string;
+    entity_id: string;
+    station_id: string;
 }
 
 interface DashboardOverviewProps {
@@ -37,8 +37,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     let storedKeyName = "newDashboardFilters";
     const [filters, setFilters] = useState<any>({
         client_id: '',
-        company_id: '',
-        site_id: ''
+        entity_id: '',
+        station_id: ''
     });
     const [filterData, setFilterData] = useState<any>(null);
     const [detailsData, setDetailsData] = useState<any>([]);
@@ -47,12 +47,14 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const callFetchFilterData = async (filters: FilterValues) => {
         try {
-            const { client_id, company_id, site_id } = filters;
+            console.log(filters, "callFetchFilterData");
+
+            const { client_id, entity_id, station_id } = filters;
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('entity_id', company_id);
-            if (site_id) queryParams.append('station_id', site_id);
+            if (entity_id) queryParams.append('entity_id', entity_id);
+            if (station_id) queryParams.append('station_id', station_id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
@@ -68,12 +70,12 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
     const callFetchDetailsData = async (filters: FilterValues) => {
         try {
-            const { client_id, company_id, site_id } = filters;
+            const { client_id, entity_id, station_id } = filters;
             const queryParams = new URLSearchParams();
 
             if (client_id) queryParams.append('client_id', client_id);
-            if (company_id) queryParams.append('entity_id', company_id);
-            if (site_id) queryParams.append('station_id', site_id);
+            if (entity_id) queryParams.append('entity_id', entity_id);
+            if (station_id) queryParams.append('station_id', station_id);
 
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/get-details?${queryString}`);
@@ -114,9 +116,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
     // useEffect(() => {
-    //     // Check if client_id and company_id are present in local storage
+    //     // Check if client_id and entity_id are present in local storage
     //     const clientId = localStorage.getItem('client_id');
-    //     const companyId = localStorage.getItem('company_id');
+    //     const companyId = localStorage.getItem('entity_id');
 
     //     if (IsClientLogin?.isClient) {
     //         callFetchFilterData(filters);
@@ -134,15 +136,15 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
     //     const updatedFilters = {
     //         client_id: values.client_id,
-    //         company_id: values.company_id,
-    //         site_id: values.site_id
+    //         entity_id: values.entity_id,
+    //         station_id: values.station_id
     //     };
 
     //     setFilters(updatedFilters);
 
     //     localStorage.setItem('client_id', values.client_id);
-    //     localStorage.setItem('company_id', values.company_id);
-    //     localStorage.setItem('site_id', values.site_id);
+    //     localStorage.setItem('entity_id', values.entity_id);
+    //     localStorage.setItem('station_id', values.station_id);
     //     // Close the modal
     //     setModalOpen(false);
     // };
@@ -183,54 +185,20 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         storeCurrentMonth();
 
         const clientId = localStorage.getItem('client_id');
-        const companyId = localStorage.getItem('company_id');
+        const companyId = localStorage.getItem('entity_id');
         const currentMonth = getCurrentMonth(); // Get the current month to include in filters
 
         // Create the updated filters object
         const updatedFilterss = {
             client_id: clientId,
-            company_id: companyId,
-            site_id: item?.id,
-            station_id: item?.id,
             entity_id: companyId,
+            station_id: item?.id,
+            
+        
             start_month: currentMonth // Include the current month in the filters
         };
 
-        // client_id
-        // :
-        // "MkJWd25aSTlDekVwcWg4azgrNVh3UT09"
-        // client_name
-        // :
-        // "Tejinder Goyal"
-        // clients
-        // :
-        // [,…]
-        // companies
-        // :
-        // [{ id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09", entity_name: "Tejinder Goyal Enterprises" }]
-        // entity_id
-        // :
-        // "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09"
-        // entity_name
-        // :
-        // "Tejinder Goyal Enterprises"
-        // sites
-        // :
-        // [{ id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09", name: "Tejinder Goyal Enterprises",… }]
-        // start_date
-        // :
-        // "2024-08-16"
-        // start_month
-        // :
-        // "2024-07"
-        // station_id
-        // :
-        // "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09"
-        // station_name
-        // :
-        // "Tejinder Goyal Enterprises"
 
-        // Store the updated filters object in localStorage
         localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
 
         if (!isSitePermissionAvailable) {
