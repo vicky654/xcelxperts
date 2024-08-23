@@ -17,6 +17,7 @@ import NewDashboardFilterModal from './NewDashboardFilterModal';
 import * as Yup from 'yup';
 import IconX from '../Icon/IconX';
 import useErrorHandler from '../../hooks/useHandleError';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface FilterValues {
     client_id: any;
@@ -559,7 +560,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             : Yup.mixed().notRequired(),
         entity_id: Yup.string().required("Entity is required"),
     });
-
+    const UserPermissions = useSelector((state: IRootState) => state?.data?.data || []);
+   
 
     return (
         <>
@@ -567,11 +569,32 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
             <div>
                 <div className="flex justify-between items-center">
-                    <ul className="flex space-x-2 rtl:space-x-reverse">
-                        <li>
+                <h2 className='font-bold'>
+                        Dashboard {filterData?.basic_details?.day_end_date && (
+                            <>
+                                ({filterData?.basic_details?.day_end_date})
 
-                        </li>
-                    </ul>
+                                {filterData?.stock && (
+                                    <OverlayTrigger
+                                        placement="right"
+                                        overlay={
+                                            <Tooltip className='custom-tooltip' id="tooltip-amount">
+                                                You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <span><i className="fi fi-tr-comment-info"></i></span>
+                                    </OverlayTrigger>
+                                )}
+                            </>
+                        )}
+
+                        {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
+
+
+
+                    </h2>
+
 
                     <div className=" flex gap-4 flex-wrap">
 
@@ -747,7 +770,24 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
                                 {currency}{filterData?.stock?.value ?? ''}
                                 {` (ℓ${filterData?.stock?.volume ?? ''})`}
+
+
+                                {filterData?.stock ? <OverlayTrigger
+                                    placement="top"
+                                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
+                                        <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
+                                            <div className="text-sm ltr:mr-3 rtl:ml-3">
+                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
+                                                {` (ℓ${fuel.volume ?? ''})`}
+                                            </div>
+                                        </div>
+                                    ))}</Tooltip>}
+                                >
+                                    <span><i className="fi fi-tr-comment-info"></i></span>
+                                </OverlayTrigger> : ""}
+
                             </div>
+
 
                             <div className="flex flex-wrap">
                                 {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
@@ -806,7 +846,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">Revenue</h5>
+                                <h5 className="font-bold text-lg">Total Earnings</h5>
                             </div>
 
                             <div className="relative">
@@ -828,7 +868,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         <div className="panel h-full xl:col-span-1 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg dark:text-white-light">Sales By Category</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light">Payments Overview</h5>
                             </div>
 
                             <div className="relative">
