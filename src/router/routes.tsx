@@ -175,18 +175,18 @@ const routes = [
     path: '/data-entry',
     element: <DataEntruModules />,
   },
-  // {
-  //   path: '/data-entry-stats/:id?',
-  //   element: <DataEntryStatsComponent />,
-  // },
   {
-    path: '/data-entry-stats',
+    path: '/data-entry-stats/:id?',
     element: <DataEntryStatsComponent />,
   },
-  {
-    path: '/data-entry-stats/:id',
-    element: <DashDataEntryStats />,
-  },
+  // {
+  //   path: '/data-entry-stats',
+  //   element: <DataEntryStatsComponent />,
+  // },
+  // {
+  //   path: '/data-entry-stats/:id',
+  //   element: <DashDataEntryStats />,
+  // },
   {
     path: '/new-data-entry-stats/:id',
     element: <NewDashboardSubChild />,

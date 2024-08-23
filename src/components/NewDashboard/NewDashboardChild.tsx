@@ -231,7 +231,26 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                             <span>Overview</span>
                         </li>
+                        {filterData?.basic_details?.day_end_date && (
+                            <>
+                                ({filterData?.basic_details?.day_end_date})
+
+                                {filterData?.stock && (
+                                    <OverlayTrigger
+                                        placement="right"
+                                        overlay={
+                                            <Tooltip className='custom-tooltip' id="tooltip-amount">
+                                                You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <i className="fi fi-tr-comment-info"></i>
+                                    </OverlayTrigger>
+                                )}
+                            </>
+                        )}
                     </ul>
+                
 
                     <div className=' flex gap-4 flex-wrap'>
 
