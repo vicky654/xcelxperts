@@ -136,35 +136,38 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const dispatch = useDispatch();
 
 
-    useEffect(() => {
-        const clientId = localStorage.getItem('client_id');
-        const companyId = localStorage.getItem('entity_id');
+    // useEffect(() => {
+    //     const clientId = localStorage.getItem('client_id');
+    //     const companyId = localStorage.getItem('entity_id');
 
-        if (data?.applyFilter === false && !clientId && !companyId) {
-            const initialFilters = {
-                client_id: data?.superiorId || '',
-                entity_id: data?.entity_id || filters.entity_id || '',
-                station_id: filters.station_id || '',
-            };
-            setFilters(initialFilters);
-            callFetchFilterData(initialFilters);
-        }
-    }, [data?.applyFilter, data?.superiorId]);
+    //     if (data?.applyFilter === false && !clientId && !companyId) {
+    //         const initialFilters = {
+    //             client_id: data?.superiorId || '',
+    //             entity_id: data?.entity_id || filters.entity_id || '',
+    //             station_id: filters.station_id || '',
+    //         };
+    //         setFilters(initialFilters);
+    //         callFetchFilterData(initialFilters);
+    //     }
+    // }, [data?.applyFilter, data?.superiorId]);
 
-    useEffect(() => {
-        const clientId = localStorage.getItem('client_id');
-        const companyId = localStorage.getItem('entity_id');
-        if (IsClientLogin?.isClient && !companyId) {
+    // useEffect(() => {
+    //     const clientId = localStorage.getItem('client_id');
+    //     const companyId = localStorage.getItem('entity_id');
+    //     if (IsClientLogin?.isClient && !companyId) {
 
-            const initialFilters = {
-                client_id: clientId || '',
-                entity_id: '',
-                station_id: '',
-            };
-            setFilters(initialFilters);
-            callFetchFilterData(initialFilters);
-        }
-    }, [data?.applyFilter, data?.superiorId]);
+    //         const initialFilters = {
+    //             client_id: clientId || '',
+    //             entity_id: '',
+    //             station_id: '',
+    //         };
+    //         setFilters(initialFilters);
+    //         callFetchFilterData(initialFilters);
+    //     }
+    // }, [data?.applyFilter, data?.superiorId]);
+
+
+
 
 
 
@@ -241,6 +244,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
     const handleApplyFilters = async (values: any) => {
+
+        console.log(values, "values new");
+        console.log(data?.first_name, "data");
+
 
         setFilters(values);
         callFetchFilterData(values);
@@ -576,10 +583,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                         {filters?.client_id || filters?.entity_id || filters?.station_id ? (
                             <>
                                 <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
-                                    {filters?.client_id && filters?.client_name && (
+                                    {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
                                             <span className="font-semibold">Client :</span> {filters?.client_name ? filters?.client_name : <>
-                                                {data?.first_name} {data?.last_name}
+                                                {data?.full_name}
                                             </>}
                                         </div>
                                     )}

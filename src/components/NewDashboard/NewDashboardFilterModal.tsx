@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import { useFormik } from 'formik';
-import * as Yup from "yup";
 import useErrorHandler from '../../hooks/useHandleError';
 import { useNavigate } from 'react-router-dom';
-import withApiHandler from '../../utils/withApiHandler';
 import FormikInput from '../FormikFormTools/FormikInput';
 
 interface Client {
