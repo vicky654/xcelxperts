@@ -560,68 +560,94 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                         isActive={activeAccordion === `${currency}-${index}`}
                         onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab)}
                       >
-                        {selectedTab === "Fuel Sales" ? (
+                          {selectedTab === "Fuel Sales" ? (
                           <div className="overflow-x-auto">
-                          {!considerNozzle ? (
-                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                              <li className="flex justify-between p-2 dark:bg-[#1b2e4b] ">
-                                <p className="font-semibold w-1/6">Name</p>
-                                <p className="font-semibold w-1/6">Price</p>
-                                <p className="font-semibold w-1/6">Volume</p>
-                                <p className="font-semibold w-1/6">Gross Value</p>
-                                <p className="font-semibold w-1/6">Discount</p>
-                                <p className="font-semibold w-1/6">Net Value</p>
-                              </li>
-                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                  <p className="w-1/6">{subItem?.name}</p>
-                                  <p className="w-1/6">{currency} {subItem?.price}</p>
-                                  <p className="w-1/6">{subItem?.volume}</p>
-                                  <p className="w-1/6">{currency} {subItem?.gross_value}</p>
-                                  <p className="w-1/6">{currency} {subItem?.discount}</p>
-                                  <p className="w-1/6">{currency} {subItem?.amount}</p>
+                            {!considerNozzle ? (
+                              <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                <li className="flex justify-between p-2 bg-gray-200">
+                                  <p className="font-semibold w-1/6">Name</p>
+                                  <p className="font-semibold w-1/6">Price</p>
+                                  <p className="font-semibold w-1/6">Volume</p>
+                                  <p className="font-semibold w-1/6">Gross Value</p>
+                                  <p className="font-semibold w-1/6">Discount</p>
+                                  <p className="font-semibold w-1/6">Net Value</p>
                                 </li>
-                              ))}
-                            </ul>
-                          ) : (
+                                {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                  <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                    <p className="w-1/6">{subItem?.name}</p>
+                                    <p className="w-1/6">{currency} {subItem?.price}</p>
+                                    <p className="w-1/6">{capacity}{subItem?.volume}</p>
+                                    <p className="w-1/6">{currency} {subItem?.gross_value}</p>
+                                    <p className="w-1/6">{currency} {subItem?.discount}</p>
+                                    <p className="w-1/6">{currency} {subItem?.amount}</p>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
 
 
-                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                              <li className="flex justify-between p-2 bg-gray-200">
+                              <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                <li className="flex justify-between p-2 bg-gray-200">
 
-                                <p className="font-semibold w-1/6">Nozzle Name</p>
-                                <p className="font-semibold w-1/6">Price</p>
-                                <p className="font-semibold w-1/6">Volume</p>
-                                <p className="font-semibold w-1/6">Gross Value</p>
-                                <p className="font-semibold w-1/6">Discount</p>
-                                <p className="font-semibold w-1/6">Net Value</p>
-                              </li>
-                              {subData?.map((fuelType, fuelIndex) =>
-                                fuelType?.tanks?.map((tank: any, tankIndex: any) => (
-                                  <React.Fragment key={`${fuelIndex}-${tankIndex}`}>
+                                  <p className="font-semibold w-1/6">Nozzle Name</p>
+                                  <p className="font-semibold w-1/6">Price</p>
+                                  <p className="font-semibold w-1/6">Volume</p>
+                                  <p className="font-semibold w-1/6">Gross Value</p>
+                                  <p className="font-semibold w-1/6">Discount</p>
+                                  <p className="font-semibold w-1/6">Net Value</p>
+                                </li>
+                                {subData?.map((fuelType, fuelIndex) => (
+                                  <div key={fuelIndex}>
+                                    <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
+                                    {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
+                                      <React.Fragment key={tankIndex}>
+                                        <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
+                                        <div className="flex flex-col">
+                                          {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
+                                            <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 " style={{
+                                              backgroundColor: nozzle?.id == "0" ? "#1c8b33a5" : "transparent",
+                                              fontWeight: nozzle?.id == "0" ? "bold" : ""
 
-                                    <p className= " p-2 bg-gray-200  font-bold w-1/10"> Fuel Type: {fuelType?.name}</p>
-                                    <p className="  font-bold p-2 bg-gray-200 w-1/10"> Tank Name : {tank?.tank_name}</p>
-                                    <p className="w-4/6"></p> {/* Empty cells to fill the remaining space */}
+                                            }}>
+                                              <p className="w-1/6">{nozzle?.name} </p>
+                                              <p className="w-1/6">
+                                                {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${nozzle?.price}`}
+                                              </p>
+                                              <p className="w-1/6">{capacity}{nozzle?.volume}</p>
+                                              <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
+                                              <p className="w-1/6">{currency} {nozzle?.discount}</p>
+                                              <p className="w-1/6">{currency} {nozzle?.amount} </p>
+                                            </li>
+                                          ))}
 
-                                    {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
-                                      <li key={`${fuelIndex}-${tankIndex}-${nozzleIndex}`} className="flex justify-between p-2 hover:bg-gray-100">
+                                        </div>
 
-                                        <p className="w-1/6">{nozzle?.name}</p>
-                                        <p className="w-1/6">{currency} {nozzle?.price}</p>
-                                        <p className="w-1/6">{nozzle?.volume}</p>
-                                        <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
-                                        <p className="w-1/6">{currency} {nozzle?.discount}</p>
-                                        <p className="w-1/6">{currency} {nozzle?.amount}</p>
-                                      </li>
+                                      </React.Fragment>
+
                                     ))}
-                                  </React.Fragment>
-                                ))
-                              )}
-                            </ul>
-                          )}
-                        </div>
-                        ) : selectedTab === "Lube Sales" ? (
+                                    <li style={{ background: "#02449b47" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
+                                      <p className="w-1/6 ">{fuelType?.name} Total</p>
+                                      <p className="w-1/6">
+
+                                      </p>
+                                      <p className="w-1/6">{fuelType?.volume}</p>
+                                      <p className="w-1/6">{currency} {fuelType?.gross_value}</p>
+                                      <p className="w-1/6">{currency} {fuelType?.discount}</p>
+                                      <p className="w-1/6">{currency} {fuelType?.amount} </p>
+                                    </li>
+                                  </div>
+                                ))}
+
+                              </ul>
+                            )}
+                          </div>
+
+
+
+
+
+
+                        )  : selectedTab === "Lube Sales" ? (
                           <div className="overflow-x-auto">
                             <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                               <li className="flex flex-wrap justify-between p-2 bg-gray-200">

@@ -579,7 +579,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                     <p className="w-1/6">{subItem?.name}</p>
                                     <p className="w-1/6">{currency} {subItem?.price}</p>
-                                    <p className="w-1/6">{subItem?.volume}</p>
+                                    <p className="w-1/6">{capacity}{subItem?.volume}</p>
                                     <p className="w-1/6">{currency} {subItem?.gross_value}</p>
                                     <p className="w-1/6">{currency} {subItem?.discount}</p>
                                     <p className="w-1/6">{currency} {subItem?.amount}</p>
@@ -616,7 +616,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                               <p className="w-1/6">
                                                 {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${nozzle?.price}`}
                                               </p>
-                                              <p className="w-1/6">{nozzle?.volume}</p>
+                                              <p className="w-1/6">{capacity}{nozzle?.volume}</p>
                                               <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
                                               <p className="w-1/6">{currency} {nozzle?.discount}</p>
                                               <p className="w-1/6">{currency} {nozzle?.amount} </p>
