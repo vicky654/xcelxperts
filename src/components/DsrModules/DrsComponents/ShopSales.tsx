@@ -10,6 +10,7 @@ import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Badge } from '@mantine/core';
 
 interface ShopSalesData {
     id: string;
@@ -120,26 +121,21 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         // Update the field value in the form values
         setFieldValue(`data[${index}].${field}`, numericValue);
         if (field == 'opening' || field === 'sale' || field === 'sale_price') {
-     
+
 
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const sale = field === 'sale' ? numericValue : values.data[index].sale;
             const salePrice = field === 'sale_price' ? numericValue : values.data[index].sale_price;
-     
+
             const closing = opening - sale;
-       
             setFieldValue(`data[${index}].closing`, closing);
-
-
-
-            // // Calculate 'closing' as 'opening - sale'
-            // const closing = opening - sale;
-            // setFieldValue(`data[${index}].closing`, closing);
-
-            // Calculate 'sale_amount' as '(opening - sale) * sale_price'
             const saleAmount = sale * salePrice;
             setFieldValue(`data[${index}].sale_amount`, saleAmount);
         }
+
+
+
+        console.log(values, "values");
     };
 
     const columns = [
@@ -182,7 +178,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].purchage_price`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -192,7 +188,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     readOnly={!row.update_purchage_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'purchage_price', e.target.value, row)}
                                 />
-                             
+
                             </div>
                         )}
                     </Field>
@@ -212,7 +208,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].opening`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -222,7 +218,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
                                 />
-                           
+
                             </div>
                         )}
                     </Field>
@@ -232,18 +228,18 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
         {
             name: (
-            <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip className='custom-tooltip' id="tooltip-sale-qty">Sale Qty</Tooltip>}
-            >
-                <span>Sale Qty</span>
-            </OverlayTrigger>
-        ),
-        sortable: false,
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-sale-qty">Sale Qty</Tooltip>}
+                >
+                    <span>Sale Qty</span>
+                </OverlayTrigger>
+            ),
+            sortable: false,
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -253,7 +249,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     readOnly={!row.update_sale}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale', e.target.value, row)}
                                 />
-                             
+
                             </div>
                         )}
                     </Field>
@@ -273,7 +269,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].closing`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -283,7 +279,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     readOnly={!row.update_closing}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'closing', e.target.value, row)}
                                 />
-                             
+
                             </div>
                         )}
                     </Field>
@@ -303,7 +299,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_price`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -313,15 +309,15 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     readOnly={!row.update_sale_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_price', e.target.value, row)}
                                 />
-                              
-                             
+
+
                             </div>
                         )}
                     </Field>
                 </>
             ),
         },
-      
+
         {
             name: (
                 <OverlayTrigger
@@ -335,7 +331,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             cell: (row: ShopSalesData, index: number) => (
                 <>
                     <Field name={`data[${index}].sale_amount`}>
-                        {({ field, form: { setFieldValue, values }  , meta: { touched, error } }:  FieldProps<any>) => (
+                        {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
                             <div className="relative">
                                 <input
                                     type="number"
@@ -345,8 +341,8 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     readOnly={!row.update_sale_amount}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_amount', e.target.value, row)}
                                 />
-                               
-                               
+
+
                             </div>
                         )}
                     </Field>
@@ -358,27 +354,47 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     if (isLoading) {
         return <LoaderImg />;
     }
+    console.log(data, "data");
+    const calculateFields = (data: ShopSalesData[]): ShopSalesData[] => {
+        return data.map(item => {
+            let purchage_amount = 0;
+            let sale_amount = 0;
+            let profit = 0;
 
+            if (item.update_purchage_price && item.update_opening) {
+                purchage_amount = item.opening * item.purchage_price;
+            }
+
+            if (item.update_sale_price && item.update_sale) {
+                sale_amount = item.sale * item.sale_price;
+            }
+
+            if (item.update_purchage_amount && item.update_sale_amount) {
+                profit = sale_amount - purchage_amount;
+            }
+
+            return {
+                ...item,
+                purchage_amount,
+                sale_amount,
+                profit,
+            };
+        });
+    };
     return (
         <>
             {isLoading && <LoaderImg />}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 className="text-lg font-semibold mb-4 displaycanter">
                     {`Lubes Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}>
-                    <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                                </OverlayTrigger>
-                        
-                        </span> )}
-                   
+                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                        </OverlayTrigger>
+
+                    </span>)}
+
                 </h1>
-                {/* {isdownloadpdf  && (
-                    <button
-                        className='btn btn-primary'
-                        onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}
-                    >
-                        Download Pdf   <i className="fi fi-tr-file-download"></i>
-                    </button>)} */}
+
             </div>
             <div>
 
@@ -388,41 +404,50 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                     onSubmit={handleSubmit}
                     enableReinitialize={true}
                 >
-                    {({ values, setFieldValue }) => (
-                        <Form>
-                            <FieldArray
-                                name="data"
-                                render={() => (
-                                    <DataTable
-                                        columns={columns}
-                                        data={values.data}
-                                        noHeader
-                                        customStyles={{
-                                            cells: {
-                                                style: {
-                                                    padding: '8px',
+                    {({ values, setFieldValue }) => {
+
+                        const updatedData = calculateFields(values?.data);
+                        const totalSaleAmount = updatedData.reduce((total, item) => total + item.sale_amount, 0);
+
+
+
+                        return (
+                            <Form>
+                                <FieldArray
+                                    name="data"
+                                    render={() => (
+                                        <DataTable
+                                            columns={columns}
+                                            data={values.data}
+                                            noHeader
+                                            customStyles={{
+                                                cells: {
+                                                    style: {
+                                                        padding: '8px',
+                                                    },
                                                 },
-                                            },
-                                        }}
-                                    />
-                                )}
-                            />
-                            <footer> {isEditable && <button type="submit" className=" btn btn-primary submit-button mt-3">
-                                Submit
-                            </button>}</footer>
+                                            }}
+                                        />
+                                    )}
+                                />
 
 
-                        </Form>
-                    )}
+                                <footer className='flexspacebetween'>
+                                    <button type="submit" className="btn btn-primary submit-button mt-3">
+                                        Submit
+                                    </button>
+                                    <Badge className='mt-2 text-end' style={{ borderRadius: "0px" }} >
+                                        Total  Amount:   {totalSaleAmount}
+                                    </Badge>
+                                </footer>
+                                <div className='text-end'>
+
+                                </div>
+                            </Form>
+                        );
+                    }}
                 </Formik>
 
-                {/* {data.length !== 0 && (
-                  <img
-                  src={noDataImage} // Use the imported image directly as the source
-                  alt="no data found"
-                  className="all-center-flex nodata-image"
-              />
-            )} */}
             </div>
         </>
     );

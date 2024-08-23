@@ -222,16 +222,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             {isLoading ? <LoaderImg /> : ""}
             <div>
                 <div className='flex justify-between items-center flex-wrap'>
-                    <ul className="flex space-x-2 rtl:space-x-reverse my-2">
-                        <li>
-                            <Link to="/dashboard" className="text-primary hover:underline">
-                                Dashboard
-                            </Link>
-                        </li>
-                        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                            <span>Overview</span>
-                        </li>
-                        {filterData?.basic_details?.day_end_date && (
+             <div>
+             <h2 className='font-bold'>
+                        Dashboard Overview {filterData?.basic_details?.day_end_date && (
                             <>
                                 ({filterData?.basic_details?.day_end_date})
 
@@ -244,12 +237,29 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                             </Tooltip>
                                         }
                                     >
-                                        <i className="fi fi-tr-comment-info"></i>
+                                        <span><i className="fi fi-tr-comment-info"></i></span>
                                     </OverlayTrigger>
                                 )}
                             </>
                         )}
+
+                     
+
+
+
+                    </h2>
+                    <ul className="flex space-x-2 rtl:space-x-reverse my-2">
+                        <li>
+                            <Link to="/dashboard" className="text-primary hover:underline">
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                            <span>Overview</span>
+                        </li>
+                      
                     </ul>
+             </div>
                 
 
                     <div className=' flex gap-4 flex-wrap'>
