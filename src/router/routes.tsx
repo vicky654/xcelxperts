@@ -153,12 +153,24 @@ const routes = [
   },
   {
     path: '/dashboard',
-    element: <Index />,
-  },
-  {
-    path: '/dashboard-new',
     element: <NewDashboard />,
   },
+  {
+    path: '/dashboard-old',
+    element: <Index />,
+  },
+
+  {
+    path: '/dashboard/old-overview',
+    element: <DashboardOverview detailsData={undefined} isSitePermissionAvailable={''} />,
+  },
+  {
+    path: '/dashboard/overview',
+    element: <NewDashboardChild />,
+  },
+
+
+
   {
     path: '/data-entry',
     element: <DataEntruModules />,
@@ -179,14 +191,7 @@ const routes = [
     path: '/new-data-entry-stats/:id',
     element: <NewDashboardSubChild />,
   },
-  {
-    path: '/dashboard/overview',
-    element: <DashboardOverview detailsData={undefined} isSitePermissionAvailable={''} />,
-  },
-  {
-    path: '/dashboard/new-overview',
-    element: <NewDashboardChild />,
-  },
+
   {
     path: '/dashboard/station/:id',
     element: <DashboardStationPage detailsData={[]} isSitePermissionAvailable={false} />,
