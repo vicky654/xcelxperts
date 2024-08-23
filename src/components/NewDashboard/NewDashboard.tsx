@@ -245,10 +245,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const handleApplyFilters = async (values: any) => {
 
-        console.log(values, "values new");
-        console.log(data?.first_name, "data");
-
-
         setFilters(values);
         callFetchFilterData(values);
         if (values?.station_id) {

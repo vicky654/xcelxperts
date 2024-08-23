@@ -9,6 +9,9 @@ import withApiHandler from '../../utils/withApiHandler';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { fetchStoreData } from '../../store/dataSlice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import NewDashboardFilterModal from './NewDashboardFilterModal';
+import IconX from '../Icon/IconX';
+import * as Yup from 'yup';
 
 interface FilterValues {
     client_id: string;
@@ -31,11 +34,11 @@ interface DashboardOverviewProps {
 const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetchedData, getData }) => {
 
     const navigate = useNavigate();
-
-    const [filters, setFilters] = useState({
-        client_id: localStorage.getItem('client_id') || '',
-        company_id: localStorage.getItem('company_id') || '',
-        site_id: localStorage.getItem('site_id') || ''
+    let storedKeyName = "newDashboardFilters";
+    const [filters, setFilters] = useState<any>({
+        client_id: '',
+        company_id: '',
+        site_id: ''
     });
     const [filterData, setFilterData] = useState<any>(null);
     const [detailsData, setDetailsData] = useState<any>([]);
@@ -62,6 +65,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         } finally {
         }
     };
+
     const callFetchDetailsData = async (filters: FilterValues) => {
         try {
             const { client_id, company_id, site_id } = filters;
@@ -93,49 +97,62 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         "dashboard-site-detail"
     );
 
-    useEffect(() => {
-        dispatch(fetchStoreData() as any);
-    }, [])
+
 
 
     const dispatch = useDispatch();
 
 
-
-
-
-
     useEffect(() => {
-        // Check if client_id and company_id are present in local storage
-        const clientId = localStorage.getItem('client_id');
-        const companyId = localStorage.getItem('company_id');
-
-        if (IsClientLogin?.isClient) {
-            callFetchFilterData(filters);
-            callFetchDetailsData(filters);
-        } else if (clientId && companyId) {
-            callFetchFilterData(filters);
-            callFetchDetailsData(filters);
+        const storedData = localStorage.getItem(storedKeyName);
+        if (storedData) {
+            // setstationData(JSON.parse(storedData));
+            handleApplyFilters(JSON.parse(storedData));
         }
-    }, [filters]);
+    }, [dispatch]);
+
+
+
+    // useEffect(() => {
+    //     // Check if client_id and company_id are present in local storage
+    //     const clientId = localStorage.getItem('client_id');
+    //     const companyId = localStorage.getItem('company_id');
+
+    //     if (IsClientLogin?.isClient) {
+    //         callFetchFilterData(filters);
+    //         callFetchDetailsData(filters);
+    //     } else if (clientId && companyId) {
+    //         callFetchFilterData(filters);
+    //         callFetchDetailsData(filters);
+    //     }
+    // }, [filters]);
 
 
 
 
-    const handleApplyFilters = (values: FilterValues) => {
+    // const handleApplyFilters = (values: FilterValues) => {
 
-        const updatedFilters = {
-            client_id: values.client_id,
-            company_id: values.company_id,
-            site_id: values.site_id
-        };
+    //     const updatedFilters = {
+    //         client_id: values.client_id,
+    //         company_id: values.company_id,
+    //         site_id: values.site_id
+    //     };
 
-        setFilters(updatedFilters);
+    //     setFilters(updatedFilters);
 
-        localStorage.setItem('client_id', values.client_id);
-        localStorage.setItem('company_id', values.company_id);
-        localStorage.setItem('site_id', values.site_id);
-        // Close the modal
+    //     localStorage.setItem('client_id', values.client_id);
+    //     localStorage.setItem('company_id', values.company_id);
+    //     localStorage.setItem('site_id', values.site_id);
+    //     // Close the modal
+    //     setModalOpen(false);
+    // };
+
+
+    const handleApplyFilters = async (values: any) => {
+
+        setFilters(values);
+        callFetchFilterData(values);
+        callFetchDetailsData(values)
         setModalOpen(false);
     };
 
@@ -222,6 +239,16 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     };
 
 
+    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+
+    const validationSchemaForCustomInput = Yup.object({
+        client_id: isNotClient
+            ? Yup.string().required("Client is required")
+            : Yup.mixed().notRequired(),
+        entity_id: Yup.string().required("Entity is required"),
+    });
+
+
     return (
         <>
             {isLoading ? <LoaderImg /> : ""}
@@ -240,24 +267,26 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                     <div className=' flex gap-4 flex-wrap'>
 
-                        {filters?.client_id || filters?.company_id || filters?.site_id ? (
+                        {filters?.client_id || filters?.entity_id || filters?.station_id ? (
                             <>
                                 <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client : </span> {secondApiResponse?.basic_details?.client_name}
+                                            <span className="font-semibold">Client :</span> {filters?.client_name ? filters?.client_name : <>
+                                                {data?.full_name}
+                                            </>}
                                         </div>
                                     )}
 
-                                    {filters?.company_id && (
+                                    {filters?.entity_id && filters?.entity_name && (
                                         <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity : </span> {secondApiResponse?.basic_details?.entity_name}
+                                            <span className="font-semibold">Entity : </span> {filters?.entity_name}
                                         </div>
                                     )}
 
-                                    {filters?.site_id && (
+                                    {filters?.station_id && filters?.station_name && (
                                         <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station : </span> {secondApiResponse?.basic_details?.station_name}
+                                            <span className="font-semibold">Station :</span> {filters?.station_name}
                                         </div>
                                     )}
                                 </div>
@@ -270,11 +299,11 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             Filter
                         </button>
 
-                        {modalOpen && (<>
+                        {/* {modalOpen && (<>
                             <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
                                 onApplyFilters={handleApplyFilters} // Pass the handler to the modal
                             />
-                        </>)}
+                        </>)} */}
                     </div>
                 </div>
 
@@ -553,6 +582,47 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                 </div>
             </div >
+
+
+            {modalOpen && (
+                <div className="modal fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white w-full max-w-md m-6">
+                        <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
+                            <h5 className="text-lg font-bold">
+                                Hii {data?.first_name}, Apply Filter
+                            </h5>
+                            <button onClick={() => setModalOpen(false)} type="button" className="text-white-dark hover:text-dark">
+                                <IconX />
+                            </button>
+                        </div>
+
+                        <div className='p-6'>
+                            <NewDashboardFilterModal
+                                getData={getData}
+                                isLoading={isLoading}
+                                onApplyFilters={handleApplyFilters}
+                                showClientInput={true}  // or false
+                                showEntityInput={true}  // or false
+                                showStationInput={true} // or false
+                                showStationValidation={false} // or false
+                                showDateValidation={true} // or false
+                                validationSchema={validationSchemaForCustomInput}
+                                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
+                                isOpen={false}
+                                onClose={function (): void {
+                                    throw new Error('Function not implemented.');
+                                }}
+                                showDateInput={false}
+                                // storedKeyItems={storedKeyItems}
+                                storedKeyName={storedKeyName}
+                                smallScreen={true}
+                            />
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
         </>
     );
 };

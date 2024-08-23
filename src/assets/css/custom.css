@@ -903,3 +903,19 @@ body {
 .auto-height-react-table>.Nfhbm>.BAfJj>.rdt_Table>.rdt_TableBody {
     height: auto;
 }
+
+.fi-sr-comment-info {
+    position: relative;
+    top: 4px;
+}
+
+.fuel-sale-table-li {
+    border-bottom-width: 1px;
+    border-color: rgb(224 230 237 / 0.4) !important;
+}
+
+.fuel-sale-table-border {
+    --tw-divide-opacity: 1;
+    border-color: rgb(229 231 235 / var(--tw-divide-opacity));
+    border: 1px solid rgba(0, 0, 0, 0.11);
+}
