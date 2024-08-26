@@ -57,7 +57,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     const [isEditable, setIsEditable] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const handleApiError = useErrorHandler();
-useEffect(() => {
+    useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
         }
@@ -69,7 +69,7 @@ useEffect(() => {
             if (response && response.data && response.data.data) {
                 setData(response.data.data.listing);
 
-               
+
 
 
 
@@ -139,7 +139,7 @@ useEffect(() => {
             const purchaseAmount = purchageprice * sale;
             var CalculatedProfit = saleAmount - purchaseAmount;
 
-      
+
             setFieldValue("CalculatedProfit", CalculatedProfit)
             setFieldValue(`data[${index}].sale_amount`, saleAmount);
             setFieldValue(`data[${index}].profit`, CalculatedProfit);
@@ -147,6 +147,51 @@ useEffect(() => {
 
 
 
+    };
+
+
+    const getTabIndex = (rowIndex: number, colIndex: number) => {
+        // Adjust the base index according to your needs
+        return rowIndex * columns.length + colIndex + 1;
+    };
+
+
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
     };
 
     const columns = [
@@ -161,7 +206,9 @@ useEffect(() => {
             ),
             sortable: false,
             selector: (row: ShopSalesData) => row.lubricant_name,
-            cell: (row: ShopSalesData) => <span>{row.lubricant_name}</span>,
+            cell: (row: ShopSalesData, index: number) => <span
+                tabIndex={getTabIndex(index, 0)}
+            >{row.lubricant_name}</span>,
         },
         {
             name: (
@@ -198,6 +245,10 @@ useEffect(() => {
                                     className={`form-input workflorform-input ${!row.update_purchage_price ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_purchage_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'purchage_price', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_purchage_price ? -1 : getTabIndex(index, 3)}
+
                                 />
 
                             </div>
@@ -228,6 +279,10 @@ useEffect(() => {
                                     className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_opening ? -1 : getTabIndex(index, 4)}
+
                                 />
 
                             </div>
@@ -259,6 +314,11 @@ useEffect(() => {
                                     className={`form-input workflorform-input ${!row.update_sale ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale', e.target.value, row)}
+
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_sale ? -1 : getTabIndex(index, 5)}
+
                                 />
 
                             </div>
@@ -289,6 +349,11 @@ useEffect(() => {
                                     className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_closing}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'closing', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_closing ? -1 : getTabIndex(index, 6)}
+
+
                                 />
 
                             </div>
@@ -319,6 +384,11 @@ useEffect(() => {
                                     className={`form-input workflorform-input ${!row.update_sale_price ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_price', e.target.value, row)}
+
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_sale_price ? -1 : getTabIndex(index, 7)}
+
                                 />
 
 
@@ -351,6 +421,10 @@ useEffect(() => {
                                     className={`form-input workflorform-input ${!row.update_sale_amount ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale_amount}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_amount', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_sale_amount ? -1 : getTabIndex(index, 8)}
+
                                 />
 
 
