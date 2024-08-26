@@ -384,66 +384,66 @@ const routes = [
 
 
 
-  {
-    path: '/analytics',
-    element: <Analytics />,
-  },
-  // finance page
-  {
-    path: '/finance',
-    element: <Finance />,
-  },
-  // crypto page
-  {
-    path: '/crypto',
-    element: <Crypto />,
-  },
-  {
-    path: '/apps/todolist',
-    element: <Todolist />,
-  },
-  {
-    path: '/apps/notes',
-    element: <Notes />,
-  },
-  {
-    path: '/apps/contacts',
-    element: <Contacts />,
-  },
-  {
-    path: '/apps/mailbox',
-    element: <Mailbox />,
-  },
-  {
-    path: '/apps/invoice/list',
-    element: <List />,
-  },
-  // Apps page
-  {
-    path: '/apps/chat',
-    element: <Chat />,
-  },
-  {
-    path: '/apps/scrumboard',
-    element: <Scrumboard />,
-  },
-  {
-    path: '/apps/calendar',
-    element: <Calendar />,
-  },
-  // preview page
-  {
-    path: '/apps/invoice/preview',
-    element: <Preview />,
-  },
-  {
-    path: '/apps/invoice/add',
-    element: <Add />,
-  },
-  {
-    path: '/apps/invoice/edit',
-    element: <Edit />,
-  },
+  // {
+  //   path: '/analytics',
+  //   element: <Analytics />,
+  // },
+  // // finance page
+  // {
+  //   path: '/finance',
+  //   element: <Finance />,
+  // },
+  // // crypto page
+  // {
+  //   path: '/crypto',
+  //   element: <Crypto />,
+  // },
+  // {
+  //   path: '/apps/todolist',
+  //   element: <Todolist />,
+  // },
+  // {
+  //   path: '/apps/notes',
+  //   element: <Notes />,
+  // },
+  // {
+  //   path: '/apps/contacts',
+  //   element: <Contacts />,
+  // },
+  // {
+  //   path: '/apps/mailbox',
+  //   element: <Mailbox />,
+  // },
+  // {
+  //   path: '/apps/invoice/list',
+  //   element: <List />,
+  // },
+  // // Apps page
+  // {
+  //   path: '/apps/chat',
+  //   element: <Chat />,
+  // },
+  // {
+  //   path: '/apps/scrumboard',
+  //   element: <Scrumboard />,
+  // },
+  // {
+  //   path: '/apps/calendar',
+  //   element: <Calendar />,
+  // },
+  // // preview page
+  // {
+  //   path: '/apps/invoice/preview',
+  //   element: <Preview />,
+  // },
+  // {
+  //   path: '/apps/invoice/add',
+  //   element: <Add />,
+  // },
+  // {
+  //   path: '/apps/invoice/edit',
+  //   element: <Edit />,
+  // },
   // components page
   {
     path: '/components/tabs',
@@ -601,50 +601,50 @@ const routes = [
     element: <Tables />,
   },
   // Data Tables
-  {
-    path: '/datatables/basic',
-    element: <Basic />,
-  },
-  {
-    path: '/datatables/advanced',
-    element: <Advanced />,
-  },
-  {
-    path: '/datatables/skin',
-    element: <Skin />,
-  },
-  {
-    path: '/datatables/order-sorting',
-    element: <OrderSorting />,
-  },
-  {
-    path: '/datatables/multi-column',
-    element: <MultiColumn />,
-  },
-  {
-    path: '/datatables/multiple-tables',
-    element: <MultipleTables />,
-  },
-  {
-    path: '/datatables/alt-pagination',
-    element: <AltPagination />,
-  },
-  {
-    path: '/datatables/checkbox',
-    element: <Checkbox />,
-  },
-  {
-    path: '/datatables/range-search',
-    element: <RangeSearch />,
-  },
+  // {
+  //   path: '/datatables/basic',
+  //   element: <Basic />,
+  // },
+  // {
+  //   path: '/datatables/advanced',
+  //   element: <Advanced />,
+  // },
+  // {
+  //   path: '/datatables/skin',
+  //   element: <Skin />,
+  // },
+  // {
+  //   path: '/datatables/order-sorting',
+  //   element: <OrderSorting />,
+  // },
+  // {
+  //   path: '/datatables/multi-column',
+  //   element: <MultiColumn />,
+  // },
+  // {
+  //   path: '/datatables/multiple-tables',
+  //   element: <MultipleTables />,
+  // },
+  // {
+  //   path: '/datatables/alt-pagination',
+  //   element: <AltPagination />,
+  // },
+  // {
+  //   path: '/datatables/checkbox',
+  //   element: <Checkbox />,
+  // },
+  // {
+  //   path: '/datatables/range-search',
+  //   element: <RangeSearch />,
+  // },
   {
     path: '/datatables/export',
     element: <Export />,
   },
-  {
-    path: '/datatables/column-chooser',
-    element: <ColumnChooser />,
-  },
+  // {
+  //   path: '/datatables/column-chooser',
+  //   element: <ColumnChooser />,
+  // },
   // Users page
   {
     path: '/users/profile',
@@ -664,25 +664,25 @@ const routes = [
     element: <ContactUsBoxed />,
     layout: 'blank',
   },
-  {
-    path: '/pages/contact-us-cover',
-    element: <ContactUsCover />,
-    layout: 'blank',
-  },
-  {
-    path: '/pages/faq',
-    element: <Faq />,
-  },
-  {
-    path: '/pages/coming-soon-boxed',
-    element: <ComingSoonBoxed />,
-    layout: 'blank',
-  },
-  {
-    path: '/pages/coming-soon-cover',
-    element: <ComingSoonCover />,
-    layout: 'blank',
-  },
+  // {
+  //   path: '/pages/contact-us-cover',
+  //   element: <ContactUsCover />,
+  //   layout: 'blank',
+  // },
+  // {
+  //   path: '/pages/faq',
+  //   element: <Faq />,
+  // },
+  // {
+  //   path: '/pages/coming-soon-boxed',
+  //   element: <ComingSoonBoxed />,
+  //   layout: 'blank',
+  // },
+  // {
+  //   path: '/pages/coming-soon-cover',
+  //   element: <ComingSoonCover />,
+  //   layout: 'blank',
+  // },
   {
     path: '/errorpage403',
     // path: '/pages/error404',
@@ -746,66 +746,66 @@ const routes = [
     layout: 'blank',
   },
   //forms page
-  {
-    path: '/forms/basic',
-    element: <FormBasic />,
-  },
-  {
-    path: '/forms/input-group',
-    element: <FormInputGroup />,
-  },
-  {
-    path: '/forms/layouts',
-    element: <FormLayouts />,
-  },
-  {
-    path: '/forms/validation',
-    element: <Validation />,
-  },
-  {
-    path: '/forms/input-mask',
-    element: <InputMask />,
-  },
-  {
-    path: '/forms/select2',
-    element: <Select2 />,
-  },
-  {
-    path: '/forms/touchspin',
-    element: <Touchspin />,
-  },
-  {
-    path: '/forms/checkbox-radio',
-    element: <CheckBoxRadio />,
-  },
-  {
-    path: '/forms/switches',
-    element: <Switches />,
-  },
-  {
-    path: '/forms/wizards',
-    element: <Wizards />,
-  },
-  {
-    path: '/forms/file-upload',
-    element: <FileUploadPreview />,
-  },
-  {
-    path: '/forms/quill-editor',
-    element: <QuillEditor />,
-  },
-  {
-    path: '/forms/markdown-editor',
-    element: <MarkDownEditor />,
-  },
-  {
-    path: '/forms/date-picker',
-    element: <DateRangePicker />,
-  },
-  {
-    path: '/forms/clipboard',
-    element: <Clipboard />,
-  },
+  // {
+  //   path: '/forms/basic',
+  //   element: <FormBasic />,
+  // },
+  // {
+  //   path: '/forms/input-group',
+  //   element: <FormInputGroup />,
+  // },
+  // {
+  //   path: '/forms/layouts',
+  //   element: <FormLayouts />,
+  // },
+  // {
+  //   path: '/forms/validation',
+  //   element: <Validation />,
+  // },
+  // {
+  //   path: '/forms/input-mask',
+  //   element: <InputMask />,
+  // },
+  // {
+  //   path: '/forms/select2',
+  //   element: <Select2 />,
+  // },
+  // {
+  //   path: '/forms/touchspin',
+  //   element: <Touchspin />,
+  // },
+  // {
+  //   path: '/forms/checkbox-radio',
+  //   element: <CheckBoxRadio />,
+  // },
+  // {
+  //   path: '/forms/switches',
+  //   element: <Switches />,
+  // },
+  // {
+  //   path: '/forms/wizards',
+  //   element: <Wizards />,
+  // },
+  // {
+  //   path: '/forms/file-upload',
+  //   element: <FileUploadPreview />,
+  // },
+  // {
+  //   path: '/forms/quill-editor',
+  //   element: <QuillEditor />,
+  // },
+  // {
+  //   path: '/forms/markdown-editor',
+  //   element: <MarkDownEditor />,
+  // },
+  // {
+  //   path: '/forms/date-picker',
+  //   element: <DateRangePicker />,
+  // },
+  // {
+  //   path: '/forms/clipboard',
+  //   element: <Clipboard />,
+  // },
   {
     path: '/about',
     element: <About />,
