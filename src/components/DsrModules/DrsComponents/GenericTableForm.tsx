@@ -419,46 +419,11 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         return (
                             <div key={tank.id} className='mt-4'>
                                 <div className='flex'>
-                                    {/* <h3 className='FuelSaleContainer'>
-                                        <div className='flex flex-col'>
-                                            <span
-                                                className='ps-2'
-                                                style={{
-                                                    background: "#f6f8fa",
-                                                    padding: "15.5px 6px",
-                                                    borderBottom: "1px solid #d8dadc",
-                                                }}
-                                            >
-                                                Tank
-                                            </span>
-
-                                            <span className='tank_name'>
-                                                {tank.tank_name}
-                                                <OverlayTrigger
-                                                    placement="top"
-                                                    overlay={
-                                                        <Tooltip className='custom-tooltip' id="tooltip-variance">
-                                                            Fuel Left: {tank?.fuel_left} units<br />
-                                                            Capacity: {tank?.capacity} units
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <i className="fi fi-tr-comment-info mt-2"></i>
-                                                </OverlayTrigger>
-                                            </span>
-
-                                            <span className='ps-2'>
-                                                Total Sales Volume: {totalSalesVolume}
-                                            </span>
-                                        </div>
-                                    </h3> */}
+                                  
                                     <h3 className='FuelSaleContainer '>
                                         <div className=' flex flex-col'>
                                             <span className='ps-2' style={{ background: "#f6f8fa", padding: "15.5px 6px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
-                                            {/* <span className='tank_name'> {tank.tank_name}</span> */}
-                                            {/* <span className='ps-2'>
-                                                Total Sales Volume: {totalSalesVolume}
-                                            </span> */}
+                                        
                                             <span className='tank_name'>
 
                                                 {tank.tank_name?.length > 8 ? `${tank?.tank_name.substring(0, 6)}...` : tank.tank_name}

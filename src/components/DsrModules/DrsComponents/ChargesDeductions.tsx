@@ -187,8 +187,8 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             <div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold mb-4 displaycanter">
-                        {`Extra Income and Expenses`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
+                    <h1 className="text-lg font-bold mb-4 displaycanter">
+                        {` Expenses and Extra Income `} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
 
 
                             <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
@@ -199,23 +199,17 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
                     </h1>
 
-                    {/* {isdownloadpdf  && (
-                    <button
-                        className='btn btn-primary'
-                        onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}
-                    >
-                      Download Pdf   <i className="fi fi-tr-file-download"></i> 
-                    </button>
-                       )} */}
+              
                 </div>
                 <div className="grid grid-cols-12 gap-4">
+                 
                     <div className="col-span-12 md:col-span-12">
-                        <h2 className="text-lg font-semibold mb-4">Extra Income</h2>
-                        {charges && charges.length > 0 ? (
-                            <div className="datatables auto-height-react-table">
+                        <h2 className="text-lg font-bold mb-4">Expenses</h2>
+                        {deductions && deductions.length > 0 ? (
+                            <div className=" auto-height-react-table">
                                 <DataTable
                                     columns={columns}
-                                    data={charges}
+                                    data={deductions}
                                 // className="tablecardHeight"
 
                                 />
@@ -231,14 +225,13 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                         )}
                     </div>
                     <div className="col-span-12 md:col-span-12">
-                        <h2 className="text-lg font-semibold mb-4">Expenses</h2>
-                        {deductions && deductions.length > 0 ? (
-                            <div className="datatables auto-height-react-table">
+                        <h2 className="text-lg font-bold mb-4">Extra Income</h2>
+                        {charges && charges.length > 0 ? (
+                            <div className=" auto-height-react-table">
                                 <DataTable
                                     columns={columns}
-                                    data={deductions}
-                                // className="tablecardHeight"
-
+                                    data={charges}
+                             
                                 />
                             </div>
                         ) : (
