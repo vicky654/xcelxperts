@@ -115,6 +115,55 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
     const characterLimit = 20; // Set the character limit for the tooltip
 
+    const getTabIndex = (tankIndex: number, index: number, column: number) => {
+        return tankIndex * 100 + index * 10 + column;
+    };
+
+
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length - 10) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    };
+
+
+
+
+
     const columns = (tankIndex: number) => [
         {
 
@@ -128,7 +177,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
             selector: (row: NozzleData) => row.nozzle_name,
             width: '7%',
-            cell: (row: NozzleData) => {
+            cell: (row: NozzleData, index: number) => {
                 const isTextLong = row.nozzle_name.length > characterLimit;
                 const displayText = isTextLong
                     ? row.nozzle_name.slice(0, characterLimit) + '...'
@@ -145,7 +194,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             )
                         }
                     >
-                        <span className='ms-2' style={{minWidth:"100px" , maxWidth:"100px"}}>{displayText}</span>
+                        <span className='ms-2'
+                            tabIndex={getTabIndex(tankIndex, index, 1)}
+
+                            style={{ minWidth: "100px", maxWidth: "100px" }}>{displayText}</span>
                     </OverlayTrigger>
                 );
             },
@@ -161,7 +213,9 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
             width: '7%',
             selector: (row: NozzleData) => row.fuel_name,
-            cell: (row: NozzleData) => <span style={{minWidth:"100px" , maxWidth:"100px"}}>{row.fuel_name}</span>,
+            cell: (row: NozzleData, index: number) => <span
+                tabIndex={getTabIndex(tankIndex, index, 2)}
+                style={{ minWidth: "100px", maxWidth: "100px" }}>{row.fuel_name}</span>,
         },
         {
             name: (
@@ -181,6 +235,11 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_price ? 'readonly' : ''}`}
                             readOnly={!row.update_price}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'fuel_price', e.target.value)}
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_price ? -1 : getTabIndex(tankIndex, index, 3)}
+                        // tabIndex={getTabIndex(tankIndex, index) + 100} // Ensure unique tabIndex
+
                         />
                     )}
                 </Field>
@@ -204,6 +263,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
                             readOnly={!row.update_opening}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'opening', e.target.value)}
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_opening ? -1 : getTabIndex(tankIndex, index, 4)}
+
                         />
                     )}
                 </Field>
@@ -227,6 +290,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
                             readOnly={!row.update_closing}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'closing', e.target.value)}
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_closing ? -1 : getTabIndex(tankIndex, index, 5)}
+
                         />
                     )}
                 </Field>
@@ -250,6 +317,11 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_test_volume ? 'readonly' : ''}`}
                             readOnly={!row.update_test_volume}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'test_volume', e.target.value)}
+
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_test_volume ? -1 : getTabIndex(tankIndex, index, 6)}
+
                         />
                     )}
                 </Field>
@@ -274,6 +346,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''}`}
                             readOnly={!row.update_sales_volume}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'sales_volume', e.target.value)}
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_sales_volume ? -1 : getTabIndex(tankIndex, index, 7)}
+
                         />
                     )}
                 </Field>
@@ -297,6 +373,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             {...field}
                             className={`form-input workflorform-input ${!row.update_gross_value ? 'readonly' : ''}`}
                             readOnly={!row.update_gross_value}
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_gross_value ? -1 : getTabIndex(tankIndex, index, 8)}
+
+
                         />
                     )}
                 </Field>
@@ -321,6 +401,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             className={`form-input workflorform-input ${!row.update_discount ? 'readonly' : ''}`}
                             readOnly={!row.update_discount}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'discount', e.target.value)}
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_discount ? -1 : getTabIndex(tankIndex, index, 9)}
+
                         />
                     )}
                 </Field>
@@ -344,6 +428,10 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                             {...field}
                             className={`form-input workflorform-input ${!row.update_nett_value ? 'readonly' : ''}`}
                             readOnly={!row.update_nett_value}
+
+                            onKeyDown={(e) => handleNavigation(e, index)}
+                            tabIndex={!row.update_nett_value ? -1 : getTabIndex(tankIndex, index, 10)}
+
                         />
                     )}
                 </Field>
@@ -419,11 +507,11 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                         return (
                             <div key={tank.id} className='mt-4'>
                                 <div className='flex'>
-                                  
+
                                     <h3 className='FuelSaleContainer '>
                                         <div className=' flex flex-col'>
                                             <span className='ps-2' style={{ background: "#f6f8fa", padding: "15.5px 6px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
-                                        
+
                                             <span className='tank_name'>
 
                                                 {tank.tank_name?.length > 8 ? `${tank?.tank_name.substring(0, 6)}...` : tank.tank_name}
