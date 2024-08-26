@@ -35,7 +35,7 @@ const BasicPieChart: React.FC<PieChartProps> = ({ data }) => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 400,
+            width: 300,
           },
         },
       },
