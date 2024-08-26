@@ -104,6 +104,15 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
+
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+
+        // Set the current month in start_month if it's missing
+        if (!storedData.start_month) {
+          storedData.start_month = `${year}-${month}`;
+        }
         if (storedData.start_month) {
 
           handleApplyFilters(storedData);
@@ -113,12 +122,27 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       }
     }
   }, [dispatch]);
+
+
+
   useEffect(() => {
     // Select the first card by default if cards have data
     const stationTank = localStorage.getItem(keyName);
 
     if (stationTank) {
+
+
+
       const parsedData = JSON.parse(stationTank);
+      // Set the current month in start_month if it's missing
+      if (!parsedData.start_month) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+
+        parsedData.start_month = `${year}-${month}`;
+      }
+
       setFilters({
         client_id: parsedData.client_id || '',
         company_id: parsedData.entity_id || '',
@@ -773,7 +797,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         <div className="bg-white w-full max-w-md m-6">
           <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
             <h5 className="text-lg font-bold">
-              Apply Filter
+              Apply Filterss
             </h5>
             <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
               <IconX />
