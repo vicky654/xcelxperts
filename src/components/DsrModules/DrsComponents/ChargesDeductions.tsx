@@ -121,6 +121,87 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         }
     };
 
+
+    const getTabIndex = (rowIndex: number, colIndex: number) => {
+        // Adjust the base index according to your needs
+        return rowIndex * columns.length + colIndex + 1;
+    };
+
+
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    };
+    const handleNavigation2 = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input2')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    };
+
     const columns: TableColumn<ChargesDeductionsData>[] = [
         {
             name: (
@@ -133,7 +214,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             ),
             selector: (row) => row.name,
             sortable: false,
-            cell: (row) => <span>{row.name}</span>
+            cell: (row, index: number) => <span tabIndex={getTabIndex(index, 1)}>{row.name}</span>
         },
         {
             name: (
@@ -146,7 +227,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             ),
             selector: (row) => row.notes,
             sortable: false,
-            cell: (row) => (
+            cell: (row: any, index: number) => (
                 <Form.Control
                     type="text"
                     value={row.notes}
@@ -154,6 +235,9 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     className={`form-input workflorform-input ${row.update_amount ? '' : 'readonly'}`}
                     onChange={(e) => handleNoteChange(e.target.value, row)}
                     readOnly={!row.update_amount}
+                    onKeyDown={(e: any) => handleNavigation(e, index)}
+                    tabIndex={!row.update_amount ? -1 : getTabIndex(index, 2)}
+
                 />
             )
         },
@@ -168,7 +252,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             ),
             selector: (row) => row.amount,
             sortable: false,
-            cell: (row) => (
+            cell: (row, index: number) => (
                 <Form.Control
                     type="text"
                     placeholder='Amount'
@@ -176,6 +260,76 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     className={`form-input workflorform-input ${row.update_amount ? '' : 'readonly'}`}
                     onChange={(e) => handleAmountChange(e.target.value, row)}
                     readOnly={!row.update_amount}
+                    onKeyDown={(e: any) => handleNavigation(e, index)}
+                    tabIndex={!row.update_amount ? -1 : getTabIndex(index, 3)}
+
+                />
+            )
+        }
+    ];
+
+
+    const DeductionColumns: TableColumn<ChargesDeductionsData>[] = [
+        {
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Name</Tooltip>}
+                >
+                    <span>Name</span>
+                </OverlayTrigger>
+            ),
+            selector: (row) => row.name,
+            sortable: false,
+            cell: (row, index: number) => <span tabIndex={getTabIndex(index, 4)}>{row.name}</span>
+        },
+        {
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Note</Tooltip>}
+                >
+                    <span>Note</span>
+                </OverlayTrigger>
+            ),
+            selector: (row) => row.notes,
+            sortable: false,
+            cell: (row, index: number) => (
+                <Form.Control
+                    type="text"
+                    value={row.notes}
+                    placeholder='Notes'
+                    className={`form-input workflorform-input2 ${row.update_amount ? '' : 'readonly'}`}
+                    onChange={(e) => handleNoteChange(e.target.value, row)}
+                    readOnly={!row.update_amount}
+                    onKeyDown={(e: any) => handleNavigation2(e, index)}
+                    tabIndex={!row.update_amount ? -1 : getTabIndex(index, 5)}
+
+                />
+            )
+        },
+        {
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount {currency}</Tooltip>}
+                >
+                    <span>Amount {currency}</span>
+                </OverlayTrigger>
+            ),
+            selector: (row) => row.amount,
+            sortable: false,
+            cell: (row, index: number) => (
+                <Form.Control
+                    type="text"
+                    placeholder='Amount'
+                    value={row.amount}
+                    className={`form-input workflorform-input2 ${row.update_amount ? '' : 'readonly'}`}
+                    onChange={(e) => handleAmountChange(e.target.value, row)}
+                    readOnly={!row.update_amount}
+                    onKeyDown={(e: any) => handleNavigation2(e, index)}
+                    tabIndex={!row.update_amount ? -1 : getTabIndex(index, 6)}
+
                 />
             )
         }
@@ -188,7 +342,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-bold mb-4 displaycanter">
-                        {` Expenses and Extra Income `} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
+                        {`Expenses and Extra Income `} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
 
 
                             <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
@@ -199,16 +353,15 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
                     </h1>
 
-              
+
                 </div>
                 <div className="grid grid-cols-12 gap-4">
-                 
                     <div className="col-span-12 md:col-span-12">
                         <h2 className="text-lg font-bold mb-4">Expenses</h2>
                         {deductions && deductions.length > 0 ? (
-                            <div className=" auto-height-react-table">
+                            <div className="datatables auto-height-react-table">
                                 <DataTable
-                                    columns={columns}
+                                    columns={DeductionColumns}
                                     data={deductions}
                                 // className="tablecardHeight"
 
@@ -227,11 +380,11 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     <div className="col-span-12 md:col-span-12">
                         <h2 className="text-lg font-bold mb-4">Extra Income</h2>
                         {charges && charges.length > 0 ? (
-                            <div className=" auto-height-react-table">
+                            <div className="datatables auto-height-react-table">
                                 <DataTable
                                     columns={columns}
                                     data={charges}
-                             
+
                                 />
                             </div>
                         ) : (
@@ -244,6 +397,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                             </div>
                         )}
                     </div>
+
                 </div>
                 {isEditable && (
                     <div className="mt-4">

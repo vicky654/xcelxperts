@@ -24,10 +24,10 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     const [loading, setLoading] = useState<boolean>(false);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
-// Default to 'USD' if not set
+    // Default to 'USD' if not set
 
     useEffect(() => {
-     
+
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
         }
@@ -38,7 +38,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             setLoading(true);
             const response = await getData(`/data-entry/payment/list?drs_date=${startDate}&station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-             
+
                 const data = response.data.data;
                 setIsEditable(data?.is_editable);
                 setIsdownloadpdf(response.data.data?.download_pdf);
@@ -54,7 +54,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             setLoading(false);
         }
     };
-    
+
 
     const calculateTotalAmount = (listing: PaymentItem[]) => {
         return listing.reduce((total, item) => {
@@ -73,22 +73,22 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         }
         return listing; // Return the original listing if not editable
     };
-    
-    
+
+
     const handleAmountChange = (value: string, id: string) => {
         if (paymentData) {
             const updatedList = paymentData.listing.map((payment) =>
                 payment.id === id ? { ...payment, amount: value } : payment
             );
             const totalAmount = calculateTotalAmount(updatedList);
-            
+
             // Use isEditable from state directly within the function
             const updatedListWithTotal = updateTotalInListing(updatedList, totalAmount, isEditable);
-            
+
             setPaymentData({ ...paymentData, listing: updatedListWithTotal });
         }
     };
-    
+
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -122,19 +122,65 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             }
         }
     };
- 
+
+    const getTabIndex = (rowIndex: number, colIndex: number) => {
+        // Adjust the base index according to your needs
+        return rowIndex * columns.length + colIndex + 1;
+    };
+
+
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    };
+
     const columns: TableColumn<PaymentItem>[] = [
-        { name: (
-            <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Card Name</Tooltip>}
-            >
-                <span>Card Name</span>
-            </OverlayTrigger>
-        ),
-            
-            
-            selector: (row: PaymentItem) => row.card_name, sortable: false },
+        {
+            name: (
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Card Name</Tooltip>}
+                >
+                    <span >Card Name</span>
+                </OverlayTrigger>
+            ),
+
+
+            selector: (row: PaymentItem) => row.card_name, sortable: false
+        },
         {
             name: (
                 <OverlayTrigger
@@ -145,34 +191,38 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 </OverlayTrigger>
             ),
             sortable: false,
-            cell: (row: PaymentItem) => (
+            cell: (row: PaymentItem, index: number) => (
                 <input
                     type="number"
                     value={row.amount}
                     readOnly={!row.update_amount}
                     className={`${!row.update_amount ? 'readonly' : ''} form-input workflorform-input mt-1 block w-80 pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                     onChange={(e) => handleAmountChange(e.target.value, row.id)}
+
+                    onKeyDown={(e) => handleNavigation(e, index)}
+                    tabIndex={!row.update_amount ? -1 : getTabIndex(index, 2)}
+
                 />
             ),
-            
+
         },
     ];
 
     return (
         <>
-          
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold mb-4 displaycanter">
-                        {`Digital Receipt`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
-                        <OverlayTrigger  placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                                </OverlayTrigger>
-                            
-                            </span> )}
-                   
-                    </h1>
 
-                </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h1 className="text-lg font-semibold mb-4 displaycanter">
+                    {`Digital Receipt`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
+                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                        </OverlayTrigger>
+
+                    </span>)}
+
+                </h1>
+
+            </div>
             <form onSubmit={handleFormSubmit}>
                 {loading ? (
                     <p>Loading...</p>
@@ -182,8 +232,8 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                     )
                 )}
 
-                {isEditable?
-                <button type="submit" className="btn btn-primary">Submit</button>:""}
+                {isEditable ?
+                    <button type="submit" className="btn btn-primary">Submit</button> : ""}
             </form>
         </>
     );

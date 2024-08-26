@@ -132,6 +132,51 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
         setFieldValue(`data[${index}].nett_value`, nett_value.toFixed(2));
     };
 
+
+
+    const getTabIndex = (index: number, columnIndex: number) => {
+        return index * columns?.length + columnIndex + 1;
+    };
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    };
+
+
+
     const columns = [
         {
 
@@ -167,6 +212,8 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                             className={`form-input workflorform-input ${!row.update_price ? 'readonly' : ''}`}
                             readOnly={!row.update_price}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'fuel_price', e.target.value, row)}
+                            tabIndex={!row.update_price ? -1 : getTabIndex(index, 1)} // Set tabindex only for editable fields
+                            onKeyDown={(e) => handleNavigation(e, index)}
                         />
                     )}
                 </Field>
@@ -191,6 +238,9 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                             className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''}`}
                             readOnly={!row.update_sales_volume}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
+                            tabIndex={!row.update_sales_volume ? -1 : getTabIndex(index, 2)} // Set tabindex only for editable fields
+                            onKeyDown={(e) => handleNavigation(e, index)}
+
                         />
                     )}
                 </Field>
@@ -214,6 +264,9 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                             {...field}
                             className={`form-input workflorform-input ${!row.update_gross_value ? 'readonly' : ''}`}
                             readOnly={!row.update_gross_value}
+                            tabIndex={!row.update_gross_value ? -1 : getTabIndex(index, 3)} // Set tabindex only for editable fields
+                            onKeyDown={(e) => handleNavigation(e, index)}
+
                         />
                     )}
                 </Field>
@@ -239,6 +292,9 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                             className={`form-input workflorform-input ${!row.update_discount ? 'readonly' : ''}`}
                             readOnly={!row.update_discount}
                             onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'discount', e.target.value, row)}
+                            tabIndex={!row.update_discount ? -1 : getTabIndex(index, 4)} // Set tabindex only for editable fields
+                            onKeyDown={(e) => handleNavigation(e, index)}
+
                         />
                     )}
                 </Field>
@@ -263,6 +319,9 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                             {...field}
                             className={`form-input workflorform-input ${!row.update_nett_value ? 'readonly' : ''}`}
                             readOnly={!row.update_nett_value}
+                            tabIndex={!row.update_nett_value ? -1 : getTabIndex(index, 5)} // Set tabindex only for editable fields
+                            onKeyDown={(e) => handleNavigation(e, index)}
+
                         />
                     )}
                 </Field>

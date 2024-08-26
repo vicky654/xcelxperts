@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
-import { Formik, Form, Field, FieldArray, ErrorMessage, FieldProps } from 'formik';
+import { Formik, Form, Field, FieldArray, ErrorMessage, FieldProps, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import DataTable from 'react-data-table-component';
 
@@ -37,6 +37,9 @@ type FuelDeliveryErrors = {
         [K in keyof FuelDeliveryData]?: string;
     }>;
 };
+
+
+type FormikInstance = FormikProps<any>;
 
 const validationSchema = Yup.object().shape({
     data: Yup.array().of(
@@ -126,13 +129,13 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
         // Update book_stock field if opening, delivery_volume, or sales_volume changes
         if (field === 'opening' || field === 'delivery_volume' || field === 'sales_volume') {
-  
+
             const opening = field === 'opening' ? Number(numericValue) : Number(values.data[index].opening);
             let delivery_volume = field === 'delivery_volume' ? Number(numericValue) : Number(values.data[index].delivery_volume);
             const sales_volume = field === 'sales_volume' ? Number(numericValue) : Number(values.data[index].sales_volume);
 
 
-       
+
 
 
             const newBookStock = opening + delivery_volume - sales_volume;
@@ -151,6 +154,51 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         }
     };
 
+
+    const getTabIndex = (rowIndex: number, colIndex: number) => {
+        // Adjust the base index according to your needs
+        return rowIndex * columns.length + colIndex + 1;
+    };
+
+
+
+    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
+
+        if (!validKeys.includes(e.key)) {
+            return; // Allow default behavior for other keys
+        }
+
+        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+
+        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
+        const currentInput = e.currentTarget as HTMLInputElement;
+        const currentTabIndex = currentInput.tabIndex;
+
+        let nextInput: HTMLInputElement | null = null;
+
+        switch (e.key) {
+            case 'ArrowRight':
+                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowLeft':
+                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                break;
+            case 'ArrowDown':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                break;
+            case 'ArrowUp':
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                break;
+            default:
+                break;
+        }
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    };
+
     const columns = [
         {
             name: (
@@ -162,8 +210,8 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 </OverlayTrigger>
             ),
             selector: (row: FuelDeliveryData) => row.fuel_name,
-            cell: (row: FuelDeliveryData) => (
-                <span>{row.fuel_name}</span>
+            cell: (row: FuelDeliveryData, index: number) => (
+                <span tabIndex={getTabIndex(index, 0)}>{row.fuel_name}</span>
             ),
         },
         {
@@ -176,7 +224,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                 </OverlayTrigger>
             ),
             selector: (row: FuelDeliveryData) => row.tank_name,
-            cell: (row: FuelDeliveryData) => <span>{row.tank_name}</span>,
+            cell: (row: FuelDeliveryData, index: number) => <span tabIndex={getTabIndex(index, 1)}>{row.tank_name}</span>,
         },
         {
             name: (
@@ -199,6 +247,10 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_opening ? -1 : getTabIndex(index, 2)}
+
+
                                 />
                                 {/* {touched && error && (
                                     <ErrorMessage name={`data[${index}].opening`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" />
@@ -231,6 +283,10 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     className={`form-input workflorform-input ${!row.update_delivery_volume ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''} `}
                                     readOnly={!row.update_delivery_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'delivery_volume', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_delivery_volume ? -1 : getTabIndex(index, 3)}
+
                                 />
                             </div>
                         )}
@@ -259,6 +315,9 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_sales_volume}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sales_volume', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_sales_volume ? -1 : getTabIndex(index, 4)}
                                 />
 
                                 {/* <ErrorMessage name={`data[${index}].sales_volume`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
@@ -289,6 +348,9 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     {...field}
                                     className="form-input workflorform-input readonly"
                                     readOnly
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={-1}
                                 />
                                 {/* <ErrorMessage name={`data[${index}].book_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
                             </div>
@@ -318,6 +380,9 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     className={`form-input workflorform-input ${!row.update_dips_stock ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}`}
                                     readOnly={!row.update_dips_stock}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'dips_stock', e.target.value, row)}
+
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={!row.update_dips_stock ? -1 : getTabIndex(index, 6)}
                                 />
                                 {/* <ErrorMessage name={`data[${index}].dips_stock`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
                             </div>
@@ -346,6 +411,8 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                                     {...field}
                                     className="form-input workflorform-input readonly"
                                     readOnly
+                                    onKeyDown={(e) => handleNavigation(e, index)}
+                                    tabIndex={-1}
                                 />
                                 {/* <ErrorMessage name={`data[${index}].variance`} component="div" className="text-red-500 text-xs mt-1 absolute left-0" /> */}
                             </div>
@@ -356,6 +423,27 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         },
     ];
 
+
+
+    const formikRef = useRef<FormikInstance | null>(null);
+
+    useEffect(() => {
+        const handleKeyDown = (event: any) => {
+            if (event.altKey && event.key === 'Enter') {
+                event.preventDefault(); // Prevent default action of Alt + Enter
+                if (formikRef.current) {
+                    formikRef.current.handleSubmit();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -365,6 +453,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
 
                 {data.length > 0 ? (
                     <Formik
+                        innerRef={formikRef} // Attach the ref to Formik
                         initialValues={{ data: data }}
                         validationSchema={validationSchema}
                         onSubmit={handleSubmit}
