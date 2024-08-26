@@ -174,24 +174,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
         </div>
         <div className="flex justify-center">
           <div className="w-full">
-            {data?.charges && (
-              <div className="mb-8  ">
-                <h1 className="text-lg font-bold">SUMMARY OF EXTRA INCOMES</h1>
-
-                <div className="p-2">
-                  <ul className="divide-y divide-gray-200">
-                    {Object.keys(data?.charges || {}).map((item, index) => (
-                      <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
-                        <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                        <p>{currency} {data?.charges[item]}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-
-              </div>
-            )}
+           
             {data?.deductions && (
               <div className="mb-8  ">
                 <h1 className="text-lg font-bold">SUMMARY OF EXPENSES</h1>
@@ -202,6 +185,24 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                       <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
                         <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
                         <p>{currency} {data?.deductions[item]}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+
+              </div>
+            )}
+             {data?.charges && (
+              <div className="mb-8  ">
+                <h1 className="text-lg font-bold">SUMMARY OF EXTRA INCOMES</h1>
+
+                <div className="p-2">
+                  <ul className="divide-y divide-gray-200">
+                    {Object.keys(data?.charges || {}).map((item, index) => (
+                      <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
+                        <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
+                        <p>{currency} {data?.charges[item]}</p>
                       </li>
                     ))}
                   </ul>

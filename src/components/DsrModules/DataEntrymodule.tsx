@@ -22,6 +22,7 @@ import useCustomDelete from '../../utils/customDelete';
 import IconX from '../Icon/IconX';
 import Tippy from '@tippyjs/react';
 import IconRefresh from '../Icon/IconRefresh';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
 interface ManageSiteProps {
@@ -60,26 +61,26 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
-  
+
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
-        
+
         // Get the current date in 'YYYY-MM-DD' format
         const now = new Date();
         const year = now.getFullYear();
         const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
         const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
         const currentDate = `${year}-${month}-${day}`;
-  
+
         // Check if station_id is present
         if (storedData.station_id) {
           // Set start_date to the current date if it's missing
           if (!storedData.start_date) {
             storedData.start_date = currentDate;
           }
-  
-         
+
+
           handleApplyFilters(storedData);
         }
       } catch (error) {
@@ -87,7 +88,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
       }
     }
   }, [dispatch]);
-  
+
 
 
 
@@ -267,8 +268,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     setIsFilterModalOpen(false);
   }
 
-
-
   return <>
     {isLoading && <LoaderImg />}
     <div className="flexspacebetween ">
@@ -424,7 +423,26 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         <div className='panel h-full col-span-3'>
           <div className="flex justify-between  mb-2">
-            <h5 className="font-bold text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}</h5>
+            <h5 className="font-bold flex text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{lineHeight:"30px"}}>
+                   <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
+                    <br></br>
+                    <hr></hr>
+                    <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
+                    <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
+                    <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down  
+                       <br></br>    <hr></hr>
+
+                   <span className='mt-1  px-2' style={{border:"1px solid #fff"}}>Enter</span>  Form will submit on the submission of Enter Key
+                  </Tooltip>
+                }
+              >
+                <span className=''> <i style={{lineHeight:"10px" , fontSize:"20px"}} className="fi fi-ts-keyboard"></i></span>
+              </OverlayTrigger>
+            )}</h5>
           </div>
           <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">

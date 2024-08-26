@@ -11,6 +11,7 @@ import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Badge } from '@mantine/core';
+import { currency } from '../../../utils/CommonData';
 
 interface ShopSalesData {
     id: string;
@@ -534,14 +535,14 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     </button>}
 
 
-                                    <div className='flex mt-2 text-end'>
-                                        <Badge className='badge-outline-primary' style={{ borderRadius: "0px" }}>
-                                            Total Amount: {isEditable
+                                    <div className='flex mt-4 text-end '>
+                                        <Badge className='bg-primary' style={{ borderRadius: "0px" ,color:"#fff",fontSize:"12px" }}>
+                                            Total Amount:  {currency} {isEditable
                                                 ? (isNaN(totalSaleAmount) ? '--' : totalSaleAmount.toFixed(2))
                                                 : (isNaN(totalSaleAmount) ? '0' : totalSaleAmount.toFixed(2))}
                                         </Badge>
-                                        <Badge className='ms-2 badge-outline-success' style={{ borderRadius: "0px" }}>
-                                            Total Profit: {isEditable
+                                        <Badge className=' bg-success ms-2 ' style={{ borderRadius: "0px",color:"#fff",fontSize:"12px"  }}>
+                                            Total Profit: {currency} {isEditable
                                                 ? (isNaN(totalProfitAmount) ? '0' : totalProfitAmount.toFixed(2))
                                                 : (isNaN(totalProfitAmount) ? '--' : totalProfitAmount.toFixed(2))}
                                         </Badge>
