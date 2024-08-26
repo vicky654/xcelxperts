@@ -57,8 +57,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     const [isEditable, setIsEditable] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const handleApiError = useErrorHandler();
-
-    useEffect(() => {
+useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
         }
@@ -69,6 +68,12 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             const response = await getData(`/data-entry/lube-sale/list?station_id=${stationId}&drs_date=${startDate}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data.listing);
+
+               
+
+
+
+
                 setIsdownloadpdf(response.data.data?.download_pdf);
                 setIsEditable(response.data.data.is_editable);
             } else {
@@ -120,63 +125,28 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
         // Update the field value in the form values
         setFieldValue(`data[${index}].${field}`, numericValue);
-        if (field == 'opening' || field === 'sale' || field === 'sale_price') {
+        if (field == 'opening' || field === 'sale' || field === 'sale_price' || field === 'purchage_price') {
 
 
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const sale = field === 'sale' ? numericValue : values.data[index].sale;
             const salePrice = field === 'sale_price' ? numericValue : values.data[index].sale_price;
+            const purchageprice = field === 'purchage_price' ? numericValue : values.data[index].purchage_price;
 
             const closing = opening - sale;
             setFieldValue(`data[${index}].closing`, closing);
             const saleAmount = sale * salePrice;
+            const purchaseAmount = purchageprice * sale;
+            var CalculatedProfit = saleAmount - purchaseAmount;
+
+      
+            setFieldValue("CalculatedProfit", CalculatedProfit)
             setFieldValue(`data[${index}].sale_amount`, saleAmount);
-        }
-    };
-
-
-    const getTabIndex = (rowIndex: number, colIndex: number) => {
-        // Adjust the base index according to your needs
-        return rowIndex * columns.length + colIndex + 1;
-    };
-
-
-
-    const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-        const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
-
-        if (!validKeys.includes(e.key)) {
-            return; // Allow default behavior for other keys
+            setFieldValue(`data[${index}].profit`, CalculatedProfit);
         }
 
-        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
 
-        const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
-        const currentInput = e.currentTarget as HTMLInputElement;
-        const currentTabIndex = currentInput.tabIndex;
 
-        let nextInput: HTMLInputElement | null = null;
-
-        switch (e.key) {
-            case 'ArrowRight':
-                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
-                break;
-            case 'ArrowLeft':
-                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
-                break;
-            case 'ArrowDown':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
-                break;
-            case 'ArrowUp':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
-                break;
-            default:
-                break;
-        }
-
-        if (nextInput) {
-            nextInput.focus();
-        }
     };
 
     const columns = [
@@ -191,9 +161,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             ),
             sortable: false,
             selector: (row: ShopSalesData) => row.lubricant_name,
-            cell: (row: ShopSalesData, index: number) => <span
-                tabIndex={getTabIndex(index, 0)}
-            >{row.lubricant_name}</span>,
+            cell: (row: ShopSalesData) => <span>{row.lubricant_name}</span>,
         },
         {
             name: (
@@ -230,11 +198,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     className={`form-input workflorform-input ${!row.update_purchage_price ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_purchage_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'purchage_price', e.target.value, row)}
-
-                                    // tabIndex={!row.update_purchage_price ? -1 : getTabIndex(index, 1)} // Set tabindex only for editable fields
-                                    onKeyDown={(e) => handleNavigation(e, index)}
-                                    tabIndex={!row.update_purchage_price ? -1 : getTabIndex(index, 3)}
-
                                 />
 
                             </div>
@@ -265,11 +228,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_opening}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'opening', e.target.value, row)}
-
-                                    // tabIndex={!row.update_opening ? -1 : getTabIndex(index, 1)} // Set tabindex only for editable fields
-                                    onKeyDown={(e) => handleNavigation(e, index)}
-                                    tabIndex={!row.update_opening ? -1 : getTabIndex(index, 4)}
-
                                 />
 
                             </div>
@@ -301,12 +259,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     className={`form-input workflorform-input ${!row.update_sale ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale', e.target.value, row)}
-
-
-                                    // tabIndex={!row.update_sale ? -1 : getTabIndex(index, 1)} // Set tabindex only for editable fields
-                                    onKeyDown={(e) => handleNavigation(e, index)}
-                                    tabIndex={!row.update_sale ? -1 : getTabIndex(index, 5)}
-
                                 />
 
                             </div>
@@ -337,12 +289,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_closing}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'closing', e.target.value, row)}
-
-
-                                    // tabIndex={!row.update_closing ? -1 : getTabIndex(index, 1)} // Set tabindex only for editable fields
-                                    onKeyDown={(e) => handleNavigation(e, index)}
-                                    tabIndex={!row.update_closing ? -1 : getTabIndex(index, 6)}
-
                                 />
 
                             </div>
@@ -373,12 +319,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     className={`form-input workflorform-input ${!row.update_sale_price ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale_price}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_price', e.target.value, row)}
-
-
-                                    // tabIndex={!row.update_sale_price ? -1 : getTabIndex(index, 1)} // Set tabindex only for editable fields
-                                    onKeyDown={(e) => handleNavigation(e, index)}
-                                    tabIndex={!row.update_sale_price ? -1 : getTabIndex(index, 7)}
-
                                 />
 
 
@@ -411,9 +351,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     className={`form-input workflorform-input ${!row.update_sale_amount ? 'readonly' : ''} ${touched && error ? ' errorborder border-red-500' : ''}   `}
                                     readOnly={!row.update_sale_amount}
                                     onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'sale_amount', e.target.value, row)}
-                                    onKeyDown={(e) => handleNavigation(e, index)}
-                                    tabIndex={!row.update_sale_amount ? -1 : getTabIndex(index, 8)}
-
                                 />
 
 
@@ -428,7 +365,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     if (isLoading) {
         return <LoaderImg />;
     }
-    console.log(data, "data");
+
     const calculateFields = (data: ShopSalesData[]): ShopSalesData[] => {
         return data.map(item => {
             let purchage_amount = 0;
@@ -493,10 +430,9 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
                         const updatedData = calculateFields(values?.data);
                         const totalSaleAmount = updatedData.reduce((total, item) => total + item.sale_amount, 0);
-
                         const totalProfitAmount = updatedData.reduce((total, item) => total + item.profit, 0);
-
-
+                        console.log(totalProfitAmount, "totalProfitAmount");
+                        console.log(values, "values");
                         return (
                             <Form>
                                 <FieldArray
@@ -517,6 +453,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     )}
                                 />
 
+
                                 <footer className='flexspacebetween'>
                                     {isEditable && <button type="submit" className="btn btn-primary submit-button mt-3">
                                         Submit
@@ -526,17 +463,19 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                                     <div className='flex mt-2 text-end'>
                                         <Badge className='badge-outline-primary' style={{ borderRadius: "0px" }}>
                                             Total Amount: {isEditable
-                                                ? (isNaN(totalSaleAmount) ? '0' : totalSaleAmount.toFixed(2))
+                                                ? (isNaN(totalSaleAmount) ? '--' : totalSaleAmount.toFixed(2))
                                                 : (isNaN(totalSaleAmount) ? '0' : totalSaleAmount.toFixed(2))}
                                         </Badge>
                                         <Badge className='ms-2 badge-outline-success' style={{ borderRadius: "0px" }}>
                                             Total Profit: {isEditable
                                                 ? (isNaN(totalProfitAmount) ? '0' : totalProfitAmount.toFixed(2))
-                                                : (isNaN(totalProfitAmount) ? '0' : totalProfitAmount.toFixed(2))}
+                                                : (isNaN(totalProfitAmount) ? '--' : totalProfitAmount.toFixed(2))}
                                         </Badge>
                                     </div>
 
                                 </footer>
+
+
                             </Form>
                         );
                     }}
