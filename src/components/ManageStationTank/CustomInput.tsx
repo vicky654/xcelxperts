@@ -108,9 +108,17 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
             // Set the parsed data into Formik
             formik.setValues(parsedData);
-
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+            const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+            const currentDate = `${year}-${month}-${day}`;
+      
             // Check if station_id exists in parsedData
             if (parsedData?.entity_id) {
+                if (!parsedData.start_date) {
+                    parsedData.start_date = currentDate;
+                  }
                 fetchSiteList(parsedData?.entity_id);
             }
         }

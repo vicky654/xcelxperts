@@ -21,6 +21,8 @@ interface CashBankingItem {
     reference: string;
     amount: string;
     cash_value: any;
+    today_cash_inhand: any;
+    bank_deposits: any;
     prev_variance: any;
     total_sales: any;
     cash_inhand: string;
@@ -422,7 +424,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
 
 
-                            <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
+                            {/* <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={
@@ -435,20 +437,36 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 </OverlayTrigger>
                             ) : (
                                 ''
-                            )} </h2>
+                            )} </h2> */}
+                            <h2 className="text-lg font-semibold mb-4"> Cash Flow | Bank Deposited (₹) </h2>
+                            <div className='iconcenter'>
+                                <Badge className='  ' style={{ borderRadius: "0px" }}>
+                                    Today's Sale: <br></br> {currency} {cashvalue?.total_sales}
+                                </Badge>
 
-                            <Badge className='  ' style={{ borderRadius: "0px" }}>
-                                Cash Value: {cashvalue?.cash_value}
-                            </Badge>
-                            <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
-                                Cash In Hand: {cashvalue?.cash_inhand}
-                            </Badge>
-                            <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
-                                Prev Variance: {cashvalue?.prev_variance}
-                            </Badge>
-                            <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
-                                Total Sales: {cashvalue?.total_sales}
-                            </Badge>
+                                <span className='ms-1' style={{ fontSize: "30px" }}>
+                                    +
+                                </span>
+                                <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
+                                    Previous Variance: <br></br>{currency} {cashvalue?.prev_variance}
+                                </Badge>
+
+                                <span className='ms-1' style={{ fontSize: "30px" }}>
+                                    -
+                                </span>
+                                <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
+                                    Bank Deposited:  <br></br>{currency} {cashvalue?.bank_deposits}
+                                </Badge>
+
+                                <span className='ms-1' style={{ fontSize: "30px" }}>
+                                    =
+                                </span>
+                                <Badge className=' ms-2 ' style={{ borderRadius: "0px" }}>
+                                    Total Cash In Hand  : <br></br> {currency} {cashvalue?.today_cash_inhand}
+                                </Badge>
+                            </div>
+
+
 
 
 

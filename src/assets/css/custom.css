@@ -288,6 +288,11 @@ border-color: none;
     justify-content: center;
     align-items: center;
 }
+.iconcenter {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
 
 .flexend {
     display: flex;

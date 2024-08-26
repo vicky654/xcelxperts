@@ -46,10 +46,39 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
     let storedKeyName = "stationTank";
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
 
+    // useEffect(() => {
+    //     const storedData = localStorage.getItem(storedKeyName);
+    //     if (storedData) {
+    //         handleApplyFilters(JSON.parse(storedData));
+    //     }
+    // }, []);
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
-        if (storedData) {
-            handleApplyFilters(JSON.parse(storedData));
+        const storedDataString = localStorage.getItem(storedKeyName);
+
+        if (storedDataString) {
+            try {
+                const storedData = JSON.parse(storedDataString);
+
+                // Get the current date in 'YYYY-MM-DD' format
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+                const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+                const currentDate = `${year}-${month}-${day}`;
+
+                // Check if station_id is present
+                if (storedData.station_id) {
+                    // Set start_date to the current date if it's missing
+                    if (!storedData.start_date) {
+                        storedData.start_date = currentDate;
+                    }
+
+
+                    handleApplyFilters(storedData);
+                }
+            } catch (error) {
+                console.error("Failed to parse stored data:", error);
+            }
         }
     }, []);
 
@@ -121,7 +150,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
 
 
         } catch (error) {
-          
+
         }
     };
 

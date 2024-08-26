@@ -549,13 +549,29 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {tabData?.listing?.map((item) => (
-                          <tr key={item?.id} className="hover:bg-gray-100">
-                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{item?.date}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.total_sales}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.fuel_sales}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.cash_deposited}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.previous_variance}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-500 w-1/6">{currency} {item?.balance}</td>
+                          <tr
+                          
+                          style={{
+                            backgroundColor: item?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
+                            color: item?.id == "0" ? "#000" : "",
+                            fontWeight: item?.id == "0" ? "bold" : ""
+                          }}
+                          
+                          key={item?.id} className="hover:bg-gray-100">
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{item?.date}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.total_sales}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.fuel_sales}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.cash_deposited}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.previous_variance}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.balance}</td>
+
+                            {/* <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
+                                                    style={{
+                                                      backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
+                                                      fontWeight: nozzle?.id == "0" ? "bold" : ""
+                                                    }}
+                                                  > */}
+
                           </tr>
                         ))}
                       </tbody>

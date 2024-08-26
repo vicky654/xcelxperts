@@ -58,28 +58,54 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
 
-
-
-
-
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
-
-
+  
     if (storedDataString) {
       try {
         const storedData = JSON.parse(storedDataString);
-
-
-        // Check for the existence of `start_month` or other necessary properties
-        if (storedData.start_date && storedData.station_id) {
+        
+        // Get the current date in 'YYYY-MM-DD' format
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+        const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+        const currentDate = `${year}-${month}-${day}`;
+  
+        // Check if station_id is present
+        if (storedData.station_id) {
+          // Set start_date to the current date if it's missing
+          if (!storedData.start_date) {
+            storedData.start_date = currentDate;
+          }
+  
+         
           handleApplyFilters(storedData);
         }
       } catch (error) {
-       
+        console.error("Failed to parse stored data:", error);
       }
     }
   }, [dispatch]);
+  
+
+
+
+  // useEffect(() => {
+  //   const storedDataString = localStorage.getItem(storedKeyName);
+  //   console.log(storedDataString, "storedDataString");
+
+  //   if (storedDataString) {
+  //     try {
+  //       const storedData = JSON.parse(storedDataString);
+  //       if (storedData.start_date && storedData.station_id) {
+  //         handleApplyFilters(storedData);
+  //       }
+  //     } catch (error) {
+
+  //     }
+  //   }
+  // }, [dispatch]);
 
   const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 

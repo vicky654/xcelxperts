@@ -76,13 +76,27 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
     const [selected, setSelected] = useState<any>([]);
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
-        if (storedData) {
-            setstationData(JSON.parse(storedData));
-            handleApplyFilters(JSON.parse(storedData));
+        const storedDataString = localStorage.getItem(storedKeyName);
+    
+        if (storedDataString) {
+            try {
+                const storedData = JSON.parse(storedDataString);
+                
+                // Check if station_id is present
+                if (storedData.station_id) {
+                    // Update state and apply filters
+                    setstationData(storedData);
+                    handleApplyFilters(storedData);
+                }
+            } catch (error) {
+                console.error("Failed to parse stored data:", error);
+            }
         }
+    
+        // Update page title
         dispatch(setPageTitle('Alternative Pagination Table'));
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage]); // Add currentPage to dependency array if it's needed for effect
+    
 
     const handleApplyFilters = async (values: any) => {
 
