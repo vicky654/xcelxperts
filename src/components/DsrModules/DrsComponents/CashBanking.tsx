@@ -13,13 +13,16 @@ import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import { handleDownloadPdf } from '../../CommonFunctions';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { saveAs } from "file-saver";
 
 interface CashBankingItem {
     id: string;
     reference: string;
     amount: string;
+    cash_value: any;
+    prev_variance: any;
+    total_sales: any;
     cash_inhand: string;
     station_bank_id: string;
     bank_name: string;
@@ -39,7 +42,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [casheditable, setcasheditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
-    const [cashvalue, setcashvalue] = useState("");
+    const [cashvalue, setcashvalue] = useState<CashBankingItem | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedCashBanking, setSelectedCashBanking] = useState<CashBankingItem | null>(null);
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
@@ -62,7 +65,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                 const { listing, is_editable, cash_editable } = response.data.data;
                 cashValueFormik.setFieldValue("cash_inhand", response.data?.data?.cash_inhand)
                 setRoleList(response?.data?.data?.bankLists);
-                setcashvalue(response.data?.data?.cash_value)
+                setcashvalue(response.data?.data)
                 setReceipts(response.data?.data?.receipts);
                 setCashBankingData(listing);
                 setIsdownloadpdf(response.data.data?.download_pdf);
@@ -370,6 +373,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
 
                 </h1>
+
             </div>
             <div className="mt-6">
                 {/* Container for the row */}
@@ -427,13 +431,24 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                         </Tooltip>
                                     }
                                 >
-                                    <span>({currency}{cashvalue})</span>
+                                    <span>({currency}{cashvalue?.cash_value})</span>
                                 </OverlayTrigger>
                             ) : (
                                 ''
                             )} </h2>
 
-
+                            <Badge className='  ' style={{ borderRadius: "0px" }}>
+                                Cash Value: {cashvalue?.cash_value}
+                            </Badge>
+                            <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
+                                Cash In Hand: {cashvalue?.cash_inhand}
+                            </Badge>
+                            <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
+                                Prev Variance: {cashvalue?.prev_variance}
+                            </Badge>
+                            <Badge className='ms-2  ' style={{ borderRadius: "0px" }}>
+                                Total Sales: {cashvalue?.total_sales}
+                            </Badge>
 
 
 
@@ -842,10 +857,10 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 )}
                             </div>
                         ) : <>   <img
-                        src={noDataImage} // Use the imported image directly as the source
-                        alt="no data found"
-                        className="all-center-flex nodata-image"
-                    /></>
+                            src={noDataImage} // Use the imported image directly as the source
+                            alt="no data found"
+                            className="all-center-flex nodata-image"
+                        /></>
 
                         }
                     </div>
