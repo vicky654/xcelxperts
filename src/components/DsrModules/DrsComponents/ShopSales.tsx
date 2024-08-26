@@ -57,7 +57,9 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     const [isEditable, setIsEditable] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const handleApiError = useErrorHandler();
-
+    const [calculatedProfit, setCalculatedProfit] = useState<number>(0);
+    const [dayendcalculatedProfit, setdayendcalculatedProfit] = useState<number>(0);
+    const [calculatedSaleAmount, setCalculatedSaleAmount] = useState<number>(0);
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
@@ -69,6 +71,20 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             const response = await getData(`/data-entry/lube-sale/list?station_id=${stationId}&drs_date=${startDate}`);
             if (response && response.data && response.data.data) {
                 setData(response.data.data.listing);
+
+                // Assuming dayendcalculateFields is a function that processes the response data
+
+
+                if (!response.data.data.is_editable) {
+                    const totalSaleAmount = response.data.data.listing.reduce((total: any, item: any) => total + item.sale_amount, 0);
+                    const totalProfitAmount = response.data.data.listing.reduce((total: any, item: any) => total + item.profit, 0);
+                    setdayendcalculatedProfit(totalProfitAmount);
+                    setCalculatedSaleAmount(totalSaleAmount);
+                }
+                
+           
+
+             
                 setIsdownloadpdf(response.data.data?.download_pdf);
                 setIsEditable(response.data.data.is_editable);
             } else {
@@ -120,22 +136,28 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
         // Update the field value in the form values
         setFieldValue(`data[${index}].${field}`, numericValue);
-        if (field == 'opening' || field === 'sale' || field === 'sale_price') {
+        if (field == 'opening' || field === 'sale' || field === 'sale_price' || field === 'purchage_price') {
 
 
             const opening = field === 'opening' ? numericValue : values.data[index].opening;
             const sale = field === 'sale' ? numericValue : values.data[index].sale;
             const salePrice = field === 'sale_price' ? numericValue : values.data[index].sale_price;
+            const purchageprice = field === 'purchage_price' ? numericValue : values.data[index].purchage_price;
 
             const closing = opening - sale;
             setFieldValue(`data[${index}].closing`, closing);
             const saleAmount = sale * salePrice;
+            const purchaseAmount = purchageprice * sale;
+            var CalculatedProfit = saleAmount - purchaseAmount;
+
+            setCalculatedProfit(CalculatedProfit)
+            setFieldValue("CalculatedProfit", CalculatedProfit)
             setFieldValue(`data[${index}].sale_amount`, saleAmount);
+            setFieldValue(`data[${index}].profit`, CalculatedProfit);
         }
 
 
 
-        console.log(values, "values");
     };
 
     const columns = [
@@ -354,7 +376,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     if (isLoading) {
         return <LoaderImg />;
     }
-    console.log(data, "data");
+
     const calculateFields = (data: ShopSalesData[]): ShopSalesData[] => {
         return data.map(item => {
             let purchage_amount = 0;
@@ -381,6 +403,8 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             };
         });
     };
+
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -410,7 +434,6 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         const totalSaleAmount = updatedData.reduce((total, item) => total + item.sale_amount, 0);
 
 
-
                         return (
                             <Form>
                                 <FieldArray
@@ -433,12 +456,18 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
 
                                 <footer className='flexspacebetween'>
-                                    <button type="submit" className="btn btn-primary submit-button mt-3">
+                                    {isEditable && <button type="submit" className="btn btn-primary submit-button mt-3">
                                         Submit
-                                    </button>
-                                    <Badge className='mt-2 text-end' style={{ borderRadius: "0px" }} >
-                                        Total  Amount:   {totalSaleAmount}
-                                    </Badge>
+                                    </button>}
+                                    <div className='flex mt-2 text-end
+mt-2 text-end'>
+                                        <Badge className=' badge-outline-primary ' style={{ borderRadius: "0px" }} >
+                                            Total  Amount:   {isEditable ? totalSaleAmount : calculatedSaleAmount}
+                                        </Badge>
+                                        <Badge className=' ms-2 badge-outline-success ' style={{ borderRadius: "0px" }} >
+                                            Total  Profit:  {isEditable ? calculatedProfit : dayendcalculatedProfit}
+                                        </Badge>
+                                    </div>
                                 </footer>
                                 <div className='text-end'>
 
