@@ -6,8 +6,6 @@ import AppContext from '../../utils/Context/DashboardContext';
 import { IRootState } from '../../store';
 import LoaderImg from '../../utils/Loader';
 import Tippy from '@tippyjs/react';
-import IconRefresh from '../Icon/IconRefresh';
-import DashboardFilterModal from '../../pages/Dashboard/DashboardFilterModal';
 import { currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import VerticalProgressBarWithWave from '../../pages/Dashboard/VerticalProgressBarWithWave';
@@ -15,7 +13,6 @@ import withApiHandler from '../../utils/withApiHandler';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import NewDashboardFilterModal from './NewDashboardFilterModal';
 import * as Yup from 'yup';
-import IconX from '../Icon/IconX';
 import useErrorHandler from '../../hooks/useHandleError';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
@@ -369,9 +366,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             yaxis: {
                 tickAmount: 7,
                 labels: {
-                    formatter: (value: number) => {
-                        return value / 1000 + 'K';
-                    },
+                    // formatter: (value: number) => {
+                    //     return value / 1000 + 'K';
+                    // },
                     offsetX: isRtl ? -30 : -10,
                     offsetY: 0,
                     style: {
@@ -436,92 +433,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         },
     };
 
-    //Sales By Category
-    const salesByCategory: any = {
-        // series: [985, 737, 270],
-        series: filterData?.pi_graph?.series,
-        options: {
-            chart: {
-                type: 'donut',
-                height: 460,
-                fontFamily: 'Nunito, sans-serif',
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                show: true,
-                width: 25,
-                colors: isDark ? '#0e1726' : '#fff',
-            },
-            // colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
-            colors: filterData?.pi_graph?.colors,
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center',
-                fontSize: '14px',
-                markers: {
-                    width: 10,
-                    height: 10,
-                    offsetX: -2,
-                },
-                height: 50,
-                offsetY: 20,
-            },
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '65%',
-                        background: 'transparent',
-                        labels: {
-                            show: true,
-                            name: {
-                                show: true,
-                                fontSize: '29px',
-                                offsetY: -10,
-                            },
-                            value: {
-                                show: true,
-                                fontSize: '26px',
-                                color: isDark ? '#bfc9d4' : undefined,
-                                offsetY: 16,
-                                formatter: (val: any) => {
-                                    return val;
-                                },
-                            },
-                            total: {
-                                show: true,
-                                label: 'Total',
-                                color: '#888ea8',
-                                fontSize: '29px',
-                                formatter: (w: any) => {
-                                    return w.globals.seriesTotals.reduce(function (a: any, b: any) {
-                                        return a + b;
-                                    }, 0);
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-            // labels: ['Volume', 'Gross Margin', 'Others'],
-            labels: filterData?.pi_graph?.labels,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none',
-                        value: 0.15,
-                    },
-                },
-                active: {
-                    filter: {
-                        type: 'none',
-                        value: 0.15,
-                    },
-                },
-            },
-        },
-    };
+ 
 
 
 
@@ -891,7 +803,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     </div>
 
                     {
-                        filters?.station_id ? <div className="grid xl:grid-cols-4  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
+                        filters?.station_id ? <div className="grid xl:grid-cols-5  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
 
                             <div className="panel h-full  w-full">
 
@@ -928,16 +840,14 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             </div>
 
 
-                            <div className="panel h-full xl:col-span-3">
+                            <div className="panel h-full xl:col-span-4">
                                 <div className="flex items-center justify-between dark:text-white-light mb-5">
                                     <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
-                                    {/* <div className="selected-date">
-                                            <p>Selected Date: {selectedDate}</p>
-                                        </div> */}
+                               
                                 </div>
                                 <div className='spacebetween'>
                                     {/* <div className='displaycanter'> */}
-                                    <div className="flex flex-wrap gap-2 col-span-8">
+                                    <div className="flex flex-wrap gap-2 col-span-9">
 
                                         {fuelStats?.dates && fuelStats.dates.length > 0 ? (
                                             Object.keys(filteredStockAlerts).map(tankName => (
@@ -954,8 +864,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                                 <div key={index} className="flex items-center gap-4 mb-6">
                                                                     <VerticalProgressBarWithWave
                                                                         percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
-                                                                        width={200}
-                                                                        height={350}
+                                                                        width={135}
+                                                                        height={205}
                                                                         alert={alert}
                                                                         color="#ddd" // Use tank's bg color if desired
                                                                         data-tip

@@ -126,7 +126,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
 
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div  className="columncenter">
       <div style={containerStyle}>
         <div style={fillerStyle}>
           <Wavify
@@ -185,7 +185,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
           <span style={tooltipTextStyle} className="tooltip-text">Total tank capacity</span>
         </li>
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
-          <strong className="ms-2 mr-1">Ullage:</strong> {capacity}  <CountUp
+          <strong className="ms-2 mr-1">Usage:</strong> {capacity}  <CountUp
             end= {alert?.ullage}
             separator=","
             start={0}
@@ -218,7 +218,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
           <span style={tooltipTextStyle} className="tooltip-text">Fuel remaining in the tank</span>
         </li>
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
-          <strong className="ms-2 mr-1">Ullage Percentage:</strong>
+          <strong className="ms-2 mr-1">Usage Percentage:</strong>
 
           <CountUp
             end={alert?.ullage_percentage}
