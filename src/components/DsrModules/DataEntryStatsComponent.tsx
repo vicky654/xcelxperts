@@ -173,11 +173,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Fuel Variance',
     'Fuel Sales',
     'Fuel Delivery',
+    'Credit Sales',
     'Lube Sales',
     'Incomes',
     'Expenses',
     'Digital Receipt',
-    'Credit Sales',
+
 
 
 
@@ -550,14 +551,14 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       <tbody className="bg-white divide-y divide-gray-200">
                         {tabData?.listing?.map((item) => (
                           <tr
-                          
-                          style={{
-                            backgroundColor: item?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
-                            color: item?.id == "0" ? "#000" : "",
-                            fontWeight: item?.id == "0" ? "bold" : ""
-                          }}
-                          
-                          key={item?.id} className="hover:bg-gray-100">
+
+                            style={{
+                              backgroundColor: item?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
+                              color: item?.id == "0" ? "#000" : "",
+                              fontWeight: item?.id == "0" ? "bold" : ""
+                            }}
+
+                            key={item?.id} className="hover:bg-gray-100">
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{item?.date}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.total_sales}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.fuel_sales}</td>
@@ -734,18 +735,32 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                     : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
                                 </p>
                               </li>
-                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
-                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                  <p className="w-1/2">{subItem?.name}</p>
-                                  <p className="w-1/2">
-                                    {selectedTab === 'Fuel Delivery'
-                                      ? capacity + subItem?.delivery
-                                      : (selectedTab === 'Fuel Variance'
-                                        ? capacity + subItem?.variance
-                                        : currency + subItem?.amount)}
-                                  </p>
+
+                              {subData.length > 0 ? (
+                                activeAccordion === `${currency}-${index}` &&
+                                subData.map((subItem, subIndex) => (
+                                  <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                    <p className="w-1/2">{subItem?.name}</p>
+                                    <p className="w-1/2">
+                                      {selectedTab === 'Fuel Delivery'
+                                        ? capacity + subItem?.delivery
+                                        : selectedTab === 'Fuel Variance'
+                                          ? capacity + subItem?.variance
+                                          : currency + subItem?.amount}
+                                    </p>
+                                  </li>
+                                ))
+                              ) : (
+                                <li className="flex justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/2">--</p>
+                                  <p className="w-1/2">---</p>
                                 </li>
-                              ))}
+                              )}
+
+
+
+
+
                             </ul>
                           </div>
                         )}
