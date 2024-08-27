@@ -81,13 +81,32 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         if (storedDataString) {
             try {
                 const storedData = JSON.parse(storedDataString);
+            
+
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+                const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+                const currentDate = `${year}-${month}-${day}`;
 
                 // Check if station_id is present
                 if (storedData.station_id) {
-                    // Update state and apply filters
-                    setstationData(storedData);
+                    // Set start_date to the current date if it's missing
+                    if (!storedData.start_date) {
+                        storedData.start_date = currentDate;
+                    }
+
+
                     handleApplyFilters(storedData);
                 }
+
+
+                // Check if station_id is present
+                // if (storedData.station_id && storedData.start_date) {
+                //     // Update state and apply filters
+                //     setstationData(storedData);
+                //     handleApplyFilters(storedData);
+                // }
             } catch (error) {
                 console.error("Failed to parse stored data:", error);
             }

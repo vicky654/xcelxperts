@@ -180,7 +180,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                 </OverlayTrigger>
             ),
             selector: (row: NozzleData) => row.nozzle_name,
-            width: '7%',
+            width: '6%',
             cell: (row: NozzleData, index: number) => {
                 const isTextLong = row.nozzle_name.length > characterLimit;
                 const displayText = isTextLong
@@ -215,7 +215,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     <span >Fuel</span>
                 </OverlayTrigger>
             ),
-            width: '7%',
+            width: '8%',
             selector: (row: NozzleData) => row.fuel_name,
             cell: (row: NozzleData, index: number) => <span
                 tabIndex={getTabIndex(tankIndex, index, 2)}
@@ -235,6 +235,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_price ? 'readonly' : ''}`}
                             readOnly={!row.update_price}
@@ -263,6 +264,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_opening ? 'readonly' : ''}`}
                             readOnly={!row.update_opening}
@@ -290,6 +292,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
                             readOnly={!row.update_closing}
@@ -317,6 +320,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_test_volume ? 'readonly' : ''}`}
                             readOnly={!row.update_test_volume}
@@ -346,6 +350,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_sales_volume ? 'readonly' : ''}`}
                             readOnly={!row.update_sales_volume}
@@ -374,6 +379,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_gross_value ? 'readonly' : ''}`}
                             readOnly={!row.update_gross_value}
@@ -401,6 +407,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field, form: { setFieldValue, values } }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_discount ? 'readonly' : ''}`}
                             readOnly={!row.update_discount}
@@ -429,6 +436,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                     {({ field }: FieldProps) => (
                         <input
                             type="number"
+                            placeholder='value'
                             {...field}
                             className={`form-input workflorform-input ${!row.update_nett_value ? 'readonly' : ''}`}
                             readOnly={!row.update_nett_value}
@@ -509,10 +517,23 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
 
                         return (
-                            <div key={tank.id} className='mt-4'>
+                            <div key={tank.id} className='mt-4 panel' style={{boxShadow:"rgba(0, 0, 0, 0.35) 0px 5px 15px"}}>
+                                {/* <hr></hr> */}
+                                <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}      <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                        <Tooltip className='custom-tooltip' id="tooltip-variance">
+                                            Fuel Left : {tank?.fuel_left - totalSalesVolume} {capacity}<br />
+                                            Capacity : {tank?.capacity} {capacity}<br />
+                                            Tank Name : {tank?.tank_name}
+                                        </Tooltip>
+                                    }
+                                >
+                                    <i className="fi fi-tr-comment-info mt-2 pointer"></i>
+                                </OverlayTrigger></p>
                                 <div className='flex'>
 
-                                    <h3 className='FuelSaleContainer '>
+                                    {/* <h3 className='FuelSaleContainer '>
                                         <div className=' flex flex-col'>
                                             <span className='ps-2' style={{ background: "#f6f8fa", padding: "15.5px 6px", borderBottom: "1px solid #d8dadc" }}>Tank  </span>
 
@@ -538,7 +559,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
                                         </div>
 
-                                    </h3>
+                                    </h3> */}
                                     <DataTable
                                         columns={columns(tankIndex)} // Ensure columns function is defined
                                         className="custom-table-body"

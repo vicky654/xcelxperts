@@ -273,7 +273,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                           Remarks<span className="text-red-600">*</span>
                         </label>
                         <br />
-                        <Field as="textarea" id="Remarks" name="Remarks" className="w-full p-2 border rounded-md" />
+                        <Field as="textarea" id="Remarks" name="Remarks" className="w-full p-2 border " />
                       </div>
                       <div className="text-red-600">
                         <ErrorMessage name="Remarks" component="div" />
