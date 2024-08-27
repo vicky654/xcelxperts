@@ -425,22 +425,22 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           <div className="flex justify-between  mb-2">
             <h5 className="font-bold flex text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
               <OverlayTrigger
-                placement="right"
+                placement="bottom"
                 overlay={
-                  <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{lineHeight:"30px"}}>
-                   <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
+                  <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                    <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
                     <br></br>
                     <hr></hr>
                     <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
                     <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
-                    <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down  
-                       <br></br>    <hr></hr>
+                    <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down
+                    <br></br>    <hr></hr>
 
-                   <span className='mt-1  px-2' style={{border:"1px solid #fff"}}>Enter</span>  Form will submit on the submission of Enter Key
+                    <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Enter Key
                   </Tooltip>
                 }
               >
-                <span className=''> <i style={{lineHeight:"10px" , fontSize:"20px"}} className="fi fi-ts-keyboard"></i></span>
+                <span className=''> <i style={{ lineHeight: "10px", fontSize: "20px" }} className="fi fi-ts-keyboard"></i></span>
               </OverlayTrigger>
             )}</h5>
           </div>

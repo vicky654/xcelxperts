@@ -77,11 +77,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     const [selected, setSelected] = useState<any>([]);
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
-    
+
         if (storedDataString) {
             try {
                 const storedData = JSON.parse(storedDataString);
-                
+
                 // Check if station_id is present
                 if (storedData.station_id) {
                     // Update state and apply filters
@@ -92,15 +92,15 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                 console.error("Failed to parse stored data:", error);
             }
         }
-    
+
         // Update page title
         dispatch(setPageTitle('Alternative Pagination Table'));
     }, [dispatch, currentPage]); // Add currentPage to dependency array if it's needed for effect
-    
+
 
     const handleApplyFilters = async (values: any) => {
 
-  
+
         setSelected([])
         setData([])
         setstationData(values);
@@ -108,7 +108,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         try {
             const response = await getData(apiURL);
             if (response && response.data && response.data.data) {
-                
+
                 setData(response.data.data);
                 // setIsFilterModalOpen(false);
             } else {
@@ -156,7 +156,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Fuel Name</Tooltip>}
                 >
                     <span >Fuel</span>
@@ -171,7 +171,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Fuel Price</Tooltip>}
                 >
                     <span >Price</span>
@@ -190,7 +190,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'platts_price', e.target.value)
 
 
-                                    
+
                                 }
                             />
                         </div>
@@ -202,7 +202,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">EX Vat</Tooltip>}
                 >
                     <span >EX Vat</span>
@@ -230,7 +230,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             // name: 'Vat Percentage Rate',
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Vat Percentage Rate</Tooltip>}
                 >
                     <span >Vat Percentage Rate</span>
@@ -257,7 +257,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             // name: 'Total',
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Total</Tooltip>}
                 >
                     <span >Total</span>
@@ -292,7 +292,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         }
     };
 
-    const handleaddSubmit = async (values: any, selected: any) => { 
+    const handleaddSubmit = async (values: any, selected: any) => {
         try {
             const formData = new FormData();
 
@@ -323,7 +323,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         }
     };
 
-   
+
     const validationSchema = Yup.object().shape({
         data: Yup.array().of(
             Yup.object().shape({
@@ -381,14 +381,14 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             return; // Exit the function if no site is selected
         }
 
-      
+
 
         try {
             const formData = new FormData();
             values.data.forEach((obj: any) => {
                 if (obj.id) {
 
-           
+
                     formData.append(`platts_price[${obj.id}]`, obj.platts_price.toString());
                     formData.append(`ex_vat_price[${obj.id}]`, obj.ex_vat_price.toString());
                     formData.append(`total[${obj.id}]`, obj.total.toString());
@@ -515,7 +515,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                 </button>
                             </div>
                         </div>
-                        {data?.length > 0 ?    <div className=' my-4'>
+                        {data?.length > 0 ? <div className=' my-4'>
                             <FormGroup>
                                 <label className="form-label mt-4">
                                     Select Stations
@@ -529,10 +529,10 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                                     options={stationData?.sites?.map((item: any) => ({ value: item?.id, label: item?.name })) || []}
                                 />
                             </FormGroup>
-                        </div>: ""}
+                        </div> : ""}
                         {/* {data?.length > 0 ? "Data:" : "No Data"} */}
 
-                    
+
                         <Formik
                             initialValues={{ data: data }}
                             validationSchema={validationSchema}

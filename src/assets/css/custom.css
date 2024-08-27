@@ -288,6 +288,7 @@ border-color: none;
     justify-content: center;
     align-items: center;
 }
+
 .iconcenter {
     display: flex;
     /* justify-content: center; */
@@ -942,4 +943,28 @@ input[type='number'] {
     text-align: center;
     flex-direction: column;
     align-items: center;
+}
+
+@media (max-width: 500px) {
+    .c-brand-img {
+        width: 150px !important;
+        object-fit: contain;
+    }
+
+    .small-icon-head {
+        height: 15px !important;
+        width: 15px !important;
+    }
+
+    .down-arrow {
+        display: none;
+    }
+
+    .custom-tooltip {
+        max-width: 235px;
+    }
+
+    .dash-breadcrub-header {
+        display: none;
+    }
 }

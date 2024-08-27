@@ -183,7 +183,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
 
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel</Tooltip>}
                 >
                     <span >Fuel</span>
@@ -196,7 +196,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Fuel Price</Tooltip>}
                 >
                     <span >Fuel Price</span>
@@ -222,7 +222,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Sales Volume</Tooltip>}
                 >
                     <span >Sales Volume</span>
@@ -249,7 +249,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Gross Value</Tooltip>}
                 >
                     <span >Gross Value</span>
@@ -276,7 +276,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Discount</Tooltip>}
                 >
                     <span >Discount</span>
@@ -304,7 +304,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
 
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Nett Value</Tooltip>}
                 >
                     <span >Nett Value</span>

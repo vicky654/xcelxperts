@@ -199,7 +199,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-item">Item</Tooltip>}
                 >
                     <span>Item</span>
@@ -214,7 +214,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-size">Size</Tooltip>}
                 >
                     <span>Size</span>
@@ -227,7 +227,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-purchase-price">Purchase Price</Tooltip>}
                 >
                     <span>Purchase Price</span>
@@ -261,7 +261,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-qty">Opening Qty</Tooltip>}
                 >
                     <span>Opening Qty</span>
@@ -296,7 +296,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-sale-qty">Sale Qty</Tooltip>}
                 >
                     <span>Sale Qty</span>
@@ -331,7 +331,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-closing-qty">Closing Qty</Tooltip>}
                 >
                     <span>Closing Qty</span>
@@ -366,7 +366,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-rate">Rate</Tooltip>}
                 >
                     <span>Rate</span>
@@ -403,7 +403,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount</Tooltip>}
                 >
                     <span>Amount</span>
@@ -536,12 +536,12 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
 
 
                                     <div className='flex mt-4 text-end '>
-                                        <Badge className='bg-primary' style={{ borderRadius: "0px" ,color:"#fff",fontSize:"12px" }}>
+                                        <Badge className='bg-primary' style={{ borderRadius: "0px", color: "#fff", fontSize: "12px" }}>
                                             Total Amount:  {currency} {isEditable
                                                 ? (isNaN(totalSaleAmount) ? '--' : totalSaleAmount.toFixed(2))
                                                 : (isNaN(totalSaleAmount) ? '0' : totalSaleAmount.toFixed(2))}
                                         </Badge>
-                                        <Badge className=' bg-success ms-2 ' style={{ borderRadius: "0px",color:"#fff",fontSize:"12px"  }}>
+                                        <Badge className=' bg-success ms-2 ' style={{ borderRadius: "0px", color: "#fff", fontSize: "12px" }}>
                                             Total Profit: {currency} {isEditable
                                                 ? (isNaN(totalProfitAmount) ? '0' : totalProfitAmount.toFixed(2))
                                                 : (isNaN(totalProfitAmount) ? '--' : totalProfitAmount.toFixed(2))}

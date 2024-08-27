@@ -126,7 +126,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
 
 
   return (
-    <div  className="columncenter">
+    <div className="columncenter">
       <div style={containerStyle}>
         <div style={fillerStyle}>
           <Wavify
@@ -140,18 +140,18 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
             }}
             style={waveStyle}
           />
-      
+
         </div>
         <span style={PercentagelabelStyle}>
           <CountUp
-              end={percentage}
-              separator=","
-              start={0}
-              duration={1.94}
-            />
+            end={percentage}
+            separator=","
+            start={0}
+            duration={1.94}
+          />
 
-            %
-          </span>
+          %
+        </span>
       </div>
       <ul style={detailsStyle}>
 
@@ -159,16 +159,16 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
           <strong className="ms-2 mr-1">Capacity:</strong>
 
           <OverlayTrigger
-            placement="top" 
+            placement="bottom"
             delay={{ show: 250, hide: 400 }} // Optional delay settings
             overlay={
               <Tooltip className="custom-tooltip"> {/* Optional custom class for styling */}
-              Avg Sale:  {capacity} {alert?.average_sale}  {/* Tooltip content */}
+                Avg Sale:  {capacity} {alert?.average_sale}  {/* Tooltip content */}
               </Tooltip>
             }
           >
             <span style={{ display: 'flex', alignItems: 'center' }}>
-             {capacity}  <CountUp
+              {capacity}  <CountUp
                 end={alert?.capacity || 0} // Use default value if capacity is undefined
                 separator=","
                 start={0}
@@ -186,7 +186,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
         </li>
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
           <strong className="ms-2 mr-1">Usage:</strong> {capacity}  <CountUp
-            end= {alert?.ullage}
+            end={alert?.ullage}
             separator=","
             start={0}
             duration={1.94}
@@ -196,17 +196,24 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
           <strong className="ms-2 mr-1">Fuel Left:</strong>
 
-         {capacity}  <CountUp
+          {capacity}  <CountUp
             end={alert?.fuel_left}
             separator=","
             start={0}
             duration={1.94}
           />
+
+
+          <span style={tooltipTextStyle} className="tooltip-text">Fuel remaining in the tank</span>
+        </li>
+        <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
+          <strong className="ms-2 mr-1">Days Left:</strong>
+
+
           <span
             style={{
               backgroundColor: alert?.bg_color,
               padding: "4px",
-              marginLeft: "10px",
               borderRadius: `4px`, // Use template literals to include bg_color
             }}
           >

@@ -64,7 +64,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             }
             // setData(response.data);
         } catch (error) {
-          
+
         } finally {
         }
     };
@@ -87,7 +87,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             }
             // setData(response.data);
         } catch (error) {
-            
+
         } finally {
         }
     };
@@ -364,7 +364,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 {currency}{secondApiResponse?.stock?.value ?? ''}
                                 {` (ℓ${secondApiResponse?.stock?.volume ?? ''})`}
                                 {filterData?.stock ? <OverlayTrigger
-                                    placement="top"
+                                    placement="bottom"
                                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
                                         <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                             <div className="text-sm ltr:mr-3 rtl:ml-3">
@@ -377,7 +377,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     <span><i className="fi fi-tr-comment-info"></i></span>
                                 </OverlayTrigger> : ""}
                             </div>
-                  
+
                             <div style={{ color: secondApiResponse?.stock?.status === 'up' ? "#37a40a" : "red" }}
                                 className=" badge bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.stock?.status === 'up'

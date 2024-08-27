@@ -193,8 +193,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             client_id: clientId,
             entity_id: companyId,
             station_id: item?.id,
-            
-        
+
+
             start_month: currentMonth // Include the current month in the filters
         };
 
@@ -222,45 +222,45 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             {isLoading ? <LoaderImg /> : ""}
             <div>
                 <div className='flex justify-between items-center flex-wrap'>
-             <div>
-             <h2 className='font-bold'>
-                        Dashboard Overview {filterData?.basic_details?.day_end_date && (
-                            <>
-                                ({filterData?.basic_details?.day_end_date})
+                    <div>
+                        <h2 className='font-bold'>
+                            Dashboard Overview {filterData?.basic_details?.day_end_date && (
+                                <>
+                                    ({filterData?.basic_details?.day_end_date})
 
-                                {filterData?.stock && (
-                                    <OverlayTrigger
-                                        placement="right"
-                                        overlay={
-                                            <Tooltip className='custom-tooltip' id="tooltip-amount">
-                                                You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
-                                            </Tooltip>
-                                        }
-                                    >
-                                        <span><i className="fi fi-tr-comment-info"></i></span>
-                                    </OverlayTrigger>
-                                )}
-                            </>
-                        )}
-
-                     
+                                    {filterData?.stock && (
+                                        <OverlayTrigger
+                                            placement="bottom"
+                                            overlay={
+                                                <Tooltip className='custom-tooltip' id="tooltip-amount">
+                                                    You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <span><i className="fi fi-tr-comment-info c-head-icon"></i></span>
+                                        </OverlayTrigger>
+                                    )}
+                                </>
+                            )}
 
 
 
-                    </h2>
-                    <ul className="flex space-x-2 rtl:space-x-reverse my-2">
-                        <li>
-                            <Link to="/dashboard" className="text-primary hover:underline">
-                                Dashboard
-                            </Link>
-                        </li>
-                        <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                            <span>Overview</span>
-                        </li>
-                      
-                    </ul>
-             </div>
-                
+
+
+                        </h2>
+                        <ul className="flex space-x-2 rtl:space-x-reverse my-2">
+                            <li>
+                                <Link to="/dashboard" className="text-primary hover:underline">
+                                    Dashboard
+                                </Link>
+                            </li>
+                            <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                                <span>Overview</span>
+                            </li>
+
+                        </ul>
+                    </div>
+
 
                     <div className=' flex gap-4 flex-wrap'>
 
@@ -384,7 +384,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 {currency}{secondApiResponse?.stock?.value ?? ''}
                                 {` (ℓ${secondApiResponse?.stock?.volume ?? ''})`}
                                 {filterData?.stock ? <OverlayTrigger
-                                    placement="top"
+                                    placement="bottom"
                                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
                                         <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                             <div className="text-sm ltr:mr-3 rtl:ml-3">
@@ -394,7 +394,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         </div>
                                     ))}</Tooltip>}
                                 >
-                                    <span><i className="fi fi-tr-comment-info"></i></span>
+                                    <span><i className="fi fi-tr-comment-info c-head-icon"></i></span>
                                 </OverlayTrigger> : ""}
                             </div>
 

@@ -551,7 +551,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
                                 {filterData?.stock && (
                                     <OverlayTrigger
-                                        placement="right"
+                                        placement="bottom"
                                         overlay={
                                             <Tooltip className='custom-tooltip' id="tooltip-amount">
                                                 You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
@@ -747,7 +747,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
                                 {filterData?.stock ? <OverlayTrigger
-                                    placement="top"
+                                    placement="bottom"
                                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
                                         <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                             <div className="text-sm ltr:mr-3 rtl:ml-3">

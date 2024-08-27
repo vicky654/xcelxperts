@@ -433,7 +433,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         },
     };
 
- 
+
 
 
 
@@ -492,36 +492,53 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             {isLoading ? <LoaderImg /> : ''}
 
             <div>
-                <div className="flex justify-between items-center">
-                    <h2 className='font-bold'>
-                        Dashboard {filterData?.basic_details?.day_end_date && (
-                            <>
-                                ({filterData?.basic_details?.day_end_date})
 
-                                {filterData?.stock && (
-                                    <OverlayTrigger
-                                        placement="right"
-                                        overlay={
-                                            <Tooltip className='custom-tooltip' id="tooltip-amount">
-                                                You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
-                                            </Tooltip>
-                                        }
-                                    >
-                                        <span><i className="fi fi-tr-comment-info"></i></span>
-                                    </OverlayTrigger>
-                                )}
-                            </>
-                        )}
+                <div className='flex justify-between items-center flex-wrap'>
+                    <div>
+                        <h2 className='font-bold'>
+                            Dashboard
 
-                        {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
+                            {filterData?.basic_details?.day_end_date && (
+                                <>
+                                    ({filterData?.basic_details?.day_end_date})
+
+                                    {filterData?.stock && (
+                                        <OverlayTrigger
+                                            placement="bottom"
+                                            overlay={
+                                                <Tooltip className='custom-tooltip' id="tooltip-amount">
+                                                    You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <span><i className="fi fi-tr-comment-info c-head-icon"></i></span>
+                                        </OverlayTrigger>
+                                    )}
+                                </>
+                            )}
+
+                            {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
 
 
 
-                    </h2>
 
 
-                    <div className=" flex gap-4 flex-wrap">
+                        </h2>
+                        <ul className="flex space-x-2 rtl:space-x-reverse my-1">
+                            {/* <li>
+                                <Link to="/dashboard" className="text-primary hover:underline">
+                                    Dashboard
+                                </Link>
+                            </li>
+                            <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+                                <span>Overview</span>
+                            </li> */}
 
+                        </ul>
+                    </div>
+
+
+                    <div className=' flex gap-4 flex-wrap'>
 
                         {filters?.client_id || filters?.entity_id || filters?.station_id ? (
                             <>
@@ -561,7 +578,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                     <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
                                         <Tippy content="Reset Filter">
                                             <span className="btn bg-danger btn-danger">
-                                                {/* <IconRefresh className="w-6 h-6" /> */}
                                                 <i className="fi fi-ts-filter-slash w-6 h-6"></i>
                                             </span>
                                         </Tippy>
@@ -572,17 +588,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             ''
                         )}
 
-                        {/* {modalOpen && (
-                            <>
-                                <DashboardFilterModal
-                                    isOpen={modalOpen}
-                                    onClose={() => setModalOpen(false)}
-                                    onApplyFilters={handleApplyFilters} // Pass the handler to the modal
-                                />
-                            </>
-                        )} */}
+
                     </div>
                 </div>
+
 
                 {/* //Graphs */}
 
@@ -698,7 +707,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
                                 {filterData?.stock ? <OverlayTrigger
-                                    placement="top"
+                                    placement="bottom"
                                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
                                         <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                             <div className="text-sm ltr:mr-3 rtl:ml-3">
@@ -708,7 +717,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         </div>
                                     ))}</Tooltip>}
                                 >
-                                    <span><i className="fi fi-tr-comment-info"></i></span>
+                                    <span><i className="fi fi-tr-comment-info c-head-icon"></i></span>
                                 </OverlayTrigger> : ""}
 
                             </div>
@@ -843,7 +852,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             <div className="panel h-full xl:col-span-4">
                                 <div className="flex items-center justify-between dark:text-white-light mb-5">
                                     <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
-                               
+
                                 </div>
                                 <div className='spacebetween'>
                                     {/* <div className='displaycanter'> */}

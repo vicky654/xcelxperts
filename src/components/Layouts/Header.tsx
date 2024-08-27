@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
         } catch (error) {
             localStorage.clear();
             window.location.replace('/');
-           
+
         }
     };
     const handleNavigation = (key: string, path: string) => {
@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
             <div className="shadow-sm">
                 <div className="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-black">
                     <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2" style={{ background: '#fff', borderRadius: '5px' }}>
-                        <Link  to="/dashboard"  className="main-logo flex items-center shrink-0" style={{ background: '#fff', borderRadius: '5px' }}>
+                        <Link to="/dashboard" className="main-logo flex items-center shrink-0" style={{ background: '#fff', borderRadius: '5px' }}>
                             <img
                                 style={{ width: '100%', background: '#fff' }}
                                 className="w-8 ltr:-ml-1 rtl:-mr-1 inline c-brand-img"
@@ -104,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                 dispatch(toggleSidebar());
                             }}
                         >
-                            <IconMenu className="w-5 h-5" />
+                            <IconMenu className="w-5 h-5 small-icon-head" />
                         </button>
                     </div>
 
@@ -128,12 +128,15 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                     <div className="btn btn-dark c-profile-btn">
                                         <span className="">
                                             <span className=' c-head-icon'>
-                                                <i className="fi fi-rr-user"></i>
+                                                <i className="fi fi-rr-user headuser"></i>
                                             </span>
                                             <span className=' c-head-text'>
                                                 Welcome, {data?.first_name}
                                             </span>
-                                            <IconCaretDown className="w-6 h-6 inline" />
+                                            {/* <i className="fi fi-rr-angle-small-down"></i> */}
+                                            <span className='down-arrow'>
+                                                <IconCaretDown className="w-6 h-6 inline " />
+                                            </span>
                                         </span>
                                     </div>
                                 }

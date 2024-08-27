@@ -736,9 +736,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 </p>
                               </li>
 
-                              {subData.length > 0 ? (
+                              {subData?.length > 0 ? (
                                 activeAccordion === `${currency}-${index}` &&
-                                subData.map((subItem, subIndex) => (
+                                subData?.map((subItem, subIndex) => (
                                   <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                     <p className="w-1/2">{subItem?.name}</p>
                                     <p className="w-1/2">

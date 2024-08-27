@@ -426,7 +426,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                             {/* <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
                                 <OverlayTrigger
-                                    placement="top"
+                                  placement="bottom"
                                     overlay={
                                         <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
                                             Cash Available For Banking
@@ -447,21 +447,21 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
                                     +
                                 </span>
-                                <Badge className='ms-2  ' style={{ borderRadius: "0px",fontSize:"12px" }}>
+                                <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
                                     Previous Variance: <br></br>{currency} {cashvalue?.prev_variance}
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
                                     -
                                 </span>
-                                <Badge className='ms-2  ' style={{ borderRadius: "0px",fontSize:"12px" }}>
+                                <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
                                     Bank Deposited:  <br></br>{currency} {cashvalue?.bank_deposits}
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
                                     =
                                 </span>
-                                <Badge className=' ms-2 ' style={{ borderRadius: "0px",fontSize:"12px" }}>
+                                <Badge className=' ms-2 ' style={{ borderRadius: "0px", fontSize: "12px" }}>
                                     Total Cash In Hand  : <br></br> {currency} {cashvalue?.today_cash_inhand}
                                 </Badge>
                             </div>

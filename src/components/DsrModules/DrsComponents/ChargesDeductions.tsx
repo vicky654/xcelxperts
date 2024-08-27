@@ -206,7 +206,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Name</Tooltip>}
                 >
                     <span>Name</span>
@@ -219,7 +219,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Note</Tooltip>}
                 >
                     <span>Note</span>
@@ -244,7 +244,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount {currency}</Tooltip>}
                 >
                     <span>Amount {currency}</span>
@@ -273,7 +273,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Name</Tooltip>}
                 >
                     <span>Name</span>
@@ -286,7 +286,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Note</Tooltip>}
                 >
                     <span>Note</span>
@@ -311,7 +311,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount {currency}</Tooltip>}
                 >
                     <span>Amount {currency}</span>

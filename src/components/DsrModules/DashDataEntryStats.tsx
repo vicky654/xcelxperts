@@ -330,7 +330,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
         </li>
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2 text-primary hover:underline" >
           <Link to="/dashboard/overview" className="text-primary hover:underline">
-            Dashboard Overview
+            <span className='dash-breadcrub-header'>Dashboard </span> Overview
           </Link>
         </li>
         <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
@@ -502,7 +502,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                             <th className="p-3">Date</th>
                             <th className="p-3">Total Sales
                               <OverlayTrigger
-                                placement="top"
+                                placement="bottom"
                                 overlay={<Tooltip className="custom-tooltip">
                                   (Fuel Sales + Lubes Sales + Incomes) - Expenses + Credit Sales
                                 </Tooltip>}

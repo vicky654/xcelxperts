@@ -499,7 +499,7 @@ const NewDashboardSubChild: React.FC<ManageSiteProps> = ({ postData, getData, is
                                                         <th className="p-3">Date</th>
                                                         <th className="p-3">Total Sales
                                                             <OverlayTrigger
-                                                                placement="top"
+                                                                placement="bottom"
                                                                 overlay={<Tooltip className="custom-tooltip">
                                                                     (Fuel Sales + Lubes Sales + Incomes) - Expenses + Credit Sales
                                                                 </Tooltip>}

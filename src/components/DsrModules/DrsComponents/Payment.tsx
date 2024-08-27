@@ -171,7 +171,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Card Name</Tooltip>}
                 >
                     <span >Card Name</span>
@@ -184,7 +184,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">Amount {currency}</Tooltip>}
                 >
                     <span>Amount {currency}</span>

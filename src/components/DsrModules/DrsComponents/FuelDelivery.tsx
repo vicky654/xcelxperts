@@ -203,7 +203,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-fuel">Fuel </Tooltip>}
                 >
                     <span >Fuel</span>
@@ -217,7 +217,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-tank">Tank </Tooltip>}
                 >
                     <span >Tank</span>
@@ -229,7 +229,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Opening Stock</Tooltip>}
                 >
                     <span >Opening Stock</span>
@@ -265,7 +265,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-received-stock">Received Stock</Tooltip>}
                 >
                     <span >Received Stock</span>
@@ -297,7 +297,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-sales-volume">Sales Volume</Tooltip>}
                 >
                     <span >Sales Volume</span>
@@ -331,7 +331,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-book-stock">Book Stock</Tooltip>}
                 >
                     <span >Book Stock</span>
@@ -362,7 +362,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-dips-stock">Dips Stock</Tooltip>}
                 >
                     <span >Dips Stock</span>
@@ -394,7 +394,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         {
             name: (
                 <OverlayTrigger
-                    placement="top"
+                    placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-variance">Variance</Tooltip>}
                 >
                     <span >Variance</span>
