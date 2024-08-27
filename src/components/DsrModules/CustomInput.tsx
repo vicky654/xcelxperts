@@ -96,6 +96,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
         if (showClientInput) fetchClientList();
     }, [showClientInput]);
 
+
+
+
+
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
 
@@ -105,6 +109,13 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
             // Set the parsed data into Formik
             formik.setValues(parsedData);
+
+
+            // Check if station_id exists in parsedData
+            if (parsedData?.client_id) {
+                fetchCompanyList(parsedData?.client_id);
+            }
+
 
             // Check if station_id exists in parsedData
             if (parsedData.entity_id) {
@@ -121,6 +132,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
         }
 
     }, []); // Empty dependency array to run only on component mount
+
+
+
 
 
     const fetchClientList = async () => {
@@ -220,10 +234,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     onBlur={formik.handleBlur}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Client</option>
-                                    {formik.values.clients.length > 0 ? (
+                                    {formik?.values?.clients?.length > 0 ? (
                                         formik.values.clients.map(item => (
-                                            <option key={item.id} value={item.id}>
-                                                {item.client_name}
+                                            <option key={item?.id} value={item?.id}>
+                                                {item?.client_name}
                                             </option>
                                         ))
                                     ) : (
@@ -244,10 +258,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     value={formik.values.entity_id}
                                     className="form-select text-white-dark">
                                     <option value="">Select an Entity</option>
-                                    {formik.values.companies.length > 0 ? (
-                                        formik.values.companies.map(company => (
-                                            <option key={company.id} value={company.id}>
-                                                {company.entity_name}
+                                    {formik?.values?.companies?.length > 0 ? (
+                                        formik?.values?.companies?.map(company => (
+                                            <option key={company?.id} value={company?.id}>
+                                                {company?.entity_name}
                                             </option>
                                         ))
                                     ) : (
@@ -268,10 +282,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
                                     onBlur={formik.handleBlur}
                                     className="form-select text-white-dark">
                                     <option value="">Select a Station</option>
-                                    {formik.values.sites.length > 0 ? (
-                                        formik.values.sites.map(site => (
-                                            <option key={site.id} value={site.id}>
-                                                {site.name}
+                                    {formik?.values?.sites?.length > 0 ? (
+                                        formik?.values?.sites?.map(site => (
+                                            <option key={site?.id} value={site?.id}>
+                                                {site?.name}
                                             </option>
                                         ))
                                     ) : (

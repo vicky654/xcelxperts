@@ -72,7 +72,7 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
 }) => {
     const { data } = useSelector((state: IRootState) => state.data);
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-    const auth = useSelector((state: IRootState) => state.auth);
+    const reduxData = useSelector((state: IRootState) => state?.data?.data);
 
     const handleApiError = useErrorHandler();
     const navigate = useNavigate();
@@ -116,6 +116,10 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
             formik.setValues(parsedData);
 
             // Check if station_id exists in parsedData
+            if (parsedData?.client_id) {
+                fetchCompanyList(parsedData?.client_id);
+            }
+
             if (parsedData?.entity_id) {
                 fetchSiteList(parsedData?.entity_id);
             }
@@ -216,6 +220,7 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
 
 
 
+    console.log(formik?.values, "formik valuess");
 
 
     return (

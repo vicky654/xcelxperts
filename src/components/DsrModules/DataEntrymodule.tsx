@@ -138,7 +138,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     const keys = Object.keys(componentMap);
     const currentIndex = keys.indexOf(currentName);
 
-    if (currentIndex === -1 || currentIndex === keys.length - 1) {
+    if (currentIndex === -1 || currentIndex === keys?.length - 1) {
       // If the current name is not found or it is the last item in the array
       return null;
     }
@@ -268,6 +268,50 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     setIsFilterModalOpen(false);
   }
 
+
+  const formatDate = (date: Date): string => {
+    return date.toISOString().split('T')[0];
+  };
+
+  const updateDateInLocalStorage = (increment: number): void => {
+    const storedDataString = localStorage.getItem('stationTank');
+
+    if (!storedDataString) {
+      console.error("No data found in local storage for key 'stationTank'");
+      return;
+    }
+
+    let storedData: { start_date?: string } = JSON.parse(storedDataString);
+    const currentDate = new Date();
+
+    if (storedData?.start_date) {
+      const startDate = new Date(storedData.start_date);
+      startDate.setDate(startDate.getDate() + increment);
+      storedData.start_date = formatDate(startDate); // Update start_date
+    } else {
+      // If start_date does not exist, set it to the current date
+      storedData.start_date = formatDate(currentDate);
+    }
+
+    // Update the local storage with the modified data
+    localStorage.setItem('stationTank', JSON.stringify(storedData));
+
+
+    handleApplyFilters(storedData)
+  };
+
+  const handleLeftClick = (): void => {
+    updateDateInLocalStorage(-1);
+  };
+
+  const handleRightClick = (): void => {
+    updateDateInLocalStorage(1);
+  };
+
+
+
+
+
   return <>
     {isLoading && <LoaderImg />}
     <div className="flexspacebetween ">
@@ -284,40 +328,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           {/* {languageContent[currentLanguage as keyof typeof languageContent].dashboardLink} */}
         </li>
       </ul>
-      {/* <div className=" flexend  flex justify-end flex-col gap-4 flex-wrap">
-          {filters?.client_name || filters?.entity_name || filters?.station_name ? (
-            <>
-              <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
-                {filters?.client_id && (
-                  <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Client :</span> {filters?.client_name}
-                  </div>
-                )}
-
-                {filters?.entity_name && (
-                  <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Entity : </span> {filters?.entity_name}
-                  </div>
-                )}
-
-                {filters?.station_name && (
-                  <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold">Station :</span> {filters?.station_name}
-                  </div>
-                )}
-                {filters?.start_date && (
-                  <div className="badge bg-gray-600 flex items-center gap-2 px-2 py-1 ">
-                    <span className="font-semibold"> Date :</span> {filters?.start_date}
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            ''
-          )}
-
-
-        </div> */}
       <div className=" flex gap-4 flex-wrap">
 
 
@@ -370,15 +380,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           </>
         ) : null}
 
-        {/* {modalOpen && (
-    <>
-        <DashboardFilterModal
-            isOpen={modalOpen}
-            onClose={() => setModalOpen(false)}
-            onApplyFilters={handleApplyFilters} // Pass the handler to the modal
-        />
-    </>
-)} */}
+
       </div>
     </div>
 
@@ -386,74 +388,76 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     <div className="mt-6">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6">
 
-        {/* <div className='panel h-full hidden md:block'>
-          <CustomInput
-            getData={getData}
-            isLoading={isLoading}
-            onApplyFilters={handleApplyFilters}
-
-            showClientInput={true}
-            showEntityInput={true}
-            showStationInput={true}
-            showStationValidation={true}
-            validationSchema={validationSchemaForCustomInput}
-            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5"
-            isOpen={false}
-            onClose={() => { }}
-            fullWidthButton={true}
-            showDateInput={true}
-            // showDateInput={true}
-            storedKeyName={storedKeyName}
-          />
-
-
-          {SelectedComponent && isDeletePermissionAvailable ? (
-            <>
-              <hr className='m-2' />
-              <div className='text-end'>
-                <button className='btn btn-danger' style={{ width: "100%" }} onClick={handleDeleteDataEntry}>Delete Data
-                </button>
-              </div>
-            </>
-          ) : null}
-
-        </div> */}
 
 
 
         <div className='panel h-full col-span-3'>
           <div className="flex justify-between  mb-2">
-            <h5 className="font-bold flex text-lg dark:text-white-light">
+            <h5 className="font-bold flex text-lg dark:text-white-light w-100">
 
-              {languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
-                      <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
-                      <br></br>
-                      <hr></hr>
-                      <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
-                      <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
-                      <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down
-                      <br></br>    <hr></hr>
+              <div className=' flex justify-between w-100'>
+                <div>
+                  {languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
+                    <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                          <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
+                          <br></br>
+                          <hr></hr>
+                          <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
+                          <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
+                          <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down
+                          <br></br>    <hr></hr>
 
-                      <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Enter Key
-                    </Tooltip>
-                  }
-                >
-                  <span className=''> <i style={{ lineHeight: "10px", fontSize: "20px" }} className="fi fi-ts-keyboard"></i></span>
-                </OverlayTrigger>
-              )}
+                          <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Enter Key
+                        </Tooltip>
+                      }
+                    >
+                      <span className=''> <i style={{ lineHeight: "10px", fontSize: "20px" }} className="fi fi-ts-keyboard"></i></span>
+                    </OverlayTrigger>
+                  )}
+                </div>
 
-              {/* <div>
-                <span>
-                  <i className="fi fi-br-angle-left"></i>
-                </span>
-                <span>
-                  <i className="fi fi-br-angle-right"></i>
-                </span>
-              </div> */}
+                <div className=' flex'>
+                  <span onClick={handleLeftClick}>
+
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                          <>
+                            Go To Previous Date
+                          </>
+                        </Tooltip>
+                      }
+                    >
+                      <button
+                        className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
+                        <i className="fi fi-br-angle-left"></i>
+                      </button>
+                    </OverlayTrigger>
+
+                  </span>
+                  <span onClick={handleRightClick}>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                          <>
+                            Go To Next Date
+                          </>
+                        </Tooltip>
+                      }
+                    >
+                      <button
+                        className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
+                        <i className="fi fi-br-angle-right"></i>
+                      </button>
+                    </OverlayTrigger>
+                  </span>
+                </div>
+              </div>
             </h5>
           </div>
           <div>
@@ -481,8 +485,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           </div>
         </div>
 
-      </div>
-    </div>
+      </div >
+    </div >
 
 
     {isFilterModalOpen && (

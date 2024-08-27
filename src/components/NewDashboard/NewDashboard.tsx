@@ -137,9 +137,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
-
-
-
+    const reduxData = useSelector((state: IRootState) => state?.data?.data);
 
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
@@ -150,12 +148,34 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             const storedClientIdData = localStorage.getItem("superiorId");
 
             if (storedClientIdData) {
-                const futurepriceLog = { client_id: storedClientIdData };
+                const futurepriceLog = {
+                    client_id: storedClientIdData,
+                    client_name: reduxData?.full_name
+                };
                 localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
                 handleApplyFilters(futurepriceLog);
             }
         }
-    }, [dispatch, storedKeyName]); // Add any other dependencies needed here
+
+    }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
+
+
+    useEffect(() => {
+        if (localStorage.getItem("superiorRole") === "Client") {
+            const storedClientIdData = localStorage.getItem("superiorId");
+            if (storedClientIdData) {
+                const futurepriceLog = {
+                    client_id: storedClientIdData,
+                    client_name: reduxData?.full_name
+                };
+                localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+            }
+        }
+
+    }, [reduxData, dispatch, storedKeyName]); // Add any other dependencies needed here
+
+
+
 
 
     const handleResetFilters = async () => {
@@ -404,7 +424,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                 </Tooltip>
                                             }
                                         >
-                                            <span><i className="fi fi-tr-comment-info c-head-icon"></i></span>
+                                            <span><i className="fi fi-tr-comment-info "></i></span>
                                         </OverlayTrigger>
                                     )}
                                 </>
@@ -610,7 +630,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         </div>
                                     ))}</Tooltip>}
                                 >
-                                    <span><i className="fi fi-tr-comment-info c-head-icon"></i></span>
+                                    <span><i className="fi fi-tr-comment-info "></i></span>
                                 </OverlayTrigger> : ""}
 
                             </div>
