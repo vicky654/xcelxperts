@@ -429,7 +429,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             overlay={
                               <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
                                 <>
-                                  Go To Previous {moment(filters?.start_date).subtract(1, 'day').format('YYYY-MM-DD')} Day
+                                  Go To  {moment(filters?.start_date).subtract(1, 'day').format('YYYY-MM-DD')} Day
                                 </>
                               </Tooltip>
                             }
