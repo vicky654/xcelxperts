@@ -812,101 +812,100 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     </div>
 
                     {
-                        filters?.station_id ? <div className="grid xl:grid-cols-5  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
+                        filters?.station_id ?
 
-                            <div className="panel h-full  w-full">
+                            <div className="grid xl:grid-cols-7  md:grid-cols-3 sm:grid-cols-1 gap-2 mb-6">
 
-                                <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                    <h5 className="font-bold text-lg">Forecasting</h5>
+                                <div className="panel h-full  w-full">
 
-                                </div>
-                                <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
-                                    <div className="buttons-container  w-full">
-                                        {fuelStats?.dates && fuelStats.dates.length > 0 ? (
-                                            fuelStats.dates.map((date, index) => (
-                                                <button
-                                                    key={index}
-                                                    onClick={() => handleDateClick(date)}
-                                                    className={`date-button  w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
-                                                    style={{ borderBottom: '1px solid #ddd' }}
-
-                                                >
-                                                    {date}
-                                                </button>
-                                            ))
-                                        ) : (
-                                            <div className="flex justify-center items-center h-full mt-10 p-4">
-                                                <img
-                                                    src={noDataImage} // Use the imported image directly as the source
-                                                    alt="No data found"
-                                                    className="w-full  max-w-xs" // Adjust the width as needed
-                                                />
-                                            </div>
-                                        )}
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-bold text-lg">Forecasting</h5>
 
                                     </div>
+                                    <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
+                                        <div className="buttons-container  w-full">
+                                            {fuelStats?.dates && fuelStats.dates.length > 0 ? (
+                                                fuelStats.dates.map((date, index) => (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => handleDateClick(date)}
+                                                        className={`date-button  w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
+                                                        style={{ borderBottom: '1px solid #ddd' }}
+
+                                                    >
+                                                        {date}
+                                                    </button>
+                                                ))
+                                            ) : (
+                                                <div className="flex justify-center items-center h-full mt-10 p-4">
+                                                    <img
+                                                        src={noDataImage} // Use the imported image directly as the source
+                                                        alt="No data found"
+                                                        className="w-full  max-w-xs" // Adjust the width as needed
+                                                    />
+                                                </div>
+                                            )}
+
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
 
-                            <div className="panel h-full xl:col-span-4">
-                                <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                    <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
+                                <div className="panel h-full xl:col-span-6 md:col-span-2 sm:grid-cols-1 ">
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
 
-                                </div>
-                                <div className='spacebetween'>
-                                    {/* <div className='displaycanter'> */}
-                                    <div className="flex flex-wrap gap-2 col-span-9">
+                                    </div>
+                                    <div className='spacebetween'>
+                                        <div className="flex flex-wrap gap-2 col-span-9">
 
-                                        {fuelStats?.dates && fuelStats.dates.length > 0 ? (
-                                            Object.keys(filteredStockAlerts).map(tankName => (
-                                                <div key={tankName} className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white">
-                                                    {/* Card Header */}
-                                                    <div className="card-header flex items-center justify-between p-4 border-b dark:border-gray-700">
-                                                        <h3 className="text-lg font-bold">{tankName}</h3>
-                                                    </div>
+                                            {fuelStats?.dates && fuelStats.dates.length > 0 ? (
+                                                Object.keys(filteredStockAlerts).map(tankName => (
+                                                    <div key={tankName} className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white">
+                                                        <div className="card-header flex items-center justify-between p-4 border-b dark:border-gray-700">
+                                                            <h3 className="text-lg font-bold">{tankName}</h3>
+                                                        </div>
 
-                                                    {/* Card Body */}
-                                                    <div className="card-body p-4">
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {filteredStockAlerts[tankName]?.map((alert, index) => (
-                                                                <div key={index} className="flex items-center gap-4 mb-6">
-                                                                    <VerticalProgressBarWithWave
-                                                                        percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
-                                                                        width={135}
-                                                                        height={205}
-                                                                        alert={alert}
-                                                                        color="#ddd" // Use tank's bg color if desired
-                                                                        data-tip
-                                                                        data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
-                                                                    />
-                                                                </div>
-                                                            ))}
+                                                        <div className="card-body p-2">
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {filteredStockAlerts[tankName]?.map((alert, index) => (
+                                                                    <div key={index} className="flex items-center gap-4 mb-6">
+                                                                        <VerticalProgressBarWithWave
+                                                                            percentage={parseFloat(alert?.fuel_left_percentage) || 0} // Convert percentage to number, default to 0 if not a number
+                                                                            width={135}
+                                                                            height={205}
+                                                                            alert={alert}
+                                                                            color="#ddd" // Use tank's bg color if desired
+                                                                            data-tip
+                                                                            data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                ))
+                                            ) : (
+                                                <div className="flex justify-center items-center h-full p-4">
+                                                    <img
+                                                        src={noDataImage} // Use the imported image directly as the source
+                                                        alt="No data found"
+                                                        className="w-full  max-w-xs" // Adjust the width as needed
+                                                    />
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <div className="flex justify-center items-center h-full p-4">
-                                                <img
-                                                    src={noDataImage} // Use the imported image directly as the source
-                                                    alt="No data found"
-                                                    className="w-full  max-w-xs" // Adjust the width as needed
-                                                />
-                                            </div>
-                                        )}
+                                            )}
 
 
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
 
 
 
 
-                        </div> : ""
+                            </div> : ""
                     }
                 </div>
             </div >
