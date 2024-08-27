@@ -92,7 +92,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             // Cleanup by removing the link
             document.body.removeChild(link);
         } catch (error) {
-           
+
         }
     };
     const handleFormSubmit = async (values: any) => {
@@ -124,7 +124,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 if (commonParams) {
                     const fullReportUrl = `${baseUrl}/${commonParams}`;
                     window.open(fullReportUrl, "_blank", "noopener noreferrer");
-                } 
+                }
 
 
                 // handleDownload(isSuccess?.data)
@@ -433,7 +433,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                     <FormikSelect
                                         formik={formik}
                                         name="month"
-                                        label="Months"
+                                        label="Month"
                                         options={formik.values?.months?.map((item: any) => ({ id: item.value, name: item.full_display }))}
                                         className="form-select text-white-dark"
                                     // onChange={handleSiteChange}

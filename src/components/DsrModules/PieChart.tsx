@@ -12,12 +12,12 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
 
   useEffect(() => {
     const options: ApexCharts.ApexOptions = {
-      series: data?.data?.map(Number), // Convert string array to number array
+      series: data?.data?.map(Number) || [], // Convert string array to number array
       chart: {
         width: 400,
         type: 'pie',
       },
-      labels: data?.labels,
+      labels: data?.labels || [],
       colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
       legend: {
         position: 'bottom',

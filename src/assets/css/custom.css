@@ -862,7 +862,7 @@ body {
 }
 
 .gjoprN {
-    min-width: 117px !important;
+    /* min-width: 117px !important; */
 }
 
 @media (min-width: 1024px) {
@@ -967,4 +967,14 @@ input[type='number'] {
     .dash-breadcrub-header {
         display: none;
     }
+
+    .img-fluid {
+        height: 30px !important;
+        width: 50px !important;
+        object-fit: contain;
+    }
+}
+
+.extra-test {
+    /* text-align: left; */
 }
