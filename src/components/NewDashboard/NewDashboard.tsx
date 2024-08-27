@@ -139,8 +139,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const reduxData = useSelector((state: IRootState) => state?.data?.data);
 
+    const storedData = localStorage.getItem(storedKeyName);
+
+
     useEffect(() => {
-        const storedData = localStorage.getItem(storedKeyName);
 
         if (storedData) {
             handleApplyFilters(JSON.parse(storedData));
@@ -148,31 +150,77 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             const storedClientIdData = localStorage.getItem("superiorId");
 
             if (storedClientIdData) {
-                const futurepriceLog = {
-                    client_id: storedClientIdData,
-                    client_name: reduxData?.full_name
-                };
-                localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-                handleApplyFilters(futurepriceLog);
+                fetchCompanyList(storedClientIdData)
+                // const futurepriceLog = {
+                //     client_id: storedClientIdData,
+                //     client_name: reduxData?.full_name
+                // };
+                // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+                // handleApplyFilters(futurepriceLog);
             }
         }
 
-    }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
+    }, [dispatch, storedKeyName, reduxData]); // Add any other dependencies needed here
 
 
-    useEffect(() => {
-        if (localStorage.getItem("superiorRole") === "Client") {
+    const fetchCompanyList = async (clientId: string) => {
+        try {
+            const response = await getData(`getEntities?client_id=${clientId}`);
+            // formik.setFieldValue('companies', response.data.data);
+
             const storedClientIdData = localStorage.getItem("superiorId");
-            if (storedClientIdData) {
-                const futurepriceLog = {
-                    client_id: storedClientIdData,
-                    client_name: reduxData?.full_name
-                };
-                localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-            }
-        }
 
-    }, [reduxData, dispatch, storedKeyName]); // Add any other dependencies needed here
+            const futurepriceLog = {
+                client_id: storedClientIdData,
+                client_name: reduxData?.full_name,
+                "companies": response.data.data,
+            };
+
+            handleApplyFilters(futurepriceLog);
+
+            localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+
+
+    // useEffect(() => {
+    //     const storedData = localStorage.getItem(storedKeyName);
+
+    //     if (storedData) {
+    //         handleApplyFilters(JSON.parse(storedData));
+    //     } else if (localStorage.getItem("superiorRole") === "Client") {
+    //         const storedClientIdData = localStorage.getItem("superiorId");
+
+    //         if (storedClientIdData) {
+    //             // const futurepriceLog = {
+    //             //     client_id: storedClientIdData,
+    //             //     client_name: reduxData?.full_name
+    //             // };
+    //             // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+    //             // handleApplyFilters(futurepriceLog);
+
+    //             fetchCompanyList(storedClientIdData)
+
+    //         }
+    //     }
+
+    // }, [dispatch, storedKeyName, storedKeyName]); // Add any other dependencies needed here
+
+
+    // useEffect(() => {
+    //     if (localStorage.getItem("superiorRole") === "Client") {
+    //         const storedClientIdData = localStorage.getItem("superiorId");
+    //         if (storedClientIdData) {
+
+    //             fetchCompanyList(storedClientIdData)
+
+    //         }
+    //     }
+
+    // }, [reduxData, dispatch, storedKeyName]); // Add any other dependencies needed here
 
 
 
@@ -351,9 +399,17 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
     const handleClickToOverView = () => {
-        if (filterData) {
-            navigate('/dashboard/overview');
+
+        if (storedData && UserPermissions?.permissions?.includes('dashboard-details')) {
+            const parsedStoredData = JSON.parse(storedData);
+            if (parsedStoredData?.entity_id && filters?.entity_id) {
+                navigate('/dashboard/overview');
+            } else {
+                setModalOpen(true);
+                // console.log("entity_id not found or storedData is not an object");
+            }
         }
+
     };
 
 

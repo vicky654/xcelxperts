@@ -220,8 +220,6 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
 
 
 
-    console.log(formik?.values, "formik valuess");
-
 
     return (
 

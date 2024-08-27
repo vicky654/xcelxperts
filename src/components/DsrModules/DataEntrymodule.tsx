@@ -23,6 +23,7 @@ import IconX from '../Icon/IconX';
 import Tippy from '@tippyjs/react';
 import IconRefresh from '../Icon/IconRefresh';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import moment from 'moment';
 
 
 interface ManageSiteProps {
@@ -309,9 +310,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   };
 
 
-
-
-
   return <>
     {isLoading && <LoaderImg />}
     <div className="flexspacebetween ">
@@ -419,44 +417,55 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                   )}
                 </div>
 
-                <div className=' flex'>
-                  <span onClick={handleLeftClick}>
 
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
-                          <>
-                            Go To Previous Date
-                          </>
-                        </Tooltip>
-                      }
-                    >
-                      <button
-                        className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
-                        <i className="fi fi-br-angle-left"></i>
-                      </button>
-                    </OverlayTrigger>
+                <>
+                  {filters?.client_id && filters?.entity_id && filters?.station_id && filters?.start_date && (
+                    <>
+                      <div className=' flex'>
+                        <span onClick={handleLeftClick}>
 
-                  </span>
-                  <span onClick={handleRightClick}>
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
-                          <>
-                            Go To Next Date
-                          </>
-                        </Tooltip>
-                      }
-                    >
-                      <button
-                        className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
-                        <i className="fi fi-br-angle-right"></i>
-                      </button>
-                    </OverlayTrigger>
-                  </span>
-                </div>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                                <>
+                                  Go To Previous {moment(filters?.start_date).subtract(1, 'day').format('YYYY-MM-DD')} Day
+                                </>
+                              </Tooltip>
+                            }
+                          >
+                            <button
+                              className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
+                              <i className="fi fi-br-angle-left"></i>
+                            </button>
+                          </OverlayTrigger>
+
+                        </span>
+                        <span onClick={handleRightClick}>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                                <>
+                                  Go To {moment(filters?.start_date).add(1, 'day').format('YYYY-MM-DD')}  Day
+                                </>
+                              </Tooltip>
+                            }
+                          >
+                            <button
+                              className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
+                              <i className="fi fi-br-angle-right"></i>
+                            </button>
+                          </OverlayTrigger>
+                        </span>
+                      </div>
+                    </>
+                  )}
+
+                </>
+
+
+
               </div>
             </h5>
           </div>

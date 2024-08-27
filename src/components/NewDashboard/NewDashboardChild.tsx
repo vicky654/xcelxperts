@@ -37,6 +37,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
         entity_id: '',
         station_id: ''
     });
+
+
     const [filterData, setFilterData] = useState<any>(null);
     const [detailsData, setDetailsData] = useState<any>([]);
     const [secondApiResponse, setsecondApiResponse] = useState<any>([]);
