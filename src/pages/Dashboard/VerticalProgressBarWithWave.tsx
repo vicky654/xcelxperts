@@ -191,12 +191,28 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
             start={0}
             duration={1.94}
           />
+
+
+
+          <span className="ms-1">
+            (
+            <>
+              <CountUp
+                end={alert?.ullage_percentage}
+                separator=","
+                start={0}
+                duration={1.94}
+              />
+            </>
+            %)
+          </span>
           <span style={tooltipTextStyle} className="tooltip-text">Empty space in the tank</span>
         </li>
         <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
           <strong className="ms-2 mr-1">Fuel Left:</strong>
 
-          {capacity}  <CountUp
+          {capacity}
+          <CountUp
             end={alert?.fuel_left}
             separator=","
             start={0}
@@ -224,18 +240,7 @@ const VerticalProgressBarWithWave: React.FC<VerticalProgressBarWithWaveProps> = 
 
           <span style={tooltipTextStyle} className="tooltip-text">Fuel remaining in the tank</span>
         </li>
-        <li style={{ ...tooltipStyle, display: "flex", justifyContent: "space-start", alignItems: "center" }}>
-          <strong className="ms-2 mr-1">Usage Percentage:</strong>
 
-          <CountUp
-            end={alert?.ullage_percentage}
-            separator=","
-            start={0}
-            duration={1.94}
-          />
-          %
-          <span style={tooltipTextStyle} className="tooltip-text">Percentage of empty space</span>
-        </li>
       </ul>
     </div >
   );

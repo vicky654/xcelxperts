@@ -3,14 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import LoaderImg from '../../utils/Loader';
-import DashboardFilterModal from '../../pages/Dashboard/DashboardFilterModal';
 import { currency } from '../../utils/CommonData';
 import withApiHandler from '../../utils/withApiHandler';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
-import { fetchStoreData } from '../../store/dataSlice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NewDashboardFilterModal from './NewDashboardFilterModal';
-import IconX from '../Icon/IconX';
 import * as Yup from 'yup';
 
 interface FilterValues {
@@ -34,7 +31,7 @@ interface DashboardOverviewProps {
 const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetchedData, getData }) => {
 
     const navigate = useNavigate();
-    let storedKeyName = "newDashboardFilters";
+    let storedKeyName = "stationTank";
     const [filters, setFilters] = useState<any>({
         client_id: '',
         entity_id: '',
@@ -47,7 +44,6 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const callFetchFilterData = async (filters: FilterValues) => {
         try {
-            console.log(filters, "callFetchFilterData");
 
             const { client_id, entity_id, station_id } = filters;
             const queryParams = new URLSearchParams();
@@ -100,55 +96,15 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     );
 
 
-
-
     const dispatch = useDispatch();
 
 
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
         if (storedData) {
-            // setstationData(JSON.parse(storedData));
             handleApplyFilters(JSON.parse(storedData));
         }
     }, [dispatch]);
-
-
-
-    // useEffect(() => {
-    //     // Check if client_id and entity_id are present in local storage
-    //     const clientId = localStorage.getItem('client_id');
-    //     const companyId = localStorage.getItem('entity_id');
-
-    //     if (IsClientLogin?.isClient) {
-    //         callFetchFilterData(filters);
-    //         callFetchDetailsData(filters);
-    //     } else if (clientId && companyId) {
-    //         callFetchFilterData(filters);
-    //         callFetchDetailsData(filters);
-    //     }
-    // }, [filters]);
-
-
-
-
-    // const handleApplyFilters = (values: FilterValues) => {
-
-    //     const updatedFilters = {
-    //         client_id: values.client_id,
-    //         entity_id: values.entity_id,
-    //         station_id: values.station_id
-    //     };
-
-    //     setFilters(updatedFilters);
-
-    //     localStorage.setItem('client_id', values.client_id);
-    //     localStorage.setItem('entity_id', values.entity_id);
-    //     localStorage.setItem('station_id', values.station_id);
-    //     // Close the modal
-    //     setModalOpen(false);
-    // };
-
 
     const handleApplyFilters = async (values: any) => {
 
@@ -179,33 +135,38 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
     };
 
+
+
     const handleNavigateToNextPage = (item: any) => {
+        // Get the stored data from local storage
+        const storedDataString = localStorage.getItem("stationTank");
 
-        // Store the current month in localStorage
-        storeCurrentMonth();
+        if (storedDataString) {
+            // Parse the stored JSON data
+            let storedData: any = JSON.parse(storedDataString);
 
-        const clientId = localStorage.getItem('client_id');
-        const companyId = localStorage.getItem('entity_id');
-        const currentMonth = getCurrentMonth(); // Get the current month to include in filters
+            // Update the station_name and station_id with new values from item
+            storedData.site_name = item?.name;
+            storedData.station_name = item?.name;
+            storedData.station_id = item?.id;
 
-        // Create the updated filters object
-        const updatedFilterss = {
-            client_id: clientId,
-            entity_id: companyId,
-            station_id: item?.id,
+            // Check if start_month is empty, if so, set it to the current month
+            if (!storedData?.start_month) {
+                const currentMonth = new Date()?.toISOString().slice(0, 7); // Format YYYY-MM
+                storedData.start_month = currentMonth;
+            }
+
+            // Update the local storage with the modified data
+            localStorage.setItem("stationTank", JSON.stringify(storedData));
 
 
-            start_month: currentMonth // Include the current month in the filters
-        };
-
-
-        localStorage.setItem('Dashboard_Stats_values', JSON.stringify(updatedFilterss));
-
-        if (!isSitePermissionAvailable) {
-            navigate(`/data-entry-stats/${item?.id}`);
+            if (!isSitePermissionAvailable) {
+                navigate(`/data-entry-stats/${item?.id}`);
+            }
+        } else {
+            console.error("No data found in local storage for key 'stationTank'");
         }
     };
-
 
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
 
@@ -269,7 +230,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
                                     {filters?.client_id && (
                                         <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client :</span> {filters?.client_name ? filters?.client_name : <>
+                                            <span className="font-semibold">Client :</span>
+                                            {filters?.client_name ? filters?.client_name : <>
                                                 {data?.full_name}
                                             </>}
                                         </div>

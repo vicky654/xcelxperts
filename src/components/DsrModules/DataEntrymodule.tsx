@@ -423,26 +423,38 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         <div className='panel h-full col-span-3'>
           <div className="flex justify-between  mb-2">
-            <h5 className="font-bold flex text-lg dark:text-white-light">{languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
-              <OverlayTrigger
-                placement="bottom"
-                overlay={
-                  <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
-                    <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
-                    <br></br>
-                    <hr></hr>
-                    <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
-                    <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
-                    <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down
-                    <br></br>    <hr></hr>
+            <h5 className="font-bold flex text-lg dark:text-white-light">
 
-                    <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Enter Key
-                  </Tooltip>
-                }
-              >
-                <span className=''> <i style={{ lineHeight: "10px", fontSize: "20px" }} className="fi fi-ts-keyboard"></i></span>
-              </OverlayTrigger>
-            )}</h5>
+              {languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={
+                    <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
+                      <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
+                      <br></br>
+                      <hr></hr>
+                      <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
+                      <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
+                      <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down
+                      <br></br>    <hr></hr>
+
+                      <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Enter Key
+                    </Tooltip>
+                  }
+                >
+                  <span className=''> <i style={{ lineHeight: "10px", fontSize: "20px" }} className="fi fi-ts-keyboard"></i></span>
+                </OverlayTrigger>
+              )}
+
+              {/* <div>
+                <span>
+                  <i className="fi fi-br-angle-left"></i>
+                </span>
+                <span>
+                  <i className="fi fi-br-angle-right"></i>
+                </span>
+              </div> */}
+            </h5>
           </div>
           <div>
             <ul className="flex flex-wrap font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 overflow-y-auto">

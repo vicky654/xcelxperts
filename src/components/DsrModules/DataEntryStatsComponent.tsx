@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'tippy.js/dist/tippy.css';
 import useErrorHandler from '../../hooks/useHandleError';
 import LoaderImg from '../../utils/Loader';
@@ -9,13 +9,12 @@ import CustomInput from './CustomInput';
 import * as Yup from 'yup';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { capacity, currency } from '../../utils/CommonData';
-import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IconX from '../Icon/IconX';
-import DashboardFilter from './DashboardFilter';
 import PieChart from './PieChart';
+import { IRootState } from '../../store';
 interface ManageSiteProps {
   isLoading: boolean;
   getData: (url: string) => Promise<any>;
@@ -64,10 +63,9 @@ interface ApexData {
 }
 
 const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
-  const [data, setData] = useState([]);
-  const [cards, setCards] = useState<CardData[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>('Variance Accumulation');
   const [subData, setSubData] = useState<any[]>([]);
+  const ReduxData: any = useSelector((state: IRootState) => state?.data?.data);
   const [tabData, setTabData] = useState<TabData>({
     labels: [],
     data: [],
@@ -82,90 +80,25 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   });
   const dispatch = useDispatch();
   const handleApiError = useErrorHandler();
-  const [currentLanguage, setCurrentLanguage] = useState('english'); // Default language
-  const [isUserAddonModalOpen, setIsUserAddonModalOpen] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
-
-
-  const [selectedCardName, setSelectedCardName] = useState<string | null>(null);
   const [stationId, setStationId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [considerNozzle, setConsiderNozzle] = useState<boolean | null>(null);
-
-
   const isNotClient = localStorage.getItem("superiorRole") !== "Client";
   const storedKeyName = "stationTank";
-  const DashboardstoredKeyName = 'Dashboard_Stats_values'; // Adjust the key name as needed
 
   const { id } = useParams();
-  const keyName = id ? DashboardstoredKeyName : storedKeyName;
+
   useEffect(() => {
-    const storedDataString = localStorage.getItem(keyName);
-    if (storedDataString) {
-      try {
-        const storedData = JSON.parse(storedDataString);
+    const storedData: any = localStorage.getItem(storedKeyName);
+    if (storedData) {
 
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+      let parshedStoredData = JSON.parse(storedData)
 
-        // Set the current month in start_month if it's missing
-        if (!storedData.start_month) {
-          storedData.start_month = `${year}-${month}`;
-        }
-        if (storedData.start_month) {
-
-          handleApplyFilters(storedData);
-        }
-      } catch (error) {
-
+      if (parshedStoredData?.station_id) {
+        handleApplyFilters(JSON.parse(storedData));
       }
     }
   }, [dispatch]);
-
-
-
-  useEffect(() => {
-    // Select the first card by default if cards have data
-    const stationTank = localStorage.getItem(keyName);
-
-    if (stationTank) {
-
-
-
-      const parsedData = JSON.parse(stationTank);
-      // Set the current month in start_month if it's missing
-      if (!parsedData.start_month) {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
-
-        parsedData.start_month = `${year}-${month}`;
-      }
-
-      setFilters({
-        client_id: parsedData.client_id || '',
-        company_id: parsedData.entity_id || '',
-        site_id: parsedData.station_id || '',
-        // You can include more fields as needed:
-        client_name: parsedData.client_name || '',
-        entity_name: parsedData.entity_name || '',
-        start_date: parsedData.start_date || '',
-        start_month: parsedData.start_month || '',
-        station_name: parsedData.station_name || '',
-        clients: parsedData.clients || [],
-        companies: parsedData.companies || [],
-        sites: parsedData.sites || [],
-      });
-    }
-    if (cards?.length > 0) {
-
-
-
-      setSelectedCardName(cards[0]?.name);
-    }
-  }, [cards]);
-
 
 
   const staticTabs = [
@@ -178,11 +111,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Incomes',
     'Expenses',
     'Digital Receipt',
-
-
-
-
   ];
+
+
   const tabKeyMap: { [key: string]: string } = {
     'Variance Accumulation': 'variance-accumulation',
     'Fuel Variance': 'fuel-variance',
@@ -193,13 +124,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Expenses': 'deductions',
     'Digital Receipt': 'payments',
     'Credit Sales': 'credit-sales',
-
-
   };
+
+
   const [filters, setFilters] = useState<any>({
-    client_id: localStorage.getItem('client_id') || '',
-    company_id: localStorage.getItem('company_id') || '',
-    site_id: localStorage.getItem('site_id') || '',
+    client_id: '',
+    company_id: '',
+    site_id: '',
   });
 
 
@@ -226,9 +157,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
   const handleApplyFilters = async (values: any) => {
-
-    console.log(values, "handleApplyFilters");
     try {
+
+      if (!values?.start_month) {
+        const currentMonth = new Date()?.toISOString().slice(0, 7); // Format YYYY-MM
+        values.start_month = currentMonth;
+      }
 
       setFilters(values)
       const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
@@ -335,15 +269,16 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const graphstaticTabs = ["Bar Chart", "Pie Chart"];
   const [graphselectedTab, graphsetSelectedTab] = useState(graphstaticTabs[0]);
 
-  const handleGraphTabClick = (tabName: any) => {
-    graphsetSelectedTab(tabName);
-  };
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const closeModal = () => {
     setIsFilterModalOpen(false);
   }
+
+
+
+
 
   return <>
     {isLoading && <LoaderImg />}
@@ -382,22 +317,26 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       <div className=" flex gap-4 flex-wrap">
 
 
-        {filters?.client_name || filters?.entity_name || filters?.station_name ? (
+        {filters?.client_id || filters?.entity_id || filters?.station_id ? (
           <>
             <div className="badges-container flex flex-wrap items-center gap-2  text-white" >
+
               {filters?.client_id && (
                 <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                  <span className="font-semibold">Client :</span> {filters?.client_name}
+                  <span className="font-semibold">Client :</span>
+                  {filters?.client_name ? filters?.client_name : <>
+                    {ReduxData?.full_name}
+                  </>}
                 </div>
               )}
 
-              {filters?.entity_name && (
+              {filters?.entity_name && filters?.entity_name && (
                 <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
                   <span className="font-semibold">Entity : </span> {filters?.entity_name}
                 </div>
               )}
 
-              {filters?.station_name && (
+              {filters?.station_name && filters?.station_name && (
                 <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
                   <span className="font-semibold">Station :</span> {filters?.station_name}
                 </div>
@@ -565,14 +504,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.cash_deposited}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.previous_variance}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.balance}</td>
-
-                            {/* <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
-                                                    style={{
-                                                      backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
-                                                      fontWeight: nozzle?.id == "0" ? "bold" : ""
-                                                    }}
-                                                  > */}
-
                           </tr>
                         ))}
                       </tbody>
@@ -828,7 +759,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         <div className="bg-white w-full max-w-md m-6">
           <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
             <h5 className="text-lg font-bold">
-              Apply Filterss
+              Apply Filter
             </h5>
             <button onClick={closeModal} type="button" className="text-white-dark hover:text-dark">
               <IconX />
@@ -837,45 +768,26 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           <div className='p-6'>
 
+            <CustomInput
+              getData={getData}
+              isLoading={isLoading}
+              smallScreen={true}
+              onApplyFilters={handleApplyFilters}
+              showClientInput={true}
+              showEntityInput={true}
+              showStationInput={true}
+              showStationValidation={true}
+              validationSchema={validationSchemaForCustomInput}
+              layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
+              isOpen={false}
+              onClose={() => { }}
+              showDateInput={false}
+              fullWidthButton={false}
+              showMonthInput={true}
+              storedKeyName={storedKeyName}
+            />
 
-            {id ? (
-              <DashboardFilter
-                getData={getData}
-                isLoading={isLoading}
-                onApplyFilters={handleApplyFilters}
-                showClientInput={true}
-                showEntityInput={true}
-                showStationInput={true}
-                showStationValidation={true}
-                validationSchema={validationSchemaForCustomInput}
-                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
-                isOpen={false}
-                onClose={() => { }}
-                showDateInput={false}
-                showMonthInput={true}
-                fullWidthButton={false}
-                storedKeyName={storedKeyName}
-              />
-            ) : (
-              <CustomInput
-                getData={getData}
-                isLoading={isLoading}
-                smallScreen={true}
-                onApplyFilters={handleApplyFilters}
-                showClientInput={true}
-                showEntityInput={true}
-                showStationInput={true}
-                showStationValidation={true}
-                validationSchema={validationSchemaForCustomInput}
-                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-2 gap-5"
-                isOpen={false}
-                onClose={() => { }}
-                showDateInput={false}
-                fullWidthButton={false}
-                showMonthInput={true}
-                storedKeyName={storedKeyName}
-              />
-            )}
+
           </div>
 
         </div>

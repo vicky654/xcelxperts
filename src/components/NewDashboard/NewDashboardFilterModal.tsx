@@ -28,7 +28,7 @@ interface Company {
 interface Site {
     name: string;
     id: string;
-    site_name: string;
+    station_name: string;
 }
 
 interface NewDashboardFilterModalProps {
@@ -87,7 +87,7 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
             entity_name: "",
             start_month: "",
             station_id: "",
-            site_name: "",
+            station_name: "",
             clients: [] as Client[],
             companies: [] as Company[],
             sites: [] as Site[],
@@ -197,21 +197,23 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
             formik.setFieldValue('entity_name', "");
             formik.setFieldValue('sites', []);
             formik.setFieldValue('station_id', "");
-            formik.setFieldValue('site_name', "");
+            formik.setFieldValue('station_name', "");
         }
     };
 
     const handleSiteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSiteId = e.target.value;
         formik.setFieldValue("station_id", selectedSiteId);
-        const selectedSiteData = formik.values.sites.find(site => site.id === selectedSiteId);
+        const selectedSiteData = formik?.values?.sites?.find(site => site.id === selectedSiteId);
         formik.setFieldValue('station_name', selectedSiteData?.name || "");
         if (selectedSiteData) {
-            formik.setFieldValue("site_name", selectedSiteData.site_name);
+            formik.setFieldValue("station_name", selectedSiteData?.name || "");
         } else {
-            formik.setFieldValue("site_name", "");
+            formik.setFieldValue("station_name", "");
         }
     };
+
+
 
 
 

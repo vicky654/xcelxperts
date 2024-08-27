@@ -441,28 +441,28 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <h2 className="text-lg font-semibold mb-4"> Cash Flow | Bank Deposited (₹) </h2>
                             <div className='iconcenter'>
                                 <Badge className=' primary ' style={{ borderRadius: "0px" }}>
-                                    Today's Sale: <br></br> {currency} {cashvalue?.total_sales}
+                                    Today's Sale <br></br> {currency} {cashvalue?.total_sales}
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
                                     +
                                 </span>
                                 <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
-                                    Previous Variance: <br></br>{currency} {cashvalue?.prev_variance}
+                                    Previous Variance <br></br>{currency} {cashvalue?.prev_variance}
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
                                     -
                                 </span>
                                 <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
-                                    Bank Deposited:  <br></br>{currency} {cashvalue?.bank_deposits}
+                                    Bank Deposited  <br></br>{currency} {cashvalue?.bank_deposits}
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
                                     =
                                 </span>
                                 <Badge className=' ms-2 ' style={{ borderRadius: "0px", fontSize: "12px" }}>
-                                    Total Cash In Hand  : <br></br> {currency} {cashvalue?.today_cash_inhand}
+                                    Total Cash In Hand   <br></br> {currency} {cashvalue?.today_cash_inhand}
                                 </Badge>
                             </div>
 

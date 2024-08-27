@@ -46,7 +46,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const handleApiError = useErrorHandler();
 
-    let storedKeyName = "newDashboardFilters";
+    let storedKeyName = "stationTank";
 
     const { sales_volume, setAppData, selectedClient, selectedEntity, selectedStation } = useContext(AppContext);
 
@@ -134,46 +134,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const dispatch = useDispatch();
 
-
-    // useEffect(() => {
-    //     const clientId = localStorage.getItem('client_id');
-    //     const companyId = localStorage.getItem('entity_id');
-
-    //     if (data?.applyFilter === false && !clientId && !companyId) {
-    //         const initialFilters = {
-    //             client_id: data?.superiorId || '',
-    //             entity_id: data?.entity_id || filters.entity_id || '',
-    //             station_id: filters.station_id || '',
-    //         };
-    //         setFilters(initialFilters);
-    //         callFetchFilterData(initialFilters);
-    //     }
-    // }, [data?.applyFilter, data?.superiorId]);
-
-    // useEffect(() => {
-    //     const clientId = localStorage.getItem('client_id');
-    //     const companyId = localStorage.getItem('entity_id');
-    //     if (IsClientLogin?.isClient && !companyId) {
-
-    //         const initialFilters = {
-    //             client_id: clientId || '',
-    //             entity_id: '',
-    //             station_id: '',
-    //         };
-    //         setFilters(initialFilters);
-    //         callFetchFilterData(initialFilters);
-    //     }
-    // }, [data?.applyFilter, data?.superiorId]);
-
-
-
-
-
-
-
-
-
-
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
@@ -199,7 +159,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
     const handleResetFilters = async () => {
-        localStorage.removeItem("newDashboardFilters");
+        localStorage.removeItem("stationTank");
         setFilters(null)
         setFilterData(null)
         setFuelStats({
@@ -209,46 +169,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             station_image: '',
             last_dayend: ''
         })
-
-        // if (IsClientLogin?.isClient) {
-
-        //     setFilters({
-        //         client_id: IsClientLogin?.superiorId || '',
-        //         entity_id: '',
-        //         station_id: '',
-        //     });
-        //     localStorage.removeItem('entity_id');
-        //     localStorage.removeItem('station_id');
-        //     localStorage.removeItem('testing');
-
-        //     try {
-
-        //         const queryParams = new URLSearchParams();
-
-        //         if (IsClientLogin?.superiorId) queryParams.append('client_id', IsClientLogin?.superiorId);
-
-        //         const queryString = queryParams.toString();
-        //         const response = await getData(`dashboard/stats?${queryString}`);
-        //         if (response && response.data && response.data.data) {
-        //             setFilterData(response.data.data);
-        //         }
-        //     } catch (error) {
-
-        //     }
-
-        // } else {
-        //     // Clear filters state
-        //     setFilters({
-        //         client_id: '',
-        //         entity_id: '',
-        //         station_id: '',
-        //     });
-        //     setFilterData(null);
-        //     localStorage.removeItem('client_id');
-        //     localStorage.removeItem('entity_id');
-        //     localStorage.removeItem('station_id');
-        //     localStorage.removeItem('testing');
-        // }
     };
 
 
@@ -262,33 +182,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         }
         setModalOpen(false);
     };
-
-
-    // const handleApplyFilters = (values: FilterValues) => {
-    // let clientId = values.client_id || IsClientLogin?.superiorId;
-    // // Override client_id if the user is a client
-    // if (IsClientLogin?.isClient) {
-    //     clientId = IsClientLogin?.superiorId;
-    // }
-    // const updatedFilters = {
-    //     client_id: clientId,
-    //     entity_id: values.entity_id,
-    //     station_id: values.station_id,
-    // };
-    // // Set the filters state with the updated values
-    // setFilters(updatedFilters);
-    // // Call callFetchFilterData with the updated filters
-    // callFetchFilterData(updatedFilters);
-    // // Update local storage
-    // if (IsClientLogin?.isClient) {
-    //     localStorage.setItem('client_id', IsClientLogin?.superiorId);
-    // } else (
-    //     localStorage.setItem('client_id', values.client_id))
-    // localStorage.setItem('entity_id', values.entity_id);
-    // localStorage.setItem('station_id', values.station_id);
-    // // Close the modal
-    // setModalOpen(false);
-    // };
 
     //Revenue Chart
     const revenueChart: any = {
@@ -857,7 +750,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                                     </div>
                                     <div className='spacebetween'>
-                                        <div className="flex flex-wrap gap-2 col-span-9">
+                                        <div className="flex flex-wrap gap-2 col-span-9 justify-center">
 
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
                                                 Object.keys(filteredStockAlerts).map(tankName => (
@@ -894,17 +787,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                     />
                                                 </div>
                                             )}
-
-
-
                                         </div>
-
                                     </div>
                                 </div>
-
-
-
-
                             </div> : ""
                     }
                 </div>
