@@ -287,6 +287,7 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
                                                             label="Station"
                                                             options={formik?.values?.sites?.map((item: any) => ({ id: item.id, name: item.name }))}
                                                             className="form-input"
+                                                            isRequired={showStationValidation}
                                                             onChange={handleSiteChange}
                                                         />
                                                     </>
