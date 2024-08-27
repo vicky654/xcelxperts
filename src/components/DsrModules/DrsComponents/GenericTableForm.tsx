@@ -141,15 +141,19 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
         switch (e.key) {
             case 'ArrowRight':
                 nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+       
                 break;
             case 'ArrowLeft':
                 nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+               
                 break;
             case 'ArrowDown':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + 10) || null;
+         
                 break;
             case 'ArrowUp':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length - 10) || null;
+                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - 10) || null;
+            
                 break;
             default:
                 break;
