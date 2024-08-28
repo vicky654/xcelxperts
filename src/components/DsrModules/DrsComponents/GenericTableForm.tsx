@@ -106,9 +106,9 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
 
 
-        setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].gross_value`, gross_value);
-        setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].sales_volume`, salesvolume);
-        setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].nett_value`, nettvalue);
+        setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].gross_value`, gross_value.toFixed(2));
+        setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].sales_volume`, salesvolume.toFixed(2));
+        setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].nett_value`, nettvalue.toFixed(2));
 
 
     };

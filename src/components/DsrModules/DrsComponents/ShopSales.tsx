@@ -135,15 +135,15 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             const purchageprice = field === 'purchage_price' ? numericValue : values.data[index].purchage_price;
 
             const closing = opening - sale;
-            setFieldValue(`data[${index}].closing`, closing);
+            setFieldValue(`data[${index}].closing`, closing.toFixed(2));
             const saleAmount = sale * salePrice;
             const purchaseAmount = purchageprice * sale;
             var CalculatedProfit = saleAmount - purchaseAmount;
 
 
-            setFieldValue("CalculatedProfit", CalculatedProfit)
-            setFieldValue(`data[${index}].sale_amount`, saleAmount);
-            setFieldValue(`data[${index}].profit`, CalculatedProfit);
+            setFieldValue("CalculatedProfit", CalculatedProfit.toFixed(2))
+            setFieldValue(`data[${index}].sale_amount`, saleAmount.toFixed(2));
+            setFieldValue(`data[${index}].profit`, CalculatedProfit.toFixed(2));
         }
 
 
