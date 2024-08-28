@@ -393,7 +393,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
           <div className="flex justify-between  mb-2">
             <h5 className="font-bold flex text-lg dark:text-white-light w-100">
 
-              <div className=' flex justify-between w-100'>
+              <div className=' flex justify-between w-100 flex-wrap'>
                 <div>
                   {languageContent[currentLanguage].dataEntry}  {languageContent[currentLanguage].dataEntry && (
                     <OverlayTrigger
@@ -478,8 +478,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                 <li key={card.id} className="w-1/8 inline-block">
                   <button
                     onClick={() => toggleTabs(card.name)}
-                    className={`flex  p-2 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary bg-gray-200' : ''}`}
-                    style={{ color: card.bgColor }}
+                    className={`flex  p-3 border-b border-transparent hover:border-primary hover:text-primary ${selectedCardName == card.name ? 'border-primary c-border-primary bg-gray-200' : ''}`}
+                  // style={{ color: card.bgColor }}
                   >
                     <i className={`fi fi-rr-${card?.name.toLowerCase().replace(/\s/g, '-')}`}></i>
                     {card?.name}

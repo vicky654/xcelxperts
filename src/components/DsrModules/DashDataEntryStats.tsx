@@ -406,7 +406,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
 
 
 
-                      style={{ color: 'currentColor' }}
+                    // style={{ color: 'currentColor' }}
                     >
 
                       {tabName}

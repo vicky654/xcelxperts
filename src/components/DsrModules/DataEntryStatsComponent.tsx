@@ -379,13 +379,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     <button
                       onClick={() => handleTabClick(tabName)}
                       className={`
-                        flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary 
+                        flex gap-2 p-3 border-b border-transparent hover:border-primary hover:text-primary 
                         
                   ${selectedTab === tabName ? 'border-primary c-border-primary bg-gray-200 dark:bg-gray-700 p-0 ' : ''}`}
 
 
-
-                      style={{ color: 'currentColor' }}
+                    // style={{ color: 'currentColor' }}
                     >
 
                       {tabName}
