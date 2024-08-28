@@ -436,7 +436,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                           >
                             <button
                               className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
-                              <i className="fi fi-br-angle-left"></i>
+                              {/* <i className="fi fi-br-angle-left"></i> */}
+                              <i className="fi fi-tr-calendar-clock"></i>{moment(filters?.start_date).subtract(1, 'day').format('YYYY-MM-DD')} 
                             </button>
                           </OverlayTrigger>
 
@@ -447,14 +448,16 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                             overlay={
                               <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
                                 <>
-                                  Go To {moment(filters?.start_date).add(1, 'day').format('YYYY-MM-DD')}  Day
+                                 Go To {moment(filters?.start_date).add(1, 'day').format('YYYY-MM-DD')}  Day
                                 </>
                               </Tooltip>
                             }
                           >
                             <button
                               className={`flex pointer p-2 border-b border-transparent hover:border-primary hover:text-primary `}                  >
-                              <i className="fi fi-br-angle-right"></i>
+                              {/* <i className="fi fi-br-angle-right"></i>
+                               */}
+                             - <i className=" ms-2 fi fi-tr-calendar-clock"></i> {moment(filters?.start_date).add(1, 'day').format('YYYY-MM-DD')}  
                             </button>
                           </OverlayTrigger>
                         </span>
