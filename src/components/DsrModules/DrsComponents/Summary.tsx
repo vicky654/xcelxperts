@@ -115,6 +115,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('cash_operator', data?.banking?.bank_deposited || '');
       formData.append('variance_accumulation', data?.banking.variance_accumulation || '');
       formData.append('remarks', values?.Remarks || '');
+      formData.append('owner_collection', data.banking.owner_collection || '');
       // formData.append('variance_accumulation', data?.banking.variance_difference || '');
 
 

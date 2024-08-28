@@ -13,7 +13,7 @@ import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import FormikSelect from '../../FormikFormTools/FormikSelect';
 import { handleDownloadPdf } from '../../CommonFunctions';
-import { Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Badge, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { saveAs } from "file-saver";
 
 interface CashBankingItem {
@@ -21,6 +21,7 @@ interface CashBankingItem {
     reference: string;
     amount: string;
     cash_value: any;
+    owner_collection: any;
     today_cash_inhand: any;
     bank_deposits: any;
     prev_variance: any;
@@ -66,6 +67,8 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                 const { listing, is_editable, cash_editable } = response.data.data;
                 cashValueFormik.setFieldValue("cash_inhand", response.data?.data?.cash_inhand)
+                OwnerCollectionFormFormik.setFieldValue("amount", response.data?.data?.ownerCollections?.amount)
+                OwnerCollectionFormFormik.setFieldValue("note", response.data?.data?.ownerCollections?.note)
                 setRoleList(response?.data?.data?.bankLists);
                 setcashvalue(response.data?.data)
                 setReceipts(response.data?.data?.receipts);
@@ -188,6 +191,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
             }
         },
     });
+
     const columns: TableColumn<CashBankingItem>[] = [
         {
             name: 'Bank',
@@ -357,7 +361,42 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
         saveAs(item?.receipt, `receipt_${item?.id}.png`);
 
     };
+    const OwnerCollectionFormFormik = useFormik({
+        initialValues: {
+            amount: '',
+            note:"",
+        },
+        validationSchema: Yup.object({
+            amount: Yup.number()
+                .required('Amount is required')
+                .max(1000000, 'Cash value cannot exceed 10 lakh'),
+                note: Yup.string()
+                .required('Note is required')
+              
+        }),
+        onSubmit: async (values) => {
+            try {
+                const formData = new FormData();
+                formData.append('amount', values.amount);
+                formData.append('note', values.note);
+                if (stationId && startDate) {
+                    formData.append('drs_date', startDate);
+                    formData.append('station_id', stationId);
+                }
 
+                const url = `/data-entry/owner-collection/update`;
+                const isSuccess = await postData(url, formData);
+
+                if (stationId && startDate) {
+                    // applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Bank Deposited" });
+                    handleApplyFilters(stationId, startDate);
+                }
+                formik.resetForm();
+            } catch (error) {
+                handleApiError(error);
+            }
+        },
+    });
     return (
         <div >
 
@@ -419,26 +458,72 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 {/* // End Cash Value */}
                             </div>
                         }
+
+
+
+                        <div className="col-span-1 bg-white border  shadow-lg p-3  ">
+                     
+
+                          
+                                <>
+                                    <h2 className="text-lg font-semibold mb-2"> Owner Collected        </h2>
+                                    <hr className='mb-2'></hr>
+
+
+                                    <form onSubmit={OwnerCollectionFormFormik.handleSubmit}>
+                                        <div className="grid grid-cols-12 gap-4">
+                                            <div className="col-span-4 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                                                <input
+                                                    type="number"
+                                                    name="amount"
+                                                    className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
+                                                    readOnly={!isEditable}
+                                                    placeholder="Amount"
+                                                    value={OwnerCollectionFormFormik.values.amount}
+                                                    onChange={OwnerCollectionFormFormik.handleChange}
+                                                    onBlur={OwnerCollectionFormFormik.handleBlur}
+                                                // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                                {OwnerCollectionFormFormik.touched.amount && OwnerCollectionFormFormik.errors.amount ? (
+                                                    <div className="text-red-600 text-sm">{OwnerCollectionFormFormik.errors.amount}</div>
+                                                ) : null}
+                                            </div>
+                                            <div className="col-span-4 md:col-span-4">
+                                                <label className="block text-sm font-medium text-gray-700">Note <span className="text-danger">*</span></label>
+                                                <input
+                                                    type="text"
+                                                    name="note"
+                                                    className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
+                                                    readOnly={!isEditable}
+                                                    placeholder="Note"
+                                                    value={OwnerCollectionFormFormik.values.note}
+                                                    onChange={OwnerCollectionFormFormik.handleChange}
+                                                    onBlur={OwnerCollectionFormFormik.handleBlur}
+                                                // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                                {OwnerCollectionFormFormik.touched.note && OwnerCollectionFormFormik.errors.note ? (
+                                                    <div className="text-red-600 text-sm">{OwnerCollectionFormFormik.errors.note}</div>
+                                                ) : null}
+                                            </div>
+                                            {isEditable && <div className="col-span-4 md:col-span-4">
+                                                <button className="px-4 py-2 mt-7 bg-blue-600 text-white rounded-md btn btn-primary" type="submit">Submit</button>
+                                            </div>}
+                                        </div>
+
+
+                                    </form></>
+                    
+                        </div>
+
                         {/* First column with dummy data */}
                         <div className="col-span-1 bg-white border  shadow-lg p-3  ">
 
 
 
-                            {/* <h2 className="text-lg font-semibold mb-4"> Bank Deposited      {cashvalue ? (
-                                <OverlayTrigger
-                                  placement="bottom"
-                                    overlay={
-                                        <Tooltip id="cashvalue-tooltip" className="custom-tooltip">
-                                            Cash Available For Banking
-                                        </Tooltip>
-                                    }
-                                >
-                                    <span>({currency}{cashvalue?.cash_value})</span>
-                                </OverlayTrigger>
-                            ) : (
-                                ''
-                            )} </h2> */}
-                            <h2 className="text-lg font-semibold mb-4"> Cash Flow | Bank Deposited (₹) </h2>
+
+                            <h2 className="text-lg font-semibold mb-2"> Cash Flow | Bank Deposited (₹) </h2>
+                            <hr className='mb-2'></hr>
                             <div className='iconcenter'>
                                 <Badge className=' primary ' style={{ borderRadius: "0px" }}>
                                     Today's Sale <br></br> {currency} {cashvalue?.total_sales}
@@ -449,6 +534,12 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 </span>
                                 <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
                                     Previous Variance <br></br>{currency} {cashvalue?.prev_variance}
+                                </Badge>
+                                <span className='ms-1' style={{ fontSize: "30px" }}>
+                                    -
+                                </span>
+                                <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
+                                    Owner Collected   <br></br>{currency} {cashvalue?.owner_collection} 
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
@@ -466,14 +557,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                 </Badge>
                             </div>
 
-
-
-
-
-
-
-
-
                             <hr className='mt-4 mb-4'></hr>
 
 
@@ -481,9 +564,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             {/* Start Edit Bank Deposited */}
                             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                                 <div className="mb-6 mt-6 ">
-
-
-
                                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                                         <div className="grid grid-cols-12 gap-4">
                                             <div className="col-span-12 md:col-span-4">
@@ -531,7 +611,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                             </div>
                                         </div>
                                     </form>
-
                                 </div>
                             )}
                             {/* End Edit Bank Deposited */}

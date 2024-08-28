@@ -11,10 +11,11 @@ import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { capacity, currency } from '../../utils/CommonData';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IconX from '../Icon/IconX';
 import PieChart from './PieChart';
 import { IRootState } from '../../store';
+import StatsCard from './StatsCard';
 interface ManageSiteProps {
   isLoading: boolean;
   getData: (url: string) => Promise<any>;
@@ -33,6 +34,10 @@ interface TabData {
   labels: string[];
   data: string[];
   currentMonth: string;
+  ownerCurrentLabel: string;
+  ownerCurrentMonth: string;
+  ownerPrevLabel: string;
+  ownerPrevMonth: string;
   prevLabel: string;
   prevMonth: string;
   profit: string;
@@ -51,6 +56,7 @@ interface TabData {
     total_sales: string;
     cash_deposited: string;
     variance: string;
+    owner_collection: string;
     previous_variance: string;
     amount: string;
     balance: string;
@@ -74,6 +80,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     currentMonth: '0.00',
     prevLabel: '0.00',
     currentLabel: '0.00',
+    ownerCurrentLabel: '0.00',
+    ownerCurrentMonth: '0.00',
+    ownerPrevLabel: '0.00',
+    ownerPrevMonth: '0.00',
     currentDates: 'none',
     prevMonth: '0.00',
     profit: '0.00',
@@ -113,6 +123,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Incomes',
     'Expenses',
     'Digital Receipt',
+    'Cash Flow',
   ];
 
 
@@ -126,6 +137,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Expenses': 'deductions',
     'Digital Receipt': 'payments',
     'Credit Sales': 'credit-sales',
+    'Cash Flow': 'cash-flow',
   };
 
 
@@ -403,26 +415,44 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           </div>
           <div className="p-2" style={{ padding: "10px" }}>
+            {stationId && selectedTab !== 'Variance Accumulation' && selectedTab !== 'Cash Flow' && (
 
-            {stationId && selectedTab !== 'Variance Accumulation' && (
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
 
-              <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
-                <div className="panel h-full  xl:col-span-2  firstbox ">
+                <StatsCard
+                  label={tabData?.currentLabel}
+                  value={tabData?.currentMonth}
+                  symbol={tabData?.symbol}
+                  profit={tabData?.profit}
+                  capacity={capacity}
+                  currency={currency}
+                  selectedTab={selectedTab}
+                />
+                <StatsCard
+                  label={tabData?.prevLabel}
+                  value={tabData?.prevMonth}
+                  symbol={null} // No symbol for previous month
+                  profit={null} // No profit percentage for previous month
+                  capacity={capacity}
+                  currency={currency}
+                  selectedTab={selectedTab}
+                />
+              </div>
+            )}
+
+            {stationId && selectedTab === 'Cash Flow' && (
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+                <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
-
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                      {tabData?.ownerCurrentLabel}
+                    </div>
                   </div>
                   <div className="flex items-center mt-2">
-
-                    <div style={{ color: "#fff" }} className="font-bold  text-3xl ltr:mr-3 rtl:ml-3">
-                      {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} {tabData?.currentMonth}
+                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+                      Monthly Bank Deposits : {currency} {tabData?.currentMonth}
                     </div>
-
-
-                    <div
-                      className={`badge bg-white`}
-                    >
-
+                    <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
                         {tabData.symbol === 'UP' ? (
                           <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
@@ -432,40 +462,65 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                         <span
                           className="font-semibold"
                           style={{
-                            color:
-                              tabData.symbol === 'UP'
-                                ? '#37a40a'   // Color for 'up'
-                                : tabData.symbol === 'DOWN'
-                                  ? 'red'      // Color for 'down'
-                                  : '#000'     // Default color
+                            color: tabData.symbol === 'UP'
+                              ? '#37a40a'   // Color for 'up'
+                              : tabData.symbol === 'DOWN'
+                                ? 'red'      // Color for 'down'
+                                : '#000'     // Default color
                           }}
                         >
                           {tabData?.profit}%
                         </span>
-
                       </div>
-
-
-
                     </div>
-
-                  </div>
-
-                </div>
-                <div className="panel h-full  xl:col-span-2 firstbox ">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">  {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency}  {tabData?.prevMonth} </div>
-
+                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+                      Monthly Owner Collections :  {currency} {tabData?.ownerCurrentMonth}
+                    </div>
+                    <div className="badge bg-white">
+                      <div className="flex items-center space-x-1">
+                        {tabData.symbol === 'UP' ? (
+                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.symbol === 'DOWN' ? (
+                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span
+                          className="font-semibold"
+                          style={{
+                            color: tabData.symbol === 'UP'
+                              ? '#37a40a'   // Color for 'up'
+                              : tabData.symbol === 'DOWN'
+                                ? 'red'      // Color for 'down'
+                                : '#000'     // Default color
+                          }}
+                        >
+                          {tabData?.profit}%
+                        </span>
+                      </div>
+                    </div>
                   </div>
-
+                </div>
+                <div className="panel h-full xl:col-span-2 firstbox">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                      Monthly Bank Deposits :  {tabData?.prevLabel}
+                    </div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                      Monthly Bank  Deposits :   {currency} {tabData?.prevMonth}
+                    </div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                      Monthly Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
+                    </div>
+                  </div>
                 </div>
               </div>
-            )
+            )}
 
-            }
             <div className="mt-3">
 
               {stationId && selectedTab === 'Variance Accumulation' ? (
@@ -484,6 +539,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           </th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Fuel Sales</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Cash Deposited</th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Owner Collection</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Previous Variance</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Balance</th>
                         </tr>
@@ -503,6 +559,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.total_sales}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.fuel_sales}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.cash_deposited}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.owner_collection}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.previous_variance}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.balance}</td>
                           </tr>
