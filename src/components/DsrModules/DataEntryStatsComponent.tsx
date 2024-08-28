@@ -29,6 +29,7 @@ interface CardData {
   bgColor: string;
 }
 interface TabData {
+  currentDates: string;
   labels: string[];
   data: string[];
   currentMonth: string;
@@ -73,6 +74,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     currentMonth: '0.00',
     prevLabel: '0.00',
     currentLabel: '0.00',
+    currentDates: 'none',
     prevMonth: '0.00',
     profit: '0.00',
     symbol: '0.00',
@@ -719,7 +721,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           <div className="xl:col-span-8 p-2">
             <div className="panel h-full">
               <div className="flex justify-between">
-                <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats</h5>
+                <h5 className="font-bold text-lg dark:text-white-light">{selectedTab} Bar Graph Stats    ({tabData?.currentDates})</h5>
                 <hr />
               </div>
               <div style={{ padding: "10px" }}>
