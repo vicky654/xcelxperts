@@ -42,6 +42,7 @@ interface TabData {
   prevMonth: string;
   profit: string;
   symbol: string;
+  ownerSymbol: string;
   total: string;
   currentLabel: string;
 
@@ -79,6 +80,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     total: '0.00',
     currentMonth: '0.00',
     prevLabel: '0.00',
+    ownerSymbol: '0.00',
     currentLabel: '0.00',
     ownerCurrentLabel: '0.00',
     ownerCurrentMonth: '0.00',
@@ -424,6 +426,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   value={tabData?.currentMonth}
                   symbol={tabData?.symbol}
                   profit={tabData?.profit}
+                  TabData={tabData}
                   capacity={capacity}
                   currency={currency}
                   selectedTab={selectedTab}
@@ -431,6 +434,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 <StatsCard
                   label={tabData?.prevLabel}
                   value={tabData?.prevMonth}
+                  TabData={tabData}
                   symbol={null} // No symbol for previous month
                   profit={null} // No profit percentage for previous month
                   capacity={capacity}
@@ -445,12 +449,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
-                      {tabData?.ownerCurrentLabel}
+                      {tabData?.currentLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
-                      Monthly Bank Deposits : {currency} {tabData?.currentMonth}
+                       Bank Deposits : {currency} {tabData?.currentMonth}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -476,21 +480,21 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
-                      Monthly Owner Collections :  {currency} {tabData?.ownerCurrentMonth}
+                       Owner Collections :  {currency} {tabData?.ownerCurrentMonth}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
-                        {tabData.symbol === 'UP' ? (
+                        {tabData?.ownerSymbol === 'UP' ? (
                           <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.symbol === 'DOWN' ? (
+                        ) : tabData.ownerSymbol === 'DOWN' ? (
                           <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
                         ) : null}
                         <span
                           className="font-semibold"
                           style={{
-                            color: tabData.symbol === 'UP'
+                            color: tabData.ownerSymbol === 'UP'
                               ? '#37a40a'   // Color for 'up'
-                              : tabData.symbol === 'DOWN'
+                              : tabData.ownerSymbol === 'DOWN'
                                 ? 'red'      // Color for 'down'
                                 : '#000'     // Default color
                           }}
@@ -504,17 +508,17 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
-                      Monthly Bank Deposits :  {tabData?.prevLabel}
+                      {tabData?.prevLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                      Monthly Bank  Deposits :   {currency} {tabData?.prevMonth}
+                       Bank  Deposits :   {currency} {tabData?.prevMonth}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                      Monthly Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
+                       Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
                     </div>
                   </div>
                 </div>
@@ -701,6 +705,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 <p className="font-semibold w-1/5">Closing</p>
                                 <p className="font-semibold w-1/5">Sale Quantity</p>
                                 <p className="font-semibold w-1/5">Amount</p>
+                                <p className="font-semibold w-1/5">Profit</p>
                               </li>
                               {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                 <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
@@ -709,7 +714,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="w-1/5">{currency} {subItem?.opening}</p>
                                   <p className="w-1/5">{currency} {subItem?.closing}</p>
                                   <p className="w-1/5">{subItem?.sale}</p>
-                                  <p className="w-1/5">{currency}{subItem?.sale_amount}</p>
+                                  <p className="w-1/5">{currency} {subItem?.sale_amount}</p>
+                                  <p className="w-1/5">{currency} {subItem?.profit}</p>
                                 </li>
                               ))}
                             </ul>
