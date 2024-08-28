@@ -14,7 +14,7 @@ interface CardProps {
 
 const StatsCard: React.FC<CardProps> = ({ label, value, symbol, profit, capacity, currency, selectedTab, TabData }) => {
 
- 
+
   return (
     <div className="panel h-full xl:col-span-2 firstbox">
       <div className="flex justify-between">
@@ -23,7 +23,7 @@ const StatsCard: React.FC<CardProps> = ({ label, value, symbol, profit, capacity
         </div>
       </div>
       <div className="flex items-center mt-2">
-        <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+        <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
 
           {selectedTab === 'Lube Sales'
             ? `Amount: ${currency} ${value}`
@@ -37,7 +37,7 @@ const StatsCard: React.FC<CardProps> = ({ label, value, symbol, profit, capacity
               {symbol === 'UP' && <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>}
               {symbol === 'DOWN' && <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>}
               <span
-                className="font-semibold"
+                className=""
                 style={{
                   color: symbol === 'UP'
                     ? '#37a40a'
@@ -52,7 +52,7 @@ const StatsCard: React.FC<CardProps> = ({ label, value, symbol, profit, capacity
           </div>
         )}
       </div>
-      
+
 
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
@@ -235,6 +235,24 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     calculateTotalAmount();
   }, [formik.values.services]);
 
+
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.altKey && event.key === 'Enter') {
+        event.preventDefault(); // Prevent default action of Alt + Enter
+        if (iseditable && formik?.values?.services?.length > 0) {
+          formik.handleSubmit(); // Trigger form submission
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [iseditable, formik?.values?.services?.length, formik.handleSubmit]);
 
   return (
     <>

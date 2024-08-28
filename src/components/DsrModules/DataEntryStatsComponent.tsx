@@ -459,13 +459,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
                       {tabData?.currentLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
-                       Bank Deposits : {currency} {tabData?.currentMonth}
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                      Bank Deposits : {currency} {tabData?.currentMonth}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -475,7 +475,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
                         ) : null}
                         <span
-                          className="font-semibold"
+                          className=""
                           style={{
                             color: tabData.symbol === 'UP'
                               ? '#37a40a'   // Color for 'up'
@@ -490,8 +490,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
-                       Owner Collections :  {currency} {tabData?.ownerCurrentMonth}
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                      Owner Collections :  {currency} {tabData?.ownerCurrentMonth}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -501,7 +501,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
                         ) : null}
                         <span
-                          className="font-semibold"
+                          className=""
                           style={{
                             color: tabData.ownerSymbol === 'UP'
                               ? '#37a40a'   // Color for 'up'
@@ -518,18 +518,18 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 </div>
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
                       {tabData?.prevLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                       Bank  Deposits :   {currency} {tabData?.prevMonth}
+                    <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
+                      Bank  Deposits :   {currency} {tabData?.prevMonth}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                       Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
+                    <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
+                      Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
                     </div>
                   </div>
                 </div>
@@ -539,12 +539,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
                       {tabData?.currentLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+                    <div style={{ color: "#fff" }} className="ltr:mr-3 rtl:ml-3">
                       Amount : {currency} {tabData?.currentMonth}
                     </div>
                     <div className="badge bg-white">
@@ -570,7 +570,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
                       Profit :  {currency} {tabData?.currentMonthProfit}
                     </div>
                     <div className="badge bg-white">
@@ -598,18 +598,18 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 </div>
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
                       {tabData?.prevLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                       Amount :   {currency} {tabData?.prevMonth}
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                      Amount :   {currency} {tabData?.prevMonth}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                       Profit :    {currency} {tabData?.prevMonthProfit}
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                      Profit :    {currency} {tabData?.prevMonthProfit}
                     </div>
                   </div>
                 </div>

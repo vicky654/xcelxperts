@@ -208,6 +208,28 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
         },
     ];
 
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.altKey && event.key === 'Enter') {
+                event.preventDefault(); // Prevent default action of Alt + Enter
+                if (isEditable) {
+                    // Manually trigger form submission
+                    const form = document.querySelector('form');
+                    form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isEditable]);
+
+
+
     return (
         <>
 
@@ -233,7 +255,9 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 )}
 
                 {isEditable ?
-                    <button type="submit" className="btn btn-primary">Submit</button> : ""}
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                    : ""}
+
             </form>
         </>
     );

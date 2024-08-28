@@ -431,7 +431,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
               <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6'>
                 <div className=" panel h-full xl:col-span-2  firstbox ">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.currentLabel}</div>
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">{tabData?.currentLabel}</div>
 
                   </div>
                   <div className="flex items-center mt-2">
@@ -478,10 +478,10 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                 </div>
                 <div className=" panel h-full    xl:col-span-2  firstbox ">
                   <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">{tabData?.prevLabel}</div>
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md">{tabData?.prevLabel}</div>
                   </div>
                   <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">  {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency}  {tabData?.prevMonth}</div>
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3 ">  {(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency}  {tabData?.prevMonth}</div>
 
                   </div>
 

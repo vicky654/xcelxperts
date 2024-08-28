@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import withApiHandler from '../../../utils/withApiHandler';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import useErrorHandler from '../../../hooks/useHandleError';
@@ -49,6 +49,28 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     useEffect(() => {
         fetchData();
     }, [stationId, startDate]);
+
+
+    const formikRef = useRef<any>(null);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.altKey && event.key === 'Enter') {
+                event.preventDefault(); // Prevent default action of Alt + Enter
+                if (isEditable) { // Check if isEditable is true
+                    handleSubmit(); // Call the API after submission
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isEditable]);
+
+
 
     const handleSubmit = async () => {
         try {
@@ -338,7 +360,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     return (
         <>
             {isLoading && <LoaderImg />}
-            <div>
+            <div ref={formikRef}>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-lg font-bold mb-4 displaycanter">
@@ -401,7 +423,9 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 </div>
                 {isEditable && (
                     <div className="mt-4">
-                        <Button variant="primary" onClick={handleSubmit}>
+                        <Button variant="primary"
+                            type='submit'
+                            onClick={handleSubmit} >
                             Submit
                         </Button>
                     </div>
