@@ -32,11 +32,6 @@ interface FormValues {
     data: FuelDeliveryData[];
 }
 
-type FuelDeliveryErrors = {
-    data?: Array<{
-        [K in keyof FuelDeliveryData]?: string;
-    }>;
-};
 
 
 type FormikInstance = FormikProps<any>;
@@ -228,12 +223,24 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         },
         {
             name: (
-                <OverlayTrigger
+               <div className='flexcenter'> 
+                 <OverlayTrigger
                     placement="bottom"
                     overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Opening Stock</Tooltip>}
                 >
-                    <span >Opening Stock</span>
+                    <span >Opening Stock </span>
                 </OverlayTrigger>
+                <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip className='custom-tooltip' id="tooltip-variance">
+                        Previous Dip Stock = Opening Stock
+                    </Tooltip>
+                }
+            >
+                <i className="fi fi-tr-comment-info mt-2 pointer"></i>
+            </OverlayTrigger>
+               </div>
             ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
