@@ -35,12 +35,17 @@ interface TabData {
   data: string[];
   currentMonth: string;
   ownerCurrentLabel: string;
+  currentMonthProfit: string;
+  prevMonthProfit: string;
+  profit_total: string;
+  profitSymbol: string;
   ownerCurrentMonth: string;
   ownerPrevLabel: string;
   ownerPrevMonth: string;
   prevLabel: string;
   prevMonth: string;
   profit: string;
+  amountProfit: string;
   symbol: string;
   ownerSymbol: string;
   total: string;
@@ -78,8 +83,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     labels: [],
     data: [],
     total: '0.00',
+    amountProfit: '0.00',
     currentMonth: '0.00',
     prevLabel: '0.00',
+    currentMonthProfit: '0.00',
+    profitSymbol: '0.00',
+    profit_total: '0.00',
+    prevMonthProfit: '0.00',
     ownerSymbol: '0.00',
     currentLabel: '0.00',
     ownerCurrentLabel: '0.00',
@@ -112,6 +122,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         handleApplyFilters(JSON.parse(storedData));
       }
     }
+    console.clear()
   }, [dispatch]);
 
 
@@ -417,7 +428,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           </div>
           <div className="p-2" style={{ padding: "10px" }}>
-            {stationId && selectedTab !== 'Variance Accumulation' && selectedTab !== 'Cash Flow' && (
+            {stationId && selectedTab !== 'Variance Accumulation' && selectedTab !== 'Cash Flow' && selectedTab !== 'Lube Sales' && (
 
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
 
@@ -519,6 +530,86 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
                        Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {stationId && selectedTab === 'Lube Sales' && (
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+                <div className="panel h-full xl:col-span-2 firstbox">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                      {tabData?.currentLabel}
+                    </div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+                      Amount : {currency} {tabData?.currentMonth}
+                    </div>
+                    <div className="badge bg-white">
+                      <div className="flex items-center space-x-1">
+                        {tabData.symbol === 'UP' ? (
+                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.symbol === 'DOWN' ? (
+                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span
+                          className="font-semibold"
+                          style={{
+                            color: tabData.symbol === 'UP'
+                              ? '#37a40a'   // Color for 'up'
+                              : tabData.symbol === 'DOWN'
+                                ? 'red'      // Color for 'down'
+                                : '#000'     // Default color
+                          }}
+                        >
+                          {tabData?.amountProfit}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="font-bold text-3xl ltr:mr-3 rtl:ml-3">
+                      Profit :  {currency} {tabData?.currentMonthProfit}
+                    </div>
+                    <div className="badge bg-white">
+                      <div className="flex items-center space-x-1">
+                        {tabData?.profitSymbol === 'UP' ? (
+                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.profitSymbol === 'DOWN' ? (
+                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span
+                          className="font-semibold"
+                          style={{
+                            color: tabData.profitSymbol === 'UP'
+                              ? '#37a40a'   // Color for 'up'
+                              : tabData.profitSymbol === 'DOWN'
+                                ? 'red'      // Color for 'down'
+                                : '#000'     // Default color
+                          }}
+                        >
+                          {tabData?.profit}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="panel h-full xl:col-span-2 firstbox">
+                  <div className="flex justify-between">
+                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md font-semibold">
+                      {tabData?.prevLabel}
+                    </div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                       Amount :   {currency} {tabData?.prevMonth}
+                    </div>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                       Profit :    {currency} {tabData?.prevMonthProfit}
                     </div>
                   </div>
                 </div>

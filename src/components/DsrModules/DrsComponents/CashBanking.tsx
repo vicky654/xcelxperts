@@ -364,13 +364,14 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const OwnerCollectionFormFormik = useFormik({
         initialValues: {
             amount: '',
-            note:"",
+            note:'',
         },
         validationSchema: Yup.object({
             amount: Yup.number()
                 .required('Amount is required')
                 .max(1000000, 'Cash value cannot exceed 10 lakh'),
                 note: Yup.string()
+                .nullable() 
                 .required('Note is required')
               
         }),

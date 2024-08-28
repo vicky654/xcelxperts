@@ -93,21 +93,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
 
 
-  // useEffect(() => {
-  //   const storedDataString = localStorage.getItem(storedKeyName);
-  //   console.log(storedDataString, "storedDataString");
-
-  //   if (storedDataString) {
-  //     try {
-  //       const storedData = JSON.parse(storedDataString);
-  //       if (storedData.start_date && storedData.station_id) {
-  //         handleApplyFilters(storedData);
-  //       }
-  //     } catch (error) {
-
-  //     }
-  //   }
-  // }, [dispatch]);
 
   const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
