@@ -169,7 +169,7 @@
 }
 
 .rdt_TableBody {
-    /* overflow: auto; */
+    overflow: auto;
     height: 410px;
 }
 
