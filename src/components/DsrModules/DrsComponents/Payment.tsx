@@ -250,7 +250,9 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                     <p>Loading...</p>
                 ) : (
                     paymentData && (
-                        <DataTable columns={columns} data={paymentData?.listing} />
+                        <div className='auto-height-react-table'>
+                            <DataTable columns={columns} data={paymentData?.listing} />
+                        </div>
                     )
                 )}
 

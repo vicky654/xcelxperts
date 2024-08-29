@@ -364,16 +364,16 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const OwnerCollectionFormFormik = useFormik({
         initialValues: {
             amount: '',
-            note:'',
+            note: '',
         },
         validationSchema: Yup.object({
             amount: Yup.number()
                 .required('Amount is required')
                 .max(1000000, 'Cash value cannot exceed 10 lakh'),
-                note: Yup.string()
-                .nullable() 
+            note: Yup.string()
+                .nullable()
                 .required('Note is required')
-              
+
         }),
         onSubmit: async (values) => {
             try {
@@ -463,58 +463,58 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
 
                         <div className="col-span-1 bg-white border  shadow-lg p-3  ">
-                     
-
-                          
-                                <>
-                                    <h2 className="text-lg font-semibold mb-2"> Owner Collected        </h2>
-                                    <hr className='mb-2'></hr>
 
 
-                                    <form onSubmit={OwnerCollectionFormFormik.handleSubmit}>
-                                        <div className="grid grid-cols-12 gap-4">
-                                            <div className="col-span-4 md:col-span-4">
-                                                <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
-                                                <input
-                                                    type="number"
-                                                    name="amount"
-                                                    className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
-                                                    readOnly={!isEditable}
-                                                    placeholder="Amount"
-                                                    value={OwnerCollectionFormFormik.values.amount}
-                                                    onChange={OwnerCollectionFormFormik.handleChange}
-                                                    onBlur={OwnerCollectionFormFormik.handleBlur}
-                                                // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                                />
-                                                {OwnerCollectionFormFormik.touched.amount && OwnerCollectionFormFormik.errors.amount ? (
-                                                    <div className="text-red-600 text-sm">{OwnerCollectionFormFormik.errors.amount}</div>
-                                                ) : null}
-                                            </div>
-                                            <div className="col-span-4 md:col-span-4">
-                                                <label className="block text-sm font-medium text-gray-700">Note <span className="text-danger">*</span></label>
-                                                <input
-                                                    type="text"
-                                                    name="note"
-                                                    className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
-                                                    readOnly={!isEditable}
-                                                    placeholder="Note"
-                                                    value={OwnerCollectionFormFormik.values.note}
-                                                    onChange={OwnerCollectionFormFormik.handleChange}
-                                                    onBlur={OwnerCollectionFormFormik.handleBlur}
-                                                // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                                />
-                                                {OwnerCollectionFormFormik.touched.note && OwnerCollectionFormFormik.errors.note ? (
-                                                    <div className="text-red-600 text-sm">{OwnerCollectionFormFormik.errors.note}</div>
-                                                ) : null}
-                                            </div>
-                                            {isEditable && <div className="col-span-4 md:col-span-4">
-                                                <button className="px-4 py-2 mt-7 bg-blue-600 text-white rounded-md btn btn-primary" type="submit">Submit</button>
-                                            </div>}
+
+                            <>
+                                <h2 className="text-lg font-semibold mb-2"> Owner Collected        </h2>
+                                <hr className='mb-2'></hr>
+
+
+                                <form onSubmit={OwnerCollectionFormFormik.handleSubmit}>
+                                    <div className="grid grid-cols-12 gap-4">
+                                        <div className="col-span-4 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
+                                                readOnly={!isEditable}
+                                                placeholder="Amount"
+                                                value={OwnerCollectionFormFormik.values.amount}
+                                                onChange={OwnerCollectionFormFormik.handleChange}
+                                                onBlur={OwnerCollectionFormFormik.handleBlur}
+                                            // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                            {OwnerCollectionFormFormik.touched.amount && OwnerCollectionFormFormik.errors.amount ? (
+                                                <div className="text-red-600 text-sm">{OwnerCollectionFormFormik.errors.amount}</div>
+                                            ) : null}
                                         </div>
+                                        <div className="col-span-4 md:col-span-4">
+                                            <label className="block text-sm font-medium text-gray-700">Note <span className="text-danger">*</span></label>
+                                            <input
+                                                type="text"
+                                                name="note"
+                                                className={`form-input mt-1 block w-full p-2 border border-gray-300 rounded-md ${!isEditable ? 'readonly' : ''}`}
+                                                readOnly={!isEditable}
+                                                placeholder="Note"
+                                                value={OwnerCollectionFormFormik.values.note}
+                                                onChange={OwnerCollectionFormFormik.handleChange}
+                                                onBlur={OwnerCollectionFormFormik.handleBlur}
+                                            // className=" form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                            {OwnerCollectionFormFormik.touched.note && OwnerCollectionFormFormik.errors.note ? (
+                                                <div className="text-red-600 text-sm">{OwnerCollectionFormFormik.errors.note}</div>
+                                            ) : null}
+                                        </div>
+                                        {isEditable && <div className="col-span-4 md:col-span-4">
+                                            <button className="px-4 py-2 mt-7 bg-blue-600 text-white rounded-md btn btn-primary" type="submit">Submit</button>
+                                        </div>}
+                                    </div>
 
 
-                                    </form></>
-                    
+                                </form></>
+
                         </div>
 
                         {/* First column with dummy data */}
@@ -540,7 +540,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     -
                                 </span>
                                 <Badge className='ms-2  ' style={{ borderRadius: "0px", fontSize: "12px" }}>
-                                    Owner Collected   <br></br>{currency} {cashvalue?.owner_collection} 
+                                    Owner Collected   <br></br>{currency} {cashvalue?.owner_collection}
                                 </Badge>
 
                                 <span className='ms-1' style={{ fontSize: "30px" }}>
@@ -684,11 +684,13 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                                     />
                                 ) : (
 
-                                    <DataTable
-                                        columns={columns}
-                                        data={cashBankingData}
-                                    // pagination
-                                    />
+                                    <div className='auto-height-react-table'>
+                                        <DataTable
+                                            columns={columns}
+                                            data={cashBankingData}
+                                        // pagination
+                                        />
+                                    </div>
                                 )
                             )}
                         </div>

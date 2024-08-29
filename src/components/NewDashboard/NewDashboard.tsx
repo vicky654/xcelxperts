@@ -783,7 +783,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     {
                         filters?.station_id ?
 
-                            <div className="grid xl:grid-cols-7  md:grid-cols-3 sm:grid-cols-1 gap-2 mb-6">
+                            <div className="grid xl:grid-cols-7  md:grid-cols-4 sm:grid-cols-1 gap-2 mb-6">
 
                                 <div className="panel h-full  w-full">
 
@@ -820,7 +820,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 </div>
 
 
-                                <div className="panel h-full xl:col-span-6 md:col-span-2 sm:grid-cols-1 ">
+                                <div className="panel h-full xl:col-span-6 md:col-span-3 sm:grid-cols-1 ">
                                     <div className="flex items-center justify-between dark:text-white-light mb-5">
                                         <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
 

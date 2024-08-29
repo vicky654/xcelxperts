@@ -517,7 +517,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
 
 
                         return (
-                            <div key={tank.id} className='mt-4 panel' style={{boxShadow:"rgba(0, 0, 0, 0.35) 0px 5px 15px"}}>
+                            <div key={tank.id} className='mt-4 panel' style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                                 {/* <hr></hr> */}
                                 <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}      <OverlayTrigger
                                     placement="top"
@@ -529,9 +529,9 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                         </Tooltip>
                                     }
                                 >
-                                    <i className="fi fi-tr-comment-info mt-2 pointer"></i>
+                                    <i className="fi fi-sr-comment-info mt-2 pointer"></i>
                                 </OverlayTrigger></p>
-                                <div className='flex'>
+                                <div className='flex auto-height-react-table'>
 
                                     {/* <h3 className='FuelSaleContainer '>
                                         <div className=' flex flex-col'>
@@ -562,7 +562,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                     </h3> */}
                                     <DataTable
                                         columns={columns(tankIndex)} // Ensure columns function is defined
-                                        className="custom-table-body"
+                                        // className="custom-table-body"
                                         data={tank.nozzles}
                                         progressComponent={<LoaderImg />} // Ensure LoaderImg is defined
                                     />

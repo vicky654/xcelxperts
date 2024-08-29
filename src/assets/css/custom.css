@@ -168,10 +168,11 @@
     font-weight: bold !important;
 }
 
-/* .rdt_TableBody {
+.rdt_TableBody {
     overflow: auto;
     height: 410px;
-} */
+}
+
 /* .rdt_TableBody {
     min-height: 410px;
 } */
@@ -848,7 +849,7 @@ body {
 
 .gjoprN {
 
-    padding-left: 0px !important;
+    padding-left: 4px !important;
     padding-right: 4px !important;
 
 }
@@ -872,13 +873,22 @@ body {
     .lg\:col-span-3 {
         grid-column: span 3 / span 3;
     }
+
+    /* .md\:col-span-3 {
+        grid-column: span 3 / span 3;
+    } */
 }
 
 @media (min-width: 768px) {
     .lg\:col-span-3 {
         grid-column: span 3 / span 3;
     }
+
+    /* .md\:col-span-3 {
+        grid-column: span 3 / span 3;
+    } */
 }
+
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -1039,4 +1049,8 @@ textarea:focus {
 
 .w-100 {
     width: 100%;
+}
+
+.md\:col-span-3 {
+    grid-column: span 3 / span 3;
 }

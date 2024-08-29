@@ -465,7 +465,7 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             if (item?.profit) {
 
                 profit = sale_amount - purchage_amount;
-         
+
             }
 
             return {
@@ -506,9 +506,9 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
                         const updatedData = calculateFields(values?.data);
                         const totalSaleAmount = updatedData.reduce((total, item) => total + item.sale_amount, 0);
                         const totalProfitAmount = updatedData.reduce((total, item) => total + item.profit, 0);
-                    
+
                         return (
-                            <Form>
+                            <Form className='auto-height-react-table'>
                                 <FieldArray
                                     name="data"
                                     render={() => (

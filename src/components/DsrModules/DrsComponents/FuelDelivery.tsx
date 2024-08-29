@@ -223,24 +223,24 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
         },
         {
             name: (
-               <div className='flexcenter'> 
-                 <OverlayTrigger
-                    placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Opening Stock</Tooltip>}
-                >
-                    <span >Opening Stock </span>
-                </OverlayTrigger>
-                <OverlayTrigger
-                placement="top"
-                overlay={
-                    <Tooltip className='custom-tooltip' id="tooltip-variance">
-                        Previous Dip Stock = Opening Stock
-                    </Tooltip>
-                }
-            >
-                <i className="fi fi-tr-comment-info mt-2 pointer"></i>
-            </OverlayTrigger>
-               </div>
+                <div className='flexcenter'>
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Opening Stock</Tooltip>}
+                    >
+                        <span >Opening Stock </span>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={
+                            <Tooltip className='custom-tooltip' id="tooltip-variance">
+                                Previous Dip Stock = Opening Stock
+                            </Tooltip>
+                        }
+                    >
+                        <span> <i className="fi fi-sr-comment-info  pointer"></i></span>
+                    </OverlayTrigger>
+                </div>
             ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <>
@@ -467,7 +467,7 @@ const FuelDelivery: React.FC<CommonDataEntryProps> = ({ stationId, startDate, po
                         enableReinitialize
                     >
                         {({ values }) => (
-                            <Form className="w-full">
+                            <Form className="w-full auto-height-react-table">
                                 <FieldArray
                                     name="data"
                                     render={() => (

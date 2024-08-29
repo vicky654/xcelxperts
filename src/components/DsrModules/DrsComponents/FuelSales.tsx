@@ -367,7 +367,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                             onSubmit={handleSubmit}
                         >
                             {({ values }) => (
-                                <Form>
+                                <Form className='auto-height-react-table'>
                                     <FieldArray name="data">
                                         {() => (
                                             <DataTable

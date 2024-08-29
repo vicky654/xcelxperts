@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import { currency } from '../../../utils/CommonData';
 import DataEntryStats from '../DashDataEntryStats';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 interface SummaryProps {
   stationId: string | null;
@@ -56,7 +57,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       handleApiError(error);
     }
   };
-  
+
   const isSummaryRemarksNull = summaryRemarks === null;
   const submitsummary = async (values: any) => {
     try {
@@ -82,7 +83,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       // 'total_deductions'      => 'total_expenses',
       // 'total_to_bank'         => 'total_to_bank',
       // 'total_credit_card'     => 'total_digital_receipt',
-      
+
       // Banking
       // 'total_cash_for_banking'=> 'total_cash_for_banking',
       // 'variance'              => 'previous_variance',
@@ -106,11 +107,11 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       formData.append('total_deductions', data?.takings?.total_expenses || '');
       formData.append('total_to_bank', data?.takings?.total_to_bank || '');
       formData.append('total_credit_card', data?.takings.total_digital_receipt || '');
-    
+
       // Banking
 
       formData.append('total_cash_for_banking', data?.banking.total_cash_for_banking || '');
-      formData.append('variance', data?.banking.previous_variance  || '');
+      formData.append('variance', data?.banking.previous_variance || '');
       formData.append('net_cash_due_banking', data?.banking.net_cash_due_for_banking || '');
       formData.append('cash_operator', data?.banking?.bank_deposited || '');
       formData.append('variance_accumulation', data?.banking.variance_accumulation || '');
@@ -144,7 +145,47 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
       .join(' '); // Join the words back together with a space
   };
-  
+
+  const formikRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event: any) => {
+      if (event.altKey && event.key === 'Enter') {
+        event.preventDefault(); // Prevent default action of Alt + Enter
+
+        if (formikRef.current) {
+          formikRef.current.validateForm().then((errors: any) => {
+            // If there are no validation errors, proceed with the confirmation dialog
+            if (Object.keys(errors).length === 0) {
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to proceed with Day End?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3b82f6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Day End!',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  formikRef.current.handleSubmit(); // Programmatically submit the form
+                }
+              });
+            } else {
+              // Optionally, you can show an alert or handle the validation errors here
+              console.log('Validation errors:', errors);
+            }
+          });
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
 
   return (
     <>
@@ -175,7 +216,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
         </div>
         <div className="flex justify-center">
           <div className="w-full">
-           
+
             {data?.deductions && (
               <div className="mb-8  ">
                 <h1 className="text-lg font-bold">SUMMARY OF EXPENSES</h1>
@@ -194,7 +235,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
               </div>
             )}
-             {data?.charges && (
+            {data?.charges && (
               <div className="mb-8  ">
                 <h1 className="text-lg font-bold">SUMMARY OF EXTRA INCOMES</h1>
 
@@ -260,6 +301,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
                 {isSummaryRemarksNull ? (
                   <Formik
+                    innerRef={formikRef}
                     initialValues={{ Remarks: '' }}
                     validationSchema={Yup.object().shape({
                       Remarks: Yup.string().required('*Remarks is required'),

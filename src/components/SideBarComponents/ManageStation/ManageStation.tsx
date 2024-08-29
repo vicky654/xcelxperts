@@ -216,7 +216,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 <div className="d-flex">
                     <div className="mt-0 mt-sm-2 d-block">
                         {/* Assuming row.logo contains the URL of the image */}
-                        <img style={{ width: "60px", height: "40px" }} src={row.logo} alt="Logo" className="img-fluid" />
+                        <img style={{ width: "60px", height: "40px" }} src={row.logo} alt="Logo" className="img-fluid object-contain" />
                         {/* If you want to display the URL as text */}
                         {/* <h6 className="mb-0 fs-14 fw-semibold">{row.logo}</h6> */}
                     </div>
@@ -355,11 +355,11 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                         <i className="fi fi-ts-gas-pump-slash"></i> Nozzles
                                                     </button>)}
                                             </li>
-                                               {/* //Stock Loss */}
-                                               <li>
+                                            {/* //Stock Loss */}
+                                            <li>
                                                 {IsstocklossPermissionAvailable && (
 
-                                                    <button  onClick={() => navigate(`/manage-stock-loss/${row.id}`)} type="button">
+                                                    <button onClick={() => navigate(`/manage-stock-loss/${row.id}`)} type="button">
                                                         <i className="fi fi-tr-growth-chart-invest"></i>Stock Loss
                                                     </button>
 
@@ -367,8 +367,8 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                                                 )}
                                             </li>
-                                               {/* //Skip Date */}
-                                               <li>
+                                            {/* //Skip Date */}
+                                            <li>
                                                 {isSkipPermissionAvailable && (
 
                                                     <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
@@ -394,7 +394,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
 
-                                         
+
 
 
 
@@ -458,11 +458,11 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (values.sap_code != null) { // This checks for both null and undefined
                 formData.append('sap_code', values.sap_code);
             }
-            
+
             if (values.dealer_code != null) { // This checks for both null and undefined
                 formData.append('dealer_code', values.dealer_code);
             }
-            
+
             if (values.file) {
                 formData.append('logo', values.file);
             }
@@ -479,7 +479,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (response) {
                 handleSuccess();
                 closeModal();
-            } 
+            }
         } catch (error) {
             handleApiError(error);
         }
