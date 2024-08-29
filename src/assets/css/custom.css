@@ -1054,3 +1054,7 @@ textarea:focus {
 .md\:col-span-3 {
     grid-column: span 3 / span 3;
 }
+
+.auto-height-react-table .rdt_TableBody {
+    height: auto !important;
+}
