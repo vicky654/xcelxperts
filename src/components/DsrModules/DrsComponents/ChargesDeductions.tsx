@@ -158,6 +158,15 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             return; // Allow default behavior for other keys
         }
 
+        // Check if Ctrl key is pressed
+        const isCtrlPressed = e.ctrlKey;
+
+        // Only handle navigation if Ctrl is pressed and key is ArrowRight, ArrowLeft, ArrowDown, or ArrowUp
+        if (!isCtrlPressed && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+            return;
+        }
+
+
         e.preventDefault(); // Prevent default arrow key behavior for navigation keys
 
         const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
@@ -168,16 +177,24 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
         switch (e.key) {
             case 'ArrowRight':
-                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                }
                 break;
             case 'ArrowLeft':
-                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                }
                 break;
             case 'ArrowDown':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                }
                 break;
             case 'ArrowUp':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                }
                 break;
             default:
                 break;
@@ -187,6 +204,9 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             nextInput.focus();
         }
     };
+
+
+
     const handleNavigation2 = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
 

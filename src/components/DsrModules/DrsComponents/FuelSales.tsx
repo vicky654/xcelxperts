@@ -138,6 +138,12 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
         return index * columns?.length + columnIndex + 1;
     };
 
+
+
+
+
+
+
     const handleNavigation = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         const validKeys = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'];
 
@@ -145,7 +151,15 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
             return; // Allow default behavior for other keys
         }
 
-        e.preventDefault(); // Prevent default arrow key behavior for navigation keys
+        // Check if Ctrl key is pressed
+        const isCtrlPressed = e.ctrlKey;
+
+        // Only handle navigation if Ctrl is pressed and key is ArrowRight, ArrowLeft, ArrowDown, or ArrowUp
+        if (!isCtrlPressed && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+            return;
+        }
+
+        e.preventDefault(); // Prevent default behavior for specified keys
 
         const inputs = Array.from(document.querySelectorAll('.workflorform-input')) as HTMLInputElement[];
         const currentInput = e.currentTarget as HTMLInputElement;
@@ -155,16 +169,24 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
 
         switch (e.key) {
             case 'ArrowRight':
-                nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.find(input => input.tabIndex > currentTabIndex && input.tabIndex !== -1) || null;
+                }
                 break;
             case 'ArrowLeft':
-                nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.slice().reverse().find(input => input.tabIndex < currentTabIndex && input.tabIndex !== -1) || null;
+                }
                 break;
             case 'ArrowDown':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.find(input => input.tabIndex === currentTabIndex + columns.length) || null;
+                }
                 break;
             case 'ArrowUp':
-                nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                if (isCtrlPressed) {
+                    nextInput = inputs.find(input => input.tabIndex === currentTabIndex - columns.length) || null;
+                }
                 break;
             default:
                 break;
@@ -174,6 +196,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
             nextInput.focus();
         }
     };
+
 
 
 

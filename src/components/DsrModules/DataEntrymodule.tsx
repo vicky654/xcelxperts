@@ -385,15 +385,15 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                       placement="bottom"
                       overlay={
                         <Tooltip className='custom-tooltip p-3' id="tooltip-amount" style={{ lineHeight: "30px" }}>
-                          <i className="fi fi-ts-arrow-right"></i> Use right arrow to go right
+                          <i className="fi fi-ts-arrow-right"></i> Use Ctrl + Right Arrow to go right
                           <br></br>
                           <hr></hr>
-                          <i className="fi fi-ts-arrow-left"></i>   Use left arrow to go left     <br></br>    <hr></hr>
-                          <i className="fi fi-ts-arrow-up"></i>  Use up arrow to go up     <br></br>    <hr></hr>
-                          <i className="fi fi-ts-arrow-down"></i>   Use down arrow to go down
+                          <i className="fi fi-ts-arrow-left"></i>   Use Ctrl + Left Arrow to go left     <br></br>    <hr></hr>
+                          <i className="fi fi-ts-arrow-up"></i>  Use Ctrl + Up Arrow to go up     <br></br>    <hr></hr>
+                          <i className="fi fi-ts-arrow-down"></i>   Use Ctrl + Down Arrow to go down
                           <br></br>    <hr></hr>
 
-                          <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Enter Key
+                          <span className='mt-1  px-2' style={{ border: "1px solid #fff" }}>Enter</span>  Form will submit on the submission of Alt + Enter Key
                         </Tooltip>
                       }
                     >

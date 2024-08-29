@@ -16,6 +16,7 @@ import IconX from '../Icon/IconX';
 import PieChart from './PieChart';
 import { IRootState } from '../../store';
 import StatsCard from './StatsCard';
+import { FormatNumberCommon } from '../CommonFunctions';
 interface ManageSiteProps {
   isLoading: boolean;
   getData: (url: string) => Promise<any>;
@@ -650,13 +651,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             }}
 
                             key={item?.id} className="hover:bg-gray-100">
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{item?.date}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.total_sales}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.fuel_sales}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.cash_deposited}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.owner_collection}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.previous_variance}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {item?.balance}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{item?.date}    </td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.total_sales)}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.fuel_sales)}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.cash_deposited)}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.owner_collection)}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.previous_variance)}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.balance)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -702,11 +703,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
                                   <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                     <p className="w-1/6">{subItem?.name}</p>
-                                    <p className="w-1/6">{currency} {subItem?.price}</p>
-                                    <p className="w-1/6">{capacity}{subItem?.volume}</p>
-                                    <p className="w-1/6">{currency} {subItem?.gross_value}</p>
-                                    <p className="w-1/6">{currency} {subItem?.discount}</p>
-                                    <p className="w-1/6">{currency} {subItem?.amount}</p>
+                                    <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.price)}</p>
+                                    <p className="w-1/6">{capacity}{FormatNumberCommon(subItem?.volume)}</p>
+                                    <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.gross_value)}</p>
+                                    <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.discount)}</p>
+                                    <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.amount)}</p>
                                   </li>
                                 ))}
                               </ul>
@@ -745,12 +746,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                                   >
                                                     <p className="w-1/6">{nozzle?.name} </p>
                                                     <p className="w-1/6">
-                                                      {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${nozzle?.price}`}
+                                                      {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${FormatNumberCommon(nozzle?.price)}`}
                                                     </p>
-                                                    <p className="w-1/6">{capacity}{nozzle?.volume}</p>
-                                                    <p className="w-1/6">{currency} {nozzle?.gross_value}</p>
-                                                    <p className="w-1/6">{currency} {nozzle?.discount}</p>
-                                                    <p className="w-1/6">{currency} {nozzle?.amount} </p>
+                                                    <p className="w-1/6">{capacity} {FormatNumberCommon(nozzle?.volume)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.gross_value)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.discount)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.amount)}</p>
                                                   </li>
                                                 ))}
 
@@ -764,10 +765,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                             <p className="w-1/6">
 
                                             </p>
-                                            <p className="w-1/6">{capacity}{fuelType?.volume}</p>
-                                            <p className="w-1/6">{currency} {fuelType?.gross_value}</p>
-                                            <p className="w-1/6">{currency} {fuelType?.discount}</p>
-                                            <p className="w-1/6">{currency} {fuelType?.amount} </p>
+                                            <p className="w-1/6">{capacity}{FormatNumberCommon(fuelType?.volume)}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.gross_value)}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.discount)}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.amount)}</p>
                                           </li>
                                         </div>
 
@@ -802,11 +803,11 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                   <p className="w-1/5">{subItem?.lubricant_name}</p>
                                   <p className="w-1/5">{subItem?.lubricant_size}</p>
-                                  <p className="w-1/5">{currency} {subItem?.opening}</p>
-                                  <p className="w-1/5">{currency} {subItem?.closing}</p>
-                                  <p className="w-1/5">{subItem?.sale}</p>
-                                  <p className="w-1/5">{currency} {subItem?.sale_amount}</p>
-                                  <p className="w-1/5">{currency} {subItem?.profit}</p>
+                                  <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.opening)}</p>
+                                  <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.closing)}</p>
+                                  <p className="w-1/5">{FormatNumberCommon(subItem?.sale)}</p>
+                                  <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.sale_amount)}</p>
+                                  <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.profit)}</p>
                                 </li>
                               ))}
                             </ul>

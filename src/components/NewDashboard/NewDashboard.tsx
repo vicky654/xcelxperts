@@ -16,6 +16,7 @@ import * as Yup from 'yup';
 import useErrorHandler from '../../hooks/useHandleError';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
+import { FormatNumberCommon } from '../CommonFunctions';
 
 interface FilterValues {
     client_id: any;
@@ -573,7 +574,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 </div>
                             </div>
                             <div className="flex items-center ">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ{filterData?.sales_volume?.sales_volume} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ
+                                    {FormatNumberCommon(filterData?.sales_volume?.sales_volume)}
+                                </div>
 
                             </div>
 
@@ -601,7 +604,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
                             <div className="flex items-center">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.sales_value?.sales_value} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {FormatNumberCommon(filterData?.sales_value?.sales_value)} </div>
                                 {/* <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div> */}
                             </div>
                             {/* <div className="flex items-center font-semibold mt-5">
@@ -622,7 +625,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }{filterData?.sales_value?.percentage !== undefined ? (
-                                    <span>Last Month {filterData?.sales_value?.percentage}%</span>
+                                    <span>Last Month {FormatNumberCommon(filterData?.sales_value?.percentage)}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
@@ -638,7 +641,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}{filterData?.profit?.profit} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}
+                                    {FormatNumberCommon(filterData?.profit?.profit)}</div>
 
                             </div>
 
@@ -671,8 +675,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             </div>
 
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
-                                {currency}{filterData?.stock?.value ?? ''}
-                                {` (ℓ${filterData?.stock?.volume ?? ''})`}
+                                {currency}
+                                {FormatNumberCommon(filterData?.stock?.value ?? '')}
+
+
+                                {` (ℓ  ${FormatNumberCommon(filterData?.stock?.volume ?? '')} )`}
 
 
                                 {filterData?.stock ? <OverlayTrigger
@@ -680,8 +687,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
                                         <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                             <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
-                                                {` (ℓ${fuel.volume ?? ''})`}
+                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}
+                                                {FormatNumberCommon(fuel.value ?? '')}
+
+                                                {` (ℓ  ${FormatNumberCommon(fuel.volume ?? '')} )`}
                                             </div>
                                         </div>
                                     ))}</Tooltip>}

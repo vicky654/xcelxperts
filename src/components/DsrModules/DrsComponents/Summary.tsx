@@ -7,9 +7,12 @@ import { CommonDataEntryProps } from '../../commonInterfaces';
 import LoaderImg from '../../../utils/Loader';
 import { currency } from '../../../utils/CommonData';
 import DataEntryStats from '../DashDataEntryStats';
-import { handleDownloadPdf } from '../../CommonFunctions';
+import { FormatNumberCommon, handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import { NumericFormat } from 'react-number-format';
+
+import NumberFormat from 'react-number-format';
 
 interface SummaryProps {
   stationId: string | null;
@@ -187,6 +190,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   }, []);
 
 
+
   return (
     <>
       {isLoading && <LoaderImg />}
@@ -226,7 +230,8 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     {Object.keys(data?.deductions || {}).map((item, index) => (
                       <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
                         <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                        <p>{currency} {data?.deductions[item]}</p>
+                        <p>{currency}
+                          {FormatNumberCommon(data?.deductions[item])}</p>
                       </li>
                     ))}
                   </ul>
@@ -244,7 +249,9 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     {Object.keys(data?.charges || {}).map((item, index) => (
                       <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
                         <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                        <p>{currency} {data?.charges[item]}</p>
+                        <p>{currency}
+                          {FormatNumberCommon(data?.charges[item])}
+                        </p>
                       </li>
                     ))}
                   </ul>
@@ -262,7 +269,9 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     {Object.keys(data?.takings).map((item, index) => (
                       <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
                         <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                        <p>{currency} {data?.takings[item]}</p>
+                        <p>{currency}
+                          {FormatNumberCommon(data?.takings[item])}
+                        </p>
                       </li>
                     ))}
                   </ul>
@@ -281,7 +290,9 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                     {Object.keys(data?.banking).map((item, index) => (
                       <li key={index} className="flex justify-between py-2 hover:bg-gray-100">
                         <p className="font-semibold">{capitalizeFirstLetter(item)}</p>
-                        <p>{currency} {data?.banking[item]}</p>
+                        <p>{currency}
+                          {FormatNumberCommon(data?.banking[item])}
+                        </p>
                       </li>
                     ))}
                   </ul>

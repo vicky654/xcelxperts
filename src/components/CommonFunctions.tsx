@@ -13,7 +13,7 @@ export const handleDownloadPdf = async (
 
     // Check if the response contains data
     if (response && response.data?.data) {
- 
+
       const pdfUrl = response.data?.data?.url;
 
 
@@ -28,3 +28,14 @@ export const handleDownloadPdf = async (
     handleApiError(error);
   }
 };
+
+
+// // Function to format the number with commas and decimal places
+export const FormatNumberCommon = (number: any) => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'decimal',
+    minimumFractionDigits: 2,  // Set to 2 for minimum decimal places
+    maximumFractionDigits: 3,  // Set to 6 for maximum decimal places
+  }).format(number);
+};
+

@@ -9,6 +9,7 @@ import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NewDashboardFilterModal from './NewDashboardFilterModal';
 import * as Yup from 'yup';
+import { FormatNumberCommon } from '../CommonFunctions';
 
 interface FilterValues {
     client_id: string;
@@ -276,7 +277,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ {secondApiResponse?.sales_volume?.sales_volume} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ
+                                    {FormatNumberCommon(secondApiResponse?.sales_volume?.sales_volume)} </div>
 
                             </div>
 
@@ -298,7 +300,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.sales_value?.sales_value} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}
+                                    {FormatNumberCommon(secondApiResponse?.sales_value?.sales_value)}
+                                </div>
                             </div>
 
                             <div style={{ color: secondApiResponse?.sales_value?.status === 'up' ? "#37a40a" : "red" }}
@@ -319,7 +323,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
                             <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {secondApiResponse?.profit?.profit} </div>
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}
+                                    {FormatNumberCommon(secondApiResponse?.profit?.profit)}
+                                </div>
 
                             </div>
 
@@ -345,15 +351,20 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
 
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                                {currency}{secondApiResponse?.stock?.value ?? ''}
-                                {` (ℓ${secondApiResponse?.stock?.volume ?? ''})`}
+                                {currency}
+
+                                {FormatNumberCommon(secondApiResponse?.stock?.value ?? '')}
+                                {` (ℓ${FormatNumberCommon(secondApiResponse?.stock?.volume ?? '')})`}
+
                                 {filterData?.stock ? <OverlayTrigger
                                     placement="bottom"
                                     overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
                                         <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
                                             <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}{fuel.value ?? ''}
-                                                {` (ℓ${fuel.volume ?? ''})`}
+                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}
+
+                                                {FormatNumberCommon(fuel.value ?? '')}
+                                                {` (ℓ${FormatNumberCommon(fuel.volume ?? '')})`}
                                             </div>
                                         </div>
                                     ))}</Tooltip>}
@@ -407,7 +418,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Gross Volume</h6>
                                                         <p className="text-lg">
-                                                            ℓ{stats?.sales_volume?.sales_volume}
+                                                            ℓ
+                                                            {FormatNumberCommon(stats?.sales_volume?.sales_volume)}
                                                             <span
                                                                 className={`ml-2 ${stats?.sales_volume?.status === "up"
                                                                     ? "text-green-500"
@@ -433,7 +445,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Gross Value</h6>
                                                         <p className="text-lg">
-                                                            {currency} {stats?.sales_value.sales_value}
+                                                            {currency}
+
+                                                            {FormatNumberCommon(stats?.sales_value.sales_value)}
                                                             <span
                                                                 className={`ml-2 ${stats?.sales_value.status === "up"
                                                                     ? "text-green-500"
@@ -463,7 +477,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold"> Gross Profit</h6>
                                                         <p className="text-lg">
-                                                            {currency} {stats?.profit?.profit}
+                                                            {currency}
+
+                                                            {FormatNumberCommon(stats?.profit?.profit)}
                                                             <span
                                                                 className={`ml-2 ${stats?.profit?.status === "up"
                                                                     ? "text-green-500"
@@ -489,7 +505,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                     <div>
                                                         <h6 className="font-semibold">Stock Loss</h6>
                                                         <p className="text-lg">
-                                                            {currency} {stats?.stock?.value}
+                                                            {currency}
+
+                                                            {FormatNumberCommon(stats?.stock?.value)}
 
                                                             <span
                                                                 className={`ml-2 ${stats?.stock?.status === "up"
