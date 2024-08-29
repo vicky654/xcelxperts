@@ -168,10 +168,13 @@
     font-weight: bold !important;
 }
 
-.rdt_TableBody {
+/* .rdt_TableBody {
     overflow: auto;
     height: 410px;
-}
+} */
+/* .rdt_TableBody {
+    min-height: 410px;
+} */
 
 .text-lg {
     font-size: 14px !important;
@@ -715,11 +718,11 @@ li.flexcenter.dataentrytab {
 
 /* GenericTableForm.css */
 .custom-table-body .rdt_TableBody {
-    height: auto;
     /* Set your desired height */
     min-height: 100px;
-    max-height: 300px;
+    /* max-height: 300px; */
     overflow-y: auto;
+    height: auto;
     /* Add scroll if content exceeds height */
 }
 
@@ -908,6 +911,13 @@ body {
 
 .auto-height-react-table>.Nfhbm>.BAfJj>.rdt_Table>.rdt_TableBody {
     height: auto;
+}
+
+/* use this propety for fixed height on upper class of data table  */
+
+.fixed-height-react-table>.Nfhbm>.BAfJj>.rdt_Table>.rdt_TableBody {
+    min-height: 440px;
+    overflow: auto;
 }
 
 .fi-sr-comment-info {

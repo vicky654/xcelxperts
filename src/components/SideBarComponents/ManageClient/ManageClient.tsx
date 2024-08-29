@@ -327,7 +327,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-          
+
         }
     };
 
@@ -451,7 +451,7 @@ const ManageClient: React.FC<ManageUserProps> = ({ postData, getData, isLoading 
 
                 {data?.length > 0 ? (
                     <>
-                        <div className="datatables">
+                        <div className="datatables fixed-height-react-table">
                             <DataTable
                                 className=" table-striped table-hover table-bordered table-compact"
                                 columns={columns}
