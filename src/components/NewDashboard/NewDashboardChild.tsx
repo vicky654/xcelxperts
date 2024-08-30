@@ -201,7 +201,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 </Tooltip>
                                             }
                                         >
-                                            <span><i className="fi fi-tr-comment-info "></i></span>
+                                            <span><i className="fi fi-sr-comment-info "></i></span>
                                         </OverlayTrigger>
                                     )}
                                 </>
@@ -369,7 +369,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                         </div>
                                     ))}</Tooltip>}
                                 >
-                                    <span><i className="fi fi-tr-comment-info "></i></span>
+                                    <span><i className="fi fi-sr-comment-info "></i></span>
                                 </OverlayTrigger> : ""}
                             </div>
 

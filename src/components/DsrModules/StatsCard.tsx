@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormatNumberCommon } from '../CommonFunctions';
 
 interface CardProps {
   label: string;
@@ -26,8 +27,10 @@ const StatsCard: React.FC<CardProps> = ({ label, value, symbol, profit, capacity
         <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
 
           {selectedTab === 'Lube Sales'
-            ? `Amount: ${currency} ${value}`
-            : `${(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} ${value}`}
+            ? `Amount: ${currency} ${FormatNumberCommon(value)}`
+            :
+            `${(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} ${FormatNumberCommon(value)}`
+          }
 
         </div>
 

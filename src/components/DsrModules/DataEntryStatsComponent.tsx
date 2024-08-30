@@ -31,6 +31,7 @@ interface CardData {
   bgColor: string;
 }
 interface TabData {
+  ownerProfit: any;
   currentDates: string;
   labels: string[];
   data: string[];
@@ -101,6 +102,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     prevMonth: '0.00',
     profit: '0.00',
     symbol: '0.00',
+    ownerProfit: '0.00',
     listing: []
   });
   const dispatch = useDispatch();
@@ -466,7 +468,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Bank Deposits : {currency} {tabData?.currentMonth}
+                      Bank Deposits : {currency} {FormatNumberCommon(tabData?.currentMonth)}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -511,7 +513,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 : '#000'     // Default color
                           }}
                         >
-                          {tabData?.profit}%
+                          {tabData?.ownerProfit}%
                         </span>
                       </div>
                     </div>
@@ -525,12 +527,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
-                      Bank  Deposits :   {currency} {tabData?.prevMonth}
+                      Bank  Deposits :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
-                      Owner  Collections :    {currency} {tabData?.ownerPrevMonth}
+                      Owner  Collections :    {currency} {FormatNumberCommon(tabData?.ownerPrevMonth)}
                     </div>
                   </div>
                 </div>
@@ -546,7 +548,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="ltr:mr-3 rtl:ml-3">
-                      Amount : {currency} {tabData?.currentMonth}
+                      Amount : {currency} {FormatNumberCommon(tabData?.currentMonth)}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -572,7 +574,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Profit :  {currency} {tabData?.currentMonthProfit}
+                      Profit :  {currency} {FormatNumberCommon(tabData?.currentMonthProfit)}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -600,17 +602,17 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                      {tabData?.prevLabel}
+                      {FormatNumberCommon(tabData?.prevLabel)}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Amount :   {currency} {tabData?.prevMonth}
+                      Amount :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Profit :    {currency} {tabData?.prevMonthProfit}
+                      Profit :    {currency} {FormatNumberCommon(tabData?.prevMonthProfit)}
                     </div>
                   </div>
                 </div>
@@ -830,10 +832,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                     <p className="w-1/2">{subItem?.name}</p>
                                     <p className="w-1/2">
                                       {selectedTab === 'Fuel Delivery'
-                                        ? capacity + subItem?.delivery
+                                        ? capacity + FormatNumberCommon(subItem?.delivery)
                                         : selectedTab === 'Fuel Variance'
-                                          ? capacity + subItem?.variance
-                                          : currency + subItem?.amount}
+                                          ? capacity + FormatNumberCommon(subItem?.variance)
+                                          : currency + FormatNumberCommon(subItem?.amount)}
                                     </p>
                                   </li>
                                 ))

@@ -30,12 +30,15 @@ export const handleDownloadPdf = async (
 };
 
 
-// // Function to format the number with commas and decimal places
+
 export const FormatNumberCommon = (number: any) => {
+  if (number == null || number === '') {
+    return '0';
+  }
+
   return new Intl.NumberFormat('en-IN', {
     style: 'decimal',
     minimumFractionDigits: 2,  // Set to 2 for minimum decimal places
-    maximumFractionDigits: 3,  // Set to 6 for maximum decimal places
+    maximumFractionDigits: 3,  // Set to 3 for maximum decimal places
   }).format(number);
 };
-
