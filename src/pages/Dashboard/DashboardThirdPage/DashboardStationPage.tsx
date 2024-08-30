@@ -73,7 +73,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 setFuelLastDeliveryData(response.data.data)
             }
         } catch (error) {
-            
+
         } finally {
         }
     };
@@ -93,7 +93,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             }
             // setData(response.data);
         } catch (error) {
-            
+
         } finally {
         }
     };
@@ -112,7 +112,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 setShopSaleData(response.data.data?.shop_sales)
             }
         } catch (error) {
-            
+
         } finally {
         }
     };
@@ -133,7 +133,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
             }
             // setData(response.data);
         } catch (error) {
-            
+
         } finally {
         }
     };
@@ -856,7 +856,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                 <div className='flex justify-between items-center'>
                     <ul className="flex space-x-2 rtl:space-x-reverse">
                         <li>
-                            <Link  to="/dashboard"  className="text-primary hover:underline">
+                            <Link to="/dashboard" className="text-primary hover:underline">
                                 Dashboard
                             </Link>
                         </li>
@@ -908,7 +908,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className="panel thiredbox ">
+                        <div className="panel thirdbox ">
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Margin</div>
                             </div>

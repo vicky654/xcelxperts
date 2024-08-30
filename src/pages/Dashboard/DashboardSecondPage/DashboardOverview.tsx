@@ -330,7 +330,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                         </div>
 
                         {/*  Time On-Site */}
-                        <div className={`panel updownDiv thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel updownDiv thirdbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>

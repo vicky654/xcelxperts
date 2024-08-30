@@ -10,6 +10,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NewDashboardFilterModal from './NewDashboardFilterModal';
 import * as Yup from 'yup';
 import { FormatNumberCommon } from '../CommonFunctions';
+import CommonDashCard from './CommonDashCard';
 
 interface FilterValues {
     client_id: string;
@@ -271,7 +272,42 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                 <div className="pt-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
-                        <div className={`panel updownDiv  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+
+                        <CommonDashCard
+                            data={filterData}
+                            // onClick={() => void}
+                            title={"Gross Volume"}
+                            headingValue={filterData?.sales_volume?.sales_volume}
+                            subHeadingData={filterData?.sales_volume}
+                            boxNumberClass={"firstbox"}
+                        />
+
+
+                        <CommonDashCard
+                            data={filterData}
+                            // onClick={() => void}
+                            title={"Gross Value"}
+                            headingValue={filterData?.sales_value?.sales_value}
+                            subHeadingData={filterData?.sales_volume}
+                            boxNumberClass={"secondbox"}
+                        />
+
+
+                        <CommonDashCard
+                            data={filterData}
+                            // onClick={() => void}
+                            title={"Gross Profit"}
+                            headingValue={filterData?.profit?.profit}
+                            subHeadingData={filterData?.profit}
+                            boxNumberClass={"thirdbox"}
+                        />
+
+
+
+
+
+
+                        {/*  <div className={`panel updownDiv  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
                                 </div>
@@ -294,8 +330,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 )}</div>
                         </div>
 
-                        {/* Sessions */}
-                        <div className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                          <div className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
                             </div>
@@ -317,8 +352,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 )}</div>
                         </div>
 
-                        {/*  Time On-Site */}
-                        <div className={`panel updownDiv thiredbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
+                        <div className={`panel updownDiv thirdbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>
@@ -340,7 +374,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
-                        </div>
+                        </div> */}
 
                         {/* 4th Card */}
                         <div

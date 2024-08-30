@@ -704,7 +704,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
 
 
 
-                        <div className={`panel updownDiv thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
+                        <div className={`panel updownDiv thirdbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
                             </div>

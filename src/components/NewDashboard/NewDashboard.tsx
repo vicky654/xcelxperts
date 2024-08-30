@@ -17,6 +17,7 @@ import useErrorHandler from '../../hooks/useHandleError';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
 import { FormatNumberCommon } from '../CommonFunctions';
+import CommonDashCard from './CommonDashCard';
 
 interface FilterValues {
     client_id: any;
@@ -568,103 +569,36 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 <div className="pt-5 ">
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
-                        <div className={`panel updownDiv  firstbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
-                                </div>
-                            </div>
-                            <div className="flex items-center ">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ
-                                    {FormatNumberCommon(filterData?.sales_volume?.sales_volume)}
-                                </div>
 
-                            </div>
-
-                            <div style={{
-                                color: filterData?.sales_volume?.status == 'up'
-                                    ? '#37a40a'  // Green for 'up'
-                                    : filterData?.sales_volume?.status == 'down'
-                                        ? 'red'  // Red for 'down'
-                                        : '#000'  // Black for any other case
-                            }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.sales_volume?.status == 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{filterData?.sales_volume?.percentage !== undefined ? (
-                                    <span>Last Month {filterData.sales_volume.percentage}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div>
-
-                        {/* Sessions */}
-                        <div className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency} {FormatNumberCommon(filterData?.sales_value?.sales_value)} </div>
-                                {/* <div className="badge bg-white/30"> {filterData?.sales_value?.percentage}%</div> */}
-                            </div>
-                            {/* <div className="flex items-center font-semibold mt-5">
-                                {filterData?.sales_value?.status == 'up' ? <i className="fi fi-tr-chart-line-up"></i> : <i className="fi fi-tr-chart-arrow-down"></i>}
-                                Last Month  {filterData?.sales_value?.percentage}
-                            </div> */}
+                        <CommonDashCard
+                            data={filterData}
+                            onClick={handleClickToOverView}
+                            title={"Gross Volume"}
+                            headingValue={filterData?.sales_volume?.sales_volume}
+                            subHeadingData={filterData?.sales_volume}
+                            boxNumberClass={"firstbox"}
+                        />
 
 
-                            <div style={{
-                                color: filterData?.sales_value?.status == 'up'
-                                    ? '#37a40a'  // Green for 'up'
-                                    : filterData?.sales_value?.status == 'down'
-                                        ? 'red'  // Red for 'down'
-                                        : '#000'  // Black for any other case
-                            }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.sales_value?.status == 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{filterData?.sales_value?.percentage !== undefined ? (
-                                    <span>Last Month {FormatNumberCommon(filterData?.sales_value?.percentage)}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div>
-
-                        {/*  Time On-Site */}
+                        <CommonDashCard
+                            data={filterData}
+                            onClick={handleClickToOverView}
+                            title={"Gross Value"}
+                            headingValue={filterData?.sales_value?.sales_value}
+                            subHeadingData={filterData?.sales_volume}
+                            boxNumberClass={"secondbox"}
+                        />
 
 
+                        <CommonDashCard
+                            data={filterData}
+                            onClick={handleClickToOverView}
+                            title={"Gross Profit"}
+                            headingValue={filterData?.profit?.profit}
+                            subHeadingData={filterData?.profit}
+                            boxNumberClass={"thirdbox"}
+                        />
 
-
-                        <div className={`panel updownDiv thiredbox ${filterData ? 'cursor-pointer' : ''}`} onClick={handleClickToOverView}>
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}
-                                    {FormatNumberCommon(filterData?.profit?.profit)}</div>
-
-                            </div>
-
-                            <div style={{
-                                color: filterData?.profit?.status == 'up'
-                                    ? '#37a40a'  // Green for 'up'
-                                    : filterData?.profit?.status == 'down'
-                                        ? 'red'  // Red for 'down'
-                                        : '#000'  // Black for any other case
-                            }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.profit?.status == 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{filterData?.profit?.percentage !== undefined ? (
-                                    <span>Last Month {filterData.profit.percentage}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div>
-
-                        {/* //4TH Box */}
 
                         <div
                             className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`}
@@ -726,19 +660,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             </div>
                         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
                     </div>
+
+
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
