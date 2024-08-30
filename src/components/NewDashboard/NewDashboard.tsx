@@ -481,7 +481,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                 </Tooltip>
                                             }
                                         >
-                                            <span><i className="fi fi-tr-comment-info "></i></span>
+                                            <span><i className="fi fi-sr-comment-info "></i></span>
                                         </OverlayTrigger>
                                     )}
                                 </>
@@ -695,7 +695,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         </div>
                                     ))}</Tooltip>}
                                 >
-                                    <span><i className="fi fi-tr-comment-info "></i></span>
+                                    <span><i className="fi fi-sr-comment-info "></i></span>
                                 </OverlayTrigger> : ""}
 
                             </div>
