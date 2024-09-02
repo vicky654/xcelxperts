@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormatNumberCommon } from '../CommonFunctions';
+import { capacity, currency } from '../../utils/CommonData';
 
 interface SubHeadingData {
     status?: 'up' | 'down' | string;
@@ -44,7 +45,8 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
             </div>
             <div className="flex items-center">
                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                    ℓ{FormatNumberCommon(headingValue)}
+                {title === "Gross Volume" ? `${capacity}` : `${currency}`}
+                {FormatNumberCommon(headingValue)}
                 </div>
             </div>
             <div
