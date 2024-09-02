@@ -10,9 +10,6 @@ import DataEntryStats from '../DashDataEntryStats';
 import { FormatNumberCommon, handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import { NumericFormat } from 'react-number-format';
-
-import NumberFormat from 'react-number-format';
 
 interface SummaryProps {
   stationId: string | null;
