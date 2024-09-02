@@ -25,7 +25,7 @@ const CollapsibleItem: React.FC<CollapsibleItemProps> = ({ id, title, subtitle, 
 
 
         <p>
-          {title} {" "} - {selectedTab !== 'Fuel Variance' && selectedTab !== 'Fuel Delivery' ? currency : capacity} {subtitle}
+          {title} {" "} - {selectedTab !== 'Fuel Variance' && selectedTab !== 'Tested Fuel'&& selectedTab !== 'Fuel Delivery' ? currency : capacity} {subtitle}
         </p>
 
 

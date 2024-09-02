@@ -94,9 +94,9 @@ export const getStationValidationSchema = (isEditMode: boolean) => {
             .required('Station Display Name is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
 
-        data_import_type_id: Yup.string()
-            .required('Data Import Type is required')
-            .matches(/^[^\s]/, 'cannot start with a space'),
+        // data_import_type_id: Yup.string()
+        //     .required('Data Import Type is required')
+        //     .matches(/^[^\s]/, 'cannot start with a space'),
         start_date: Yup.string()
             .required('Start Date is required')
             .matches(/^[^\s]/, 'cannot start with a space'),
@@ -108,8 +108,12 @@ export const getStationValidationSchema = (isEditMode: boolean) => {
         // .show_summaryrequired('Client is required')
         // .matches(/^[^\s]/, 'cannot start with a space'),
         consider_fuel_sale: Yup.string().required('Consider Fuel Sale is required'),
+        com_type: Yup.string().required('Commission Type is required'),
         // file: Yup.string().required('Logo is required'),
-        file: isEditMode ? Yup.string() : Yup.string().required('Logo is required'),
+        file: isEditMode
+            ? Yup.string().nullable() // Allow null in edit mode
+            : Yup.string().nullable().required('Logo is required'), // Allow null but require a value in non-edit mode
+
         show_summary: Yup.string().required('PDF Show Summary is required'),
         // phone_number: Yup.string().required('Consider Fuel Sale is required'),
         security_amount: Yup.string()
@@ -348,9 +352,7 @@ export const getStationFuelPurchaseValidationSchema = (isEditMode: boolean) => {
         platts: Yup.string().required('Platts is required'),
         // development_fuels_price: Yup.string().required('Development Fuels is required'),
         // duty_price: Yup.string().required('Dutty  is required'),
-        vat_percentage_rate: Yup.number()
-        .required('Vat % is required')
-        .max(100, 'VAT percentage rate cannot be more than 100'),
+        vat_percentage_rate: Yup.number().required('Vat % is required').max(100, 'VAT percentage rate cannot be more than 100'),
         // premium: Yup.string().required('Premium is required'),
         total: Yup.string().required('Total is required'),
         ex_vat_price: Yup.string().required('Ex. Vat. Price is required'),

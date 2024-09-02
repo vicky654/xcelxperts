@@ -184,7 +184,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                 await onSubmit(values, formik);
                 // onClose();
             } catch (error) {
-               
+
                 throw error; // Rethrow the error to be handled by the caller
             }
         },
@@ -192,6 +192,11 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
     const options = [
         { value: '0', label: 'Summary Only' },
         { value: '1', label: 'All' },
+
+    ];
+    const com_type_options = [
+        { value: '0', label: 'COCO' },
+        { value: '1', label: 'Dealer' },
 
     ];
 
@@ -257,8 +262,15 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="supplier_id"
-                                                    label="Suppliers "
+                                                    label="Supplier "
                                                     options={commonDataList?.suppliers?.map((item: any) => ({ id: item?.id, name: item?.name })) || []}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="com_type"
+                                                    label="Commission Type "
+                                                    options={com_type_options?.map((item: any) => ({ id: item?.value, name: item?.label })) || []}
                                                     className="form-select text-white-dark"
                                                 />
 
@@ -277,13 +289,13 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
 
 
 
-                                                <FormikSelect
+                                                {/* <FormikSelect
                                                     formik={formik}
                                                     name="data_import_type_id"
                                                     label="Data Import Types"
                                                     options={commonDataList?.data_import_types?.map((item: any) => ({ id: item?.id, name: item?.name }))}
                                                     className="form-select text-white-dark"
-                                                />
+                                                /> */}
                                                 <FormikSelect
                                                     formik={formik}
                                                     name="show_summary"
@@ -302,7 +314,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                 <FormikInput formik={formik} type="text" name="dealer_code" label="Dealer Code" placeholder="Dealer Code" isRequired={false} />
 
                                                 <div>
-                                                    <label htmlFor="file">Site Logo <span className="text-danger">*</span></label>
+                                                    <label htmlFor="file">Station Logo <span className="text-danger">*</span></label>
                                                     <input type="file" id="file" name="file" onChange={handleFileChange} className='form-input' />
                                                     {/* {formik.errors.file ? <div className="error">{formik.errors.file}</div> : null} */}
                                                     {formik.touched.file && formik.errors.file && <div className="text-red-600 mt-1">{formik.errors.file}</div>}

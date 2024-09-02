@@ -50,6 +50,10 @@ interface TabData {
   amountProfit: string;
   symbol: string;
   ownerSymbol: string;
+  digitalCurrentMonth: string;
+  digitalProfit: string;
+  digitalSymbol: string;
+  digitalPrevMonth: string;
   total: string;
   currentLabel: string;
 
@@ -93,6 +97,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     profit_total: '0.00',
     prevMonthProfit: '0.00',
     ownerSymbol: '0.00',
+    digitalPrevMonth: '0.00',
+    digitalCurrentMonth: '0.00',
+    digitalSymbol: '0.00',
+    digitalProfit: '0.00',
     currentLabel: '0.00',
     ownerCurrentLabel: '0.00',
     ownerCurrentMonth: '0.00',
@@ -132,6 +140,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const staticTabs = [
     'Variance Accumulation',
     'Fuel Variance',
+    'Tested Fuel',
     'Fuel Sales',
     'Fuel Delivery',
     'Credit Sales',
@@ -140,12 +149,14 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Expenses',
     'Digital Receipt',
     'Cash Flow',
+
   ];
 
 
   const tabKeyMap: { [key: string]: string } = {
     'Variance Accumulation': 'variance-accumulation',
     'Fuel Variance': 'fuel-variance',
+    'Tested Fuel': 'tested-fuel',
     'Fuel Sales': 'fuel-sales',
     'Fuel Delivery': 'fuel-delivery',
     'Lube Sales': 'lube-sales',
@@ -518,6 +529,32 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       </div>
                     </div>
                   </div>
+                  <div className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                    Digital Payments :  {currency} {tabData?.digitalCurrentMonth}
+                    </div>
+                    <div className="badge bg-white">
+                      <div className="flex items-center space-x-1">
+                        {tabData?.digitalSymbol === 'UP' ? (
+                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                        ) : tabData.digitalSymbol === 'DOWN' ? (
+                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                        ) : null}
+                        <span
+                          className=""
+                          style={{
+                            color: tabData.digitalSymbol === 'UP'
+                              ? '#37a40a'   // Color for 'up'
+                              : tabData.digitalSymbol === 'DOWN'
+                                ? 'red'      // Color for 'down'
+                                : '#000'     // Default color
+                          }}
+                        >
+                          {tabData?.digitalProfit}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
@@ -525,14 +562,19 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       {tabData?.prevLabel}
                     </div>
                   </div>
-                  <div className="flex items-center mt-2">
+                  <div style={{lineHeight:"31px"}} className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
                       Bank  Deposits :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
                     </div>
                   </div>
-                  <div className="flex items-center mt-2">
+                  <div style={{lineHeight:"31px"}} className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
                       Owner  Collections :    {currency} {FormatNumberCommon(tabData?.ownerPrevMonth)}
+                    </div>
+                  </div>
+                  <div style={{lineHeight:"31px"}} className="flex items-center mt-2">
+                    <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
+                     Digital Payments:    {currency} {FormatNumberCommon(tabData?.digitalPrevMonth)}
                     </div>
                   </div>
                 </div>
@@ -602,7 +644,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                      {FormatNumberCommon(tabData?.prevLabel)}
+                    {tabData?.prevLabel}   
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
@@ -808,7 +850,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 }} key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
                                   <p className="w-1/4">{subItem?.name}</p>
                                   <p className="w-1/4">
-                                  {subItem?.id == "0" ? "" :     `${currency} ${FormatNumberCommon(subItem?.price)}`}
+                                    {subItem?.id == "0" ? "" : `${currency} ${FormatNumberCommon(subItem?.price)}`}
                                   </p>
 
                                   <p className="w-1/4">{capacity} {FormatNumberCommon(subItem?.variance)}</p>
@@ -840,6 +882,23 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                   <p className="w-1/5">{FormatNumberCommon(subItem?.sale)}</p>
                                   <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.sale_amount)}</p>
                                   <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.profit)}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : selectedTab === "Tested Fuel" ? (
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                              <li className="flex justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/5">Name</p>
+                                <p className="font-semibold w-1/5">Volume</p>
+
+                              </li>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/5">{subItem?.name}</p>
+                                  <p className="w-1/5">{capacity} {FormatNumberCommon(subItem?.volume)}</p>
+
                                 </li>
                               ))}
                             </ul>

@@ -26,11 +26,14 @@ const StatsCard: React.FC<CardProps> = ({ label, value, symbol, profit, capacity
       <div className="flex items-center mt-2">
         <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
 
-          {selectedTab === 'Lube Sales'
-            ? `Amount: ${currency} ${FormatNumberCommon(value)}`
-            :
-            `${(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} ${FormatNumberCommon(value)}`
+          {
+            selectedTab === 'Lube Sales'
+              ? `Amount: ${currency} ${FormatNumberCommon(value)}`
+              : selectedTab === 'Tested Fuel'
+                ? ` ${capacity} ${FormatNumberCommon(value)}`
+                : `${(selectedTab === 'Fuel Variance' || selectedTab === 'Fuel Delivery') ? capacity : currency} ${FormatNumberCommon(value)}`
           }
+
 
         </div>
 

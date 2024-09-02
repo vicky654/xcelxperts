@@ -443,7 +443,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formData.append('show_summary', values.show_summary);
             formData.append('client_id', values.client_id);
             formData.append('entity_id', values.entity_id);
-            formData.append('data_import_type_id', values.data_import_type_id);
+            // formData.append('data_import_type_id', values.data_import_type_id);
             formData.append('security_amount', values.security_amount);
             formData.append('start_date', values.start_date);
             formData.append('station_address', values.station_address);
@@ -453,6 +453,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formData.append('supplier_id', values.supplier_id);
             formData.append('station_name', values.station_name);
             formData.append('supplier_id', values.supplier_id);
+            formData.append('com_type', values.com_type);
             // formData.append('sap_code', values.sap_code);
             // formData.append('dealer_code', values.dealer_code);
             if (values.sap_code != null) { // This checks for both null and undefined
@@ -466,6 +467,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (values.file) {
                 formData.append('logo', values.file);
             }
+            formData.append('phone_number', values.phone_number);
             formData.append('contact_person', values.contact_person);
             formData.append('consider_fuel_sale', values.consider_fuel_sale);
 

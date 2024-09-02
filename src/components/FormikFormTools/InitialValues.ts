@@ -125,6 +125,7 @@ export const stationInitialValues = {
   consider_fuel_sale:'',
   contact_person : '',
   logo: '',
+  com_type: '',
   file: null as File | null,
 
 };
