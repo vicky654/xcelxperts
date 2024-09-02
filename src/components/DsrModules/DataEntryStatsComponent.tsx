@@ -789,6 +789,36 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
+                        ) : selectedTab === "Fuel Variance" ? (
+                          <div className="overflow-x-auto">
+                            <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                              <li className="flex justify-between p-2 bg-gray-200">
+                                <p className="font-semibold w-1/4">Name</p>
+                                <p className="font-semibold w-1/4"> Price</p>
+                                <p className="font-semibold w-1/4">Variance</p>
+
+                                <p className="font-semibold w-1/4">Total Amount</p>
+
+                              </li>
+                              {activeAccordion === `${currency}-${index}` && subData?.map((subItem, subIndex) => (
+                                <li style={{
+                                  backgroundColor: subItem?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
+                                  color: subItem?.id == "0" ? "#000" : "",
+                                  fontWeight: subItem?.id == "0" ? "bold" : ""
+                                }} key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                  <p className="w-1/4">{subItem?.name}</p>
+                                  <p className="w-1/4">
+                                  {subItem?.id == "0" ? "" :     `${currency} ${FormatNumberCommon(subItem?.price)}`}
+                                  </p>
+
+                                  <p className="w-1/4">{capacity} {FormatNumberCommon(subItem?.variance)}</p>
+
+                                  <p className="w-1/4">{currency}{FormatNumberCommon(subItem?.amount)}</p>
+
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ) : selectedTab === "Lube Sales" ? (
                           <div className="overflow-x-auto">
                             <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
