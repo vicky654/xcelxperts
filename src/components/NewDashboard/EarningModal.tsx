@@ -50,24 +50,7 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
             },
             // colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
             series: data?.line_graph?.colors,
-            markers: {
-                discrete: [
-                    {
-                        seriesIndex: 0,
-                        dataPointIndex: 6,
-                        fillColor: '#1B55E2',
-                        strokeColor: 'transparent',
-                        size: 7,
-                    },
-                    {
-                        seriesIndex: 1,
-                        dataPointIndex: 5,
-                        fillColor: '#E7515A',
-                        strokeColor: 'transparent',
-                        size: 7,
-                    },
-                ],
-            },
+       
             labels: data?.line_graph?.labels,
             // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             xaxis: {
@@ -159,8 +142,6 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
         },
     };
 
-
-    console.log(data, "data");
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>

@@ -244,24 +244,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             },
             // colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
             series: filterData?.fuel_stock_stats?.colors,
-            markers: {
-                discrete: [
-                    {
-                        seriesIndex: 0,
-                        dataPointIndex: 6,
-                        fillColor: '#1B55E2',
-                        strokeColor: 'transparent',
-                        size: 7,
-                    },
-                    {
-                        seriesIndex: 1,
-                        dataPointIndex: 5,
-                        fillColor: '#E7515A',
-                        strokeColor: 'transparent',
-                        size: 7,
-                    },
-                ],
-            },
+           
             labels: filterData?.fuel_stock_stats?.labels,
             // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             xaxis: {
@@ -453,7 +436,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     handleResetFilters={handleResetFilters}
                 />
 
-               
+
                 {/* //Graphs */}
 
                 <div className="pt-5 ">
@@ -584,40 +567,38 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {!filterData?.fuel_stock ? (
-                                        <div className="flex justify-center items-center h-full p-4">
-                                            <img
-                                                src={noDataImage} // Use the imported image directly as the source
-                                                alt="No data found"
-                                                className="w-full max-w-xs" // Adjust the width as needed
-                                            />
-                                        </div>
+                                    {filterData?.fuel_stock?.length > 0 ? (
+                                        <table>
+                                            <thead>
+                                                <tr className='bg-gray-200'>
+                                                    <th>Fuel Name</th>
+                                                    <th>Variance</th>
+                                                    <th>Testing</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filterData?.fuel_stock.map((fuel: any, index: any) => (
+                                                    <tr className='hover:bg-gray-100' key={index}>
+                                                        <td>{fuel?.fuel_name}</td>
+                                                        <td>{capacity} {fuel?.variance}</td>
+                                                        <td>{capacity}{fuel?.testing}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
                                     ) : (
                                         <>
-
-                                            <table>
-                                                <thead>
-                                                    <tr className='bg-gray-200'>
-                                                        <th>Fuel Name</th>
-                                                        <th>Variance</th>
-                                                        <th>Testing</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {filterData?.fuel_stock?.map((fuel: any, index: any) => (
-                                                        <tr className='hover:bg-gray-100' key={index}>
-                                                            <td>{fuel?.fuel_name}</td>
-                                                            <td>{capacity} {fuel?.variance}</td>
-                                                            <td>{capacity}{fuel?.testing}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                            <div className="flex justify-center items-center h-full p-4">
+                                                <img
+                                                    src={noDataImage} // Use the imported image directly as the source
+                                                    alt="No data found"
+                                                    className="w-full max-w-xs" // Adjust the width as needed
+                                                />
+                                            </div>
                                             {/* <BasicPieChart data={filterData?.pi_graph} /> */}
                                         </>
-
-
                                     )}
+
                                 </div>
                             </div>
 
