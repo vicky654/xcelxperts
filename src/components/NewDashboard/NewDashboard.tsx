@@ -14,10 +14,11 @@ import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import NewDashboardFilterModal from './NewDashboardFilterModal';
 import * as Yup from 'yup';
 import useErrorHandler from '../../hooks/useHandleError';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
 import { FormatNumberCommon } from '../CommonFunctions';
 import CommonDashCard from './CommonDashCard';
+import EarningModal from './EarningModal';
 
 interface FilterValues {
     client_id: any;
@@ -153,12 +154,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
             if (storedClientIdData) {
                 fetchCompanyList(storedClientIdData)
-                // const futurepriceLog = {
-                //     client_id: storedClientIdData,
-                //     client_name: reduxData?.full_name
-                // };
-                // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-                // handleApplyFilters(futurepriceLog);
+
             }
         }
 
@@ -168,10 +164,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const fetchCompanyList = async (clientId: string) => {
         try {
             const response = await getData(`getEntities?client_id=${clientId}`);
-            // formik.setFieldValue('companies', response.data.data);
-
             const storedClientIdData = localStorage.getItem("superiorId");
-
             const futurepriceLog = {
                 client_id: storedClientIdData,
                 client_name: reduxData?.full_name,
@@ -186,43 +179,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         }
     };
 
-
-
-    // useEffect(() => {
-    //     const storedData = localStorage.getItem(storedKeyName);
-
-    //     if (storedData) {
-    //         handleApplyFilters(JSON.parse(storedData));
-    //     } else if (localStorage.getItem("superiorRole") === "Client") {
-    //         const storedClientIdData = localStorage.getItem("superiorId");
-
-    //         if (storedClientIdData) {
-    //             // const futurepriceLog = {
-    //             //     client_id: storedClientIdData,
-    //             //     client_name: reduxData?.full_name
-    //             // };
-    //             // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-    //             // handleApplyFilters(futurepriceLog);
-
-    //             fetchCompanyList(storedClientIdData)
-
-    //         }
-    //     }
-
-    // }, [dispatch, storedKeyName, storedKeyName]); // Add any other dependencies needed here
-
-
-    // useEffect(() => {
-    //     if (localStorage.getItem("superiorRole") === "Client") {
-    //         const storedClientIdData = localStorage.getItem("superiorId");
-    //         if (storedClientIdData) {
-
-    //             fetchCompanyList(storedClientIdData)
-
-    //         }
-    //     }
-
-    // }, [reduxData, dispatch, storedKeyName]); // Add any other dependencies needed here
 
 
 
@@ -456,13 +412,41 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         entity_id: Yup.string().required("Entity is required"),
     });
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data || []);
+    const [isHovered, setIsHovered] = useState(false);
 
 
+    const [ShowEarningModal, setShowEarningModal] = useState(false);
+    const CloseEarningModal = () => {
+        setShowEarningModal(false);
+    };
+
+    const OpenEarningModal = () => {
+        setShowEarningModal(true);
+
+    };
     return (
         <>
             {isLoading ? <LoaderImg /> : ''}
+            <>
+                <div className="position-fixed top-50 end-0 translate-middle-y">
+                    <button
+                        className=" btn btn-primary custom-tooltip-button"
+                        color='primary'
+                        aria-label='Edit'
+                        onClick={OpenEarningModal}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                    >
 
-            <div>
+                        {currency} {" "}
+                        {isHovered && (
+                            <span className=" ms-2 button-text button-icon" > Total Earnings</span>
+                        )}
+                    </button>
+                </div>
+                <EarningModal onClose={CloseEarningModal} getData={getData} isOpen={ShowEarningModal} data={filterData} />
+
+
 
                 <div className='flex justify-between items-center flex-wrap'>
                     <div>
@@ -490,20 +474,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
 
-
-
-
-
                         </h2>
                         <ul className="flex space-x-2 rtl:space-x-reverse my-1">
-                            {/* <li>
-                                <Link to="/dashboard" className="text-primary hover:underline">
-                                    Dashboard
-                                </Link>
-                            </li>
-                            <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                                <span>Overview</span>
-                            </li> */}
+
 
                         </ul>
                     </div>
@@ -613,7 +586,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 {FormatNumberCommon(filterData?.stock?.value ?? '')}
 
 
-                                {` (ℓ  ${FormatNumberCommon(filterData?.stock?.volume ?? '')} )`}
+                                {` (ℓ${FormatNumberCommon(filterData?.stock?.volume ?? '')} )`}
 
 
                                 {filterData?.stock ? <OverlayTrigger
@@ -624,7 +597,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                 {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}
                                                 {FormatNumberCommon(fuel.value ?? '')}
 
-                                                {` (ℓ  ${FormatNumberCommon(fuel.volume ?? '')} )`}
+                                                {`(ℓ${FormatNumberCommon(fuel.volume ?? '')} )`}
                                             </div>
                                         </div>
                                     ))}</Tooltip>}
@@ -703,8 +676,29 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         </div>
                                     ) : (
                                         // <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
+                                        <>
 
-                                        <BasicPieChart data={filterData?.pi_graph} />
+                                            <table>
+                                                <thead>
+                                                    <tr className='bg-gray-200'>
+                                                        <th>Fuel Name</th>
+                                                        <th>Variance</th>
+                                                        <th>Testing</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {filterData?.fuel_stock?.map((fuel: any, index: any) => (
+                                                        <tr className='hover:bg-gray-100' key={index}>
+                                                            <td>{fuel?.fuel_name}</td>
+                                                            <td>{fuel?.variance}</td>
+                                                            <td>{fuel?.testing}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                            {/* <BasicPieChart data={filterData?.pi_graph} /> */}
+                                        </>
+
 
                                     )}
                                 </div>
@@ -802,7 +796,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             </div> : ""
                     }
                 </div>
-            </div >
+            </ >
 
 
             {modalOpen && (

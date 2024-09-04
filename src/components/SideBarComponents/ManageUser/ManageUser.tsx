@@ -368,7 +368,7 @@ const ManageUser: React.FC<ManageUserProps> = ({ postData, getData, isLoading })
             </div>
 
             <AddUserModals getData={getData} isOpen={isAddUserModalOpen} onClose={closeAddUserModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
-            <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
+     <UserAddonModal getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} onSubmit={SubmitAddon} userId={userId} />
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
                     <h5 className="font-bold text-lg dark:text-white-light">Users</h5>

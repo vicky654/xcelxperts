@@ -505,7 +505,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Owner Collections :  {currency} {tabData?.ownerCurrentMonth}
+                      Owner Collections :  {currency} {FormatNumberCommon(tabData?.ownerCurrentMonth)} 
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -531,7 +531,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                    Digital Payments :  {currency} {tabData?.digitalCurrentMonth}
+                    Digital Payments :  {currency} {FormatNumberCommon(tabData?.digitalCurrentMonth)}  
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
