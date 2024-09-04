@@ -288,11 +288,11 @@ const routes = [
     element: <ManageStationPump />,
   },
   {
-    path: 'manage-fuel-sale',
+    path: 'manage-fuel-sale-price',
     element: <ManageStationFuelSelling />,
   },
   {
-    path: 'manage-fuel-purchase',
+    path: 'manage-fuel-purchase-price',
     element: <ManageStationFuelPurchase />,
   },
   {

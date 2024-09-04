@@ -444,13 +444,13 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Fuel Purchase</span>
+                        <span>Stations Fuel Purchase Price</span>
                     </li>
                 </ul>
 
                 {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add Station Fuel Purchase
+                        Add Station Fuel Purchase Price
                     </button>
                 </>}
 
@@ -527,7 +527,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
                     <div className='panel h-full col-span-3'>
                         <div className="flex md:items-center md:flex-row w-100 mb-5 justify-between">
-                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase ( {currency} )</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase Price ( {currency} )</h5>
                             <div className="md:hidden flex">
                                 <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                                     Filter
@@ -640,7 +640,7 @@ export default withApiHandler(ManageStationFuelPurchase);
 //                         </Link>
 //                     </li>
 //                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-//                         <span>Stations Fuel Purchase</span>
+//                         <span>Stations Fuel Purchase Price</span>
 //                     </li>
 //                 </ul>
 //                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>

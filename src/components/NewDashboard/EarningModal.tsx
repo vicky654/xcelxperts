@@ -12,7 +12,7 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
 
 
 
- 
+
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
@@ -158,6 +158,10 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
             },
         },
     };
+
+
+    console.log(data, "data");
+
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -167,7 +171,15 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Total Earning' : 'Total Earning'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Total Earnings' : 'Total Earnings'} onClose={onClose} />
+
+                                {!data ? (
+                                    <h1 className='p-6 py-3 bg-danger text-white'>
+                                        <i className="ph ph-faders-horizontal text-white"></i>   Please Apply Filters For View Graphs
+                                    </h1>
+                                ) : ""}
+
+
                                 <div className="relative py-6 px-4 bg-white">
                                     <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
                                         <div className="panel h-full xl:col-span-2 ">

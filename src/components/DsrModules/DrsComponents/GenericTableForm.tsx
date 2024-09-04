@@ -523,9 +523,11 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                     placement="top"
                                     overlay={
                                         <Tooltip className='custom-tooltip' id="tooltip-variance">
-                                            Fuel Left : {tank?.fuel_left - totalSalesVolume} {capacity}<br />
-                                            Capacity : {tank?.capacity} {capacity}<br />
-                                            Tank Name : {tank?.tank_name}
+                                            Tank Name : {tank?.tank_name}<br />
+                                            Capacity : {capacity}{tank?.capacity} <br />
+                                            Fuel Left : {capacity} {tank?.fuel_left } <br />
+                                  
+                                         
                                         </Tooltip>
                                     }
                                 >

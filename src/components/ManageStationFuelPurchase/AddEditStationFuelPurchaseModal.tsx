@@ -262,27 +262,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
     });
 
 
-    const sendEventWithName = (event: any) => {
-        formik.setFieldValue("total", 0);
-        formik.setFieldValue("vat_percentage_rate", "");
-        const plattsValue = parseFloat(formik.values.platts) || 0;
-        const premiumValue = parseFloat(formik.values.premium) || 0;
-        const dutty = parseFloat(formik.values.dutty) || 0;
-        const developmentfuels = parseFloat(formik.values.developmentfuels) || 0;
-        const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
-        setTotal(sum);
-        const roundedSum = sum.toFixed(2);
 
-        formik.setFieldValue(`ex_vat_price`, roundedSum);
-    };
-
-    const sendEventWithName1 = (event: any) => {
-        const plattsValue = parseFloat(formik.values.vat_percentage_rate) || 0;
-        const sum = (SumTotal * plattsValue) / 100 + SumTotal;
-        const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
-        const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
-        formik.setFieldValue("total", formattedSum);
-    };
  
 
     const handleFieldChange = (
@@ -330,7 +310,7 @@ const AddEditStationFuelPurchaseModal: React.FC<AddEditStationFuelPurchaseModalP
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Fuel Purchase' : 'Add Fuel Purchase'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Edit Fuel Purchase Price' : 'Add Fuel Purchase Price'} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
