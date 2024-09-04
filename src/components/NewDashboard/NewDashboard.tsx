@@ -6,7 +6,7 @@ import AppContext from '../../utils/Context/DashboardContext';
 import { IRootState } from '../../store';
 import LoaderImg from '../../utils/Loader';
 import Tippy from '@tippyjs/react';
-import { currency } from '../../utils/CommonData';
+import { capacity, currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import VerticalProgressBarWithWave from '../../pages/Dashboard/VerticalProgressBarWithWave';
 import withApiHandler from '../../utils/withApiHandler';
@@ -19,6 +19,7 @@ import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
 import { FormatNumberCommon } from '../CommonFunctions';
 import CommonDashCard from './CommonDashCard';
 import EarningModal from './EarningModal';
+import DashboardHeader from './DashboardHeader';
 
 interface FilterValues {
     client_id: any;
@@ -212,7 +213,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     //Revenue Chart
     const revenueChart: any = {
 
-        series: filterData?.line_graph?.series,
+        series: filterData?.fuel_stock_stats?.series,
         options: {
             chart: {
                 height: 325,
@@ -242,7 +243,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 top: 22,
             },
             // colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
-            series: filterData?.line_graph?.colors,
+            series: filterData?.fuel_stock_stats?.colors,
             markers: {
                 discrete: [
                     {
@@ -261,7 +262,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     },
                 ],
             },
-            labels: filterData?.line_graph?.labels,
+            labels: filterData?.fuel_stock_stats?.labels,
             // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             xaxis: {
                 axisBorder: {
@@ -357,7 +358,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
     const handleClickToOverView = () => {
-
         if (storedData && UserPermissions?.permissions?.includes('dashboard-details')) {
             const parsedStoredData = JSON.parse(storedData);
             if (parsedStoredData?.entity_id && filters?.entity_id) {
@@ -380,8 +380,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const handleDateClick = (date: string) => {
         setSelectedDate(date);
-
-        // Filter the stock_alert data based on the selected date
         const filteredStockAlerts = Object.keys(fuelStats?.stock_alert).reduce((acc, tankName) => {
             acc[tankName] = fuelStats?.stock_alert[tankName].filter((item: any) => item.date === date);
             return acc;
@@ -446,97 +444,16 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 </div>
                 <EarningModal onClose={CloseEarningModal} getData={getData} isOpen={ShowEarningModal} data={filterData} />
 
+                <DashboardHeader
+                    filterData={filterData}
+                    UserPermissions={UserPermissions}
+                    filters={filters}
+                    data={data}
+                    setModalOpen={setModalOpen}
+                    handleResetFilters={handleResetFilters}
+                />
 
-
-                <div className='flex justify-between items-center flex-wrap'>
-                    <div>
-                        <h2 className='font-bold'>
-                            Dashboard
-
-                            {filterData?.basic_details?.day_end_date && (
-                                <>
-                                    ({filterData?.basic_details?.day_end_date})
-
-                                    {filterData?.stock && (
-                                        <OverlayTrigger
-                                            placement="bottom"
-                                            overlay={
-                                                <Tooltip className='custom-tooltip' id="tooltip-amount">
-                                                    You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <span><i className="fi fi-sr-comment-info "></i></span>
-                                        </OverlayTrigger>
-                                    )}
-                                </>
-                            )}
-
-                            {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
-
-                        </h2>
-                        <ul className="flex space-x-2 rtl:space-x-reverse my-1">
-
-
-                        </ul>
-                    </div>
-
-
-                    <div className=' flex gap-4 flex-wrap'>
-
-                        {filters?.client_id || filters?.entity_id || filters?.station_id ? (
-                            <>
-                                <div className="badges-container flex flex-wrap items-center gap-2 px-4   text-white" style={{ background: "#ddd" }}>
-                                    {filters?.client_id && (
-                                        <div className="badge bg-blue-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Client :</span> {filters?.client_name ? filters?.client_name : <>
-                                                {data?.full_name}
-                                            </>}
-                                        </div>
-                                    )}
-
-                                    {filters?.entity_id && filters?.entity_name && (
-                                        <div className="badge bg-green-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Entity : </span> {filters?.entity_name}
-                                        </div>
-                                    )}
-
-                                    {filters?.station_id && filters?.station_name && (
-                                        <div className="badge bg-red-600 flex items-center gap-2 px-2 py-1 ">
-                                            <span className="font-semibold">Station :</span> {filters?.station_name}
-                                        </div>
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            ''
-                        )}
-
-                        <button onClick={() => setModalOpen(true)} type="button" className="btn btn-dark ">
-                            Apply Filter
-                        </button>
-
-                        {filters?.client_id || filters?.entity_id || filters?.station_id ? (
-                            <>
-                                <button onClick={handleResetFilters}>
-                                    <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a] ">
-                                        <Tippy content="Reset Filter">
-                                            <span className="btn bg-danger btn-danger">
-                                                <i className="fi fi-ts-filter-slash w-6 h-6"></i>
-                                            </span>
-                                        </Tippy>
-                                    </div>
-                                </button>
-                            </>
-                        ) : (
-                            ''
-                        )}
-
-
-                    </div>
-                </div>
-
-
+               
                 {/* //Graphs */}
 
                 <div className="pt-5 ">
@@ -639,7 +556,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">Total Earnings</h5>
+                                <h5 className="font-bold text-lg">Fuel Variances {filterData?.basic_details?.day_end_date ? `(${filterData.basic_details.day_end_date})` : ""}</h5>
                             </div>
 
                             <div className="relative">
@@ -653,7 +570,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             />
                                         </div>
                                     ) : (
-                                        <ReactApexChart series={filterData?.line_graph?.series} options={revenueChart?.options} type="area" height={325} />
+                                        <ReactApexChart series={filterData?.fuel_stock_stats?.series} options={revenueChart?.options} type="area" height={325} />
                                     )}
                                 </div>
                             </div>
@@ -661,7 +578,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         <div className="panel h-full xl:col-span-1 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg dark:text-white-light">Payments Overview</h5>
+                                <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {filterData?.basic_details?.day_end_date ? `(${filterData.basic_details.day_end_date})` : ""}
+                                </h5>
                             </div>
 
                             <div className="relative">
@@ -690,8 +608,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                     {filterData?.fuel_stock?.map((fuel: any, index: any) => (
                                                         <tr className='hover:bg-gray-100' key={index}>
                                                             <td>{fuel?.fuel_name}</td>
-                                                            <td>{fuel?.variance}</td>
-                                                            <td>{fuel?.testing}</td>
+                                                            <td>{capacity} {fuel?.variance}</td>
+                                                            <td>{capacity}{fuel?.testing}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
