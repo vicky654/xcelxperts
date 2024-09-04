@@ -561,7 +561,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {!filterData?.line_graph?.series ? (
+                                    {!filterData?.fuel_stock_stats ? (
                                         <div className="flex justify-center items-center h-full p-4">
                                             <img
                                                 src={noDataImage} // Use the imported image directly as the source
@@ -584,7 +584,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             <div className="relative">
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {!filterData?.pi_graph?.labels ? (
+                                    {!filterData?.fuel_stock ? (
                                         <div className="flex justify-center items-center h-full p-4">
                                             <img
                                                 src={noDataImage} // Use the imported image directly as the source
@@ -593,7 +593,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             />
                                         </div>
                                     ) : (
-                                        // <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
                                         <>
 
                                             <table>
