@@ -17,11 +17,8 @@ const LoginCover = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
+  
 
-    const toggleEyeIcon2 = () => {
-        setShowPassword2(!showPassword2);
-    };
     const toggleEyeIcon1 = () => {
         setShowPassword1(!showPassword1);
     };

@@ -410,7 +410,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 <div className="position-fixed top-50 end-0 translate-middle-y">
                     <button
                         className=" btn btn-primary custom-tooltip-button"
-                        color='primary'
+                 style={{border:"none"}}
                         aria-label='Edit'
                         onClick={OpenEarningModal}
                         onMouseEnter={() => setIsHovered(true)}
@@ -419,7 +419,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         {currency} {" "}
                         {isHovered && (
-                            <span style={{border:"0px "}} className=" ms-2 button-text button-icon" > Total Earnings</span>
+                            <button  className=" ms-2  button-icon" > Total Earnings</button>
                         )}
                     </button>
                 </div>

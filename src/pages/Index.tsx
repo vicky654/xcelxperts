@@ -7,11 +7,9 @@ import { setPageTitle } from '../store/themeConfigSlice';
 import withApiHandler from '../utils/withApiHandler';
 import DashboardFilterModal from './Dashboard/DashboardFilterModal';
 import LoaderImg from '../utils/Loader';
-import IconRefresh from '../components/Icon/IconRefresh';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import VerticalProgressBarWithWave from './Dashboard/VerticalProgressBarWithWave';
-
 import noDataImage from '../../src/assets/AuthImages/noDataFound.png';
 import { currency } from '../utils/CommonData';
 import AppContext from '../utils/Context/DashboardContext';
@@ -44,7 +42,7 @@ const Index: React.FC<IndexProps> = ({ isLoading, fetchedData, getData }) => {
         dispatch(setPageTitle('Sales Admin'));
     });
 
-    const { sales_volume, setAppData, selectedClient, selectedEntity, selectedStation } = useContext(AppContext);
+    const {  setAppData,  } = useContext(AppContext);
 
     const navigate = useNavigate();
     const IsClientLogin = useSelector((state: IRootState) => state.auth);
