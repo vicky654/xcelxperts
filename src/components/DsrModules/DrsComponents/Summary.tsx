@@ -170,10 +170,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                   formikRef.current.handleSubmit(); // Programmatically submit the form
                 }
               });
-            } else {
-              // Optionally, you can show an alert or handle the validation errors here
-              console.log('Validation errors:', errors);
-            }
+            } 
           });
         }
       }

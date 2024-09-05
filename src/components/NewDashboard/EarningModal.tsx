@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
+import React from 'react';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
 import ReactApexChart from 'react-apexcharts';
@@ -8,8 +7,7 @@ import { IRootState } from '../../store';
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 
 
-const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, data }) => {
-
+const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, data, Date }) => {
 
 
 
@@ -50,7 +48,7 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
             },
             // colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
             series: data?.line_graph?.colors,
-       
+
             labels: data?.line_graph?.labels,
             // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             xaxis: {
@@ -165,7 +163,8 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
                                     <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
                                         <div className="panel h-full xl:col-span-2 ">
                                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                                <h5 className="font-bold text-lg">Total Earnings</h5>
+                                                <h5 className="font-bold text-lg">Total Earnings {Date ? `(${Date})` : ""}
+                                                </h5>
                                             </div>
 
                                             <div className="relative">
@@ -187,7 +186,7 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
 
                                         <div className="panel h-full xl:col-span-1 ">
                                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                                <h5 className="font-bold text-lg dark:text-white-light">Payments Overview</h5>
+                                                <h5 className="font-bold text-lg dark:text-white-light">Payments Overview {Date ? `(${Date})` : ""}</h5>
                                             </div>
 
                                             <div className="relative">

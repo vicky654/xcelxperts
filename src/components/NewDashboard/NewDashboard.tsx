@@ -344,13 +344,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         if (storedData && UserPermissions?.permissions?.includes('dashboard-details')) {
             const parsedStoredData = JSON.parse(storedData);
             if (parsedStoredData?.entity_id && filters?.entity_id) {
-                navigate('/dashboard/overview');
+            navigate('/dashboard/overview');
             } else {
-                setModalOpen(true);
-                // console.log("entity_id not found or storedData is not an object");
+            setModalOpen(true);
             }
         }
-
     };
 
 
@@ -421,11 +419,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                         {currency} {" "}
                         {isHovered && (
-                            <span className=" ms-2 button-text button-icon" > Total Earnings</span>
+                            <span style={{border:"0px "}} className=" ms-2 button-text button-icon" > Total Earnings</span>
                         )}
                     </button>
                 </div>
-                <EarningModal onClose={CloseEarningModal} getData={getData} isOpen={ShowEarningModal} data={filterData} />
+                <EarningModal onClose={CloseEarningModal} getData={getData} isOpen={ShowEarningModal} data={filterData} Date={filterData?.basic_details?.day_end_date} />
 
                 <DashboardHeader
                     filterData={filterData}
@@ -635,6 +633,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                     <img
                                                         src={noDataImage} // Use the imported image directly as the source
                                                         alt="No data found"
+                                                        style={{height: '250px', width: '250px'}}
                                                         className="w-full  max-w-xs" // Adjust the width as needed
                                                     />
                                                 </div>

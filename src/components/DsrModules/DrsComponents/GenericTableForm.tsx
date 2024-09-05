@@ -513,8 +513,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             {({ values }) => (
                 <Form>
                     {values?.data.map((tank, tankIndex) => {
-                        const totalSalesVolume = calculateTotalSalesVolume(tank?.tank_name, values.data);
-
+                    
 
                         return (
                             <div key={tank.id} className='mt-4 panel' style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
