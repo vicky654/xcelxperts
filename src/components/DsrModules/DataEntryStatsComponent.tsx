@@ -505,7 +505,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Owner Collections :  {currency} {FormatNumberCommon(tabData?.ownerCurrentMonth)} 
+                      Owner Collections :  {currency} {FormatNumberCommon(tabData?.ownerCurrentMonth)}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -531,7 +531,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                   </div>
                   <div className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                    Digital Payments :  {currency} {FormatNumberCommon(tabData?.digitalCurrentMonth)}  
+                      Digital Payments :  {currency} {FormatNumberCommon(tabData?.digitalCurrentMonth)}
                     </div>
                     <div className="badge bg-white">
                       <div className="flex items-center space-x-1">
@@ -562,19 +562,19 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                       {tabData?.prevLabel}
                     </div>
                   </div>
-                  <div style={{lineHeight:"31px"}} className="flex items-center mt-2">
+                  <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
                       Bank  Deposits :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
                     </div>
                   </div>
-                  <div style={{lineHeight:"31px"}} className="flex items-center mt-2">
+                  <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
                       Owner  Collections :    {currency} {FormatNumberCommon(tabData?.ownerPrevMonth)}
                     </div>
                   </div>
-                  <div style={{lineHeight:"31px"}} className="flex items-center mt-2">
+                  <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
                     <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
-                     Digital Payments:    {currency} {FormatNumberCommon(tabData?.digitalPrevMonth)}
+                      Digital Payments:    {currency} {FormatNumberCommon(tabData?.digitalPrevMonth)}
                     </div>
                   </div>
                 </div>
@@ -644,7 +644,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                 <div className="panel h-full xl:col-span-2 firstbox">
                   <div className="flex justify-between">
                     <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                    {tabData?.prevLabel}   
+                      {tabData?.prevLabel}
                     </div>
                   </div>
                   <div className="flex items-center mt-2">
@@ -737,7 +737,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             {!considerNozzle ? (
                               <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                                 <li className="flex justify-between p-2 bg-gray-200">
-                                  <p className="font-semibold w-1/6">Name</p>
+                                  <p className="font-semibold w-1/6">Name </p>
                                   <p className="font-semibold w-1/6">Price</p>
                                   <p className="font-semibold w-1/6">Volume</p>
                                   <p className="font-semibold w-1/6">Gross Value</p>
@@ -838,7 +838,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 <p className="font-semibold w-1/4">Name</p>
                                 <p className="font-semibold w-1/4">Variance</p>
                                 <p className="font-semibold w-1/4"> Price</p>
-                              
+
 
                                 <p className="font-semibold w-1/4">Total Amount</p>
 
@@ -855,7 +855,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                     {subItem?.id == "0" ? "" : `${currency} ${FormatNumberCommon(subItem?.price)}`}
                                   </p>
 
-                               
+
 
                                   <p className="w-1/4">{currency}{FormatNumberCommon(subItem?.amount)}</p>
 
@@ -909,7 +909,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <div className="overflow-x-auto">
                             <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
                               <li className="flex justify-between p-2 bg-gray-200">
-                                <p className="font-semibold w-1/2">Name</p>
+                                <p className="font-semibold w-1/2">Name 
+
+                                 
+                                </p>
                                 <p className="font-semibold w-1/2">
                                   {selectedTab === 'Fuel Delivery' ? 'Delivery'
                                     : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
@@ -920,7 +923,20 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 activeAccordion === `${currency}-${index}` &&
                                 subData?.map((subItem, subIndex) => (
                                   <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                    <p className="w-1/2">{subItem?.name}</p>
+                                    <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes &&(
+                                    <OverlayTrigger
+                                      placement="bottom"
+                                      overlay={
+                                        <Tooltip className="custom-tooltip" id="tooltip-amount">
+                                          {subItem?.notes}
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i className="fi fi-sr-comment-info"></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  )}</p>
                                     <p className="w-1/2">
                                       {selectedTab === 'Fuel Delivery'
                                         ? capacity + FormatNumberCommon(subItem?.delivery)
