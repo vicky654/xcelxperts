@@ -298,18 +298,28 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
                                 {currency}
 
-                                {FormatNumberCommon(secondApiResponse?.lubes_value?.value ?? '')}
-                                {` (ℓ${FormatNumberCommon(secondApiResponse?.lubes_value?.volume ?? '')})`}
+                                {FormatNumberCommon(secondApiResponse?.lubes_value?.lubes_value ?? '')}
+                                {/* {` (ℓ${FormatNumberCommon(secondApiResponse?.lubes_value?.volume ?? '')})`} */}
 
 
                             </div>
 
-                            <div style={{ color: secondApiResponse?.lubes_value?.status === 'up' ? "#37a40a" : "red" }}
+                            <div  style={{
+    color: secondApiResponse?.lubes_value?.status === 'up'
+      ? "#37a40a"  // Color if status is 'up'
+      : secondApiResponse?.lubes_value?.status === 'down'
+      ? "red"      // Color if status is 'down'
+      : "#000"     // Fallback color if status is neither 'up' nor 'down'
+  }}
                                 className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
-                                {secondApiResponse?.lubes_value?.status === 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{secondApiResponse?.lubes_value?.percentage !== undefined ? (
+                                {secondApiResponse?.lubes_value?.status && (
+                                    secondApiResponse?.lubes_value?.status == 'up'
+                                        ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                        : secondApiResponse?.lubes_value?.status === 'down'
+                                            ? <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                            : null
+                                )}
+                                {secondApiResponse?.lubes_value?.percentage !== undefined ? (
                                     <span>Last Month {filterData?.lubes_value?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>

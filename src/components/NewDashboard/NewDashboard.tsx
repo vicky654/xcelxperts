@@ -531,12 +531,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
                                 {currency}
-                                {FormatNumberCommon(DashfilterData?.lubes_value
-                                    ?.value ?? '')}
+                                {FormatNumberCommon(DashfilterData?.lubes_value?.lubes_value ?? '')}
 
 
-                                {` (ℓ${FormatNumberCommon(DashfilterData?.lubes_value
-                                    ?.volume ?? '')} )`}
+                                {/* {` (ℓ${FormatNumberCommon(DashfilterData?.lubes_value
+                                    ?.volume ?? '')} )`} */}
 
 
 
@@ -548,16 +547,16 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             <div style={{
                                 color: DashfilterData?.lubes_value
-                                    ?.volume_status == 'up'
+                                    ?.status == 'up'
                                     ? '#37a40a'  // Green for 'up'
                                     : DashfilterData?.lubes_value
-                                        ?.volume_status == 'down'
+                                        ?.status == 'down'
                                         ? 'red'  // Red for 'down'
                                         : '#000'  // Black for any other case
                             }}
                                 className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
                                 {DashfilterData?.lubes_value
-                                    ?.volume_status == 'up'
+                                    ?.status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }
