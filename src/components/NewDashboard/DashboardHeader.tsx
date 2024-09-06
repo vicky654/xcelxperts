@@ -3,7 +3,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Tippy from '@tippyjs/react';
 
 interface DashboardHeaderProps {
-    filterData: {
+    DashfilterData: {
         basic_details?: {
             day_end_date?: string;
             client_name?: string;
@@ -28,28 +28,29 @@ interface DashboardHeaderProps {
     handleResetFilters: () => void;
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({
-    filterData,
+const DashboardHeader: React.FC<any> = ({
+    DashfilterData,
     UserPermissions,
     filters,
     data,
     setModalOpen,
     handleResetFilters,
 }) => {
+    console.log(DashfilterData, "DashfilterData");
     return (
         <div className='flex justify-between items-center flex-wrap'>
             <div>
                 <h2 className='font-bold'>
                     Dashboard
-                    {filterData?.basic_details?.day_end_date && (
+                    {DashfilterData?.day_end_date && (
                         <>
-                            ({filterData?.basic_details?.day_end_date})
-                            {filterData?.stock && (
+                            ({DashfilterData?.day_end_date})
+                            {DashfilterData?.day_end_date && (
                                 <OverlayTrigger
                                     placement="bottom"
                                     overlay={
                                         <Tooltip className='custom-tooltip' id="tooltip-amount">
-                                            You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                            You are able to see data till the last day end {DashfilterData?.day_end_date}
                                         </Tooltip>
                                     }
                                 >
@@ -58,7 +59,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                             )}
                         </>
                     )}
-                    {!filterData?.basic_details?.client_name && `(${UserPermissions?.dates})`}
                 </h2>
                 <ul className="flex space-x-2 rtl:space-x-reverse my-1"></ul>
             </div>
@@ -90,10 +90,10 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
                 {(filters?.client_id || filters?.entity_id || filters?.station_id) && (
                     <button onClick={handleResetFilters}>
-                        <div className="grid place-content-center w-16 h-10 border border-white-dark/20 dark:border-[#191e3a]">
+                        <div className="grid place-content-center  border border-white-dark/20 dark:border-[#191e3a]">
                             <Tippy content="Reset Filter">
-                                <span className="btn bg-danger btn-danger">
-                                    <i className="fi fi-ts-filter-slash w-6 h-6"></i>
+                                <span className="btn p-2 bg-danger btn-danger">
+                                    <i className="fi fi-ts-filter-slash "></i>
                                 </span>
                             </Tippy>
                         </div>

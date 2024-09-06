@@ -45,13 +45,13 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
             </div>
             <div className="flex items-center">
                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                {title === "Gross Volume" ? `${capacity}` : `${currency}`}
+                {title === "Gross Volume (Fuel)" ? `${capacity}` : `${currency}`}
                 {FormatNumberCommon(headingValue)}
                 </div>
             </div>
             <div
                 style={{ color: getStatusColor(subHeadingData?.status) }}
-                className="badge bg-white flex items-center font-semibold mt-5"
+                className="badge w-1/3 bg-white flex items-center font-semibold mt-5"
             >
                 {subHeadingData?.status === 'up' ? (
                     <i style={{ color: '#37a40a' }} className="fi fi-tr-chart-line-up"></i>

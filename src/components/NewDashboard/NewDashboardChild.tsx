@@ -59,6 +59,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             const queryString = queryParams.toString();
             const response = await getData(`dashboard/stats?${queryString}`);
             if (response && response.data && response.data.data) {
+
+
+
                 setFilterData(response.data.data)
             }
             // setData(response.data);
@@ -81,8 +84,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             const response = await getData(`dashboard/get-details?${queryString}`);
             if (response && response.data && response.data.data) {
 
-                setsecondApiResponse(response.data.data)
-
+                setsecondApiResponse(response.data?.data)
+                setFilterData(response.data?.data)
                 setDetailsData(response.data.data?.station)
             }
             // setData(response.data);
@@ -113,7 +116,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const handleApplyFilters = async (values: any) => {
 
         setFilters(values);
-        callFetchFilterData(values);
+
         callFetchDetailsData(values)
         setModalOpen(false);
     };
@@ -180,7 +183,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             : Yup.mixed().notRequired(),
         entity_id: Yup.string().required("Entity is required"),
     });
-
+    console.log(secondApiResponse, "secondApiResponse");
 
     return (
         <>
@@ -189,16 +192,16 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                 <div className='flex justify-between items-center flex-wrap'>
                     <div>
                         <h2 className='font-bold'>
-                            Dashboard Overview {filterData?.basic_details?.day_end_date && (
+                            Dashboard Overview {filterData?.day_end_date && (
                                 <>
-                                    ({filterData?.basic_details?.day_end_date})
+                                    ({filterData?.day_end_date})
 
-                                    {filterData?.stock && (
+                                    {filterData?.day_end_date && (
                                         <OverlayTrigger
                                             placement="bottom"
                                             overlay={
                                                 <Tooltip className='custom-tooltip' id="tooltip-amount">
-                                                    You are able to see data till the last day end {filterData?.basic_details?.day_end_date}
+                                                    You are able to see data till the last day end {filterData?.day_end_date}
                                                 </Tooltip>
                                             }
                                         >
@@ -262,11 +265,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             Filter
                         </button>
 
-                        {/* {modalOpen && (<>
-                            <DashboardFilterModal isOpen={modalOpen} onClose={() => setModalOpen(false)}
-                                onApplyFilters={handleApplyFilters} // Pass the handler to the modal
-                            />
-                        </>)} */}
+
                     </div>
                 </div>
 
@@ -275,8 +274,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                         <CommonDashCard
                             data={filterData}
-                            // onClick={() => void}
-                            title={"Gross Volume"}
+                            title={"Gross Volume (Fuel)"}
                             headingValue={filterData?.sales_volume?.sales_volume}
                             subHeadingData={filterData?.sales_volume}
                             boxNumberClass={"firstbox"}
@@ -285,18 +283,43 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                         <CommonDashCard
                             data={filterData}
-                            // onClick={() => void}
-                            title={"Gross Value"}
+                            title={"Gross Value (Fuel)"}
                             headingValue={filterData?.sales_value?.sales_value}
                             subHeadingData={filterData?.sales_volume}
                             boxNumberClass={"secondbox"}
                         />
+                        <div
+                            className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
+                        >
+                            <div className="flex justify-between">
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value (Lubes)</div>
+                            </div>
 
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                                {currency}
+
+                                {FormatNumberCommon(secondApiResponse?.lubes_value?.value ?? '')}
+                                {` (ℓ${FormatNumberCommon(secondApiResponse?.lubes_value?.volume ?? '')})`}
+
+
+                            </div>
+
+                            <div style={{ color: secondApiResponse?.lubes_value?.status === 'up' ? "#37a40a" : "red" }}
+                                className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
+                                {secondApiResponse?.lubes_value?.status === 'up'
+                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                }{secondApiResponse?.lubes_value?.percentage !== undefined ? (
+                                    <span>Last Month {filterData?.lubes_value?.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
+                        </div>
 
                         <CommonDashCard
                             data={filterData}
                             // onClick={() => void}
-                            title={"Gross Profit"}
+                            title={"Gross Profit (Lubes+Fuel)"}
                             headingValue={filterData?.profit?.profit}
                             subHeadingData={filterData?.profit}
                             boxNumberClass={"thirdbox"}
@@ -307,288 +330,143 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
 
-                        {/*  <div className={`panel updownDiv  firstbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Volume
-                                </div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> ℓ
-                                    {FormatNumberCommon(secondApiResponse?.sales_volume?.sales_volume)} </div>
 
-                            </div>
-
-                            <div style={{ color: secondApiResponse?.sales_volume?.status === 'up' ? "#37a40a" : "red" }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {secondApiResponse?.sales_volume?.status === 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{secondApiResponse?.sales_volume?.percentage !== undefined ? (
-                                    <span>Last Month {filterData?.sales_volume?.percentage}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div>
-
-                          <div className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value </div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}
-                                    {FormatNumberCommon(secondApiResponse?.sales_value?.sales_value)}
-                                </div>
-                            </div>
-
-                            <div style={{ color: secondApiResponse?.sales_value?.status === 'up' ? "#37a40a" : "red" }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {secondApiResponse?.sales_value?.status === 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{secondApiResponse?.sales_value?.percentage !== undefined ? (
-                                    <span>Last Month {filterData?.sales_value?.percentage}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div>
-
-                        <div className={`panel updownDiv thirdbox ${secondApiResponse ? 'cursor-pointer' : ''}`} >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Profit</div>
-                            </div>
-                            <div className="flex items-center mt-5">
-                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {currency}
-                                    {FormatNumberCommon(secondApiResponse?.profit?.profit)}
-                                </div>
-
-                            </div>
-
-
-                            <div style={{ color: secondApiResponse?.profit?.status === 'up' ? "#37a40a" : "red" }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {secondApiResponse?.profit?.status === 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{secondApiResponse?.profit?.percentage !== undefined ? (
-                                    <span>Last Month {filterData?.profit?.percentage}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div> */}
 
                         {/* 4th Card */}
-                        <div
-                            className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
-                        >
-                            <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
-                            </div>
 
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                                {currency}
-
-                                {FormatNumberCommon(secondApiResponse?.stock?.value ?? '')}
-                                {` (ℓ${FormatNumberCommon(secondApiResponse?.stock?.volume ?? '')})`}
-
-                                {filterData?.stock ? <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {secondApiResponse?.stock?.fuel?.map((fuel: any, index: any) => (
-                                        <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
-                                            <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}
-
-                                                {FormatNumberCommon(fuel.value ?? '')}
-                                                {` (ℓ${FormatNumberCommon(fuel.volume ?? '')})`}
-                                            </div>
-                                        </div>
-                                    ))}</Tooltip>}
-                                >
-                                    <span><i className="fi fi-sr-comment-info "></i></span>
-                                </OverlayTrigger> : ""}
-                            </div>
-
-                            <div style={{ color: secondApiResponse?.stock?.status === 'up' ? "#37a40a" : "red" }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {secondApiResponse?.stock?.status === 'up'
-                                    ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                    : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
-                                }{secondApiResponse?.stock?.value_percentage !== undefined ? (
-                                    <span>Last Month {filterData?.stock?.value_percentage}%</span>
-                                ) : (
-                                    <span>Last Month  </span>
-                                )}</div>
-                        </div>
 
 
 
                     </div>
 
 
-                    {secondApiResponse?.stations?.length > 0 ? (
-                        <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                                {secondApiResponse?.stations?.map((item: any) => (
-                                    <div
-                                        key={item?.name}
-                                        className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""
-                                            }`}
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
-                                    >
+                    {filterData?.stations?.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+                            {filterData?.stations?.map((item: any) => (
+                                <div
+                                    key={item.id}
+                                    className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""}`}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
+                                >
+                                    <div className="flex items-center mb-4">
+                                        <img
+                                            className="w-10 h-10 rounded-full object-cover"
+                                            src={item?.image}
+                                            alt={item?.name}
+                                        />
+                                        <h5 className="ml-4 font-semibold">{item?.name}</h5>
+                                    </div>
 
-                                        <div className="flex items-center mb-4">
-                                            <img
-                                                className="w-10 h-10 rounded-full object-cover"
-                                                src={item?.image}
-                                                alt={item?.name}
-                                            />
-                                            <h5 className="ml-4 font-semibold">{item?.name}</h5>
+                                    <div>
+                                        <div className="grid grid-cols-2 gap-4 my-3">
+                                            <div>
+                                                <h6 className="font-semibold">Gross Volume</h6>
+                                                <p className="text-lg">
+                                                    ℓ{FormatNumberCommon(item?.sales_volume.sales_volume)}
+                                                    <span
+                                                        className={`ml-2 ${item?.sales_volume.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                    >
+                                                        {item?.sales_volume.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                {item?.sales_volume.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                {item?.sales_volume.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <h6 className="font-semibold">Gross Value</h6>
+                                                <p className="text-lg">
+                                                    {currency}{FormatNumberCommon(item?.sales_value.sales_value)}
+                                                    <span
+                                                        className={`ml-2 ${item?.sales_value.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                    >
+                                                        {item?.sales_value.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                {item?.sales_value.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                {item?.sales_value.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
                                         </div>
 
-                                        {item?.fuels_stats.map((stats: any, index: any) => (
-                                            <div key={index}>
-                                                <div className="grid grid-cols-2 gap-4 my-3">
+                                        <hr />
 
-                                                    <div>
-                                                        <h6 className="font-semibold">Gross Volume</h6>
-                                                        <p className="text-lg">
-                                                            ℓ
-                                                            {FormatNumberCommon(stats?.sales_volume?.sales_volume)}
-                                                            <span
-                                                                className={`ml-2 ${stats?.sales_volume?.status === "up"
-                                                                    ? "text-green-500"
-                                                                    : "text-red-500"
-                                                                    }`}
-                                                            >
-                                                                {stats?.sales_volume?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats?.sales_volume?.percentage}%
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats?.sales_volume?.percentage}%
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-
-
-                                                    <div>
-                                                        <h6 className="font-semibold">Gross Value</h6>
-                                                        <p className="text-lg">
-                                                            {currency}
-
-                                                            {FormatNumberCommon(stats?.sales_value.sales_value)}
-                                                            <span
-                                                                className={`ml-2 ${stats?.sales_value.status === "up"
-                                                                    ? "text-green-500"
-                                                                    : "text-red-500"
-                                                                    }`}
-                                                            >
-                                                                {stats?.sales_value.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats?.sales_value.percentage}%
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats?.sales_value.percentage}%
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <hr />
-
-                                                <div className="grid grid-cols-2 gap-4 my-3">
-
-                                                    <div>
-                                                        <h6 className="font-semibold"> Gross Profit</h6>
-                                                        <p className="text-lg">
-                                                            {currency}
-
-                                                            {FormatNumberCommon(stats?.profit?.profit)}
-                                                            <span
-                                                                className={`ml-2 ${stats?.profit?.status === "up"
-                                                                    ? "text-green-500"
-                                                                    : "text-red-500"
-                                                                    }`}
-                                                            >
-                                                                {stats?.profit?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats?.profit?.percentage}%
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats?.profit?.percentage}%
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-
-
-                                                    <div>
-                                                        <h6 className="font-semibold">Stock Loss</h6>
-                                                        <p className="text-lg">
-                                                            {currency}
-
-                                                            {FormatNumberCommon(stats?.stock?.value)}
-
-                                                            <span
-                                                                className={`ml-2 ${stats?.stock?.status === "up"
-                                                                    ? "text-green-500"
-                                                                    : "text-red-500"
-                                                                    }`}
-                                                            >
-                                                                {stats?.stock?.status === "up" ? (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                        {stats?.stock?.percentage}%
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                        {stats?.stock?.percentage}%
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <hr />
-
-
-
+                                        <div className="grid grid-cols-2 gap-4 my-3">
+                                            <div>
+                                                <h6 className="font-semibold">Gross Profit</h6>
+                                                <p className="text-lg">
+                                                    {currency}{FormatNumberCommon(item?.profit.profit)}
+                                                    <span
+                                                        className={`ml-2 ${item?.profit.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                    >
+                                                        {item?.profit.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                {item?.profit.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                {item?.profit.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
                                             </div>
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className=' panel'>
-                                <div className="flex items-center mb-5">
-                                    <h5 className="font-bold text-lg dark:text-white-light">Stations</h5>
-                                </div>
-                                <img
-                                    src={noDataImage}
-                                    alt="no data found"
-                                    className="all-center-flex nodata-image"
-                                />
-                            </div>
 
-                        </>
+                                            <div>
+                                                <h6 className="font-semibold">Stock Loss</h6>
+                                                <p className="text-lg">
+                                                    {currency}{FormatNumberCommon(item?.stock?.value || '0')}
+                                                    <span
+                                                        className={`ml-2 ${item?.stock?.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                    >
+                                                        {item?.stock?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                {item?.stock?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                {item?.stock?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className='panel'>
+                            <div className="flex items-center mb-5">
+                                <h5 className="font-bold text-lg dark:text-white-light">Stations</h5>
+                            </div>
+                            <img
+                                src={noDataImage}
+                                alt="no data found"
+                                className="all-center-flex nodata-image"
+                            />
+                        </div>
                     )}
 
 

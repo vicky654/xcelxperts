@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Card, Collapse } from "react-bootstrap";
-
 const LoaderImg = () => {
   const [expanded, setExpanded] = React.useState(true);
 

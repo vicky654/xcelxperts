@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import AppContext from '../../utils/Context/DashboardContext';
 import { IRootState } from '../../store';
-import LoaderImg from '../../utils/Loader';
-import Tippy from '@tippyjs/react';
 import { capacity, currency } from '../../utils/CommonData';
 import ReactApexChart from 'react-apexcharts';
 import VerticalProgressBarWithWave from '../../pages/Dashboard/VerticalProgressBarWithWave';
@@ -14,12 +12,13 @@ import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import NewDashboardFilterModal from './NewDashboardFilterModal';
 import * as Yup from 'yup';
 import useErrorHandler from '../../hooks/useHandleError';
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import BasicPieChart from '../../pages/Dashboard/BasicPieChart';
+import { Col } from 'react-bootstrap';
 import { FormatNumberCommon } from '../CommonFunctions';
 import CommonDashCard from './CommonDashCard';
 import EarningModal from './EarningModal';
 import DashboardHeader from './DashboardHeader';
+import { useFormik } from 'formik';
+import SmallLoader from '../../utils/SmallLoader';
 
 interface FilterValues {
     client_id: any;
@@ -47,15 +46,19 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     useEffect(() => {
         dispatch(setPageTitle('Sales Admin'));
     });
-
+    const formik = useFormik({
+        initialValues: {
+            toggle: false, // Initial state for toggle switch
+        },
+        onSubmit: (values) => {
+            console.log("Form Values: ", values);
+        },
+    });
     const handleApiError = useErrorHandler();
-
     let storedKeyName = "stationTank";
-
-    const { sales_volume, setAppData, selectedClient, selectedEntity, selectedStation } = useContext(AppContext);
+    const { setAppData, } = useContext(AppContext);
 
     const navigate = useNavigate();
-    const IsClientLogin = useSelector((state: IRootState) => state.auth);
     const [fuelStats, setFuelStats] = useState<FuelStatsData>({
         dates: [],
         stock_alert: {},
@@ -70,12 +73,19 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     });
 
 
-    const [filterData, setFilterData] = useState<any>(null);
+    const [GraphData, setGraphData] = useState<any>(null);
+    const [DashfilterData, setDashfilterData] = useState<any>(null);
+    const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
+    const [dashboarGraphdLoading, setDashboarGraphdLoading] = useState<boolean>(false);
+    const [stationStockLoading, setStationStockLoading] = useState<boolean>(false);
+    const [toggle, setToggle] = useState(formik.values.toggle);
 
-    const callFetchFilterData = async (filters: FilterValues) => {
+
+    const GetDashboardStats = async (filters: FilterValues) => {
         const { client_id, entity_id, station_id } = filters;
         if (client_id) {
             try {
+                setDashboardLoading(true);  // Start loading for dashboard
                 const queryParams = new URLSearchParams();
                 if (client_id) queryParams.append('client_id', client_id);
                 if (entity_id) queryParams.append('entity_id', entity_id);
@@ -84,7 +94,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/stats?${queryString}`);
                 if (response && response.data && response.data.data) {
-
                     setAppData({
                         sales_volume: response.data?.data?.sales_volume,
                         sales_value: response.data?.data?.sales_value,
@@ -94,44 +103,65 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                         pi_graph: response.data?.data?.pi_graph,
                         basic_details: response.data?.data?.basic_details,
                     });
-
-                    setFilterData(response.data.data);
+                    setDashfilterData(response.data.data);
                 }
-                // setData(response.data);
             } catch (error) {
-
+                console.error("Error fetching dashboard stats", error);
             } finally {
+                setDashboardLoading(false); // Stop loading after fetching
+            }
+        }
+    };
+    const GetDashboardGraphStats = async (filters: FilterValues) => {
+        const { client_id, entity_id, station_id } = filters;
+        if (client_id) {
+            try {
+                setDashboarGraphdLoading(true);  // Start loading for dashboard
+                const queryParams = new URLSearchParams();
+                if (client_id) queryParams.append('client_id', client_id);
+                if (entity_id) queryParams.append('entity_id', entity_id);
+                if (station_id) queryParams.append('station_id', station_id);
+                queryParams.append('f_type', toggle ? 'variance' : 'tested_fuel');
+
+                const queryString = queryParams.toString();
+                const response = await getData(`dashboard/fuel-stats?${queryString}`);
+                if (response && response.data && response.data.data) {
+                    setGraphData(response.data.data);
+                }
+            } catch (error) {
+                console.error("Error fetching dashboard stats", error);
+            } finally {
+                setDashboarGraphdLoading(false); // Stop loading after fetching
             }
         }
     };
 
 
-    const GetFuelStats = async (item: any) => {
+    const GetStationStock = async (stationId: string) => {
         try {
-
-            const response = await getData(`dashboard/station-stock?station_id=${item}`);
-
-
-
+            setStationStockLoading(true); // Start loading for station stock
+            const response = await getData(`dashboard/station-stock?station_id=${stationId}`);
             if (response && response.data && response.data.data) {
-                // Extract data from the response
                 const { dates, stock_alert, station_name, station_image, last_dayend } = response.data?.data;
-
-                // Update state with the fetched data
                 setFuelStats({
                     dates,
                     stock_alert,
                     station_name,
                     station_image,
-                    last_dayend
+                    last_dayend,
                 });
-
             }
         } catch (error) {
-
+            console.error("Error fetching station stock", error);
         } finally {
+            setStationStockLoading(false); // Stop loading after fetching
         }
     };
+
+
+
+
+
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -159,7 +189,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             }
         }
 
-    }, [dispatch, storedKeyName, reduxData]); // Add any other dependencies needed here
+    }, [dispatch, storedKeyName, reduxData,]); // Add any other dependencies needed here
 
 
     const fetchCompanyList = async (clientId: string) => {
@@ -184,11 +214,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
 
-
     const handleResetFilters = async () => {
         localStorage.removeItem("stationTank");
         setFilters(null)
-        setFilterData(null)
+        setGraphData(null)
+        setDashfilterData(null)
         setFuelStats({
             dates: [],
             stock_alert: {},
@@ -203,9 +233,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const handleApplyFilters = async (values: any) => {
 
         setFilters(values);
-        callFetchFilterData(values);
+        GetDashboardStats(values);
+        GetDashboardGraphStats(values);
         if (values?.station_id) {
-            GetFuelStats(values?.station_id)
+            GetStationStock(values?.station_id)
         }
         setModalOpen(false);
     };
@@ -213,7 +244,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     //Revenue Chart
     const revenueChart: any = {
 
-        series: filterData?.fuel_stock_stats?.series,
+        series: GraphData?.fuel_stock_stats?.series,
         options: {
             chart: {
                 height: 325,
@@ -243,9 +274,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 top: 22,
             },
             // colors: isDark ? ['#2196F3', '#E7515A', '#FF9800'] : ['#1B55E2', '#E7515A', '#FF9800'],
-            series: filterData?.fuel_stock_stats?.colors,
-           
-            labels: filterData?.fuel_stock_stats?.labels,
+            series: GraphData?.fuel_stock_stats?.colors,
+
+            labels: GraphData?.fuel_stock_stats?.labels,
             // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             xaxis: {
                 axisBorder: {
@@ -344,9 +375,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         if (storedData && UserPermissions?.permissions?.includes('dashboard-details')) {
             const parsedStoredData = JSON.parse(storedData);
             if (parsedStoredData?.entity_id && filters?.entity_id) {
-            navigate('/dashboard/overview');
+                navigate('/dashboard/overview');
             } else {
-            setModalOpen(true);
+                setModalOpen(true);
             }
         }
     };
@@ -403,30 +434,60 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         setShowEarningModal(true);
 
     };
+
+
+    const handleToggleChange = (event: any) => {
+
+        if (storedData) {
+            GetDashboardGraphStats(JSON.parse(storedData));
+        } else if (localStorage.getItem("superiorRole") === "Client") {
+            const storedClientIdData = localStorage.getItem("superiorId");
+
+            if (storedClientIdData) {
+                fetchCompanyList(storedClientIdData)
+
+            }
+        }
+
+
+        setToggle(!toggle); // Update local state
+        formik.setFieldValue('toggle', !formik.values.toggle); // Update Formik state
+        // formik.setFieldValue('toggle', event.target.checked);
+    };
     return (
         <>
-            {isLoading ? <LoaderImg /> : ''}
+            {/* {isLoading ? <LoaderImg /> : ''} */}
             <>
-                <div className="position-fixed top-50 end-0 translate-middle-y">
-                    <button
-                        className=" btn btn-primary custom-tooltip-button"
-                 style={{border:"none"}}
-                        aria-label='Edit'
-                        onClick={OpenEarningModal}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
-                    >
 
-                        {currency} {" "}
-                        {isHovered && (
-                            <button  className=" ms-2  button-icon" > Total Earnings</button>
-                        )}
-                    </button>
-                </div>
-                <EarningModal onClose={CloseEarningModal} getData={getData} isOpen={ShowEarningModal} data={filterData} Date={filterData?.basic_details?.day_end_date} />
+                {!dashboardLoading ?
+                    <>
+                        <div className="position-fixed top-50 end-0 translate-middle-y">
+                            <button
+                                className=" btn btn-primary custom-tooltip-button"
+                                style={{ border: "none" }}
+                                aria-label='Edit'
+                                onClick={OpenEarningModal}
+                                onMouseEnter={() => setIsHovered(true)}
+                                onMouseLeave={() => setIsHovered(false)}
+                            >
+
+                                {currency} {" "}
+                                {isHovered && (
+                                    <button className=" ms-2  button-icon" > Total Earnings</button>
+                                )}
+                            </button>
+                        </div>
+                        <EarningModal onClose={CloseEarningModal} getData={getData} isOpen={ShowEarningModal} data={DashfilterData} Date={DashfilterData?.day_end_date} />
+
+                    </>
+
+
+                    : ""
+
+                }
 
                 <DashboardHeader
-                    filterData={filterData}
+                    DashfilterData={DashfilterData}
                     UserPermissions={UserPermissions}
                     filters={filters}
                     data={data}
@@ -439,69 +500,46 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                 <div className="pt-5 ">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
+                    {!dashboardLoading ? <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mb-6 text-white">
 
                         <CommonDashCard
-                            data={filterData}
+                            data={DashfilterData}
                             onClick={handleClickToOverView}
-                            title={"Gross Volume"}
-                            headingValue={filterData?.sales_volume?.sales_volume}
-                            subHeadingData={filterData?.sales_volume}
+                            title={"Gross Volume (Fuel)"}
+                            headingValue={DashfilterData?.sales_volume?.sales_volume}
+                            subHeadingData={DashfilterData?.sales_volume}
                             boxNumberClass={"firstbox"}
                         />
 
 
                         <CommonDashCard
-                            data={filterData}
+                            data={DashfilterData}
                             onClick={handleClickToOverView}
-                            title={"Gross Value"}
-                            headingValue={filterData?.sales_value?.sales_value}
-                            subHeadingData={filterData?.sales_volume}
+                            title={"Gross Value (Fuel)"}
+                            headingValue={DashfilterData?.sales_value?.sales_value}
+                            subHeadingData={DashfilterData?.sales_volume}
                             boxNumberClass={"secondbox"}
                         />
 
-
-                        <CommonDashCard
-                            data={filterData}
-                            onClick={handleClickToOverView}
-                            title={"Gross Profit"}
-                            headingValue={filterData?.profit?.profit}
-                            subHeadingData={filterData?.profit}
-                            boxNumberClass={"thirdbox"}
-                        />
-
-
                         <div
-                            className={`panel updownDiv secondbox ${filterData ? 'cursor-pointer' : ''}`}
+                            className={`panel updownDiv secondbox ${DashfilterData ? 'cursor-pointer' : ''}`}
 
                         >
                             <div className="flex justify-between">
-                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Stock Loss</div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value (Lubes) </div>
                             </div>
 
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3 ">
                                 {currency}
-                                {FormatNumberCommon(filterData?.stock?.value ?? '')}
+                                {FormatNumberCommon(DashfilterData?.lubes_value
+                                    ?.value ?? '')}
 
 
-                                {` (ℓ${FormatNumberCommon(filterData?.stock?.volume ?? '')} )`}
+                                {` (ℓ${FormatNumberCommon(DashfilterData?.lubes_value
+                                    ?.volume ?? '')} )`}
 
 
-                                {filterData?.stock ? <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={<Tooltip className='custom-tooltip' id="tooltip-amount">   {filterData?.stock?.fuel?.map((fuel: any, index: any) => (
-                                        <div key={index} className="flex items-center w-100 mb-2"> {/* w-1/2 makes each item take half the width */}
-                                            <div className="text-sm ltr:mr-3 rtl:ml-3">
-                                                {fuel.name.charAt(0).toUpperCase() + fuel.name.slice(1)} {currency}
-                                                {FormatNumberCommon(fuel.value ?? '')}
 
-                                                {`(ℓ${FormatNumberCommon(fuel.volume ?? '')} )`}
-                                            </div>
-                                        </div>
-                                    ))}</Tooltip>}
-                                >
-                                    <span><i className="fi fi-sr-comment-info "></i></span>
-                                </OverlayTrigger> : ""}
 
                             </div>
 
@@ -509,93 +547,172 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
                             <div style={{
-                                color: filterData?.stock?.volume_status == 'up'
+                                color: DashfilterData?.lubes_value
+                                    ?.volume_status == 'up'
                                     ? '#37a40a'  // Green for 'up'
-                                    : filterData?.stock?.volume_status == 'down'
+                                    : DashfilterData?.lubes_value
+                                        ?.volume_status == 'down'
                                         ? 'red'  // Red for 'down'
                                         : '#000'  // Black for any other case
                             }}
-                                className=" badge bg-white flex items-center font-semibold mt-5">
-                                {filterData?.stock?.volume_status == 'up'
+                                className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
+                                {DashfilterData?.lubes_value
+                                    ?.volume_status == 'up'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }
 
 
 
-                                {filterData?.stock?.value_percentage !== undefined ? (
-                                    <span>Last Month {filterData.stock.value_percentage}%</span>
+                                {DashfilterData?.lubes_value
+                                    ?.percentage !== undefined ? (
+                                    <span>Last Month {DashfilterData.lubes_value
+                                        .percentage}%</span>
                                 ) : (
                                     <span>Last Month </span>
                                 )}
                             </div>
                         </div>
+                        <CommonDashCard
+                            data={DashfilterData}
+                            onClick={handleClickToOverView}
+                            title={"Gross Profit (Lubes+Fuel)"}
+                            headingValue={DashfilterData?.profit?.profit}
+                            subHeadingData={DashfilterData?.profit}
+                            boxNumberClass={"thirdbox"}
+                        />
 
+
+
+
+                    </div> : <>
+                    <div className='flexcenter' style={{minHeight:"200px",background:"#fff",marginBottom:"20px"}}>
+
+                    <SmallLoader />
                     </div>
+                    </>}
+
+
+
 
 
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">Fuel Variances {filterData?.basic_details?.day_end_date ? `(${filterData.basic_details.day_end_date})` : ""}</h5>
+                                <h5 className="font-bold text-lg">Fuel Variances {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
+
+                                {
+                                    GraphData?.fuel_stock_stats?.series ? <div className=' flex items-end text-end'>
+                                        <Col lg={12} md={12}>
+                                            <div className="mt-2 sm:grid-cols-1 flexcenter ">
+                                                <span className="font-bold mr-2">
+                                                    Fuel Variance
+                                                </span>
+                                                <label style={{ cursor: "pointer" }} className="w-12 h-6 relative ">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                                                        checked={formik.values.toggle}
+                                                        onChange={handleToggleChange}
+                                                    />
+                                                    <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${formik.values.toggle ? 'bg-primary border-primary' : 'bg-[#9ca3af] border-[#9ca3af]'}`}>
+                                                        <span className={`absolute bottom-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${formik.values.toggle ? 'bg-white left-7' : 'bg-white left-1'}`}>
+                                                            {/* {formik.values.toggle ? (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f95a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+                                                                    <path d="M20 6L9 17l-5-5" />
+                                                                </svg>
+                                                            ) : (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f95a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+                                                                    <path d="M20 6L9 17l-5-5" />
+                                                                </svg>
+                                                            )} */}
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                                <span className="font-bold ms-2">
+                                                    Tested Fuel
+                                                </span>
+                                            </div>
+                                        </Col>
+                                    </div> : ""
+                                }
+
+
+
                             </div>
 
-                            <div className="relative">
+                            <div className="relative" style={{ minHeight: "350px" }}>
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {!filterData?.fuel_stock_stats ? (
-                                        <div className="flex justify-center items-center h-full p-4">
-                                            <img
-                                                src={noDataImage} // Use the imported image directly as the source
-                                                alt="No data found"
-                                                className="w-1/2 max-w-xs" // Adjust the width as needed
+                                    {!dashboarGraphdLoading ? (
+                                        !GraphData?.fuel_stock_stats ? (
+                                            <div className="flex justify-center items-center h-full p-4">
+                                                <img
+                                                    src={noDataImage}
+                                                    alt="No data found"
+                                                    className="w-1/2 max-w-xs"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <ReactApexChart
+                                                series={GraphData.fuel_stock_stats.series}
+                                                options={revenueChart?.options}
+                                                type="area"
+                                                height={325}
                                             />
-                                        </div>
+                                        )
                                     ) : (
-                                        <ReactApexChart series={filterData?.fuel_stock_stats?.series} options={revenueChart?.options} type="area" height={325} />
+                                        <SmallLoader />
                                     )}
                                 </div>
                             </div>
+
                         </div>
 
                         <div className="panel h-full xl:col-span-1 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {filterData?.basic_details?.day_end_date ? `(${filterData.basic_details.day_end_date})` : ""}
+                                <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}
                                 </h5>
+                                {/* <button className='btn btn-primary'> Stock Loss</button> */}
                             </div>
 
-                            <div className="relative">
+                            <div className="relative" style={{ minHeight: "350px" }}>
                                 <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {filterData?.fuel_stock?.length > 0 ? (
-                                        <table>
-                                            <thead>
-                                                <tr className='bg-gray-200'>
-                                                    <th>Fuel Name</th>
-                                                    <th>Variance</th>
-                                                    <th>Testing</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {filterData?.fuel_stock.map((fuel: any, index: any) => (
-                                                    <tr className='hover:bg-gray-100' key={index}>
-                                                        <td>{fuel?.fuel_name}</td>
-                                                        <td>{capacity} {fuel?.variance}</td>
-                                                        <td>{capacity}{fuel?.testing}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    ) : (
-                                        <>
+
+                                    {!dashboarGraphdLoading ? (
+                                        !GraphData?.fuel_stock_stats ? (
                                             <div className="flex justify-center items-center h-full p-4">
                                                 <img
-                                                    src={noDataImage} // Use the imported image directly as the source
+                                                    src={noDataImage}
                                                     alt="No data found"
-                                                    className="w-full max-w-xs" // Adjust the width as needed
+                                                    className="w-1/2 max-w-xs"
                                                 />
                                             </div>
-                                            {/* <BasicPieChart data={filterData?.pi_graph} /> */}
-                                        </>
+                                        ) : (
+                                            <table>
+                                                <thead>
+                                                    <tr className='bg-gray-200'>
+                                                        <th>Fuel Name</th>
+                                                        <th>Variance</th>
+                                                        <th>Testing</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {GraphData?.fuel_stock.map((fuel: any, index: any) => (
+                                                        <tr className='hover:bg-gray-100' key={index}>
+                                                            <td>{fuel?.fuel_name || 'No fuel name'}</td>
+                                                            <td>{capacity} {fuel?.variance ?? 0}</td>
+                                                            <td>{capacity} {fuel?.testing ?? 0}</td>
+                                                        </tr>
+
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        )
+                                    ) : (
+                                        <SmallLoader />
                                     )}
+
+
 
                                 </div>
                             </div>
@@ -603,27 +720,25 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                         </div>
                     </div>
 
-                    {
-                        filters?.station_id ?
 
-                            <div className="grid xl:grid-cols-7  md:grid-cols-4 sm:grid-cols-1 gap-2 mb-6">
-
-                                <div className="panel h-full  w-full">
-
+                    {filters?.station_id && (
+                        !stationStockLoading ? (
+                            <div className="grid xl:grid-cols-7 md:grid-cols-4 sm:grid-cols-1 gap-2 mb-6">
+                                {/* Forecasting Panel */}
+                                <div className="panel h-full w-full">
                                     <div className="flex items-center justify-between dark:text-white-light mb-5">
                                         <h5 className="font-bold text-lg">Forecasting</h5>
-
                                     </div>
-                                    <div className="fuel-stats-buttons mt-4  col-span-4 displaycanter  w-full">
-                                        <div className="buttons-container  w-full">
+
+                                    <div className="fuel-stats-buttons mt-4 col-span-4 displaycanter w-full">
+                                        <div className="buttons-container w-full">
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
                                                 fuelStats.dates.map((date, index) => (
                                                     <button
                                                         key={index}
                                                         onClick={() => handleDateClick(date)}
-                                                        className={`date-button  w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
+                                                        className={`date-button w-full btn mb-2 ${date === selectedDate ? 'btn-info' : 'btn-primary'}`}
                                                         style={{ borderBottom: '1px solid #ddd' }}
-
                                                     >
                                                         {date}
                                                     </button>
@@ -631,30 +746,31 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             ) : (
                                                 <div className="flex justify-center items-center h-full mt-10 p-4">
                                                     <img
-                                                        src={noDataImage} // Use the imported image directly as the source
+                                                        src={noDataImage}
                                                         alt="No data found"
-                                                        style={{height: '250px', width: '250px'}}
-                                                        className="w-full  max-w-xs" // Adjust the width as needed
+                                                        style={{ height: '250px', width: '250px' }}
+                                                        className="w-full max-w-xs"
                                                     />
                                                 </div>
                                             )}
-
                                         </div>
                                     </div>
                                 </div>
 
-
-                                <div className="panel h-full xl:col-span-6 md:col-span-3 sm:grid-cols-1 ">
+                                {/* Station Panel */}
+                                <div className="panel h-full xl:col-span-6 md:col-span-3 sm:grid-cols-1">
                                     <div className="flex items-center justify-between dark:text-white-light mb-5">
                                         <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
-
                                     </div>
-                                    <div className='spacebetween'>
-                                        <div className="flex flex-wrap gap-2 col-span-9 justify-center">
 
+                                    <div className="spacebetween">
+                                        <div className="flex flex-wrap gap-2 col-span-9 justify-center">
                                             {fuelStats?.dates && fuelStats.dates.length > 0 ? (
-                                                Object.keys(filteredStockAlerts).map(tankName => (
-                                                    <div key={tankName} className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white">
+                                                Object.keys(filteredStockAlerts).map((tankName) => (
+                                                    <div
+                                                        key={tankName}
+                                                        className="card border rounded-lg shadow-md mb-6 dark:bg-gray-800 dark:text-white"
+                                                    >
                                                         <div className="card-header flex items-center justify-between p-4 border-b dark:border-gray-700">
                                                             <h3 className="text-lg font-bold">{tankName}</h3>
                                                         </div>
@@ -668,7 +784,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                                             width={135}
                                                                             height={205}
                                                                             alert={alert}
-                                                                            color="#ddd" // Use tank's bg color if desired
+                                                                            color="#ddd"
                                                                             data-tip
                                                                             data-for={`tooltip-${tankName}-${index}`} // Unique tooltip ID
                                                                         />
@@ -681,17 +797,60 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             ) : (
                                                 <div className="flex justify-center items-center h-full p-4">
                                                     <img
-                                                        src={noDataImage} // Use the imported image directly as the source
+                                                        src={noDataImage}
                                                         alt="No data found"
-                                                        className="w-full  max-w-xs" // Adjust the width as needed
+                                                        className="w-full max-w-xs"
                                                     />
                                                 </div>
                                             )}
                                         </div>
                                     </div>
                                 </div>
-                            </div> : ""
-                    }
+                            </div>
+                        ) : (
+                            <div className="grid xl:grid-cols-7 md:grid-cols-4 sm:grid-cols-1 gap-2 mb-6">
+                                {/* Forecasting Panel */}
+                                <div className="panel h-full w-full">
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-bold text-lg">Forecasting</h5>
+                                    </div>
+
+                                    <div className="fuel-stats-buttons mt-4 col-span-4 displaycanter w-full">
+                                    <div style={{minHeight:"300px"}} className="flexcenter">
+                                        <div className="flex flex-wrap gap-2 col-span-9 justify-center">
+                                            <div className='flexcenter'>   <SmallLoader /></div>
+
+
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+                                {/* Station Panel */}
+                                <div className="panel h-full xl:col-span-6 md:col-span-3 sm:grid-cols-1">
+                                    <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                        <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
+                                    </div>
+
+                                    <div style={{minHeight:"300px"}} className="flexcenter">
+                                        <div className="flex flex-wrap gap-2 col-span-9 justify-center">
+                                            <div className='flexcenter'>   <SmallLoader /></div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        )
+                    )}
+
+
+
+
+
+
                 </div>
             </ >
 

@@ -62,39 +62,8 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
 
     }, [dispatch, currentPage]);
-    const stringToUint8Array = (str: any) => {
-        const stringLength = str.length;
-        const array = new Uint8Array(new ArrayBuffer(stringLength));
-        for (let i = 0; i < stringLength; i++) {
-            array[i] = str.charCodeAt(i);
-        }
-        return array;
-    };
-    const handleDownload = (encodedData: any) => {
-        try {
-            // Convert the encoded string to a Uint8Array
-            const byteArray = stringToUint8Array(encodedData);
 
-            // Create a Blob object from the byte array
-            const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
-            // Create a link element
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'downloaded_file.xlsx'; // The name of the file to be downloaded
-
-            // Append link to the body
-            document.body.appendChild(link);
-
-            // Programmatically click the link to trigger the download
-            link.click();
-
-            // Cleanup by removing the link
-            document.body.removeChild(link);
-        } catch (error) {
-
-        }
-    };
+  
     const handleFormSubmit = async (values: any) => {
         try {
             const formData = new FormData();
@@ -289,15 +258,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         }
     };
 
-    const handleClick = () => {
-        const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
-        // const  baseURL: import.meta.env.VITE_API_URL,
-
-        if (ReportUrl) {
-            const fullReportUrl = `${baseUrl}/${ReportUrl}`;
-            window.open(fullReportUrl, "_blank", "noopener noreferrer");
-        }
-    };
+ 
 
 
     return (
