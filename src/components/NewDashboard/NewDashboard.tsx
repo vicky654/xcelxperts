@@ -54,6 +54,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             console.log("Form Values: ", values);
         },
     });
+
     const handleApiError = useErrorHandler();
     let storedKeyName = "stationTank";
     const { setAppData, } = useContext(AppContext);
@@ -78,7 +79,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
     const [dashboarGraphdLoading, setDashboarGraphdLoading] = useState<boolean>(false);
     const [stationStockLoading, setStationStockLoading] = useState<boolean>(false);
-    const [toggle, setToggle] = useState(formik.values.toggle);
+    const [toggle, setToggle] = useState(!formik.values.toggle);
 
 
     const GetDashboardStats = async (filters: FilterValues) => {
@@ -121,7 +122,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 if (client_id) queryParams.append('client_id', client_id);
                 if (entity_id) queryParams.append('entity_id', entity_id);
                 if (station_id) queryParams.append('station_id', station_id);
-                queryParams.append('f_type', toggle ? 'variance' : 'tested_fuel');
+                queryParams.append('f_type', toggle ? 'tested_fuel' : 'variance');
 
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/fuel-stats?${queryString}`);
@@ -454,6 +455,13 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         formik.setFieldValue('toggle', !formik.values.toggle); // Update Formik state
         // formik.setFieldValue('toggle', event.target.checked);
     };
+
+
+    console.log(formik.values.toggle, "formik.values.toggle");
+    console.log(toggle, "toggle");
+
+
+
     return (
         <>
             {/* {isLoading ? <LoaderImg /> : ''} */}
@@ -585,10 +593,10 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
                     </div> : <>
-                    <div className='flexcenter' style={{minHeight:"200px",background:"#fff",marginBottom:"20px"}}>
+                        <div className='flexcenter' style={{ minHeight: "200px", background: "#fff", marginBottom: "20px" }}>
 
-                    <SmallLoader />
-                    </div>
+                            <SmallLoader />
+                        </div>
                     </>}
 
 
@@ -598,23 +606,24 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">Fuel Variances {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
+                                <h5 className="font-bold text-lg">{formik?.values?.toggle ? 'Tested Fuel' : 'Fuel Variances'}  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
 
                                 {
                                     GraphData?.fuel_stock_stats?.series ? <div className=' flex items-end text-end'>
                                         <Col lg={12} md={12}>
                                             <div className="mt-2 sm:grid-cols-1 flexcenter ">
                                                 <span className="font-bold mr-2">
+
                                                     Fuel Variance
                                                 </span>
                                                 <label style={{ cursor: "pointer" }} className="w-12 h-6 relative ">
                                                     <input
                                                         type="checkbox"
                                                         className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
-                                                        checked={formik.values.toggle}
+                                                        checked={formik?.values?.toggle}
                                                         onChange={handleToggleChange}
                                                     />
-                                                    <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${formik.values.toggle ? 'bg-primary border-primary' : 'bg-[#9ca3af] border-[#9ca3af]'}`}>
+                                                    <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${formik.values.toggle ? 'bg-primary border-primary' : 'bg-primary border-primary'}`}>
                                                         <span className={`absolute bottom-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${formik.values.toggle ? 'bg-white left-7' : 'bg-white left-1'}`}>
                                                             {/* {formik.values.toggle ? (
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f95a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
@@ -815,13 +824,13 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                     </div>
 
                                     <div className="fuel-stats-buttons mt-4 col-span-4 displaycanter w-full">
-                                    <div style={{minHeight:"300px"}} className="flexcenter">
-                                        <div className="flex flex-wrap gap-2 col-span-9 justify-center">
-                                            <div className='flexcenter'>   <SmallLoader /></div>
+                                        <div style={{ minHeight: "300px" }} className="flexcenter">
+                                            <div className="flex flex-wrap gap-2 col-span-9 justify-center">
+                                                <div className='flexcenter'>   <SmallLoader /></div>
 
 
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
 
@@ -831,7 +840,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         <h5 className="font-bold text-lg">Station: {fuelStats?.station_name} ({selectedDate})</h5>
                                     </div>
 
-                                    <div style={{minHeight:"300px"}} className="flexcenter">
+                                    <div style={{ minHeight: "300px" }} className="flexcenter">
                                         <div className="flex flex-wrap gap-2 col-span-9 justify-center">
                                             <div className='flexcenter'>   <SmallLoader /></div>
 

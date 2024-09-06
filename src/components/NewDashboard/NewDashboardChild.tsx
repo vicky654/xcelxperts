@@ -304,13 +304,13 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                             </div>
 
-                            <div  style={{
-    color: secondApiResponse?.lubes_value?.status === 'up'
-      ? "#37a40a"  // Color if status is 'up'
-      : secondApiResponse?.lubes_value?.status === 'down'
-      ? "red"      // Color if status is 'down'
-      : "#000"     // Fallback color if status is neither 'up' nor 'down'
-  }}
+                            <div style={{
+                                color: secondApiResponse?.lubes_value?.status === 'up'
+                                    ? "#37a40a"  // Color if status is 'up'
+                                    : secondApiResponse?.lubes_value?.status === 'down'
+                                        ? "red"      // Color if status is 'down'
+                                        : "#000"     // Fallback color if status is neither 'up' nor 'down'
+                            }}
                                 className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.lubes_value?.status && (
                                     secondApiResponse?.lubes_value?.status == 'up'
@@ -371,7 +371,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                     <div>
                                         <div className="grid grid-cols-2 gap-4 my-3">
                                             <div>
-                                                <h6 className="font-semibold">Gross Volume</h6>
+                                                <h6 className="font-semibold">Gross Volume (Fuel)</h6>
                                                 <p className="text-lg">
                                                     ℓ{FormatNumberCommon(item?.sales_volume.sales_volume)}
                                                     <span
@@ -393,7 +393,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                             </div>
 
                                             <div>
-                                                <h6 className="font-semibold">Gross Value</h6>
+                                                <h6 className="font-semibold">Gross Value (Fuel)</h6>
                                                 <p className="text-lg">
                                                     {currency}{FormatNumberCommon(item?.sales_value.sales_value)}
                                                     <span
@@ -419,7 +419,30 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
                                         <div className="grid grid-cols-2 gap-4 my-3">
                                             <div>
-                                                <h6 className="font-semibold">Gross Profit</h6>
+                                                <h6 className="font-semibold">Gross Value  (Lubes) </h6>
+                                                <p className="text-lg">
+                                                    {currency}{FormatNumberCommon(item?.lubes_value?.lubes_value || '0')}
+                                                    <span
+                                                        className={`ml-2 ${item?.lubes_value?.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                    >
+                                                        {item?.lubes_value?.status === "up" ? (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-up"></i>{" "}
+                                                                {item?.lubes_value?.percentage}%
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <i className="fa fa-chevron-circle-down"></i>{" "}
+                                                                {item?.lubes_value?.percentage}%
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+
+                                            <div>
+                                                <h6 className="font-semibold">Gross Profit  (Lubes + Fuel)</h6>
                                                 <p className="text-lg">
                                                     {currency}{FormatNumberCommon(item?.profit.profit)}
                                                     <span
@@ -440,27 +463,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 </p>
                                             </div>
 
-                                            <div>
-                                                <h6 className="font-semibold">Stock Loss</h6>
-                                                <p className="text-lg">
-                                                    {currency}{FormatNumberCommon(item?.stock?.value || '0')}
-                                                    <span
-                                                        className={`ml-2 ${item?.stock?.status === "up" ? "text-green-500" : "text-red-500"}`}
-                                                    >
-                                                        {item?.stock?.status === "up" ? (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-up"></i>{" "}
-                                                                {item?.stock?.percentage}%
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <i className="fa fa-chevron-circle-down"></i>{" "}
-                                                                {item?.stock?.percentage}%
-                                                            </>
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
