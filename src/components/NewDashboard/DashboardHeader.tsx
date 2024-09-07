@@ -36,7 +36,7 @@ const DashboardHeader: React.FC<any> = ({
     setModalOpen,
     handleResetFilters,
 }) => {
-    console.log(DashfilterData, "DashfilterData");
+  
     return (
         <div className='flex justify-between items-center flex-wrap'>
             <div>

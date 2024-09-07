@@ -183,7 +183,6 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             : Yup.mixed().notRequired(),
         entity_id: Yup.string().required("Entity is required"),
     });
-    console.log(secondApiResponse, "secondApiResponse");
 
     return (
         <>

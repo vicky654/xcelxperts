@@ -423,6 +423,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             setSelectedDate(defaultDate);
             handleDateClick(defaultDate);
         }
+        console.clear()
     }, [fuelStats]);
 
     // const { sales_volume, sales_value, profit } = useContext(AppContext);
