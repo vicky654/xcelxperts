@@ -79,9 +79,25 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
     const [dashboarGraphdLoading, setDashboarGraphdLoading] = useState<boolean>(false);
     const [stationStockLoading, setStationStockLoading] = useState<boolean>(false);
-    const [toggle, setToggle] = useState(!formik.values.toggle);
+    const [toggle, setToggle] = useState(false);
 
+    const handleToggleChange = (event: any) => {
+        // Update the toggle and send the correct value to GetDashboardGraphStats
+        const newToggleValue = !toggle; // Get the new value after toggle
+        setToggle(newToggleValue); // Update local state
 
+        // Update Formik state
+        formik.setFieldValue('toggle', newToggleValue);
+
+        // Decide which data to send based on the new toggle value
+        const dataToSend = newToggleValue ? 'tested_fuel' : 'variance';
+
+        if (storedData) {
+            const updatedData = { ...JSON.parse(storedData), f_type: dataToSend };
+            GetDashboardGraphStats(updatedData,newToggleValue); // Fetch with updated f_type
+        }
+
+    };
     const GetDashboardStats = async (filters: FilterValues) => {
         const { client_id, entity_id, station_id } = filters;
         if (client_id) {
@@ -113,7 +129,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             }
         }
     };
-    const GetDashboardGraphStats = async (filters: FilterValues) => {
+    const GetDashboardGraphStats = async (filters: FilterValues,newToggleValue:boolean) => {
         const { client_id, entity_id, station_id } = filters;
         if (client_id) {
             try {
@@ -122,7 +138,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 if (client_id) queryParams.append('client_id', client_id);
                 if (entity_id) queryParams.append('entity_id', entity_id);
                 if (station_id) queryParams.append('station_id', station_id);
-                queryParams.append('f_type', toggle ? 'tested_fuel' : 'variance');
+                queryParams.append('f_type', newToggleValue ? 'tested_fuel' : 'variance');
+
 
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/fuel-stats?${queryString}`);
@@ -171,9 +188,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
-
     const reduxData = useSelector((state: IRootState) => state?.data?.data);
-
     const storedData = localStorage.getItem(storedKeyName);
 
 
@@ -183,7 +198,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             handleApplyFilters(JSON.parse(storedData));
         } else if (localStorage.getItem("superiorRole") === "Client") {
             const storedClientIdData = localStorage.getItem("superiorId");
-
             if (storedClientIdData) {
                 fetchCompanyList(storedClientIdData)
 
@@ -235,7 +249,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
         setFilters(values);
         GetDashboardStats(values);
-        GetDashboardGraphStats(values);
+        GetDashboardGraphStats(values,toggle);
         if (values?.station_id) {
             GetStationStock(values?.station_id)
         }
@@ -437,28 +451,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     };
 
 
-    const handleToggleChange = (event: any) => {
-
-        if (storedData) {
-            GetDashboardGraphStats(JSON.parse(storedData));
-        } else if (localStorage.getItem("superiorRole") === "Client") {
-            const storedClientIdData = localStorage.getItem("superiorId");
-
-            if (storedClientIdData) {
-                fetchCompanyList(storedClientIdData)
-
-            }
-        }
 
 
-        setToggle(!toggle); // Update local state
-        formik.setFieldValue('toggle', !formik.values.toggle); // Update Formik state
-        // formik.setFieldValue('toggle', event.target.checked);
-    };
 
-
-    console.log(formik.values.toggle, "formik.values.toggle");
-    console.log(toggle, "toggle");
 
 
 
@@ -606,40 +601,29 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                     <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">{formik?.values?.toggle ? 'Tested Fuel' : 'Fuel Variances'}  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
+                                <h5 className="font-bold text-lg">{toggle ? 'Tested Fuel' : 'Fuel Variances'}  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
 
                                 {
                                     GraphData?.fuel_stock_stats?.series ? <div className=' flex items-end text-end'>
                                         <Col lg={12} md={12}>
-                                            <div className="mt-2 sm:grid-cols-1 flexcenter ">
-                                                <span className="font-bold mr-2">
+                                            <div className="mt-2 sm:grid-cols-1 flexcenter">
+                                                <span className="font-bold mr-2">Fuel Variance</span>
 
-                                                    Fuel Variance
-                                                </span>
-                                                <label style={{ cursor: "pointer" }} className="w-12 h-6 relative ">
+                                                {/* Toggle Switch */}
+                                                <label style={{ cursor: "pointer" }} className="w-12 h-6 relative">
                                                     <input
                                                         type="checkbox"
                                                         className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
-                                                        checked={formik?.values?.toggle}
+                                                        checked={toggle}
                                                         onChange={handleToggleChange}
                                                     />
-                                                    <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${formik.values.toggle ? 'bg-primary border-primary' : 'bg-primary border-primary'}`}>
-                                                        <span className={`absolute bottom-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${formik.values.toggle ? 'bg-white left-7' : 'bg-white left-1'}`}>
-                                                            {/* {formik.values.toggle ? (
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f95a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
-                                                                    <path d="M20 6L9 17l-5-5" />
-                                                                </svg>
-                                                            ) : (
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f95a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
-                                                                    <path d="M20 6L9 17l-5-5" />
-                                                                </svg>
-                                                            )} */}
+                                                    <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${toggle ? 'bg-primary border-primary' : 'bg-primary border-primary'}`}>
+                                                        <span className={`absolute bottom-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${toggle ? 'bg-white left-7' : 'bg-white left-1'}`}>
                                                         </span>
                                                     </span>
                                                 </label>
-                                                <span className="font-bold ms-2">
-                                                    Tested Fuel
-                                                </span>
+
+                                                <span className="font-bold ms-2">Tested Fuel</span>
                                             </div>
                                         </Col>
                                     </div> : ""
