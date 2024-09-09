@@ -44,6 +44,7 @@ interface RoleItem {
 
 const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
+    const [stationdata, setStationData] = useState<RowData[]>([]);
     const [hirstoryData, sethirstoryData] = useState<any>([]);
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
@@ -275,6 +276,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             formData.append('amount', values.amount);
             formData.append('notes', values.notes);
             formData.append('t_date', values.t_date);
+            formData.append('station_id', values.station_id);
 
 
             if (id) {
@@ -287,7 +289,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             if (response) {
                 handleSuccess();
                 closeModal();
-            } 
+            }
         } catch (error) {
             handleApiError(error);
         }
@@ -317,6 +319,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
             if (response && response.data && response.data.data) {
 
                 setData(response.data.data?.history?.listing);
+                setStationData(response.data.data?.stations);
                 setCurrentPage(response.data.data?.history?.currentPage || 1);
                 setLastPage(response.data.data?.history?.lastPage || 1);
                 sethirstoryData(response.data.data);
@@ -394,13 +397,13 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
                     </button>
                 )}
             </div>
-            <AddEditHistoryTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddEditHistoryTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} stationdata={stationdata} />
 
             <div className=" mt-6">
                 <div className="panel h-full xl:col-span-3">
                     <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                         <h1 className="text-lg font-semibold   ">
-                        {`Credit Users History ${hirstoryData?.name ? `( ${ hirstoryData.name } ) ` : ""}`}
+                            {`Credit Users History ${hirstoryData?.name ? `( ${hirstoryData.name} ) ` : ""}`}
 
                             {selectedMonth &&
                                 (<span onClick={() => handleDownloadPdf()}>

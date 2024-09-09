@@ -42,6 +42,7 @@ interface AddEditHistoryTankModalProps {
     userId?: string | null;
     editUserData?: Partial<RowData> | null;
     tankList?: tankList;
+    stationdata?: any;
 }
 
 
@@ -52,9 +53,12 @@ type tankList = {
     pumps: [];
 };
 
-const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId }) => {
+const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId, stationdata }) => {
     const handleApiError = useErrorHandler();
     const [clients, setClients] = useState<Client[]>([]);
+
+    console.log(stationdata, "stationdata");
+
     useEffect(() => {
         if (isOpen) {
             formik.resetForm()
@@ -64,13 +68,10 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
                     // Simulate the change event to call handleClientChange
                     handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
                 }
-            } else {
-                FetchClientList();
             }
 
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
-                // FetchClientList();
             }
         }
     }, [isOpen, isEditMode, userId]);
@@ -88,15 +89,7 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
 
         }
     };
-    const FetchClientList = async () => {
-        try {
-            const response = await getData('/getClients');
-            const clients = response.data.data;
-            setClients(clients);
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
+
     const fetchUserDetails = async (id: string) => {
         try {
             const response = await getData(`/credit-user/detail?id=${id}`);
@@ -120,12 +113,13 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
     };
     const credituserHistoryInitialValues = {
         notes: '',
+        station_id: '',
         t_date: '',
         amount: '',
-
-
-
     };
+
+
+
     const credituserHistoryValidationSchema = (isEditMode: boolean) => {
         return Yup.object().shape({
 
@@ -134,12 +128,14 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
                 .matches(/^[^\s]/, 'cannot start with a space'),
             t_date: Yup.string()
                 .required('Transaction Date is required'),
-
+            station_id: Yup.string()
+                .required('Station is required'),
             amount: Yup.string()
                 .required('Amount is required')
                 .matches(/^[^\s]/, 'cannot start with a space'),
         });
     };
+
     const formik = useFormik({
         initialValues: credituserHistoryInitialValues,
         validationSchema: credituserHistoryValidationSchema(isEditMode),
@@ -170,12 +166,23 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
                                         <div className="flex flex-col sm:flex-row">
                                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="station_id"
+                                                    label="Station Name"
+                                                    options={stationdata?.map((item: any) => ({ id: item.id, name: item.name }))}
+                                                    className="form-select text-white-dark"
+                                                // onChange={handleSiteChange}
+                                                />
+
 
                                                 <FormikInput formik={formik} type="number" name="amount" label="Amount" />
 
                                                 <FormikInput formik={formik} type="date" name="t_date" label="Transaction  date" />
 
                                                 <FormikInput formik={formik} type="text" name="notes" label="Notes" />
+
+
 
                                                 <div className="sm:col-span-2 mt-3">
                                                     <button type="submit" className="btn btn-primary">
