@@ -83,7 +83,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             if (clientId) {
                 formik.setFieldValue("client_id", clientId)
                 GetUserList(clientId)
-          
+
             }
         }
 
@@ -106,7 +106,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                     GetUserList(storedData.client_id)
                 }
             } catch (error) {
-              
+
             }
         }
     }, [dispatch]);
@@ -297,7 +297,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             if (response) {
                 handleSuccess();
                 closeModal();
-            } 
+            }
         } catch (error) {
             handleApiError(error);
         }
@@ -443,7 +443,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                                             formik={formik}
                                             name="client_id"
                                             label="Client"
-                                            options={RoleList.map((item) => ({
+                                            options={RoleList?.map((item) => ({
                                                 id: item.id,
                                                 name: item.client_name,
                                             }))}
