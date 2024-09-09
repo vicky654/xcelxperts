@@ -58,6 +58,7 @@ interface TabData {
   currentLabel: string;
 
   listing: {
+    credit_received: string;
     id: string;
     date: string;
     fuel_sales: string;
@@ -672,7 +673,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Date</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Total Sales
                             <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip">
-                              (Fuel Sales + Lubes Sales + Incomes ) - Expenses + Credit Sales
+                              (Fuel Sales + Lubes Sales + Incomes ) - (Expenses + Credit Sales)
                             </Tooltip>}>
                               <i style={{ fontSize: "20px" }} className="fi fi-sr-comment-info ml-1"></i>
                             </OverlayTrigger>
@@ -680,6 +681,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Fuel Sales</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Cash Deposited</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Owner Collection</th>
+                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Credit Received</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Previous Variance</th>
                           <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Balance</th>
                         </tr>
@@ -700,6 +702,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.fuel_sales)}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.cash_deposited)}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.owner_collection)}</td>
+                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.credit_received)}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.previous_variance)}</td>
                             <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.balance)}</td>
                           </tr>
@@ -909,9 +912,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                           <div className="overflow-x-auto">
                             <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
                               <li className="flex justify-between p-2 bg-gray-200">
-                                <p className="font-semibold w-1/2">Name 
+                                <p className="font-semibold w-1/2">Name
 
-                                 
+
                                 </p>
                                 <p className="font-semibold w-1/2">
                                   {selectedTab === 'Fuel Delivery' ? 'Delivery'
@@ -923,20 +926,20 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                 activeAccordion === `${currency}-${index}` &&
                                 subData?.map((subItem, subIndex) => (
                                   <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                    <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes &&(
-                                    <OverlayTrigger
-                                      placement="bottom"
-                                      overlay={
-                                        <Tooltip className="custom-tooltip" id="tooltip-amount">
-                                          {subItem?.notes}
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i className="fi fi-sr-comment-info"></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  )}</p>
+                                    <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes && (
+                                      <OverlayTrigger
+                                        placement="bottom"
+                                        overlay={
+                                          <Tooltip className="custom-tooltip" id="tooltip-amount">
+                                            {subItem?.notes}
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span>
+                                          <i className="fi fi-sr-comment-info"></i>
+                                        </span>
+                                      </OverlayTrigger>
+                                    )}</p>
                                     <p className="w-1/2">
                                       {selectedTab === 'Fuel Delivery'
                                         ? capacity + FormatNumberCommon(subItem?.delivery)
