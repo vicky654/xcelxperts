@@ -196,7 +196,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
         if (storedData && reduxData?.role) {
             handleApplyFilters(JSON.parse(storedData));
-        } else if (localStorage.getItem("superiorRole") === "Client") {
+        } else if (localStorage.getItem("superiorRole") === "Client" && reduxData?.role) {
             const storedClientIdData = localStorage.getItem("superiorId");
             if (storedClientIdData) {
                 fetchCompanyList(storedClientIdData)
