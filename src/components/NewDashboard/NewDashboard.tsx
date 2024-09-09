@@ -94,7 +94,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
         if (storedData) {
             const updatedData = { ...JSON.parse(storedData), f_type: dataToSend };
-            GetDashboardGraphStats(updatedData,newToggleValue); // Fetch with updated f_type
+            GetDashboardGraphStats(updatedData, newToggleValue); // Fetch with updated f_type
         }
 
     };
@@ -129,7 +129,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             }
         }
     };
-    const GetDashboardGraphStats = async (filters: FilterValues,newToggleValue:boolean) => {
+    const GetDashboardGraphStats = async (filters: FilterValues, newToggleValue: boolean) => {
         const { client_id, entity_id, station_id } = filters;
         if (client_id) {
             try {
@@ -194,7 +194,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
     useEffect(() => {
 
-        if (storedData) {
+        if (storedData && reduxData?.role) {
             handleApplyFilters(JSON.parse(storedData));
         } else if (localStorage.getItem("superiorRole") === "Client") {
             const storedClientIdData = localStorage.getItem("superiorId");
@@ -249,7 +249,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
         setFilters(values);
         GetDashboardStats(values);
-        GetDashboardGraphStats(values,toggle);
+        GetDashboardGraphStats(values, toggle);
         if (values?.station_id) {
             GetStationStock(values?.station_id)
         }
