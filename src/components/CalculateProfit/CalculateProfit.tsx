@@ -183,10 +183,13 @@ const CalculateProfit: React.FC<AddEditManagesupplierProps> = ({ postedData, pos
                         <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-5">
                             <FormikInput formik={formik} type="number" name="delivery_volume" />
 
-                            <div className="sm:col-span-2 mt-3">
+                            <div className="sm:col-span-2 mt-3 flex items-center gap-2">
                                 <button type="submit" className="btn btn-primary">
                                     Check
                                 </button>
+
+                                <h5 className="font-bold text-lg dark:text-white-light">Gross Profit :   {data?.commission}  +  {data?.insentive} = {data?.gross_profit}</h5>
+
                             </div>
                         </div>
                     </div>
@@ -198,7 +201,9 @@ const CalculateProfit: React.FC<AddEditManagesupplierProps> = ({ postedData, pos
                     <div className={`panel h-full `}>
 
                         <div className="flex md:items-center md:flex-row flex-col mb-5 spacebetween">
-                            <h5 className="font-bold text-lg dark:text-white-light">Gross Profit =   {data?.commission}  +  {data?.insentive} = {data?.gross_profit}</h5>
+
+                            <h5 className="font-bold text-lg dark:text-white-light">Incentive Slabs</h5>
+
                         </div>
 
 
