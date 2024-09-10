@@ -145,6 +145,7 @@ import StockLoss from '../components/SideBarComponents/ManageStation/StockLoss';
 import NewDashboard from '../components/NewDashboard/NewDashboard';
 import NewDashboardChild from '../components/NewDashboard/NewDashboardChild';
 import NewDashboardSubChild from '../components/NewDashboard/NewDashboardSubChild';
+import CalculateProfit from '../components/CalculateProfit/CalculateProfit';
 
 const routes = [
   {
@@ -167,6 +168,12 @@ const routes = [
   {
     path: '/dashboard/overview',
     element: <NewDashboardChild />,
+  },
+
+
+  {
+    path: '/calculate-profit',
+    element: <CalculateProfit />,
   },
 
 

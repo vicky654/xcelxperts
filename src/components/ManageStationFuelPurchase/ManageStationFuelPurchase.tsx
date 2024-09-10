@@ -81,7 +81,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         if (storedDataString) {
             try {
                 const storedData = JSON.parse(storedDataString);
-            
+
 
                 const now = new Date();
                 const year = now.getFullYear();
@@ -448,11 +448,11 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                     </li>
                 </ul>
 
-                {isAddPermissionAvailable && <>
+                {/* {isAddPermissionAvailable && <>
                     <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
                         Add Station Fuel Purchase Price
                     </button>
-                </>}
+                </>} */}
 
 
             </div>

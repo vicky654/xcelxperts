@@ -83,7 +83,7 @@ interface ApexData {
 }
 
 const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
-  const [selectedTab, setSelectedTab] = useState<string>('Variance Accumulation');
+  const [selectedTab, setSelectedTab] = useState<string>('Fuel Sales');
   const [subData, setSubData] = useState<any[]>([]);
   const ReduxData: any = useSelector((state: IRootState) => state?.data?.data);
   const [tabData, setTabData] = useState<TabData>({
@@ -139,33 +139,33 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
   const staticTabs = [
-    'Variance Accumulation',
-    'Fuel Variance',
-    'Tested Fuel',
     'Fuel Sales',
     'Fuel Delivery',
-    'Credit Sales',
+    'Tested Fuel',
+    'Fuel Variance',
     'Lube Sales',
+    'Credit Sales',
     'Incomes',
     'Expenses',
     'Digital Receipt',
     'Cash Flow',
+    'Variance Accumulation',
 
   ];
 
 
   const tabKeyMap: { [key: string]: string } = {
-    'Variance Accumulation': 'variance-accumulation',
-    'Fuel Variance': 'fuel-variance',
-    'Tested Fuel': 'tested-fuel',
     'Fuel Sales': 'fuel-sales',
     'Fuel Delivery': 'fuel-delivery',
+    'Tested Fuel': 'tested-fuel',
+    'Fuel Variance': 'fuel-variance',
     'Lube Sales': 'lube-sales',
+    'Credit Sales': 'credit-sales',
     'Incomes': 'charges',
     'Expenses': 'deductions',
     'Digital Receipt': 'payments',
-    'Credit Sales': 'credit-sales',
     'Cash Flow': 'cash-flow',
+    'Variance Accumulation': 'variance-accumulation',
   };
 
 
@@ -207,9 +207,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
       }
 
       setFilters(values)
-      const response = await getData(`/stats/variance-accumulation?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
+      const response = await getData(`/stats/fuel-sales?station_id=${values?.station_id}&drs_date=${values?.start_month}`);
       if (response && response.data && response.data.data) {
-        setSelectedTab("Variance Accumulation")
+        setSelectedTab("Fuel Sales")
         setTabData(response.data?.data);
         setStationId(values?.station_id);
         setStartDate(values?.start_month);
