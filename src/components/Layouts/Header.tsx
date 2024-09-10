@@ -24,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
     const { data } = useSelector((state: IRootState) => state?.data);
     const isProfileUpdatePermissionAvailable = data?.permissions?.includes('profile-update-profile');
     const isSettingsPermissionAvailable = data?.permissions?.includes('config-setting');
+    const isCalculateProfitPermissionAvailable = data?.permissions?.includes('calculate-profit');
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
         if (selector) {
@@ -165,6 +166,14 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
                                             <button onClick={() => handleNavigation('Settings', '/users/user-account-settings')} className="dark:hover:text-white flex items-center">
                                                 <i className="fi fi-rr-settings"></i>
                                                 Settings
+                                            </button>
+                                        </li>
+                                    )}
+                                    {isCalculateProfitPermissionAvailable && (
+                                        <li>
+                                            <button onClick={() => navigate('/calculate-profit')} className="dark:hover:text-white flex items-center">
+                                                <i className="fi fi-rr-calculator"></i>
+                                                Calculate Profit
                                             </button>
                                         </li>
                                     )}
