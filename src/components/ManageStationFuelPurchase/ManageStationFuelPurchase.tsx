@@ -222,9 +222,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             name: (
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">EX Vat</Tooltip>}
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Ex Vat</Tooltip>}
                 >
-                    <span >EX Vat</span>
+                    <span >Ex Vat</span>
                 </OverlayTrigger>
             ),
             cell: (row: FuelDeliveryData, index: number) => (
@@ -250,9 +250,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             name: (
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Vat Percentage Rate</Tooltip>}
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Vat Percentage (%)</Tooltip>}
                 >
-                    <span >Vat Percentage Rate</span>
+                    <span >Vat Percentage (%)</span>
                 </OverlayTrigger>
             ),
             cell: (row: FuelDeliveryData, index: number) => (

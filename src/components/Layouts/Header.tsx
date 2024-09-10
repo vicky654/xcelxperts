@@ -22,9 +22,13 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { data } = useSelector((state: IRootState) => state?.data);
-    const isProfileUpdatePermissionAvailable = data?.permissions?.includes('profile-update-profile');
-    const isSettingsPermissionAvailable = data?.permissions?.includes('config-setting');
-    const isCalculateProfitPermissionAvailable = data?.permissions?.includes('calculate-profit');
+
+    const reduxData = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+    const isProfileUpdatePermissionAvailable = reduxData?.includes('profile-update-profile');
+    const isSettingsPermissionAvailable = reduxData?.includes('config-setting');
+    const isCalculateProfitPermissionAvailable = reduxData?.includes('calculate-profit');
+
+
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
         if (selector) {
@@ -45,6 +49,7 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
             }
         }
     }, [location]);
+
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const dispatch = useDispatch();

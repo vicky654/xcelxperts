@@ -287,6 +287,8 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             subHeadingData={filterData?.sales_volume}
                             boxNumberClass={"secondbox"}
                         />
+
+
                         <div
                             className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
                         >
@@ -304,17 +306,17 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             </div>
 
                             <div style={{
-                                color: secondApiResponse?.lubes_value?.status === 'up'
-                                    ? "#37a40a"  // Color if status is 'up'
-                                    : secondApiResponse?.lubes_value?.status === 'down'
-                                        ? "red"      // Color if status is 'down'
-                                        : "#000"     // Fallback color if status is neither 'up' nor 'down'
+                                color: secondApiResponse?.lubes_value?.status === 'UP'
+                                    ? "#37a40a"  // Color if status is 'UP'
+                                    : secondApiResponse?.lubes_value?.status === 'DOWN'
+                                        ? "red"      // Color if status is 'DOWN'
+                                        : "#000"     // Fallback color if status is neither 'UP' nor 'DOWN'
                             }}
                                 className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
                                 {secondApiResponse?.lubes_value?.status && (
-                                    secondApiResponse?.lubes_value?.status == 'up'
+                                    secondApiResponse?.lubes_value?.status == 'UP'
                                         ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
-                                        : secondApiResponse?.lubes_value?.status === 'down'
+                                        : secondApiResponse?.lubes_value?.status === 'DOWN'
                                             ? <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                             : null
                                 )}
@@ -340,8 +342,6 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
 
 
 
-
-                        {/* 4th Card */}
 
 
 
@@ -374,9 +374,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 <p className="text-lg">
                                                     ℓ{FormatNumberCommon(item?.sales_volume.sales_volume)}
                                                     <span
-                                                        className={`ml-2 ${item?.sales_volume.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                        className={`ml-2 ${item?.sales_volume.status === 'UP' ? "text-green-500" : "text-red-500"}`}
                                                     >
-                                                        {item?.sales_volume.status === "up" ? (
+                                                        {item?.sales_volume.status === 'UP' ? (
                                                             <>
                                                                 <i className="fa fa-chevron-circle-up"></i>{" "}
                                                                 {item?.sales_volume.percentage}%
@@ -396,9 +396,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 <p className="text-lg">
                                                     {currency}{FormatNumberCommon(item?.sales_value.sales_value)}
                                                     <span
-                                                        className={`ml-2 ${item?.sales_value.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                        className={`ml-2 ${item?.sales_value.status === 'UP' ? "text-green-500" : "text-red-500"}`}
                                                     >
-                                                        {item?.sales_value.status === "up" ? (
+                                                        {item?.sales_value.status === 'UP' ? (
                                                             <>
                                                                 <i className="fa fa-chevron-circle-up"></i>{" "}
                                                                 {item?.sales_value.percentage}%
@@ -422,9 +422,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 <p className="text-lg">
                                                     {currency}{FormatNumberCommon(item?.lubes_value?.lubes_value || '0')}
                                                     <span
-                                                        className={`ml-2 ${item?.lubes_value?.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                        className={`ml-2 ${item?.lubes_value?.status === 'UP' ? "text-green-500" : "text-red-500"}`}
                                                     >
-                                                        {item?.lubes_value?.status === "up" ? (
+                                                        {item?.lubes_value?.status === 'UP' ? (
                                                             <>
                                                                 <i className="fa fa-chevron-circle-up"></i>{" "}
                                                                 {item?.lubes_value?.percentage}%
@@ -445,9 +445,9 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                                 <p className="text-lg">
                                                     {currency}{FormatNumberCommon(item?.profit.profit)}
                                                     <span
-                                                        className={`ml-2 ${item?.profit.status === "up" ? "text-green-500" : "text-red-500"}`}
+                                                        className={`ml-2 ${item?.profit.status === 'UP' ? "text-green-500" : "text-red-500"}`}
                                                     >
-                                                        {item?.profit.status === "up" ? (
+                                                        {item?.profit.status === 'UP' ? (
                                                             <>
                                                                 <i className="fa fa-chevron-circle-up"></i>{" "}
                                                                 {item?.profit.percentage}%

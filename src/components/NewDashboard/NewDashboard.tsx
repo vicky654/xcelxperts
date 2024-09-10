@@ -541,9 +541,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 {/* {` (ℓ${FormatNumberCommon(DashfilterData?.lubes_value
                                     ?.volume ?? '')} )`} */}
 
-
-
-
                             </div>
 
 
@@ -551,16 +548,16 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                             <div style={{
                                 color: DashfilterData?.lubes_value
-                                    ?.status == 'up'
-                                    ? '#37a40a'  // Green for 'up'
+                                    ?.status == 'UP'
+                                    ? '#37a40a'  // Green for 'UP'
                                     : DashfilterData?.lubes_value
-                                        ?.status == 'down'
-                                        ? 'red'  // Red for 'down'
+                                        ?.status == 'DOWN'
+                                        ? 'red'  // Red for 'DOWN'
                                         : '#000'  // Black for any other case
                             }}
                                 className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
                                 {DashfilterData?.lubes_value
-                                    ?.status == 'up'
+                                    ?.status == 'UP'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
                                     : <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                 }

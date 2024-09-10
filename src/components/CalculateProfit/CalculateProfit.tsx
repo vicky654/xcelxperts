@@ -188,7 +188,9 @@ const CalculateProfit: React.FC<AddEditManagesupplierProps> = ({ postedData, pos
                                     Check
                                 </button>
 
-                                <h5 className="font-bold text-lg dark:text-white-light">Gross Profit :   {data?.commission}  +  {data?.insentive} = {data?.gross_profit}</h5>
+                                {data?.gross_profit && (<>
+                                    <h5 className="font-bold text-lg dark:text-white-light">Gross Profit :   {data?.commission}  +  {data?.insentive} = {data?.gross_profit}</h5>
+                                </>)}
 
                             </div>
                         </div>

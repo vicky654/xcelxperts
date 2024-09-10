@@ -3,7 +3,7 @@ import { FormatNumberCommon } from '../CommonFunctions';
 import { capacity, currency } from '../../utils/CommonData';
 
 interface SubHeadingData {
-    status?: 'up' | 'down' | string;
+    status?: 'UP' | 'DOWN' | string;
     percentage?: number;
 }
 
@@ -24,11 +24,13 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
     subHeadingData,
     boxNumberClass,
 }) => {
+
+
     const getStatusColor = (status?: string) => {
         switch (status) {
-            case 'up':
+            case 'UP':
                 return '#37a40a'; // Green for 'up'
-            case 'down':
+            case 'DOWN':
                 return 'red'; // Red for 'down'
             default:
                 return '#000'; // Black for any other case
@@ -45,15 +47,15 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
             </div>
             <div className="flex items-center">
                 <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-                {title === "Gross Volume (Fuel)" ? `${capacity}` : `${currency}`}
-                {FormatNumberCommon(headingValue)}
+                    {title === "Gross Volume (Fuel)" ? `${capacity}` : `${currency}`}
+                    {FormatNumberCommon(headingValue)}
                 </div>
             </div>
             <div
                 style={{ color: getStatusColor(subHeadingData?.status) }}
                 className="badge w-1/3 bg-white flex items-center font-semibold mt-5"
             >
-                {subHeadingData?.status === 'up' ? (
+                {subHeadingData?.status === 'UP' ? (
                     <i style={{ color: '#37a40a' }} className="fi fi-tr-chart-line-up"></i>
                 ) : (
                     <i style={{ color: 'red' }} className="fi fi-tr-chart-arrow-down"></i>
