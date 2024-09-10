@@ -477,7 +477,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                                 {currency} {" "}
                                 {isHovered && (
-                                    <button className=" ms-2  button-icon" > Total Earnings</button>
+                                    <button className=" ms-2  button-icon" > Total Revenue</button>
                                 )}
                             </button>
                         </div>

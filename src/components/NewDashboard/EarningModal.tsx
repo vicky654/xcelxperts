@@ -150,7 +150,7 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Total Earnings' : 'Total Earnings'} onClose={onClose} />
+                                <AddModalHeader title={isEditMode ? 'Total Revenue' : 'Total Revenue'} onClose={onClose} />
 
                                 {!data ? (
                                     <h1 className='p-6 py-3 bg-danger text-white'>
@@ -163,7 +163,7 @@ const EarningModal: React.FC<any> = ({ isOpen, onClose, getData, isEditMode, dat
                                     <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
                                         <div className="panel h-full xl:col-span-2 ">
                                             <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                                <h5 className="font-bold text-lg">Total Earnings {Date ? `(${Date})` : ""}
+                                                <h5 className="font-bold text-lg">Total Revenue {Date ? `(${Date})` : ""}
                                                 </h5>
                                             </div>
 
