@@ -321,7 +321,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                                             : null
                                 )}
                                 {secondApiResponse?.lubes_value?.percentage !== undefined ? (
-                                    <span>Last Month {filterData?.lubes_value?.percentage}%</span>
+                                    <span>Last Month <br /> {filterData?.lubes_value?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>

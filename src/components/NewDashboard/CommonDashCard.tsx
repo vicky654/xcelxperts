@@ -59,9 +59,10 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
                     <i style={{ color: '#37a40a' }} className="fi fi-tr-chart-line-up"></i>
                 ) : (
                     <i style={{ color: 'red' }} className="fi fi-tr-chart-arrow-down"></i>
-                )}
+                )}        
                 <span>
-                    Last Month {subHeadingData?.percentage !== undefined ? subHeadingData.percentage + '%' : ''}
+                    
+                    Last Month  <br /> {subHeadingData?.percentage !== undefined ? subHeadingData.percentage + '%' : ''}
                 </span>
             </div>
         </div>

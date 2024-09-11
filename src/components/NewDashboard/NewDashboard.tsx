@@ -587,8 +587,9 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             ? <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                             : null
                                 )}
+                                <br/>
                                 {DashfilterData?.lubes_value?.percentage !== undefined ? (
-                                    <span>Last Month {DashfilterData?.lubes_value?.percentage}%</span>
+                                    <span>Last Month <br /> {DashfilterData?.lubes_value?.percentage}%</span>
                                 ) : (
                                     <span>Last Month  </span>
                                 )}</div>
