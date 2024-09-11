@@ -546,7 +546,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
 
-                            <div style={{
+                            {/* <div style={{
                                 color: DashfilterData?.lubes_value
                                     ?.status == 'UP'
                                     ? '#37a40a'  // Green for 'UP'
@@ -555,7 +555,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                         ? 'red'  // Red for 'DOWN'
                                         : '#000'  // Black for any other case
                             }}
-                                className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
+                                className=" badge w-1/2 bg-white flex items-center font-semibold mt-5">
                                 {DashfilterData?.lubes_value
                                     ?.status == 'UP'
                                     ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
@@ -571,7 +571,27 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                 ) : (
                                     <span>Last Month </span>
                                 )}
-                            </div>
+                            </div> */}
+                            <div style={{
+                                color: DashfilterData?.lubes_value?.status === 'UP'
+                                    ? "#37a40a"  // Color if status is 'UP'
+                                    : DashfilterData?.lubes_value?.status === 'DOWN'
+                                        ? "red"      // Color if status is 'DOWN'
+                                        : "#000"     // Fallback color if status is neither 'UP' nor 'DOWN'
+                            }}
+                                className=" badge w-1/3 bg-white flex items-center font-semibold mt-5">
+                                {DashfilterData?.lubes_value?.status && (
+                                    DashfilterData?.lubes_value?.status == 'UP'
+                                        ? <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i>
+                                        : DashfilterData?.lubes_value?.status === 'DOWN'
+                                            ? <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
+                                            : null
+                                )}
+                                {DashfilterData?.lubes_value?.percentage !== undefined ? (
+                                    <span>Last Month {DashfilterData?.lubes_value?.percentage}%</span>
+                                ) : (
+                                    <span>Last Month  </span>
+                                )}</div>
                         </div>
                         <CommonDashCard
                             data={DashfilterData}
@@ -587,7 +607,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
                     </div> : <>
                         <div className='flexcenter' style={{ minHeight: "200px", background: "#fff", marginBottom: "20px" }}>
-
                             <SmallLoader />
                         </div>
                     </>}
