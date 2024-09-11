@@ -83,10 +83,14 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
 
           handleApplyFilters(storedData);
+        } else {
+          setIsFilterModalOpen(true)
         }
       } catch (error) {
         console.error("Failed to parse stored data:", error);
       }
+    } else {
+      setIsFilterModalOpen(true)
     }
   }, [dispatch]);
 

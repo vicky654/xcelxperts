@@ -118,7 +118,6 @@
 }
 
 @keyframes l10-0 {
-
     0%,
     49.99% {
         transform: scaleX(1);
@@ -305,7 +304,6 @@ border-color: none;
     align-items: end;
 }
 
-
 .flexspacebetween {
     display: flex;
     justify-content: space-between;
@@ -435,7 +433,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     width: 100% !important;
 }
 
-.swal2-container.swal2-top>.swal2-popup {
+.swal2-container.swal2-top > .swal2-popup {
     grid-column: 2;
     align-self: start;
     justify-self: auto !important;
@@ -503,7 +501,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     background-color: #fff !important;
 }
 
-.swal2-container.swal2-top>.swal2-popup {
+.swal2-container.swal2-top > .swal2-popup {
     border-radius: 0px;
 }
 
@@ -633,7 +631,7 @@ body.swal2-toast-shown .swal2-container.swal2-top {
     min-width: 137px;
 }
 
-.multi-select>.dropdown-container {
+.multi-select > .dropdown-container {
     padding-right: 0.25rem;
     padding-bottom: 0.15rem;
     border-color: #6b7280 !important;
@@ -788,14 +786,13 @@ img.w-full.CoverImage {
 }
 
 body {
-
-    background-color: #F1F4FD !important;
+    background-color: #f1f4fd !important;
     font-family: Nunito, sans-serif;
 }
 
 .bg-gray-200 {
     --tw-bg-opacity: 1;
-    background-color: #F1F4FD !important;
+    background-color: #f1f4fd !important;
 }
 
 /* .panel {
@@ -848,17 +845,13 @@ body {
 }
 
 .gjoprN {
-
     padding-left: 4px !important;
     padding-right: 4px !important;
-
 }
 
 .doSrUc {
-
     padding-left: 4px !important;
     padding-right: 16px;
-
 }
 
 .bFjaxh {
@@ -889,7 +882,6 @@ body {
     } */
 }
 
-
 ::-webkit-scrollbar {
     width: 12px;
     height: 10px;
@@ -908,7 +900,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 13px;
-
 }
 
 /* .sc-dAbbbq.jaZrIV.rdt_TableBody {
@@ -919,13 +910,13 @@ body {
     background-color: #ddd !important;
 }
 
-.auto-height-react-table>.Nfhbm>.BAfJj>.rdt_Table>.rdt_TableBody {
+.auto-height-react-table > .Nfhbm > .BAfJj > .rdt_Table > .rdt_TableBody {
     height: auto;
 }
 
 /* use this propety for fixed height on upper class of data table  */
 
-.fixed-height-react-table>.Nfhbm>.BAfJj>.rdt_Table>.rdt_TableBody {
+.fixed-height-react-table > .Nfhbm > .BAfJj > .rdt_Table > .rdt_TableBody {
     min-height: 440px;
     overflow: auto;
 }
@@ -1011,17 +1002,13 @@ input[type='number'] {
     grid-column: span 6 / span 6;
 }
 
-
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus,
 .form-multiselect:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
-    --tw-ring-inset: var(--tw-empty,
-            /*!*/
-            /*!*/
-        );
+    --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
     --tw-ring-offset-width: 0px;
     --tw-ring-offset-color: #fff;
     --tw-ring-color: #2563eb !important;
@@ -1034,10 +1021,7 @@ input[type='number'] {
 textarea:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
-    --tw-ring-inset: var(--tw-empty,
-            /*!*/
-            /*!*/
-        );
+    --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
     --tw-ring-offset-width: 0px;
     --tw-ring-offset-color: #fff;
     --tw-ring-color: #2563eb !important;
@@ -1072,4 +1056,11 @@ textarea:focus {
     -webkit-transform: translateY(-50%) !important;
     -ms-transform: translateY(-50%) !important;
     transform: translateY(-50%) !important;
+}
+
+.form-input,
+.form-textarea,
+.form-select,
+.form-multiselect {
+    border-color: #dddddd !important;
 }

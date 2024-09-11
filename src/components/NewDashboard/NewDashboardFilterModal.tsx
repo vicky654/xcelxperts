@@ -123,6 +123,14 @@ const NewDashboardFilterModal: React.FC<NewDashboardFilterModalProps> = ({
             if (parsedData?.entity_id) {
                 fetchSiteList(parsedData?.entity_id);
             }
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+            const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+            const currentDate = `${year}-${month}-${day}`;
+            if (!parsedData.start_date) {
+                parsedData.start_date = currentDate;
+              }
         }
 
         if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {

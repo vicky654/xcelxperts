@@ -132,8 +132,15 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
       if (parshedStoredData?.station_id) {
         handleApplyFilters(JSON.parse(storedData));
+      } else {
+        setIsFilterModalOpen(true)
       }
+
+
+    } else {
+      setIsFilterModalOpen(true)
     }
+
     console.clear()
   }, [dispatch]);
 
@@ -234,10 +241,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     station_id: Yup.string().required('Station is required'),
     start_month: Yup.string().required('Month is required'),
   });
-
-
-
-
   const salesByCategory = tabData;
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
 
@@ -245,10 +248,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     const isCurrentlyActive = activeAccordion === id;
     const newActiveAccordion = isCurrentlyActive ? null : id;
     setActiveAccordion(newActiveAccordion);
-
     // If the accordion is being opened, make the API call
     if (!isCurrentlyActive) {
-
       if (selectedTab === 'Expenses') {
         // Pass deductions if selectedTab is Expenses
         await GetSubData(date, "deductions");
@@ -259,7 +260,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         // Call without additional parameters
         await GetSubData(date, selectedTab);
       }
-      // Log the ID to the console
 
     }
   };
@@ -308,10 +308,6 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   // State to store barData and dates
   const [barData, setBarData] = useState<ApexData[]>([]);
   const [dates, setDates] = useState<any[]>([]);
-  const graphstaticTabs = ["Bar Chart", "Pie Chart"];
-  const [graphselectedTab, graphsetSelectedTab] = useState(graphstaticTabs[0]);
-
-
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const closeModal = () => {
