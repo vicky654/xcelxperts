@@ -3,8 +3,27 @@ import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import useErrorHandler from '../../hooks/useHandleError';
+import { useFormik } from 'formik';
+import { Col } from 'react-bootstrap';
 
 
+interface Client {
+    id: string;
+    client_name: string;
+    companies: Company[];
+}
+
+interface Company {
+    // entity_name: string;
+    id: string;
+    entity_name: string;
+}
+
+interface Site {
+    name: string;
+    id: string;
+    station_name: string;
+}
 
 
 
@@ -16,6 +35,8 @@ interface RoleItem {
 }
 
 const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId }) => {
+
+    const [filters, setFilters] = useState<any>();
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
     let storedKeyName = "stationTank";
@@ -77,6 +98,26 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
 
 
+    useEffect(() => {
+
+        const storedData = localStorage.getItem(storedKeyName);
+        if (storedData) {
+            let parsedData = JSON.parse(storedData);
+            formik.setValues(parsedData)
+            setFilters(parsedData)
+            // handleApplyFilters(parsedData);
+        }
+    }, [isOpen])
+
+
+    useEffect(() => {
+        if (filters?.site_id && filters?.client_id && filters.company_id) {
+            // FetchmannegerList(filters); //Call the api 
+        }
+    }, [filters?.site_id]);
+
+
+
     const GetDashboardStats = async (filters: any) => {
         const { client_id, entity_id, station_id } = filters;
         if (client_id) {
@@ -101,6 +142,42 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     };
 
 
+    const formik = useFormik({
+        initialValues: {
+            client_id: "",
+            client_name: "",
+            company_id: "",
+            company_name: "",
+            start_month: "",
+            station_id: "",
+            station_name: "",
+            clients: [] as Client[],
+            companies: [] as Company[],
+            sites: [] as Site[],
+        },
+        onSubmit: (values) => {
+            console.log(values, "values");
+
+        },
+    });
+
+    const handleSiteChange = (e: any) => {
+        const selectedSiteId = e.target.value;
+        formik.setFieldValue("station_id", selectedSiteId);
+        const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
+        formik.setFieldValue('station_name', selectedSiteData?.name || "");
+    };
+
+
+
+
+    console.log(formik?.values, "formik valuess");
+    console.log(filters, "filters");
+
+    useEffect(() => {
+        setFilters(formik?.values)
+    }, [formik?.values?.station_id])
+
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -113,6 +190,37 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                             <div className="flex-1 w-full">
                                 <AddModalHeader title="Stock Loss" onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
+
+                                    {formik?.values?.sites?.length > 0 && (<>
+                                        <Col lg={12}>
+                                            <div className={`form-group`}>
+                                                <label htmlFor="station_id" className='mb-2'>
+                                                    Station <span className="text-danger">*</span>
+                                                </label>
+                                                <select
+                                                    id="station_id"
+                                                    name="station_id"
+                                                    onChange={(e) => {
+                                                        formik.handleChange(e);
+                                                        handleSiteChange(e); // If you have additional logic to handle
+                                                    }}
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik?.values?.station_id}
+                                                    className="input101 form-input"
+                                                >
+                                                    <option key={""} >Please Select Site</option>
+                                                    {formik?.values?.sites?.map((item) => (
+                                                        <option key={item.id} value={item.id}>
+                                                            {item?.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {formik.touched.station_id && formik.errors.station_id && (
+                                                    <div className="text-danger mt-1">{formik.errors.station_id}</div>
+                                                )}
+                                            </div>
+                                        </Col>
+                                    </>)}
 
                                 </div>
                             </div>
