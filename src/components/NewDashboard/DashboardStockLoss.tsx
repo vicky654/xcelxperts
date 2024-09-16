@@ -173,7 +173,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                 <div className={`absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0'}`} onClick={onClose}></div>
 
                 <section className={`absolute inset-y-0 right-0 pl-10 max-w-full flex transform transition-transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} duration-300 ease-in-out`}>
-                    <div className="relative w-screen max-w-md">
+                    <div className="relative w-screen  max-w-xl">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
                                 <AddModalHeader title="Stock Loss" onClose={onClose} />

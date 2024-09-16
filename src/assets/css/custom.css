@@ -142,6 +142,9 @@
 .max-w-md {
     max-width: 50rem !important;
 }
+.max-w-xl {
+    max-width: 70rem !important;
+}
 
 .cshop-sale-height {
     max-height: 400px !important;

@@ -12,36 +12,56 @@ import { handleDownloadPdf } from '../../CommonFunctions';
 interface ChargesDeductionsData {
     id: string;
     name: string;
-    amount: number;
+    amount: number | string;
     notes: string;
     update_amount: boolean;
     type: 'charge' | 'deduction'; // Added type to differentiate between charges and deductions
 }
+interface PaymentItem {
+    id: string;
+    notes?: string;
+    name?: string;
+    amount: number | string;
+    type: string;
+    update_amount: boolean;
 
+}
 const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [charges, setCharges] = useState<ChargesDeductionsData[]>([]);
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
+
+
     const calculateTotalRow = (items: ChargesDeductionsData[], type: 'charge' | 'deduction'): ChargesDeductionsData => {
+   
+
         const totalAmount = items.reduce((total, item) => {
-            if (item.update_amount) {
-                return total + (item.amount || 0);
+            // Convert amount to a number, handling both strings and numbers
+            const amount = typeof item.amount === 'string' ? parseFloat(item.amount) : item.amount;
+
+            if (isNaN(amount)) {
+                console.error(`Invalid amount detected: ${item.amount}`);
+                return total; // Skip invalid amounts
             }
-            return total;
+
+            return total + amount;
         }, 0);
 
         return {
             id: 'total',
             name: 'Total',
             type,
-            amount: totalAmount,
+            amount: totalAmount.toFixed(2),
             notes: '',
             update_amount: false
         };
     };
-
+    const convertAmountToNumber = (item: ChargesDeductionsData): ChargesDeductionsData => {
+        const amount = typeof item.amount === 'string' ? parseFloat(item.amount) : item.amount;
+        return { ...item, amount: isNaN(amount) ? 0 : amount };
+    };
     const fetchData = async () => {
         try {
             if (stationId && startDate) {
@@ -49,9 +69,15 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
                     setIsdownloadpdf(response.data.data?.download_pdf);
-                    const chargesWithTotal = [...charges, calculateTotalRow(charges, 'charge')];
-                    const deductionsWithTotal = [...deductions, calculateTotalRow(deductions, 'deduction')];
+                    const convertedCharges = charges?.map(convertAmountToNumber);
+                    const convertedDeductions = deductions?.map(convertAmountToNumber);
 
+             
+
+
+                    const chargesWithTotal = [...charges, calculateTotalRow(convertedCharges, 'charge')];
+                    const deductionsWithTotal = [...deductions, calculateTotalRow(convertedDeductions, 'deduction')];
+                
                     setCharges(chargesWithTotal);
                     setDeductions(deductionsWithTotal);
                     setIsEditable(is_editable);
@@ -94,8 +120,8 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         try {
             const formData = new FormData();
 
-            charges.forEach(charge => {
-                if (charge.amount !== null && charge.amount !== undefined && charge.amount !== 0) {
+            charges?.forEach(charge => {
+                if (charge.amount !== null && charge.amount !== undefined && charge.amount !== 0 && charge.id !== "total") {
                     formData.append(`charge[${charge.id}]`, charge.amount.toString());
                 }
                 if (charge.notes !== null && charge.notes !== undefined && charge.notes !== "") {
@@ -104,7 +130,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             });
 
             deductions.forEach(deduction => {
-                if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== 0) {
+                if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== 0 && deduction.id !== "total") {
                     formData.append(`deduction[${deduction.id}]`, deduction.amount.toString());
                 }
                 if (deduction.notes !== null && deduction.notes !== undefined && deduction.notes !== "") {
@@ -129,42 +155,32 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         }
     };
 
-
     const handleAmountChange = (value: any, row: ChargesDeductionsData) => {
         // Convert the value to a number
-        let numericValue = value === '' ? 0 : parseFloat(value);
+        let numericValue = value === '' ?"" : parseFloat(value);
 
-        // onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
-                                                              
-        // let numericValue = value ===  '' ? 0 : parseFloat(e.target.value))
-        // e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))
-        // Check if the parsed value is a valid number
-        if (isNaN(numericValue)) {
-            console.error("Invalid amount value:", value);
-            return;
-        }
-        
-        if (isNaN(numericValue)) {
-            console.error("Invalid amount value:", value);
-            return;
-        }
+        // // Check if the parsed value is a valid number
+        // if (isNaN(numericValue)) {
+        //     console.error("Invalid amount value:", value);
+        //     return;
+        // }
 
         if (row.type === 'charge') {
-            // Update charges
-            const updatedCharges = charges.map(charge =>
+            // Update charges?
+            const updatedCharges = charges?.map(charge =>
                 charge.id === row.id ? { ...charge, amount: numericValue } : charge
             );
 
             // Calculate total amount for charges excluding the 'total' row
             const TotalChargesamount = updatedCharges
-                .filter(charge => charge.id !== 'total') // Exclude the 'total' row
-                .reduce((total, charge) => total + (charge.amount || 0), 0);
-
+                .filter(charge => charge?.id !== 'total') // Exclude the 'total' row
+                .reduce((total, charge) => total + (typeof charge?.amount === 'number' ? charge?.amount : parseFloat(charge?.amount || '0')), 0);
 
             // Update the last object (the total row)
-            const updatedChargesWithTotal = updatedCharges.map(charge =>
-                charge.id === 'total' ? { ...charge, amount: TotalChargesamount } : charge
+            const updatedChargesWithTotal = updatedCharges?.map(charge =>
+                charge.id === 'total' ? { ...charge, amount: TotalChargesamount.toFixed(2) } : charge
             );
+
             setCharges(updatedChargesWithTotal);
 
         } else if (row.type === 'deduction') {
@@ -175,13 +191,12 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
             // Calculate total amount for deductions excluding the 'total' row
             const TotalDeductionsamount = updatedDeductions
-                .filter(deduction => deduction.id !== 'total') // Exclude the 'total' row
-                .reduce((total, deduction) => total + (deduction.amount || 0), 0);
-
+                .filter(deduction => deduction?.id !== 'total') // Exclude the 'total' row
+                .reduce((total, deduction) => total + (typeof deduction?.amount === 'number' ? deduction?.amount : parseFloat(deduction?.amount || '0')), 0);
 
             // Update the last object (the total row)
             const updatedDeductionsWithTotal = updatedDeductions.map(deduction =>
-                deduction.id === 'total' ? { ...deduction, amount: TotalDeductionsamount } : deduction
+                deduction?.id === 'total' ? { ...deduction, amount: TotalDeductionsamount.toFixed(2) } : deduction
             );
 
             setDeductions(updatedDeductionsWithTotal);
@@ -425,7 +440,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             sortable: false,
             cell: (row, index: number) => (
                 <Form.Control
-                    type="text"
+             type="number"
                     placeholder='Amount'
                     value={row.amount}
                     className={`form-input workflorform-input2 ${row.update_amount ? '' : 'readonly'}`}

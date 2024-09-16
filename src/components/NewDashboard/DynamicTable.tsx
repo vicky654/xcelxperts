@@ -60,7 +60,7 @@ const FuelTable: React.FC<FuelTableProps> = ({ fuel_stocks, TableData }) => {
                             <OverlayTrigger
                                 placement="top"
                                 
-                                overlay={<Tooltip id="tooltip-opening-stock" className='ModalTooltip'>Total Details</Tooltip>}
+                                overlay={<Tooltip id="tooltip-opening-stock" className='ModalTooltip'>Total Sum Of Reimbursable </Tooltip>}
                             >
                                 <span>{TableData?.total}  <span><i className="fi fi-sr-comment-info pointer"></i></span></span>
                             </OverlayTrigger>

@@ -125,6 +125,16 @@ const CustomInput: React.FC<CustomInputProps> = ({
                     const currentMonth = new Date().toISOString().substring(0, 7); // Get YYYY-MM format
                     formik.setFieldValue("start_month", currentMonth);
                 }
+                if (!parsedData?.start_date) {
+                    const now = new Date();
+                    now.setDate(now.getDate() - 1); // Subtract 1 day
+                    const year = now.getFullYear();
+                    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+                    const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+                    const currentDate = `${year}-${month}-${day}`;
+    
+                    formik.setFieldValue("start_date", currentDate);
+                }
 
             } catch (error) {
                 console.error("Error parsing stored data:", error);
