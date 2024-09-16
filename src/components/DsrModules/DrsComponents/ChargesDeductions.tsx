@@ -17,38 +17,22 @@ interface ChargesDeductionsData {
     update_amount: boolean;
     type: 'charge' | 'deduction'; // Added type to differentiate between charges and deductions
 }
-interface PaymentItem {
-    id: string;
-    notes?: string;
-    name?: string;
-    amount: number | string;
-    type: string;
-    update_amount: boolean;
 
-}
 const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationId, startDate, postData, getData, applyFilters }) => {
     const handleApiError = useErrorHandler();
     const [charges, setCharges] = useState<ChargesDeductionsData[]>([]);
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
-
-
     const calculateTotalRow = (items: ChargesDeductionsData[], type: 'charge' | 'deduction'): ChargesDeductionsData => {
-   
-
         const totalAmount = items.reduce((total, item) => {
-            // Convert amount to a number, handling both strings and numbers
             const amount = typeof item.amount === 'string' ? parseFloat(item.amount) : item.amount;
-
             if (isNaN(amount)) {
                 console.error(`Invalid amount detected: ${item.amount}`);
                 return total; // Skip invalid amounts
             }
-
             return total + amount;
         }, 0);
-
         return {
             id: 'total',
             name: 'Total',
@@ -59,7 +43,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         };
     };
     const convertAmountToNumber = (item: ChargesDeductionsData): ChargesDeductionsData => {
-        const amount = typeof item.amount === 'string' ? parseFloat(item.amount) : item.amount;
+        const amount = typeof item?.amount === 'string' ? parseFloat(item?.amount) : item.amount;
         return { ...item, amount: isNaN(amount) ? 0 : amount };
     };
     const fetchData = async () => {
