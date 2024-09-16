@@ -6,10 +6,8 @@ import useErrorHandler from '../../hooks/useHandleError';
 import LoaderImg from '../../utils/Loader';
 import withApiHandler from '../../utils/withApiHandler';
 import * as Yup from 'yup';
-
 import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { capacity, currency } from '../../utils/CommonData';
-import ReactApexChart from 'react-apexcharts';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
 import DashboardFilter from './DashboardFilter';
@@ -757,13 +755,7 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
                 <hr />
               </div>
               <div style={{ padding: "10px" }}>
-                {/* <ReactApexChart
-                        series={pieChart?.series}
-                        options={pieChart?.options}
-                        className="rounded-lg bg-white dark:bg-black overflow-hidden"
-                        type="pie"
-                        height={300}
-                    /> */}
+          
 
                 <PieChart
 
@@ -789,8 +781,6 @@ const DashDataEntryStats: React.FC<ManageSiteProps> = ({ postData, getData, isLo
           </div>
 
           <div className='p-6'>
-
-
             <DashboardFilter
               getData={getData}
               isLoading={isLoading}

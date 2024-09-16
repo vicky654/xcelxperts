@@ -21,7 +21,6 @@ import { IRootState } from '../../store';
 import useCustomDelete from '../../utils/customDelete';
 import IconX from '../Icon/IconX';
 import Tippy from '@tippyjs/react';
-import IconRefresh from '../Icon/IconRefresh';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import moment from 'moment';
 
@@ -522,15 +521,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             />
 
 
-            {/* {SelectedComponent && isDeletePermissionAvailable ? (
-              <>
-                <hr className='m-2' />
-                <div className='text-end'>
-                  <button className='btn btn-danger' style={{ width: "100%" }} onClick={handleDeleteDataEntry}>Delete Data
-                  </button>
-                </div>
-              </>
-            ) : null} */}
+     
           </div>
         </div>
       </div>

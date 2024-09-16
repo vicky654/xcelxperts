@@ -21,6 +21,7 @@ import { Badge } from 'react-bootstrap';
 import Dropdown from '../Dropdown';
 import IconHorizontalDots from '../Icon/IconHorizontalDots';
 import SearchBar from '../../utils/SearchBar';
+import AddCreditUserHistory from './AddCreditUserHistory';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -48,25 +49,21 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
     const dispatch = useDispatch();
     const handleApiError = useErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [iscreditModalOpen, setiscreditModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
+    const [credituserId, setcreditUserId] = useState<string | null>(null); // Assuming userId is a string
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
 
     const [isNotClient] = useState(localStorage.getItem('superiorRole') !== 'Client');
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-
     const [showFilterOptions, setShowFilterOptions] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    // useEffect(() => {
-    //     fetchData();
-
-    // }, [searchTerm, currentPage]);
-
     const isAddPermissionAvailable = UserPermissions?.includes('credituser-create');
-    const isListPermissionAvailable = UserPermissions?.includes('credituser-list');
+    const isListPermissionAvailable = UserPermissions?.includes('credituser-update');
     const isEditPermissionAvailable = UserPermissions?.includes('credituser-edit');
     const isHistorySettingPermissionAvailable = UserPermissions?.includes('credituser-history');
     const isDeletePermissionAvailable = UserPermissions?.includes('credituser-delete');
@@ -218,24 +215,31 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
                                             )}
                                         </li>
-                                        <li>
-                                            {isDeletePermissionAvailable && (
 
+                                        {isDeletePermissionAvailable && (
+                                            <li>
                                                 <button onClick={() => handleDelete(row.id)} type="button">
                                                     <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i> Delete
                                                 </button>
+                                            </li>
+                                        )}
 
-                                            )}
-                                        </li>
-                                        <li>
-                                            {isHistorySettingPermissionAvailable && (
 
+                                        {isHistorySettingPermissionAvailable && (
+                                            <li>
                                                 <button onClick={() => handleHistory(row?.id)} type="button">
-                                                    <i className="fi fi-ts-file-medical-alt"></i>Check History
+                                                    <i className="fi fi fi-rr-file-medical-alt"></i>Check History
                                                 </button>
+                                            </li>
+                                        )}
+                                        {isListPermissionAvailable && (
+                                            <li>
+                                                <button onClick={() => creditopenModal(row?.id)} type="button">
+                                                    <i className="fi fi fi-rr-circle-user"></i>Add Credit
+                                                </button>
+                                            </li>
+                                        )}
 
-                                            )}
-                                        </li>
 
                                     </ul>
                                 </Dropdown>
@@ -260,6 +264,21 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setIsEditMode(false);
+        setEditUserData(null);
+    };
+    const creditopenModal = async (id: string) => {
+        try {
+            setiscreditModalOpen(true);
+            setIsEditMode(true);
+            setcreditUserId(id);
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+    const creditcloseModal = () => {
+        setiscreditModalOpen(false);
         setIsEditMode(false);
         setEditUserData(null);
     };
@@ -292,6 +311,32 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
             }
 
             const url = isEditMode && userId ? `/credit-user/update` : `/credit-user/create`;
+            const response = await postData(url, formData);
+
+            if (response) {
+                handleSuccess();
+                closeModal();
+            }
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+    const credituserSubmit = async (values: any) => {
+        try {
+            const formData = new FormData();
+
+            formData.append('amount', values.amount);
+            formData.append('notes', values.notes);
+            formData.append('t_date', values.t_date);
+            formData.append('station_id', values.station_id);
+
+
+            if (credituserId) {
+                formData.append('credit_user_id', credituserId);
+            }
+
+            const url = isEditMode && userId ? `/credit-user/add-credit` : `/credit-user/add-credit`;
             const response = await postData(url, formData);
 
             if (response) {
@@ -421,6 +466,7 @@ const CreditUser: React.FC<ManageSiteProps> = ({ postData, getData, isLoading })
                 )}
             </div>
             <AddEditStationTankModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+            <AddCreditUserHistory getData={getData} isOpen={iscreditModalOpen} onClose={creditcloseModal} onSubmit={credituserSubmit} isEditMode={isEditMode} userId={credituserId} />
 
             <div className="mt-6">
                 {/* Define grid with responsive columns */}

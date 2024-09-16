@@ -102,27 +102,55 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
-
+       
         if (storedDataString) {
-            // Parse the stored data into an object
-            const parsedData = JSON.parse(storedDataString);
+            try {
+                // Parse the stored data into an object
+                const parsedData = JSON.parse(storedDataString);
 
-            // Set the parsed data into Formik
-            formik.setValues(parsedData);
+                formik.setValues(parsedData);
 
+                // Check if client_id exists and fetch the company list
+                if (parsedData?.client_id) {
+                    fetchCompanyList(parsedData.client_id);
+                }
 
-            // Check if station_id exists in parsedData
-            if (parsedData?.client_id) {
-                fetchCompanyList(parsedData?.client_id);
+                // Check if entity_id exists and fetch the site list
+                if (parsedData?.entity_id) {
+                    fetchSiteList(parsedData.entity_id);
+                }
+
+                // Set the start_month to current month if not present
+                if (!parsedData?.start_month) {
+                    const currentMonth = new Date().toISOString().substring(0, 7); // Get YYYY-MM format
+                    formik.setFieldValue("start_month", currentMonth);
+                }
+
+            } catch (error) {
+                console.error("Error parsing stored data:", error);
+            }
+        } else {
+            if (!storedDataString) {
+                const currentMonth = new Date().toISOString().substring(0, 7); // Get YYYY-MM format
+                formik.setFieldValue("start_month", currentMonth);
+                // Get the current date in 'YYYY-MM-DD' format
+                const now = new Date();
+                now.setDate(now.getDate() - 1); // Subtract 1 day
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
+                const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
+                const currentDate = `${year}-${month}-${day}`;
+
+                // Check if station_id is present
+
+                // Set start_date to the current date if it's missing
+                formik.setFieldValue("start_date", currentDate);
+
             }
 
-
-            // Check if station_id exists in parsedData
-            if (parsedData.entity_id) {
-                fetchSiteList(parsedData.entity_id);
-            }
         }
 
+        // Handle case where there is no stored data and the user is a "Client"
         if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {
             const clientId = localStorage.getItem("superiorId");
             if (clientId) {
@@ -130,9 +158,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                 handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
             }
         }
-
     }, []); // Empty dependency array to run only on component mount
-
 
 
 

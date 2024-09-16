@@ -99,10 +99,10 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
             try {
                 // Parse the JSON string to get the stored data
                 const storedData = JSON.parse(storedDataString);
-          
+
 
                 // Check for the existence of `start_month` or other necessary properties
-                if (storedData.client_id && storedData.site_id && storedData.company_id && storedData.start_month) {
+                if (storedData.client_id && storedData.site_id && storedData.company_id) {
                     if (storedData.client_id) {
                         handleClientChange({ target: { value: storedData.client_id } } as React.ChangeEvent<HTMLSelectElement>);
                     }
@@ -117,11 +117,21 @@ const DashboardFilter: React.FC<DashboardFilterProps> = ({
                     if (storedData.start_month) {
                         // handleSiteChange({ target: { value: storedData.site_id } } as React.ChangeEvent<HTMLSelectElement>);
                         formik.setFieldValue("start_month", storedData.start_month);
+                    } else {
+                        // If `start_month` doesn't exist, set the current month
+                        const currentMonth = new Date().toISOString().substring(0, 7); // Get YYYY-MM format
+                        formik.setFieldValue("start_month", currentMonth);
                     }
-                   
+
+                } else if (!storedData.start_month) {
+                    // If storedData doesn't have start_month, preselect the current month
+                    const currentMonth = new Date().toISOString().substring(0, 7); // Get YYYY-MM format
+                    formik.setFieldValue("start_month", currentMonth);
+
                 }
+
             } catch (error) {
-           
+
             }
         }
 

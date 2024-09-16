@@ -80,9 +80,6 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
     const isAddPermissionAvailable = UserPermissions?.includes('credituser-update');
-    const isEditPermissionAvailable = UserPermissions?.includes('credituser-history');
-    const isDeletePermissionAvailable = UserPermissions?.includes('credituser-delete');
-    const isAssignAddPermissionAvailable = UserPermissions?.includes('credituser-assign-permission');
 
     const { id } = useParams<{ id: string }>();
     // useEffect(() => {

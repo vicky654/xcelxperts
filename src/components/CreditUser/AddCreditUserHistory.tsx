@@ -31,7 +31,7 @@ interface RowData {
 }
 
 
-interface AddEditHistoryTankModalProps {
+interface AddCreditUserHistoryProps {
     isOpen: boolean;
     onClose: () => void;
     getData: (url: string) => Promise<any>;
@@ -51,11 +51,10 @@ type tankList = {
     pumps: [];
 };
 
-const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId, stationdata }) => {
+const AddCreditUserHistory: React.FC<AddCreditUserHistoryProps> = ({ isOpen, onClose, getData, onSubmit, isEditMode, userId, }) => {
     const handleApiError = useErrorHandler();
     const [clients, setClients] = useState<Client[]>([]);
-
-  
+    const [stationdata, setStationData] = useState<any[]>([]);
 
     useEffect(() => {
         if (isOpen) {
@@ -66,10 +65,11 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
                     handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
                 }
             }
-
-            if (isEditMode) {
-                fetchUserDetails(userId ? userId : '');
+            if (userId) {
+                GetUserList(userId)
             }
+
+
         }
     }, [isOpen, isEditMode, userId]);
     const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -87,12 +87,18 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
         }
     };
 
-    const fetchUserDetails = async (id: string) => {
+    const GetUserList = async (id: any,) => {
         try {
-            const response = await getData(`/credit-user/detail?id=${id}`);
-            if (response && response.data) {
-                const userData: any = response.data?.data;
-                formik.setValues(userData);
+            // Construct the base API URL
+            let apiUrl = `/credit-user/history?credit_user_id=${id}`;
+            const response = await getData(apiUrl);
+
+            if (response && response.data && response.data.data) {
+
+                setStationData(response.data.data?.stations);
+
+            } else {
+                throw new Error("No data available in the response");
             }
         } catch (error) {
             handleApiError(error);
@@ -157,7 +163,7 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
                     <div className="relative w-screen max-w-md">
                         <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                             <div className="flex-1 w-full">
-                                <AddModalHeader title={isEditMode ? 'Edit Add Credit' : 'Add  Credit'} onClose={editCloseCheck} />
+                                <AddModalHeader title={isEditMode ? ' Add Credit' : 'Add  Credit'} onClose={editCloseCheck} />
                                 <div className="relative py-6 px-4 bg-white">
                                     <form onSubmit={formik.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                                         <div className="flex flex-col sm:flex-row">
@@ -199,4 +205,4 @@ const AddEditHistoryTankModal: React.FC<AddEditHistoryTankModalProps> = ({ isOpe
     );
 };
 
-export default AddEditHistoryTankModal;
+export default AddCreditUserHistory;
