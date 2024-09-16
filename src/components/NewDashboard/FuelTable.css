@@ -11,8 +11,7 @@ th, td {
 }
 
 th {
-    font-weight: bold;
-    background-color: #f4f4f4; /* Light grey background for headers */
+    font-weight: bold !important;
 }
 
 tr:nth-child(even) {

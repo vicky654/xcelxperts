@@ -133,11 +133,17 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const handleAmountChange = (value: any, row: ChargesDeductionsData) => {
         // Convert the value to a number
         let numericValue = value === '' ? 0 : parseFloat(value);
+
+        // onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
+                                                              
+        // let numericValue = value ===  '' ? 0 : parseFloat(e.target.value))
+        // e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))
         // Check if the parsed value is a valid number
         if (isNaN(numericValue)) {
             console.error("Invalid amount value:", value);
             return;
         }
+        
         console.log(numericValue, "numericValue");
         // Check if the parsed value is a valid number
         if (isNaN(numericValue)) {

@@ -1064,3 +1064,15 @@ textarea:focus {
 .form-multiselect {
     border-color: #dddddd !important;
 }
+
+.bg-gray-200 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(229 231 235 / var(--tw-bg-opacity)) !important;
+}
+.ModalTooltip{
+    z-index: 1111;
+    background-color: #000;
+    padding: 6px;
+    border-radius: 2px;
+    color: #fff;
+}

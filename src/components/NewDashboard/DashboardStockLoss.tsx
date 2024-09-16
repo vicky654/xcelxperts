@@ -61,56 +61,13 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     const reduxData = useSelector((state: IRootState) => state?.data?.data);
     const dispatch = useDispatch();
     const [fuelData, setFuelData] = useState<FuelStocks | null>(null);
+    const [TableData, setTableData] = useState<any | undefined>(undefined);
 
     const handleApiError = useErrorHandler();
 
 
-    const fetchCompanyList = async (clientId: string) => {
-        try {
-            const response = await getData(`getEntities?client_id=${clientId}`);
-            const storedClientIdData = localStorage.getItem("superiorId");
-            const futurepriceLog = {
-                client_id: storedClientIdData,
-                client_name: reduxData?.full_name,
-                "companies": response.data.data,
-            };
 
 
-
-            localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-        } catch (error) {
-            handleApiError(error);
-        }
-    };
-
-
-    // useEffect(() => {
-    //     if (storedData && reduxData?.role) {
-    //         GetDashboardStats(JSON.parse(storedData));
-    //     } else if (localStorage.getItem("superiorRole") === "Client" && reduxData?.role) {
-    //         const storedClientIdData = localStorage.getItem("superiorId");
-    //         if (storedClientIdData) {
-    //             fetchCompanyList(storedClientIdData)
-
-    //         }
-    //     }
-    // }, [dispatch, storedKeyName, reduxData,]); // Add any other dependencies needed here
-
-    useEffect(() => {
-        if (isOpen) {
-            const storedData = localStorage.getItem(storedKeyName);
-
-            if (storedData) {
-                try {
-                    const parsedData = JSON.parse(storedData);
-                } catch (error) {
-                    console.error("Error parsing storedData:", error);
-                }
-            } else {
-                console.log("No stored data found for key:", storedKeyName);
-            }
-        }
-    }, [isOpen, userId,]); // Dependency array to run when isOpen or userId changes
 
 
 
@@ -154,6 +111,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                 if (response && response.data) {
                     const data = await response.data;
                     console.log(response?.data?.data, "response.data.data");
+                    setTableData(response?.data?.data)
                     setFuelData(response.data.data.fuel_stocks);
                 }
             } catch (error) {
@@ -209,7 +167,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
 
 
-
+    console.log(TableData, "TableData");
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -256,11 +214,11 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
                                 </div>
                                 <div className="relative py-0 px-4 bg-white">
-                                    <h2 className='font-bold text-lg mb-4'> Stock Loss</h2>
+                                    <h2 className='font-bold text-lg mb-4'> Stock Loss  {TableData?.day_end_date ? ` (${TableData.day_end_date})` : ''}</h2>
 
                                     {dashboardLoading && <LoaderImg />}
                                     {fuelData ? (
-                                        <DynamicTable data={fuelData} />
+                                        <DynamicTable data={fuelData} TableData={TableData} />
                                     ) : (
                                         <div className="all-center-flex">
                                             <img src={noDataImage} alt="No data found" className="nodata-image" />
