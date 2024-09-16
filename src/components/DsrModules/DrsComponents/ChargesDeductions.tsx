@@ -144,8 +144,6 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             return;
         }
         
-        console.log(numericValue, "numericValue");
-        // Check if the parsed value is a valid number
         if (isNaN(numericValue)) {
             console.error("Invalid amount value:", value);
             return;
@@ -162,14 +160,11 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 .filter(charge => charge.id !== 'total') // Exclude the 'total' row
                 .reduce((total, charge) => total + (charge.amount || 0), 0);
 
-            console.log(TotalChargesamount, "TotalChargesamount");
 
             // Update the last object (the total row)
             const updatedChargesWithTotal = updatedCharges.map(charge =>
                 charge.id === 'total' ? { ...charge, amount: TotalChargesamount } : charge
             );
-
-            console.log(updatedChargesWithTotal, "updatedChargesWithTotal");
             setCharges(updatedChargesWithTotal);
 
         } else if (row.type === 'deduction') {
@@ -183,7 +178,6 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 .filter(deduction => deduction.id !== 'total') // Exclude the 'total' row
                 .reduce((total, deduction) => total + (deduction.amount || 0), 0);
 
-            console.log(TotalDeductionsamount, "TotalDeductionsamount");
 
             // Update the last object (the total row)
             const updatedDeductionsWithTotal = updatedDeductions.map(deduction =>

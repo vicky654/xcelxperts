@@ -41,7 +41,6 @@ const FuelTable: React.FC<FuelTableProps> = ({ fuel_stocks, TableData }) => {
             </tr>
         ));
 
-    console.log(headers, "headers");
     return (
         <div>
             <table>
