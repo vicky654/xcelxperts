@@ -156,7 +156,6 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             sites: [] as Site[],
         },
         onSubmit: (values) => {
-            console.log(values, "values");
 
         },
     });
@@ -171,8 +170,6 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
 
 
-    console.log(formik?.values, "formik valuess");
-    console.log(filters, "filters");
 
     useEffect(() => {
         setFilters(formik?.values)
