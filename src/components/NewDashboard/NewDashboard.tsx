@@ -587,7 +587,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                             ? <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i>
                                             : null
                                 )}
-                                <br/>
+                                <br />
                                 {DashfilterData?.lubes_value?.percentage !== undefined ? (
                                     <span>Last Month <br /> {DashfilterData?.lubes_value?.percentage}%</span>
                                 ) : (
@@ -702,16 +702,16 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                 <thead>
                                                     <tr className='bg-gray-200'>
                                                         <th>Fuel Name</th>
-                                                        <th>Variance</th>
                                                         <th>Testing</th>
+                                                        <th>Variance</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {GraphData?.fuel_stock.map((fuel: any, index: any) => (
                                                         <tr className='hover:bg-gray-100' key={index}>
                                                             <td>{fuel?.fuel_name || 'No fuel name'}</td>
-                                                            <td>{capacity} {fuel?.variance ?? 0}</td>
                                                             <td>{capacity} {fuel?.testing ?? 0}</td>
+                                                            <td>{capacity} {fuel?.variance ?? 0}</td>
                                                         </tr>
 
                                                     ))}
