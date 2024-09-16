@@ -78,20 +78,12 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
     const [userId, setUserId] = useState<string | null>(null);
     const openAddUserModal = () => {
-        if (filters?.station_id) {
-            setIsAddUserModalOpen(true); // Open the modal if siteid exists
-        } else {
-            setModalOpen(true); // Keep current state
-        }
+        setIsAddUserModalOpen(true); // Open the modal if siteid exists
 
 
     };
     const closeAddUserModal = () => {
-        if (filters?.station_id) {
-            setIsAddUserModalOpen(false); // Open the modal if siteid exists
-        } else {
-            setModalOpen(false); // Keep current state
-        }
+        setIsAddUserModalOpen(false); // Open the modal if siteid exists
 
 
     };
@@ -713,7 +705,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}
                                 </h5>
-                                <button className='btn btn-primary' onClick={openAddUserModal}> Stock Loss</button>
+                                {filters?.entity_id && (<button className='btn btn-primary' onClick={openAddUserModal}> Stock Loss</button>)}
                             </div>
 
                             <div className="relative" style={{ minHeight: "350px" }}>

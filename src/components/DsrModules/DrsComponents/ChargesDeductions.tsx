@@ -12,7 +12,7 @@ import { handleDownloadPdf } from '../../CommonFunctions';
 interface ChargesDeductionsData {
     id: string;
     name: string;
-    amount: string;
+    amount: number;
     notes: string;
     update_amount: boolean;
     type: 'charge' | 'deduction'; // Added type to differentiate between charges and deductions
@@ -76,10 +76,9 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         try {
             const formData = new FormData();
 
-
             charges.forEach(charge => {
-                if (charge.amount !== null && charge.amount !== undefined && charge.amount !== "") {
-                    formData.append(`charge[${charge.id}]`, charge.amount);
+                if (charge.amount !== null && charge.amount !== undefined && charge.amount !== 0) {
+                    formData.append(`charge[${charge.id}]`, charge.amount.toString());
                 }
                 if (charge.notes !== null && charge.notes !== undefined && charge.notes !== "") {
                     formData.append(`charge_notes[${charge.id}]`, charge.notes);
@@ -87,8 +86,8 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             });
 
             deductions.forEach(deduction => {
-                if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== "") {
-                    formData.append(`deduction[${deduction.id}]`, deduction.amount);
+                if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== 0) {
+                    formData.append(`deduction[${deduction.id}]`, deduction.amount.toString());
                 }
                 if (deduction.notes !== null && deduction.notes !== undefined && deduction.notes !== "") {
                     formData.append(`deduction_notes[${deduction.id}]`, deduction.notes);
@@ -113,20 +112,36 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     };
 
 
+    const handleAmountChange = (value: any, row: ChargesDeductionsData) => {
+        // Convert the value to a number
+        const numericValue = parseFloat(value);
 
-    const handleAmountChange = (value: string, row: ChargesDeductionsData) => {
+        // Check if the parsed value is a valid number
+        if (isNaN(numericValue)) {
+            // Handle invalid number case, e.g., by logging an error or setting to a default value
+            console.error("Invalid amount value:", value);
+            return;
+        }
+
+        // Update the state based on the type
         if (row.type === 'charge') {
             const updatedCharges = charges.map(charge =>
-                charge.id === row.id ? { ...charge, amount: value } : charge
+                charge.id === row.id ? { ...charge, amount: numericValue } : charge
             );
+            const TotalChargesamount = updatedCharges.reduce((total, charge) => total + (charge.amount || 0), 0);
+            console.log(TotalChargesamount, "newTotalCharges");
+
             setCharges(updatedCharges);
         } else {
             const updatedDeductions = deductions.map(deduction =>
-                deduction.id === row.id ? { ...deduction, amount: value } : deduction
+                deduction.id === row.id ? { ...deduction, amount: numericValue } : deduction
             );
+            const TotalDeductionsamount = updatedDeductions.reduce((total, deduction) => total + (deduction.amount || 0), 0);
+            console.log(TotalDeductionsamount, "newTotalCharges");
             setDeductions(updatedDeductions);
         }
     };
+
 
     const handleNoteChange = (value: string, row: ChargesDeductionsData) => {
         if (row.type === 'charge') {
