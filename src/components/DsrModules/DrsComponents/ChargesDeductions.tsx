@@ -24,6 +24,24 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
+    const calculateTotalRow = (items: ChargesDeductionsData[], type: 'charge' | 'deduction'): ChargesDeductionsData => {
+        const totalAmount = items.reduce((total, item) => {
+            if (item.update_amount) {
+                return total + (item.amount || 0);
+            }
+            return total;
+        }, 0);
+
+        return {
+            id: 'total',
+            name: 'Total',
+            type,
+            amount: totalAmount,
+            notes: '',
+            update_amount: false
+        };
+    };
+
     const fetchData = async () => {
         try {
             if (stationId && startDate) {
@@ -31,11 +49,11 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                 if (response && response.data && response.data.data) {
                     const { charges, deductions, is_editable } = response.data.data;
                     setIsdownloadpdf(response.data.data?.download_pdf);
-                    const repeatedCharges = Array(5).fill(charges);
-                    setCharges(charges);
-                    const repeatedeductions = Array(1).fill(deductions);
-                    // setCharges(repeatedCharges);
-                    setDeductions(deductions);
+                    const chargesWithTotal = [...charges, calculateTotalRow(charges, 'charge')];
+                    const deductionsWithTotal = [...deductions, calculateTotalRow(deductions, 'deduction')];
+
+                    setCharges(chargesWithTotal);
+                    setDeductions(deductionsWithTotal);
                     setIsEditable(is_editable);
                 } else {
                     throw new Error('No data available in the response');
@@ -114,33 +132,62 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
     const handleAmountChange = (value: any, row: ChargesDeductionsData) => {
         // Convert the value to a number
-        const numericValue = parseFloat(value);
-
+        let numericValue = value === '' ? 0 : parseFloat(value);
         // Check if the parsed value is a valid number
         if (isNaN(numericValue)) {
-            // Handle invalid number case, e.g., by logging an error or setting to a default value
+            console.error("Invalid amount value:", value);
+            return;
+        }
+        console.log(numericValue, "numericValue");
+        // Check if the parsed value is a valid number
+        if (isNaN(numericValue)) {
             console.error("Invalid amount value:", value);
             return;
         }
 
-        // Update the state based on the type
         if (row.type === 'charge') {
+            // Update charges
             const updatedCharges = charges.map(charge =>
                 charge.id === row.id ? { ...charge, amount: numericValue } : charge
             );
-            const TotalChargesamount = updatedCharges.reduce((total, charge) => total + (charge.amount || 0), 0);
-            console.log(TotalChargesamount, "newTotalCharges");
 
-            setCharges(updatedCharges);
-        } else {
+            // Calculate total amount for charges excluding the 'total' row
+            const TotalChargesamount = updatedCharges
+                .filter(charge => charge.id !== 'total') // Exclude the 'total' row
+                .reduce((total, charge) => total + (charge.amount || 0), 0);
+
+            console.log(TotalChargesamount, "TotalChargesamount");
+
+            // Update the last object (the total row)
+            const updatedChargesWithTotal = updatedCharges.map(charge =>
+                charge.id === 'total' ? { ...charge, amount: TotalChargesamount } : charge
+            );
+
+            console.log(updatedChargesWithTotal, "updatedChargesWithTotal");
+            setCharges(updatedChargesWithTotal);
+
+        } else if (row.type === 'deduction') {
+            // Update deductions
             const updatedDeductions = deductions.map(deduction =>
                 deduction.id === row.id ? { ...deduction, amount: numericValue } : deduction
             );
-            const TotalDeductionsamount = updatedDeductions.reduce((total, deduction) => total + (deduction.amount || 0), 0);
-            console.log(TotalDeductionsamount, "newTotalCharges");
-            setDeductions(updatedDeductions);
+
+            // Calculate total amount for deductions excluding the 'total' row
+            const TotalDeductionsamount = updatedDeductions
+                .filter(deduction => deduction.id !== 'total') // Exclude the 'total' row
+                .reduce((total, deduction) => total + (deduction.amount || 0), 0);
+
+            console.log(TotalDeductionsamount, "TotalDeductionsamount");
+
+            // Update the last object (the total row)
+            const updatedDeductionsWithTotal = updatedDeductions.map(deduction =>
+                deduction.id === 'total' ? { ...deduction, amount: TotalDeductionsamount } : deduction
+            );
+
+            setDeductions(updatedDeductionsWithTotal);
         }
     };
+
 
 
     const handleNoteChange = (value: string, row: ChargesDeductionsData) => {
@@ -311,7 +358,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             sortable: false,
             cell: (row, index: number) => (
                 <Form.Control
-                    type="text"
+                    type="number"
                     placeholder='Amount'
                     value={row.amount}
                     className={`form-input workflorform-input ${row.update_amount ? '' : 'readonly'}`}
