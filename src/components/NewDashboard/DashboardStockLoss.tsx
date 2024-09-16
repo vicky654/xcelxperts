@@ -6,7 +6,9 @@ import useErrorHandler from '../../hooks/useHandleError';
 import { useFormik } from 'formik';
 import { Col } from 'react-bootstrap';
 import DynamicTable from './DynamicTable';
-
+import noDataImage from '../../assets/AuthImages/noDataFound.png'; // Import the image
+import SmallLoader from '../../utils/SmallLoader';
+import LoaderImg from '../../utils/Loader';
 
 interface Client {
     id: string;
@@ -80,19 +82,19 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             handleApiError(error);
         }
     };
-    useEffect(() => {
 
-        if (storedData && reduxData?.role) {
-            GetDashboardStats(JSON.parse(storedData));
-        } else if (localStorage.getItem("superiorRole") === "Client" && reduxData?.role) {
-            const storedClientIdData = localStorage.getItem("superiorId");
-            if (storedClientIdData) {
-                fetchCompanyList(storedClientIdData)
 
-            }
-        }
+    // useEffect(() => {
+    //     if (storedData && reduxData?.role) {
+    //         GetDashboardStats(JSON.parse(storedData));
+    //     } else if (localStorage.getItem("superiorRole") === "Client" && reduxData?.role) {
+    //         const storedClientIdData = localStorage.getItem("superiorId");
+    //         if (storedClientIdData) {
+    //             fetchCompanyList(storedClientIdData)
 
-    }, [dispatch, storedKeyName, reduxData,]); // Add any other dependencies needed here
+    //         }
+    //     }
+    // }, [dispatch, storedKeyName, reduxData,]); // Add any other dependencies needed here
 
     useEffect(() => {
         if (isOpen) {
@@ -101,9 +103,6 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             if (storedData) {
                 try {
                     const parsedData = JSON.parse(storedData);
-                    const { client_id, entity_id, station_id } = parsedData;
-                    GetDashboardStats(parsedData)
-                    console.log(client_id, entity_id, station_id, "storedData");
                 } catch (error) {
                     console.error("Error parsing storedData:", error);
                 }
@@ -118,23 +117,25 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     useEffect(() => {
         if (isOpen) {
 
-        const storedData = localStorage.getItem(storedKeyName);
-        if (storedData) {
-            let parsedData = JSON.parse(storedData);
-            formik.setValues(parsedData)
-            setFilters(parsedData)
-            // handleApplyFilters(parsedData);
-        }}
+            const storedData = localStorage.getItem(storedKeyName);
+            if (storedData) {
+                let parsedData = JSON.parse(storedData);
+                formik.setValues(parsedData)
+                setFilters(parsedData)
+                // handleApplyFilters(parsedData);
+            }
+        }
     }, [isOpen])
 
 
     useEffect(() => {
         if (isOpen) {
-        if (filters?.site_id && filters?.client_id && filters.company_id) {
-            GetDashboardStats(filters); //Call the api 
+            if (filters?.station_id && filters?.client_id && filters.company_id) {
+                // GetDashboardStats(filters); //Call the api 
+                setFilters(filters)
+            }
         }
-    }
-    }, [filters?.site_id]);
+    }, [filters?.station_id]);
 
 
 
@@ -187,7 +188,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
         formik.setFieldValue("station_id", selectedSiteId);
         const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
         formik.setFieldValue('station_name', selectedSiteData?.name || "");
-        
+
     };
 
 
@@ -196,11 +197,20 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
     useEffect(() => {
         if (isOpen) {
-        setFilters(formik?.values)
-        GetDashboardStats(formik?.values)
+            setFilters(formik?.values)
+
+            if (formik?.values?.station_id) {
+                GetDashboardStats(formik?.values)
+            } else {
+                setFuelData(null)
+            }
         }
     }, [formik?.values?.station_id])
-    console.log(fuelData, "fuelData");
+
+
+
+
+
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -230,7 +240,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                                     value={formik?.values?.station_id}
                                                     className="input101 form-input"
                                                 >
-                                                    <option key={""} >Please Select Site</option>
+                                                    <option key={""} value="">Please Select Site</option>
                                                     {formik?.values?.sites?.map((item) => (
                                                         <option key={item.id} value={item.id}>
                                                             {item?.name}
@@ -245,12 +255,16 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                     </>)}
 
                                 </div>
-                                <div className="container">
-                                    <h2>Fuel Stock Report</h2>
+                                <div className="relative py-0 px-4 bg-white">
+                                    <h2 className='font-bold text-lg mb-4'> Stock Loss</h2>
+
+                                    {dashboardLoading && <LoaderImg />}
                                     {fuelData ? (
                                         <DynamicTable data={fuelData} />
                                     ) : (
-                                        <p>Loading...</p> // Display a loading message while data is being fetched
+                                        <div className="all-center-flex">
+                                            <img src={noDataImage} alt="No data found" className="nodata-image" />
+                                        </div>
                                     )}
                                 </div>
                             </div>
