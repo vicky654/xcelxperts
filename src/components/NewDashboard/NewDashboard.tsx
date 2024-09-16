@@ -19,6 +19,8 @@ import EarningModal from './EarningModal';
 import DashboardHeader from './DashboardHeader';
 import { useFormik } from 'formik';
 import SmallLoader from '../../utils/SmallLoader';
+import StockLoss from '../SideBarComponents/ManageStation/StockLoss';
+import DashboardStockLoss from './DashboardStockLoss';
 
 interface FilterValues {
     client_id: any;
@@ -73,7 +75,26 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         station_id: '',
     });
 
+    const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null);
+    const openAddUserModal = () => {
+        if (filters?.station_id) {
+            setIsAddUserModalOpen(true); // Open the modal if siteid exists
+        } else {
+            setModalOpen(true); // Keep current state
+        }
 
+
+    };
+    const closeAddUserModal = () => {
+        if (filters?.station_id) {
+            setIsAddUserModalOpen(false); // Open the modal if siteid exists
+        } else {
+            setModalOpen(false); // Keep current state
+        }
+
+
+    };
     const [GraphData, setGraphData] = useState<any>(null);
     const [DashfilterData, setDashfilterData] = useState<any>(null);
     const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
@@ -405,6 +426,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const [filteredStockAlerts, setFilteredStockAlerts] = useState<{ [key: string]: any[] }>({});
 
 
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isAddPermissionAvailable = Permissions?.includes('user-create');
+
     const handleDateClick = (date: string) => {
         setSelectedDate(date);
         const filteredStockAlerts = Object.keys(fuelStats?.stock_alert).reduce((acc, tankName) => {
@@ -620,7 +646,6 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                         <div className="panel h-full xl:col-span-2 ">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-bold text-lg">{toggle ? 'Tested Fuel' : 'Fuel Variances'}  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
-
                                 {
                                     GraphData?.fuel_stock_stats?.series ? <div className=' flex items-end text-end'>
                                         <Col lg={12} md={12}>
@@ -677,12 +702,18 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             </div>
 
                         </div>
+                        {/* {isAddPermissionAvailable && (
+                            <button type="button" className="btn btn-dark" onClick={openAddUserModal}>
+                                Add User
+                            </button>
+                        )} */}
 
                         <div className="panel h-full xl:col-span-1 ">
+
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}
                                 </h5>
-                                {/* <button className='btn btn-primary'> Stock Loss</button> */}
+                                <button className='btn btn-primary' onClick={openAddUserModal}> Stock Loss</button>
                             </div>
 
                             <div className="relative" style={{ minHeight: "350px" }}>
@@ -864,6 +895,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                 </div>
             </ >
 
+            <DashboardStockLoss getData={getData} isOpen={isAddUserModalOpen} onClose={closeAddUserModal} userId={userId} />
 
             {modalOpen && (
                 <div className='p-6'>
