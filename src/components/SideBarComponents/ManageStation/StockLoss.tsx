@@ -41,7 +41,7 @@ interface RowData {
     logo: string;
 }
 
-const ManageStation: React.FC<any> = ({ postData, getData, isLoading }) => {
+const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();

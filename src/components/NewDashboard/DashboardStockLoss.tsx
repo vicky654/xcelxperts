@@ -5,6 +5,7 @@ import { IRootState } from '../../store';
 import useErrorHandler from '../../hooks/useHandleError';
 import { useFormik } from 'formik';
 import { Col } from 'react-bootstrap';
+import DynamicTable from './DynamicTable';
 
 
 interface Client {
@@ -33,7 +34,21 @@ interface RoleItem {
     id: number;
     role_name: string;
 }
-
+interface FuelStocks {
+    labels: string[];
+    opening: string[];
+    delivery: string[];
+    stock: string[];
+    closing: string[];
+    dip_sales: string[];
+    sales: string[];
+    profit: string[];
+    permissible: string[];
+    loss: string[];
+    stock_loss: string[];
+    rate: string[];
+    amount: string[];
+}
 const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId }) => {
 
     const [filters, setFilters] = useState<any>();
@@ -43,6 +58,8 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     const storedData = localStorage.getItem(storedKeyName);
     const reduxData = useSelector((state: IRootState) => state?.data?.data);
     const dispatch = useDispatch();
+    const [fuelData, setFuelData] = useState<FuelStocks | null>(null);
+
     const handleApiError = useErrorHandler();
 
 
@@ -94,11 +111,12 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                 console.log("No stored data found for key:", storedKeyName);
             }
         }
-    }, [isOpen, userId]); // Dependency array to run when isOpen or userId changes
+    }, [isOpen, userId,]); // Dependency array to run when isOpen or userId changes
 
 
 
     useEffect(() => {
+        if (isOpen) {
 
         const storedData = localStorage.getItem(storedKeyName);
         if (storedData) {
@@ -106,14 +124,16 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             formik.setValues(parsedData)
             setFilters(parsedData)
             // handleApplyFilters(parsedData);
-        }
+        }}
     }, [isOpen])
 
 
     useEffect(() => {
+        if (isOpen) {
         if (filters?.site_id && filters?.client_id && filters.company_id) {
-            // FetchmannegerList(filters); //Call the api 
+            GetDashboardStats(filters); //Call the api 
         }
+    }
     }, [filters?.site_id]);
 
 
@@ -130,8 +150,10 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/stock-loss?${queryString}`);
-                if (response && response.data && response.data.data) {
-
+                if (response && response.data) {
+                    const data = await response.data;
+                    console.log(response?.data?.data, "response.data.data");
+                    setFuelData(response.data.data.fuel_stocks);
                 }
             } catch (error) {
                 console.error("Error fetching dashboard stats", error);
@@ -166,19 +188,20 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
         formik.setFieldValue("station_id", selectedSiteId);
         const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
         formik.setFieldValue('station_name', selectedSiteData?.name || "");
+        
     };
 
 
 
 
-    console.log(formik?.values, "formik valuess");
-    console.log(filters, "filters");
 
     useEffect(() => {
+        if (isOpen) {
         setFilters(formik?.values)
+        GetDashboardStats(formik?.values)
+        }
     }, [formik?.values?.station_id])
-
-
+    console.log(fuelData, "fuelData");
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -222,6 +245,14 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                         </Col>
                                     </>)}
 
+                                </div>
+                                <div className="container">
+                                    <h2>Fuel Stock Report</h2>
+                                    {fuelData ? (
+                                        <DynamicTable data={fuelData} />
+                                    ) : (
+                                        <p>Loading...</p> // Display a loading message while data is being fetched
+                                    )}
                                 </div>
                             </div>
                         </div>
