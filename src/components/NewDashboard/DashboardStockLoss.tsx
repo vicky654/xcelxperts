@@ -178,7 +178,6 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             sites: [] as Site[],
         },
         onSubmit: (values) => {
-            console.log(values, "values");
 
         },
     });
