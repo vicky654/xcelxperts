@@ -53,7 +53,6 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
   const toggleTabs = (name: string) => {
 
-console.log(name,selectedCardName, "toggleTabs");
 
     // setSelectedCardName(name === selectedCardName ? null : name); // Toggle tab selection
     setSelectedCardName(name === selectedCardName ? selectedCardName : name); // Toggle tab selection
