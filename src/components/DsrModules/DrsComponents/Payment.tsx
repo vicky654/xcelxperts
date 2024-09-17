@@ -98,7 +98,11 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 const formData = new FormData();
 
                 paymentData.listing.forEach((payment) => {
-                    formData.append(`card[${payment.id}]`, payment.amount);
+                    if (payment.amount !== null && payment.amount !== undefined  && payment.card_name !== "Total") {
+                        formData.append(`card[${payment.id}]`, payment.amount);
+                        // formData.append(`charge[${charge.id}]`, charge.amount.toString());
+                    }
+                    // formData.append(`card[${payment.id}]`, payment.amount);
                 });
 
                 if (stationId && startDate) {

@@ -105,7 +105,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const formData = new FormData();
 
             charges?.forEach(charge => {
-                if (charge.amount !== null && charge.amount !== undefined && charge.amount !== 0 && charge.id !== "total") {
+                if (charge.amount !== null && charge.amount !== undefined  && charge.id !== "total") {
                     formData.append(`charge[${charge.id}]`, charge.amount.toString());
                 }
                 if (charge.notes !== null && charge.notes !== undefined && charge.notes !== "") {
@@ -114,7 +114,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             });
 
             deductions.forEach(deduction => {
-                if (deduction.amount !== null && deduction.amount !== undefined && deduction.amount !== 0 && deduction.id !== "total") {
+                if (deduction.amount !== null && deduction.amount !== undefined  && deduction.id !== "total") {
                     formData.append(`deduction[${deduction.id}]`, deduction.amount.toString());
                 }
                 if (deduction.notes !== null && deduction.notes !== undefined && deduction.notes !== "") {
@@ -131,7 +131,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const isSuccess = await postData(url, formData);
 
             if (isSuccess) {
-                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Extra Income & Expenses" });
+                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName:"Extra Income & Expenses" });
                 fetchData();
             }
         } catch (error) {
@@ -143,11 +143,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
         // Convert the value to a number
         let numericValue = value === '' ?"" : parseFloat(value);
 
-        // // Check if the parsed value is a valid number
-        // if (isNaN(numericValue)) {
-        //     console.error("Invalid amount value:", value);
-        //     return;
-        // }
+   
 
         if (row.type === 'charge') {
             // Update charges?

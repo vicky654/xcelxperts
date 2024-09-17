@@ -52,6 +52,9 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
   const [startDate, setStartDate] = useState<string | null>(null);
 
   const toggleTabs = (name: string) => {
+
+console.log(name,selectedCardName, "toggleTabs");
+
     // setSelectedCardName(name === selectedCardName ? null : name); // Toggle tab selection
     setSelectedCardName(name === selectedCardName ? selectedCardName : name); // Toggle tab selection
   };
@@ -68,6 +71,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
 
         // Get the current date in 'YYYY-MM-DD' format
         const now = new Date();
+        now.setDate(now.getDate() - 1); // Subtract 1 day
         const year = now.getFullYear();
         const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
         const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'
@@ -115,8 +119,8 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Fuel Sales': FuelSales,
     'Fuel Stock': FuelDelivery,
     'Lubes Sales': ShopSales,
-    'Extra Income & Expenses': ChargesDeductions,
     'Credit Sales': CreditSales,
+    'Extra Income & Expenses': ChargesDeductions,
     'Digital Receipt': Payment,
     'Bank Deposited': CashBanking,
     'Summary': Summary,

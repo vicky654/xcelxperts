@@ -155,17 +155,13 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     useEffect(() => {
         if (isOpen) {
             setFilters(formik?.values)
-
             if (formik?.values?.station_id) {
                 GetDashboardStats(formik?.values)
             } else {
                 setFuelData(null)
             }
         }
-    }, [formik?.values?.station_id])
-
-
-
+    }, [formik?.values?.station_id,isOpen])
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
