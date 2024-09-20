@@ -78,7 +78,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             if (site_id) queryParams.append('station_id', site_id);
 
             const queryString = queryParams.toString();
-            const response = await getData(`dashboard/get-details?${queryString}`);
+            const response = await getData(`dashboard/station-details?${queryString}`);
             if (response && response.data && response.data.data) {
 
                 setsecondApiResponse(response.data.data)
@@ -96,7 +96,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
     const isSitePermissionAvailable = data?.permissions?.includes(
-        "dashboard-site-detail"
+        "dashboard-station-detail"
     );
 
     useEffect(() => {

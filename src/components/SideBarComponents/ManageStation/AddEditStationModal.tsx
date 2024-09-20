@@ -83,7 +83,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             FetchCommonDataList();
             if (isEditMode) {
                 fetchUserDetails(userId ? userId : '');
-                // FetchClientList();
+                FetchClientList();
             }
         }
     }, [isOpen, isEditMode, userId]);
@@ -199,6 +199,15 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         { value: '1', label: 'Dealer' },
 
     ];
+    const show_detail = [
+        { value: '0', label: 'Data Only' },
+        { value: '1', label: 'Data & Detail' },
+    ];
+
+    const mtd_summary = [
+        { value: '0', label: 'Disable' },
+        { value: '1', label: 'Enable' },
+    ];
 
     const considerfuelsaleoptionstions = [
         {
@@ -222,6 +231,9 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
             formik.setFieldValue('file', file);
         }
     };
+
+    console.log(formik?.values, "formik valueees");
+
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -307,7 +319,24 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     formik={formik}
                                                     name="consider_fuel_sale"
                                                     label="Consider Fuel Sale"
-                                                    options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.id, name: item?.name }))}
+                                                    options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.value, name: item?.label })) || []}
+                                                    // options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.id, name: item?.name }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="mtd_summary"
+                                                    label="MTD Summary"
+                                                    options={mtd_summary?.map((item: any) => ({ id: item?.value, name: item?.label })) || []}
+                                                    // options={mtd_summary?.map((item: any) => ({ id: item?.id, name: item?.label }))}
+                                                    className="form-select text-white-dark"
+                                                />
+                                                <FormikSelect
+                                                    formik={formik}
+                                                    name="show_detail"
+                                                    label="Show Stop Loss Detail"
+                                                    options={show_detail?.map((item: any) => ({ id: item?.value, name: item?.label })) || []}
+                                                    // options={show_detail?.map((item: any) => ({ id: item?.id, name: item?.label }))}
                                                     className="form-select text-white-dark"
                                                 />
                                                 <FormikInput formik={formik} type="text" name="sap_code" label="SAP Code" placeholder="SAP Code" isRequired={false} />

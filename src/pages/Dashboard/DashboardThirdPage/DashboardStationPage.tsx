@@ -147,7 +147,7 @@ const DashboardStationPage: React.FC<DashboardStationPageProps> = ({ isLoading, 
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
     const isSitePermissionAvailable = data?.permissions?.includes(
-        "dashboard-site-detail"
+        "dashboard-station-detail"
     );
 
     useEffect(() => {

@@ -119,11 +119,13 @@ export const stationInitialValues = {
   email: '',
   password: '',
   phone_number: '',
+  mtd_summary: '0',
+  show_detail: '1',
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],
-  consider_fuel_sale:'',
-  contact_person : '',
+  consider_fuel_sale: '',
+  contact_person: '',
   logo: '',
   com_type: '',
   file: null as File | null,
@@ -175,7 +177,7 @@ export const stationTankInitialValues = {
   tank_code: '',
   fuel_id: '',
   status: '',
-  capacity : '',
+  capacity: '',
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],
@@ -193,7 +195,7 @@ export const stationBankInitialValues = {
   entities: [] as Entity[],
   sites: [] as Station[],
   tankList: {} as any,
-  
+
 };
 export const credituserInitialValues = {
   name: '',

@@ -109,7 +109,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/stock-loss?${queryString}`);
                 if (response && response.data) {
-               
+
                     setTableData(response?.data?.data)
                     setFuelData(response.data.data.fuel_stocks);
                 }
@@ -161,7 +161,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                 setFuelData(null)
             }
         }
-    }, [formik?.values?.station_id,isOpen])
+    }, [formik?.values?.station_id, isOpen])
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>

@@ -40,11 +40,11 @@ const menuItems: MenuItem[] = [
         icon: "stats",
         link: '/data-entry', // Single link for the Data Entry
         visibility: false, // Example of setting visibility to false
-        permission: 'workflow-list', // Permission associated with the dashboard
+        permission: 'dataentry-card-list', // Permission associated with the dashboard
         subMenu: [
-            { title: 'Data Entry', link: '/data-entry', permission: 'workflow-list', visibility: false },
-            { title: 'Data Entry Stats', link: '/data-entry-stats', permission: 'workflow-list', visibility: false },
-          
+            { title: 'Data Entry', link: '/data-entry', permission: 'dataentry-card-list', visibility: false },
+            { title: 'Data Entry Stats', link: '/data-entry-stats', permission: 'dataentry-station-stats', visibility: false },
+
             // { title: 'Reports', link: '/manage-reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
@@ -75,22 +75,22 @@ const menuItems: MenuItem[] = [
         permission: 'card-list', // Permission associated with the dashboard
         subMenu: [
             { title: 'Cards', link: '/manage-cards', permission: 'card-list', visibility: false },
-            
+
             { title: 'Fuel Categories', link: '/manage-fuel-categories', permission: 'fuel-category-list', visibility: false },
             { title: 'Fuel Sub Categories', link: '/manage-sub-categories', permission: 'fuel-subcategory-list', visibility: false },
             { title: 'Lubricant', link: '/manage-lubricants', permission: 'lubricant-list', visibility: false },
             { title: 'Extra Income', link: '/manage-incomes', permission: 'charges-list', visibility: false },
             { title: 'Expenses', link: '/manage-expenses', permission: 'deduction-list', visibility: false },
             { title: 'Suppliers', link: '/manage-suppliers', permission: 'supplier-list', visibility: false },
-           
+
             { title: 'Bank', link: '/manage-banks', permission: 'bank-list', visibility: false },
-          
+
             // { title: 'Data Entry', link: '/data-entry', permission: 'credituser-list', visibility: false },
             // { title: 'Reports', link: '/manage-reports', permission: 'user-list', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
-  
+
     // {
     //     key: 'users',
     //     title: 'Users',
@@ -158,7 +158,7 @@ const menuItems: MenuItem[] = [
             // { title: 'Tanks', link: '/manage-tanks', permission: 'tank-list', visibility: false },
             // { title: 'Pumps', link: '/manage-pumps', permission: 'pump-list', visibility: false },
             // { title: 'Nozzles', link: '/manage-nozzles', permission: 'nozzle-list', visibility: false },
-           // { title: 'Fuel Sale', link: '/manage-fuel-sale-price', permission: 'dashboard-view', visibility: false },
+            // { title: 'Fuel Sale', link: '/manage-fuel-sale-price', permission: 'dashboard-view', visibility: false },
             { title: 'Fuel Sale Price', link: '/manage-fuel-sale-price', permission: 'fuel-price-update', visibility: false },
             // { title: 'Fuel Purchase', link: '/manage-fuel-purchase-price', permission: 'fuel-purchase-list', visibility: false },
             { title: 'Fuel Purchase Price', link: '/manage-fuel-purchase-price', permission: 'fuel-purchase-price', visibility: false },
@@ -221,7 +221,7 @@ const menuItems: MenuItem[] = [
             { title: 'Activity Logs', link: '/manage-activity_logs', permission: 'activity-logs', visibility: false },
         ],
     },
-  
+
     // {
     //     key: 'Reports',
     //     title: 'Reports',

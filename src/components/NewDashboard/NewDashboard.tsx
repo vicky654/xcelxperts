@@ -105,7 +105,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
         // Decide which data to send based on the new toggle value
         const dataToSend = newToggleValue ? 'tested_fuel' : 'variance';
 
-        if (storedData) {
+        if (storedData && isDashFuelStatsPermissionAvailable) {
             const updatedData = { ...JSON.parse(storedData), f_type: dataToSend };
             GetDashboardGraphStats(updatedData, newToggleValue); // Fetch with updated f_type
         }
@@ -171,7 +171,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const GetStationStock = async (stationId: string) => {
         try {
             setStationStockLoading(true); // Start loading for station stock
-            const response = await getData(`dashboard/station-stock?station_id=${stationId}`);
+            const response = await getData(`dashboard/fuel-forecasting?station_id=${stationId}`);
             if (response && response.data && response.data.data) {
                 const { dates, stock_alert, station_name, station_image, last_dayend } = response.data?.data;
                 setFuelStats({
@@ -261,9 +261,13 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const handleApplyFilters = async (values: any) => {
 
         setFilters(values);
-        GetDashboardStats(values);
-        GetDashboardGraphStats(values, toggle);
-        if (values?.station_id) {
+        if (isDashViewPermissionAvailable) {
+            GetDashboardStats(values);
+        }
+        if (isDashFuelStatsPermissionAvailable) {
+            GetDashboardGraphStats(values, toggle);
+        }
+        if (values?.station_id && isForecastingPermissionAvailable) {
             GetStationStock(values?.station_id)
         }
         setModalOpen(false);
@@ -400,7 +404,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
     const handleClickToOverView = () => {
-        if (storedData && UserPermissions?.permissions?.includes('dashboard-details')) {
+        if (storedData && isDashDetailPermissionAvailable) {
             const parsedStoredData = JSON.parse(storedData);
             if (parsedStoredData?.entity_id && filters?.entity_id) {
                 navigate('/dashboard/overview');
@@ -422,6 +426,12 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
     const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
     const isAddPermissionAvailable = Permissions?.includes('user-create');
+    const isTotalRevenuePermissionAvailable = Permissions?.includes('dashboard-revenue-stats');
+    const isStockLossPermissionAvailable = Permissions?.includes('dashboard-stock-loss');
+    const isForecastingPermissionAvailable = Permissions?.includes('dashboard-forecasting');
+    const isDashFuelStatsPermissionAvailable = Permissions?.includes('dashboard-fuel-stats');
+    const isDashDetailPermissionAvailable = Permissions?.includes('dashboard-details');
+    const isDashViewPermissionAvailable = Permissions?.includes('dashboard-details');
 
     const handleDateClick = (date: string) => {
         setSelectedDate(date);
@@ -481,7 +491,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
             {/* {isLoading ? <LoaderImg /> : ''} */}
             <>
 
-                {!dashboardLoading ?
+                {(!dashboardLoading && isTotalRevenuePermissionAvailable) ?
                     <>
                         <div className="position-fixed top-50 end-0 translate-middle-y">
                             <button
@@ -531,6 +541,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             headingValue={DashfilterData?.sales_volume?.sales_volume}
                             subHeadingData={DashfilterData?.sales_volume}
                             boxNumberClass={"firstbox"}
+                            firstScreen={true}
                         />
 
 
@@ -541,11 +552,11 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             headingValue={DashfilterData?.sales_value?.sales_value}
                             subHeadingData={DashfilterData?.sales_volume}
                             boxNumberClass={"secondbox"}
+                            firstScreen={true}
                         />
 
                         <div
                             className={`panel updownDiv secondbox ${DashfilterData ? 'cursor-pointer' : ''}`}
-
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value (Lubes) </div>
@@ -619,6 +630,7 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                             headingValue={DashfilterData?.profit?.profit}
                             subHeadingData={DashfilterData?.profit}
                             boxNumberClass={"thirdbox"}
+                            firstScreen={true}
                         />
 
 
@@ -633,128 +645,127 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
 
 
 
+                    {isDashFuelStatsPermissionAvailable && (<>
+                        <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
+                            <div className="panel h-full xl:col-span-2 ">
+                                <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                    <h5 className="font-bold text-lg">{toggle ? 'Tested Fuel' : 'Fuel Variances'}  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
+                                    {
+                                        GraphData?.fuel_stock_stats?.series ? <div className=' flex items-end text-end'>
+                                            <Col lg={12} md={12}>
+                                                <div className="mt-2 sm:grid-cols-1 flexcenter">
+                                                    <span className="font-bold mr-2">Fuel Variance</span>
 
-                    <div className="grid xl:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-2 mb-6">
-                        <div className="panel h-full xl:col-span-2 ">
-                            <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg">{toggle ? 'Tested Fuel' : 'Fuel Variances'}  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}</h5>
-                                {
-                                    GraphData?.fuel_stock_stats?.series ? <div className=' flex items-end text-end'>
-                                        <Col lg={12} md={12}>
-                                            <div className="mt-2 sm:grid-cols-1 flexcenter">
-                                                <span className="font-bold mr-2">Fuel Variance</span>
-
-                                                {/* Toggle Switch */}
-                                                <label style={{ cursor: "pointer" }} className="w-12 h-6 relative">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
-                                                        checked={toggle}
-                                                        onChange={handleToggleChange}
-                                                    />
-                                                    <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${toggle ? 'bg-primary border-primary' : 'bg-primary border-primary'}`}>
-                                                        <span className={`absolute bottom-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${toggle ? 'bg-white left-7' : 'bg-white left-1'}`}>
+                                                    {/* Toggle Switch */}
+                                                    <label style={{ cursor: "pointer" }} className="w-12 h-6 relative">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                                                            checked={toggle}
+                                                            onChange={handleToggleChange}
+                                                        />
+                                                        <span className={`outline_checkbox block h-full rounded-full transition-all duration-300 ${toggle ? 'bg-primary border-primary' : 'bg-primary border-primary'}`}>
+                                                            <span className={`absolute bottom-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${toggle ? 'bg-white left-7' : 'bg-white left-1'}`}>
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                </label>
+                                                    </label>
 
-                                                <span className="font-bold ms-2">Tested Fuel</span>
-                                            </div>
-                                        </Col>
-                                    </div> : ""
-                                }
-
-
-
-                            </div>
-
-                            <div className="relative" style={{ minHeight: "350px" }}>
-                                <div className="bg-white dark:bg-black  overflow-hidden">
-                                    {!dashboarGraphdLoading ? (
-                                        !GraphData?.fuel_stock_stats ? (
-                                            <div className="flex justify-center items-center h-full p-4">
-                                                <img
-                                                    src={noDataImage}
-                                                    alt="No data found"
-                                                    className="w-1/2 max-w-xs"
-                                                />
-                                            </div>
-                                        ) : (
-                                            <ReactApexChart
-                                                series={GraphData.fuel_stock_stats.series}
-                                                options={revenueChart?.options}
-                                                type="area"
-                                                height={325}
-                                            />
-                                        )
-                                    ) : (
-                                        <SmallLoader />
-                                    )}
+                                                    <span className="font-bold ms-2">Tested Fuel</span>
+                                                </div>
+                                            </Col>
+                                        </div> : ""
+                                    }
                                 </div>
-                            </div>
 
-                        </div>
-                        {/* {isAddPermissionAvailable && (
+                                <div className="relative" style={{ minHeight: "350px" }}>
+                                    <div className="bg-white dark:bg-black  overflow-hidden">
+                                        {!dashboarGraphdLoading ? (
+                                            !GraphData?.fuel_stock_stats ? (
+                                                <div className="flex justify-center items-center h-full p-4">
+                                                    <img
+                                                        src={noDataImage}
+                                                        alt="No data found"
+                                                        className="w-1/2 max-w-xs"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <ReactApexChart
+                                                    series={GraphData.fuel_stock_stats.series}
+                                                    options={revenueChart?.options}
+                                                    type="area"
+                                                    height={325}
+                                                />
+                                            )
+                                        ) : (
+                                            <SmallLoader />
+                                        )}
+                                    </div>
+                                </div>
+
+                            </div>
+                            {/* {isAddPermissionAvailable && (
                             <button type="button" className="btn btn-dark" onClick={openAddUserModal}>
                                 Add User
                             </button>
                         )} */}
 
-                        <div className="panel h-full xl:col-span-1 ">
+                            <div className="panel h-full xl:col-span-1 ">
 
-                            <div className="flex items-center justify-between dark:text-white-light mb-5">
-                                <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}
-                                </h5>
-                                {filters?.entity_id && (<button className='btn btn-primary' onClick={openAddUserModal}> Stock Loss</button>)}
-                            </div>
-
-                            <div className="relative" style={{ minHeight: "350px" }}>
-                                <div className="bg-white dark:bg-black  overflow-hidden">
-
-                                    {!dashboarGraphdLoading ? (
-                                        !GraphData?.fuel_stock_stats ? (
-                                            <div className="flex justify-center items-center h-full p-4">
-                                                <img
-                                                    src={noDataImage}
-                                                    alt="No data found"
-                                                    className="w-1/2 max-w-xs"
-                                                />
-                                            </div>
-                                        ) : (
-                                            <table>
-                                                <thead>
-                                                    <tr className='bg-gray-200'>
-                                                        <th>Fuel Name</th>
-                                                        <th>Testing</th>
-                                                        <th>Variance</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {GraphData?.fuel_stock.map((fuel: any, index: any) => (
-                                                        <tr className='hover:bg-gray-100' key={index}>
-                                                            <td>{fuel?.fuel_name || 'No fuel name'}</td>
-                                                            <td>{capacity} {fuel?.testing ?? 0}</td>
-                                                            <td>{capacity} {fuel?.variance ?? 0}</td>
-                                                        </tr>
-
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        )
-                                    ) : (
-                                        <SmallLoader />
-                                    )}
-
-
-
+                                <div className="flex items-center justify-between dark:text-white-light mb-5">
+                                    <h5 className="font-bold text-lg dark:text-white-light"> Accumulated Fuel Variances  {GraphData?.day_end_date ? `(${GraphData.day_end_date})` : ""}
+                                    </h5>
+                                    {filters?.entity_id && isStockLossPermissionAvailable && (<button className='btn btn-primary' onClick={openAddUserModal}> Stock Loss</button>)}
                                 </div>
+
+                                <div className="relative" style={{ minHeight: "350px" }}>
+                                    <div className="bg-white dark:bg-black  overflow-hidden">
+
+                                        {!dashboarGraphdLoading ? (
+                                            !GraphData?.fuel_stock_stats ? (
+                                                <div className="flex justify-center items-center h-full p-4">
+                                                    <img
+                                                        src={noDataImage}
+                                                        alt="No data found"
+                                                        className="w-1/2 max-w-xs"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <table>
+                                                    <thead>
+                                                        <tr className='bg-gray-200'>
+                                                            <th>Fuel Name</th>
+                                                            <th>Testing</th>
+                                                            <th>Variance</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {GraphData?.fuel_stock.map((fuel: any, index: any) => (
+                                                            <tr className='hover:bg-gray-100' key={index}>
+                                                                <td>{fuel?.fuel_name || 'No fuel name'}</td>
+                                                                <td>{capacity} {fuel?.testing ?? 0}</td>
+                                                                <td>{capacity} {fuel?.variance ?? 0}</td>
+                                                            </tr>
+
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            )
+                                        ) : (
+                                            <SmallLoader />
+                                        )}
+
+
+
+                                    </div>
+                                </div>
+
                             </div>
-
                         </div>
-                    </div>
+                    </>)}
 
 
-                    {filters?.station_id && (
+
+                    {filters?.station_id && isForecastingPermissionAvailable && (
                         !stationStockLoading ? (
                             <div className="grid xl:grid-cols-7 md:grid-cols-4 sm:grid-cols-1 gap-2 mb-6">
                                 {/* Forecasting Panel */}
@@ -874,16 +885,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                     </div>
                                 </div>
                             </div>
-
-
                         )
                     )}
-
-
-
-
-
-
                 </div>
             </ >
 

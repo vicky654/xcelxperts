@@ -11,6 +11,7 @@ interface CommonDashCardProps {
     data?: any;
     boxNumberClass: string;
     title: string;
+    firstScreen: boolean;
     headingValue: number | null | undefined;
     subHeadingData?: SubHeadingData;
     onClick?: () => void;
@@ -20,6 +21,7 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
     data,
     onClick,
     title,
+    firstScreen,
     headingValue,
     subHeadingData,
     boxNumberClass,
@@ -39,7 +41,7 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
 
     return (
         <div
-            className={`panel updownDiv ${boxNumberClass} ${data ? 'cursor-pointer' : ''}`}
+            className={`panel updownDiv ${boxNumberClass} ${(data && firstScreen) ? 'cursor-pointer' : ''}`}
             onClick={onClick}
         >
             <div className="flex justify-between">
@@ -59,9 +61,9 @@ const CommonDashCard: React.FC<CommonDashCardProps> = ({
                     <i style={{ color: '#37a40a' }} className="fi fi-tr-chart-line-up"></i>
                 ) : (
                     <i style={{ color: 'red' }} className="fi fi-tr-chart-arrow-down"></i>
-                )}        
+                )}
                 <span>
-                    
+
                     Last Month  <br /> {subHeadingData?.percentage !== undefined ? subHeadingData.percentage + '%' : ''}
                 </span>
             </div>

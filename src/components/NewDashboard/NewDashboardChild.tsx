@@ -81,7 +81,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             if (station_id) queryParams.append('station_id', station_id);
 
             const queryString = queryParams.toString();
-            const response = await getData(`dashboard/get-details?${queryString}`);
+            const response = await getData(`dashboard/station-details?${queryString}`);
             if (response && response.data && response.data.data) {
 
                 setsecondApiResponse(response.data?.data)
@@ -98,26 +98,26 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
     // Using useSelector to extract the data from the Redux store
     const { data, error } = useSelector((state: IRootState) => state?.data);
     const [modalOpen, setModalOpen] = useState(false);
-    const isSitePermissionAvailable = data?.permissions?.includes(
-        "dashboard-site-detail"
-    );
 
+    const userPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
+    const isSitePermissionAvailable = userPermissions?.includes('dashboard-station-detail');
+    const isDataEntryStationPermissionAvailable = userPermissions?.includes('dataentry-station-stats');
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         const storedData = localStorage.getItem(storedKeyName);
         if (storedData) {
             handleApplyFilters(JSON.parse(storedData));
         }
-    }, [dispatch]);
+    }, [dispatch, userPermissions]);
 
     const handleApplyFilters = async (values: any) => {
 
         setFilters(values);
-
-        callFetchDetailsData(values)
+        if (isSitePermissionAvailable) {
+            callFetchDetailsData(values)
+        }
         setModalOpen(false);
     };
 
@@ -167,7 +167,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
             localStorage.setItem("stationTank", JSON.stringify(storedData));
 
 
-            if (!isSitePermissionAvailable) {
+            if (isDataEntryStationPermissionAvailable) {
                 navigate(`/data-entry-stats/${item?.id}`);
             }
         } else {
@@ -277,6 +277,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             headingValue={filterData?.sales_volume?.sales_volume}
                             subHeadingData={filterData?.sales_volume}
                             boxNumberClass={"firstbox"}
+                            firstScreen={false}
                         />
 
 
@@ -286,11 +287,12 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             headingValue={filterData?.sales_value?.sales_value}
                             subHeadingData={filterData?.sales_volume}
                             boxNumberClass={"secondbox"}
+                            firstScreen={false}
                         />
 
 
                         <div
-                            className={`panel updownDiv secondbox ${secondApiResponse ? 'cursor-pointer' : ''}`}
+                            className={`panel updownDiv secondbox `}
                         >
                             <div className="flex justify-between">
                                 <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Gross Value (Lubes)</div>
@@ -334,6 +336,7 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                             headingValue={filterData?.profit?.profit}
                             subHeadingData={filterData?.profit}
                             boxNumberClass={"thirdbox"}
+                            firstScreen={false}
                         />
 
 
@@ -349,14 +352,14 @@ const NewDashboardChild: React.FC<DashboardOverviewProps> = ({ isLoading, fetche
                     </div>
 
 
-                    {filterData?.stations?.length > 0 ? (
+                    {(filterData?.stations?.length > 0 && isSitePermissionAvailable) ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                             {filterData?.stations?.map((item: any) => (
                                 <div
                                     key={item.id}
                                     className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-black dark:text-white group ${isSitePermissionAvailable ? "cursor-pointer" : ""}`}
                                     style={{ cursor: "pointer" }}
-                                    onClick={() => !isSitePermissionAvailable && handleNavigateToNextPage(item)}
+                                    onClick={() => handleNavigateToNextPage(item)}
                                 >
                                     <div className="flex items-center mb-4">
                                         <img

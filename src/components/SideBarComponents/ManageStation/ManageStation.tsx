@@ -443,6 +443,8 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             formData.append('show_summary', values.show_summary);
             formData.append('client_id', values.client_id);
             formData.append('entity_id', values.entity_id);
+            formData.append('mtd_summary', values.mtd_summary);
+            formData.append('show_detail', values.show_detail);
             // formData.append('data_import_type_id', values.data_import_type_id);
             formData.append('security_amount', values.security_amount);
             formData.append('start_date', values.start_date);
@@ -509,9 +511,11 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
                 </>}
             </div>
-            <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
 
-            />
+            {isModalOpen && (
+                <>
+                    <AddEditStationModal getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
+                </>)}
 
             <div className="panel mt-6">
 
