@@ -10,6 +10,8 @@ import DataEntryStats from '../DashDataEntryStats';
 import { FormatNumberCommon, handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface SummaryProps {
   stationId: string | null;
@@ -30,6 +32,11 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
   const [summaryRemarks, setSummaryRemarks] = useState<SummaryRemarks | null>(null);
   const navigate = useNavigate();
   const handleApiError = useErrorHandler();
+
+
+  const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+  const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
   const openUserAddonModal = () => {
     setIsUserAddonModalOpen(true);
 
@@ -170,7 +177,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
                   formikRef.current.handleSubmit(); // Programmatically submit the form
                 }
               });
-            } 
+            }
           });
         }
       }
@@ -182,6 +189,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
 
 
 
@@ -197,11 +205,16 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
         </div> */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 className="text-lg font-semibold mb-4 displaycanter">Summary{startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('summary', stationId, startDate, getData, handleApiError)}>
-            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-              <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-            </OverlayTrigger>
-          </span>)}
+          <h1 className="text-lg font-semibold mb-4 displaycanter">Summary{startDate ? `(${startDate})` : ''}
+            {isdownloadpdf && (<span onClick={() => handleDownloadPdf('summary', stationId, startDate, getData, handleApiError)}>
+
+              {isReportGeneratePermissionAvailable && (<>
+                <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                  <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                </OverlayTrigger>
+              </>)}
+
+            </span>)}
           </h1>
 
           {/* {isdownloadpdf  && (

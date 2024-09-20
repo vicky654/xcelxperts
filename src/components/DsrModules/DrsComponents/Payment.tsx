@@ -6,6 +6,8 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { currency } from '../../../utils/CommonData'
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 interface PaymentItem {
     id: string;
     card_name: string;
@@ -25,6 +27,10 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     // Default to 'USD' if not set
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
 
     useEffect(() => {
 
@@ -98,7 +104,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
                 const formData = new FormData();
 
                 paymentData.listing.forEach((payment) => {
-                    if (payment.amount !== null && payment.amount !== undefined  && payment.card_name !== "Total") {
+                    if (payment.amount !== null && payment.amount !== undefined && payment.card_name !== "Total") {
                         formData.append(`card[${payment.id}]`, payment.amount);
                         // formData.append(`charge[${charge.id}]`, charge.amount.toString());
                     }
@@ -256,9 +262,11 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 className="text-lg font-semibold mb-4 displaycanter">
                     {`Digital Receipt`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
-                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                        </OverlayTrigger>
+                        {isReportGeneratePermissionAvailable && (<>
+                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                            </OverlayTrigger>
+                        </>)}
 
                     </span>)}
 

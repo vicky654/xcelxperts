@@ -14,6 +14,8 @@ import FormikSelect from '../../FormikFormTools/FormikSelect';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { Badge, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { saveAs } from "file-saver";
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface CashBankingItem {
     id: string;
@@ -49,6 +51,10 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
     const [selectedCashBanking, setSelectedCashBanking] = useState<CashBankingItem | null>(null);
     const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [receipts, setReceipts] = useState([]);
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
 
 
     useEffect(() => {
@@ -406,9 +412,11 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                     {isdownloadpdf && (
                         <span onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}>
-                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                            </OverlayTrigger>
+                            {isReportGeneratePermissionAvailable && (<>
+                                <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                </OverlayTrigger>
+                            </>)}
                         </span>)}
 
 

@@ -12,6 +12,8 @@ import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Badge } from '@mantine/core';
 import { currency } from '../../../utils/CommonData';
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface ShopSalesData {
     id: string;
@@ -58,6 +60,11 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
     const [isEditable, setIsEditable] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const handleApiError = useErrorHandler();
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
     useEffect(() => {
         if (stationId && startDate) {
             handleApplyFilters(stationId, startDate);
@@ -501,9 +508,11 @@ const ShopSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postD
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 className="text-lg font-semibold mb-4 displaycanter">
                     {`Lubes Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('lube-sales', stationId, startDate, getData, handleApiError)}>
-                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                        </OverlayTrigger>
+                        {isReportGeneratePermissionAvailable && (<>
+                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                            </OverlayTrigger>
+                        </>)}
 
                     </span>)}
 

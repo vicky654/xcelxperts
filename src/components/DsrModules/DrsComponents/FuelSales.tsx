@@ -10,6 +10,8 @@ import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import GenericTableForm from './GenericTableForm';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface FuelSalesData {
     id: number;
@@ -48,6 +50,11 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
     const [isconsiderNozzle, setconsiderNozzle] = useState(true);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
     const handleApiError = useErrorHandler();
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
 
     useEffect(() => {
         if (stationId && startDate) {
@@ -363,9 +370,11 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                         {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && data.length > 0 &&
                             (<span onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}>
 
-                                <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                                </OverlayTrigger>
+                                {isReportGeneratePermissionAvailable && (<>
+                                    <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                        <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                    </OverlayTrigger>
+                                </>)}
 
                             </span>)}
                     </h1>

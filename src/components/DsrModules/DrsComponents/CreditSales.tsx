@@ -11,6 +11,8 @@ import LoaderImg from '../../../utils/Loader';
 import { handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useCustomDelete from '../../../utils/customDelete';
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface Service {
   credit_user_id: string;
@@ -30,6 +32,11 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
   const [iseditable, setIsEditable] = useState(true);
   const [totalAmount, setTotalAmount] = useState<number>(0); // State to hold total amount
   const [isdownloadpdf, setIsdownloadpdf] = useState(true);
+
+  const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+  const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
   useEffect(() => {
     if (stationId && startDate) {
       handleApplyFilters(stationId, startDate);
@@ -262,9 +269,11 @@ const CreditSales: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
           <h1 className="text-lg font-semibold mb-4">
             {`Credit Sales`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('credit-sales', stationId, startDate, getData, handleApiError)}>
 
-              <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-              </OverlayTrigger>
+              {isReportGeneratePermissionAvailable && (<>
+                <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                  <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                </OverlayTrigger>
+              </>)}
 
             </span>)}
 

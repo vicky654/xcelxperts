@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import ApexCharts from "apexcharts";
 
 interface PieChartProps {
@@ -9,15 +9,24 @@ interface PieChartProps {
 }
 
 const PieChart: React.FC<PieChartProps> = ({ data }) => {
+  const chartRef = useRef<HTMLDivElement>(null); // Ref for the chart container
 
   useEffect(() => {
+    // Check if the data is valid before proceeding
+    if (!data || !Array.isArray(data.labels) || !Array.isArray(data.data)) {
+      console.error("Invalid data for PieChart", data);
+      return;
+    }
+
+    if (!chartRef.current) return; // Ensure the ref is assigned
+
     const options: ApexCharts.ApexOptions = {
-      series: data?.data?.map(Number) || [], // Convert string array to number array
+      series: data.data.map(Number), // Convert string array to number array
       chart: {
         width: 400,
         type: 'pie',
       },
-      labels: data?.labels || [],
+      labels: data.labels,
       colors: ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f'],
       legend: {
         position: 'bottom',
@@ -48,7 +57,7 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
       ],
     };
 
-    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    const chart = new ApexCharts(chartRef.current, options);
     chart.render();
 
     // Cleanup chart on component unmount
@@ -57,7 +66,12 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
     };
   }, [data]);
 
-  return <div id="chart"></div>;
+  // Fallback if data is missing or invalid
+  if (!data || !Array.isArray(data.labels) || !Array.isArray(data.data)) {
+    return <div>No data available to render the chart.</div>;
+  }
+
+  return <div ref={chartRef}></div>; // Attach the ref to the chart div
 };
 
 export default PieChart;

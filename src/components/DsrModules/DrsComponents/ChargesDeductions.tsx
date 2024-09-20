@@ -8,6 +8,8 @@ import { currency } from '../../../utils/CommonData';
 import LoaderImg from '../../../utils/Loader';
 import noDataImage from '../../../assets/AuthImages/noDataFound.png';
 import { handleDownloadPdf } from '../../CommonFunctions';
+import { IRootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface ChargesDeductionsData {
     id: string;
@@ -24,6 +26,11 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
     const [deductions, setDeductions] = useState<ChargesDeductionsData[]>([]);
     const [isEditable, setIsEditable] = useState<boolean>(false);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
     const calculateTotalRow = (items: ChargesDeductionsData[], type: 'charge' | 'deduction'): ChargesDeductionsData => {
         const totalAmount = items.reduce((total, item) => {
             const amount = typeof item.amount === 'string' ? parseFloat(item.amount) : item.amount;
@@ -56,12 +63,12 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                     const convertedCharges = charges?.map(convertAmountToNumber);
                     const convertedDeductions = deductions?.map(convertAmountToNumber);
 
-             
+
 
 
                     const chargesWithTotal = [...charges, calculateTotalRow(convertedCharges, 'charge')];
                     const deductionsWithTotal = [...deductions, calculateTotalRow(convertedDeductions, 'deduction')];
-                
+
                     setCharges(chargesWithTotal);
                     setDeductions(deductionsWithTotal);
                     setIsEditable(is_editable);
@@ -105,7 +112,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const formData = new FormData();
 
             charges?.forEach(charge => {
-                if (charge.amount !== null && charge.amount !== undefined  && charge.id !== "total") {
+                if (charge.amount !== null && charge.amount !== undefined && charge.id !== "total") {
                     formData.append(`charge[${charge.id}]`, charge.amount.toString());
                 }
                 if (charge.notes !== null && charge.notes !== undefined && charge.notes !== "") {
@@ -114,7 +121,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             });
 
             deductions.forEach(deduction => {
-                if (deduction.amount !== null && deduction.amount !== undefined  && deduction.id !== "total") {
+                if (deduction.amount !== null && deduction.amount !== undefined && deduction.id !== "total") {
                     formData.append(`deduction[${deduction.id}]`, deduction.amount.toString());
                 }
                 if (deduction.notes !== null && deduction.notes !== undefined && deduction.notes !== "") {
@@ -131,7 +138,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             const isSuccess = await postData(url, formData);
 
             if (isSuccess) {
-                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName:"Extra Income & Expenses" });
+                applyFilters({ station_id: stationId, start_date: startDate, selectedCardName: "Extra Income & Expenses" });
                 fetchData();
             }
         } catch (error) {
@@ -141,9 +148,9 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
 
     const handleAmountChange = (value: any, row: ChargesDeductionsData) => {
         // Convert the value to a number
-        let numericValue = value === '' ?"" : parseFloat(value);
+        let numericValue = value === '' ? "" : parseFloat(value);
 
-   
+
 
         if (row.type === 'charge') {
             // Update charges?
@@ -420,7 +427,7 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
             sortable: false,
             cell: (row, index: number) => (
                 <Form.Control
-             type="number"
+                    type="number"
                     placeholder='Amount'
                     value={row.amount}
                     className={`form-input workflorform-input2 ${row.update_amount ? '' : 'readonly'}`}
@@ -444,9 +451,11 @@ const ChargesDeductions: React.FC<CommonDataEntryProps> = ({ isLoading, stationI
                         {`Expenses and Extra Income `} {startDate ? `(${startDate})` : ''}{isdownloadpdf && (<span onClick={() => handleDownloadPdf('charges', stationId, startDate, getData, handleApiError)}>
 
 
-                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                            </OverlayTrigger>
+                            {isReportGeneratePermissionAvailable && (<>
+                                <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                    <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                </OverlayTrigger>
+                            </>)}
 
                         </span>)}
 

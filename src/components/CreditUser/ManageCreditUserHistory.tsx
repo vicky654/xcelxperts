@@ -58,6 +58,11 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
     const [searchTerm, setSearchTerm] = useState('');
     const [date3, setDate3] = useState<[Date, Date] | []>([]);
     const [isdownloadpdf, setIsdownloadpdf] = useState(true);
+
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
     // Adjust the type of the parameter to match what Flatpickr sends
 
 
@@ -404,9 +409,11 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
                             {selectedMonth &&
                                 (<span onClick={() => handleDownloadPdf()}>
-                                    <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
-                                        <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
-                                    </OverlayTrigger>
+                                    {isReportGeneratePermissionAvailable && (<>
+                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
+                                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                        </OverlayTrigger>
+                                    </>)}
                                 </span>)}
                         </h1>
 
