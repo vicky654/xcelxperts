@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import useErrorHandler from '../../hooks/useHandleError';
 import { useFormik } from 'formik';
-import { Col } from 'react-bootstrap';
+import { Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DynamicTable from './DynamicTable';
 import noDataImage from '../../assets/AuthImages/noDataFound.png'; // Import the image
-import SmallLoader from '../../utils/SmallLoader';
 import LoaderImg from '../../utils/Loader';
+import { handleDownloadPdf } from '../CommonFunctions';
 
 interface Client {
     id: string;
@@ -62,7 +62,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     const dispatch = useDispatch();
     const [fuelData, setFuelData] = useState<FuelStocks | null>(null);
     const [TableData, setTableData] = useState<any | undefined>(undefined);
-
+    const [pdfisLoading, setpdfisLoading] = useState(false);
     const handleApiError = useErrorHandler();
 
 
@@ -109,11 +109,14 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                 const queryString = queryParams.toString();
                 const response = await getData(`dashboard/stock-loss?${queryString}`);
                 if (response && response.data) {
-
+                    formik.setFieldValue("drsDate", response.data.data.drsDate)
+                    formik.setFieldValue("month", response.data.data.month)
                     setTableData(response?.data?.data)
                     setFuelData(response.data.data.fuel_stocks);
                 }
             } catch (error) {
+                setTableData(null)
+                setFuelData(null);
                 console.error("Error fetching dashboard stats", error);
             } finally {
                 setDashboardLoading(false); // Stop loading after fetching
@@ -130,6 +133,8 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             company_name: "",
             start_month: "",
             station_id: "",
+            drsDate: "",
+            month: "",
             station_name: "",
             clients: [] as Client[],
             companies: [] as Company[],
@@ -162,6 +167,84 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             }
         }
     }, [formik?.values?.station_id, isOpen])
+    const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
+
+    const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
+
+
+
+
+    const DownloadExcelFile = async () => {
+        setpdfisLoading(true)
+        try {
+            // Construct common parameters
+            const commonParams = `/report/slrr?station_id=${formik?.values?.station_id}&month=${formik.values?.month}`;
+            const token = localStorage.getItem("token"); // Get the token from storage
+            const apiUrl = `${import.meta.env.VITE_API_URL + commonParams}`;
+
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`, // Attach token in headers
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('Content-Type');
+            let fileExtension = 'xlsxs'; // Default to xlsx
+            let fileName = 'SlrrReportdd'; // Default file name
+
+            if (contentType) {
+                if (contentType.includes('application/pdf')) {
+                    fileExtension = 'pdf';
+                } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+                    fileExtension = 'xlsx';
+                } else if (contentType.includes('text/csv')) {
+                    fileExtension = 'csv';
+                } else {
+                    console.warn('Unsupported file type:', contentType);
+                }
+            }
+            const contentDisposition = response.headers.get('Content-Disposition');
+            if (contentDisposition && contentDisposition.includes('filename=')) {
+                const matches = /filename="?([^";]+)"?/.exec(contentDisposition);
+                // Check if matches is not null and has at least one capturing group
+                if (matches && matches[1]) {
+                    fileName = matches[1];
+                }
+            }
+
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(new Blob([blob]));
+
+            // Create a link and trigger a download
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `SlrrReport.${fileExtension}`); // Set filename dynamically based on file type
+
+
+            document.body.appendChild(link);
+            link.click();
+
+            // Cleanup
+            if (link.parentNode) {
+                link.parentNode.removeChild(link);
+            }
+
+        } catch (error) {
+            console.error('Error downloading the file:', error);
+            handleApiError(error); // Handle any errors that occur
+        } finally {
+            setpdfisLoading(false)
+        }
+    };
+
+
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -208,7 +291,30 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
                                 </div>
                                 <div className="relative py-0 px-4 bg-white">
-                                    <h2 className='font-bold text-lg mb-4'> Stock Loss  {TableData?.day_end_date ? ` (${TableData.day_end_date})` : ''}</h2>
+                                    <h2 className='font-bold text-lg mb-4 flexspacebetween' > Stock Loss  {TableData?.day_end_date ? ` (${TableData.day_end_date})` : ''}
+
+                                        <div>
+                                            {formik?.values?.station_id && fuelData &&
+                                                (<span onClick={() => handleDownloadPdf('stock-bill', formik?.values?.station_id, formik.values?.drsDate, getData, handleApiError)}>
+                                                    {formik?.values?.station_id && (<>
+                                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip ModalTooltip" >Download PDF Report</Tooltip>}>
+                                                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
+                                                        </OverlayTrigger>
+                                                    </>)}
+
+                                                </span>)}
+                                            {isReportGeneratePermissionAvailable && formik?.values?.station_id && fuelData &&
+                                                (<span onClick={DownloadExcelFile}>
+                                                    {isReportGeneratePermissionAvailable && (<>
+                                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip ModalTooltip" >Download Excel Report</Tooltip>}>
+                                                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-excel"></i>
+                                                        </OverlayTrigger>
+                                                    </>)}
+
+                                                </span>)}
+                                        </div>
+
+                                    </h2>
 
                                     {dashboardLoading && <LoaderImg />}
                                     {fuelData ? (

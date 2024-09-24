@@ -256,7 +256,7 @@ export const ReportsTankInitialValues = {
   station_id: '',
   from_date: '',
   to_date: '',
-  tank_name: '',
+  report_name: '',
   tank_code: '',
   fuel_id: '',
   status: '',

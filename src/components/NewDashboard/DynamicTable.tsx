@@ -1,6 +1,7 @@
 import React from 'react';
 import './FuelTable.css';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { StringFormatNumberCommon } from '../CommonFunctions';
 
 // Define the FuelStocks interface
 interface FuelStocks {
@@ -36,11 +37,12 @@ const FuelTable: React.FC<FuelTableProps> = ({ fuel_stocks, TableData }) => {
             <tr key={key}>
                 <td>{updated_fuel_stocks[key as keyof FuelStocks][0]}</td>
                 {updated_fuel_stocks[key as keyof FuelStocks].slice(1)?.map((value: any, index: any) => (
-                    <td key={index}>{value}</td>
+                    <td key={index}>{StringFormatNumberCommon(value)} </td>
                 ))}
             </tr>
         ));
-
+    
+        
     return (
         <div>
             <table>
@@ -62,7 +64,7 @@ const FuelTable: React.FC<FuelTableProps> = ({ fuel_stocks, TableData }) => {
                                 
                                 overlay={<Tooltip id="tooltip-opening-stock" className='ModalTooltip'>Total Sum Of Reimbursable </Tooltip>}
                             >
-                                <span>{TableData?.total}  <span><i className="fi fi-sr-comment-info pointer"></i></span></span>
+                                <span>{StringFormatNumberCommon(TableData?.total)}  <span><i className="fi fi-sr-comment-info pointer"></i></span></span>
                             </OverlayTrigger>
                            
                         </td>

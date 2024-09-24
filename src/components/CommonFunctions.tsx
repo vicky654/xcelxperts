@@ -13,12 +13,7 @@ export const handleDownloadPdf = async (
 
     // Check if the response contains data
     if (response && response.data?.data) {
-
       const pdfUrl = response.data?.data?.url;
-
-
-
-      // Open the PDF URL in a new tab using the full URL
       window.open(pdfUrl, '_blank', 'noopener noreferrer');
     } else {
       throw new Error('No data available in the response');
@@ -28,6 +23,35 @@ export const handleDownloadPdf = async (
     handleApiError(error);
   }
 };
+export const StringFormatNumberCommon = (number: any) => {
+  if (number == null || number === '') {
+    return '0';
+  }
+
+  // Extract currency symbol if it's present
+  const currencySymbol = typeof number === 'string' ? number.match(/[\D]+/g)?.[0] : '';
+  
+  // Convert string to a number by removing non-numeric characters except for the decimal point
+  const numericValue = typeof number === 'string'
+    ? parseFloat(number.replace(/[^\d.-]+/g, ''))  // Remove anything that's not a digit, decimal, or minus sign
+    : number;
+
+  // Check if the conversion resulted in a valid number
+  if (isNaN(numericValue)) {
+    return '0';
+  }
+
+  // Format the number with currency symbol
+  const formattedNumber = new Intl.NumberFormat('en-IN', {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 3,
+  }).format(numericValue);
+
+  // Return the formatted number with the currency symbol
+  return currencySymbol ? `${currencySymbol} ${formattedNumber}` : formattedNumber;
+};
+
 
 
 

@@ -1079,3 +1079,6 @@ textarea:focus {
     border-radius: 2px;
     color: #fff;
 }
+.same-h-cash-banking {
+    height: calc(100% - 140px);
+}

@@ -145,7 +145,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                 formik.setFieldValue("start_month", currentMonth);
                 // Get the current date in 'YYYY-MM-DD' format
                 const now = new Date();
-                now.setDate(now.getDate() - 1); // Subtract 1 day
+             
                 const year = now.getFullYear();
                 const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Format month as 'MM'
                 const day = now.getDate().toString().padStart(2, '0'); // Format day as 'DD'

@@ -742,8 +742,8 @@ const NewDashboard: React.FC<IndexProps> = ({ isLoading, fetchedData, getData })
                                                         {GraphData?.fuel_stock.map((fuel: any, index: any) => (
                                                             <tr className='hover:bg-gray-100' key={index}>
                                                                 <td>{fuel?.fuel_name || 'No fuel name'}</td>
-                                                                <td>{capacity} {fuel?.testing ?? 0}</td>
-                                                                <td>{capacity} {fuel?.variance ?? 0}</td>
+                                                                <td>{capacity} {FormatNumberCommon(fuel?.testing ?? 0)}  </td>
+                                                                <td>{capacity} {FormatNumberCommon(fuel?.variance ?? 0)} </td>
                                                             </tr>
 
                                                         ))}

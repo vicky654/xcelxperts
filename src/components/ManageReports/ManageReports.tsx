@@ -40,10 +40,11 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
-    const [ReportUrl, setReportUrl] = useState(""); // Assuming userId is a string
+
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const [toggle, setToggle] = useState(true);
+    const [pdfisLoading, setpdfisLoading] = useState(false);
 
     useEffect(() => {
 
@@ -63,43 +64,77 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     }, [dispatch, currentPage]);
 
-  
+
+ 
+
+
+
     const handleFormSubmit = async (values: any) => {
+        setpdfisLoading(true)
+        const selectedReport:any = formik.values.reports.find((report: any) => report.report_code == values?.report_code);
+
+   
+        
+        
         try {
-            const formData = new FormData();
-
-
-            // http://192.168.1.112:4013/pro/v1/report/msr?station_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09&from_date=2024-07-01&to_date=2024-07-17
-
+            // Construct common parameters
             const commonParams = toggle
-                ? `report/${values?.report_code}?station_id=${values?.station_id}&from_date=${values?.from_date}&to_date=${values?.to_date}`
-                : `report/${values?.report_code}?station_id=${values?.station_id}&month=${values?.month}`;
+                ? `/report/${values?.report_code}?station_id=${values?.station_id}&from_date=${values?.from_date}&to_date=${values?.to_date}`
+                : `/report/${values?.report_code}?station_id=${values?.station_id}&month=${values?.month}`;
+            const token = localStorage.getItem("token"); // Get the token from storage
+            const apiUrl = `${import.meta.env.VITE_API_URL + commonParams}`;
 
-            if (userId) {
-                formData.append('id', userId);
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`, // Attach token in headers
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // const url = userId ? `/station/update` : `/station/create`;
-            const isSuccess = await getData(commonParams);
-            if (isSuccess) {
+            const contentType = response.headers.get('Content-Type');
+            let fileExtension = 'xlsxs'; // Default to xlsx
+            let fileName = 'SlrrReportdd'; // Default file name
 
-                // window.open(isSuccess?.data, '_blank');
-                setReportUrl(commonParams)
-
-
-                const baseUrl = import.meta.env.VITE_API_URL || 'https://default-url.com';
-                // const  baseURL: import.meta.env.VITE_API_URL,
-
-                if (commonParams) {
-                    const fullReportUrl = `${baseUrl}/${commonParams}`;
-                    window.open(fullReportUrl, "_blank", "noopener noreferrer");
+            if (contentType) {
+                if (contentType.includes('application/pdf')) {
+                    fileExtension = 'pdf';
+                } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+                    fileExtension = 'xlsx';
+                } else if (contentType.includes('text/csv')) {
+                    fileExtension = 'csv';
+                } else {
+                    console.warn('Unsupported file type:', contentType);
                 }
-
-
-                // handleDownload(isSuccess?.data)
             }
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(new Blob([blob]));
+
+            // Create a link and trigger a download
+            const link = document.createElement('a');
+            link.href = url;
+      
+
+        
+            
+            link.setAttribute('download', `${selectedReport?.report_name}.${fileExtension}`);
+            document.body.appendChild(link);
+            link.click();
+
+            // Cleanup
+            if (link.parentNode) {
+                link.parentNode.removeChild(link);
+            }
+
         } catch (error) {
-            handleApiError(error);
+            console.error('Error downloading the file:', error);
+            handleApiError(error); // Handle any errors that occur
+        } finally {
+            setpdfisLoading(false)
         }
     };
     const ReportsValidationSchema = (toggle: boolean) => {
@@ -258,12 +293,12 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         }
     };
 
- 
 
+  
 
     return (
         <>
-            {isLoading && <LoaderImg />}
+            {isLoading || pdfisLoading && <LoaderImg />}
             <div className="flex justify-between items-center">
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
@@ -359,26 +394,15 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 onChange={handleSiteChange}
                             />
 
-                            {/* <Col lg={4} sm={12} md={6}>
-                                <label className="form-label ">
-                                    Select Stations
-                                    <span className="text-danger">*</span>
-                                </label>
-                                <MultiSelect
-                                    value={selected}
-                                    onChange={setSelected}
-                                    labelledBy="Select Stations"
-                                    options={formik.values.sites?.map((item) => ({ value: item.id, label: item?.name }))}
-
-                                /></Col> */}
+                      
                             <FormikSelect
                                 formik={formik}
                                 name="report_code"
                                 label="Report"
                                 options={formik.values?.reports?.map((item: any) => ({ id: item.report_code, name: item.report_name }))}
                                 className="form-select text-white-dark"
-
-                            // onChange={handleSiteChange}
+                            
+                         
                             />
 
 
