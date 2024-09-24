@@ -29,11 +29,11 @@ export const StringFormatNumberCommon = (number: any) => {
   }
 
   // Extract currency symbol if it's present
-  const currencySymbol = typeof number === 'string' ? number.match(/[\D]+/g)?.[0] : '';
-  
+  const currencySymbol = typeof number === 'string' ? number.match(/[\D]+/g)?.[0].trim() : '';
+
   // Convert string to a number by removing non-numeric characters except for the decimal point
   const numericValue = typeof number === 'string'
-    ? parseFloat(number.replace(/[^\d.-]+/g, ''))  // Remove anything that's not a digit, decimal, or minus sign
+    ? parseFloat(number.replace(/[^0-9.-]+/g, ''))  // Remove anything that's not a digit, decimal, or minus sign
     : number;
 
   // Check if the conversion resulted in a valid number
@@ -45,12 +45,26 @@ export const StringFormatNumberCommon = (number: any) => {
   const formattedNumber = new Intl.NumberFormat('en-IN', {
     style: 'decimal',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 3,
-  }).format(numericValue);
+    maximumFractionDigits: 2,
+  }).format(Math.abs(numericValue)); // Use absolute value for formatting
 
-  // Return the formatted number with the currency symbol
-  return currencySymbol ? `${currencySymbol} ${formattedNumber}` : formattedNumber;
+  // Prepare the output
+  let output = `${currencySymbol ? currencySymbol + ' ' : ''}${formattedNumber}`;
+
+  // Add the negative sign if the original number was negative
+  if (numericValue < 0) {
+    output = `${currencySymbol ? currencySymbol + ' ' : ''} ${formattedNumber}`; // Add the negative sign before the formatted number
+  }
+
+  return output.trim(); // Trim any excess whitespace
 };
+
+
+
+
+
+
+
 
 
 
