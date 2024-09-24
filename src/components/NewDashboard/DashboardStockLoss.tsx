@@ -294,6 +294,15 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                     <h2 className='font-bold text-lg mb-4 flexspacebetween' > Stock Loss  {TableData?.day_end_date ? ` (${TableData.day_end_date})` : ''}
 
                                         <div>
+                                            {isReportGeneratePermissionAvailable && formik?.values?.station_id && fuelData &&
+                                                (<span onClick={DownloadExcelFile}>
+                                                    {isReportGeneratePermissionAvailable && (<>
+                                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip ModalTooltip" >Download Excel Report</Tooltip>}>
+                                                            <i style={{ fontSize: "20px", color: "green", cursor: "pointer" }} className="fi fi-tr-file-excel"></i>
+                                                        </OverlayTrigger>
+                                                    </>)}
+
+                                                </span>)}
                                             {formik?.values?.station_id && fuelData &&
                                                 (<span onClick={() => handleDownloadPdf('stock-bill', formik?.values?.station_id, formik.values?.drsDate, getData, handleApiError)}>
                                                     {formik?.values?.station_id && (<>
@@ -303,15 +312,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                                     </>)}
 
                                                 </span>)}
-                                            {isReportGeneratePermissionAvailable && formik?.values?.station_id && fuelData &&
-                                                (<span onClick={DownloadExcelFile}>
-                                                    {isReportGeneratePermissionAvailable && (<>
-                                                        <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip ModalTooltip" >Download Excel Report</Tooltip>}>
-                                                            <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-excel"></i>
-                                                        </OverlayTrigger>
-                                                    </>)}
 
-                                                </span>)}
                                         </div>
 
                                     </h2>

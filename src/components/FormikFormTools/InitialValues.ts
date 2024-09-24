@@ -260,7 +260,7 @@ export const ReportsTankInitialValues = {
   tank_code: '',
   fuel_id: '',
   status: '',
-  toggle: true,
+  toggle: false,
   clients: [] as Client[],
   entities: [] as Entity[],
   sites: [] as Station[],

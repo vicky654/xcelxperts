@@ -317,7 +317,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             if (response) {
                 handleSuccess();
                 closeModal();
-            } 
+            }
         } catch (error) {
             handleApiError(error);
         }
@@ -352,9 +352,7 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 </>}
             </div>
             <AddEditStockLoss getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId}
-
                 station={id}
-
             />
 
             <div className="panel mt-6">

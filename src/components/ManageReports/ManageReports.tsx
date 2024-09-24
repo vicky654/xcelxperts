@@ -43,7 +43,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
-    const [toggle, setToggle] = useState(true);
+    const [toggle, setToggle] = useState(false);
     const [pdfisLoading, setpdfisLoading] = useState(false);
 
     useEffect(() => {
