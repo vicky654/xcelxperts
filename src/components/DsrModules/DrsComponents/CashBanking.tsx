@@ -524,7 +524,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                         </div>
 
                         {/* First column with dummy data */}
-                        <div className="col-span-1 bg-white border  shadow-lg p-3  ">
+                        <div className="col-span-1 bg-white border  shadow-lg p-3  same-h-cash-banking">
 
 
 
