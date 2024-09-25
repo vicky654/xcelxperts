@@ -11,7 +11,7 @@ import noDataImage from '../../assets/AuthImages/noDataFound.png';
 import { capacity, currency } from '../../utils/CommonData';
 import CollapsibleItem from '../../utils/CollapsibleItem';
 import StatsBarChart from './StatsBarChart';
-import { Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IconX from '../Icon/IconX';
 import PieChart from './PieChart';
 import { IRootState } from '../../store';
@@ -22,14 +22,8 @@ interface ManageSiteProps {
   getData: (url: string) => Promise<any>;
   postData: (url: string, body: any) => Promise<any>;
 }
-interface LanguageContentInterface {
-  [key: string]: Record<string, any>;
-}
-interface CardData {
-  id: string;
-  name: string;
-  bgColor: string;
-}
+
+
 interface TabData {
   ownerProfit: any;
   currentDates: string;
@@ -92,6 +86,9 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const [selectedTab, setSelectedTab] = useState<string>('Fuel Sales');
   const [subData, setSubData] = useState<any[]>([]);
   const [subPreviousData, setSubPreviousData] = useState<any[]>([]);
+  const [NozzlesalesBtn, setNozzlesalesBtn] = useState<any[]>([]);
+  const [selectedFuel, setSelectedFuel] = useState(NozzlesalesBtn[0]?.id);
+  const [NozzlesaleData, setNozzlesaleData] = useState<any>();
   const ReduxData: any = useSelector((state: IRootState) => state?.data?.data);
   const [tabData, setTabData] = useState<TabData>({
     labels: [],
@@ -156,6 +153,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const staticTabs = [
     'Fuel Sales',
     'Fuel Delivery',
+    'Nozzles Sales',
     'Tested Fuel',
     'Fuel Variance',
     'Lube Sales',
@@ -172,6 +170,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const tabKeyMap: { [key: string]: string } = {
     'Fuel Sales': 'fuel-sales',
     'Fuel Delivery': 'fuel-delivery',
+    'Nozzles Sales': 'nozzles-sales',
     'Tested Fuel': 'tested-fuel',
     'Fuel Variance': 'fuel-variance',
     'Lube Sales': 'lube-sales',
@@ -192,29 +191,68 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
   const handleTabClick = async (tabName: string) => {
+    if (tabName === 'Nozzles Sales') {
+      try {
 
+        const response = await getData(`/getStationFuels?station_id=${stationId}`);
+        if (response && response.data) {
+          setNozzlesalesBtn(response?.data?.data)
+          console.log(response?.data, "response.data");
+          setSelectedTab("Nozzles Sales");
+          setSelectedFuel(response?.data?.data[0]?.id)
+
+
+        } else {
+          throw new Error('No data available in the response');
+        }
+      } catch (error) {
+
+        handleApiError(error);
+      }
+    } else {
+      try {
+        const key = tabKeyMap[tabName];
+        const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
+        if (response && response.data) {
+
+          setBarData(response.data?.data?.barData);
+          setDates(response.data?.data?.dates);
+          // setSelectedTab(tabName);
+          setSelectedTab("Nozzles Sales");
+          setTabData(response.data?.data);
+          setActiveAccordion(null);
+          setPrevActiveAccordion(null);
+
+        } else {
+          throw new Error('No data available in the response');
+        }
+      } catch (error) {
+
+        handleApiError(error);
+      }
+    }
+
+  };
+  useEffect(() => {
+    if (selectedFuel) {
+      fetchNozzleSalesStats(selectedFuel);
+    }
+  }, [selectedFuel]);
+  const fetchNozzleSalesStats = async (fuelId: any) => {
     try {
-      const key = tabKeyMap[tabName];
-      const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
+
+      const response = await getData(`/stats/nozzle-sales?station_id=${stationId}&drs_date=${startDate}&fuel_id=${fuelId}`);
       if (response && response.data) {
 
-        setBarData(response.data?.data?.barData);
-        setDates(response.data?.data?.dates);
-        setSelectedTab(tabName);
-        setTabData(response.data?.data);
-        setActiveAccordion(null);
-        setPrevActiveAccordion(null);
-
+        setNozzlesaleData(response?.data?.data)
+        // Handle the data as required
       } else {
         throw new Error('No data available in the response');
       }
     } catch (error) {
-
       handleApiError(error);
     }
   };
-
-
   const handleApplyFilters = async (values: any) => {
     try {
 
@@ -353,7 +391,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleTabClickk = (tab: any) => {
     setActiveTab(tab);
   };
-
+  console.log(NozzlesaleData, "NozzlesaleData");
   return <>
     {isLoading && <LoaderImg />}
 
@@ -472,787 +510,882 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
               /></>}
 
           </div>
-          <div className="p-2" style={{ padding: "10px" }}>
-            {stationId && selectedTab !== 'Variance Accumulation' && selectedTab !== 'Cash Flow' && selectedTab !== 'Lube Sales' && (
 
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+          {stationId && selectedTab !== 'Nozzles Sales' && (
+            <div className="p-2" style={{ padding: "10px" }}>
+              {stationId && selectedTab !== 'Variance Accumulation' && selectedTab !== 'Cash Flow' && selectedTab !== 'Lube Sales' && (
 
-
-                <StatsCard
-                  label={tabData?.prevLabel}
-                  value={tabData?.prevMonth}
-                  TabData={tabData}
-                  symbol={null} // No symbol for previous month
-                  profit={null} // No profit percentage for previous month
-                  capacity={capacity}
-                  currency={currency}
-                  selectedTab={selectedTab}
-                />
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
 
 
-                <StatsCard
-                  label={tabData?.currentLabel}
-                  value={tabData?.currentMonth}
-                  symbol={tabData?.symbol}
-                  profit={tabData?.profit}
-                  TabData={tabData}
-                  capacity={capacity}
-                  currency={currency}
-                  selectedTab={selectedTab}
-                />
+                  <StatsCard
+                    label={tabData?.prevLabel}
+                    value={tabData?.prevMonth}
+                    TabData={tabData}
+                    symbol={null} // No symbol for previous month
+                    profit={null} // No profit percentage for previous month
+                    capacity={capacity}
+                    currency={currency}
+                    selectedTab={selectedTab}
+                  />
 
-              </div>
-            )}
 
-            {stationId && selectedTab === 'Cash Flow' && (
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
-                <div className="panel h-full xl:col-span-2 firstbox">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                      {tabData?.prevLabel}
-                    </div>
-                  </div>
-                  <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
-                      Bank  Deposits :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
-                    </div>
-                  </div>
-                  <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
-                      Owner  Collections :    {currency} {FormatNumberCommon(tabData?.ownerPrevMonth)}
-                    </div>
-                  </div>
-                  <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
-                      Digital Payments:    {currency} {FormatNumberCommon(tabData?.digitalPrevMonth)}
-                    </div>
-                  </div>
+                  <StatsCard
+                    label={tabData?.currentLabel}
+                    value={tabData?.currentMonth}
+                    symbol={tabData?.symbol}
+                    profit={tabData?.profit}
+                    TabData={tabData}
+                    capacity={capacity}
+                    currency={currency}
+                    selectedTab={selectedTab}
+                  />
+
                 </div>
+              )}
 
-                <div className="panel h-full xl:col-span-2 firstbox">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                      {tabData?.currentLabel}
+              {stationId && selectedTab === 'Cash Flow' && (
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+                  <div className="panel h-full xl:col-span-2 firstbox">
+                    <div className="flex justify-between">
+                      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
+                        {tabData?.prevLabel}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Bank Deposits : {currency} {FormatNumberCommon(tabData?.currentMonth)}
+                    <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
+                        Bank  Deposits :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
+                      </div>
                     </div>
-                    <div className="badge bg-white">
-                      <div className="flex items-center space-x-1">
-                        {tabData.symbol === 'UP' ? (
-                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.symbol === 'DOWN' ? (
-                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-                        ) : null}
-                        <span
-                          className=""
-                          style={{
-                            color: tabData.symbol === 'UP'
-                              ? '#37a40a'   // Color for 'up'
-                              : tabData.symbol === 'DOWN'
-                                ? 'red'      // Color for 'down'
-                                : '#000'     // Default color
-                          }}
-                        >
-                          {tabData?.profit}%
-                        </span>
+                    <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
+                        Owner  Collections :    {currency} {FormatNumberCommon(tabData?.ownerPrevMonth)}
+                      </div>
+                    </div>
+                    <div style={{ lineHeight: "31px" }} className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className="  ltr:mr-3 rtl:ml-3">
+                        Digital Payments:    {currency} {FormatNumberCommon(tabData?.digitalPrevMonth)}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Owner Collections :  {currency} {FormatNumberCommon(tabData?.ownerCurrentMonth)}
-                    </div>
-                    <div className="badge bg-white">
-                      <div className="flex items-center space-x-1">
-                        {tabData?.ownerSymbol === 'UP' ? (
-                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.ownerSymbol === 'DOWN' ? (
-                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-                        ) : null}
-                        <span
-                          className=""
-                          style={{
-                            color: tabData.ownerSymbol === 'UP'
-                              ? '#37a40a'   // Color for 'up'
-                              : tabData.ownerSymbol === 'DOWN'
-                                ? 'red'      // Color for 'down'
-                                : '#000'     // Default color
-                          }}
-                        >
-                          {tabData?.ownerProfit}%
-                        </span>
+
+                  <div className="panel h-full xl:col-span-2 firstbox">
+                    <div className="flex justify-between">
+                      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
+                        {tabData?.currentLabel}
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Digital Payments :  {currency} {FormatNumberCommon(tabData?.digitalCurrentMonth)}
-                    </div>
-                    <div className="badge bg-white">
-                      <div className="flex items-center space-x-1">
-                        {tabData?.digitalSymbol === 'UP' ? (
-                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.digitalSymbol === 'DOWN' ? (
-                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-                        ) : null}
-                        <span
-                          className=""
-                          style={{
-                            color: tabData.digitalSymbol === 'UP'
-                              ? '#37a40a'   // Color for 'up'
-                              : tabData.digitalSymbol === 'DOWN'
-                                ? 'red'      // Color for 'down'
-                                : '#000'     // Default color
-                          }}
-                        >
-                          {tabData?.digitalProfit}%
-                        </span>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                        Bank Deposits : {currency} {FormatNumberCommon(tabData?.currentMonth)}
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            )}
-            {stationId && selectedTab === 'Lube Sales' && (
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
-                <div className="panel h-full xl:col-span-2 firstbox">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                      {tabData?.prevLabel}
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Amount :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Profit :    {currency} {FormatNumberCommon(tabData?.prevMonthProfit)}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="panel h-full xl:col-span-2 firstbox">
-                  <div className="flex justify-between">
-                    <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
-                      {tabData?.currentLabel}
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className="ltr:mr-3 rtl:ml-3">
-                      Amount : {currency} {FormatNumberCommon(tabData?.currentMonth)}
-                    </div>
-                    <div className="badge bg-white">
-                      <div className="flex items-center space-x-1">
-                        {tabData.symbol === 'UP' ? (
-                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.symbol === 'DOWN' ? (
-                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-                        ) : null}
-                        <span
-                          className="font-semibold"
-                          style={{
-                            color: tabData.symbol === 'UP'
-                              ? '#37a40a'   // Color for 'up'
-                              : tabData.symbol === 'DOWN'
-                                ? 'red'      // Color for 'down'
-                                : '#000'     // Default color
-                          }}
-                        >
-                          {tabData?.amountProfit}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
-                      Profit :  {currency} {FormatNumberCommon(tabData?.currentMonthProfit)}
-                    </div>
-                    <div className="badge bg-white">
-                      <div className="flex items-center space-x-1">
-                        {tabData?.profitSymbol === 'UP' ? (
-                          <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
-                        ) : tabData.profitSymbol === 'DOWN' ? (
-                          <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
-                        ) : null}
-                        <span
-                          className="font-semibold"
-                          style={{
-                            color: tabData.profitSymbol === 'UP'
-                              ? '#37a40a'   // Color for 'up'
-                              : tabData.profitSymbol === 'DOWN'
-                                ? 'red'      // Color for 'down'
-                                : '#000'     // Default color
-                          }}
-                        >
-                          {tabData?.profit}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            )}
-
-            <div className="mt-3">
-
-              {stationId && selectedTab === 'Variance Accumulation' ? (
-                tabData?.listing?.length > 0 ? (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-200">
-                        <tr>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Date</th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Total Sales
-                            <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip">
-                              (Fuel Sales + Lubes Sales + Incomes ) - (Expenses + Credit Sales)
-                            </Tooltip>}>
-                              <i style={{ fontSize: "20px" }} className="fi fi-sr-comment-info ml-1"></i>
-                            </OverlayTrigger>
-                          </th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Fuel Sales</th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Cash Deposited</th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Owner Collection</th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Credit Received</th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Previous Variance</th>
-                          <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Balance</th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {tabData?.listing?.map((item) => (
-                          <tr
-
+                      <div className="badge bg-white">
+                        <div className="flex items-center space-x-1">
+                          {tabData.symbol === 'UP' ? (
+                            <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                          ) : tabData.symbol === 'DOWN' ? (
+                            <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                          ) : null}
+                          <span
+                            className=""
                             style={{
-                              backgroundColor: item?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
-                              color: item?.id == "0" ? "#000" : "",
-                              fontWeight: item?.id == "0" ? "bold" : ""
+                              color: tabData.symbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.symbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
                             }}
+                          >
+                            {tabData?.profit}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                        Owner Collections :  {currency} {FormatNumberCommon(tabData?.ownerCurrentMonth)}
+                      </div>
+                      <div className="badge bg-white">
+                        <div className="flex items-center space-x-1">
+                          {tabData?.ownerSymbol === 'UP' ? (
+                            <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                          ) : tabData.ownerSymbol === 'DOWN' ? (
+                            <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                          ) : null}
+                          <span
+                            className=""
+                            style={{
+                              color: tabData.ownerSymbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.ownerSymbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
+                            }}
+                          >
+                            {tabData?.ownerProfit}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                        Digital Payments :  {currency} {FormatNumberCommon(tabData?.digitalCurrentMonth)}
+                      </div>
+                      <div className="badge bg-white">
+                        <div className="flex items-center space-x-1">
+                          {tabData?.digitalSymbol === 'UP' ? (
+                            <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                          ) : tabData.digitalSymbol === 'DOWN' ? (
+                            <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                          ) : null}
+                          <span
+                            className=""
+                            style={{
+                              color: tabData.digitalSymbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.digitalSymbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
+                            }}
+                          >
+                            {tabData?.digitalProfit}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                            key={item?.id} className="hover:bg-gray-100">
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{item?.date}    </td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.total_sales)}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.fuel_sales)}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.cash_deposited)}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.owner_collection)}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.credit_received)}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.previous_variance)}</td>
-                            <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.balance)}</td>
+                </div>
+              )}
+              {stationId && selectedTab === 'Lube Sales' && (
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1 mb-6">
+                  <div className="panel h-full xl:col-span-2 firstbox">
+                    <div className="flex justify-between">
+                      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
+                        {tabData?.prevLabel}
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                        Amount :   {currency} {FormatNumberCommon(tabData?.prevMonth)}
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                        Profit :    {currency} {FormatNumberCommon(tabData?.prevMonthProfit)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="panel h-full xl:col-span-2 firstbox">
+                    <div className="flex justify-between">
+                      <div style={{ color: "#fff" }} className="ltr:mr-1 rtl:ml-1 text-md ">
+                        {tabData?.currentLabel}
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className="ltr:mr-3 rtl:ml-3">
+                        Amount : {currency} {FormatNumberCommon(tabData?.currentMonth)}
+                      </div>
+                      <div className="badge bg-white">
+                        <div className="flex items-center space-x-1">
+                          {tabData.symbol === 'UP' ? (
+                            <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                          ) : tabData.symbol === 'DOWN' ? (
+                            <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                          ) : null}
+                          <span
+                            className="font-semibold"
+                            style={{
+                              color: tabData.symbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.symbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
+                            }}
+                          >
+                            {tabData?.amountProfit}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div style={{ color: "#fff" }} className=" ltr:mr-3 rtl:ml-3">
+                        Profit :  {currency} {FormatNumberCommon(tabData?.currentMonthProfit)}
+                      </div>
+                      <div className="badge bg-white">
+                        <div className="flex items-center space-x-1">
+                          {tabData?.profitSymbol === 'UP' ? (
+                            <i style={{ color: "#37a40a" }} className="fi fi-tr-chart-line-up"></i> // Icon for 'up'
+                          ) : tabData.profitSymbol === 'DOWN' ? (
+                            <i style={{ color: "red" }} className="fi fi-tr-chart-arrow-down"></i> // Icon for 'down'
+                          ) : null}
+                          <span
+                            className="font-semibold"
+                            style={{
+                              color: tabData.profitSymbol === 'UP'
+                                ? '#37a40a'   // Color for 'up'
+                                : tabData.profitSymbol === 'DOWN'
+                                  ? 'red'      // Color for 'down'
+                                  : '#000'     // Default color
+                            }}
+                          >
+                            {tabData?.profit}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+
+              <div className="mt-3">
+
+                {stationId && selectedTab === 'Variance Accumulation' ? (
+                  tabData?.listing?.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-200">
+                          <tr>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Date</th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Total Sales
+                              <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip">
+                                (Fuel Sales + Lubes Sales + Incomes ) - (Expenses + Credit Sales)
+                              </Tooltip>}>
+                                <i style={{ fontSize: "20px" }} className="fi fi-sr-comment-info ml-1"></i>
+                              </OverlayTrigger>
+                            </th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Fuel Sales</th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Cash Deposited</th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Owner Collection</th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6"> Credit Received</th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Previous Variance</th>
+                            <th scope="col" className="px-2 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/6">Balance</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="flex justify-center items-center">
-                    <img
-                      src={noDataImage} // Use the imported image directly as the source
-                      alt="no data found"
-                      className="nodata-image"
-                    />
-                  </div>
-                )
-              ) : null}
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {tabData?.listing?.map((item) => (
+                            <tr
+
+                              style={{
+                                backgroundColor: item?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
+                                color: item?.id == "0" ? "#000" : "",
+                                fontWeight: item?.id == "0" ? "bold" : ""
+                              }}
+
+                              key={item?.id} className="hover:bg-gray-100">
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{item?.date}    </td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.total_sales)}</td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.fuel_sales)}</td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.cash_deposited)}</td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.owner_collection)}</td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.credit_received)}</td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.previous_variance)}</td>
+                              <td className="px-2 py-2 whitespace-nowrap text-sm  w-1/6">{currency} {FormatNumberCommon(item?.balance)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center items-center">
+                      <img
+                        src={noDataImage} // Use the imported image directly as the source
+                        alt="no data found"
+                        className="nodata-image"
+                      />
+                    </div>
+                  )
+                ) : null}
 
 
-              {stationId && selectedTab !== 'Variance Accumulation' && (
-                <>
-                  <div className={`grid ${tabData?.prev_data ? ' xl:grid-cols-2  md:grid-cols-2' : ' xl:grid-cols-1  md:grid-cols-1'} sm:grid-cols-1 gap-2 mb-6`}>
+                {stationId && selectedTab !== 'Variance Accumulation' && (
+                  <>
+                    <div className={`grid ${tabData?.prev_data ? ' xl:grid-cols-2  md:grid-cols-2' : ' xl:grid-cols-1  md:grid-cols-1'} sm:grid-cols-1 gap-2 mb-6`}>
 
-                    <div className={` h-full xl:col-span-1 ${tabData?.prev_data ? 'panel' : ' hidden'}`}>
+                      <div className={` h-full xl:col-span-1 ${tabData?.prev_data ? 'panel' : ' hidden'}`}>
 
-                      {tabData?.prev_data?.listing?.length > 0 ? (
-                        <ul className="divide-y divide-gray-200">
-                          {tabData?.prev_data?.listing?.map((item: any, index: any) => (
-                            <CollapsibleItem
-                              key={index}
-                              id={`${currency}-${index}`}
-                              title={item?.date}
-                              selectedTab={selectedTab}
-                              subtitle={item?.amount}
-                              // isActive={prevActiveAccordion === `${currency}-${index}`}
-                              isActive={prevActiveAccordion === `${item?.id}-previous-${index}`}
-                              onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab, `${item?.id}-previous-${index}`, 'previous')}
-                            >
-                              {selectedTab === "Fuel Sales" ? (
-                                <div className="overflow-x-auto">
-                                  {!considerNozzle ? (
+                        {tabData?.prev_data?.listing?.length > 0 ? (
+                          <ul className="divide-y divide-gray-200">
+                            {tabData?.prev_data?.listing?.map((item: any, index: any) => (
+                              <CollapsibleItem
+                                key={index}
+                                id={`${currency}-${index}`}
+                                title={item?.date}
+                                selectedTab={selectedTab}
+                                subtitle={item?.amount}
+                                // isActive={prevActiveAccordion === `${currency}-${index}`}
+                                isActive={prevActiveAccordion === `${item?.id}-previous-${index}`}
+                                onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab, `${item?.id}-previous-${index}`, 'previous')}
+                              >
+                                {selectedTab === "Fuel Sales" ? (
+                                  <div className="overflow-x-auto">
+                                    {!considerNozzle ? (
+                                      <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                        <li className="flex justify-between p-2 bg-gray-200">
+                                          <p className="font-semibold w-1/6">Name </p>
+                                          <p className="font-semibold w-1/6">Price</p>
+                                          <p className="font-semibold w-1/6">Volume</p>
+                                          <p className="font-semibold w-1/6">Net Value</p>
+                                        </li>
+                                        {prevActiveAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
+                                          <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                            <p className="w-1/6">{subItem?.name}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.price)}</p>
+                                            <p className="w-1/6">{capacity}{FormatNumberCommon(subItem?.volume)}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.amount)}</p>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                        <li className="flex justify-between p-2 bg-gray-200">
+
+                                          <p className="font-semibold w-1/6">Nozzle Name</p>
+                                          <p className="font-semibold w-1/6">Price</p>
+                                          <p className="font-semibold w-1/6">Volume</p>
+                                          <p className="font-semibold w-1/6">Gross Value</p>
+                                          <p className="font-semibold w-1/6">Discount</p>
+                                          <p className="font-semibold w-1/6">Net Value</p>
+                                        </li>
+
+
+                                        {subPreviousData?.map((fuelType, fuelIndex) => (
+                                          <>
+
+                                            <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
+                                              <div className="panel h-full mx-0 px-0 pt-0 fuel-sale-table-border">
+                                                <div key={fuelIndex}>
+                                                  <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
+                                                  {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
+                                                    <React.Fragment key={tankIndex}>
+                                                      <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
+                                                      <div className="flex flex-col">
+                                                        {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
+                                                          <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
+                                                            style={{
+                                                              backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
+                                                              fontWeight: nozzle?.id == "0" ? "bold" : ""
+                                                            }}
+                                                          >
+                                                            <p className="w-1/6">{nozzle?.name} </p>
+                                                            <p className="w-1/6">
+                                                              {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${FormatNumberCommon(nozzle?.price)}`}
+                                                            </p>
+                                                            <p className="w-1/6">{capacity} {FormatNumberCommon(nozzle?.volume)}</p>
+                                                            <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.gross_value)}</p>
+                                                            <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.discount)}</p>
+                                                            <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.amount)}</p>
+                                                          </li>
+                                                        ))}
+
+                                                      </div>
+
+                                                    </React.Fragment>
+
+                                                  ))}
+                                                  <li style={{ background: "#1c8b3359" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
+                                                    <p className="w-1/6 ">{fuelType?.name} Total</p>
+                                                    <p className="w-1/6">
+
+                                                    </p>
+                                                    <p className="w-1/6">{capacity}{FormatNumberCommon(fuelType?.volume)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.gross_value)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.discount)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.amount)}</p>
+                                                  </li>
+                                                </div>
+
+
+                                              </div>
+                                            </div>
+                                          </>
+                                        ))}
+
+                                      </ul>
+                                    )}
+                                  </div>
+                                ) : selectedTab === "Fuel Variance" ? (
+                                  <div className="overflow-x-auto">
                                     <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                                       <li className="flex justify-between p-2 bg-gray-200">
-                                        <p className="font-semibold w-1/6">Name </p>
-                                        <p className="font-semibold w-1/6">Price</p>
-                                        <p className="font-semibold w-1/6">Volume</p>
-                                        <p className="font-semibold w-1/6">Net Value</p>
+                                        <p className="font-semibold w-1/4">Name</p>
+                                        <p className="font-semibold w-1/4">Variance</p>
+                                        <p className="font-semibold w-1/4"> Price</p>
+                                        <p className="font-semibold w-1/4">Total Amount</p>
+
+                                      </li>
+                                      {activeAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
+                                        <li style={{
+                                          backgroundColor: subItem?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
+                                          color: subItem?.id == "0" ? "#000" : "",
+                                          fontWeight: subItem?.id == "0" ? "bold" : ""
+                                        }} key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                          <p className="w-1/4">{subItem?.name}</p>
+                                          <p className="w-1/4">{capacity} {FormatNumberCommon(subItem?.variance)}</p>
+                                          <p className="w-1/4">
+                                            {subItem?.id == "0" ? "" : `${currency} ${FormatNumberCommon(subItem?.price)}`}
+                                          </p>
+                                          <p className="w-1/4">{currency}{FormatNumberCommon(subItem?.amount)}</p>
+
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : selectedTab === "Lube Sales" ? (
+                                  <div className="overflow-x-auto">
+                                    <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                      <li className="flex justify-between p-2 bg-gray-200">
+                                        <p className="font-semibold w-1/5">Name</p>
+                                        <p className="font-semibold w-1/5">Size</p>
+                                        <p className="font-semibold w-1/5">Opening</p>
+                                        <p className="font-semibold w-1/5">Closing</p>
+                                        <p className="font-semibold w-1/5">Sale Quantity</p>
+                                        <p className="font-semibold w-1/5">Amount</p>
+                                        <p className="font-semibold w-1/5">Profit</p>
                                       </li>
                                       {prevActiveAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
                                         <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                          <p className="w-1/6">{subItem?.name}</p>
-                                          <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.price)}</p>
-                                          <p className="w-1/6">{capacity}{FormatNumberCommon(subItem?.volume)}</p>
-                                          <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.amount)}</p>
+                                          <p className="w-1/5">{subItem?.lubricant_name}</p>
+                                          <p className="w-1/5">{subItem?.lubricant_size}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.opening)}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.closing)}</p>
+                                          <p className="w-1/5">{FormatNumberCommon(subItem?.sale)}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.sale_amount)}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.profit)}</p>
                                         </li>
                                       ))}
                                     </ul>
-                                  ) : (
+                                  </div>
+                                ) : selectedTab === "Tested Fuel" ? (
+                                  <div className="overflow-x-auto">
                                     <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                                       <li className="flex justify-between p-2 bg-gray-200">
-
-                                        <p className="font-semibold w-1/6">Nozzle Name</p>
-                                        <p className="font-semibold w-1/6">Price</p>
-                                        <p className="font-semibold w-1/6">Volume</p>
-                                        <p className="font-semibold w-1/6">Gross Value</p>
-                                        <p className="font-semibold w-1/6">Discount</p>
-                                        <p className="font-semibold w-1/6">Net Value</p>
-                                      </li>
-
-
-                                      {subPreviousData?.map((fuelType, fuelIndex) => (
-                                        <>
-
-                                          <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
-                                            <div className="panel h-full mx-0 px-0 pt-0 fuel-sale-table-border">
-                                              <div key={fuelIndex}>
-                                                <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
-                                                {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
-                                                  <React.Fragment key={tankIndex}>
-                                                    <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
-                                                    <div className="flex flex-col">
-                                                      {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
-                                                        <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
-                                                          style={{
-                                                            backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
-                                                            fontWeight: nozzle?.id == "0" ? "bold" : ""
-                                                          }}
-                                                        >
-                                                          <p className="w-1/6">{nozzle?.name} </p>
-                                                          <p className="w-1/6">
-                                                            {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${FormatNumberCommon(nozzle?.price)}`}
-                                                          </p>
-                                                          <p className="w-1/6">{capacity} {FormatNumberCommon(nozzle?.volume)}</p>
-                                                          <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.gross_value)}</p>
-                                                          <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.discount)}</p>
-                                                          <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.amount)}</p>
-                                                        </li>
-                                                      ))}
-
-                                                    </div>
-
-                                                  </React.Fragment>
-
-                                                ))}
-                                                <li style={{ background: "#1c8b3359" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
-                                                  <p className="w-1/6 ">{fuelType?.name} Total</p>
-                                                  <p className="w-1/6">
-
-                                                  </p>
-                                                  <p className="w-1/6">{capacity}{FormatNumberCommon(fuelType?.volume)}</p>
-                                                  <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.gross_value)}</p>
-                                                  <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.discount)}</p>
-                                                  <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.amount)}</p>
-                                                </li>
-                                              </div>
-
-
-                                            </div>
-                                          </div>
-                                        </>
-                                      ))}
-
-                                    </ul>
-                                  )}
-                                </div>
-                              ) : selectedTab === "Fuel Variance" ? (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/4">Name</p>
-                                      <p className="font-semibold w-1/4">Variance</p>
-                                      <p className="font-semibold w-1/4"> Price</p>
-                                      <p className="font-semibold w-1/4">Total Amount</p>
-
-                                    </li>
-                                    {activeAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
-                                      <li style={{
-                                        backgroundColor: subItem?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
-                                        color: subItem?.id == "0" ? "#000" : "",
-                                        fontWeight: subItem?.id == "0" ? "bold" : ""
-                                      }} key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/4">{subItem?.name}</p>
-                                        <p className="w-1/4">{capacity} {FormatNumberCommon(subItem?.variance)}</p>
-                                        <p className="w-1/4">
-                                          {subItem?.id == "0" ? "" : `${currency} ${FormatNumberCommon(subItem?.price)}`}
-                                        </p>
-                                        <p className="w-1/4">{currency}{FormatNumberCommon(subItem?.amount)}</p>
+                                        <p className="font-semibold w-1/5">Name</p>
+                                        <p className="font-semibold w-1/5">Volume</p>
 
                                       </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : selectedTab === "Lube Sales" ? (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/5">Name</p>
-                                      <p className="font-semibold w-1/5">Size</p>
-                                      <p className="font-semibold w-1/5">Opening</p>
-                                      <p className="font-semibold w-1/5">Closing</p>
-                                      <p className="font-semibold w-1/5">Sale Quantity</p>
-                                      <p className="font-semibold w-1/5">Amount</p>
-                                      <p className="font-semibold w-1/5">Profit</p>
-                                    </li>
-                                    {prevActiveAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
-                                      <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/5">{subItem?.lubricant_name}</p>
-                                        <p className="w-1/5">{subItem?.lubricant_size}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.opening)}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.closing)}</p>
-                                        <p className="w-1/5">{FormatNumberCommon(subItem?.sale)}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.sale_amount)}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.profit)}</p>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : selectedTab === "Tested Fuel" ? (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/5">Name</p>
-                                      <p className="font-semibold w-1/5">Volume</p>
-
-                                    </li>
-                                    {prevActiveAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
-                                      <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/5">{subItem?.name}</p>
-                                        <p className="w-1/5">{capacity} {FormatNumberCommon(subItem?.volume)}</p>
-
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/2">Name  </p>
-                                      <p className="font-semibold w-1/2">
-                                        {selectedTab === 'Fuel Delivery' ? 'Delivery'
-                                          : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
-                                      </p>
-                                    </li>
-
-                                    {subPreviousData?.length > 0 ? (
-                                      prevActiveAccordion === `${item?.id}-previous-${index}` &&
-                                      subPreviousData?.map((subItem, subIndex) => (
+                                      {prevActiveAccordion === `${item?.id}-previous-${index}` && subPreviousData?.map((subItem, subIndex) => (
                                         <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                          <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes && (
-                                            <OverlayTrigger
-                                              placement="bottom"
-                                              overlay={
-                                                <Tooltip className="custom-tooltip" id="tooltip-amount">
-                                                  {subItem?.notes}
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <span>
-                                                <i className="fi fi-sr-comment-info"></i>
-                                              </span>
-                                            </OverlayTrigger>
-                                          )}</p>
-                                          <p className="w-1/2">
-                                            {selectedTab === 'Fuel Delivery'
-                                              ? capacity + FormatNumberCommon(subItem?.delivery)
-                                              : selectedTab === 'Fuel Variance'
-                                                ? capacity + FormatNumberCommon(subItem?.variance)
-                                                : currency + FormatNumberCommon(subItem?.amount)}
-                                          </p>
+                                          <p className="w-1/5">{subItem?.name}</p>
+                                          <p className="w-1/5">{capacity} {FormatNumberCommon(subItem?.volume)}</p>
+
                                         </li>
-                                      ))
-                                    ) : (
-                                      <li className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/2">--</p>
-                                        <p className="w-1/2">---</p>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : (
+                                  <div className="overflow-x-auto">
+                                    <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
+                                      <li className="flex justify-between p-2 bg-gray-200">
+                                        <p className="font-semibold w-1/2">Name  </p>
+                                        <p className="font-semibold w-1/2">
+                                          {selectedTab === 'Fuel Delivery' ? 'Delivery'
+                                            : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
+                                        </p>
                                       </li>
+
+                                      {subPreviousData?.length > 0 ? (
+                                        prevActiveAccordion === `${item?.id}-previous-${index}` &&
+                                        subPreviousData?.map((subItem, subIndex) => (
+                                          <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                            <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes && (
+                                              <OverlayTrigger
+                                                placement="bottom"
+                                                overlay={
+                                                  <Tooltip className="custom-tooltip" id="tooltip-amount">
+                                                    {subItem?.notes}
+                                                  </Tooltip>
+                                                }
+                                              >
+                                                <span>
+                                                  <i className="fi fi-sr-comment-info"></i>
+                                                </span>
+                                              </OverlayTrigger>
+                                            )}</p>
+                                            <p className="w-1/2">
+                                              {selectedTab === 'Fuel Delivery'
+                                                ? capacity + FormatNumberCommon(subItem?.delivery)
+                                                : selectedTab === 'Fuel Variance'
+                                                  ? capacity + FormatNumberCommon(subItem?.variance)
+                                                  : currency + FormatNumberCommon(subItem?.amount)}
+                                            </p>
+                                          </li>
+                                        ))
+                                      ) : (
+                                        <li className="flex justify-between p-2 hover:bg-gray-100">
+                                          <p className="w-1/2">--</p>
+                                          <p className="w-1/2">---</p>
+                                        </li>
+                                      )}
+                                    </ul>
+                                  </div>
+                                )}
+
+                              </CollapsibleItem>
+                            ))}
+                          </ul>
+                        )
+                          : (
+                            <div className="flex justify-center items-center">
+                              <img
+                                src={noDataImage} // Use the imported image directly as the source
+                                alt="no data found"
+                                className="nodata-image"
+                              />
+                            </div>
+                          )}
+                      </div>
+
+
+                      <div
+                        className={` h-full xl:col-span-1 ${tabData?.prev_data ? 'panel' : ' '}`}
+                      >
+
+                        {tabData?.current_data?.listing?.length > 0 ? (
+                          <ul className="divide-y divide-gray-200">
+                            {tabData?.current_data?.listing?.map((item: any, index: number) => (
+                              <CollapsibleItem
+                                key={index}
+                                id={`${currency}-${index}`}
+                                title={item?.date}
+                                selectedTab={selectedTab}
+                                subtitle={item?.amount}
+                                // isActive={activeAccordion === `${currency}-${index}`}
+                                isActive={activeAccordion === `${item?.id}-current-${index}`}
+                                onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab, `${item?.id}-current-${index}`, 'current')}
+                              >
+                                {selectedTab === "Fuel Sales" ? (
+                                  <div className="overflow-x-auto">
+                                    {!considerNozzle ? (
+                                      <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                        <li className="flex justify-between p-2 bg-gray-200">
+                                          <p className="font-semibold w-1/6">Name </p>
+                                          <p className="font-semibold w-1/6">Price</p>
+                                          <p className="font-semibold w-1/6">Volume</p>
+                                          <p className="font-semibold w-1/6">Net Value</p>
+                                        </li>
+                                        {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
+                                          <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                            <p className="w-1/6">{subItem?.name}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.price)}</p>
+                                            <p className="w-1/6">{capacity}{FormatNumberCommon(subItem?.volume)}</p>
+                                            <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.amount)}</p>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                        <li className="flex justify-between p-2 bg-gray-200">
+
+                                          <p className="font-semibold w-1/6">Nozzle Name</p>
+                                          <p className="font-semibold w-1/6">Price</p>
+                                          <p className="font-semibold w-1/6">Volume</p>
+                                          <p className="font-semibold w-1/6">Gross Value</p>
+                                          <p className="font-semibold w-1/6">Discount</p>
+                                          <p className="font-semibold w-1/6">Net Value</p>
+                                        </li>
+
+
+                                        {subData?.map((fuelType, fuelIndex) => (
+                                          <>
+
+                                            <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
+                                              <div className="panel h-full mx-0 px-0 pt-0 fuel-sale-table-border">
+                                                <div key={fuelIndex}>
+                                                  <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
+                                                  {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
+                                                    <React.Fragment key={tankIndex}>
+                                                      <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
+                                                      <div className="flex flex-col">
+                                                        {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
+                                                          <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
+                                                            style={{
+                                                              backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
+                                                              fontWeight: nozzle?.id == "0" ? "bold" : ""
+                                                            }}
+                                                          >
+                                                            <p className="w-1/6">{nozzle?.name} </p>
+                                                            <p className="w-1/6">
+                                                              {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${FormatNumberCommon(nozzle?.price)}`}
+                                                            </p>
+                                                            <p className="w-1/6">{capacity} {FormatNumberCommon(nozzle?.volume)}</p>
+                                                            <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.gross_value)}</p>
+                                                            <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.discount)}</p>
+                                                            <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.amount)}</p>
+                                                          </li>
+                                                        ))}
+
+                                                      </div>
+
+                                                    </React.Fragment>
+
+                                                  ))}
+                                                  <li style={{ background: "#1c8b3359" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
+                                                    <p className="w-1/6 ">{fuelType?.name} Total</p>
+                                                    <p className="w-1/6">
+
+                                                    </p>
+                                                    <p className="w-1/6">{capacity}{FormatNumberCommon(fuelType?.volume)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.gross_value)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.discount)}</p>
+                                                    <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.amount)}</p>
+                                                  </li>
+                                                </div>
+
+
+                                              </div>
+                                            </div>
+                                          </>
+                                        ))}
+
+                                      </ul>
                                     )}
-                                  </ul>
-                                </div>
-                              )}
+                                  </div>
 
-                            </CollapsibleItem>
-                          ))}
-                        </ul>
-                      )
-                        : (
-                          <div className="flex justify-center items-center">
-                            <img
-                              src={noDataImage} // Use the imported image directly as the source
-                              alt="no data found"
-                              className="nodata-image"
-                            />
-                          </div>
-                        )}
-                    </div>
-
-
-                    <div
-                      className={` h-full xl:col-span-1 ${tabData?.prev_data ? 'panel' : ' '}`}
-                    >
-
-                      {tabData?.current_data?.listing?.length > 0 ? (
-                        <ul className="divide-y divide-gray-200">
-                          {tabData?.current_data?.listing?.map((item: any, index: number) => (
-                            <CollapsibleItem
-                              key={index}
-                              id={`${currency}-${index}`}
-                              title={item?.date}
-                              selectedTab={selectedTab}
-                              subtitle={item?.amount}
-                              // isActive={activeAccordion === `${currency}-${index}`}
-                              isActive={activeAccordion === `${item?.id}-current-${index}`}
-                              onToggle={() => handleToggle(`${currency}-${index}`, item?.date, selectedTab, `${item?.id}-current-${index}`, 'current')}
-                            >
-                              {selectedTab === "Fuel Sales" ? (
-                                <div className="overflow-x-auto">
-                                  {!considerNozzle ? (
+                                ) : selectedTab === "Fuel Variance" ? (
+                                  <div className="overflow-x-auto">
                                     <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                                       <li className="flex justify-between p-2 bg-gray-200">
-                                        <p className="font-semibold w-1/6">Name </p>
-                                        <p className="font-semibold w-1/6">Price</p>
-                                        <p className="font-semibold w-1/6">Volume</p>
-                                        <p className="font-semibold w-1/6">Net Value</p>
+                                        <p className="font-semibold w-1/4">Name</p>
+                                        <p className="font-semibold w-1/4">Variance</p>
+                                        <p className="font-semibold w-1/4"> Price</p>
+
+
+                                        <p className="font-semibold w-1/4">Total Amount</p>
+
+                                      </li>
+                                      {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
+                                        <li style={{
+                                          backgroundColor: subItem?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
+                                          color: subItem?.id == "0" ? "#000" : "",
+                                          fontWeight: subItem?.id == "0" ? "bold" : ""
+                                        }} key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                          <p className="w-1/4">{subItem?.name}</p>
+                                          <p className="w-1/4">{capacity} {FormatNumberCommon(subItem?.variance)}</p>
+                                          <p className="w-1/4">
+                                            {subItem?.id == "0" ? "" : `${currency} ${FormatNumberCommon(subItem?.price)}`}
+                                          </p>
+
+
+
+                                          <p className="w-1/4">{currency}{FormatNumberCommon(subItem?.amount)}</p>
+
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : selectedTab === "Lube Sales" ? (
+                                  <div className="overflow-x-auto">
+                                    <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
+                                      <li className="flex justify-between p-2 bg-gray-200">
+                                        <p className="font-semibold w-1/5">Name</p>
+                                        <p className="font-semibold w-1/5">Size</p>
+                                        <p className="font-semibold w-1/5">Opening</p>
+                                        <p className="font-semibold w-1/5">Closing</p>
+                                        <p className="font-semibold w-1/5">Sale Quantity</p>
+                                        <p className="font-semibold w-1/5">Amount</p>
+                                        <p className="font-semibold w-1/5">Profit</p>
                                       </li>
                                       {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
                                         <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                          <p className="w-1/6">{subItem?.name}</p>
-                                          <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.price)}</p>
-                                          <p className="w-1/6">{capacity}{FormatNumberCommon(subItem?.volume)}</p>
-                                          <p className="w-1/6">{currency} {FormatNumberCommon(subItem?.amount)}</p>
+                                          <p className="w-1/5">{subItem?.lubricant_name}</p>
+                                          <p className="w-1/5">{subItem?.lubricant_size}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.opening)}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.closing)}</p>
+                                          <p className="w-1/5">{FormatNumberCommon(subItem?.sale)}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.sale_amount)}</p>
+                                          <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.profit)}</p>
                                         </li>
                                       ))}
                                     </ul>
-                                  ) : (
+                                  </div>
+                                ) : selectedTab === "Tested Fuel" ? (
+                                  <div className="overflow-x-auto">
                                     <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
                                       <li className="flex justify-between p-2 bg-gray-200">
+                                        <p className="font-semibold w-1/5">Name</p>
+                                        <p className="font-semibold w-1/5">Volume</p>
 
-                                        <p className="font-semibold w-1/6">Nozzle Name</p>
-                                        <p className="font-semibold w-1/6">Price</p>
-                                        <p className="font-semibold w-1/6">Volume</p>
-                                        <p className="font-semibold w-1/6">Gross Value</p>
-                                        <p className="font-semibold w-1/6">Discount</p>
-                                        <p className="font-semibold w-1/6">Net Value</p>
+                                      </li>
+                                      {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
+                                        <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                          <p className="w-1/5">{subItem?.name}</p>
+                                          <p className="w-1/5">{capacity} {FormatNumberCommon(subItem?.volume)}</p>
+
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : (
+                                  <div className="overflow-x-auto">
+                                    <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
+                                      <li className="flex justify-between p-2 bg-gray-200">
+                                        <p className="font-semibold w-1/2">Name
+
+
+                                        </p>
+                                        <p className="font-semibold w-1/2">
+                                          {selectedTab === 'Fuel Delivery' ? 'Delivery'
+                                            : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
+                                        </p>
                                       </li>
 
-
-                                      {subData?.map((fuelType, fuelIndex) => (
-                                        <>
-
-                                          <div className="grid xl:grid-cols-1  md:grid-cols-1 sm:grid-cols-1 gap-2 mb-6">
-                                            <div className="panel h-full mx-0 px-0 pt-0 fuel-sale-table-border">
-                                              <div key={fuelIndex}>
-                                                <p className="p-2 bg-[#e5e7eb] font-bold w-1/10">Fuel Type: {fuelType?.name}</p>
-                                                {fuelType?.tanks?.map((tank: any, tankIndex: any) => (
-                                                  <React.Fragment key={tankIndex}>
-                                                    <p className="mt-2 mb-2 font-bold p-2 bg-[#e5e7eb] w-1/10">Tank Name: {tank?.tank_name}</p>
-                                                    <div className="flex flex-col">
-                                                      {tank?.nozzles?.map((nozzle: any, nozzleIndex: any) => (
-                                                        <li key={nozzleIndex} className="flex justify-between p-2 hover:bg-gray-100 mt-2 fuel-sale-table-li"
-                                                          style={{
-                                                            backgroundColor: nozzle?.id == "0" ? "#02449b24" : "hover:bg-gray-100",
-                                                            fontWeight: nozzle?.id == "0" ? "bold" : ""
-                                                          }}
-                                                        >
-                                                          <p className="w-1/6">{nozzle?.name} </p>
-                                                          <p className="w-1/6">
-                                                            {nozzle?.id == "0" ? `${nozzle?.price}` : `${currency} ${FormatNumberCommon(nozzle?.price)}`}
-                                                          </p>
-                                                          <p className="w-1/6">{capacity} {FormatNumberCommon(nozzle?.volume)}</p>
-                                                          <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.gross_value)}</p>
-                                                          <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.discount)}</p>
-                                                          <p className="w-1/6">{currency} {FormatNumberCommon(nozzle?.amount)}</p>
-                                                        </li>
-                                                      ))}
-
-                                                    </div>
-
-                                                  </React.Fragment>
-
-                                                ))}
-                                                <li style={{ background: "#1c8b3359" }} key={fuelType} className="flex justify-between p-2 mt-2 mb-2 font-bold hover:bg-gray-100">
-                                                  <p className="w-1/6 ">{fuelType?.name} Total</p>
-                                                  <p className="w-1/6">
-
-                                                  </p>
-                                                  <p className="w-1/6">{capacity}{FormatNumberCommon(fuelType?.volume)}</p>
-                                                  <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.gross_value)}</p>
-                                                  <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.discount)}</p>
-                                                  <p className="w-1/6">{currency} {FormatNumberCommon(fuelType?.amount)}</p>
-                                                </li>
-                                              </div>
+                                      {subData?.length > 0 ? (
+                                        activeAccordion === `${item?.id}-current-${index}` &&
+                                        subData?.map((subItem, subIndex) => (
+                                          <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
+                                            <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes && (
+                                              <OverlayTrigger
+                                                placement="bottom"
+                                                overlay={
+                                                  <Tooltip className="custom-tooltip" id="tooltip-amount">
+                                                    {subItem?.notes}
+                                                  </Tooltip>
+                                                }
+                                              >
+                                                <span>
+                                                  <i className="fi fi-sr-comment-info"></i>
+                                                </span>
+                                              </OverlayTrigger>
+                                            )}</p>
+                                            <p className="w-1/2">
+                                              {selectedTab === 'Fuel Delivery'
+                                                ? capacity + FormatNumberCommon(subItem?.delivery)
+                                                : selectedTab === 'Fuel Variance'
+                                                  ? capacity + FormatNumberCommon(subItem?.variance)
+                                                  : currency + FormatNumberCommon(subItem?.amount)}
+                                            </p>
+                                          </li>
+                                        ))
+                                      ) : (
+                                        <li className="flex justify-between p-2 hover:bg-gray-100">
+                                          <p className="w-1/2">--</p>
+                                          <p className="w-1/2">---</p>
+                                        </li>
+                                      )}
 
 
-                                            </div>
-                                          </div>
-                                        </>
-                                      ))}
+
+
 
                                     </ul>
-                                  )}
-                                </div>
+                                  </div>
+                                )}
 
-                              ) : selectedTab === "Fuel Variance" ? (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/4">Name</p>
-                                      <p className="font-semibold w-1/4">Variance</p>
-                                      <p className="font-semibold w-1/4"> Price</p>
+                              </CollapsibleItem>
+                            ))}
+                          </ul>
+                        )
+                          : (
+                            <div className="flex justify-center items-center">
+                              <img
+                                src={noDataImage} // Use the imported image directly as the source
+                                alt="no data found"
+                                className="nodata-image"
+                              />
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
+          {stationId && selectedTab == 'Nozzles Sales' && (
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-2  h-auto panel">
+                <h5 className="font-bold text-lg dark:text-white-light">Fuels
+                </h5>
 
-                                      <p className="font-semibold w-1/4">Total Amount</p>
-
-                                    </li>
-                                    {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
-                                      <li style={{
-                                        backgroundColor: subItem?.id == "0" ? "#1c8b3359" : "hover:bg-gray-100",
-                                        color: subItem?.id == "0" ? "#000" : "",
-                                        fontWeight: subItem?.id == "0" ? "bold" : ""
-                                      }} key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/4">{subItem?.name}</p>
-                                        <p className="w-1/4">{capacity} {FormatNumberCommon(subItem?.variance)}</p>
-                                        <p className="w-1/4">
-                                          {subItem?.id == "0" ? "" : `${currency} ${FormatNumberCommon(subItem?.price)}`}
-                                        </p>
-
-
-
-                                        <p className="w-1/4">{currency}{FormatNumberCommon(subItem?.amount)}</p>
-
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : selectedTab === "Lube Sales" ? (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/5">Name</p>
-                                      <p className="font-semibold w-1/5">Size</p>
-                                      <p className="font-semibold w-1/5">Opening</p>
-                                      <p className="font-semibold w-1/5">Closing</p>
-                                      <p className="font-semibold w-1/5">Sale Quantity</p>
-                                      <p className="font-semibold w-1/5">Amount</p>
-                                      <p className="font-semibold w-1/5">Profit</p>
-                                    </li>
-                                    {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
-                                      <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/5">{subItem?.lubricant_name}</p>
-                                        <p className="w-1/5">{subItem?.lubricant_size}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.opening)}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.closing)}</p>
-                                        <p className="w-1/5">{FormatNumberCommon(subItem?.sale)}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.sale_amount)}</p>
-                                        <p className="w-1/5">{currency} {FormatNumberCommon(subItem?.profit)}</p>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : selectedTab === "Tested Fuel" ? (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[600px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/5">Name</p>
-                                      <p className="font-semibold w-1/5">Volume</p>
-
-                                    </li>
-                                    {activeAccordion === `${item?.id}-current-${index}` && subData?.map((subItem, subIndex) => (
-                                      <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/5">{subItem?.name}</p>
-                                        <p className="w-1/5">{capacity} {FormatNumberCommon(subItem?.volume)}</p>
-
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : (
-                                <div className="overflow-x-auto">
-                                  <ul className="divide-y divide-gray-200 w-full min-w-[400px]">
-                                    <li className="flex justify-between p-2 bg-gray-200">
-                                      <p className="font-semibold w-1/2">Name
-
-
-                                      </p>
-                                      <p className="font-semibold w-1/2">
-                                        {selectedTab === 'Fuel Delivery' ? 'Delivery'
-                                          : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
-                                      </p>
-                                    </li>
-
-                                    {subData?.length > 0 ? (
-                                      activeAccordion === `${item?.id}-current-${index}` &&
-                                      subData?.map((subItem, subIndex) => (
-                                        <li key={subIndex} className="flex justify-between p-2 hover:bg-gray-100">
-                                          <p className="w-1/2">{subItem?.name}  {(selectedTab == 'Incomes' || selectedTab == 'Expenses') && subItem?.notes && (
-                                            <OverlayTrigger
-                                              placement="bottom"
-                                              overlay={
-                                                <Tooltip className="custom-tooltip" id="tooltip-amount">
-                                                  {subItem?.notes}
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <span>
-                                                <i className="fi fi-sr-comment-info"></i>
-                                              </span>
-                                            </OverlayTrigger>
-                                          )}</p>
-                                          <p className="w-1/2">
-                                            {selectedTab === 'Fuel Delivery'
-                                              ? capacity + FormatNumberCommon(subItem?.delivery)
-                                              : selectedTab === 'Fuel Variance'
-                                                ? capacity + FormatNumberCommon(subItem?.variance)
-                                                : currency + FormatNumberCommon(subItem?.amount)}
-                                          </p>
-                                        </li>
-                                      ))
-                                    ) : (
-                                      <li className="flex justify-between p-2 hover:bg-gray-100">
-                                        <p className="w-1/2">--</p>
-                                        <p className="w-1/2">---</p>
-                                      </li>
-                                    )}
+                {NozzlesalesBtn?.length > 0 ? (
+                  <>
+                    {NozzlesalesBtn?.map((fuel) => (
+                      <button
+                        key={fuel.id}
+                        onClick={() => setSelectedFuel(fuel?.id)}
+                        className={`px-4 py-2 w-100 mt-2 border rounded ${selectedFuel === fuel?.id ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                          }`}
+                      >
+                        {fuel?.fuel_name}
+                      </button>
+                    ))}
+                  </>
+                ) : (
+                  <img
+                    src={noDataImage} // Use the imported image directly as the source
+                    alt="no data found"
+                    className="all-center-flex nodata-image"
+                  />
+                )}
 
 
 
+              </div>
 
 
-                                  </ul>
-                                </div>
-                              )}
-
-                            </CollapsibleItem>
+              <div className="col-span-7  h-auto panel">
+                <h5 className="font-bold text-lg dark:text-white-light">Nozzle Sales
+                </h5>
+                {NozzlesaleData?.listing?.length > 0 ? (
+                  <>
+                     <ul className="space-y-4 mt-2"> {/* Add space between items */}
+                       
+                            <li  className="flex items-center justify-between p-4 border rounded shadow hover:bg-gray-100 transition duration-200">
+                              <span className="font-bold">Name</span>
+                              <span className="font-bold">Volume</span>
+                              <span className="font-bold">Value</span>
+                      
+                            </li>
+                       
+                        </ul>
+                    {NozzlesaleData?.listing?.length > 0 ? (
+                      <>
+                     
+                        <ul className="space-y-4 mt-2" > {/* Add space between items */}
+                          {NozzlesaleData.listing.map((fuel: any) => (
+                            <li key={fuel.name} className="flex items-center justify-between p-4 border rounded shadow hover:bg-gray-100 transition duration-200">
+                              <span className="font-semibold">{fuel.name}</span>
+                              <span className="text-gray-500">{capacity}{fuel.volume}</span>
+                              <span className="text-gray-700">{currency}{fuel.value}</span>
+                            
+                            </li>
                           ))}
                         </ul>
-                      )
-                        : (
-                          <div className="flex justify-center items-center">
-                            <img
-                              src={noDataImage} // Use the imported image directly as the source
-                              alt="no data found"
-                              className="nodata-image"
-                            />
-                          </div>
-                        )}
-                    </div>
-                  </div>
-                </>
-              )}
+                      </>
+                    ) : (
+                      <p>No Data Available</p>
+                    )}
+
+                  </>
+                ) : (
+                  <img
+                    src={noDataImage} // Use the imported image directly as the source
+                    alt="no data found"
+                    className="all-center-flex nodata-image"
+                  />
+                )}
+              </div>
+
+
+              <div className="col-span-3  h-auto panel">
+
+                <h5 className="font-bold text-lg dark:text-white-light">Pie Chart
+                </h5>
+                <div style={{ padding: '10px' }}>
+
+                  {NozzlesaleData &&  <PieChart data={NozzlesaleData?.pie_chart} />}
+                 
+                </div>
+              </div>
             </div>
-          </div>
+
+
+          )}
         </div>
 
       </div>
@@ -1262,8 +1395,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
 
-      <>
-
+      {stationId && selectedTab !== 'Nozzles Sales' && (
         <div className='panel h-full col-span-4'>
 
           {stationId && selectedTab !== 'Variance Accumulation' && (
@@ -1371,8 +1503,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
           )}
 
         </div>
-
-      </>
+      )}
 
 
     </div >
