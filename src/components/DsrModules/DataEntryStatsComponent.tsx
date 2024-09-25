@@ -197,7 +197,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         const response = await getData(`/getStationFuels?station_id=${stationId}`);
         if (response && response.data) {
           setNozzlesalesBtn(response?.data?.data)
-          console.log(response?.data, "response.data");
+        
           setSelectedTab("Nozzles Sales");
           setSelectedFuel(response?.data?.data[0]?.id)
 
@@ -215,10 +215,10 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
         if (response && response.data) {
 
-          setBarData(response.data?.data?.barData);
-          setDates(response.data?.data?.dates);
-          // setSelectedTab(tabName);
-          setSelectedTab("Nozzles Sales");
+       
+       
+          setSelectedTab(tabName);
+          // setSelectedTab("Nozzles Sales");
           setTabData(response.data?.data);
           setActiveAccordion(null);
           setPrevActiveAccordion(null);
@@ -289,7 +289,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     station_id: Yup.string().required('Station is required'),
     start_month: Yup.string().required('Month is required'),
   });
-  const salesByCategory = tabData;
+
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
   const [prevActiveAccordion, setPrevActiveAccordion] = useState<string | null>(null);
 
@@ -376,8 +376,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
 
   // State to store barData and dates
-  const [barData, setBarData] = useState<ApexData[]>([]);
-  const [dates, setDates] = useState<any[]>([]);
+
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const closeModal = () => {
@@ -391,7 +390,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleTabClickk = (tab: any) => {
     setActiveTab(tab);
   };
-  console.log(NozzlesaleData, "NozzlesaleData");
+
   return <>
     {isLoading && <LoaderImg />}
 
