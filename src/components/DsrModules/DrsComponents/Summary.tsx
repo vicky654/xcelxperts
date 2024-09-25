@@ -6,7 +6,6 @@ import useErrorHandler from '../../../hooks/useHandleError';
 import { CommonDataEntryProps } from '../../commonInterfaces';
 import LoaderImg from '../../../utils/Loader';
 import { currency } from '../../../utils/CommonData';
-import DataEntryStats from '../DashDataEntryStats';
 import { FormatNumberCommon, handleDownloadPdf } from '../../CommonFunctions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Swal from 'sweetalert2';
@@ -267,8 +266,7 @@ const Summary: React.FC<CommonDataEntryProps> = ({ stationId, startDate, postDat
 
               </div>
             )}
-            {/* <DataEntryStats getData={getData} isOpen={isUserAddonModalOpen} onClose={closeUserAddonModal} startDate={startDate} stationId={stationId} /> */}
-            {data?.takings && (
+          {data?.takings && (
               <div className="mb-8">
                 <h1 className="text-lg font-bold">SUMMARY OF TAKINGS</h1>
                 <div className="p-2">

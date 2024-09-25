@@ -1,23 +1,7 @@
-import { lazy } from 'react';
-import CompetitorFuelPrices from '../components/CompetitorFuelPrices/CompetitorFuelPrices';
 import ManageReports from '../components/ManageReports/ManageReports';
 import StationSetting from '../components/SideBarComponents/StationSetting/StationSetting';
 
 import Index from '../pages/Index';
-import Analytics from '../pages/Analytics';
-import Finance from '../pages/Finance';
-import Crypto from '../pages/Crypto';
-import Todolist from '../pages/Apps/Todolist';
-import Mailbox from '../pages/Apps/Mailbox';
-import Notes from '../pages/Apps/Notes';
-import Contacts from '../pages/Apps/Contacts';
-import Chat from '../pages/Apps/Chat';
-import Scrumboard from '../pages/Apps/Scrumboard';
-import Calendar from '../pages/Apps/Calendar';
-import List from '../pages/Apps/Invoice/List';
-import Preview from '../pages/Apps/Invoice/Preview';
-import Add from '../pages/Apps/Invoice/Add';
-import Edit from '../pages/Apps/Invoice/Edit';
 import Tabs from '../pages/Components/Tabs';
 import Accordians from '../pages/Components/Accordians';
 import Modals from '../pages/Components/Modals';
@@ -54,25 +38,11 @@ import Widgets from '../pages/Widgets';
 import FontIcons from '../pages/FontIcons';
 import DragAndDrop from '../pages/DragAndDrop';
 import Tables from '../pages/Tables';
-import Basic from '../pages/DataTables/Basic';
-import Advanced from '../pages/DataTables/Advanced';
-import Skin from '../pages/DataTables/Skin';
-import OrderSorting from '../pages/DataTables/OrderSorting';
-import MultiColumn from '../pages/DataTables/MultiColumn';
-import MultipleTables from '../pages/DataTables/MultipleTables';
-import AltPagination from '../pages/DataTables/AltPagination';
-import Checkbox from '../pages/DataTables/Checkbox';
-import RangeSearch from '../pages/DataTables/RangeSearch';
 import Export from '../pages/DataTables/Export';
-import ColumnChooser from '../pages/DataTables/ColumnChooser';
 import Profile from '../pages/Users/Profile';
 import AccountSetting from '../pages/Users/AccountSetting';
 import KnowledgeBase from '../pages/Pages/KnowledgeBase';
 import ContactUsBoxed from '../pages/Pages/ContactUsBoxed';
-import ContactUsCover from '../pages/Pages/ContactUsCover';
-import Faq from '../pages/Pages/Faq';
-import ComingSoonBoxed from '../pages/Pages/ComingSoonBoxed';
-import ComingSoonCover from '../pages/Pages/ComingSoonCover';
 import ERROR404 from '../pages/Pages/Error404';
 import ERROR500 from '../pages/Pages/Error500';
 import ERROR503 from '../pages/Pages/Error503';
@@ -88,21 +58,6 @@ import UnlockCover from '../pages/Authentication/UnlockCover';
 import About from '../pages/About';
 import Error from '../components/Error';
 import Charts from '../pages/Charts';
-import FormBasic from '../pages/Forms/Basic';
-import FormInputGroup from '../pages/Forms/InputGroup';
-import FormLayouts from '../pages/Forms/Layouts';
-import Validation from '../pages/Forms/Validation';
-import InputMask from '../pages/Forms/InputMask';
-import Select2 from '../pages/Forms/Select2';
-import Touchspin from '../pages/Forms/TouchSpin';
-import CheckBoxRadio from '../pages/Forms/CheckboxRadio';
-import Switches from '../pages/Forms/Switches';
-import Wizards from '../pages/Forms/Wizards';
-import FileUploadPreview from '../pages/Forms/FileUploadPreview';
-import QuillEditor from '../pages/Forms/QuillEditor';
-import MarkDownEditor from '../pages/Forms/MarkDownEditor';
-import DateRangePicker from '../pages/Forms/DateRangePicker';
-import Clipboard from '../pages/Forms/Clipboard';
 import DashboardOverview from '../pages/Dashboard/DashboardSecondPage/DashboardOverview';
 import DashboardStationPage from '../pages/Dashboard/DashboardThirdPage/DashboardStationPage';
 import ManageUser from '../components/SideBarComponents/ManageUser/ManageUser';
@@ -134,12 +89,10 @@ import AssignClientReports from '../components/SideBarComponents/ManageClient/As
 import Managecards from '../components/SideBarComponents/Managecards/Managecards';
 import DataEntruModules from '../components/DsrModules/DataEntrymodule';
 import DataEntryStatsComponent from '../components/DsrModules/DataEntryStatsComponent';
-import DashDataEntryStats from '../components/DsrModules/DashDataEntryStats';
 import ManageStationBank from '../components/SideBarComponents/ManageStationBank/ManageStationBank';
 import SkipDate from '../components/SideBarComponents/ManageStation/SkipDateStation';
 import AssignStationManagger from '../components/SideBarComponents/ManageStation/AssignStationManagger';
 import ManageCreditUserHistory from '../components/CreditUser/ManageCreditUserHistory';
-import BlankLayout from '../components/Layouts/BlankLayout';
 import AuthenticationCheck from '../components/Layouts/AuthenticationCheck';
 import StockLoss from '../components/SideBarComponents/ManageStation/StockLoss';
 import NewDashboard from '../components/NewDashboard/NewDashboard';
@@ -186,14 +139,7 @@ const routes = [
     path: '/data-entry-stats/:id?',
     element: <DataEntryStatsComponent />,
   },
-  // {
-  //   path: '/data-entry-stats',
-  //   element: <DataEntryStatsComponent />,
-  // },
-  // {
-  //   path: '/data-entry-stats/:id',
-  //   element: <DashDataEntryStats />,
-  // },
+
   {
     path: '/new-data-entry-stats/:id',
     element: <NewDashboardSubChild />,

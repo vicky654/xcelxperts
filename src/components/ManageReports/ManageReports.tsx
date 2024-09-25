@@ -137,6 +137,9 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             setpdfisLoading(false)
         }
     };
+
+
+    
     const ReportsValidationSchema = (toggle: boolean) => {
         return Yup.object().shape({
             client_id: Yup.string()
