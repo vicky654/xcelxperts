@@ -197,7 +197,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         const response = await getData(`/getStationFuels?station_id=${stationId}`);
         if (response && response.data) {
           setNozzlesalesBtn(response?.data?.data)
-        
+
           setSelectedTab("Nozzles Sales");
           setSelectedFuel(response?.data?.data[0]?.id)
 
@@ -215,8 +215,8 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
         const response = await getData(`/stats/${key}?station_id=${stationId}&drs_date=${startDate}`);
         if (response && response.data) {
 
-       
-       
+
+
           setSelectedTab(tabName);
           // setSelectedTab("Nozzles Sales");
           setTabData(response.data?.data);
@@ -390,6 +390,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleTabClickk = (tab: any) => {
     setActiveTab(tab);
   };
+  const getFuelDetailsById = (id:any) => {
+    const fuelDetails = NozzlesalesBtn?.find(fuel => fuel?.id === id);
+    return fuelDetails ? { fuel_name: fuelDetails?.fuel_name, tanks: fuelDetails?.tanks } : null;
+  };
+  const selectedFuelDetails = getFuelDetailsById(selectedFuel);
+
 
   return <>
     {isLoading && <LoaderImg />}
@@ -1297,91 +1303,71 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
 
           {stationId && selectedTab == 'Nozzles Sales' && (
             <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-2  h-auto panel">
-                <h5 className="font-bold text-lg dark:text-white-light">Fuels
-                </h5>
-
+              {/* Fuel Buttons Panel */}
+              <div className="col-span-12 md:col-span-3 h-auto panel">
+                <h5 className="font-bold text-lg dark:text-white-light">Fuels</h5>
                 {NozzlesalesBtn?.length > 0 ? (
                   <>
                     {NozzlesalesBtn?.map((fuel) => (
                       <button
                         key={fuel.id}
                         onClick={() => setSelectedFuel(fuel?.id)}
-                        className={`px-4 py-2 w-100 mt-2 border rounded ${selectedFuel === fuel?.id ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        className={`px-4 py-2 w-full mt-2 border rounded ${selectedFuel === fuel?.id ? 'bg-blue-500 text-white' : 'bg-gray-200'
                           }`}
                       >
-                        {fuel?.fuel_name}
+                        {fuel?.fuel_name} ({fuel?.tanks})
                       </button>
                     ))}
                   </>
                 ) : (
                   <img
-                    src={noDataImage} // Use the imported image directly as the source
+                    src={noDataImage}
                     alt="no data found"
                     className="all-center-flex nodata-image"
                   />
                 )}
-
-
-
               </div>
 
-
-              <div className="col-span-7  h-auto panel">
-                <h5 className="font-bold text-lg dark:text-white-light">Nozzle Sales
-                </h5>
+              {/* Nozzle Sales Data */}
+              <div className="col-span-12 md:col-span-6 h-auto panel">
+                <h5 className="font-bold text-lg dark:text-white-light">Nozzle Sales - {selectedFuelDetails?.fuel_name} ({selectedFuelDetails?.tanks})  </h5>
                 {NozzlesaleData?.listing?.length > 0 ? (
                   <>
-                     <ul className="space-y-4 mt-2"> {/* Add space between items */}
-                       
-                            <li  className="flex items-center justify-between p-4 border rounded shadow hover:bg-gray-100 transition duration-200">
-                              <span className="font-bold">Name</span>
-                              <span className="font-bold">Volume</span>
-                              <span className="font-bold">Value</span>
-                      
-                            </li>
-                       
-                        </ul>
-                    {NozzlesaleData?.listing?.length > 0 ? (
-                      <>
-                     
-                        <ul className="space-y-4 mt-2" > {/* Add space between items */}
-                          {NozzlesaleData.listing.map((fuel: any) => (
-                            <li key={fuel.name} className="flex items-center justify-between p-4 border rounded shadow hover:bg-gray-100 transition duration-200">
-                              <span className="font-semibold">{fuel.name}</span>
-                              <span className="text-gray-500">{capacity}{fuel.volume}</span>
-                              <span className="text-gray-700">{currency}{fuel.value}</span>
-                            
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    ) : (
-                      <p>No Data Available</p>
-                    )}
-
+                    <ul className="space-y-4 mt-2">
+                      <li className="flex items-center justify-between p-4 border rounded shadow hover:bg-gray-100 transition duration-200">
+                        <span className="font-bold">Name</span>
+                        <span className="font-bold">Volume</span>
+                        <span className="font-bold">Value</span>
+                      </li>
+                    </ul>
+                    <ul className="space-y-4 mt-2">
+                      {NozzlesaleData.listing.map((fuel: any) => (
+                        <li key={fuel.name} className="flex items-center justify-between p-4 border rounded shadow hover:bg-gray-100 transition duration-200">
+                          <span className="font-semibold">{fuel.name}</span>
+                          <span className="text-gray-500">{capacity}{fuel.volume}</span>
+                          <span className="text-gray-700">{currency}{fuel.value}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </>
                 ) : (
                   <img
-                    src={noDataImage} // Use the imported image directly as the source
+                    src={noDataImage}
                     alt="no data found"
                     className="all-center-flex nodata-image"
                   />
                 )}
               </div>
 
-
-              <div className="col-span-3  h-auto panel">
-
-                <h5 className="font-bold text-lg dark:text-white-light">Pie Chart
-                </h5>
+              {/* Pie Chart Panel */}
+              <div className="col-span-12 md:col-span-3 h-auto panel">
+                <h5 className="font-bold text-lg dark:text-white-light">Pie Chart</h5>
                 <div style={{ padding: '10px' }}>
-
-                  {NozzlesaleData &&  <PieChart data={NozzlesaleData?.pie_chart} />}
-                 
+                  {NozzlesaleData && <PieChart data={NozzlesaleData?.pie_chart} />}
                 </div>
               </div>
             </div>
+
 
 
           )}

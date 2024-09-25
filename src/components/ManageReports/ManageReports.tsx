@@ -97,9 +97,8 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             }
 
             const contentType = response.headers.get('Content-Type');
-            let fileExtension = 'xlsxs'; // Default to xlsx
-            let fileName = 'SlrrReportdd'; // Default file name
-
+            let fileExtension = 'xlsx'; // Default to xlsx
+    
             if (contentType) {
                 if (contentType.includes('application/pdf')) {
                     fileExtension = 'pdf';
