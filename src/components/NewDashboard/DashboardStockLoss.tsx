@@ -54,12 +54,9 @@ interface FuelStocks {
 const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId }) => {
 
     const [filters, setFilters] = useState<any>();
-    const [RoleList, setRoleList] = useState<RoleItem[]>([]);
     const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
     let storedKeyName = "stationTank";
-    const storedData = localStorage.getItem(storedKeyName);
-    const reduxData = useSelector((state: IRootState) => state?.data?.data);
-    const dispatch = useDispatch();
+
     const [fuelData, setFuelData] = useState<FuelStocks | null>(null);
     const [TableData, setTableData] = useState<any | undefined>(undefined);
     const [pdfisLoading, setpdfisLoading] = useState(false);
@@ -167,6 +164,12 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             }
         }
     }, [formik?.values?.station_id, isOpen])
+    useEffect(() => {
+        if (formik?.values?.station_id === '' || formik?.values?.station_id === undefined) {
+            setFuelData(null);
+        }
+    }, [isOpen]);
+    
     const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
     const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
@@ -246,6 +249,10 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
 
 
 
+
+
+
+
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="absolute inset-0 overflow-hidden">
@@ -318,7 +325,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                     </h2>
 
                                     {dashboardLoading && <LoaderImg />}
-                                    {fuelData ? (
+                                    {(fuelData && (formik?.values?.station_id || filters?.station_id)) ? (
                                         <DynamicTable data={fuelData} TableData={TableData} />
                                     ) : (
                                         <div className="all-center-flex">
