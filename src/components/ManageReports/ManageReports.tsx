@@ -230,7 +230,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
         formik.setFieldValue('client_id', clientId);
         if (clientId) {
             fetchEntityList(clientId);
-
             const selectedClient = formik.values.clients.find((client: Client) => client.id === clientId);
             formik.setFieldValue('client_name', selectedClient?.client_name || "");
             formik.setFieldValue('entities', selectedClient?.entities || []);

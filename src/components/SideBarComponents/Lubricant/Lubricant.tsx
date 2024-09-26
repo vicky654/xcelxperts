@@ -16,6 +16,7 @@ import noDataImage from '../../../assets/AuthImages/noDataFound.png'; // Import 
 import AddEditManageCharges from './AddEditLubricant'; // Import the image
 import { IRootState } from '../../../store';
 import SearchBar from '../../../utils/SearchBar';
+import AssignLubricants from './AssignLubricants';
 
 interface ManageUserProps {
     isLoading: boolean;
@@ -28,15 +29,23 @@ interface RowData {
     id: string;
     name: string;
     size: string;
+    is_editable: boolean;
+    is_deleteable: boolean;
+    update_status: boolean;
     created_date: string;
     status: number;
 }
-
+interface Lubricant {
+    id: string;
+    lubricant_name: string;
+    checked: boolean;
+}
 const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading }) => {
     const [data, setData] = useState<RowData[]>([]);
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [editUserData, setEditUserData] = useState<Partial<RowData> | null>(null);
     const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
@@ -112,11 +121,9 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
     const UserPermissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
 
     const isAddPermissionAvailable = UserPermissions?.includes("lubricant-create");
-    const isListPermissionAvailable = UserPermissions?.includes("lubricant-list");
     const isEditPermissionAvailable = UserPermissions?.includes("lubricant-edit");
-    const isEditSettingPermissionAvailable = UserPermissions?.includes("lubricant-setting");
     const isDeletePermissionAvailable = UserPermissions?.includes("lubricant-delete");
-    const isAssignAddPermissionAvailable = UserPermissions?.includes("lubricant-assign-permission");
+    const isAssignPermissionAvailable = UserPermissions?.includes("lubricant-assign");
 
 
     const anyPermissionAvailable = isEditPermissionAvailable || isDeletePermissionAvailable;
@@ -172,7 +179,7 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             cell: (row: RowData) => (
 
                 <>
-                    {isEditPermissionAvailable && <>
+                    {isEditPermissionAvailable && row?.update_status && <>
                         <Tippy content={<div>Status</div>} placement="top">
                             {row.status === 1 || row.status === 0 ? (
                                 <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} />
@@ -197,14 +204,14 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                     <span className="text-center">
                         <div className="flex items-center justify-center">
                             <div className="inline-flex">
-                                {isEditPermissionAvailable && <>
+                                {isEditPermissionAvailable && row.is_editable && <>
                                     <Tippy content="Edit">
                                         <button type="button" onClick={() => openModal(row?.id)}>
                                             <i className="pencil-icon fi fi-rr-file-edit"></i>
                                         </button>
                                     </Tippy>
                                 </>}
-                                {isDeletePermissionAvailable && <>
+                                {isDeletePermissionAvailable && row.is_deleteable && <>
                                     <Tippy content="Delete">
                                         <button onClick={() => handleDelete(row.id)} type="button">
                                             <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
@@ -228,13 +235,20 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             setIsEditMode(true);
             setUserId(id);
         } catch (error) {
-          
+
         }
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEditMode(false);
+        setEditUserData(null);
+    };
+
+
+    const closeAssignModal = () => {
+        setIsAssignModalOpen(false);
+
         setEditUserData(null);
     };
 
@@ -245,17 +259,43 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
             formData.append('name', values.name);
             formData.append('size', values.size);
 
-
             if (userId) {
                 formData.append('id', userId);
             }
-
             const url = isEditMode && userId ? `/lubricant/update` : `/lubricant/create`;
 
             const isSuccess = await postData(url, formData);
             if (isSuccess) {
                 handleSuccess();
                 closeModal();
+            }
+
+        } catch (error) {
+            handleApiError(error);
+        }
+    };
+
+    const AssignLubricantSubmit = async (values: any) => {
+        try {
+            const formData = new FormData();
+
+            formData.append('station_id', values?.station_id);
+
+            const selectedLubricants = values?.lubricants
+                .filter((lubricant: Lubricant) => lubricant?.checked)  // Filter only those with checked = true
+                .map((lubricant: Lubricant, index: number) => {
+                    formData.append(`lubricants[${index}]`, lubricant.id);  // Append lubricant id to formData with the correct index
+                });
+
+
+
+
+            const url = isEditMode && userId ? `/lubricant/assign` : `/lubricant/assign`;
+
+            const isSuccess = await postData(url, formData);
+            if (isSuccess) {
+                handleSuccess();
+                closeAssignModal();
             }
 
         } catch (error) {
@@ -278,13 +318,22 @@ const ManageCharges: React.FC<ManageUserProps> = ({ postData, getData, isLoading
                     </li>
                 </ul>
 
-                {isAddPermissionAvailable && <>
-                    <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
-                        Add lubricant
-                    </button>
-                </>}
+                <div className='flex'>
+                    {isAddPermissionAvailable && <>
+                        <button type="button" className="btn btn-dark " onClick={() => setIsModalOpen(true)}>
+                            Add lubricant
+                        </button>
+                    </>}
+
+                    {isAssignPermissionAvailable && <>
+                        <button type="button" className="btn btn-dark ms-2 " onClick={() => setIsAssignModalOpen(true)}>
+                            Assign lubricants
+                        </button>
+                    </>}
+                </div>
 
             </div>
+            <AssignLubricants getData={getData} isOpen={isAssignModalOpen} onClose={closeAssignModal} onSubmit={AssignLubricantSubmit} isEditMode={isEditMode} userId={userId} />
             <AddEditManageCharges getData={getData} isOpen={isModalOpen} onClose={closeModal} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
 
             <div className="panel mt-6">

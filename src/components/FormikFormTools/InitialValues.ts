@@ -18,10 +18,10 @@ interface Station {
 
 }
 
-interface SelectedStation {
-  label: string;
-  value: string;
-
+interface Lubricant {
+  id: string;
+  lubricant_name: string;
+  checked: boolean;
 }
 
 
@@ -82,6 +82,17 @@ export const BankInitialValues = {
 export const lubricantInitialValues = {
   name: '',
   size: '',
+
+
+
+};
+export const AssignlubricantInitialValues = {
+
+  clients: [] as Client[],
+  entities: [] as Entity[],
+  sites: [] as Station[],
+  reports: [] as Station[],
+  lubricants: [] as Lubricant[],
 
 
 };
