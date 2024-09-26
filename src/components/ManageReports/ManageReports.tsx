@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import { ReportsTankInitialValues } from '../FormikFormTools/InitialValues';
 import { Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+import showMessage from '../../hooks/showMessage';
 interface Client {
     id: string;
     client_name: string;
@@ -65,17 +66,17 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     }, [dispatch, currentPage]);
 
 
- 
+
 
 
 
     const handleFormSubmit = async (values: any) => {
         setpdfisLoading(true)
-        const selectedReport:any = formik.values.reports.find((report: any) => report.report_code == values?.report_code);
+        const selectedReport: any = formik.values.reports.find((report: any) => report.report_code == values?.report_code);
 
-   
-        
-        
+
+
+
         try {
             // Construct common parameters
             const commonParams = toggle
@@ -92,13 +93,18 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 },
             });
 
+
+            // Check if the response is OK
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                const errorData = await response.json(); // Extract error message from response
+                handleApiError(errorData)
+                showMessage(errorData?.message, 'error');
+                throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
             }
 
             const contentType = response.headers.get('Content-Type');
             let fileExtension = 'xlsx'; // Default to xlsx
-    
+
             if (contentType) {
                 if (contentType.includes('application/pdf')) {
                     fileExtension = 'pdf';
@@ -116,10 +122,10 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
             // Create a link and trigger a download
             const link = document.createElement('a');
             link.href = url;
-      
 
-        
-            
+
+
+
             link.setAttribute('download', `${selectedReport?.report_name}.${fileExtension}`);
             document.body.appendChild(link);
             link.click();
@@ -138,7 +144,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
 
 
-    
+
     const ReportsValidationSchema = (toggle: boolean) => {
         return Yup.object().shape({
             client_id: Yup.string()
@@ -296,7 +302,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
 
 
-  
+
 
     return (
         <>
@@ -396,15 +402,15 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 onChange={handleSiteChange}
                             />
 
-                      
+
                             <FormikSelect
                                 formik={formik}
                                 name="report_code"
                                 label="Report"
                                 options={formik.values?.reports?.map((item: any) => ({ id: item.report_code, name: item.report_name }))}
                                 className="form-select text-white-dark"
-                            
-                         
+
+
                             />
 
 
