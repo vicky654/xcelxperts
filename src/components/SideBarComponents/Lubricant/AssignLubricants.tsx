@@ -44,7 +44,6 @@ const AssignLubricants: React.FC<AddUserModalProps> = ({ isOpen, onClose, getDat
 
     useEffect(() => {
         formik.resetForm()
-
         if (
             isOpen
         ) {
@@ -269,7 +268,7 @@ const AssignLubricants: React.FC<AddUserModalProps> = ({ isOpen, onClose, getDat
                                                 {/* Submit Button */}
                                                 <div className='col-span-full'>
                                                     <div className="text-end col-span-2">
-                                                        <button type="submit" className="btn btn-primary w-full">
+                                                        <button type="submit" className="btn  btn-primary ">
                                                             Assign
                                                         </button>
                                                     </div></div>

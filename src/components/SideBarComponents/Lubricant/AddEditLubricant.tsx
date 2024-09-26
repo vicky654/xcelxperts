@@ -38,7 +38,7 @@ const AddEditManageCharges: React.FC<AddUserModalProps> = ({ isOpen, onClose, ge
 
     const fetchUserDetails = async (id: string) => {
         try {
-            const response = await getData(`/lubricant/${id}`);
+            const response = await getData(`/lubricant/detail/${id}`);
             if (response && response.data) {
                 const userData: UserData = response.data?.data;
 
