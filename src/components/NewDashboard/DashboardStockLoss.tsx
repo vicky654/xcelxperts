@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AddModalHeader from '../SideBarComponents/CrudModal/AddModalHeader';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { IRootState } from '../../store';
 import useErrorHandler from '../../hooks/useHandleError';
 import { useFormik } from 'formik';
@@ -17,7 +17,6 @@ interface Client {
 }
 
 interface Company {
-    // entity_name: string;
     id: string;
     entity_name: string;
 }
@@ -32,10 +31,6 @@ interface Site {
 
 
 
-interface RoleItem {
-    id: number;
-    role_name: string;
-}
 interface FuelStocks {
     labels: string[];
     opening: string[];
@@ -171,11 +166,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
     }, [isOpen]);
     
     const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
-
     const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
-
-
-
 
     const DownloadExcelFile = async () => {
         setpdfisLoading(true)
@@ -246,12 +237,6 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
             setpdfisLoading(false)
         }
     };
-
-
-
-
-
-
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>

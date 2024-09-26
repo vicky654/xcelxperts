@@ -40,23 +40,23 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
 
     const dispatch = useDispatch();
     const handleApiError = ErrorHandler();
-    const [userId, setUserId] = useState<string | null>(null); // Assuming userId is a string
 
     const [currentPage, setCurrentPage] = useState(1);
-    const navigate = useNavigate();
+
     const [toggle, setToggle] = useState(false);
     const [pdfisLoading, setpdfisLoading] = useState(false);
+    let storedKeyName = "stationTank";
 
+
+    
     useEffect(() => {
 
 
         if (localStorage.getItem("superiorRole") === "Client") {
             const clientId = localStorage.getItem("superiorId");
             if (clientId) {
-                // formik.setFieldValue("client_id", clientId)
-                // Simulate the change event to call handleClientChange
                 handleClientChange({ target: { value: clientId } } as React.ChangeEvent<HTMLSelectElement>);
-                // fetchUserDetails(userId, clientId);
+              
             }
         } else {
             FetchClientList();
@@ -73,10 +73,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const handleFormSubmit = async (values: any) => {
         setpdfisLoading(true)
         const selectedReport: any = formik.values.reports.find((report: any) => report.report_code == values?.report_code);
-
-
-
-
         try {
             // Construct common parameters
             const commonParams = toggle
@@ -201,12 +197,7 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     };
 
     const FetchReportList = async (id: string) => {
-        try {
-
-            // http://192.168.1.112:4013/pro/v1/station/reportlist?station_id=OUNrS016Ym93czZsVzlMOHNkSE9hZz09
-
-
-            const response = await getData(`station/reportlist?station_id=${id}`);
+        try {const response = await getData(`station/reportlist?station_id=${id}`);
 
             const { data } = response;
             if (data) {
@@ -418,7 +409,6 @@ const ManageReports: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                 <>
 
                                     <FormikInput formik={formik} type="date" name="from_date" label="From Date" />
-
                                     <FormikInput formik={formik} type="date" name="to_date" label="To Date" />
                                 </>
                                 : <>
