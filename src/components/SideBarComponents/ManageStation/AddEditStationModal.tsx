@@ -208,22 +208,12 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
         { value: '0', label: 'Disable' },
         { value: '1', label: 'Enable' },
     ];
-
-    const considerfuelsaleoptionstions = [
-        {
-            "id": "0",
-
-            "name": "Nozzle"
-        },
-        {
-            "id": "1",
-
-            "name": "Tank"
-        },
-
-
-
+    const ConsiderFuleSale = [
+        { value: '0', label: 'Nozzle' },
+        { value: '1', label: 'Tank' },
     ];
+
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.currentTarget.files?.[0];
         formik.setFieldValue('file', file);
@@ -317,7 +307,7 @@ const AddEditStationModal: React.FC<AddEditStationModalProps> = ({ isOpen, onClo
                                                     formik={formik}
                                                     name="consider_fuel_sale"
                                                     label="Consider Fuel Sale"
-                                                    options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.value, name: item?.label })) || []}
+                                                    options={ConsiderFuleSale?.map((item: any) => ({ id: item?.value, name: item?.label })) || []}
                                                     // options={considerfuelsaleoptionstions?.map((item: any) => ({ id: item?.id, name: item?.name }))}
                                                     className="form-select text-white-dark"
                                                 />

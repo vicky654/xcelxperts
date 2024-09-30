@@ -148,25 +148,25 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
         const numericValue: number = parseFloat(value);
         setFieldValue(`data[${index}].${field}`, numericValue);
 
-        // Update fields based on changes
-        if (field === 'vat_percentage_rate' || field === 'ex_vat_price' || field === 'platts_price') {
+        // // Update fields based on changes
+        // if (field === 'vat_percentage_rate' || field === 'ex_vat_price' || field === 'platts_price') {
 
-            const vatPercentageRate = field === 'vat_percentage_rate' ? numericValue : values.data[index].vat_percentage_rate;
-            const exVatPrice = field === 'ex_vat_price' ? numericValue : values.data[index].ex_vat_price;
-            const plattsPrice = field === 'platts_price' ? numericValue : values.data[index].platts_price;
+        //     const vatPercentageRate = field === 'vat_percentage_rate' ? numericValue : values.data[index].vat_percentage_rate;
+        //     const exVatPrice = field === 'ex_vat_price' ? numericValue : values.data[index].ex_vat_price;
+        //     const plattsPrice = field === 'platts_price' ? numericValue : values.data[index].platts_price;
 
-            // Update ex_vat_price to platts_price if platts_price is changed
-            if (field === 'platts_price') {
-                setFieldValue(`data[${index}].ex_vat_price`, plattsPrice.toFixed(2));
-            }
+        //     // Update ex_vat_price to platts_price if platts_price is changed
+        //     if (field === 'platts_price') {
+        //         setFieldValue(`data[${index}].ex_vat_price`, plattsPrice.toFixed(2));
+        //     }
 
-            // Calculate total based on ex_vat_price and vat_percentage_rate
-            const calculatedExVatPrice = field === 'platts_price' ? plattsPrice : exVatPrice;
-            const calculatedTotal = calculatedExVatPrice * (1 + vatPercentageRate / 100);
-            setFieldValue(`data[${index}].total`, calculatedTotal.toFixed(2));
+        //     // Calculate total based on ex_vat_price and vat_percentage_rate
+        //     const calculatedExVatPrice = field === 'platts_price' ? plattsPrice : exVatPrice;
+        //     const calculatedTotal = calculatedExVatPrice * (1 + vatPercentageRate / 100);
+        //     setFieldValue(`data[${index}].total`, calculatedTotal.toFixed(2));
 
 
-        }
+        // }
     };
 
     const columns = [
@@ -191,9 +191,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             name: (
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Fuel Price</Tooltip>}
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Fuel Price (excl. VAT)  per liter</Tooltip>}
                 >
-                    <span >Price</span>
+                    <span >Price (excl. VAT)   </span>
                 </OverlayTrigger>
             ),
             cell: (row: FuelDeliveryData, index: number) => (
@@ -217,70 +217,83 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                 </Field>
             ),
         },
-        {
+        // {
 
-            name: (
-                <OverlayTrigger
-                    placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Ex Vat</Tooltip>}
-                >
-                    <span >Ex Vat</span>
-                </OverlayTrigger>
-            ),
-            cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].ex_vat_price`}>
-                    {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
-                        <div className="relative">
-                            <input
-                                type="number"
-                                placeholder='value'
-                                {...field}
-                                className={`form-input readonly  ${touched && error ? ' errorborder border-red-500' : ''}`}
-                                readOnly
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'ex_vat_price', e.target.value)}
-                            />
-                        </div>
-                    )}
-                </Field>
-            ),
-        },
+        //     name: (
+        //         <OverlayTrigger
+        //             placement="bottom"
+        //             overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Ex Vat</Tooltip>}
+        //         >
+        //             <span >Ex Vat</span>
+        //         </OverlayTrigger>
+        //     ),
+        //     cell: (row: FuelDeliveryData, index: number) => (
+        //         <Field name={`data[${index}].ex_vat_price`}>
+        //             {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
+        //                 <div className="relative">
+        //                     <input
+        //                         type="number"
+        //                         placeholder='value'
+        //                         {...field}
+        //                         className={`form-input readonly  ${touched && error ? ' errorborder border-red-500' : ''}`}
+        //                         readOnly
+        //                         onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'ex_vat_price', e.target.value)}
+        //                     />
+        //                 </div>
+        //             )}
+        //         </Field>
+        //     ),
+        // },
 
-        {
-            // name: 'Vat Percentage Rate',
-            name: (
-                <OverlayTrigger
-                    placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Vat Percentage (%)</Tooltip>}
-                >
-                    <span >Vat Percentage (%)</span>
-                </OverlayTrigger>
-            ),
-            cell: (row: FuelDeliveryData, index: number) => (
-                <Field name={`data[${index}].vat_percentage_rate`}>
-                    {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
-                        <div className="relative">
-                            <input
-                                type="number"
-                                placeholder='value'
-                                {...field}
-                                className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
-                                // readOnly={!row.update_vat_percentage_rate}
-                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'vat_percentage_rate', e.target.value)}
-                            />
-                        </div>
-                    )}
-                </Field>
-            ),
-        },
+        // {
+        //     // name: 'Vat Percentage Rate',
+        //     name: (
+        //         <OverlayTrigger
+        //             placement="bottom"
+        //             overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Vat Percentage (%)</Tooltip>}
+        //         >
+        //             <span >Vat Percentage (%)</span>
+        //         </OverlayTrigger>
+        //     ),
+        //     cell: (row: FuelDeliveryData, index: number) => (
+        //         <Field name={`data[${index}].vat_percentage_rate`}>
+        //             {({ field, form: { setFieldValue, values }, meta: { touched, error } }: FieldProps<any>) => (
+        //                 <div className="relative">
+        //                     <input
+        //                         type="number"
+        //                         placeholder='value'
+        //                         {...field}
+        //                         className={`form-input  ${touched && error ? ' errorborder border-red-500' : ''}`}
+        //                         // readOnly={!row.update_vat_percentage_rate}
+        //                         onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, index, 'vat_percentage_rate', e.target.value)}
+        //                     />
+        //                 </div>
+        //             )}
+        //         </Field>
+        //     ),
+        // },
         {
             // name: 'Total',
             name: (
+                <div className='flexcenter'>
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock">Total</Tooltip>}
+                    overlay={<Tooltip className='custom-tooltip' id="tooltip-opening-stock"> Fuel Purchase Price</Tooltip>}
                 >
-                    <span >Total</span>
+                    <span >Purchase Price </span>
                 </OverlayTrigger>
+                <OverlayTrigger
+                    placement="top"
+                    overlay={
+                        <Tooltip className='custom-tooltip' id="tooltip-variance">
+                            Duty Paid + IN A/R VAT + SSLF Recovery
+                        </Tooltip>
+                    }
+                >
+                    <span> <i className="fi fi-sr-comment-info  pointer"></i></span>
+                </OverlayTrigger>
+            </div>
+
             ),
             cell: (row: FuelDeliveryData, index: number) => (
                 <Field name={`data[${index}].total`}>
@@ -316,11 +329,9 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             const formData = new FormData();
 
             formData.append("platts_price", values.platts);
-            // formData.append("premium_price", values.premium);
-            // formData.append("development_fuels_price", values.development_fuels_price);
-            // formData.append("duty_price", values.duty_price);
-            formData.append("vat_percentage_rate", values.vat_percentage_rate);
-            formData.append("ex_vat_price", values.ex_vat_price);
+
+            // formData.append("vat_percentage_rate", values.vat_percentage_rate);
+            // formData.append("ex_vat_price", values.ex_vat_price);
             formData.append("total", values.total);
             formData.append("date", values.date);
             formData.append("fuel_id", values.fuel_id);
@@ -348,10 +359,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
             Yup.object().shape({
                 total: Yup.number().required('Required'),
                 platts_price: Yup.number().required('Required'),
-                vat_percentage_rate: Yup.number()
-                    .required('Required')
-                    .max(100, 'VAT percentage rate cannot be more than 100'),
-                // ex_vat_price: Yup.number().required('Required'),
+
 
             })
         ),
@@ -385,7 +393,8 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
     });
 
     const handleSubmit = async (values: FormValues) => {
-        // event.preventDefault();
+
+
         if (
             selected === undefined ||
             selected === null ||
@@ -404,14 +413,12 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
         try {
             const formData = new FormData();
-            values.data.forEach((obj: any) => {
-                if (obj.id) {
+            values?.data?.forEach((obj: any) => {
+                if (obj?.id) {
 
 
                     formData.append(`platts_price[${obj.id}]`, obj.platts_price.toString());
-                    formData.append(`ex_vat_price[${obj.id}]`, obj.ex_vat_price.toString());
                     formData.append(`total[${obj.id}]`, obj.total.toString());
-                    formData.append(`vat_percentage_rate[${obj.id}]`, obj.vat_percentage_rate.toString());
 
                 }
             });
@@ -444,7 +451,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Fuel Purchase Price</span>
+                        <span>Stations Fuel Purchase Price Per Liter </span>
                     </li>
                 </ul>
 
@@ -527,7 +534,7 @@ const ManageStationFuelPurchase: React.FC<ManageStationFuelPurchaseProps> = ({ p
 
                     <div className='panel h-full col-span-3'>
                         <div className="flex md:items-center md:flex-row w-100 mb-5 justify-between">
-                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase Price ( {currency} )</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Purchase Price Per Liter ( {currency} )</h5>
                             <div className="md:hidden flex">
                                 <button type="button" className="btn btn-primary" onClick={() => setIsFilterModalOpen(true)}>
                                     Filter
@@ -640,7 +647,7 @@ export default withApiHandler(ManageStationFuelPurchase);
 //                         </Link>
 //                     </li>
 //                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-//                         <span>Stations Fuel Purchase Price</span>
+//                         <span>Stations Fuel Purchase Price Per Liter</span>
 //                     </li>
 //                 </ul>
 //                 <button type="button" className="btn btn-dark" onClick={() => setIsModalOpen(true)}>

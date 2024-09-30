@@ -181,7 +181,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Stations Fuel Sale Price</span>
+                        <span>Stations Fuel Sale Price Per Liter </span>
                     </li>
                 </ul>
             </div>
@@ -238,7 +238,7 @@ const ManageStationFuelSelling: React.FC<ManageStationFuelSellingProps> = ({ pos
                     </div>
                     <div className="panel h-full col-span-3">
                         <div className="flex md:items-center w-100 mb-5 justify-between">
-                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Sale Price ( {currency} )</h5>
+                            <h5 className="font-bold text-lg dark:text-white-light"> Stations Fuel Sale Price Per Liter  ( {currency} )</h5>
                             {/* <div className="ltr:ml-auto rtl:mr-auto">
                                 <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
                             </div> */}

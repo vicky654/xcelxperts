@@ -161,7 +161,7 @@ const menuItems: MenuItem[] = [
             // { title: 'Fuel Sale', link: '/manage-fuel-sale-price', permission: 'dashboard-view', visibility: false },
             { title: 'Fuel Sale Price', link: '/manage-fuel-sale-price', permission: 'fuel-price-update', visibility: false },
             // { title: 'Fuel Purchase', link: '/manage-fuel-purchase-price', permission: 'fuel-purchase-list', visibility: false },
-            { title: 'Fuel Purchase Price', link: '/manage-fuel-purchase-price', permission: 'fuel-purchase-price', visibility: false },
+            { title: 'Fuel Purchase Price ', link: '/manage-fuel-purchase-price', permission: 'fuel-purchase-price', visibility: false },
             // { title: 'Fuel Competitors', link: '/manage-stations/fuel-competitors', permission: 'user-list', visibility: false },
         ],
     },
