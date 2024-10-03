@@ -160,6 +160,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Credit Sales',
     'Incomes',
     'Expenses',
+    'Employee Payments',
     'Digital Receipt',
     'Cash Flow',
     'Variance Accumulation',
@@ -177,6 +178,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
     'Credit Sales': 'credit-sales',
     'Incomes': 'charges',
     'Expenses': 'deductions',
+    'Employee Payments': 'employee-payments',
     'Digital Receipt': 'payments',
     'Cash Flow': 'cash-flow',
     'Variance Accumulation': 'variance-accumulation',
@@ -390,7 +392,7 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
   const handleTabClickk = (tab: any) => {
     setActiveTab(tab);
   };
-  const getFuelDetailsById = (id:any) => {
+  const getFuelDetailsById = (id: any) => {
     const fuelDetails = NozzlesalesBtn?.find(fuel => fuel?.id === id);
     return fuelDetails ? { fuel_name: fuelDetails?.fuel_name, tanks: fuelDetails?.tanks } : null;
   };
@@ -990,6 +992,12 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                           {selectedTab === 'Fuel Delivery' ? 'Delivery'
                                             : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
                                         </p>
+                                        {selectedTab === 'Employee Payments' &&
+                                          <p className="font-semibold w-1/2">
+                                            Transaction Type
+
+                                          </p>
+                                        }
                                       </li>
 
                                       {subPreviousData?.length > 0 ? (
@@ -1017,12 +1025,23 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                                   ? capacity + FormatNumberCommon(subItem?.variance)
                                                   : currency + FormatNumberCommon(subItem?.amount)}
                                             </p>
+                                            {selectedTab === 'Employee Payments' &&
+                                              <p style={{ color: subItem?.color  }}className="font-semibold w-1/2">
+                                         
+                                                {subItem?.trans_type}
+                                              </p>
+                                            }
                                           </li>
                                         ))
                                       ) : (
                                         <li className="flex justify-between p-2 hover:bg-gray-100">
                                           <p className="w-1/2">--</p>
                                           <p className="w-1/2">---</p>
+                                          {selectedTab === 'Employee Payments' &&
+                                            <p className="font-semibold w-1/2">
+                                              ---
+                                            </p>
+                                          }
                                         </li>
                                       )}
                                     </ul>
@@ -1236,6 +1255,13 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                           {selectedTab === 'Fuel Delivery' ? 'Delivery'
                                             : (selectedTab === 'Fuel Variance' ? 'Variance' : 'Amount')}
                                         </p>
+                                        {selectedTab === 'Employee Payments' &&
+                                          <p className="font-semibold w-1/2">
+                                            Transaction Type
+
+                                          </p>
+                                        }
+
                                       </li>
 
                                       {subData?.length > 0 ? (
@@ -1263,12 +1289,23 @@ const DataEntryStatsComponent: React.FC<ManageSiteProps> = ({ postData, getData,
                                                   ? capacity + FormatNumberCommon(subItem?.variance)
                                                   : currency + FormatNumberCommon(subItem?.amount)}
                                             </p>
+                                            {selectedTab === 'Employee Payments' &&
+                                              <p style={{ color: subItem?.color  }}className="font-semibold w-1/2">
+                                         
+                                                {subItem?.trans_type}
+                                              </p>
+                                            }
                                           </li>
                                         ))
                                       ) : (
                                         <li className="flex justify-between p-2 hover:bg-gray-100">
-                                          <p className="w-1/2">--</p>
                                           <p className="w-1/2">---</p>
+                                          <p className="w-1/2">---</p>
+                                          {selectedTab === 'Employee Payments' &&
+                                            <p className="font-semibold w-1/2">
+                                              ---
+                                            </p>
+                                          }
                                         </li>
                                       )}
 
