@@ -58,17 +58,6 @@ export const StringFormatNumberCommon = (number: any) => {
 
   return output.trim(); // Trim any excess whitespace
 };
-
-
-
-
-
-
-
-
-
-
-
 export const FormatNumberCommon = (number: any) => {
   if (number == null || number === '') {
     return '0';

@@ -195,6 +195,13 @@ export const stationTankInitialValues = {
   tankList: {} as any,
   pumps: {} as any,
 };
+export const stationEmployeeInitialValues = {
+  name: '',
+  phone: '',
+  prev_balance: '',
+  shift: '',
+
+};
 export const stationBankInitialValues = {
   client_id: '',
   entity_id: '',

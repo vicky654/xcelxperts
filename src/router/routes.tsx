@@ -99,6 +99,8 @@ import NewDashboard from '../components/NewDashboard/NewDashboard';
 import NewDashboardChild from '../components/NewDashboard/NewDashboardChild';
 import NewDashboardSubChild from '../components/NewDashboard/NewDashboardSubChild';
 import CalculateProfit from '../components/CalculateProfit/CalculateProfit';
+import Stationemployees from '../components/SideBarComponents/ManageStation/ManageStationEmployee/ManageStationEmployee';
+import StationemployeesHistory from '../components/SideBarComponents/ManageStation/ManageStationEmployee/EmployeeHistory';
 
 const routes = [
   {
@@ -283,6 +285,14 @@ const routes = [
   {
     path: 'manage-stock-loss/:id',
     element: <StockLoss />,
+  },
+  {
+    path: 'manage-employees/:id',
+    element: <Stationemployees />,
+  },
+  {
+    path: 'manage-employees-history/:id',
+    element: <StationemployeesHistory />,
   },
 
   // {

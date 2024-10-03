@@ -354,6 +354,32 @@ export const StationTankValidationSchema = (isEditMode: boolean) => {
             .matches(/^[^\s]/, 'cannot start with a space'),
     });
 };
+export const StationEmployeeValidationSchema = (isEditMode: boolean) => {
+    return Yup.object().shape({
+        name: Yup.string()
+            .required('Name is required')
+            .matches(/^[^\s]/, 'cannot start with a space'),
+            shift: Yup.string()
+            .required('Shift is required'),
+            prev_balance: Yup.string()
+            .required('Previous Balance is required'),
+         
+            phone: Yup.string()
+            .matches(phoneNumberRegex, 'Phone number must only contain digits')
+            .min(10, 'Phone number must be exactly 10 characters')
+            .matches(/^[^\s]/, 'cannot start with a space')
+            .max(10, 'Phone number must be exactly 10 characters')
+            .test('is-positive', 'Phone number cannot be negative', (value) => {
+                if (value) {
+                    return !/^-[0-9]+$/.test(value); // Ensure no negative sign
+                }
+                return true; // If no value is provided, it passes the test (handled by required check)
+            })
+            .required('Phone number is required'),
+      
+
+    });
+};
 export const CardValidationSchema = (isEditMode: boolean) => {
     return Yup.object().shape({
         card_name: Yup.string().required('Card Name is required'),

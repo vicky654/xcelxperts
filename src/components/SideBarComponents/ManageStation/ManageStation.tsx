@@ -157,13 +157,18 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
     const IsBankPermissionAvailable = UserPermissions?.includes("station-bank-list");
     const IsTankPermissionAvailable = UserPermissions?.includes("tank-list");
     const IsNozzlePermissionAvailable = UserPermissions?.includes("nozzle-list");
+    const IsEmployeePermissionAvailable = UserPermissions?.includes("employee-list");
 
     const anyPermissionAvailable = isEditPermissionAvailable
         || isDeletePermissionAvailable ||
         isAssignAddPermissionAvailable ||
+        isEditSettingPermissionAvailable ||
+        isSkipPermissionAvailable ||
+        IsstocklossPermissionAvailable ||
         IsBankPermissionAvailable ||
         IsTankPermissionAvailable ||
         IsNozzlePermissionAvailable ||
+        IsEmployeePermissionAvailable ||
         AssignMannagerPermissionAvailable;
 
     const columns: any = [
@@ -311,6 +316,14 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                                                 )}
                                             </li>
                                             {/* //Station Settings */}
+                                            <li>
+                                                {IsEmployeePermissionAvailable && (
+                                                    <button onClick={() => navigate(`/manage-employees/${row.id}`)} type="button">
+                                                        <i className="fi fi-rr-users"></i> Employee
+                                                    </button>
+                                                )}
+
+                                            </li>
                                             <li>
                                                 {isEditSettingPermissionAvailable && (
                                                     <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
