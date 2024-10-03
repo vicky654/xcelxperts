@@ -23,6 +23,7 @@ import IconX from '../Icon/IconX';
 import Tippy from '@tippyjs/react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import moment from 'moment';
+import EmployeePayments from './DrsComponents/EmployeePayments';
 
 
 interface ManageSiteProps {
@@ -120,6 +121,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     'Lubes Sales': ShopSales,
     'Credit Sales': CreditSales,
     'Extra Income & Expenses': ChargesDeductions,
+    'Employee Payments': EmployeePayments,
     'Digital Receipt': Payment,
     'Bank Deposited': CashBanking,
     'Summary': Summary,
@@ -524,7 +526,7 @@ const DataEntrymodule: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             />
 
 
-     
+
           </div>
         </div>
       </div>
