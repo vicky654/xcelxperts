@@ -29,22 +29,38 @@ const Header: React.FC<HeaderProps> = ({ getData }) => {
     const isCalculateProfitPermissionAvailable = reduxData?.includes('calculate-profit');
 
 
+
     useEffect(() => {
-        const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
+        // The active class will be managed by NavLink, so we won't need to manually add it.
+        const currentPath = window.location.pathname;
+
+        // Check if any link matches the current pathname
+        const selector = document.querySelector(`ul.horizontal-menu a[href="${currentPath}"]`);
+
+    
+
+        // If the selector exists, we manage active class addition here
         if (selector) {
+            // Remove the active class from all nav-links
+            const allNavLinks: NodeListOf<Element> = document.querySelectorAll('ul.horizontal-menu .nav-link');
+            allNavLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Add active class to the current link
             selector.classList.add('active');
-            const all: any = document.querySelectorAll('ul.horizontal-menu .nav-link.active');
-            for (let i = 0; i < all.length; i++) {
-                all[0]?.classList.remove('active');
-            }
-            const ul: any = selector.closest('ul.sub-menu');
+
+            // Find the closest submenu and activate the parent menu item if applicable
+            const ul: HTMLElement | null = selector.closest('ul.sub-menu');
             if (ul) {
-                let ele: any = ul.closest('li.menu').querySelectorAll('.nav-link');
-                if (ele) {
-                    ele = ele[0];
-                    setTimeout(() => {
-                        ele?.classList.add('active');
-                    });
+                const parentLi: HTMLElement | null = ul.closest('li.menu');
+                if (parentLi) {
+                    const parentNavLink: HTMLElement | null = parentLi.querySelector('.nav-link');
+                    if (parentNavLink) {
+                        setTimeout(() => {
+                            parentNavLink.classList.add('active');
+                        }, 0);
+                    }
                 }
             }
         }

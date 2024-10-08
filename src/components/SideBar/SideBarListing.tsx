@@ -40,7 +40,7 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                 link.startsWith('http') ? (
                     <a
                         href={link}
-                        className={`nav-link ${!hasSubMenu ? 'ActionTab' : ''}`}
+                        className={`nav-link `}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -53,20 +53,19 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                     <NavLink
                         to={link}
                         className={({ isActive }) =>
-                            `${isActive ? 'nav-link active' : 'nav-link'} ${
-                                isActive ? 'ActionTab' : ''
+                            `${isActive ? 'nav-link active' : 'nav-link'} ${isActive ? 'active' : ''
                             }`
                         }
                     >
                         <div className="flex items-center">
                             <i className={`fi fi-rr-${Icon}`}></i>
-                            <span className="px-1">{title}</span>
+                            <span className="px-1">{title} </span>
                         </div>
                     </NavLink>
                 )
             ) : (
-                <div className={`nav-link ${!hasSubMenu ? 'ActionTab' : ''}`}
-                
+                <div className={`nav-link ${!hasSubMenu ? 'active' : ''}`}
+
                 >
                     <div className="flex items-center">
                         <i className={`fi fi-rr-${Icon}`}></i>
@@ -100,10 +99,9 @@ const MenuItemComponent: React.FC<Props> = ({ itemKey, title, icon: Icon, link, 
                                     <NavLink
                                         to={item.link}
                                         className={({ isActive }) =>
-                                            `${isActive ? 'active' : ''} ${
-                                                isActive
-                                                    ? 'ActionTab'
-                                                    : ''
+                                            `${isActive ? 'active' : ''} ${isActive
+                                                ? 'active'
+                                                : ''
                                             }`
                                         }
                                     >
