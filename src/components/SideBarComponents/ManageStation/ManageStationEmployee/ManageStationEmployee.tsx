@@ -18,6 +18,7 @@ import withApiHandler from '../../../../utils/withApiHandler';
 import noDataImage from '../../../../assets/AuthImages/noDataFound.png'; // Import the image
 import Dropdown from '../../../Dropdown';
 import IconHorizontalDots from '../../../Icon/IconHorizontalDots';
+import AddUserSalary from '../../ManageUser/AddUserSalary';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -47,7 +48,7 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const [stationname, setstationname] = useState("");
-
+    const [isUserSalaryModalOpen, setIsSalaryModalOpen] = useState(false);
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
 
 
@@ -212,6 +213,13 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
                                                 </button>
                                             </li>
                                         )}
+                                              <li>
+                                            {isAddPermissionAvailable && (
+                                                <button onClick={() => openUserSalaryModal(row?.id)} type="button">
+                                                    <i className="fi fi-rr-money mt-2"></i>  Salary
+                                                </button>
+                                            )}
+                                        </li>
 
 
                                     </ul>
@@ -301,7 +309,14 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
 
         }
     };
+    const openUserSalaryModal = (id: string) => {
+        setIsSalaryModalOpen(true);
+        setUserId(id);
+    };
 
+    const closeUserSalaryModal = () => {
+        setIsSalaryModalOpen(false);
+    };
 
 
 
@@ -332,7 +347,8 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
 
             </div>
             <AddEditStationEmployeeModal getData={getData} isOpen={isModalOpen} onClose={closeModal} station_id={id} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
-
+            <AddUserSalary getData={getData} postData={postData}  isOpen={isUserSalaryModalOpen} onClose={closeUserSalaryModal}   userId={userId} />
+           
             <div className=" mt-6">
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6'>
 

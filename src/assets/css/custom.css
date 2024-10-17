@@ -96,7 +96,8 @@
     width: calc(100px - 14px);
     height: 50px;
     border-radius: 50px;
-    background: radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) left,
+    background:
+        radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) left,
         radial-gradient(farthest-side, #0000 calc(100% - 15px), #ccc calc(100% - 14px) 99%, #0000) right;
     background-size: calc(50% + 7px) 100%;
     background-repeat: no-repeat;
@@ -290,9 +291,9 @@ border-color: none;
 }
 
 .flexcenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 .iconcenter {
@@ -780,7 +781,10 @@ img.w-full.CoverImage {
     border: 1px solid #fff;
     border-radius: 50%;
     background: #fff;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    box-shadow:
+        rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .workflorform-input {
@@ -1072,7 +1076,7 @@ textarea:focus {
     --tw-bg-opacity: 1;
     background-color: rgb(229 231 235 / var(--tw-bg-opacity)) !important;
 }
-.ModalTooltip{
+.ModalTooltip {
     z-index: 1111;
     background-color: #000;
     padding: 6px;

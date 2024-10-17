@@ -567,8 +567,6 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
                             <hr className='mt-4 mb-4'></hr>
 
 
-                            {/* End Upload Bank Deposited */}
-                            {/* Start Edit Bank Deposited */}
                             {selectedCashBanking && isEditable && cashBankingData?.length !== 0 && (
                                 <div className="mb-6 mt-6 ">
                                     <form onSubmit={formik.handleSubmit} className="space-y-4">
