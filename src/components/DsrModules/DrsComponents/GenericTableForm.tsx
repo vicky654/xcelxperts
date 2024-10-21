@@ -289,21 +289,42 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             ),
             cell: (row: NozzleData, index: number) => (
                 <Field name={`data[${tankIndex}].nozzles[${index}].closing`}>
-                    {({ field, form: { setFieldValue, values } }: FieldProps) => (
-                        <input
-                            type="number"
-                            placeholder='value'
-                            {...field}
-                            className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
-                            readOnly={!row.update_closing}
-                            onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'closing', e.target.value)}
+                    {({ field, form: { setFieldValue, values } }: FieldProps) => {
+                        const openingValue = values?.data?.[tankIndex]?.nozzles?.[index]?.opening; // Get the opening value
 
-                            onKeyDown={(e) => handleNavigation(e, index)}
-                            tabIndex={!row.update_closing ? -1 : getTabIndex(tankIndex, index, 5)}
+                        const handleBlur = (
+                            setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+                            values: FormValues,
+                            tankIndex: number,
+                            nozzleIndex: number,
+                            field: string,
+                            value: any
+                        ) => {
+                            const closingValue = parseFloat(value);
 
-                        />
-                    )}
+                            // If closing value is less than opening, set it to 0
+                            if (closingValue < openingValue) {
+                                setFieldValue(`data[${tankIndex}].nozzles[${nozzleIndex}].closing`, "");
+                                handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'closing', "")
+                            }
+                        };
+
+                        return (
+                            <input
+                                type="number"
+                                placeholder="value"
+                                {...field}
+                                className={`form-input workflorform-input ${!row.update_closing ? 'readonly' : ''}`}
+                                readOnly={!row.update_closing}
+                                onBlur={(e) => handleBlur(setFieldValue, values as FormValues, tankIndex, index, 'closing', e.target.value)}
+                                onChange={(e) => handleFieldChange(setFieldValue, values as FormValues, tankIndex, index, 'closing', e.target.value)}
+                                onKeyDown={(e) => handleNavigation(e, index)}
+                                tabIndex={!row.update_closing ? -1 : getTabIndex(tankIndex, index, 5)}
+                            />
+                        );
+                    }}
                 </Field>
+
             ),
         },
         {
@@ -513,7 +534,7 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
             {({ values }) => (
                 <Form>
                     {values?.data.map((tank, tankIndex) => {
-                    
+
 
                         return (
                             <div key={tank.id} className='mt-4 panel' style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
@@ -524,9 +545,9 @@ const GenericTableForm: React.FC<GenericTableFormProps> = ({ data, applyFilters,
                                         <Tooltip className='custom-tooltip' id="tooltip-variance">
                                             Tank Name : {tank?.tank_name}<br />
                                             Capacity : {capacity}{tank?.capacity} <br />
-                                            Fuel Left : {capacity} {tank?.fuel_left } <br />
-                                  
-                                         
+                                            Fuel Left : {capacity} {tank?.fuel_left} <br />
+
+
                                         </Tooltip>
                                     }
                                 >
