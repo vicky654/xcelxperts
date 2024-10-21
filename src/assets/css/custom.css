@@ -1090,3 +1090,11 @@ textarea:focus {
     --tw-border-opacity: 1;
     border-color: rgb(239 68 68 / var(--tw-border-opacity)) !important;
 }
+
+.offcanvas-center {
+    width: 400px; /* Set your desired width */
+    margin: auto; /* Centers the Offcanvas */
+    top: 50%; /* Centers vertically */
+    transform: translateY(-50%); /* Adjusts position to truly center */
+  }
+  

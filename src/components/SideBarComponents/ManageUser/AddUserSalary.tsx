@@ -60,19 +60,18 @@ const AddUserSalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, p
 
     const formik = useFormik({
         initialValues: {
+            id: " ",
             monthYear: "",
             amount: "",
         },
         validationSchema: Yup.object({
             monthYear: Yup.string().required("Month and year are required"), // Validation for month and year
             amount: Yup.number().required("Salary is required")
-            .positive("Salary must be positive")
-            .max(500000, "Salary must not exceed 500,000"),
+                .positive("Salary must be positive")
+                .max(500000, "Salary must not exceed 500,000"),
         }),
         onSubmit: (values) => {
             SubmitAddon(values)
-            // Handle form submission
-            console.log("Form values:", values);
         },
     });
 
@@ -85,11 +84,20 @@ const AddUserSalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, p
             const formattedDate = month && year ? `${year}-${month}-01` : "";
             formData.append('month', formattedDate ?? '');
             formData.append('salary', values?.amount ?? '');
-            const postDataUrl = "/station/employee/salary/create";
-            const isSuccess = await postData(postDataUrl, formData);
+            if (isEditMode) {
+                formData.append('id', values?.id);
+            }
+
+            const url = isEditMode && userId ? `/station/employee/salary/update` : `station/employee/salary/create`;
+            const isSuccess = await postData(url, formData);
+
+            // const isSuccess = await postData(postDataUrl, formData);
             if (isSuccess) {
                 formik.resetForm()
                 fetchData()
+                if (isEditMode) {
+                    setIsEditMode(false)
+                }
 
             }
         } catch (error) {
@@ -108,7 +116,7 @@ const AddUserSalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, p
     };
     const handleEdit = (id: any) => {
         setIsEditMode(true);
-        console.log(id, "id");
+
         const monthYearString = id?.month;  // "April 2024"
         const [monthName, year] = monthYearString.split(" ");  // Split into ["April", "2024"]
 
@@ -130,18 +138,15 @@ const AddUserSalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, p
 
         const month = monthMap[monthName as keyof typeof monthMap];  // Convert month name to number
         const formattedMonthYear = `${year}-${month}`;  // "2024-04"
-
-
-        console.log(formattedMonthYear, "formattedMonthYear");
-
         formik.setFieldValue("monthYear", formattedMonthYear); // Set monthYear
         formik.setFieldValue("amount", id?.salary)
+        formik.setFieldValue("id", id?.id)
 
     };
 
 
     const columns: TableColumn<CashBankingItem>[] = [
-     
+
         {
             name: 'Month',
             sortable: false,
