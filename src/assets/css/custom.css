@@ -1098,3 +1098,13 @@ textarea:focus {
     transform: translateY(-50%); /* Adjusts position to truly center */
   }
   
+  .flexstart{
+    display: flex;
+    justify-content: start;
+  }
+
+  .Linktext{
+    cursor: pointer;
+    color: #4361ee !important;
+    font-weight: 500 !important;
+  }

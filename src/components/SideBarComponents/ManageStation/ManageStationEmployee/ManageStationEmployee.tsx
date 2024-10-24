@@ -19,6 +19,7 @@ import noDataImage from '../../../../assets/AuthImages/noDataFound.png'; // Impo
 import Dropdown from '../../../Dropdown';
 import IconHorizontalDots from '../../../Icon/IconHorizontalDots';
 import AddUserSalary from '../../ManageUser/AddUserSalary';
+import AddUserPaySalary from '../../ManageUser/AddUserPaySalary';
 
 interface ManageSiteProps {
     isLoading: boolean;
@@ -49,6 +50,8 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
     const [lastPage, setLastPage] = useState(1);
     const [stationname, setstationname] = useState("");
     const [isUserSalaryModalOpen, setIsSalaryModalOpen] = useState(false);
+    const [isUserPaySalaryModalOpen, setIsPaySalaryModalOpen] = useState(false);
+    
     let storedKeyItems = localStorage.getItem("stationTank") || '[]';
 
 
@@ -102,12 +105,12 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
     const columns: any = [
 
         {
-            name: 'Employee Name',
+            name: 'Employee Namesss',
             selector: (row: RowData) => row.name,
             sortable: false,
             width: '20%',
             cell: (row: RowData) => (
-                <div className="d-flex">
+                <div   onClick={() => navigate(`/manage-employees-history/${row.id}`)} className="d-flex Linktext">
                     <div className=" mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
                     </div>
@@ -208,15 +211,22 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
                                         )}
                                         {isListPermissionAvailable && (
                                             <li>
-                                                <button onClick={() => navigate(`/manage-employees-history/${row.id}`)}  type="button">
+                                                <button onClick={() => navigate(`/manage-employees-history/${row.id}`)} type="button">
                                                     <i className="fi fi fi-rr-circle-user"></i>Employee History
                                                 </button>
                                             </li>
                                         )}
-                                              <li>
+                                        <li>
                                             {isAddPermissionAvailable && (
                                                 <button onClick={() => openUserSalaryModal(row?.id)} type="button">
                                                     <i className="fi fi-rr-money mt-2"></i>  Salary
+                                                </button>
+                                            )}
+                                        </li>
+                                        <li>
+                                            {isAddPermissionAvailable && (
+                                                <button onClick={() => openUserPaySalaryModal(row?.id)} type="button">
+                                                    <i className="fi fi-rr-money mt-2"></i> Payable Salary
                                                 </button>
                                             )}
                                         </li>
@@ -317,6 +327,14 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
     const closeUserSalaryModal = () => {
         setIsSalaryModalOpen(false);
     };
+    const openUserPaySalaryModal = (id: string) => {
+        setIsPaySalaryModalOpen(true);
+        setUserId(id);
+    };
+
+    const closeUserPaySalaryModal = () => {
+        setIsPaySalaryModalOpen(false);
+    };
 
 
 
@@ -347,8 +365,9 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
 
             </div>
             <AddEditStationEmployeeModal getData={getData} isOpen={isModalOpen} onClose={closeModal} station_id={id} onSubmit={handleFormSubmit} isEditMode={isEditMode} userId={userId} />
-            <AddUserSalary getData={getData} postData={postData}  isOpen={isUserSalaryModalOpen} onClose={closeUserSalaryModal}   userId={userId} />
-           
+            <AddUserSalary getData={getData} postData={postData} isOpen={isUserSalaryModalOpen} onClose={closeUserSalaryModal} userId={userId} />
+            <AddUserPaySalary getData={getData} postData={postData} isOpen={isUserPaySalaryModalOpen} onClose={closeUserPaySalaryModal} userId={userId} />
+
             <div className=" mt-6">
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1 mb-6'>
 
@@ -382,11 +401,10 @@ const ManageStationEmployee: React.FC<ManageSiteProps> = ({ postData, getData, i
                                         className=" table-striped table-hover table-bordered table-compact"
                                         columns={columns}
                                         data={data}
-                                        noHeader
-                                        defaultSortAsc={false}
-                                        striped={true}
-                                        persistTableHead
-                                        highlightOnHover
+
+
+
+
                                         responsive={true}
                                     />
                                     {lastPage > 1 && <CustomPagination currentPage={currentPage} lastPage={lastPage} handlePageChange={handlePageChange} />}

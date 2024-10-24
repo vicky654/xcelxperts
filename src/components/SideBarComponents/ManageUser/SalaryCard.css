@@ -1,0 +1,47 @@
+.salary-card {
+  background-color: white;
+  border-radius: 10px;
+  /* box-shadow: 8px 8px 8px rgb(0 0 0); */
+  padding: 20px;
+  max-width: 100%;
+  /* font-family: 'Arial', sans-serif; */
+  border: 1px solid #ddd;
+}
+  
+  .card-header {
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 7px;
+  }
+  
+  .card-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .card-header p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .card-body {
+    padding-top: 15px;
+  }
+  
+  .salary-info p, .payable-info p {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #444;
+  }
+  
+  .salary-info strong, .payable-info strong {
+    color: #000;
+  }
+  
+  .payable-info {
+    margin-top: 7px;
+    font-size: 0.9em;
+    color: #777;
+  }
+  

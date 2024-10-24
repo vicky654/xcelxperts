@@ -16,16 +16,16 @@ interface AddonsModalProps {
     onClose: () => void;
     getData: (url: string) => Promise<any>;
     postData: (url: string, body: any) => Promise<any>;
-    userId: string | null;
+    userId:any;
 }
 
 interface AddonData {
-    id: string;
+    id: any;
     name: string;
     checked: boolean;
 }
 interface CashBankingItem {
-    id: string;
+    id: any;
     creator: string;
     month: string;
     prev_salary: any;
@@ -42,13 +42,14 @@ const AddUserSalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, p
         if (userId) {
             fetchData();
         }
-    }, [userId]);
+    }, [userId,isOpen]);
 
     const fetchData = async () => {
         try {
             const response = await getData(`/station/employee/salary/list?employee_id=${userId}`);
             if (response && response.data) {
                 setSalaryList(response?.data?.data?.salaries)
+                setname(response?.data?.data?.name)
                 console.log(response.data, "response.data");
             } else {
                 throw new Error('No data available in the response');

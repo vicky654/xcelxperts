@@ -13,6 +13,8 @@ import withApiHandler from '../../../../utils/withApiHandler';
 import CustomPagination from '../../../../utils/CustomPagination';
 import LoaderImg from '../../../../utils/Loader';
 import MonthYearInput from '../../../../utils/MonthFilter';
+import AddUserSalary from '../../ManageUser/AddUserSalary';
+import AddUserPaySalary from '../../ManageUser/AddUserPaySalary';
 interface ManageSiteProps {
     isLoading: boolean;
     getData: (url: string) => Promise<any>;
@@ -23,7 +25,6 @@ interface RowData {
     id: string; // Change type from number to string
     name: string;
     phone: string;
-
     balance: string;
     debit: string;
     creator: string;
@@ -47,6 +48,8 @@ const EmployeeHistory: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
     const Permissions = useSelector((state: IRootState) => state?.data?.data?.permissions || []);
     const isReportGeneratePermissionAvailable = Permissions?.includes('report-generate');
     const { id } = useParams<{ id: string }>();
+    const [isUserSalaryModalOpen, setIsSalaryModalOpen] = useState(false);
+    const [isUserPaySalaryModalOpen, setIsPaySalaryModalOpen] = useState(false);
 
     useEffect(() => {
         GetUserList(id)
@@ -155,66 +158,7 @@ const EmployeeHistory: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                 </div>
             ),
         },
-        // {
-        //     name: 'Status',
-        //     selector: (row: RowData) => row.status,
-        //     sortable: false,
-        //     width: '10%',
-        //     cell: (row: RowData) => (
-        //         <>
-        //             {isEditPermissionAvailable && (
-        //                 <>
-        //                     <Tippy content={<div>Status</div>} placement="top">
-        //                         {row.status === 1 || row.status === 0 ? <CustomSwitch checked={row.status === 1} onChange={() => toggleActive(row)} /> : <div className="pointer">Unknown</div>}
-        //                     </Tippy>
-        //                 </>
-        //             )}
-        //         </>
-        //     ),
-        // },
-        // anyPermissionAvailable
-        //     ? {
-        //         name: 'Actions',
-        //         selector: (row: RowData) => row.id,
-        //         sortable: false,
-        //         width: '10%',
-        //         cell: (row: RowData) => (
-        //             <span className="text-center">
-        //                 <div className="flex items-center justify-center">
-        //                     <div className="inline-flex">
-        //                         {isEditPermissionAvailable && (
-        //                             <>
-        //                                 <Tippy content="Edit">
-        //                                     <button type="button" onClick={() => openModal(row?.id)}>
-        //                                         <i className="pencil-icon fi fi-rr-file-edit"></i>
-        //                                     </button>
-        //                                 </Tippy>
-        //                             </>
-        //                         )}
-        //                         {isDeletePermissionAvailable && (
-        //                             <>
-        //                                 <Tippy content="Delete">
-        //                                     <button onClick={() => handleDelete(row.id)} type="button">
-        //                                         <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-        //                                     </button>
-        //                                 </Tippy>
-        //                             </>
-        //                         )}
-        //                         {isHistorySettingPermissionAvailable && (
-        //                             <>
-        //                                 <Tippy content="Delete">
-        //                                     <button onClick={() => handleDelete(row.id)} type="button">
-        //                                         <i className="fi fi-tr-rectangle-history-circle-plus"></i>
-        //                                     </button>
-        //                                 </Tippy>
-        //                             </>
-        //                         )}
-        //                     </div>
-        //                 </div>
-        //             </span>
-        //         ),
-        //     }
-        //     : null,
+      
     ];
 
 
@@ -281,6 +225,20 @@ const EmployeeHistory: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
             handleApiError(error);
         }
     };
+
+
+    const closeUserSalaryModal = () => {
+        setIsSalaryModalOpen(false);
+    };
+
+
+    const closeUserPaySalaryModal = () => {
+        setIsPaySalaryModalOpen(false);
+    };
+
+
+
+
     return (
         <>
             {isLoading && <LoaderImg />}
@@ -307,9 +265,18 @@ const EmployeeHistory: React.FC<ManageSiteProps> = ({ postData, getData, isLoadi
                         <span> Stations Employee History</span>
                     </li>
                 </ul>
-
+                <div className='flex justify-between items-center flex-wrap'>
+                    <button onClick={() => setIsSalaryModalOpen(true)} className='btn btn-primary'>
+                        Employee Salary
+                    </button>
+                    <button onClick={() => setIsPaySalaryModalOpen(true)} className='btn btn-primary ms-2'>
+                    Employee Payable Salary
+                    </button>
+                </div>
 
             </div>
+            <AddUserSalary getData={getData} postData={postData} isOpen={isUserSalaryModalOpen} onClose={closeUserSalaryModal} userId={id} />
+            <AddUserPaySalary getData={getData} postData={postData} isOpen={isUserPaySalaryModalOpen} onClose={closeUserPaySalaryModal} userId={id} />
 
             <div className=" mt-6">
                 <div className="panel h-full xl:col-span-3">
