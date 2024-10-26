@@ -11,7 +11,7 @@ const SalaryCard: React.FC<any> = ({
     return (
         <div className="salary-card" style={{borderRadius:"0px"}}>
             <div className="card-header">
-                <h2 className="flexstart">{name}</h2>
+                <h2 className="flexstart font-bold ">   {name}</h2>
                 <span className="spacebetween">
                     <p> <strong>Phone:</strong> {phone}</p>
                     <p>   <strong>Shift:</strong>{shift}</p>

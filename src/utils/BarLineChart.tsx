@@ -13,6 +13,31 @@ const BarLineChart: React.FC<{ ChartData: any }> = ({ ChartData }) => {
     return <div>Loading chart data...</div>; // Show loading state until data is available
   }
 
+  const ChartDataa = {
+    graphData: {
+      series: {
+        bar1: {
+          name: 'Department A',
+          type: 'bar',
+          data: [30, 40, 35, 50, 49, 60, 70, 91],
+        },
+        bar2: {
+          name: 'Department B',
+          type: 'bar',
+          data: [23, 42, 34, 45, 67, 52, 68, 99],
+        },
+        line1: {
+          name: 'Salary',
+          type: 'line',
+          data: [30, 40, 45, 50, 49, 60, 70, 91],
+        },
+      },
+      colors: ['#008FFB', '#00E396', '#775DD0'],
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    },
+  };
+
+
   const series: SeriesData[] = Object.keys(ChartData.graphData?.series).map((key) => {
     const seriesItem = ChartData.graphData.series[key];
     return {
