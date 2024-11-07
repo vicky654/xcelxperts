@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import useCustomDelete from '../../../utils/customDelete';
 import SalaryCard from './SalaryCard';
 import BarLineChart from '../../../utils/BarLineChart';
+
 interface AddonsModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -14,11 +15,6 @@ interface AddonsModalProps {
     userId: any;
 }
 
-interface AddonData {
-    id: string;
-    name: string;
-    checked: boolean;
-}
 interface CashBankingItem {
     id: string;
     phone: string;
@@ -29,21 +25,23 @@ interface CashBankingItem {
     payable: any;
     name: any;
     payable_info: any;
-
 }
+
 const AddUserPaySalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData, postData, userId }) => {
-    const [data, setData] = useState<AddonData[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [SalaryList, setSalaryList] = useState<CashBankingItem>();
-    const [name, setname] = useState('');
+    const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
     const handleApiError = useErrorHandler();
+
     useEffect(() => {
-        if (userId) {
+        if (userId && isOpen) {
             fetchData();
         }
-    }, [userId]);
+    }, [userId, isOpen]);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             let year, month;
             if (formik?.values.monthYear) {
@@ -51,47 +49,39 @@ const AddUserPaySalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData
             } else {
                 const currentDate = new Date();
                 year = currentDate.getFullYear();
-                month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+                month = String(currentDate.getMonth() + 1).padStart(2, "0");
                 formik.setFieldValue("monthYear", `${year}-${month}`);
             }
 
             const formattedDate = `${year}-${month}-01`;
             const response = await getData(`/station/employee/salary/payable?employee_id=${userId}&month=${formattedDate}`);
-            if (response && response.data) {
-                setSalaryList(response?.data?.data)
-                setname(response?.data?.data?.name)
-
-                console.log(response.data, "response.data");
+            if (response?.data?.data) {
+                setSalaryList(response.data.data);
+                setName(response.data.data.name);
             } else {
                 throw new Error('No data available in the response');
             }
         } catch (error) {
             handleApiError(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const formik = useFormik({
         initialValues: {
-            id: " ",
+            id: "",
             monthYear: "",
-
         },
         validationSchema: Yup.object({
-            monthYear: Yup.string().required("Month and year are required"), // Validation for month and year
-
+            monthYear: Yup.string().required("Month and year are required"),
         }),
         onSubmit: () => {
-            fetchData()
+            fetchData();
         },
     });
 
-
-
     const { customDelete } = useCustomDelete();
-
-
-
-
 
     return (
         <div className={`fixed inset-0 overflow-hidden z-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -104,58 +94,56 @@ const AddUserPaySalary: React.FC<AddonsModalProps> = ({ isOpen, onClose, getData
                                 <AddModalHeader title={`Manage Pay Salary ${name ? '(' + name + ')' : ''}`} onClose={onClose} />
                                 <div className="relative py-6 px-4 bg-white">
 
-                                    {userId && !isEditMode && (
-                                        <div className="mb-3">
-                                            <form onSubmit={formik.handleSubmit} className="space-y-4">
-                                                <div className="grid grid-cols-12 gap-4">
-
-                                                    {/* Month and Year Input */}
-                                                    <div className="col-span-12 md:col-span-4">
-                                                        <label className="block text-sm font-medium text-gray-700">
-                                                            Month and Year <span className="text-danger">*</span>
-                                                        </label>
-                                                        <input
-                                                            type="month"
-                                                            name="monthYear"
-                                                            value={formik.values.monthYear}
-                                                            onChange={formik.handleChange}
-                                                            onBlur={formik.handleBlur}
-                                                            className="form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                                                        />
-                                                        {formik.touched.monthYear && formik.errors.monthYear && (
-                                                            <div className="text-red-600 text-sm">{formik.errors.monthYear}</div>
-                                                        )}
-                                                    </div>
-
-                                                    {/* Submit Button */}
-                                                    <div className="col-span-12 md:col-span-4 mt-6 flex items-center justify-center">
-                                                        <button type="submit" className="bg-blue-600 text-white rounded-md py-2 px-4">
-                                                            Search
-                                                        </button>
-                                                    </div>
+                                    {loading ? (
+                                        <div className="text-center py-10">Loading...</div>
+                                    ) : (
+                                        <>
+                                            {userId && !isEditMode && (
+                                                <div className="mb-3">
+                                                    <form onSubmit={formik.handleSubmit} className="space-y-4">
+                                                        <div className="grid grid-cols-12 gap-4">
+                                                            <div className="col-span-12 md:col-span-4">
+                                                                <label className="block text-sm font-medium text-gray-700">
+                                                                    Month and Year <span className="text-danger">*</span>
+                                                                </label>
+                                                                <input
+                                                                    type="month"
+                                                                    name="monthYear"
+                                                                    value={formik.values.monthYear}
+                                                                    onChange={formik.handleChange}
+                                                                    onBlur={formik.handleBlur}
+                                                                    className="form-input mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                />
+                                                                {formik.touched.monthYear && formik.errors.monthYear && (
+                                                                    <div className="text-red-600 text-sm">{formik.errors.monthYear}</div>
+                                                                )}
+                                                            </div>
+                                                            <div className="col-span-12 md:col-span-4 mt-6 flex items-center justify-center">
+                                                                <button type="submit" className="bg-blue-600 text-white rounded-md py-2 px-4">
+                                                                    Search
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            )}
+
+                                            <hr className="my-4" />
+
+                                            <SalaryCard
+                                                key={SalaryList?.id}
+                                                name={SalaryList?.name || "N/A"}
+                                                phone={SalaryList?.phone || "N/A"}
+                                                shift={SalaryList?.shift || "N/A"}
+                                                salary={SalaryList?.salary || "N/A"}
+                                                debit={SalaryList?.debit || "N/A"}
+                                                credit={SalaryList?.credit || "N/A"}
+                                                payable={SalaryList?.payable || "N/A"}
+                                                payableInfo={SalaryList?.payable_info || "N/A"}
+                                            />
+                                            <BarLineChart ChartData={SalaryList} />
+                                        </>
                                     )}
-
-                                    <hr className="my-4" />
-
-                                    {/* Static Salary Card */}
-                                    <SalaryCard
-                                        key={SalaryList?.id}
-                                        name={SalaryList?.name}
-                                        phone={SalaryList?.phone}
-                                        shift={SalaryList?.shift}
-                                        salary={SalaryList?.salary}
-                                        debit={SalaryList?.debit}
-                                        credit={SalaryList?.credit}
-                                        payable={SalaryList?.payable}
-                                        payableInfo={SalaryList?.payable_info}
-                                    />
-                                
-                                <BarLineChart ChartData={SalaryList} />
-
-                              
                                 </div>
                             </div>
                         </div>

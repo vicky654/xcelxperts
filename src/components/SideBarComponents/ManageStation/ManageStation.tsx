@@ -300,129 +300,86 @@ const ManageStation: React.FC<ManageSiteProps> = ({ postData, getData, isLoading
                 cell: (row: RowData) => (
                     <span className="text-center">
                         <div className="flex items-center justify-center">
-                            <div className="inline-flex">
-
-                                <div className="dropdown">
-                                    <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
-                                        <ul>
-                                            {/* //edit */}
+                            <div className="inline-flex dropdown">
+                                <Dropdown button={<IconHorizontalDots className="text-black/70 dark:text-white/70 hover:!text-primary" />}>
+                                    <ul>
+                                        {isEditPermissionAvailable && (
                                             <li>
-                                                {isEditPermissionAvailable && (
-
-                                                    <button type="button" onClick={() => openModal(row?.id)}>
-                                                        <i className="pencil-icon fi fi-rr-file-edit"></i>Edit
-                                                    </button>
-
-                                                )}
+                                                <button type="button" onClick={() => openModal(row?.id)}>
+                                                    <i className="pencil-icon fi fi-rr-file-edit"></i>Edit
+                                                </button>
                                             </li>
-                                            {/* //Station Settings */}
+                                        )}
+                                        {IsEmployeePermissionAvailable && (
                                             <li>
-                                                {IsEmployeePermissionAvailable && (
-                                                    <button onClick={() => navigate(`/manage-employees/${row.id}`)} type="button">
-                                                        <i className="fi fi-rr-users"></i> Employee
-                                                    </button>
-                                                )}
-
+                                                <button onClick={() => navigate(`/manage-employees/${row.id}`)} type="button">
+                                                    <i className="fi fi-rr-users"></i> Employee
+                                                </button>
                                             </li>
+                                        )}
+                                        {isEditSettingPermissionAvailable && (
                                             <li>
-                                                {isEditSettingPermissionAvailable && (
-                                                    <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
-                                                        <i className="fi fi-rr-settings"></i> Station Settings
-                                                    </button>
-
-
-
-                                                )}
+                                                <button onClick={() => handleNavigateStationSetting(row.id)} type="button">
+                                                    <i className="fi fi-rr-settings"></i> Station Settings
+                                                </button>
                                             </li>
-                                            {/* //Assign Mannager */}
-
+                                        )}
+                                        {AssignMannagerPermissionAvailable && (
                                             <li>
-                                                {AssignMannagerPermissionAvailable && (
-
-                                                    <button onClick={() => NavigateToAssignMannager(row.id)} type="button">
-                                                        <i className="fi fi-tr-lead-management"></i>Assign Mannager
-                                                    </button>
-
-
-
-                                                )}
+                                                <button onClick={() => NavigateToAssignMannager(row.id)} type="button">
+                                                    <i className="fi fi-tr-lead-management"></i>Assign Manager
+                                                </button>
                                             </li>
-                                            {/* //Banks */}
+                                        )}
+                                        {IsBankPermissionAvailable && (
                                             <li>
-                                                {IsBankPermissionAvailable && (
-                                                    <button onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
-                                                        <i className="fi fi-tr-bank"></i> Banks
-                                                    </button>)}
+                                                <button onClick={() => navigate(`/manage-stationbanks/${row.id}`)} type="button">
+                                                    <i className="fi fi-tr-bank"></i> Banks
+                                                </button>
                                             </li>
-                                            {/* //Tanks */}
+                                        )}
+                                        {IsTankPermissionAvailable && (
                                             <li>
-                                                {IsTankPermissionAvailable && (
-                                                    <button onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
-                                                        <i className="fi fi-ts-tank-water"></i> Tanks
-                                                    </button>)}
+                                                <button onClick={() => navigate(`/manage-tanks/${row.id}`)} type="button">
+                                                    <i className="fi fi-ts-tank-water"></i> Tanks
+                                                </button>
                                             </li>
-                                            {/* //Nozzles */}
+                                        )}
+                                        {IsNozzlePermissionAvailable && (
                                             <li>
-                                                {IsNozzlePermissionAvailable && (
-                                                    <button onClick={() => navigate(`/manage-nozzles/${row.id}`)} type="button">
-                                                        <i className="fi fi-ts-gas-pump-slash"></i> Nozzles
-                                                    </button>)}
+                                                <button onClick={() => navigate(`/manage-nozzles/${row.id}`)} type="button">
+                                                    <i className="fi fi-ts-gas-pump-slash"></i> Nozzles
+                                                </button>
                                             </li>
-                                            {/* //Stock Loss */}
+                                        )}
+                                        {IsstocklossPermissionAvailable && (
                                             <li>
-                                                {IsstocklossPermissionAvailable && (
-
-                                                    <button onClick={() => navigate(`/manage-stock-loss/${row.id}`)} type="button">
-                                                        <i className="fi fi-tr-growth-chart-invest"></i>Stock Loss
-                                                    </button>
-
-
-
-                                                )}
+                                                <button onClick={() => navigate(`/manage-stock-loss/${row.id}`)} type="button">
+                                                    <i className="fi fi-tr-growth-chart-invest"></i>Stock Loss
+                                                </button>
                                             </li>
-                                            {/* //Skip Date */}
+                                        )}
+                                        {isSkipPermissionAvailable && (
                                             <li>
-                                                {isSkipPermissionAvailable && (
-
-                                                    <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
-                                                        <i className="fi fi-tr-calendar-clock"></i>Skip Date
-                                                    </button>
-
-
-
-                                                )}
+                                                <button onClick={() => handleNavigateStationSkipDate(row.id)} type="button">
+                                                    <i className="fi fi-tr-calendar-clock"></i>Skip Date
+                                                </button>
                                             </li>
-                                            {/* //Delete */}
+                                        )}
+                                        {isDeletePermissionAvailable && (
                                             <li>
-                                                {isDeletePermissionAvailable && (
-
-                                                    <button onClick={() => handleDelete(row.id)} type="button">
-                                                        <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>
-                                                        Delete
-                                                    </button>
-
-                                                )}
+                                                <button onClick={() => handleDelete(row.id)} type="button">
+                                                    <i className="icon-setting delete-icon fi fi-rr-trash-xmark"></i>Delete
+                                                </button>
                                             </li>
-
-
-
-
-
-
-
-
-                                        </ul>
-                                    </Dropdown>
-                                </div>
-
-
-
-
-
+                                        )}
+                                    </ul>
+                                </Dropdown>
                             </div>
                         </div>
                     </span>
                 ),
+                
             }
             : null,
     ];
