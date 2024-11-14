@@ -288,7 +288,7 @@ const DashboardStockLoss: React.FC<any> = ({ isOpen, onClose, getData, userId })
                                         <div>
                                             {isReportGeneratePermissionAvailable && formik?.values?.station_id && fuelData &&
                                                 (<span onClick={DownloadExcelFile}>
-                                                    {isReportGeneratePermissionAvailable && (<>
+                                                    { (<>
                                                         <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip ModalTooltip" >Download Excel Report</Tooltip>}>
                                                             <i style={{ fontSize: "20px", color: "green", cursor: "pointer" }} className="fi fi-tr-file-excel"></i>
                                                         </OverlayTrigger>

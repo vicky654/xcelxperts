@@ -262,7 +262,7 @@ const Payment: React.FC<CommonDataEntryProps> = ({ stationId, startDate, getData
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 className="text-lg font-semibold mb-4 displaycanter">
                     {`Digital Receipt`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('payments', stationId, startDate, getData, handleApiError)}>
-                        {isReportGeneratePermissionAvailable && (<>
+                        { (<>
                             <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                 <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                             </OverlayTrigger>

@@ -370,7 +370,7 @@ const FuelSales: React.FC<CommonDataEntryProps> = ({ stationId, itemDeleted, sta
                         {`Fuel Sales`} {startDate ? `(${startDate})` : ''}{isdownloadpdf && data.length > 0 &&
                             (<span onClick={() => handleDownloadPdf('fuel-sales', stationId, startDate, getData, handleApiError)}>
 
-                                {isReportGeneratePermissionAvailable && (<>
+                                { (<>
                                     <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                         <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                     </OverlayTrigger>

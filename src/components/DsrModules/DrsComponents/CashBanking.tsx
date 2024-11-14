@@ -412,7 +412,7 @@ const CashBanking: React.FC<CommonDataEntryProps> = ({ stationId, startDate, pos
 
                     {isdownloadpdf && (
                         <span onClick={() => handleDownloadPdf('cashes', stationId, startDate, getData, handleApiError)}>
-                            {isReportGeneratePermissionAvailable && (<>
+                            { (<>
                                 <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>

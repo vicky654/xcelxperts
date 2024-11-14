@@ -409,7 +409,7 @@ const ManageCreditUserHistory: React.FC<ManageSiteProps> = ({ postData, getData,
 
                             {selectedMonth &&
                                 (<span onClick={() => handleDownloadPdf()}>
-                                    {isReportGeneratePermissionAvailable && (<>
+                                    { (<>
                                         <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                             <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                         </OverlayTrigger>

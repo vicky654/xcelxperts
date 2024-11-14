@@ -237,7 +237,7 @@ const EmployeePayments: React.FC<CommonDataEntryProps> = ({ stationId, startDate
                     <h1 className="text-lg font-semibold mb-4">
                         {`Employee Payments`} {startDate ? `(${startDate})` : ''} {isdownloadpdf && (<span onClick={() => handleDownloadPdf('employee-payment', stationId, startDate, getData, handleApiError)}>
 
-                            {isReportGeneratePermissionAvailable && (<>
+                            { (<>
                                 <OverlayTrigger placement="top" overlay={<Tooltip className="custom-tooltip" >Download Report</Tooltip>}>
                                     <i style={{ fontSize: "20px", color: "red", cursor: "pointer" }} className="fi fi-tr-file-pdf"></i>
                                 </OverlayTrigger>
